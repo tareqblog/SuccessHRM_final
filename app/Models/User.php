@@ -13,7 +13,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, LogsActivity, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable,  HasRoles;
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults();
