@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Spatie\Activitylog\Models\Activity;;
 /*
@@ -12,6 +13,18 @@ use Spatie\Activitylog\Models\Activity;;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
+
+
+Route::get('/client/create', function() {return view('admin.client.create');});
+Route::get('/client/edit', function() {return view('admin.client.edit');});
+Route::get('/employee/create', function() {return view('admin.employee.create');});
+Route::get('/employee/edit', function() {return view('admin.employee.edit');});
+Route::get('/candidate/create', function() {return view('admin.candidate.create');});
+Route::get('/candidate/edit', function() {return view('admin.candidate.edit');});
+
+
 
 
 Auth::routes();
