@@ -212,33 +212,37 @@ Candidate Create
                                                 <label for="four" class="col-sm-3 col-form-label">Black List</label>
                                                 <div class="col-sm-9">
                                                     <input type="radio" name="black-list" id="yes"
-                                                    data-bs-toggle="modal" data-bs-target="#myModal">
+                                                        data-bs-toggle="modal" data-bs-target="#myModal">
                                                     <label for="yes">Yes</label>
                                                     <input type="radio" name="black-list" id="no">
                                                     <label for="no">No</label>
                                                 </div>
                                             </div>
-
                                             <!-- sample modal content -->
                                             <div id="myModal" class="modal fade" tabindex="-1"
                                                 aria-labelledby="myModalLabel" aria-hidden="true" data-bs-scroll="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="myModalLabel">Reason of Black list</h5>
+                                                            <h5 class="modal-title" id="myModalLabel">Reason of Black
+                                                                list</h5>
                                                             <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
                                                             <form action="">
-                                                                <label for="reason_of_blacklist">Reason Of Blacklist</label>
-                                                                <textarea name="" class="form-control mb-2" rows="4" placeholder="Reason of Blacklist"></textarea>
-                                                                <button type="submit" class="btn btn-sm btn-info">Submit</button>
+                                                                <label for="reason_of_blacklist">Reason Of
+                                                                    Blacklist</label>
+                                                                <textarea name="" class="form-control mb-2" rows="4"
+                                                                    placeholder="Reason of Blacklist"></textarea>
+                                                                <button type="submit"
+                                                                    class="btn btn-sm btn-info">Submit</button>
                                                             </form>
                                                         </div>
                                                     </div><!-- /.modal-content -->
                                                 </div><!-- /.modal-dialog -->
                                             </div><!-- /.modal -->
+
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
@@ -362,171 +366,6 @@ Candidate Create
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="job_info" role="tabpanel">
-                                <div class="row">
-                                    <h5>Job Information</h5>
-                                    <div class="col-lg-6">
-                                        <div class="mt-5 mt-lg-4 mt-xl-0">
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Department</label>
-                                                <div class="col-sm-9">
-                                                    <select name="" class="form-control" id="">
-                                                        <option value="">Select One</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Work time
-                                                    (Start)</label>
-                                                <div class="col-sm-9">
-                                                    <input type="time" name="one" class="form-control"
-                                                        placeholder="Unit No">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="four" class="col-sm-3 col-form-label">Join Date</label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control" placeholder="Join Date">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="four" class="col-sm-3 col-form-label">Confirmation
-                                                    Date</label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control"
-                                                        placeholder="Confirmation Date">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="four" class="col-sm-3 col-form-label">PR Date</label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control" placeholder="PR Date">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="mt-5 mt-lg-4 mt-xl-0">
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Destination</label>
-                                                <div class="col-sm-9">
-                                                    <select name="" class="form-control" id="">
-                                                        <option value="">Select One</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Work time (End)</label>
-                                                <div class="col-sm-9">
-                                                    <input type="time" name="one" class="form-control"
-                                                        placeholder="Work time (End)">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Probation
-                                                    Period</label>
-                                                <div class="col-sm-9">
-                                                    <select name="" class="form-control" id="">
-                                                        <option value="">Select One</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Extention of
-                                                    Probation</label>
-                                                <div class="col-sm-9">
-                                                    <select name="" class="form-control" id="">
-                                                        <option value="">Select One</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Termination /
-                                                    Resignation Date</label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control"
-                                                        placeholder="Termination / Resignation Date">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Terminate
-                                                    Reason</label>
-                                                <div class="col-sm-9">
-                                                    <textarea name="" rows="2" placeholder="Terminate Reason"
-                                                        class="form-control"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <h5>Alert Supervisor</h5>
-                                    <div class="col-lg-6">
-                                        <h6>Leave</h6>
-                                        <div class="mt-5 mt-lg-4 mt-xl-0">
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Approved level
-                                                    1</label>
-                                                <div class="col-sm-9">
-                                                    <select name="" class="form-control" id="">
-                                                        <option value="">Select One</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Approved level
-                                                    2</label>
-                                                <div class="col-sm-9">
-                                                    <select name="" class="form-control" id="">
-                                                        <option value="">Select One</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Approved level
-                                                    3</label>
-                                                <div class="col-sm-9">
-                                                    <select name="" class="form-control" id="">
-                                                        <option value="">Select One</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <h6>Claims</h6>
-                                        <div class="mt-5 mt-lg-4 mt-xl-0">
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Approved level
-                                                    1</label>
-                                                <div class="col-sm-9">
-                                                    <select name="" class="form-control" id="">
-                                                        <option value="">Select One</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Approved level
-                                                    2</label>
-                                                <div class="col-sm-9">
-                                                    <select name="" class="form-control" id="">
-                                                        <option value="">Select One</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Approved level
-                                                    3</label>
-                                                <div class="col-sm-9">
-                                                    <select name="" class="form-control" id="">
-                                                        <option value="">Select One</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="tab-pane" id="bank_info" role="tabpanel">
                                 <div class="row">
                                     <div class="col-lg-6">
@@ -575,32 +414,29 @@ Candidate Create
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="foreign_worker" role="tabpanel">
+                            <div class="tab-pane" id="qualification" role="tabpanel">
+                                <h5>Qualification and Skill</h5>
                                 <div class="row">
-                                    <h5>Work Permit Information</h5>
                                     <div class="col-lg-6">
                                         <div class="mt-5 mt-lg-4 mt-xl-0">
                                             <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Work Permit
-                                                    Number</label>
+                                                <label for="one" class="col-sm-3 col-form-label">N-Levels</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" placeholder="Course">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <label for="one" class="col-sm-3 col-form-label">O-Levels</label>
                                                 <div class="col-sm-9">
                                                     <input type="text" name="one" class="form-control"
-                                                        placeholder="Work Permit Number">
+                                                        placeholder="Course">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Application
-                                                    Date</label>
+                                                <label for="one" class="col-sm-3 col-form-label">A-Levels</label>
                                                 <div class="col-sm-9">
-                                                    <input type="date" name="one" class="form-control"
-                                                        placeholder="Application Date">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Renewal Date</label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" name="one" class="form-control"
-                                                        placeholder="Renewal Date">
+                                                    <input type="text" name="one" class="form-control"
+                                                        placeholder="Course">
                                                 </div>
                                             </div>
                                         </div>
@@ -608,277 +444,293 @@ Candidate Create
                                     <div class="col-lg-6">
                                         <div class="mt-5 mt-lg-4 mt-xl-0">
                                             <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Date of Arrival</label>
+                                                <label for="one" class="col-sm-3 col-form-label">Diploma</label>
                                                 <div class="col-sm-9">
-                                                    <input type="date" name="one" class="form-control"
-                                                        placeholder="Date of Arrival">
+                                                    <input type="text" class="form-control" placeholder="Course">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Issue Date</label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" name="one" class="form-control"
-                                                        placeholder="Pass Issuance Date">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Levy Amount</label>
+                                                <label for="one" class="col-sm-3 col-form-label">Degree</label>
                                                 <div class="col-sm-9">
                                                     <input type="text" name="one" class="form-control"
-                                                        placeholder="Levy Amount">
+                                                        placeholder="Course">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <label for="one" class="col-sm-3 col-form-label">Other</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="one" class="form-control"
+                                                        placeholder="Course">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <p>Please state languages and proficiency level, e.g. excellent, good, fair, poor
+                                    </p>
+                                    <div class="col-lg-6">
+                                        <div class="row mb-4">
+                                            <label for="one" class="col-sm-3 col-form-label">Written</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control"
+                                                    placeholder="eg: English - good">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="row mb-4">
+                                            <label for="one" class="col-sm-3 col-form-label">Spoken</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control"
+                                                    placeholder="eg: English - good">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="character_referees" role="tabpanel">
+                                <h5>Character Referee's</h5>
+                                <p>Name 2 persons who are not your relatives</p>
+                                <div class="row mb-5">
+                                    <div class="col-lg-6">
+                                        <div class="mt-5 mt-lg-4 mt-xl-0">
+                                            <div class="row mb-4">
+                                                <label for="one" class="col-sm-3 col-form-label">Name</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" placeholder="Name">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <label for="one" class="col-sm-3 col-form-label">Years Known</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="one" class="form-control"
+                                                        placeholder="Year">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mt-5 mt-lg-4 mt-xl-0">
+                                            <div class="row mb-4">
+                                                <label for="one" class="col-sm-3 col-form-label">Occupation</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" placeholder="Occupation">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <label for="one" class="col-sm-4 col-form-label">Contact No / Email
+                                                    Address</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" name="one" class="form-control"
+                                                        placeholder="Contact No">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mt-5 mt-lg-4 mt-xl-0">
+                                            <div class="row mb-4">
+                                                <label for="one" class="col-sm-3 col-form-label">Name</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" placeholder="Name">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <label for="one" class="col-sm-3 col-form-label">Years Known</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="one" class="form-control"
+                                                        placeholder="Year">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mt-5 mt-lg-4 mt-xl-0">
+                                            <div class="row mb-4">
+                                                <label for="one" class="col-sm-3 col-form-label">Occupation</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" placeholder="Occupation">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
+                                                <label for="one" class="col-sm-4 col-form-label">Contact No / Email
+                                                    Address</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" name="one" class="form-control"
+                                                        placeholder="Contact No">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="leave" role="tabpanel">
-                                {{-- <div class="row">
-                                    <div class="col-lg-12">
-                                            <table>
-                                                <th>
-                                                    <td>Leave Title</td>
-                                                    <td>Hide</td>
-                                                    <td>Balance (2023)</td>
-                                                    <td>Entitled (2023)</td>
-                                                </th>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Medical Reimbursement</td>
-                                                        <td><input type="checkbox" ></td>
-                                                        <td><input type="text" class="form-control" placeholder="Days" ></td>
-                                                        <td><input type="text" class="form-control" placeholder="Days" ></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                    </div>
-                                </div> --}}
-                                <div class="form-group mb-2">
-                                    <label for="emplleave_leavetype" class="col-sm-2 control-label">Leave Title</label>
-                                    <label for="emplleave_leavetype" class="col-sm-1 control-label">Hide</label>
-                                    <label for="emplleave_leavetype" class="col-sm-3 control-label">Balance
-                                        (2023)</label>
-                                    <label for="emplleave_leavetype" class="col-sm-3 control-label">Entitled
-                                        (2023)</label>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <div class="row">
-                                        <label for="emplleave_leavetype" class="col-sm-2 control-label">Medical
-                                            Reimbursement</label>
-                                        <div class="col-sm-1">
-                                            <input type="checkbox" name="" value="1">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="" value="0"
-                                                placeholder="Days">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="emplleave_entitled[]"
-                                                value="0" placeholder="Days">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <div class="row">
-                                        <label for="emplleave_leavetype" class="col-sm-2 control-label">Annual
-                                            Leave</label>
-                                        <div class="col-sm-1">
-                                            <input type="checkbox" name="" value="1">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="" value="0"
-                                                placeholder="Days">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="emplleave_entitled[]"
-                                                value="0" placeholder="Days">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <div class="row">
-                                        <label for="emplleave_leavetype" class="col-sm-2 control-label">Medical
-                                            Leave</label>
-                                        <div class="col-sm-1">
-                                            <input type="checkbox" name="" value="1">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="" value="0"
-                                                placeholder="Days">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="emplleave_entitled[]"
-                                                value="0" placeholder="Days">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <div class="row">
-                                        <label for="emplleave_leavetype" class="col-sm-2 control-label">Hospitalisation
-                                            Leave</label>
-                                        <div class="col-sm-1">
-                                            <input type="checkbox" name="" value="1">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="" value="0"
-                                                placeholder="Days">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="emplleave_entitled[]"
-                                                value="0" placeholder="Days">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <div class="row">
-                                        <label for="emplleave_leavetype" class="col-sm-2 control-label">Off In
-                                            Lieu</label>
-                                        <div class="col-sm-1">
-                                            <input type="checkbox" name="" value="1">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="" value="0"
-                                                placeholder="Days">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="emplleave_entitled[]"
-                                                value="0" placeholder="Days">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <div class="row">
-                                        <label for="emplleave_leavetype" class="col-sm-2 control-label">Childcare
-                                            Leave</label>
-                                        <div class="col-sm-1">
-                                            <input type="checkbox" name="" value="1">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="" value="0"
-                                                placeholder="Days">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="emplleave_entitled[]"
-                                                value="0" placeholder="Days">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <div class="row">
-                                        <label for="emplleave_leavetype"
-                                            class="col-sm-2 control-label">Maternity/Paternity Leave</label>
-                                        <div class="col-sm-1">
-                                            <input type="checkbox" name="" value="1">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="" value="0"
-                                                placeholder="Days">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="emplleave_entitled[]"
-                                                value="0" placeholder="Days">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <div class="row">
-                                        <label for="emplleave_leavetype"
-                                            class="col-sm-2 control-label">Reservist</label>
-                                        <div class="col-sm-1">
-                                            <input type="checkbox" name="" value="1">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="" value="0"
-                                                placeholder="Days">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="emplleave_entitled[]"
-                                                value="0" placeholder="Days">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <div class="row">
-                                        <label for="emplleave_leavetype" class="col-sm-2 control-label">Compassionate
-                                            Leave</label>
-                                        <div class="col-sm-1">
-                                            <input type="checkbox" name="" value="1">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="" value="0"
-                                                placeholder="Days">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="emplleave_entitled[]"
-                                                value="0" placeholder="Days">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <div class="row">
-                                        <label for="emplleave_leavetype" class="col-sm-2 control-label">Marriage
-                                            Leave</label>
-                                        <div class="col-sm-1">
-                                            <input type="checkbox" name="" value="1">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="" value="0"
-                                                placeholder="Days">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="emplleave_entitled[]"
-                                                value="0" placeholder="Days">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <div class="row">
-                                        <label for="emplleave_leavetype" class="col-sm-2 control-label">Unpaid Annual
-                                            Leave</label>
-                                        <div class="col-sm-1">
-                                            <input type="checkbox" name="" value="1">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="" value="0"
-                                                placeholder="Days">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="emplleave_entitled[]"
-                                                value="0" placeholder="Days">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <div class="row">
-                                        <label for="emplleave_leavetype" class="col-sm-2 control-label">Unpaid Medical
-                                            Leave</label>
-                                        <div class="col-sm-1">
-                                            <input type="checkbox" name="" value="1">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="" value="0"
-                                                placeholder="Days">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control" name="emplleave_entitled[]"
-                                                value="0" placeholder="Days">
+                            <div class="tab-pane" id="declaration" role="tabpanel">
+                                <h5 class="mb-5">Declaration</h5>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mt-5 mt-lg-4 mt-xl-0">
+                                            <div class="form-group mb-2">
+                                                <label for="declaration_bankrupt" class=" control-label">1. &nbsp;Are
+                                                    you / Have you ever been an undischarged bankrupt?</label>
+                                                <div class="radio d-flex">
+                                                    <div class="col-sm-3">
+                                                        <label>
+                                                            <input type="radio" name="declaration_bankrupt"
+                                                                value="1">Yes
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="declaration_bankrupt" value="0">No
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="db_specify"
+                                                            name="db_specify" value=""
+                                                            placeholder="If Yes, Please specify">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label for="declaration_bankrupt" class=" control-label">2. Are you suffering from any physical / mental impairment or chronic / pre-existing illness?</label>
+                                                <div class="radio d-flex">
+                                                    <div class="col-sm-3">
+                                                        <label>
+                                                            <input type="radio" name="declaration_bankrupt"
+                                                                value="1">Yes
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="declaration_bankrupt" value="0">No
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="db_specify"
+                                                            name="db_specify" value=""
+                                                            placeholder="If Yes, Please specify">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label for="declaration_bankrupt" class=" control-label">3.  Are you currently undergoing long-term medical treatment?</label>
+                                                <div class="radio d-flex">
+                                                    <div class="col-sm-3">
+                                                        <label>
+                                                            <input type="radio" name="declaration_bankrupt"
+                                                                value="1">Yes
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="declaration_bankrupt" value="0">No
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="db_specify"
+                                                            name="db_specify" value=""
+                                                            placeholder="If Yes, Please specify">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label for="declaration_bankrupt" class=" control-label">4.  Have you ever been convicted or found guilty of an offence in Court Of Law in any country?</label>
+                                                <div class="radio d-flex">
+                                                    <div class="col-sm-3">
+                                                        <label>
+                                                            <input type="radio" name="declaration_bankrupt"
+                                                                value="1">Yes
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="declaration_bankrupt" value="0">No
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="db_specify"
+                                                            name="db_specify" value=""
+                                                            placeholder="If Yes, Please specify">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label for="declaration_bankrupt" class=" control-label">5.  Have you ever been issued warning letters, suspended or dismissed from employment before?</label>
+                                                <div class="radio d-flex">
+                                                    <div class="col-sm-3">
+                                                        <label>
+                                                            <input type="radio" name="declaration_bankrupt"
+                                                                value="1">Yes
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="declaration_bankrupt" value="0">No
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="db_specify"
+                                                            name="db_specify" value=""
+                                                            placeholder="If Yes, Please specify">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label for="declaration_bankrupt" class=" control-label">6.  Have you applied for any job with this company before?</label>
+                                                <div class="radio d-flex">
+                                                    <div class="col-sm-3">
+                                                        <label>
+                                                            <input type="radio" name="declaration_bankrupt"
+                                                                value="1">Yes
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="declaration_bankrupt" value="0">No
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" class="form-control" id="db_specify"
+                                                            name="db_specify" value=""
+                                                            placeholder="If Yes, Please specify">
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-9">
-                                <div>
-                                    <a href="#" class="btn btn-sm btn-secondary w-md">Back</a>
-                                    <button type="submit" class="btn btn-sm btn-info w-md">Submit</button>
+                            <div class="tab-pane" id="terms_conditions" role="tabpanel">
+                                <h5 class="mb-5">Terms & Conditions</h5>
+                                <div class="row">
+                                    <div class="col-lg-11 m-auto">
+                                        <h5>1. Temporary Placement</h5>
+                                        <p><strong>A.</strong>  Temporary candidates are required to serve 1 week notice to <strong>SUCCESS HUMAN RESOURCE CENTRE PTE LTD / SUCCESS RESOURCE CENTRE PTE LTD</strong> upon resignation, failing which salary in lieu of notice will be deducted (include OT claims).</p>
+                                        <p><strong>B.</strong>  All candidates shall not accept any employment offer directly from the client of <strong>SUCCESS HUMAN RESOURCE CENTRE PTE LTD / SUCCESS RESOURCE CENTRE PTE LTD</strong> within 1 year from the last working day of the assignment.</p>
+                                        <h5>2. Permanent / Contract Placement</h5>
+                                        <p>The candidates shall agree to commit themselves for a period of 2 months (excluding notice period) upon accepting the job offered by <strong>SUCCESS HUMAN RESOURCE CENTRE PTE LTD / SUCCESS RESOURCE CENTRE PTE LTD</strong> whether by writing or verbally, expressed or implied, failing which the candidates will have to compensate 30% of their offered salary to <strong>SUCCESS HUMAN RESOURCE CENTRE PTE LTD / SUCCESS RESOURCE CENTRE PTE LTD.</strong> This 30% compensation clause also applies to candidates who are terminated by our clients due to misconduct, poor performance or attendance, frequent medical leave, absence without calling or habitual late coming.</p>
+                                        <p>All candidates shall not have any direct contact with the clients for a period of 1 year after an interview arranged by <strong>SUCCESS HUMAN RESOURCE CENTRE PTE LTD / SUCCESS RESOURCE CENTRE PTE LTD</strong> unless approval is granted by the Agency.</p>
+                                        <p>I agree to all the Terms & Conditions of this employment and hereby declare that all the particulars given in this application is true, complete and accurate to the best of my knowledge and if this declaration is in any part false or incorrect, the Agency / Company will reserve the right to terminate my services instantly. </p>
+                                        <p>I hereby authorize/consent <strong>SUCCESS HUMAN RESOURCE CENTRE PTE LTD / SUCCESS RESOURCE CENTRE PTE LTD</strong> to obtain and share all the information given in this application form/resume to any clients for job search purposes only. I understand and agree that all modes of communication (Call, SMS, Email and Fax) may be necessary to execute the job search. In order to opt out in the future, an email has to be submitted and acknowledged by <strong>SUCCESS HUMAN RESOURCE CENTRE PTE LTD / SUCCESS RESOURCE CENTRE PTE LTD</strong>, who will duly comply with the request, failing which, I will have no claim or recourse against the above-mentioned companies.</p>
+
+                                        <div class="mt-5 mt-lg-4 mt-xl-0">
+                                            <div class="row mb-4">
+                                                <label for="one" class="col-sm-2 col-form-label">Join Date</label>
+                                                <div class="col-sm-3">
+                                                    <input type="date" class="form-control" placeholder="Join Date">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
-                    </form>
-                </div><!-- end card-body -->
-            </div><!-- end card -->
-        </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div>
+                            <a href="#" class="btn btn-sm btn-secondary w-md">Back</a>
+                            <button type="submit" class="btn btn-sm btn-info w-md">Submit</button>
+                            <a href="#" class="btn btn-sm btn-warning w-md">Print</a>
+                        </div>
+                    </div>
+                </div>
+                </form>
+            </div><!-- end card-body -->
+        </div><!-- end card -->
+    </div>
     </div>
 
     @endsection
