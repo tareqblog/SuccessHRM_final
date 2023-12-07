@@ -1,9 +1,9 @@
 @extends('layouts.master');
 @section('title')
-List of Employees
+List of Clients
 @endsection
 @section('page-title')
-Employee List
+Celient List
 @endsection
 @section('body')
 <body>

@@ -26,9 +26,9 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
-        //User::create(['name' => 'Admin','email' => 'admin@themesbrand.com','password' => Hash::make('12345678'),'role_id'=>'1','parent_id'=>'0', 'email_verified_at'=> now(), 'created_at' => now()]); 
+        // User::create(['name' => 'Admin','email' => 'admin@digipixel.sg','password' => Hash::make('password'),'role_id'=>'1','parent_id'=>'0', 'email_verified_at'=> now(), 'created_at' => now()]);
         //User::create(['name' => 'Admin','email' => 'admin@themesbrand1.com','password' => Hash::make('12345678'),'role_id'=>'1','parent_id'=>'0', 'email_verified_at'=> now(), 'created_at' => now()]);
-    }   
+    }
 
     /**
      * Reverse the migrations.
