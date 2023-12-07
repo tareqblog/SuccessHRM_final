@@ -51,7 +51,7 @@ Search Candidate Detail
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12 text-center">
+                        <div class="col-lg-12 mb-5 text-center">
                             <button type="submit" class="btn btn-info btn-sm">Search</button>
                             <button type="submit" class="btn btn-warning btn-sm">Save to Profile</button>
                             <button type="submit" class="btn btn-success btn-sm">Save All</button>
