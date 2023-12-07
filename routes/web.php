@@ -17,12 +17,20 @@ use Spatie\Activitylog\Models\Activity;;
 
 
 
+Route::get('/clients', function() {return view('admin.client.index');});
 Route::get('/client/create', function() {return view('admin.client.create');});
 Route::get('/client/edit', function() {return view('admin.client.edit');});
+
+Route::get('/employees', function() {return view('admin.employee.index');});
 Route::get('/employee/create', function() {return view('admin.employee.create');});
 Route::get('/employee/edit', function() {return view('admin.employee.edit');});
+
+Route::get('/candidates', function() {return view('admin.candidate.index');});
 Route::get('/candidate/create', function() {return view('admin.candidate.create');});
+Route::get('/candidate/walk', function() {return view('admin.candidate.walkCandidate');});
+Route::get('/candidate/import', function() {return view('admin.candidate.importCandidate');});
 Route::get('/candidate/edit', function() {return view('admin.candidate.edit');});
+Route::get('/candidate/search', function() {return view('admin.candidate.search');});
 
 
 

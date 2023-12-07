@@ -108,15 +108,25 @@ Candidate Create
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
+                                                <label for="two" class="col-sm-3 col-form-label">Natinality</label>
+                                                <div class="col-sm-9">
+                                                    <select name="race" class="form-control">
+                                                        <option value="">Select One</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
                                                 <label for="three" class="col-sm-3 col-form-label">Mobile</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" name="mobile" placeholder="Mobile">
+                                                    <input type="text" class="form-control" name="mobile"
+                                                        placeholder="Mobile">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
                                                 <label for="three" class="col-sm-3 col-form-label">Home Tel</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" name="home_tel" placeholder="Home Tel">
+                                                    <input type="text" class="form-control" name="home_tel"
+                                                        placeholder="Home Tel">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
@@ -130,17 +140,8 @@ Candidate Create
                                             <div class="row mb-4">
                                                 <label for="three" class="col-sm-3 col-form-label">Height</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" name="height" placeholder="Height">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="two" class="col-sm-3 col-form-label">SHRC/SRC</label>
-                                                <div class="col-sm-9">
-                                                    <select name="two" class="form-control" name="src">
-                                                        <option value="">Select One</option>
-                                                        <option value="">SHRC</option>
-                                                        <option value="">SRC</option>
-                                                    </select>
+                                                    <input type="text" class="form-control" name="height"
+                                                        placeholder="Height">
                                                 </div>
                                             </div>
                                         </div>
@@ -181,6 +182,14 @@ Candidate Create
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
+                                                <label for="two" class="col-sm-3 col-form-label">Marital Status</label>
+                                                <div class="col-sm-9">
+                                                    <select name="marital_status" class="form-control">
+                                                        <option value="">Select One</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4">
                                                 <label for="four" class="col-sm-4 col-form-label">Numbers of
                                                     Children</label>
                                                 <div class="col-sm-8">
@@ -191,7 +200,8 @@ Candidate Create
                                             <div class="row mb-4">
                                                 <label for="four" class="col-sm-3 col-form-label">Email</label>
                                                 <div class="col-sm-9">
-                                                    <input type="email" name="email" class="form-control" placeholder="Email">
+                                                    <input type="email" name="email" class="form-control"
+                                                        placeholder="Email">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
@@ -205,44 +215,10 @@ Candidate Create
                                             <div class="row mb-4">
                                                 <label for="four" class="col-sm-3 col-form-label">Weight</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="weight" class="form-control" placeholder="Weight">
+                                                    <input type="text" name="weight" class="form-control"
+                                                        placeholder="Weight">
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
-                                                <label for="four" class="col-sm-3 col-form-label">Black List</label>
-                                                <div class="col-sm-9">
-                                                    <input type="radio" name="black_list" id="yes"
-                                                        data-bs-toggle="modal" data-bs-target="#myModal">
-                                                    <label for="yes">Yes</label>
-                                                    <input type="radio" name="black-list" id="no">
-                                                    <label for="no">No</label>
-                                                </div>
-                                            </div>
-                                            <!-- sample modal content -->
-                                            <div id="myModal" class="modal fade" tabindex="-1"
-                                                aria-labelledby="myModalLabel" aria-hidden="true" data-bs-scroll="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="myModalLabel">Reason of Black
-                                                                list</h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <form action="">
-                                                                <label for="reason_of_blacklist">Reason Of
-                                                                    Blacklist</label>
-                                                                <textarea name="reason_of_blacklist" class="form-control mb-2" rows="4"
-                                                                    placeholder="Reason of Blacklist"></textarea>
-                                                                <button type="submit"
-                                                                    class="btn btn-sm btn-info">Submit</button>
-                                                            </form>
-                                                        </div>
-                                                    </div><!-- /.modal-content -->
-                                                </div><!-- /.modal-dialog -->
-                                            </div><!-- /.modal -->
-
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
@@ -422,7 +398,8 @@ Candidate Create
                                             <div class="row mb-4">
                                                 <label for="one" class="col-sm-3 col-form-label">N-Levels</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" name="n_levels" placeholder="Course">
+                                                    <input type="text" class="form-control" name="n_levels"
+                                                        placeholder="Course">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
@@ -446,7 +423,8 @@ Candidate Create
                                             <div class="row mb-4">
                                                 <label for="one" class="col-sm-3 col-form-label">Diploma</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="diploma" class="form-control" placeholder="Course">
+                                                    <input type="text" name="diploma" class="form-control"
+                                                        placeholder="Course">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
@@ -498,7 +476,8 @@ Candidate Create
                                             <div class="row mb-4">
                                                 <label for="one" class="col-sm-3 col-form-label">Name</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="not_relative_name" class="form-control" placeholder="Name">
+                                                    <input type="text" name="not_relative_name" class="form-control"
+                                                        placeholder="Name">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
@@ -515,7 +494,8 @@ Candidate Create
                                             <div class="row mb-4">
                                                 <label for="one" class="col-sm-3 col-form-label">Occupation</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" name="occupation" placeholder="Occupation">
+                                                    <input type="text" class="form-control" name="occupation"
+                                                        placeholder="Occupation">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
@@ -535,7 +515,8 @@ Candidate Create
                                             <div class="row mb-4">
                                                 <label for="one" class="col-sm-3 col-form-label">Name</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" name="name_2" placeholder="Name">
+                                                    <input type="text" class="form-control" name="name_2"
+                                                        placeholder="Name">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
@@ -552,7 +533,8 @@ Candidate Create
                                             <div class="row mb-4">
                                                 <label for="one" class="col-sm-3 col-form-label">Occupation</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="occupation_2" class="form-control" placeholder="Occupation">
+                                                    <input type="text" name="occupation_2" class="form-control"
+                                                        placeholder="Occupation">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
@@ -562,6 +544,27 @@ Candidate Create
                                                     <input type="text" name="contact_2" class="form-control"
                                                         placeholder="Contact No">
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <p>May we write to the following for a reference?</p>
+                                        <div class="row mb-4">
+                                            <label for="one" class="col-sm-2 col-form-label">Your present
+                                                employer</label>
+                                            <div class="col-sm-8">
+                                                <input type="radio" name="present_employer"> Yes
+                                                <input type="radio" name="present_employer"> No
+                                            </div>
+                                        </div>
+                                        <div class="row mb-4">
+                                            <label for="one" class="col-sm-2 col-form-label">Your previous
+                                                employer(s)</label>
+                                            <div class="col-sm-8">
+                                                <input type="radio" name="present_employer"> Yes
+                                                <input type="radio" name="present_employer"> No
                                             </div>
                                         </div>
                                     </div>
@@ -578,8 +581,7 @@ Candidate Create
                                                 <div class="radio d-flex">
                                                     <div class="col-sm-3">
                                                         <label>
-                                                            <input type="radio" name="question_1"
-                                                                value="1">Yes
+                                                            <input type="radio" name="question_1" value="1">Yes
                                                         </label>
                                                         <label>
                                                             <input type="radio" name="question_1" value="0">No
@@ -593,12 +595,13 @@ Candidate Create
                                                 </div>
                                             </div>
                                             <div class="form-group mb-2">
-                                                <label for="declaration_bankrupt" class=" control-label">2. Are you suffering from any physical / mental impairment or chronic / pre-existing illness?</label>
+                                                <label for="declaration_bankrupt" class=" control-label">2. Are you
+                                                    suffering from any physical / mental impairment or chronic /
+                                                    pre-existing illness?</label>
                                                 <div class="radio d-flex">
                                                     <div class="col-sm-3">
                                                         <label>
-                                                            <input type="radio" name="question_2"
-                                                                value="1">Yes
+                                                            <input type="radio" name="question_2" value="1">Yes
                                                         </label>
                                                         <label>
                                                             <input type="radio" name="question_2" value="0">No
@@ -612,12 +615,12 @@ Candidate Create
                                                 </div>
                                             </div>
                                             <div class="form-group mb-2">
-                                                <label for="declaration_bankrupt" class=" control-label">3.  Are you currently undergoing long-term medical treatment?</label>
+                                                <label for="declaration_bankrupt" class=" control-label">3. Are you
+                                                    currently undergoing long-term medical treatment?</label>
                                                 <div class="radio d-flex">
                                                     <div class="col-sm-3">
                                                         <label>
-                                                            <input type="radio" name="question_3"
-                                                                value="1">Yes
+                                                            <input type="radio" name="question_3" value="1">Yes
                                                         </label>
                                                         <label>
                                                             <input type="radio" name="question_3" value="0">No
@@ -631,12 +634,13 @@ Candidate Create
                                                 </div>
                                             </div>
                                             <div class="form-group mb-2">
-                                                <label for="declaration_bankrupt" class=" control-label">4.  Have you ever been convicted or found guilty of an offence in Court Of Law in any country?</label>
+                                                <label for="declaration_bankrupt" class=" control-label">4. Have you
+                                                    ever been convicted or found guilty of an offence in Court Of Law in
+                                                    any country?</label>
                                                 <div class="radio d-flex">
                                                     <div class="col-sm-3">
                                                         <label>
-                                                            <input type="radio" name="question_4"
-                                                                value="1">Yes
+                                                            <input type="radio" name="question_4" value="1">Yes
                                                         </label>
                                                         <label>
                                                             <input type="radio" name="question_4" value="0">No
@@ -650,12 +654,13 @@ Candidate Create
                                                 </div>
                                             </div>
                                             <div class="form-group mb-2">
-                                                <label for="declaration_bankrupt" class=" control-label">5.  Have you ever been issued warning letters, suspended or dismissed from employment before?</label>
+                                                <label for="declaration_bankrupt" class=" control-label">5. Have you
+                                                    ever been issued warning letters, suspended or dismissed from
+                                                    employment before?</label>
                                                 <div class="radio d-flex">
                                                     <div class="col-sm-3">
                                                         <label>
-                                                            <input type="radio" name="question_5"
-                                                                value="1">Yes
+                                                            <input type="radio" name="question_5" value="1">Yes
                                                         </label>
                                                         <label>
                                                             <input type="radio" name="question_5" value="0">No
@@ -669,12 +674,12 @@ Candidate Create
                                                 </div>
                                             </div>
                                             <div class="form-group mb-2">
-                                                <label for="declaration_bankrupt" class=" control-label">6.  Have you applied for any job with this company before?</label>
+                                                <label for="declaration_bankrupt" class=" control-label">6. Have you
+                                                    applied for any job with this company before?</label>
                                                 <div class="radio d-flex">
                                                     <div class="col-sm-3">
                                                         <label>
-                                                            <input type="radio" name="question_6"
-                                                                value="1">Yes
+                                                            <input type="radio" name="question_6" value="1">Yes
                                                         </label>
                                                         <label>
                                                             <input type="radio" name="question_6" value="0">No
@@ -696,19 +701,51 @@ Candidate Create
                                 <div class="row">
                                     <div class="col-lg-11 m-auto">
                                         <h5>1. Temporary Placement</h5>
-                                        <p><strong>A.</strong>  Temporary candidates are required to serve 1 week notice to <strong>SUCCESS HUMAN RESOURCE CENTRE PTE LTD / SUCCESS RESOURCE CENTRE PTE LTD</strong> upon resignation, failing which salary in lieu of notice will be deducted (include OT claims).</p>
-                                        <p><strong>B.</strong>  All candidates shall not accept any employment offer directly from the client of <strong>SUCCESS HUMAN RESOURCE CENTRE PTE LTD / SUCCESS RESOURCE CENTRE PTE LTD</strong> within 1 year from the last working day of the assignment.</p>
+                                        <p><strong>A.</strong> Temporary candidates are required to serve 1 week notice
+                                            to <strong>SUCCESS HUMAN RESOURCE CENTRE PTE LTD / SUCCESS RESOURCE CENTRE
+                                                PTE LTD</strong> upon resignation, failing which salary in lieu of
+                                            notice will be deducted (include OT claims).</p>
+                                        <p><strong>B.</strong> All candidates shall not accept any employment offer
+                                            directly from the client of <strong>SUCCESS HUMAN RESOURCE CENTRE PTE LTD /
+                                                SUCCESS RESOURCE CENTRE PTE LTD</strong> within 1 year from the last
+                                            working day of the assignment.</p>
                                         <h5>2. Permanent / Contract Placement</h5>
-                                        <p>The candidates shall agree to commit themselves for a period of 2 months (excluding notice period) upon accepting the job offered by <strong>SUCCESS HUMAN RESOURCE CENTRE PTE LTD / SUCCESS RESOURCE CENTRE PTE LTD</strong> whether by writing or verbally, expressed or implied, failing which the candidates will have to compensate 30% of their offered salary to <strong>SUCCESS HUMAN RESOURCE CENTRE PTE LTD / SUCCESS RESOURCE CENTRE PTE LTD.</strong> This 30% compensation clause also applies to candidates who are terminated by our clients due to misconduct, poor performance or attendance, frequent medical leave, absence without calling or habitual late coming.</p>
-                                        <p>All candidates shall not have any direct contact with the clients for a period of 1 year after an interview arranged by <strong>SUCCESS HUMAN RESOURCE CENTRE PTE LTD / SUCCESS RESOURCE CENTRE PTE LTD</strong> unless approval is granted by the Agency.</p>
-                                        <p>I agree to all the Terms & Conditions of this employment and hereby declare that all the particulars given in this application is true, complete and accurate to the best of my knowledge and if this declaration is in any part false or incorrect, the Agency / Company will reserve the right to terminate my services instantly. </p>
-                                        <p>I hereby authorize/consent <strong>SUCCESS HUMAN RESOURCE CENTRE PTE LTD / SUCCESS RESOURCE CENTRE PTE LTD</strong> to obtain and share all the information given in this application form/resume to any clients for job search purposes only. I understand and agree that all modes of communication (Call, SMS, Email and Fax) may be necessary to execute the job search. In order to opt out in the future, an email has to be submitted and acknowledged by <strong>SUCCESS HUMAN RESOURCE CENTRE PTE LTD / SUCCESS RESOURCE CENTRE PTE LTD</strong>, who will duly comply with the request, failing which, I will have no claim or recourse against the above-mentioned companies.</p>
+                                        <p>The candidates shall agree to commit themselves for a period of 2 months
+                                            (excluding notice period) upon accepting the job offered by <strong>SUCCESS
+                                                HUMAN RESOURCE CENTRE PTE LTD / SUCCESS RESOURCE CENTRE PTE LTD</strong>
+                                            whether by writing or verbally, expressed or implied, failing which the
+                                            candidates will have to compensate 30% of their offered salary to
+                                            <strong>SUCCESS HUMAN RESOURCE CENTRE PTE LTD / SUCCESS RESOURCE CENTRE PTE
+                                                LTD.</strong> This 30% compensation clause also applies to candidates
+                                            who are terminated by our clients due to misconduct, poor performance or
+                                            attendance, frequent medical leave, absence without calling or habitual late
+                                            coming.</p>
+                                        <p>All candidates shall not have any direct contact with the clients for a
+                                            period of 1 year after an interview arranged by <strong>SUCCESS HUMAN
+                                                RESOURCE CENTRE PTE LTD / SUCCESS RESOURCE CENTRE PTE LTD</strong>
+                                            unless approval is granted by the Agency.</p>
+                                        <p>I agree to all the Terms & Conditions of this employment and hereby declare
+                                            that all the particulars given in this application is true, complete and
+                                            accurate to the best of my knowledge and if this declaration is in any part
+                                            false or incorrect, the Agency / Company will reserve the right to terminate
+                                            my services instantly. </p>
+                                        <p>I hereby authorize/consent <strong>SUCCESS HUMAN RESOURCE CENTRE PTE LTD /
+                                                SUCCESS RESOURCE CENTRE PTE LTD</strong> to obtain and share all the
+                                            information given in this application form/resume to any clients for job
+                                            search purposes only. I understand and agree that all modes of communication
+                                            (Call, SMS, Email and Fax) may be necessary to execute the job search. In
+                                            order to opt out in the future, an email has to be submitted and
+                                            acknowledged by <strong>SUCCESS HUMAN RESOURCE CENTRE PTE LTD / SUCCESS
+                                                RESOURCE CENTRE PTE LTD</strong>, who will duly comply with the request,
+                                            failing which, I will have no claim or recourse against the above-mentioned
+                                            companies.</p>
 
                                         <div class="mt-5 mt-lg-4 mt-xl-0">
                                             <div class="row mb-4">
                                                 <label for="one" class="col-sm-2 col-form-label">Join Date</label>
                                                 <div class="col-sm-3">
-                                                    <input type="date" class="form-control" name="join_date" placeholder="Join Date">
+                                                    <input type="date" class="form-control" name="join_date"
+                                                        placeholder="Join Date">
                                                 </div>
                                             </div>
                                         </div>
@@ -719,11 +756,10 @@ Candidate Create
                         </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-9">
+                    <div class="col-sm-9 ms-5 mb-5">
                         <div>
                             <a href="#" class="btn btn-sm btn-secondary w-md">Back</a>
                             <button type="submit" class="btn btn-sm btn-info w-md">Submit</button>
-                            <a href="#" class="btn btn-sm btn-warning w-md">Print</a>
                         </div>
                     </div>
                 </div>

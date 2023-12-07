@@ -76,7 +76,7 @@ Client Edit
                                                 <label for="one" class="col-sm-3 col-form-label">Client
                                                     Name</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="one" class="form-control"
+                                                    <input type="text" name="client_name" class="form-control"
                                                         placeholder="Client Name">
                                                 </div>
                                             </div>
@@ -84,7 +84,7 @@ Client Edit
                                                 <label for="two" class="col-sm-3 col-form-label">Manager /
                                                     Consultant (In Charge)</label>
                                                 <div class="col-sm-9">
-                                                    <select name="two" class="form-control">
+                                                    <select name="incharge" class="form-control">
                                                         <option value="">Select One</option>
                                                     </select>
                                                 </div>
@@ -93,7 +93,7 @@ Client Edit
                                                 <label for="three" class="col-sm-3 col-form-label">Payroll
                                                     Person In Charge</label>
                                                 <div class="col-sm-9">
-                                                    <select name="three" class="form-control">
+                                                    <select name="payroll" class="form-control">
                                                         <option value="">Select One</option>
                                                     </select>
                                                 </div>
@@ -101,7 +101,7 @@ Client Edit
                                             <div class="row mb-4">
                                                 <label for="four" class="col-sm-3 col-form-label">Remark</label>
                                                 <div class="col-sm-9">
-                                                    <textarea name="four" rows="2" class="form-control"
+                                                    <textarea name="remark" rows="2" class="form-control"
                                                         placeholder="Remark"></textarea>
                                                 </div>
                                             </div>
@@ -109,7 +109,7 @@ Client Edit
                                                 <label for="five" class="col-sm-3 col-form-label">Renewal
                                                     TNC</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="five" class="form-control"
+                                                    <input type="text" name="renewal" class="form-control"
                                                         placeholder="Renewal Date">
                                                 </div>
                                             </div>
@@ -121,7 +121,7 @@ Client Edit
                                                 <label for="six" class="col-sm-3 col-form-label">Renewal
                                                     TNC</label>
                                                 <div class="col-sm-9">
-                                                    <input type="date" name="six" class="form-control"
+                                                    <input type="date" name="renewal_tnc" class="form-control"
                                                         placeholder="Renewal Date">
                                                 </div>
                                             </div>
@@ -129,7 +129,7 @@ Client Edit
                                                 <label for="seven" class="col-sm-3 col-form-label">Industry
                                                     *</label>
                                                 <div class="col-sm-9">
-                                                    <select name="seven" class="form-control">
+                                                    <select name="industry" class="form-control">
                                                         <option value="">Select One</option>
                                                     </select>
                                                 </div>
@@ -138,7 +138,7 @@ Client Edit
                                                 <label for="eight" class="col-sm-3 col-form-label">Status
                                                     *</label>
                                                 <div class="col-sm-9">
-                                                    <select name="eight" class="form-control">
+                                                    <select name="status" class="form-control">
                                                         <option value="">Select One</option>
                                                     </select>
                                                 </div>
@@ -147,7 +147,7 @@ Client Edit
                                                 <label for="nine" class="col-sm-3 col-form-label">TNC Template
                                                     *</label>
                                                 <div class="col-sm-9">
-                                                    <select name="nine" class="form-control">
+                                                    <select name="tnc_template" class="form-control">
                                                         <option value="">Select One</option>
                                                     </select>
                                                 </div>
@@ -156,7 +156,7 @@ Client Edit
                                                 <label for="ten" class="col-sm-3 col-form-label">Terms
                                                     *</label>
                                                 <div class="col-sm-9">
-                                                    <select name="ten" class="form-control">
+                                                    <select name="terms" class="form-control">
                                                         <option value="">Select One</option>
                                                     </select>
                                                 </div>
@@ -170,7 +170,7 @@ Client Edit
                                                 <label for="eleven" class="col-sm-3 col-form-label">Attention
                                                     Person</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="eleven" class="form-control"
+                                                    <input type="text" name="attention" class="form-control"
                                                         placeholder="Attention Person">
                                                 </div>
                                             </div>
@@ -178,7 +178,7 @@ Client Edit
                                                 <label for="twelve" class="col-sm-3 col-form-label">Contact
                                                     Person</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="twelve" class="form-control"
+                                                    <input type="text" name="contact_person" class="form-control"
                                                         placeholder="Contact Person">
                                                 </div>
                                             </div>
@@ -186,28 +186,28 @@ Client Edit
                                                 <label for="thirteen" class="col-sm-3 col-form-label">Contact
                                                     Number</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="thirteen" class="form-control"
+                                                    <input type="text" name="contact_number" class="form-control"
                                                         placeholder="Contact Number">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
                                                 <label for="fourteen" class="col-sm-3 col-form-label">Fax</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="fourteen" class="form-control"
+                                                    <input type="text" name="fax" class="form-control"
                                                         placeholder="Fax">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
                                                 <label for="fifteen" class="col-sm-3 col-form-label">Postal Code</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="field_eleven" class="form-control"
+                                                    <input type="text" name="postal_code" class="form-control"
                                                         placeholder="Postal Code">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
                                                 <label for="sixteen" class="col-sm-3 col-form-label">Street</label>
                                                 <div class="col-sm-9">
-                                                    <textarea name="sixteen" rows="2" class="form-control"
+                                                    <textarea name="street" rows="2" class="form-control"
                                                         placeholder="Address"></textarea>
                                                 </div>
                                             </div>
@@ -219,7 +219,7 @@ Client Edit
                                                 <label for="seventeen" class="col-sm-3 col-form-label">Attention
                                                     Designation</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="seventeen" class="form-control"
+                                                    <input type="text" name="attention" class="form-control"
                                                         placeholder="Attention Designation">
                                                 </div>
                                             </div>
@@ -227,7 +227,7 @@ Client Edit
                                                 <label for="eighteen"
                                                     class="col-sm-3 col-form-label">Designation</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="eighteen" class="form-control"
+                                                    <input type="text" name="designation" class="form-control"
                                                         placeholder="Designation">
                                                 </div>
                                             </div>
@@ -235,28 +235,28 @@ Client Edit
                                                 <label for="nineteen" class="col-sm-3 col-form-label">Phone
                                                     Number</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="nineteen" class="form-control"
+                                                    <input type="text" name="phone_number" class="form-control"
                                                         placeholder="Phone Number">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
                                                 <label for="twenteen" class="col-sm-3 col-form-label">Email</label>
                                                 <div class="col-sm-9">
-                                                    <input type="email" name="twenteen" class="form-control"
+                                                    <input type="email" name="email" class="form-control"
                                                         placeholder="Email">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
                                                 <label for="twente_one" class="col-sm-3 col-form-label">Unit No</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="twente_one" class="form-control"
+                                                    <input type="text" name="unite_no" class="form-control"
                                                         placeholder="Unit No">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
                                                 <label for="twente_two" class="col-sm-3 col-form-label">Web Site</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" name="twente_two"
+                                                    <input type="text" class="form-control" name="website"
                                                         placeholder="Web Site">
                                                 </div>
                                             </div>
@@ -273,14 +273,14 @@ Client Edit
                                                     <label for="twente_three" class="col-sm-3 col-form-label">Upload
                                                         File</label>
                                                     <div class="col-sm-9">
-                                                        <input type="file" name="twente_three" class="form-control">
+                                                        <input type="file" name="upload_file" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="twente_four" class="col-sm-3 col-form-label">File
                                                         Type</label>
                                                     <div class="col-sm-9">
-                                                        <select name="twente_four" class="form-control">
+                                                        <select name="twente_four" name="file_type" class="form-control">
                                                             <option value="">Select One</option>
                                                         </select>
                                                     </div>
@@ -372,7 +372,7 @@ Client Edit
                                                 <label for="twente_four" class="col-sm-2 col-form-label">Department
                                                     Name</label>
                                                 <div class="col-sm-4">
-                                                    <input type="text" class="form-control"
+                                                    <input type="text" name="department_name" class="form-control"
                                                         placeholder="Department Name">
                                                 </div>
                                                 <div class="col-sm-6"></div>
@@ -380,7 +380,7 @@ Client Edit
                                             <div class="row mb-4">
                                                 <label for="remarks" class="col-sm-2 col-form-label">Remarks</label>
                                                 <div class="col-sm-8">
-                                                    <textarea name="" rows="2" class="form-control"
+                                                    <textarea name="remarks" rows="2" class="form-control"
                                                         placeholder="Remarks"></textarea>
                                                 </div>
                                                 <div class="col-sm-2"></div>
@@ -424,26 +424,26 @@ Client Edit
                                             <div class="row mb-4">
                                                 <label for="twente_four" class="col-sm-3 col-form-label">Name</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" placeholder="Name">
+                                                    <input type="text" name="supervisor_name" class="form-control" placeholder="Name">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
                                                 <label for="twente_four" class="col-sm-3 col-form-label">Email</label>
                                                 <div class="col-sm-9">
-                                                    <input type="email" class="form-control" placeholder="Email">
+                                                    <input type="email" name="supervisor_email" class="form-control" placeholder="Email">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
                                                 <label for="twente_four" class="col-sm-3 col-form-label">Direct Number
                                                     (DID)</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" placeholder="Direct Number">
+                                                    <input type="text" name="super_name" class="form-control" placeholder="Direct Number">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
                                                 <label for="twente_four" class="col-sm-3 col-form-label">Remarks</label>
                                                 <div class="col-sm-9">
-                                                    <textarea name="" rows="2" class="form-control"
+                                                    <textarea name="super_remarks" rows="2" class="form-control"
                                                         placeholder="Remarks"></textarea>
                                                 </div>
                                             </div>
@@ -452,14 +452,14 @@ Client Edit
                                             <div class="row mb-4">
                                                 <label for="twente_four" class="col-sm-3 col-form-label">Mobile</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" placeholder="Mobile">
+                                                    <input type="text" class="form-control" name="mobile" placeholder="Mobile">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
                                                 <label for="twente_four"
                                                     class="col-sm-3 col-form-label">Department</label>
                                                 <div class="col-sm-9">
-                                                    <select name="" class="form-control">
+                                                    <select name="department" class="form-control">
                                                         <option value="">Select One</option>
                                                     </select>
                                                 </div>
@@ -468,7 +468,7 @@ Client Edit
                                                 <label for="twente_four"
                                                     class="col-sm-3 col-form-label">Defination</label>
                                                 <div class="col-sm-9">
-                                                    <textarea name="" rows="2" class="form-control"
+                                                    <textarea name="defination" rows="2" class="form-control"
                                                         placeholder="Defination"></textarea>
                                                 </div>
                                             </div>
@@ -476,23 +476,25 @@ Client Edit
                                         <div class="col-lg-6">
                                             <h5>Login Information</h5>
                                             <div class="row mb-4">
-                                                <label for="twente_four" class="col-sm-3 col-form-label">Login ID</label>
+                                                <label for="twente_four" class="col-sm-3 col-form-label">Login
+                                                    ID</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" placeholder="Login Email">
+                                                    <input type="email" name="email" class="form-control" placeholder="Login Email">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
                                                 <label for="twente_four"
                                                     class="col-sm-3 col-form-label">Password</label>
                                                 <div class="col-sm-9">
-                                                    <input type="password" class="form-control" placeholder="Password">
+                                                    <input type="password" name="password" class="form-control" placeholder="Password">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
-                                                <label for="twente_four"
-                                                    class="col-sm-3 col-form-label">Confirm Password</label>
+                                                <label for="twente_four" class="col-sm-3 col-form-label">Confirm
+                                                    Password</label>
                                                 <div class="col-sm-9">
-                                                    <input type="password" class="form-control" placeholder="Confirm Password">
+                                                    <input type="password" class="form-control"
+                                                        placeholder="Confirm Password" name="password_confirm">
                                                 </div>
                                             </div>
                                         </div>
@@ -500,32 +502,32 @@ Client Edit
                                     <button type="submit" class="btn btn-sm btn-info">Save</button>
                                 </form>
                                 <div class="col-lg-12 mt-2">
-                                <table class="table table-bordered mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Document Type</th>
-                                            <th>File Name</th>
-                                            <th>Upload Time</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                        </tr>
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Document Type</th>
-                                            <th>File Name</th>
-                                            <th>Upload Time</th>
-                                            <th></th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                            <hr class="mt-3">
+                                    <table class="table table-bordered mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Document Type</th>
+                                                <th>File Name</th>
+                                                <th>Upload Time</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Document Type</th>
+                                                <th>File Name</th>
+                                                <th>Upload Time</th>
+                                                <th></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <hr class="mt-3">
                             </div>
                         </div>
                         <div class="row">

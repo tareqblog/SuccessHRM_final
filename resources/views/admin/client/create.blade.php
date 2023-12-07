@@ -47,7 +47,7 @@ Client Create
                                                 <label for="one" class="col-sm-3 col-form-label">Client
                                                     Name</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="one" class="form-control"
+                                                    <input type="text" name="name" class="form-control"
                                                         placeholder="Client Name">
                                                 </div>
                                             </div>
@@ -55,7 +55,7 @@ Client Create
                                                 <label for="two" class="col-sm-3 col-form-label">Manager /
                                                     Consultant (In Charge)</label>
                                                 <div class="col-sm-9">
-                                                    <select name="two" class="form-control">
+                                                    <select name="incharge" class="form-control">
                                                         <option value="">Select One</option>
                                                     </select>
                                                 </div>
@@ -64,7 +64,7 @@ Client Create
                                                 <label for="three" class="col-sm-3 col-form-label">Payroll
                                                     Person In Charge</label>
                                                 <div class="col-sm-9">
-                                                    <select name="three" class="form-control">
+                                                    <select name="payroll" class="form-control">
                                                         <option value="">Select One</option>
                                                     </select>
                                                 </div>
@@ -72,7 +72,7 @@ Client Create
                                             <div class="row mb-4">
                                                 <label for="four" class="col-sm-3 col-form-label">Remark</label>
                                                 <div class="col-sm-9">
-                                                    <textarea name="four" rows="2" class="form-control"
+                                                    <textarea name="remark" rows="2" class="form-control"
                                                         placeholder="Remark"></textarea>
                                                 </div>
                                             </div>
@@ -80,7 +80,7 @@ Client Create
                                                 <label for="five" class="col-sm-3 col-form-label">Renewal
                                                     TNC</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="five" class="form-control"
+                                                    <input type="text" name="renewal_tnc_one" class="form-control"
                                                         placeholder="Renewal Date">
                                                 </div>
                                             </div>
@@ -92,7 +92,7 @@ Client Create
                                                 <label for="six" class="col-sm-3 col-form-label">Renewal
                                                     TNC</label>
                                                 <div class="col-sm-9">
-                                                    <input type="date" name="six" class="form-control"
+                                                    <input type="date" name="renewal_tnc_two" class="form-control"
                                                         placeholder="Renewal Date">
                                                 </div>
                                             </div>
@@ -100,7 +100,7 @@ Client Create
                                                 <label for="seven" class="col-sm-3 col-form-label">Industry
                                                     *</label>
                                                 <div class="col-sm-9">
-                                                    <select name="seven" class="form-control">
+                                                    <select name="industry" class="form-control">
                                                         <option value="">Select One</option>
                                                     </select>
                                                 </div>
@@ -109,7 +109,7 @@ Client Create
                                                 <label for="eight" class="col-sm-3 col-form-label">Status
                                                     *</label>
                                                 <div class="col-sm-9">
-                                                    <select name="eight" class="form-control">
+                                                    <select name="status" class="form-control">
                                                         <option value="">Select One</option>
                                                     </select>
                                                 </div>
@@ -118,7 +118,7 @@ Client Create
                                                 <label for="nine" class="col-sm-3 col-form-label">TNC Template
                                                     *</label>
                                                 <div class="col-sm-9">
-                                                    <select name="nine" class="form-control">
+                                                    <select name="tnc_template" class="form-control">
                                                         <option value="">Select One</option>
                                                     </select>
                                                 </div>
@@ -127,7 +127,7 @@ Client Create
                                                 <label for="ten" class="col-sm-3 col-form-label">Terms
                                                     *</label>
                                                 <div class="col-sm-9">
-                                                    <select name="ten" class="form-control">
+                                                    <select name="terms" class="form-control">
                                                         <option value="">Select One</option>
                                                     </select>
                                                 </div>
@@ -141,7 +141,7 @@ Client Create
                                                 <label for="eleven" class="col-sm-3 col-form-label">Attention
                                                     Person</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="eleven" class="form-control"
+                                                    <input type="text" name="attention" class="form-control"
                                                         placeholder="Attention Person">
                                                 </div>
                                             </div>
@@ -149,7 +149,7 @@ Client Create
                                                 <label for="twelve" class="col-sm-3 col-form-label">Contact
                                                     Person</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="twelve" class="form-control"
+                                                    <input type="text" name="contact_person" class="form-control"
                                                         placeholder="Contact Person">
                                                 </div>
                                             </div>
@@ -157,28 +157,28 @@ Client Create
                                                 <label for="thirteen" class="col-sm-3 col-form-label">Contact
                                                     Number</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="thirteen" class="form-control"
+                                                    <input type="text" name="contact_number" class="form-control"
                                                         placeholder="Contact Number">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
                                                 <label for="fourteen" class="col-sm-3 col-form-label">Fax</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="fourteen" class="form-control"
+                                                    <input type="text" name="fax" class="form-control"
                                                         placeholder="Fax">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
                                                 <label for="fifteen" class="col-sm-3 col-form-label">Postal Code</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="field_eleven" class="form-control"
+                                                    <input type="text" name="postal_code" class="form-control"
                                                         placeholder="Postal Code">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
                                                 <label for="sixteen" class="col-sm-3 col-form-label">Street</label>
                                                 <div class="col-sm-9">
-                                                    <textarea name="sixteen" rows="2" class="form-control"
+                                                    <textarea name="street" rows="2" class="form-control"
                                                         placeholder="Address"></textarea>
                                                 </div>
                                             </div>
@@ -190,7 +190,7 @@ Client Create
                                                 <label for="seventeen" class="col-sm-3 col-form-label">Attention
                                                     Designation</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="seventeen" class="form-control"
+                                                    <input type="text" name="attention_designation" class="form-control"
                                                         placeholder="Attention Designation">
                                                 </div>
                                             </div>
@@ -198,7 +198,7 @@ Client Create
                                                 <label for="eighteen"
                                                     class="col-sm-3 col-form-label">Designation</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="eighteen" class="form-control"
+                                                    <input type="text" name="designation" class="form-control"
                                                         placeholder="Designation">
                                                 </div>
                                             </div>
@@ -206,28 +206,28 @@ Client Create
                                                 <label for="nineteen" class="col-sm-3 col-form-label">Phone
                                                     Number</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="nineteen" class="form-control"
+                                                    <input type="text" name="phone_no" class="form-control"
                                                         placeholder="Phone Number">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
                                                 <label for="twenteen" class="col-sm-3 col-form-label">Email</label>
                                                 <div class="col-sm-9">
-                                                    <input type="email" name="twenteen" class="form-control"
+                                                    <input type="email" name="email" class="form-control"
                                                         placeholder="Email">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
                                                 <label for="twente_one" class="col-sm-3 col-form-label">Unit No</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" name="twente_one" class="form-control"
+                                                    <input type="text" name="unite_no" class="form-control"
                                                         placeholder="Unit No">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
                                                 <label for="twente_two" class="col-sm-3 col-form-label">Web Site</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" name="twente_two"
+                                                    <input type="text" class="form-control" name="website"
                                                         placeholder="Web Site">
                                                 </div>
                                             </div>
