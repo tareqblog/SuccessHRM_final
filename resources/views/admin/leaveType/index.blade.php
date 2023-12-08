@@ -1,9 +1,9 @@
 @extends('layouts.master')
 @section('title')
-Job Posting
+Leave Type Management
 @endsection
 @section('page-title')
-Job Posting
+Leave Type Management
 @endsection
 @section('body')
 
@@ -14,9 +14,9 @@ Job Posting
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title mb-0">Job Summary Table</h4>
+                    <h4 class="card-title mb-0">Leave Type Table</h4>
                     <div class="text-end">
-                        <a href="#" class="btn btn-sm btn-success">Create New</a>
+                        <a href="#" class="btn btn-sm btn-info">Create New</a>
                     </div>
                 </div>
                 <div class="card-body">

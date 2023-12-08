@@ -1,9 +1,9 @@
 @extends('layouts.master')
 @section('title')
-Job Posting
+Candidates Payroll Management
 @endsection
 @section('page-title')
-Job Posting
+Candidates Payroll Management
 @endsection
 @section('body')
 
@@ -14,7 +14,7 @@ Job Posting
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title mb-0">Job Summary Table</h4>
+                    <h4 class="card-title mb-0">Candidates Payroll Month Table</h4>
                     <div class="text-end">
                         <a href="#" class="btn btn-sm btn-success">Create New</a>
                     </div>
