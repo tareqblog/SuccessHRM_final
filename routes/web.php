@@ -59,6 +59,7 @@ Route::get('/job-category', function() {return view('admin.jobCategory.index');}
 Route::get('/job-category/edit', function() {return view('admin.jobCategory.edit');});
 // Job category ends
 // Leave Start
+Route::get('/leave', function() {return view('admin.leave.index');});
 Route::get('/leave/create', function() {return view('admin.leave.create');});
 Route::get('/leave/edit', function() {return view('admin.leave.edit');});
 // Leave Ends
@@ -112,6 +113,19 @@ Route::get('/user-control', function() {return view('admin.userControl.index');}
 // User Control Ends
 // Activity Start
 Route::get('/activity', function() {return view('admin.activity.report');});
+// Activity Ends
+// Activity Start
+Route::get('/employee-group', function() {return view('admin.employeeGroup.index');});
+// Activity Ends
+// Activity Start
+Route::get('/job-type', function() {return view('admin.jobType.index');});
+Route::get('/job-status', function() {return view('admin.jobStatus.index');});
+Route::get('/pass-type', function() {return view('admin.passType.index');});
+Route::get('/pay-mode', function() {return view('admin.payMode.index');});
+Route::get('/file-type', function() {return view('admin.fileType.index');});
+Route::get('/remark-type', function() {return view('admin.remarkType.index');});
+Route::get('/designation', function() {return view('admin.designation.index');});
+Route::get('/industry-type', function() {return view('admin.industryType.index');});
 // Activity Ends
 
 
