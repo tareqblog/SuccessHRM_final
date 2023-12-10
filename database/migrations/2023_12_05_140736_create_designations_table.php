@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('designation_desc');
             $table->integer('designation_seqno')->nullable();
             $table->integer('designation_status')->default(1);
+            $table->integer('created_by')->nullable();
+            $table->integer('modify_by')->nullable();
             $table->timestamps();
         });
     }

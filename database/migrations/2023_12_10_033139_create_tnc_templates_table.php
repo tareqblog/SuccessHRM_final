@@ -11,8 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('admins', function (Blueprint $table) {
+        Schema::create('tnc_templates', function (Blueprint $table) {
             $table->id();
+            $table->string('tnc_template_code')->unique();
+            $table->string('tnc_template_desc');
+            $table->integer('tnc_template_isDefault')->default(0);
+            $table->string('tnc_template_file_path')->nullable();
+            $table->integer('tnc_template_seqno')->nullable();
+            $table->integer('tnc_template_status')->default(1);
             $table->integer('created_by')->nullable();
             $table->integer('modify_by')->nullable();
             $table->timestamps();
@@ -24,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('admins');
+        Schema::dropIfExists('tnc_templates');
     }
 };

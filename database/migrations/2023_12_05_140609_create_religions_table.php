@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('religion_desc');
             $table->integer('religion_seqno')->nullable();
             $table->integer('religion_status')->default(1);
+            $table->integer('created_by')->nullable();
+            $table->integer('modify_by')->nullable();
             $table->timestamps();
         });
     }

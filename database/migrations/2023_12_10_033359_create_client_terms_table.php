@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('admins', function (Blueprint $table) {
+        Schema::create('client_terms', function (Blueprint $table) {
             $table->id();
+            $table->string('client_term_code')->unique();
+            $table->string('client_term_desc');
+            $table->integer('client_term_seqno')->nullable();
+            $table->integer('client_term_status')->default(1);
             $table->integer('created_by')->nullable();
             $table->integer('modify_by')->nullable();
             $table->timestamps();
@@ -24,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('admins');
+        Schema::dropIfExists('client_terms');
     }
 };

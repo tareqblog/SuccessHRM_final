@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('department_desc');
             $table->integer('department_seqno')->nullable();
             $table->integer('department_status')->default(1);
+            $table->integer('created_by')->nullable();
+            $table->integer('modify_by')->nullable();
             $table->timestamps();
         });
     }

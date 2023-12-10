@@ -23,6 +23,8 @@ return new class extends Migration
             $table->integer('leavetype_custom_field')->nullable();
             $table->integer('industry_seqno')->nullable();
             $table->integer('industry_status')->default(1);
+            $table->integer('created_by')->nullable();
+            $table->integer('modify_by')->nullable();
             $table->timestamps();
         });
     }

@@ -18,6 +18,8 @@ return new class extends Migration
             $table->double('claimstype_maxamt',8,2)->default(0);
             $table->integer('claimstype_seqno')->nullable();
             $table->integer('claimstype_status')->default(1);
+            $table->integer('created_by')->nullable();
+            $table->integer('modify_by')->nullable();
             $table->timestamps();
         });
     }

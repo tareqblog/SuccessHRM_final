@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('leave_approveds', function (Blueprint $table) {
             $table->id();
+            $table->integer('leaves_id');
+            $table->timestamp('level_approve_date')->nullable();
+            $table->integer('leave_approveds_Status')->nullable()->comment('0-Rejected,1-Approved');
+            $table->integer('supervisor_employees_id')->nullable();
+            $table->string('extraNote')->nullable();
+            $table->integer('created_by')->nullable();
+            $table->integer('modify_by')->nullable();
             $table->timestamps();
         });
     }

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('race_desc');
             $table->integer('race_seqno')->nullable();
             $table->integer('race_status')->default(1);
+            $table->integer('created_by')->nullable();
+            $table->integer('modify_by')->nullable();
             $table->timestamps();
         });
     }

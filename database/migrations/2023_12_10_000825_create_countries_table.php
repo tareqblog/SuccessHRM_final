@@ -11,8 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('admins', function (Blueprint $table) {
-            $table->id();
+        Schema::create('countries', function (Blueprint $table) {
+            $table->id();     
+            $table->integer('country_code')->unique();
+            $table->string('alpha_2_code');
+            $table->string('alpha_3_code');
+            $table->string('en_country_name');
+            $table->string('en_nationality');
+            $table->integer('country_status')->default(1);
             $table->integer('created_by')->nullable();
             $table->integer('modify_by')->nullable();
             $table->timestamps();
@@ -24,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('admins');
+        Schema::dropIfExists('countries');
     }
 };
