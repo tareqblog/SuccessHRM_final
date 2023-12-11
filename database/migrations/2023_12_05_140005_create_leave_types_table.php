@@ -28,7 +28,7 @@ return new class extends Migration
             $table->timestamps();
         });
     }
-    //LeaveType::create(['leavetype_code' => 'Annual Leave','email' => 'admin@themesbrand.com','password' => Hash::make('12345678'),'role_id'=>'1','parent_id'=>'0', 'email_verified_at'=> now(), 'created_at' => now()]); 
+    //LeaveType::create(['leavetype_code' => 'Annual Leave','email' => 'admin@themesbrand.com','password' => Hash::make('12345678'),'role_id'=>'1','parent_id'=>'0', 'email_verified_at'=> now(), 'created_at' => now()]);
     /**
      * Reverse the migrations.
      */

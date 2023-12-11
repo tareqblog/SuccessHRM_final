@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class DepartmentController extends Controller
 {
@@ -12,7 +13,8 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        //
+        $datas = Department::latest()->get();
+        return view('admin.department.index', compact('datas'));
     }
 
     /**
@@ -20,7 +22,7 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.department.create');
     }
 
     /**
@@ -28,7 +30,18 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'department_code' => 'required|unique:departments',
+            'department_desc' => 'required',
+            'department_seqno' => 'nullable',
+            'department_status' => 'required',
+        ]);
+
+        Department::create($request->except('_token'));
+
+        return redirect()->route('department.index')->with('success', 'Added Successfully.');
+
+
     }
 
     /**
@@ -44,7 +57,7 @@ class DepartmentController extends Controller
      */
     public function edit(Department $department)
     {
-        //
+        return view('admin.department.edit', compact('department'));
     }
 
     /**
@@ -52,7 +65,16 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, Department $department)
     {
-        //
+        $request->validate([
+            'department_code' => 'required|unique:departments',
+            'department_desc' => 'required',
+            'department_seqno' => 'nullable',
+            'department_status' => 'required',
+        ]);
+
+        $department->update($request->except('_token'));
+        return redirect()->route('department.index')->with('success', 'Updated Successfully.');
+
     }
 
     /**
@@ -60,6 +82,7 @@ class DepartmentController extends Controller
      */
     public function destroy(Department $department)
     {
-        //
+        $department->delete();
+        return back()->with('success', 'Delete successfully.');
     }
 }

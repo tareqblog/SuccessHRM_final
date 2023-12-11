@@ -12,7 +12,8 @@ class LeaveTypeController extends Controller
      */
     public function index()
     {
-        //
+        $datas = LeaveType::latest()->get();
+        return view('admin.leaveType.index', compact('datas'));
     }
 
     /**
@@ -20,7 +21,7 @@ class LeaveTypeController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.leaveType.create');
     }
 
     /**
@@ -28,7 +29,19 @@ class LeaveTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'leavetype_code' => 'required|unique:leave_types',
+            'leavetype_block' => 'nullable',
+            'leavetype_desc' => 'nullable',
+            'leavetype_default' => 'nullable',
+            'leavetype_bringover' => 'nullable',
+            'leavetype_custom_field' => 'nullable',
+            'industry_seqno' => 'nullable',
+            'industry_status' => 'required',
+        ]);
+
+        LeaveType::create($request->except('_token'));
+        return redirect()->route('leave-type.index')->with('success', 'Successfully created.');
     }
 
     /**
@@ -42,24 +55,37 @@ class LeaveTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(LeaveType $leaveType)
+    public function edit(LeaveType $leave_type)
     {
-        //
+        return view('admin.leaveType.edit', compact('leave_type'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, LeaveType $leaveType)
+    public function update(Request $request, LeaveType $leave_type)
     {
-        //
+        $request->validate([
+            'leavetype_code' => 'required|unique:leave_types',
+            'leavetype_block' => 'nullable',
+            'leavetype_desc' => 'nullable',
+            'leavetype_default' => 'nullable',
+            'leavetype_bringover' => 'nullable',
+            'leavetype_custom_field' => 'nullable',
+            'industry_seqno' => 'nullable',
+            'industry_status' => 'required',
+        ]);
+
+        $leave_type->update($request->except('_token'));
+        return redirect()->route('leave-type.index')->with('success', 'Successfully updated.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(LeaveType $leaveType)
+    public function destroy(LeaveType $leave_type)
     {
-        //
+        $leave_type->delete();
+        return back()->with('success', 'Deleted Successfully.');
     }
 }

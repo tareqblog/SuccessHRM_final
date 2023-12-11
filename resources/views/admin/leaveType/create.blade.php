@@ -17,27 +17,37 @@ Leave Type Management
                     <h4 class="card-title mb-0">Create New Leave Type</h4>
                 </div>
                 <div class="card-body">
-                    <form action="">
+                    @if($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <form action="{{route('leave-type.store')}}" method="POST">
+                        @csrf
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="row mb-4">
                                     <label for="one" class="col-sm-2 col-form-label">Leave Type Code</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="Leave Type Code">
+                                        <input type="text" name="leavetype_code" class="form-control" placeholder="Leave Type Code">
                                     </div>
                                 </div>
                                 <div class="row mb-4">
                                     <label for="one" class="col-sm-2 col-form-label">Default Leave Days</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="Default Leave Days">
+                                        <input type="text" name="leavetype_default" class="form-control" placeholder="Default Leave Days">
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <label for="one" class="col-sm-2 col-form-label">Default Leave Days</label>
+                                    <label for="one" class="col-sm-2 col-form-label">Status</label>
                                     <div class="col-sm-9">
-                                        <select name="" id="" class="form-control">
-                                            <option value="">Active</option>
-                                            <option value="">In-Active</option>
+                                        <select name="industry_status" id="" class="form-control">
+                                            <option value="1">Active</option>
+                                            <option value="0">In-Active</option>
                                         </select>
                                     </div>
                                 </div>
@@ -46,29 +56,30 @@ Leave Type Management
                                 <div class="row mb-4">
                                     <label for="one" class="col-sm-2 col-form-label">Seq No</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="Seq No">
+                                        <input type="text" class="form-control" name="industry_seqno" placeholder="Seq No">
                                     </div>
                                 </div>
                                 <div class="row mb-4">
                                     <label for="one" class="col-sm-2 col-form-label">Block Candidate</label>
                                     <div class="col-sm-9">
-                                        <select name="" id="" class="form-control">
-                                            <option value="">Yes</option>
-                                            <option value="">No</option>
+                                        <select name="leavetype_block" id="" class="form-control">
+                                            <option value="">Select One</option>
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="row mb-4">
                                     <label for="one" class="col-sm-2 col-form-label">Description</label>
                                     <div class="col-sm-9">
-                                        <textarea name="" rows="2" placeholder="Description" class="form-control"></textarea>
+                                        <textarea name="leavetype_desc" rows="2" placeholder="Description" class="form-control"></textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
-                                <a href="#" class="btn btn-sm btn-secondary">Cancel</a>
+                                <a href="{{route('leave-type.index')}}" class="btn btn-sm btn-secondary">Cancel</a>
                                 <button type="submit" class="btn btn-sm btn-info">Submit</button>
                             </div>
                         </div>

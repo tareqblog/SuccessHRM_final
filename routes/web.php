@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\LeaveTypeController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Spatie\Activitylog\Models\Activity;;
+use Spatie\Activitylog\Models\Activity;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -64,14 +68,14 @@ Route::get('/leave/create', function() {return view('admin.leave.create');});
 Route::get('/leave/edit', function() {return view('admin.leave.edit');});
 // Leave Ends
 // Leave Type Start
-Route::get('/leave-type', function() {return view('admin.leaveType.index');});
-Route::get('/leave-type/create', function() {return view('admin.leaveType.create');});
-Route::get('/leave-type/edit', function() {return view('admin.leaveType.edit');});
+// Route::get('/leave-type', function() {return view('admin.leaveType.index');});
+// Route::get('/leave-type/create', function() {return view('admin.leaveType.create');});
+// Route::get('/leave-type/edit', function() {return view('admin.leaveType.edit');});
 // Leave Type Ends
 // Department Start
-Route::get('/department', function() {return view('admin.department.index');});
-Route::get('/department/create', function() {return view('admin.department.create');});
-Route::get('/department/edit', function() {return view('admin.department.edit');});
+// Route::get('/department', function() {return view('admin.department.index');});
+// Route::get('/department/create', function() {return view('admin.department.create');});
+// Route::get('/department/edit', function() {return view('admin.department.edit');});
 // Department Ends
 // Nationality Start
 Route::get('/nationality', function() {return view('admin.nationality.index');});
@@ -143,6 +147,8 @@ Route::get('/setting/profile',[App\Http\Controllers\AdminController::class, 'Ind
 Route::resources([
     'roles' => RoleController::class,
     'users' => UserController::class,
+    'department' => DepartmentController::class,
+    'leave-type' => LeaveTypeController::class,
 ]);
 
 

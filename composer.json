@@ -20,6 +20,7 @@
         "spatie/laravel-activitylog": "^4.7",
         "spatie/laravel-permission": "^6.1",
         "wdev-rs/laravel-datagrid": "^0.5.0",
+        "yajra/laravel-datatables-oracle": "^10.11",
         "yoeunes/toastr": "*"
     },
     "require-dev": {

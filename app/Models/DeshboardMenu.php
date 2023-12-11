@@ -30,7 +30,7 @@ class DeshboardMenu extends Model
         ->logOnlyDirty()
         ->dontSubmitEmptyLogs();
     }
-   
+
 
     protected $fillable = [
             'menu_group',
@@ -62,10 +62,10 @@ class DeshboardMenu extends Model
             'exception'
         ];
 
-    
+
 
     public static function boot()
-    {   
+    {
         parent::boot();
         static::created(function ($DeshboardMenu) {
             $DeshboardMenu->slug = $DeshboardMenu->generateSlug($DeshboardMenu->menu_name);
@@ -92,7 +92,7 @@ class DeshboardMenu extends Model
             return "{$slug}-2";
         }
         return $slug;
-    }  
+    }
 
     public function user()
     {

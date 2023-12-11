@@ -16,42 +16,53 @@ Department Management
                 <div class="card-header">
                     <h4 class="card-title mb-0">Update Department</h4>
                 </div>
+                @if($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="card-body">
-                    <form action="">
+                    <form action="{{route('department.update', $department->id)}}" method="POST">
+                        @csrf
+                        @method('PATCH')
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="row mb-4">
                                     <label for="one" class="col-sm-2 col-form-label">Department Code</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="Department Code">
+                                        <input type="text" name="department_code" class="form-control" placeholder="Department Code" value="{{$department->department_code}}">
                                     </div>
                                 </div>
                                 <div class="row mb-4">
                                     <label for="one" class="col-sm-2 col-form-label">Seq No</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="Seq No">
+                                        <input type="text" class="form-control" name="department_seqno" placeholder="Seq No" value="{{$department->department_seqno}}">
                                     </div>
                                 </div>
                                 <div class="row mb-4">
                                     <label for="one" class="col-sm-2 col-form-label">Status</label>
                                     <div class="col-sm-9">
-                                        <select name="" id="" class="form-control">
-                                            <option value="">Active</option>
-                                            <option value="">In-Active</option>
+                                        <select name="department_status" id="" class="form-control">
+                                            <option value="1" {{$department->department_status == 1 ? 'selected' : ''}} >Active</option>
+                                            <option value="0" {{$department->department_status == 0 ? 'selected' : ''}}>In-Active</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="row mb-4">
                                     <label for="one" class="col-sm-2 col-form-label">Description</label>
                                     <div class="col-sm-9">
-                                        <textarea name="" rows="2" class="form-control" placeholder="Description"></textarea>
+                                        <textarea name="department_desc" rows="2" class="form-control" placeholder="Description">{{$department->department_desc}}</textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
-                                <a href="#" class="btn btn-sm btn-secondary">Cancel</a>
+                                <a href="{{route('department.index')}}" class="btn btn-sm btn-secondary">Cancel</a>
                                 <button type="submit" class="btn btn-sm btn-info">Submit</button>
                             </div>
                         </div>
