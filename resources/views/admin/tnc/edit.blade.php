@@ -1,86 +1,51 @@
-@extends('layouts.master')
-@section('title')
-TNC Template Management
-@endsection
-@section('page-title')
-TNC Template Management
-@endsection
-@section('body')
-
-<body>
-    @endsection
-    @section('content')
+<form action="{{ route('tnc.update', $tnc->id) }}" method="POST" enctype="multipart/form-data">
+    @csrf
     <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title mb-0">Update TNC Template</h4>
+        <div class="col-lg-6">
+            <div class="row mb-4">
+                <label for="one" class="col-sm-3 col-form-label">TNC Code</label>
+                <div class="col-sm-9">
+                    <input type="text" name="tnc_template_code" class="form-control" placeholder="Title"
+                        value="{{ $tnc->tnc_template_code }}">
                 </div>
-                <div class="card-body">
-                    <form action="">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="row mb-4">
-                                    <label for="one" class="col-sm-3 col-form-label">Title</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="Title">
-                                    </div>
-                                </div>
-                                <div class="row mb-4">
-                                    <label for="one" class="col-sm-3 col-form-label">Start Point X</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="Start Point X">
-                                    </div>
-                                </div>
-                                <div class="row mb-4">
-                                    <label for="one" class="col-sm-3 col-form-label">Header</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="100">
-                                    </div>
-                                </div>
-                                <div class="row mb-4">
-                                    <label for="one" class="col-sm-3 col-form-label">Left</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="100">
-                                    </div>
-                                </div>
-                                <div class="row mb-4">
-                                    <label for="one" class="col-sm-3 col-form-label">Upload Template (pdf)</label>
-                                    <div class="col-sm-9">
-                                        <input type="file" class="form-control" placeholder="Upload Template (pdf)">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="row mb-4">
-                                    <label for="one" class="col-sm-3 col-form-label">Start Point Y</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="10">
-                                    </div>
-                                </div>
-                                <div class="row mb-4">
-                                    <label for="one" class="col-sm-3 col-form-label">Footer</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="100">
-                                    </div>
-                                </div>
-                                <div class="row mb-4">
-                                    <label for="one" class="col-sm-3 col-form-label">Right</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="100">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt-5">
-                            <div class="col-lg-12">
-                                <a href="#" class="btn btn-sm btn-secondary">Cancel</a>
-                                <button type="submit" class="btn btn-sm btn-info">Submit</button>
-                            </div>
-                        </div>
-                    </form>
+            </div>
+            <div class="row mb-4">
+                <label for="one" class="col-sm-3 col-form-label">Upload Template
+                    No</label>
+                <div class="col-sm-9">
+                    <input type="file" name="tnc_template_file_path" class="form-control">
+                    <br>
+
+                    <a href="{{ asset('storage') }}/{{ $tnc->tnc_template_file_path }}" target="_blank">
+                        <i class="fas fa fa-download"></i>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+
+            <div class="row mb-4">
+                <label for="one" class="col-sm-3 col-form-label">Seq No</label>
+                <div class="col-sm-9">
+                    <input type="text" name="tnc_template_seqno" class="form-control" placeholder="Seq no"
+                        value="{{ $tnc->tnc_template_seqno }}">
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <label for="one" class="col-sm-3 col-form-label">TNC
+                    Description</label>
+                <div class="col-sm-9">
+                    <textarea name="tnc_template_desc" rows="2" class="form-control" placeholder="Description"> {{ $tnc->tnc_template_desc }} </textarea>
                 </div>
             </div>
         </div>
     </div>
-    @endsection
+    <div class="row mt-5">
+        <div class="col-lg-12">
+            <a href="#" class="btn btn-sm btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-sm btn-info">Submit</button>
+        </div>
+    </div>
+</form>

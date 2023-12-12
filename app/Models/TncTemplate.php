@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class TncTemplate extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['_token'];
 }

@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Auth;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class DeshboardMenu extends Model
 {
