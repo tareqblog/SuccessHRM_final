@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('candidates', function (Blueprint $table) {
             $table->id();
-            $table->integer('candidate_outlet_id')->deafult('1')->comment('Link with outlet table');
+            $table->integer('candidate_outlet_id')->deafult(0)->comment('Link with outlet table');
             $table->string('candidate_code')->nullable();
             $table->string('candidate_name')->nullable();
             $table->string('candidate_home_phone')->nullable();
@@ -98,8 +98,8 @@ return new class extends Migration
             $table->integer('clients_id')->nullable()->comment('link to client table');
             $table->integer('jobs_id')->nullable()->comment('link to jobs table');
             $table->integer('candidate_status')->deafult('1');
-            $table->integer('candidate_isBlocked')->deafult('0')->commnet('delete mark- 0=Active or functional data, 1=Blocked  ');
-            $table->integer('candidate_isDeleted')->deafult('0')->commnet('delete mark- 0=Active or functional data, 1=not functional data  ');
+            $table->integer('candidate_isBlocked')->deafult(0)->commnet('delete mark- 0=Active or functional data, 1=Blocked  ');
+            $table->integer('candidate_isDeleted')->deafult(0)->commnet('delete mark- 0=Active or functional data, 1=not functional data  ');
             $table->integer('created_by')->nullable();
             $table->integer('modify_by')->nullable();
             $table->timestamps();

@@ -15,4 +15,6 @@
 <script src="{{ URL::asset('build/js/pages/ecommerce-orders.init.js') }}"></script>
 <!-- App js -->
 <script src="{{ URL::asset('build/js/app.js') }}"></script>
+
+
 @yield('scripts')

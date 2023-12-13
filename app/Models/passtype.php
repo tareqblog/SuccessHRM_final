@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class passtype extends Model
 {
     use HasFactory;
+
+    
+    public function Employee(){
+        return $this->hasMany('App\Models\Employee');
+    }
 }
