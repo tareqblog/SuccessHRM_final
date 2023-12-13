@@ -3,6 +3,7 @@
 use App\Http\Controllers\ClientTermController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DeshboardMenuController;
+use App\Http\Controllers\IndustryTypeController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\MaritalStatusController;
 use App\Http\Controllers\ReligionController;
@@ -72,16 +73,6 @@ Route::get('/leave', function() {return view('admin.leave.index');});
 Route::get('/leave/create', function() {return view('admin.leave.create');});
 Route::get('/leave/edit', function() {return view('admin.leave.edit');});
 // Leave Ends
-// Leave Type Start
-// Route::get('/leave-type', function() {return view('admin.leaveType.index');});
-// Route::get('/leave-type/create', function() {return view('admin.leaveType.create');});
-// Route::get('/leave-type/edit', function() {return view('admin.leaveType.edit');});
-// Leave Type Ends
-// Department Start
-// Route::get('/department', function() {return view('admin.department.index');});
-// Route::get('/department/create', function() {return view('admin.department.create');});
-// Route::get('/department/edit', function() {return view('admin.department.edit');});
-// Department Ends
 // Nationality Start
 Route::get('/nationality', function() {return view('admin.nationality.index');});
 Route::get('/nationality/create', function() {return view('admin.nationality.create');});
@@ -134,7 +125,6 @@ Route::get('/pay-mode', function() {return view('admin.payMode.index');});
 Route::get('/file-type', function() {return view('admin.fileType.index');});
 Route::get('/remark-type', function() {return view('admin.remarkType.index');});
 Route::get('/designation', function() {return view('admin.designation.index');});
-Route::get('/industry-type', function() {return view('admin.industryType.index');});
 // Activity Ends
 
 
@@ -159,6 +149,8 @@ Route::resources([
     '/religion' => ReligionController::class,
     '/client-term' => ClientTermController::class,
     '/marital-status' => MaritalStatusController::class,
+    '/marital-status' => MaritalStatusController::class,
+    '/industry-type' => IndustryTypeController::class,
 ]);
 
 

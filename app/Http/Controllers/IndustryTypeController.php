@@ -12,7 +12,8 @@ class IndustryTypeController extends Controller
      */
     public function index()
     {
-        //
+        $datas = IndustryType::latest()->get();
+        return view('admin.industryType.index', compact('datas'));
     }
 
     /**
@@ -28,7 +29,14 @@ class IndustryTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'industry_code' => "required|unique:industry_types",
+            'industry_desc' => 'required',
+            'industry_seqno' =>  'nullable|integer'
+        ]);
+
+        IndustryType::create($request->except('_token'));
+        return back()->with('success', 'Successfully added.');
     }
 
     /**
@@ -42,24 +50,32 @@ class IndustryTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(IndustryType $industryType)
+    public function edit(IndustryType $industry_type)
     {
-        //
+        return view('admin.industryType.edit', compact('industry_type'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, IndustryType $industryType)
+    public function update(Request $request, IndustryType $industry_type)
     {
-        //
+        $request->validate([
+            'industry_code' => "required|unique:industry_types,industry_code,{$industry_type->id}",
+            'industry_desc' => 'required',
+            'industry_seqno' =>  'nullable|integer'
+        ]);
+
+        $industry_type->update($request->except('_token'));
+        return back()->with('success', 'Successfully updated.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(IndustryType $industryType)
+    public function destroy(IndustryType $industry_type)
     {
-        //
+        $industry_type->delete();
+        return back()->with('success', 'Successfully deleted.');
     }
 }

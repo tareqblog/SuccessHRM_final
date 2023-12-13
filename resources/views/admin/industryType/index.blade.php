@@ -1,105 +1,166 @@
 @extends('layouts.master')
 @section('title')
-Industry Type
+    Industry Type
 @endsection
 @section('page-title')
-Industry Type
+    Industry Type
+@endsection
+@section('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
 @endsection
 @section('body')
 
-<body>
+    <body>
     @endsection
     @section('content')
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title mb-0">Industry Type Table</h4>
-                    <div class="text-end">
-                        <a href="#" class="btn btn-sm btn-success" data-bs-toggle="modal"
-                            data-bs-target="#create">Create New</a>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Industry Type Table</h4>
+                        <div class="text-end">
+                            <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
+                                data-bs-target=".bs-example-modal-lg-create">Create New</button>
+                        </div>
                     </div>
-                </div>
-                <div class="card-body">
+                    <div class="card-body">
 
-                    <table class="table table-bordered mb-0">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Name</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1.</td>
-                                <td>IT</td>
-                                <td style="display: flex;">
-                                    <a href="#" class="btn btn-sm btn-info me-2" data-bs-toggle="modal"
-                                        data-bs-target="#edit">Edit</a>
-                                    <form id="deleteForm" action="" method="POST">
+                        <table class="table table-bordered mb-0" id="myTable">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Industry Code</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($datas as $data)
+                                    <tr>
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $data->industry_code }}</td>
+                                        <td>{{ $data->industry_status == 1 ? 'Active' : 'In-Active' }}</td>
+                                        <td style="display: flex;">
+                                            <button type="button" class="btn btn-sm btn-info edit me-2"
+                                                data-id="{{ $data->id }}" data-bs-toggle="modal"
+                                                data-bs-target=".bs-example-modal-lg-edit">Edit</a>
+                                                <form id="deleteForm" action="" method="POST">
+                                                    @csrf
+                                                    <button type="submit"
+                                                        onclick="return confirm('Are you sure you want to delete this item?')"
+                                                        class="btn btn-sm btn-danger">Delete</a>
+                                                </form>
+                                        </td>
+                                    </tr>
+                                @empty
+
+                                    {{-- empty data --}}
+                                    <tr>
+                                        <td class="text-center text-warning" colspan="5">
+                                            No data found!
+                                        </td>
+                                    </tr>
+                                    {{-- empty data --}}
+                                @endforelse
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!--  Create modal example -->
+                    <div class="modal fade bs-example-modal-lg-create" tabindex="-1" role="dialog"
+                        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="tncCreate">Create Industry</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <form action="{{ route('industry-type.store') }}" method="POST">
                                         @csrf
-                                        <button type="submit"
-                                            onclick="return confirm('Are you sure you want to delete this item?')"
-                                            class="btn btn-sm btn-danger">Delete</a>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="row mb-4">
+                                                    <label for="one" class="col-sm-3 col-form-label">Industy
+                                                        Code</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="industry_code" class="form-control"
+                                                            placeholder="Title" value="{{ old('industry_code') }}">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="one" class="col-sm-3 col-form-label">Industry
+                                                        Description</label>
+                                                    <div class="col-sm-9">
+                                                        <textarea name="industry_desc" rows="2" class="form-control" placeholder="Descriptin"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+
+                                                <div class="row mb-4">
+                                                    <label for="one" class="col-sm-3 col-form-label">Seq No</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="industry_seqno" class="form-control"
+                                                            placeholder="Seq no" value="{{ old('industry_seqno') }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-5">
+                                            <div class="col-lg-12">
+                                                <button type="button" data-bs-dismiss="modal" aria-label="Close"
+                                                    class="btn btn-sm btn-secondary">Cancel</button>
+                                                <button type="submit" class="btn btn-sm btn-info">Submit</button>
+                                            </div>
+                                        </div>
                                     </form>
-                                </td>
-                            </tr>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+                    <!--  Edit modal example -->
+                    <div class="modal fade bs-example-modal-lg-edit" tabindex="-1" role="dialog"
+                        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="tncCreate">Update Industry</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body" id="editSection">
 
-
-                            {{-- empty data --}}
-                            {{-- <tr>
-                                <td class="text-center text-warning" colspan="5">
-                                    No data found!
-                                </td>
-                            </tr> --}}
-                            {{-- empty data --}}
-                        </tbody>
-                    </table>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
                 </div>
-
-                <!-- Create modal content -->
-                <div id="create" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel"
-                    aria-hidden="true" data-bs-scroll="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="myModalLabel">Industry Type</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="">
-                                    <label for="reason_of_blacklist">Name</label>
-                                    <input type="text" class="form-control" placeholder="Name" name="name"
-                                        value="{{ old('name') }}">
-                                    <button type="submit" class="btn btn-sm btn-info mt-3">Submit</button>
-                                </form>
-                            </div>
-                        </div><!-- /.modal-content -->
-                    </div><!-- /.modal-dialog -->
-                </div><!-- /.modal -->
-                <!-- Edit modal content -->
-                <div id="edit" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true"
-                    data-bs-scroll="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="myModalLabel">Update Industry Type</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="">
-                                    <label for="reason_of_blacklist">Name</label>
-                                    <input type="text" class="form-control" placeholder="Name" name="name" value="">
-                                    <button type="submit" class="btn btn-sm btn-info mt-3">Submit</button>
-                                </form>
-                            </div>
-                        </div><!-- /.modal-content -->
-                    </div><!-- /.modal-dialog -->
-                </div><!-- /.modal -->
             </div>
         </div>
-    </div>
+    @endsection
+
+    @section('scripts')
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#myTable').DataTable();
+            });
+        </script>
+
+        <script>
+            //edit modal show and after submit
+            $('body').on('click', '.edit', function() {
+                var id = $(this).data('id'); //i or 2 categoryid
+                $.get("/admin/industry-type/" + id + "/edit",
+                    function(data) {
+                        $('#editSection').html(data);
+                    })
+            });
+        </script>
     @endsection
