@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\FileHelper;
 use App\Models\TncTemplate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TncController extends Controller
 {
@@ -34,7 +35,7 @@ class TncController extends Controller
             'tnc_template_code' => 'required|unique:tnc_templates',
             'tnc_template_desc' => 'required',
             'tnc_template_file_path' => 'nullable|mimes:pdf|max:2048',
-            'tnc_template_seqno' => 'nullable',
+            'tnc_template_seqno' => 'nullable|integer',
         ]);
 
         $file_path = $request->file('tnc_template_file_path');
@@ -75,17 +76,33 @@ class TncController extends Controller
      */
     public function update(Request $request, TncTemplate $tnc)
     {
-        $request->validate([
-            'tnc_template_code' => 'required|unique:tnc_templates',
-            'tnc_template_desc' => 'required',
-            'tnc_template_isDefault' => 'required',
-            'tnc_template_file_path' => 'nullable',
-            'tnc_template_seqno' => 'nullable',
-            'tnc_template_status' => 'required',
-        ]);
-        $tnc->update($request->except('_token'));
 
-        return back()->with('success', 'Updated successfully.');
+        $request->validate([
+            'tnc_template_code' => "required|unique:tnc_templates,tnc_template_code,{$tnc->id}",
+            'tnc_template_desc' => 'required',
+            'tnc_template_file_path' => 'nullable|mimes:pdf|max:2048',
+            'tnc_template_seqno' => 'nullable|integer',
+        ]);
+
+        if ($request->hasFile('tnc_template_file_path')) {
+            // Delete the old file
+            Storage::delete("public/{$tnc->tnc_template_file_path}");
+
+            // Upload the new file
+            $uploadedFilePath = FileHelper::uploadFile($request->file('tnc_template_file_path'));
+
+            // Update the database record
+            $tnc->update([
+                'tnc_template_file_path' => $uploadedFilePath,
+                'tnc_template_code' => $request->input('tnc_template_code'),
+                'tnc_template_desc' => $request->input('tnc_template_desc'),
+                'tnc_template_seqno' => $request->input('tnc_template_seqno'),
+                // Add other columns as needed
+            ]);
+        } else {
+            $tnc->update($request->except('_token', 'tnc_template_file_path'));
+        }
+        return back()->with('success', 'Successfully updated.');
     }
 
     /**
@@ -93,17 +110,11 @@ class TncController extends Controller
      */
     public function destroy(TncTemplate $tnc)
     {
+        $filePath = storage_path("app/public/{$tnc->tnc_template_file_path}");
 
-        // $path = asset('stronage');
-
-        // if (file_exists($path)) {
-        //     // Delete the file from storage
-        //     Storage::delete('public/uploads/' . $filename);
-
-        //     // You may want to perform additional actions here (e.g., update database records)
-
-        //     return redirect()->back()->with('success', 'File deleted successfully.');
-        // }
+        if (file_exists($filePath)) {
+            Storage::delete("public/{$tnc->tnc_template_file_path}");
+        }
         $tnc->delete();
         return back()->with('success', 'Successfully Deleted.');
     }

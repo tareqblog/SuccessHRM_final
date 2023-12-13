@@ -1,5 +1,6 @@
 <form action="{{ route('tnc.update', $tnc->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
+    @method('PATCH')
     <div class="row">
         <div class="col-lg-6">
             <div class="row mb-4">
@@ -17,9 +18,17 @@
                     <br>
 
                     <a href="{{ asset('storage') }}/{{ $tnc->tnc_template_file_path }}" target="_blank">
-                        <i class="fas fa fa-download"></i>
+                        <i class="fas fa fa-eye"></i>
                     </a>
-
+                </div>
+            </div>
+            <div class="row mb-4">
+                <label for="status" class="col-sm-3 col-form-label">Status</label>
+                <div class="col-sm-9">
+                    <select name="tnc_template_status" class="form-control">
+                        <option value="1" {{ $tnc->tnc_template_status == 1 ? 'selected' : '' }}>Active</option>
+                        <option value="0" {{ $tnc->tnc_template_status == 0 ? 'selected' : '' }}>In-Active</option>
+                    </select>
                 </div>
             </div>
         </div>

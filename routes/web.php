@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\ClientTermController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DeshboardMenuController;
 use App\Http\Controllers\LeaveTypeController;
+use App\Http\Controllers\MaritalStatusController;
+use App\Http\Controllers\ReligionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TncController;
 use App\Http\Controllers\UserController;
@@ -153,6 +156,9 @@ Route::resources([
     '/leave-type' => LeaveTypeController::class,
     '/tnc' => TncController::class,
     '/dashboard/menu' => DeshboardMenuController::class,
+    '/religion' => ReligionController::class,
+    '/client-term' => ClientTermController::class,
+    '/marital-status' => MaritalStatusController::class,
 ]);
 
 
