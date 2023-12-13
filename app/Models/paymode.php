@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class paymode extends Model
 {
     use HasFactory;
+
+    public function Employee(){
+        return $this->hasMany('App\Models\Employee');
+    }
 }

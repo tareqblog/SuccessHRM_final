@@ -48,4 +48,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function Employee(){
+        return $this->hasMany('App\Models\Employee');
+    }
 }

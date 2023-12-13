@@ -2,25 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Employee;
-use App\DataGrids\EmployeeDataGrid;
-use App\Http\Requests\StoreEmployeeRequest;
-use App\Http\Requests\UpdateEmployeeRequest;
+use App\Models\outlet;
 use Illuminate\Http\Request;
 
-use \Illuminate\Http\JsonResponse;
-class EmployeeController extends Controller
+class OutletController extends Controller
 {
-
-   
-
-
     /**
      * Display a listing of the resource.
      */
-    public function index(EmployeeDataGrid $dataGrid, Request $request)
+    public function index()
     {
-        return $dataGrid->render('admin.employee.index');
+        //
     }
 
     /**
@@ -34,7 +26,7 @@ class EmployeeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreEmployeeRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -42,7 +34,7 @@ class EmployeeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Employee $employee)
+    public function show(outlet $outlet)
     {
         //
     }
@@ -50,7 +42,7 @@ class EmployeeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Employee $employee)
+    public function edit(outlet $outlet)
     {
         //
     }
@@ -58,7 +50,7 @@ class EmployeeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateEmployeeRequest $request, Employee $employee)
+    public function update(Request $request, outlet $outlet)
     {
         //
     }
@@ -66,7 +58,7 @@ class EmployeeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Employee $employee)
+    public function destroy(outlet $outlet)
     {
         //
     }

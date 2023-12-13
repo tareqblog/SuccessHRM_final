@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\LeaveTypeController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Actions\FetchEmployeeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Spatie\Activitylog\Models\Activity;
@@ -143,12 +145,14 @@ Route::get('/log', function(){
 });
 
 Route::get('/setting/profile',[App\Http\Controllers\AdminController::class, 'Index'])->name('user.profiles');
-
+// Single Action Controllers
+Route::get('/employee/fetch', FetchEmployeeController::class)->name('employee.fetch');
 Route::resources([
     'roles' => RoleController::class,
     'users' => UserController::class,
+    'employee' => EmployeeController::class,
     'department' => DepartmentController::class,
-    'leave-type' => LeaveTypeController::class,
+    'leavetype' => LeaveTypeController::class,
 ]);
 
 

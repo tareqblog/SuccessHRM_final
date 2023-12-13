@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->integer('employee_outlet_id')->deafult('1')->comment('Link with outlet table');
+            $table->integer('employee_outlet_id')->deafult(1)->comment('Link with outlet table');
             $table->string('employee_code')->nullable();
             $table->string('employee_name')->nullable();
             $table->string('employee_phone')->nullable();
@@ -42,9 +42,9 @@ return new class extends Migration
             $table->integer('claims_aprv2_id')->nullable();
             $table->integer('claims_aprv3_users_id')->nullable();
 
-            $table->integer('is_payroll_enable')->deafult('0')->comment('1=salary entry enable, 0=salary entry disable');
-            $table->integer('is_cpf_enable')->deafult('0');
-            $table->integer('employee_isovertime')->deafult('1');
+            $table->integer('is_payroll_enable')->deafult(0)->comment('1=salary entry enable, 0=salary entry disable');
+            $table->integer('is_cpf_enable')->deafult(0);
+            $table->integer('employee_isovertime')->deafult(1);
             $table->integer('paymodes_id')->nullable()->comment('link to paymode table');
             $table->string('employee_bank')->nullable();
             $table->string('employee_bank_acc_no')->nullable();
@@ -84,8 +84,8 @@ return new class extends Migration
             $table->integer('dbsexes_id')->nullable()->comment('link to dbsex table');
             $table->integer('marital_statuses_id')->nullable()->comment('link to marital status table');
             $table->integer('clients_id')->nullable()->comment('link to client table');
-            $table->integer('employee_status')->deafult('1');
-            $table->integer('employee_isDeleted')->deafult('0')->commnet('delete mark- 0=Active or functional data, 1=not functional data  ');
+            $table->integer('employee_status')->deafult(1);
+            $table->integer('employee_isDeleted')->deafult(0)->commnet('delete mark- 0=Active or functional data, 1=not functional data  ');
 
             $table->integer('created_by')->nullable();
             $table->integer('modify_by')->nullable();

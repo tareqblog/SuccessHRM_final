@@ -7,7 +7,7 @@ use WdevRs\LaravelDatagrid\DataGrid\DataGrid;
 
 class EmployeeDataGrid extends DataGrid
 {
-
+ 
     /**
      * EmployeeDataGrid constructor.
      */
@@ -15,6 +15,7 @@ class EmployeeDataGrid extends DataGrid
     {
         $this->fromQuery(Employee::query())
             ->column('id', 'ID')
-            ->column('name', 'Name');
+            ->column('employee_name', 'employee_name');
+        
     }
 }
