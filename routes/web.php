@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\ClientTermController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\DeshboardMenuController;
 use App\Http\Controllers\LeaveTypeController;
-use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\MaritalStatusController;
+use App\Http\Controllers\ReligionController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TncController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\Actions\FetchEmployeeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Spatie\Activitylog\Models\Activity;
@@ -95,9 +98,9 @@ Route::get('/timesheet/create', function() {return view('admin.timesheet.create'
 Route::get('/timesheet/edit', function() {return view('admin.timesheet.edit');});
 // Timesheet Ends
 // TNC Start
-Route::get('/tnc', function() {return view('admin.tnc.index');});
-Route::get('/tnc/create', function() {return view('admin.tnc.create');});
-Route::get('/tnc/edit', function() {return view('admin.tnc.edit');});
+// Route::get('/tnc', function() {return view('admin.tnc.index');});
+// Route::get('/tnc/create', function() {return view('admin.tnc.create');});
+// Route::get('/tnc/edit', function() {return view('admin.tnc.edit');});
 // TNC Ends
 // Invoice Start
 Route::get('/invoice/month', function() {return view('admin.invoice.month');});
@@ -145,14 +148,17 @@ Route::get('/log', function(){
 });
 
 Route::get('/setting/profile',[App\Http\Controllers\AdminController::class, 'Index'])->name('user.profiles');
-// Single Action Controllers
-Route::get('/employee/fetch', FetchEmployeeController::class)->name('employee.fetch');
+
 Route::resources([
-    'roles' => RoleController::class,
-    'users' => UserController::class,
-    'employee' => EmployeeController::class,
-    'department' => DepartmentController::class,
-    'leavetype' => LeaveTypeController::class,
+    '/roles' => RoleController::class,
+    '/users' => UserController::class,
+    '/department' => DepartmentController::class,
+    '/leave-type' => LeaveTypeController::class,
+    '/tnc' => TncController::class,
+    '/dashboard/menu' => DeshboardMenuController::class,
+    '/religion' => ReligionController::class,
+    '/client-term' => ClientTermController::class,
+    '/marital-status' => MaritalStatusController::class,
 ]);
 
 

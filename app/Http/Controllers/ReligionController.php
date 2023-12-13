@@ -12,7 +12,8 @@ class ReligionController extends Controller
      */
     public function index()
     {
-        //
+        $datas = Religion::latest()->get();
+        return view('admin.religion.index', compact('datas'));
     }
 
     /**
@@ -28,7 +29,14 @@ class ReligionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'religion_code' => 'required|unique:religions',
+            'religion_desc' => 'required',
+            'religion_seqno' =>  'nullable|integer'
+        ]);
+
+        Religion::create($request->except('_token'));
+        return back()->with('success', 'Added Successfully.');
     }
 
     /**
@@ -44,7 +52,7 @@ class ReligionController extends Controller
      */
     public function edit(Religion $religion)
     {
-        //
+        return view('admin.religion.edit', compact('religion'));
     }
 
     /**
@@ -52,7 +60,14 @@ class ReligionController extends Controller
      */
     public function update(Request $request, Religion $religion)
     {
-        //
+        $request->validate([
+            'religion_code' => "required|unique:religions,religion_code,{$religion->id}",
+            'religion_desc' => 'required',
+            'religion_seqno' =>  'nullable|integer'
+        ]);
+
+        $religion->update($request->except('_token'));
+        return back()->with('success', 'Updated Successfully.');
     }
 
     /**
@@ -60,6 +75,9 @@ class ReligionController extends Controller
      */
     public function destroy(Religion $religion)
     {
-        //
+        $religion->delete();
+
+        return back()->with('success', 'Deleted Successfully.');
+
     }
 }

@@ -8,8 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Religion extends Model
 {
     use HasFactory;
-
-    public function Employee(){
-        return $this->hasMany('App\Models\Employee');
-    }
+    protected $guarded = ['_token'];
 }

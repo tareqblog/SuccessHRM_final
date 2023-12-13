@@ -34,7 +34,6 @@ class DepartmentController extends Controller
             'department_code' => 'required|unique:departments',
             'department_desc' => 'required',
             'department_seqno' => 'nullable',
-            'department_status' => 'required',
         ]);
 
         Department::create($request->except('_token'));
@@ -66,7 +65,7 @@ class DepartmentController extends Controller
     public function update(Request $request, Department $department)
     {
         $request->validate([
-            'department_code' => 'required|unique:departments',
+            'department_code' => "required|unique:departments,department_code,". "$department->id'",
             'department_desc' => 'required',
             'department_seqno' => 'nullable',
             'department_status' => 'required',

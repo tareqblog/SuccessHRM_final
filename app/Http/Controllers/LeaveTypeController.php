@@ -37,7 +37,6 @@ class LeaveTypeController extends Controller
             'leavetype_bringover' => 'nullable',
             'leavetype_custom_field' => 'nullable',
             'industry_seqno' => 'nullable',
-            'industry_status' => 'required',
         ]);
 
         LeaveType::create($request->except('_token'));
@@ -66,14 +65,13 @@ class LeaveTypeController extends Controller
     public function update(Request $request, LeaveType $leave_type)
     {
         $request->validate([
-            'leavetype_code' => 'required|unique:leave_types',
+            'leavetype_code' => "required|unique:leave_types,leavetype_code,". "$leave_type->id'",
             'leavetype_block' => 'nullable',
             'leavetype_desc' => 'nullable',
             'leavetype_default' => 'nullable',
             'leavetype_bringover' => 'nullable',
             'leavetype_custom_field' => 'nullable',
             'industry_seqno' => 'nullable',
-            'industry_status' => 'required',
         ]);
 
         $leave_type->update($request->except('_token'));

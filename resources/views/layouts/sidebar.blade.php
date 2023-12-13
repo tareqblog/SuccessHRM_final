@@ -34,7 +34,7 @@
             <ul class="metismenu list-unstyled" id="side-menu">
             @foreach ($navbars as $navbarItem)
            <!-- <li class="menu-title" data-key="{{ $navbarItem->slug }}" style="padding:5px 25px!important">{{ $navbarItem->menu_name }}</li>-->
-            
+
                <li>
                     @if(count($navbarItem->childs))
                         <a href="{{ $navbarItem->menu_path }}" class="has-arrow">
@@ -55,12 +55,12 @@
                                 <ul class="sub-menu" aria-expanded="false">
                                     @foreach($child->childs as $lavel2)
                                         <li><a href="{{ $lavel2->menu_path }}" data-key="{{ $lavel2->slug }}">{{ $lavel2->menu_name }}</a></li>
-                                    @endforeach   
+                                    @endforeach
                                 </ul>
                                 @endif
-                        
+
                             </li>
-                        @endforeach   
+                        @endforeach
                     </ul>
                     @endif
                 </li>
