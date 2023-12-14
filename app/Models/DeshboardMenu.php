@@ -77,7 +77,7 @@ class DeshboardMenu extends Model
         // Update field update_by with current user id each time article is updated.
         static::updating(function ($DeshboardMenu) {
             $DeshboardMenu->modify_by = Auth::user()->id;
-            $DeshboardMenu->save();
+            // $DeshboardMenu->save();
         });
     }
 

@@ -23,7 +23,11 @@ class client extends Model
         // Update field update_by with current user id each time article is updated.
         static::updating(function ($client) {
             $client->modify_by = Auth::user()->id;
-            $client->save();
+            // $client->save();
         });
+    }
+    public function industry_type()
+    {
+        return $this->belongsTo(IndustryType::class, 'industry_types_id');
     }
 }

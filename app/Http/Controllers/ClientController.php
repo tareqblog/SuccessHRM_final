@@ -18,7 +18,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $datas = client::latest()->get();
+        $datas = client::latest()->with('industry_type')->get();
         return view('admin.client.index', compact('datas'));
     }
 
@@ -57,15 +57,21 @@ class ClientController extends Controller
      */
     public function edit(client $client)
     {
-        return view('admin.client.edit', compact('client'));
+        $industries = IndustryType::latest()->get();
+        $employees = Employee::latest()->select('id', 'employee_code')->get();
+        $users = User::latest()->select('id', 'name')->get();
+        $tncs = TncTemplate::latest()->select('id', 'tnc_template_code')->get();
+        $client_terms = clientTerm::latest()->select('id', 'client_term_code')->get();
+        return view('admin.client.edit', compact('client', 'industries', 'employees', 'users', 'tncs', 'client_terms'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, client $client)
+    public function update(ClientRequest $request, client $client)
     {
-        //
+        $client->update($request->except('_token'));
+        return redirect()->route('clients.index')->with('success', 'Client updated successfully.');
     }
 
     /**
@@ -73,6 +79,8 @@ class ClientController extends Controller
      */
     public function destroy(client $client)
     {
-        //
+        $client->delete();
+
+        return redirect()->route('clients.index')->with('success', 'Client deleted successfully.');
     }
 }

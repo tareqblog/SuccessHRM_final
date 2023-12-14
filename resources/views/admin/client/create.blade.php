@@ -96,14 +96,14 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                {{-- <div class="row mb-4">
                                                     <label for="five" class="col-sm-3 col-form-label">Renewal
                                                         TNC</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="renewal_tnc_one" class="form-control"
                                                             placeholder="Renewal Date">
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                                 <div class="row mb-4">
                                                     <label for="six" class="col-sm-3 col-form-label">Renewal
                                                         TNC</label>

@@ -18,7 +18,11 @@ class DeshboardMenuController extends Controller
     public function index()
     {
         $datas = DeshboardMenu::all();
-        return view('admin.dashboardMenu.index', compact('datas'));
+
+
+        $perents = DeshboardMenu::where('menu_perent',0)->select('menu_group', 'id')->get();
+
+        return view('admin.dashboardMenu.index', compact('datas', 'perents'));
     }
 
     /**
@@ -35,10 +39,8 @@ class DeshboardMenuController extends Controller
     public function store(Request $request)
     {
 
-        $menu_perent = DeshboardMenu::where('menu_group', $request->menu_group)->first();
         DeshboardMenu::create($request->except('_token') + [
             'userRole_id' => auth()->id(),
-            'menu_perent' => $menu_perent->id
         ]);
         return redirect()->route('menu.index')->with('success', 'Successfully created.');
     }
@@ -56,7 +58,8 @@ class DeshboardMenuController extends Controller
      */
     public function edit(DeshboardMenu $menu)
     {
-        return view('admin.dashboardMenu.edit', compact('menu'));
+        $perents = DeshboardMenu::where('menu_perent',0)->select('menu_group', 'id')->get();
+        return view('admin.dashboardMenu.edit', compact('menu', 'perents'));
     }
 
     /**
