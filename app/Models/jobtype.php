@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class jobtype extends Model
 {
     use HasFactory;
+    protected $guarded =['_token'];
 }

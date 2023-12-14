@@ -26,7 +26,7 @@ class DeshboardMenuController extends Controller
      */
     public function create()
     {
-        return view('admin.dashboardMenu.create');
+        //
     }
 
     /**
@@ -34,6 +34,7 @@ class DeshboardMenuController extends Controller
      */
     public function store(Request $request)
     {
+
         $menu_perent = DeshboardMenu::where('menu_group', $request->menu_group)->first();
         DeshboardMenu::create($request->except('_token') + [
             'userRole_id' => auth()->id(),
@@ -65,7 +66,6 @@ class DeshboardMenuController extends Controller
     {
         $menu_perent = DeshboardMenu::where('menu_group', $request->menu_group)->first();
         $menu->update($request->except('_token') + [
-            'userRole_id' => auth()->id(),
             'menu_perent' => $menu_perent->id
         ]);
         return redirect()->route('menu.index')->with('success', 'Successfully updated.');

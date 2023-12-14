@@ -11,7 +11,7 @@ class UpdatejobcategoryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class UpdatejobcategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'jobcategory_name' => 'required|string',
+            'jobcategory_parent' => 'nullable|integer',
+            'jobcategory_seqno' => 'nullable|integer',
         ];
     }
 }

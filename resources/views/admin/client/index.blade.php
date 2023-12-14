@@ -16,7 +16,7 @@ Client Management
                 <div class="card-header">
                     <h4 class="card-title mb-0">Client Table</h4>
                     <div class="text-end">
-                        <a href="#" class="btn btn-sm btn-success">Create New</a>
+                        <a href="{{route('clients.create')}}" class="btn btn-sm btn-success">Create New</a>
                     </div>
                 </div>
                 <div class="card-body">

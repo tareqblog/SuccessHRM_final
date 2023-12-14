@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\jobcategory;
 use App\Http\Requests\StorejobcategoryRequest;
 use App\Http\Requests\UpdatejobcategoryRequest;
+use App\Models\jobtype;
 
 class JobcategoryController extends Controller
 {
@@ -13,7 +14,9 @@ class JobcategoryController extends Controller
      */
     public function index()
     {
-        //
+        $datas = jobcategory::latest()->get();
+        $jobType = jobtype::latest()->select('id', 'jobtype_code')->get();
+        return view('admin.jobCategory.index', compact('datas','jobType'));
     }
 
     /**
@@ -29,7 +32,8 @@ class JobcategoryController extends Controller
      */
     public function store(StorejobcategoryRequest $request)
     {
-        //
+        jobcategory::create($request->except('_token'));
+        return back()->with('success', 'Create successfully.');
     }
 
     /**
@@ -43,24 +47,26 @@ class JobcategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(jobcategory $jobcategory)
+    public function edit(jobcategory $job_category)
     {
-        //
+        return view('admin.jobCategory.edit', compact('job_category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatejobcategoryRequest $request, jobcategory $jobcategory)
+    public function update(UpdatejobcategoryRequest $request, jobcategory $job_category)
     {
-        //
+        $job_category->update($request->except('_token'));
+        return back()->with('success', 'Updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(jobcategory $jobcategory)
+    public function destroy(jobcategory $job_category)
     {
-        //
+        $job_category->delete();
+        return back()->with('success', 'Delete Successfully.');
     }
 }

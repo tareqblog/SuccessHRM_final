@@ -2,8 +2,8 @@
 use Carbon\Carbon;
 
 
-function sidebar()
-{
-    $data['logos'] = Setting::first();
-    return $data;
-}
+// function sidebar()
+// {
+//     $data['logos'] = Setting::first();
+//     return $data;
+// }

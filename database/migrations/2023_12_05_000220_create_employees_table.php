@@ -29,7 +29,7 @@ return new class extends Migration
             $table->date('employee_resigndate')->nullable();
             $table->string('employee_resignreason')->nullable();
             $table->integer('employee_numberofchildren')->nullable();
-            
+
             $table->integer('users_id')->nullable()->comment('link to user table');
             $table->integer('manager_users_id')->nullable();
             $table->integer('team_leader_users_id')->nullable();
@@ -78,7 +78,7 @@ return new class extends Migration
             $table->date('employee_fw_arrival_date')->nullable();
             $table->date('employee_fw_renewal_date')->nullable();
             $table->double('employee_fw_levy_amount',8,2)->default(0)->comment('Foreign Worker info end');
-            
+
             $table->integer('races_id')->nullable()->comment('link to race table');
             $table->integer('religions_id')->nullable()->comment('link to religion table');
             $table->integer('dbsexes_id')->nullable()->comment('link to dbsex table');

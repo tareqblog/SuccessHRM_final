@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class DeshboardMenu extends Model
 {
-    use HasFactory,LogsActivity;
+    use HasFactory;
 
     public function getActivitylogOptions():LogOptions
     {

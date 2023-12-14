@@ -1,6 +1,6 @@
 <form action="{{ route('menu.update', $menu->id) }}" method="POST">
     @csrf
-    @method('PATCH')
+    @method('PUT')
     <label for="menu_group">Group name</label>
     <input type="text" class="form-control mb-3" placeholder="Group name" name="menu_group"
         value="{{ $menu->menu_group }}">

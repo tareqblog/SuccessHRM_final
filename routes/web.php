@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ClientTermController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DeshboardMenuController;
 use App\Http\Controllers\IndustryTypeController;
+use App\Http\Controllers\JobcategoryController;
+use App\Http\Controllers\JobTypeController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\MaritalStatusController;
 use App\Http\Controllers\ReligionController;
@@ -28,11 +31,6 @@ use Spatie\Activitylog\Models\Activity;
 Route::get('/dashboard', function() {return view('admin.dashboard.index');});
 // Dashbaord ends
 
-// client start
-Route::get('/clients', function() {return view('admin.client.index');});
-Route::get('/client/create', function() {return view('admin.client.create');});
-Route::get('/client/edit', function() {return view('admin.client.edit');});
-// client ends
 // employee start
 Route::get('/employees', function() {return view('admin.employee.index');});
 Route::get('/employee/create', function() {return view('admin.employee.create');});
@@ -88,11 +86,6 @@ Route::get('/timesheet', function() {return view('admin.timesheet.index');});
 Route::get('/timesheet/create', function() {return view('admin.timesheet.create');});
 Route::get('/timesheet/edit', function() {return view('admin.timesheet.edit');});
 // Timesheet Ends
-// TNC Start
-// Route::get('/tnc', function() {return view('admin.tnc.index');});
-// Route::get('/tnc/create', function() {return view('admin.tnc.create');});
-// Route::get('/tnc/edit', function() {return view('admin.tnc.edit');});
-// TNC Ends
 // Invoice Start
 Route::get('/invoice/month', function() {return view('admin.invoice.month');});
 Route::get('/invoice', function() {return view('admin.invoice.index');});
@@ -118,7 +111,6 @@ Route::get('/activity', function() {return view('admin.activity.report');});
 Route::get('/employee-group', function() {return view('admin.employeeGroup.index');});
 // Activity Ends
 // Activity Start
-Route::get('/job-type', function() {return view('admin.jobType.index');});
 Route::get('/job-status', function() {return view('admin.jobStatus.index');});
 Route::get('/pass-type', function() {return view('admin.passType.index');});
 Route::get('/pay-mode', function() {return view('admin.payMode.index');});
@@ -151,6 +143,9 @@ Route::resources([
     '/marital-status' => MaritalStatusController::class,
     '/marital-status' => MaritalStatusController::class,
     '/industry-type' => IndustryTypeController::class,
+    '/clients' => ClientController::class,
+    '/job-type' => JobTypeController::class,
+    '/job-category' => JobcategoryController::class,
 ]);
 
 
