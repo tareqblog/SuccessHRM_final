@@ -49,7 +49,8 @@ class JobcategoryController extends Controller
      */
     public function edit(jobcategory $job_category)
     {
-        return view('admin.jobCategory.edit', compact('job_category'));
+        $jobType = jobtype::latest()->select('id', 'jobtype_code')->get();
+        return view('admin.jobCategory.edit', compact('job_category', 'jobType'));
     }
 
     /**

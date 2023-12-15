@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Leave extends Model
 {
@@ -20,7 +21,7 @@ class Leave extends Model
         // Update field update_by with current user id each time article is updated.
         static::updating(function ($Leave) {
             $Leave->modify_by = Auth::user()->id;
-            $Leave->save();
+            // $Leave->save();
         });
     }
 }

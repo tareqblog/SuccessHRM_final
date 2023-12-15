@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employee;
 use App\Models\Leave;
+use App\Models\LeaveType;
 use Illuminate\Http\Request;
 
 class LeaveController extends Controller
@@ -12,7 +14,8 @@ class LeaveController extends Controller
      */
     public function index()
     {
-        //
+        $datas = Leave::latest()->get();
+        return view('admin.leave.index', compact('datas'));
     }
 
     /**
@@ -20,7 +23,9 @@ class LeaveController extends Controller
      */
     public function create()
     {
-        //
+        $employees = Employee::latest()->select('id', 'employee_code')->get();
+        $leaveType = LeaveType::latest()->select('id', 'leavetype_code')->get();
+        return view('admin.leave.create', compact('employees', 'leaveType'));
     }
 
     /**
@@ -28,7 +33,9 @@ class LeaveController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $request->validate([
+        //     ''
+        // ]);
     }
 
     /**
@@ -44,7 +51,7 @@ class LeaveController extends Controller
      */
     public function edit(Leave $leave)
     {
-        //
+        return view('admin.leave.edit', compact('leave'));
     }
 
     /**
@@ -60,6 +67,7 @@ class LeaveController extends Controller
      */
     public function destroy(Leave $leave)
     {
-        //
+        $leave->delete();
+        return back()->with('success', 'Deleted Successfully.');
     }
 }

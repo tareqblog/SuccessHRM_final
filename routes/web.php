@@ -6,7 +6,9 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DeshboardMenuController;
 use App\Http\Controllers\IndustryTypeController;
 use App\Http\Controllers\JobcategoryController;
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobTypeController;
+use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\MaritalStatusController;
 use App\Http\Controllers\ReligionController;
@@ -56,21 +58,6 @@ Route::get('/candidate/payroll/create', function() {return view('admin.candidate
 Route::get('/candidate/payroll/edit', function() {return view('admin.candidatePayroll.edit');});
 // Candidate Payroll Ends
 
-// Job posting start
-Route::get('/job', function() {return view('admin.job.index');});
-Route::get('/job/create', function() {return view('admin.job.create');});
-Route::get('/job/edit', function() {return view('admin.job.edit');});
-Route::get('/job/application', function() {return view('admin.job.application');});
-// Job posting ends
-// Job category start
-Route::get('/job-category', function() {return view('admin.jobCategory.index');});
-Route::get('/job-category/edit', function() {return view('admin.jobCategory.edit');});
-// Job category ends
-// Leave Start
-Route::get('/leave', function() {return view('admin.leave.index');});
-Route::get('/leave/create', function() {return view('admin.leave.create');});
-Route::get('/leave/edit', function() {return view('admin.leave.edit');});
-// Leave Ends
 // Nationality Start
 Route::get('/nationality', function() {return view('admin.nationality.index');});
 Route::get('/nationality/create', function() {return view('admin.nationality.create');});
@@ -146,6 +133,8 @@ Route::resources([
     '/clients' => ClientController::class,
     '/job-type' => JobTypeController::class,
     '/job-category' => JobcategoryController::class,
+    '/job' => JobController::class,
+    '/leave' => LeaveController::class,
 ]);
 
 

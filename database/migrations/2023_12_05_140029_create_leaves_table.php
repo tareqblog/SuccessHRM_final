@@ -22,6 +22,7 @@ return new class extends Migration
             $table->double('leave_total_day',8,2)->default(0);
             $table->string('leave_reason')->nullable();
             $table->integer('leave_status')->nullable();
+            $table->integer('leave_file_path')->nullable();
             $table->integer('leave_empl_type')->nullable()->comment('0-Candidate,1-employee');
             $table->integer('created_by')->nullable();
             $table->integer('modify_by')->nullable();

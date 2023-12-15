@@ -19,7 +19,7 @@ class candidate extends Model
         // Update field update_by with current user id each time article is updated.
         static::updating(function ($candidate) {
             $candidate->modify_by = Auth::user()->id;
-            $candidate->save();
+            // $candidate->save();
         });
     }
 }
