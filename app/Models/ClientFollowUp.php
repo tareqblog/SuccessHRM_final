@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
-class client extends Model
+class ClientFollowUp extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['_token'];
+    protected $fillable = ['description'];
 
     public static function boot()
     {
@@ -26,9 +26,4 @@ class client extends Model
             // $client->save();
         });
     }
-    public function industry_type()
-    {
-        return $this->belongsTo(IndustryType::class, 'industry_types_id');
-    }
-
 }

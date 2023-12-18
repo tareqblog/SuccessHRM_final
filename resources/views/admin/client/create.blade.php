@@ -54,17 +54,17 @@
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Client
-                                                        Name</label>
+                                                        Name <span class="text-danger">*</span> </label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="client_name" class="form-control"
-                                                            placeholder="Client Name">
+                                                            placeholder="Client Name" required>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="two" class="col-sm-3 col-form-label">Manager /
-                                                        Consultant (In Charge)</label>
+                                                        Consultant (In Charge) <span class="text-danger">*</span></label>
                                                     <div class="col-sm-9">
-                                                        <select name="payroll_employees_id" class="form-control">
+                                                        <select name="payroll_employees_id" class="form-control" required>
                                                             <option value="">Select One</option>
                                                             @foreach ($employees as $employee)
                                                                 <option value="{{ $employee->id }}">
@@ -114,9 +114,9 @@
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="seven" class="col-sm-3 col-form-label">Industry
-                                                        *</label>
+                                                        <span class="text-danger">*</span></label>
                                                     <div class="col-sm-9">
-                                                        <select name="industry_types_id" class="form-control">
+                                                        <select name="industry_types_id" class="form-control" required>
                                                             <option value="">Select One</option>
                                                             @foreach ($industries as $industry)
                                                                 <option value="{{ $industry->id }}">
@@ -127,7 +127,7 @@
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="nine" class="col-sm-3 col-form-label">TNC Template
-                                                        *</label>
+                                                        <span class="text-danger">*</span></label>
                                                     <div class="col-sm-9">
                                                         <select name="tnc_templates_id" class="form-control">
                                                             <option value="">Select One</option>
@@ -140,7 +140,7 @@
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="ten" class="col-sm-3 col-form-label">Terms
-                                                        *</label>
+                                                    </label>
                                                     <div class="col-sm-9">
                                                         <select name="client_terms_id" class="form-control">
                                                             <option value="">Select One</option>
@@ -166,18 +166,18 @@
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="twelve" class="col-sm-3 col-form-label">Contact
-                                                        Person</label>
+                                                        Person <span class="text-danger">*</span></label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="client_contact_person"
-                                                            class="form-control" placeholder="Contact Person">
+                                                            class="form-control" placeholder="Contact Person" required>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="thirteen" class="col-sm-3 col-form-label">Contact
-                                                        Number</label>
+                                                        Number <span class="text-danger">*</span></label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="client_contact_number"
-                                                            class="form-control" placeholder="Contact Number">
+                                                            class="form-control" placeholder="Contact Number" required>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">

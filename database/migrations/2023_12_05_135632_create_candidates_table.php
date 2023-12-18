@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('candidates', function (Blueprint $table) {
             $table->id();
-            $table->integer('candidate_outlet_id')->deafult(0)->comment('Link with outlet table');
+            $table->integer('candidate_outlet_id')->default(0)->comment('Link with outlet table');
             $table->string('candidate_code')->nullable();
             $table->string('candidate_name')->nullable();
             $table->string('candidate_home_phone')->nullable();
@@ -26,10 +26,12 @@ return new class extends Migration
             $table->date('candidate_joindate')->nullable();
             $table->date('candidate_confirmationdate')->nullable();
             $table->date('candidate_tc_date')->nullable();
-            $table->double('candidate_height',8,2)->default(0);
-            $table->double('candidate_weight',8,2)->default(0)->comment('general info end');
-            
-            
+            $table->integer('children_no')->nullable()->comment('general info end');
+            $table->double('candidate_height', 8, 2)->default(0);
+            $table->string('avatar')->nullable();
+            $table->double('candidate_weight', 8, 2)->default(0)->comment('general info end');
+
+
             $table->integer('candidate_type')->default(0)->comment('0=Candidate, 1=Walk in candidate');
             $table->integer('users_id')->nullable()->comment('link to user table');
             $table->integer('leave_aprv1_users_id')->nullable();
@@ -77,7 +79,7 @@ return new class extends Migration
             $table->string('candidate_referee_contact2')->nullable();
             $table->integer('candidate_referee_present_employer')->default(0);
             $table->integer('candidate_referee_previous_employer')->default(0)->comment('referee info end');
-            
+
             $table->integer('candidate_dec_bankrupt')->default(0)->comment('declaration info start');
             $table->string('candidate_dec_bankrupt_details')->nullable();
             $table->integer('candidate_dec_physical')->default(0);
@@ -97,9 +99,9 @@ return new class extends Migration
             $table->integer('marital_statuses_id')->nullable()->comment('link to marital status table');
             $table->integer('clients_id')->nullable()->comment('link to client table');
             $table->integer('jobs_id')->nullable()->comment('link to jobs table');
-            $table->integer('candidate_status')->deafult('1');
-            $table->integer('candidate_isBlocked')->deafult(0)->commnet('delete mark- 0=Active or functional data, 1=Blocked  ');
-            $table->integer('candidate_isDeleted')->deafult(0)->commnet('delete mark- 0=Active or functional data, 1=not functional data  ');
+            $table->integer('candidate_status')->default(1);
+            $table->integer('candidate_isBlocked')->default(0)->commnet('delete mark- 0=Active or functional data, 1=Blocked  ');
+            $table->integer('candidate_isDeleted')->default(0)->commnet('delete mark- 0=Active or functional data, 1=not functional data  ');
             $table->integer('created_by')->nullable();
             $table->integer('modify_by')->nullable();
             $table->timestamps();

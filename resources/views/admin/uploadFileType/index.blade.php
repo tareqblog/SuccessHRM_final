@@ -1,9 +1,9 @@
 @extends('layouts.master')
 @section('title')
-    TNC Template Management
+    File Type Management
 @endsection
 @section('page-title')
-    TNC Template Management
+    File Type Management
 @endsection
 
 @section('css')
@@ -18,7 +18,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">TNC Template Table</h4>
+                        <h4 class="card-title mb-0">File Type Table</h4>
                         <div class="text-end">
 
                             <button data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
@@ -42,10 +42,8 @@
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>TNC Code</th>
-                                    <th>Seq no.</th>
+                                    <th>File Type Code</th>
                                     <th>Status</th>
-                                    <th>File</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -53,25 +51,14 @@
                                 @forelse($datas as $data)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $data->tnc_template_code }}</td>
-                                        <td>{{ $data->tnc_template_seqno }}</td>
-                                        <td>{{ $data->tnc_template_status == '1' ? 'Active' : 'In-Active' }}</td>
-                                        <td>
-                                            @if ($data->tnc_template_file_path)
-                                            <a href="{{ asset('storage') }}/{{ $data->tnc_template_file_path }}"
-                                                target="_blank">
-                                                <i class="fas fa fa-eye"></i>
-                                            </a>
-                                            @else
-                                            No file attached
-                                            @endif
-                                        </td>
+                                        <td>{{ $data->uploadfiletype_code }}</td>
+                                        <td>{{ $data->uploadfiletype_status == '1' ? 'Active' : 'In-Active' }}</td>
                                         <td class="d-flex">
                                             <button data-id="{{ $data->id }}" data-bs-toggle="modal"
                                                 data-bs-target=".bs-example-modal-lg-edit"
                                                 class="btn btn-sm btn-info edit me-3"><i
                                                     class="fa-solid fa-pen-to-square"></i></button>
-                                            <form action="{{ route('tnc.destroy', $data->id) }}" method="POST">
+                                            <form action="{{ route('file-type.destroy', $data->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-danger"
@@ -93,57 +80,33 @@
                     <!--  Create modal example -->
                     <div class="modal fade bs-example-modal-lg-create" tabindex="-1" role="dialog"
                         aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-xl">
+                        <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="tncCreate">Create TNC Template</h5>
+                                    <h5 class="modal-title" id="tncCreate">Create File Type</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-
-                                    <form action="{{ route('tnc.store') }}" method="POST" enctype="multipart/form-data">
+                                    <form action="{{ route('file-type.store') }}" method="POST">
                                         @csrf
                                         <div class="row">
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-12">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">TNC Code</label>
+                                                    <label for="one" class="col-sm-3 col-form-label">File Type
+                                                        Code</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" name="tnc_template_code" class="form-control"
-                                                            placeholder="Title" value="{{ old('tnc_template_code') }}">
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Upload Template
-                                                        No</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="file" name="tnc_template_file_path"
-                                                            class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Seq No</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" name="tnc_template_seqno" class="form-control"
-                                                            placeholder="Seq no" value="{{ old('tnc_template_seqno') }}">
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">TNC
-                                                        Description</label>
-                                                    <div class="col-sm-9">
-                                                        <textarea name="tnc_template_desc" rows="2" class="form-control" placeholder="Description"> {{ old('tnc_template_desc') }} </textarea>
+                                                        <input type="text" name="uploadfiletype_code"
+                                                            class="form-control" placeholder="Title"
+                                                            value="{{ old('uploadfiletype_code') }}">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row mt-5">
                                             <div class="col-lg-12">
-                                                <a href="#" class="btn btn-sm btn-secondary">Cancel</a>
+                                                <button type="button" data-bs-dismiss="modal" aria-label="Close"
+                                                    class="btn btn-sm btn-secondary">Cancel</button>
                                                 <button type="submit" class="btn btn-sm btn-info">Submit</button>
                                             </div>
                                         </div>
@@ -158,7 +121,7 @@
                         <div class="modal-dialog modal-xl">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="tncCreate">Update TNC Template</h5>
+                                    <h5 class="modal-title" id="tncCreate">Update Religion</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
@@ -187,7 +150,7 @@
             //edit modal show and after submit
             $('body').on('click', '.edit', function() {
                 var id = $(this).data('id'); //i or 2 categoryid
-                $.get("/admin/tnc/" + id + "/edit",
+                $.get("/admin/file-type/" + id + "/edit",
                     function(data) {
                         $('#editSection').html(data);
                     })

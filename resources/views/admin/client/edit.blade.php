@@ -25,6 +25,15 @@
                         </div>
                     </div>
 
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <div class="card-body">
                         <!-- Nav tabs -->
                         <div class="row">
@@ -48,28 +57,16 @@
                                             <span class="d-none d-sm-block">Follow Up</span>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-bs-toggle="tab" href="#department" role="tab">
-                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                            <span class="d-none d-sm-block">Department</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-bs-toggle="tab" href="#supervisor" role="tab">
-                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                            <span class="d-none d-sm-block">Supervisor</span>
-                                        </a>
-                                    </li>
                                 </ul>
                             </div>
                         </div>
 
                         <!-- Tab panes -->
-                        <form action="{{ route('clients.update', $client->id) }}" method="POST">
-                            @csrf
-                            @method('PATCH')
-                            <div class="tab-content p-3 text-muted">
-                                <div class="tab-pane active" id="genarel" role="tabpanel">
+                        <div class="tab-content p-3 text-muted">
+                            <div class="tab-pane active" id="genarel" role="tabpanel">
+                                <form action="{{ route('clients.update', $client->id) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
@@ -83,17 +80,18 @@
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Client
-                                                        Name</label>
+                                                        Name<span class="text-danger">*</span></label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="client_name" class="form-control"
-                                                            placeholder="Client Name" value="{{ $client->client_name }}">
+                                                            placeholder="Client Name" value="{{ $client->client_name }}"
+                                                            required>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="two" class="col-sm-3 col-form-label">Manager /
-                                                        Consultant (In Charge)</label>
+                                                        Consultant (In Charge) <span class="text-danger">*</span></label>
                                                     <div class="col-sm-9">
-                                                        <select name="payroll_employees_id" class="form-control">
+                                                        <select name="payroll_employees_id" class="form-control" required>
                                                             <option value="">Select One</option>
                                                             @foreach ($employees as $employee)
                                                                 <option value="{{ $employee->id }}"
@@ -147,9 +145,9 @@
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="seven" class="col-sm-3 col-form-label">Industry
-                                                        *</label>
+                                                        <span class="text-danger">*</span></label>
                                                     <div class="col-sm-9">
-                                                        <select name="industry_types_id" class="form-control">
+                                                        <select name="industry_types_id" class="form-control" required>
                                                             <option value="">Select One</option>
                                                             @foreach ($industries as $industry)
                                                                 <option value="{{ $industry->id }}"
@@ -161,7 +159,7 @@
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="nine" class="col-sm-3 col-form-label">TNC Template
-                                                        *</label>
+                                                        <span class="text-danger">*</span></label>
                                                     <div class="col-sm-9">
                                                         <select name="tnc_templates_id" class="form-control">
                                                             <option value="">Select One</option>
@@ -175,7 +173,7 @@
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="ten" class="col-sm-3 col-form-label">Terms
-                                                        *</label>
+                                                    </label>
                                                     <div class="col-sm-9">
                                                         <select name="client_terms_id" class="form-control">
                                                             <option value="">Select One</option>
@@ -217,20 +215,20 @@
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="twelve" class="col-sm-3 col-form-label">Contact
-                                                        Person</label>
+                                                        Person<span class="text-danger">*</span></label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="client_contact_person"
                                                             class="form-control" placeholder="Contact Person"
-                                                            value="{{ $client->client_contact_person }}">
+                                                            value="{{ $client->client_contact_person }}" required>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="thirteen" class="col-sm-3 col-form-label">Contact
-                                                        Number</label>
+                                                        Number<span class="text-danger">*</span></label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="client_contact_number"
                                                             class="form-control" placeholder="Contact Number"
-                                                            value="{{ $client->client_contact_number }}">
+                                                            value="{{ $client->client_contact_number }}" required>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -312,251 +310,109 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="tab-pane" id="upload_file" role="tabpanel">
                                     <div class="row">
-                                        <div class="col-lg-6">
-                                            {{-- <form action="#">
-                                                <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                    <div class="row mb-4">
-                                                        <label for="twente_three" class="col-sm-3 col-form-label">Upload
-                                                            File</label>
-                                                        <div class="col-sm-9">
-                                                            <input type="file" name="upload_file"
-                                                                class="form-control">
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mb-4">
-                                                        <label for="twente_four" class="col-sm-3 col-form-label">File
-                                                            Type</label>
-                                                        <div class="col-sm-9">
-                                                            <select name="twente_four" name="file_type"
-                                                                class="form-control">
-                                                                <option value="">Select One</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <button type="submit" class="btn btn-sm btn-info">Save</button>
-                                                </div>
-                                            </form> --}}
-                                        </div>
-                                        <div class="col-lg-12 mt-2">
-                                            <table class="table table-bordered mb-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>No</th>
-                                                        <th>Document Type</th>
-                                                        <th>File Name</th>
-                                                        <th>Upload Time</th>
-                                                        <th></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                    </tr>
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th>No</th>
-                                                        <th>Document Type</th>
-                                                        <th>File Name</th>
-                                                        <th>Upload Time</th>
-                                                        <th></th>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
-                                        <hr class="mt-3">
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="follow_up" role="tabpanel">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <h5>Create Follow Up</h5>
-                                            {{-- <form action="#">
-                                                <div class="row mb-4">
-                                                    <label for="twente_four"
-                                                        class="col-sm-2 col-form-label">Description</label>
-                                                    <div class="col-sm-8">
-                                                        <div id="ckeditor-classic"></div>
-                                                    </div>
-                                                    <div class="col-sm-2"></div>
-                                                </div>
-                                                <button type="submit" class="btn btn-sm btn-info mt-2">Save</button>
-                                            </form> --}}
-                                        </div>
-                                        <div class="col-lg-12 mt-2">
-                                            <table class="table table-bordered mb-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>No</th>
-                                                        <th>Document Type</th>
-                                                        <th>File Name</th>
-                                                        <th>Upload Time</th>
-                                                        <th></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                    </tr>
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th>No</th>
-                                                        <th>Document Type</th>
-                                                        <th>File Name</th>
-                                                        <th>Upload Time</th>
-                                                        <th></th>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
-                                        <hr class="mt-3">
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="department" role="tabpanel">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <h5>Create Department</h5>
-                                            {{-- <form action="#">
-                                                <div class="row mb-4">
-                                                    <label for="twente_four" class="col-sm-2 col-form-label">Department
-                                                        Name</label>
-                                                    <div class="col-sm-4">
-                                                        <input type="text" name="department_name" class="form-control"
-                                                            placeholder="Department Name">
-                                                    </div>
-                                                    <div class="col-sm-6"></div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="remarks" class="col-sm-2 col-form-label">Remarks</label>
-                                                    <div class="col-sm-8">
-                                                        <textarea name="remarks" rows="2" class="form-control" placeholder="Remarks"></textarea>
-                                                    </div>
-                                                    <div class="col-sm-2"></div>
-                                                </div>
-                                                <button type="submit" class="btn btn-sm btn-info mt-2">Save</button>
-                                            </form> --}}
-                                        </div>
-                                        <div class="col-lg-12 mt-2">
-                                            <table class="table table-bordered mb-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>No</th>
-                                                        <th>Document Type</th>
-                                                        <th>File Name</th>
-                                                        <th>Upload Time</th>
-                                                        <th></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                    </tr>
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th>No</th>
-                                                        <th>Document Type</th>
-                                                        <th>File Name</th>
-                                                        <th>Upload Time</th>
-                                                        <th></th>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
-                                        <hr class="mt-3">
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="supervisor" role="tabpanel">
-                                    {{-- <form action="">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="row mb-4">
-                                                    <label for="twente_four" class="col-sm-3 col-form-label">Name</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" name="supervisor_name" class="form-control"
-                                                            placeholder="Name">
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="twente_four" class="col-sm-3 col-form-label">Email</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="email" name="supervisor_email"
-                                                            class="form-control" placeholder="Email">
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="twente_four" class="col-sm-3 col-form-label">Direct Number
-                                                        (DID)</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" name="super_name" class="form-control"
-                                                            placeholder="Direct Number">
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="twente_four"
-                                                        class="col-sm-3 col-form-label">Remarks</label>
-                                                    <div class="col-sm-9">
-                                                        <textarea name="super_remarks" rows="2" class="form-control" placeholder="Remarks"></textarea>
-                                                    </div>
-                                                </div>
+                                        <div class="col-sm-9">
+                                            <div>
+                                                <a href="#" class="btn btn-sm btn-secondary w-md">Cancel</a>
+                                                <button type="submit" class="btn btn-sm btn-info w-md">Submit</button>
+                                                <a href="#" class="btn btn-sm btn-primary w-md">Print TNC SRC</a>
+                                                <a href="#" class="btn btn-sm btn-primary w-md">Print TNC SHRC</a>
                                             </div>
-                                            <div class="col-lg-6">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane" id="upload_file" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <form action="{{ route('client.file.upload', $client->id) }}" method="POST"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
-                                                    <label for="twente_four"
-                                                        class="col-sm-3 col-form-label">Mobile</label>
+                                                    <label for="file_path" class="col-sm-3 col-form-label">Upload
+                                                        File</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" class="form-control" name="mobile"
-                                                            placeholder="Mobile">
+                                                        <input type="file" name="file_path" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="twente_four"
-                                                        class="col-sm-3 col-form-label">Department</label>
+                                                    <label for="twente_four" class="col-sm-3 col-form-label">File
+                                                        Type</label>
                                                     <div class="col-sm-9">
-                                                        <select name="department" class="form-control">
+                                                        <select name="file_type_id" class="form-control">
                                                             <option value="">Select One</option>
+                                                            @foreach ($fileTypes as $file)
+                                                                <option value="{{ $file->id }}">
+                                                                    {{ $file->uploadfiletype_code }}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
-                                                    <label for="twente_four"
-                                                        class="col-sm-3 col-form-label">Defination</label>
-                                                    <div class="col-sm-9">
-                                                        <textarea name="defination" rows="2" class="form-control" placeholder="Defination"></textarea>
-                                                    </div>
-                                                </div>
+                                                <button type="submit" class="btn btn-sm btn-info">Save</button>
                                             </div>
-                                            <div class="col-lg-6">
-                                                <h5>Login Information</h5>
-                                                <div class="row mb-4">
-                                                    <label for="twente_four" class="col-sm-3 col-form-label">Login
-                                                        ID</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="email" name="email" class="form-control"
-                                                            placeholder="Login Email">
-                                                    </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-lg-12 mt-2">
+                                        <table class="table table-bordered mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Document Type</th>
+                                                    <th>File Name</th>
+                                                    <th>Upload Time</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @forelse ($client_files as $file)
+                                                    <tr>
+                                                        <td>{{ $loop->index + 1 }}</td>
+                                                        <td>{{ $file->file_type->uploadfiletype_code }}</td>
+                                                        <td>{{ $file->file_path }}</td>
+                                                        <td>{{ $file->created_at->format('d-M-Y') }}</td>
+                                                        <td style="display: flex;">
+                                                            <a href="{{ asset('storage') }}/{{ $file->file_path }}"
+                                                                class="btn btn-info btn-sm me-3" download>Donwload</a>
+                                                            <form action="{{ route('client.file.delete', $file->id) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button class="btn btn-danger btn-sm"
+                                                                    onclick="return confirm('Are you sure you want to delete this item?')"
+                                                                    type="submit">Delete</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                @empty
+                                                    <tr class="text-center">
+                                                        <td colspan="50">No data found !</td>
+                                                    </tr>
+                                                @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <hr class="mt-3">
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="follow_up" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <h5>Create Follow Up</h5>
+                                        <form action="{{ route('client.followup', $client->id) }}" method="POST">
+                                            @csrf
+                                            <div class="row mb-4">
+                                                <label for="twente_four"
+                                                    class="col-sm-2 col-form-label">Description</label>
+                                                <div class="col-sm-8">
+                                                    <input type="hidden" name="client_id" value="{{ $client->id }}">
+                                                    <textarea name="description" id="ckeditor-classic" rows="2"></textarea>
                                                 </div>
-                                                <div class="row mb-4">
-                                                    <label for="twente_four"
-                                                        class="col-sm-3 col-form-label">Password</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="password" name="password" class="form-control"
-                                                            placeholder="Password">
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="twente_four" class="col-sm-3 col-form-label">Confirm
-                                                        Password</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="password" class="form-control"
-                                                            placeholder="Confirm Password" name="password_confirm">
-                                                    </div>
-                                                </div>
+                                                <div class="col-sm-2"></div>
                                             </div>
-                                        </div>
-                                        <button type="submit" class="btn btn-sm btn-info">Save</button>
-                                    </form> --}}
+                                            <button type="submit" class="btn btn-sm btn-info mt-2">Save</button>
+                                        </form>
+                                    </div>
                                     <div class="col-lg-12 mt-2">
                                         <table class="table table-bordered mb-0">
                                             <thead>
@@ -586,17 +442,7 @@
                                     <hr class="mt-3">
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-9">
-                                    <div>
-                                        <a href="#" class="btn btn-sm btn-secondary w-md">Cancel</a>
-                                        <button type="submit" class="btn btn-sm btn-info w-md">Submit</button>
-                                        <a href="#" class="btn btn-sm btn-primary w-md">Print TNC SRC</a>
-                                        <a href="#" class="btn btn-sm btn-primary w-md">Print TNC SHRC</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
                     </div><!-- end card-body -->
                 </div><!-- end card -->
             </div>

@@ -78,7 +78,7 @@ return new class extends Migration
             $table->date('employee_fw_issue_date')->nullable();
             $table->date('employee_fw_arrival_date')->nullable();
             $table->date('employee_fw_renewal_date')->nullable();
-            $table->double('employee_fw_levy_amount',8,2)->default(0)->comment('Foreign Worker info end');
+            $table->double('employee_fw_levy_amount', 8, 2)->default(0)->comment('Foreign Worker info end');
 
             $table->integer('races_id')->nullable()->comment('link to race table');
             $table->integer('religions_id')->nullable()->comment('link to religion table');

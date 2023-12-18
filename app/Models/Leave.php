@@ -10,6 +10,7 @@ class Leave extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['_token'];
     public static function boot()
     {
         parent::boot();
@@ -23,5 +24,15 @@ class Leave extends Model
             $Leave->modify_by = Auth::user()->id;
             // $Leave->save();
         });
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class, 'employees_id');
+    }
+
+    public function leaveType()
+    {
+        return $this->belongsTo(LeaveType::class, 'leave_types_id');
     }
 }

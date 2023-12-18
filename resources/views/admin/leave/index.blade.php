@@ -41,47 +41,29 @@
                             </thead>
                             <tbody>
                                 @forelse ($datas as $data)
-                                    {{-- <tr>
-                                        <td>
-                                            {{ $loop->index + 1 }}
-                                        </td>
-                                        <td>
-                                            {{ $data->job_title }}
-                                        </td>
-                                        <td>
-                                            {{ $data->job_category->jobcategory_name }}
-                                        </td>
-                                        <td>
-                                            {{ $data->owner->name }}
-                                        </td>
-                                        <td>
-                                            {{ $data->job_status == 1 ? 'Active' : 'Close' }}
-                                        </td>
-                                        <td>
-                                            {{ $data->job_type->jobtype_code }}
-                                        </td>
-                                        <td>
-                                            {{ $data->created_at->format('d-M-Y') }}
-                                        </td>
-                                        <td>
-                                            {{ App\Helpers\FileHelper::modify_name($data->modify_by) }}
-                                        </td>
-                                        <td>
-                                            {{ $data->remark }}
-                                        </td>
+                                    <tr>
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $data->leave_empl_type == 0 ? 'Candidate' : 'Employee' }}</td>
+                                        <td>{{ $data->employee->employee_name }}</td>
+                                        <td>{{ $data->leaveType->leavetype_code }}</td>
+                                        <td>{{ $data->leave_reason }}</td>
+                                        <td>{{ $data->leave_datefrom }}</td>
+                                        <td>{{ $data->leave_dateto }}</td>
+                                        <td>{{ $data->leave_total_day }}</td>
+                                        <td>--</td>
+                                        <td>--</td>
                                         <td style="display: flex;">
-                                            <a href="{{ route('job.edit', $data->id) }}"
-                                                class="btn btn-info btn-sm me-3"><i class="fas fa-pen"></i></a>
-                                            <form id="deleteForm" action="{{ route('job.destroy', $data->id) }}"
-                                                method="POST">
+                                            <a href="{{ route('leave.edit', $data->id) }}" class="btn btn-info btn-sm me-3"><i
+                                                    class="fas fa-pen"></i></a>
+                                            <form action="{{ route('leave.destroy', $data->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit"
-                                                    onclick="return confirm('Are you sure you want to delete this item?')"
-                                                    class="btn btn-sm btn-danger"> <i class="fas fa fa-trash"></i> </a>
+                                                <button type="submit" class="btn btn-sm btn-danger"
+                                                    onclick="return confirm('Are you sure you want to delete this item?')"><i
+                                                        class="fa-solid fa-trash"></i></button>
                                             </form>
                                         </td>
-                                    </tr> --}}
+                                    </tr>
                                 @empty
 
                                     <tr>

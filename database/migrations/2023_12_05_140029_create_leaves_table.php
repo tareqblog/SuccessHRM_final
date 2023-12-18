@@ -17,12 +17,12 @@ return new class extends Migration
             $table->integer('employees_id')->nullable()->comment('link to Employee/Candidate table');
             $table->integer('leave_types_id')->nullable();
             $table->string('leave_duration')->nullable();
-            $table->timestamp('leave_datefrom')->nullable();
-            $table->timestamp('leave_dateto')->nullable();
+            $table->date('leave_datefrom')->nullable();
+            $table->date('leave_dateto')->nullable();
             $table->double('leave_total_day',8,2)->default(0);
             $table->string('leave_reason')->nullable();
-            $table->integer('leave_status')->nullable();
-            $table->integer('leave_file_path')->nullable();
+            $table->integer('leave_status')->default(0)->comment('0-Pending, 1-Approved, 2-Rejected');
+            $table->string('leave_file_path')->nullable();
             $table->integer('leave_empl_type')->nullable()->comment('0-Candidate,1-employee');
             $table->integer('created_by')->nullable();
             $table->integer('modify_by')->nullable();

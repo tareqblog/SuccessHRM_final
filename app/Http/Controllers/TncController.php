@@ -50,8 +50,9 @@ class TncController extends Controller
 
             return back()->with('success', 'Created successfully.');
         } else {
-            // Handle the case where no file is provided
-            return back()->with('error', 'No file provided.');
+
+            TncTemplate::create($request->except('_token', 'tnc_template_file_path'));
+            return back()->with('success', 'Created successfully.');
         }
     }
 

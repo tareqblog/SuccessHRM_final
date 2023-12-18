@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('uploadfiletypes', function (Blueprint $table) {
+        Schema::create('client_upload_files', function (Blueprint $table) {
             $table->id();
-            $table->string('uploadfiletype_code')->unique();
-            $table->integer('uploadfiletype_status')->default(1);
-            $table->integer('created_by')->nullable();
-            $table->integer('modify_by')->nullable();
+            $table->integer('client_id');
+            $table->string('file_path');
+            $table->integer('file_type_id');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('uploadfiletypes');
+        Schema::dropIfExists('client_upload_files');
     }
 };

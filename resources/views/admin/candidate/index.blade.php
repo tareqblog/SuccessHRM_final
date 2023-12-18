@@ -5,6 +5,9 @@ Candidate Management
 @section('page-title')
 Candidate Management
 @endsection
+@section('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+@endsection
 @section('body')
 
 <body>
@@ -16,13 +19,70 @@ Candidate Management
                 <div class="card-header">
                     <h4 class="card-title mb-0">Candidate Table</h4>
                     <div class="text-end">
-                        <a href="#" class="btn btn-sm btn-success">Create New</a>
+                        <a href="{{route('candidate.create')}}" class="btn btn-sm btn-success">Create New</a>
                     </div>
                 </div>
                 <div class="card-body">
-                    {{-- Here place table --}}
+                    <table class="table table-bordered mb-0" id="myTable">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>NRIC</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Mobile</th>
+                                <th>Last Update Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($datas as $data)
+                                <tr>
+                                    <td>
+                                        {{ $loop->index + 1 }}
+                                    </td>
+                                    <td>{{ $data->candidate_nric }}</td>
+                                    <td>{{ $data->candidate_name }}</td>
+                                    <td>{{ $data->candidate_email }}</td>
+                                    <td>{{ $data->candidate_mobile }}</td>
+                                    <td>{{ $data->updated_at->format('d-M-Y') }}</td>
+                                    <td style="display: flex;">
+                                        <a href="{{ route('candidate.edit', $data->id) }}"
+                                            class="btn btn-info btn-sm me-3"><i class="fas fa-pen"></i></a>
+                                        <form id="deleteForm" action="{{ route('candidate.destroy', $data->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                onclick="return confirm('Are you sure you want to delete this item?')"
+                                                class="btn btn-sm btn-danger"> <i class="fas fa fa-trash"></i> </a>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @empty
+
+                                <tr>
+                                    <td colspan="50" class="text-center text-warning">
+                                        No Data found!
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+    @endsection
+
+
+    @section('scripts')
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#myTable').DataTable();
+            });
+        </script>
     @endsection

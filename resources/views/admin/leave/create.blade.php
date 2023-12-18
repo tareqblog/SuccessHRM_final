@@ -16,8 +16,10 @@
                     <div class="card-header">
                         <h4 class="card-title mb-0">Apply New Leave</h4>
                     </div>
+                    @include('admin.include.errors')
                     <div class="card-body">
-                        <form action="">
+                        <form action="{{ route('leave.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="row mb-4">
@@ -33,10 +35,11 @@
                                     <div class="row mb-4">
                                         <label for="one" class="col-sm-2 col-form-label">Employee Name</label>
                                         <div class="col-sm-9">
-                                            <select name="employees_id" class="form-control" >
+                                            <select name="employees_id" class="form-control">
                                                 <option value="">Select One</option>
                                                 @foreach ($employees as $employee)
-                                                <option value="{{$employee->id}}">{{ $employee->employee_code }}</option>
+                                                    <option value="{{ $employee->id }}">{{ $employee->employee_code }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -47,7 +50,7 @@
                                             <select name="leave_types_id" class="form-control">
                                                 <option value="">Select One</option>
                                                 @foreach ($leaveType as $type)
-                                                <option value="{{$type->id}}">{{$type->leavetype_code}}</option>
+                                                    <option value="{{ $type->id }}">{{ $type->leavetype_code }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -65,25 +68,29 @@
                                     <div class="row mb-4">
                                         <label for="one" class="col-sm-2 col-form-label">Date (From)</label>
                                         <div class="col-sm-9">
-                                            <input type="date" name="leave_datefrom" class="form-control" placeholder="Date (From)">
+                                            <input type="date" name="leave_datefrom" class="form-control"
+                                                placeholder="Date (From)">
                                         </div>
                                     </div>
                                     <div class="row mb-4">
                                         <label for="one" class="col-sm-2 col-form-label">Date (To)</label>
                                         <div class="col-sm-9">
-                                            <input type="date" class="form-control" name="leave_dateto" placeholder="Date (To)">
+                                            <input type="date" class="form-control" name="leave_dateto"
+                                                placeholder="Date (To)">
                                         </div>
                                     </div>
                                     <div class="row mb-4">
                                         <label for="one" class="col-sm-2 col-form-label">Total Days</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" placeholder="Total Hours" name="leave_total_day">
+                                            <input type="text" class="form-control" placeholder="Total Hours"
+                                                name="leave_total_day">
                                         </div>
                                     </div>
                                     <div class="row mb-4">
                                         <label for="one" class="col-sm-2 col-form-label">Upload File</label>
                                         <div class="col-sm-9">
-                                            <input type="file" class="form-control" placeholder="Upload File" name="leave_file_path">
+                                            <input type="file" class="form-control" placeholder="Upload File"
+                                                name="leave_file_path">
                                         </div>
                                     </div>
                                     <div class="row mb-4">
