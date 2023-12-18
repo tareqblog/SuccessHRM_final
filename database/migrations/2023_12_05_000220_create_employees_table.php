@@ -31,6 +31,7 @@ return new class extends Migration
             $table->integer('employee_numberofchildren')->nullable();
 
             $table->integer('users_id')->nullable()->comment('link to user table');
+            $table->integer('roles_id')->nullable()->comment('link to user table');
             $table->integer('manager_users_id')->nullable();
             $table->integer('team_leader_users_id')->nullable();
             $table->string('employee_shrc')->nullable()->comment('only for payroll user-roll');

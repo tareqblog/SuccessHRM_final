@@ -24,7 +24,8 @@ class FetchEmployeeController extends Controller
                     'mobile' => $Employee->employee_mobile,
                     'userid' => $Employee->employee_name,
                     'joindate' => $Employee->employee_joindate,
-                    [if($Employee->employee_status==1){'status' => "active" }else{ 'status' => "inactive"}],
+                   //'status' => $this->getStatus($Employee->employee_status),
+                   'status' => $Employee->employee_status,
                     'edit_url' => route('employee.edit', $Employee->id),
                     'delete_url' => route('employee.destroy', $Employee->id)
                 ];
@@ -32,4 +33,5 @@ class FetchEmployeeController extends Controller
       // dd($Employees);
         return response()->json($Employees);
     }
+
 }

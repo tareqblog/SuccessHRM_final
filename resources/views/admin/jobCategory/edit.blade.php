@@ -19,7 +19,7 @@
                     <select name="jobcategory_parent" class="form-control">
                         <option value="">Select One</option>
                         @foreach ($jobType as $type)
-                        <option value="{{$type->id}}" {{$job_category->jobcategory_parent == $type->id ? 'selected' : ''}}> {{$type->jobtype_code}} </option>
+                        <option value="{{$type->id}}" {{$job_category->jobcategory_parent == $type->id ? 'selected' : ''}}> {{$type->jobcategory_name}} </option>
                         @endforeach
                     </select>
                 </div>
@@ -30,8 +30,20 @@
                 <label for="one" class="col-sm-3 col-form-label">Seq
                     No</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control"
+                    <input type="text" class="form-control" value="{{$job_category->jobcategory_seqno}}"
                         name="jobcategory_seqno" placeholder="Seq No">
+                </div>
+            </div>
+            <div class="row mb-4">
+                <label for="one" class="col-sm-3 col-form-label">Category
+                    Status</label>
+                <div class="col-sm-9">
+                    <select name="jobcategory_status" class="form-control">
+                        <option value="">Select One</option>
+                        <option value="1" {{$job_category->jobcategory_status ==1 ? 'selected' : ''}}> Active</option>
+                        <option value="0" {{$job_category->jobcategory_status ==0 ? 'selected' : ''}}> In-Active</option>
+                        
+                    </select>
                 </div>
             </div>
         </div>

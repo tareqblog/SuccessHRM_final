@@ -122,7 +122,7 @@
                                             <select name="job_type_id" class="form-control">
                                                 <option value="">Select One</option>
                                                 @foreach ($jobType as $type)
-                                                    <option value="{{ $type->id }}">{{ $type->jobtype_code }}</option>
+                                                    <option value="{{ $type->jobtype_code }}">{{ $type->jobtype_code }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

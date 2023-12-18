@@ -58,7 +58,11 @@
                                                 {{$data->jobcategory_name}}
                                             </td>
                                             <td>
-                                                {{$data->parent->jobtype_code}}
+                                                @if($data->jobcategory_parent) 
+                                                    {{ \App\Models\jobcategory::where(['id' =>$data->jobcategory_parent ])->pluck('jobcategory_name')->first() }} 
+                                                @else 
+                                                    Parent 
+                                                @endif
                                             </td>
                                             <td>
                                                 {{$data->jobcategory_status == 1 ? 'Active' : 'In-Active'}}
@@ -118,7 +122,7 @@
                                                                 <select name="jobcategory_parent" class="form-control">
                                                                     <option value="">Select One</option>
                                                                     @foreach ($jobType as $type)
-                                                                    <option value="{{$type->id}}"> {{$type->jobtype_code}} </option>
+                                                                    <option value="{{$type->id}}"> {{$type->jobcategory_name}} </option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>

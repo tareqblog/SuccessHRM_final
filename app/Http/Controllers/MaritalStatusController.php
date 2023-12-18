@@ -12,7 +12,7 @@ class MaritalStatusController extends Controller
      */
     public function index()
     {
-        $datas = maritalStatus::latest()->get();
+        $datas = maritalStatus::orderBy('marital_statuses_seqno')->get();
         return view('admin.maritalStatus.index', compact('datas'));
     }
 

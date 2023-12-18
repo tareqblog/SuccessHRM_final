@@ -15,7 +15,7 @@ class JobcategoryController extends Controller
     public function index()
     {
         $datas = jobcategory::latest()->get();
-        $jobType = jobtype::latest()->select('id', 'jobtype_code')->get();
+        $jobType = jobcategory::whereNull('jobcategory_parent')->get();
         return view('admin.jobCategory.index', compact('datas','jobType'));
     }
 
@@ -49,7 +49,7 @@ class JobcategoryController extends Controller
      */
     public function edit(jobcategory $job_category)
     {
-        $jobType = jobtype::latest()->select('id', 'jobtype_code')->get();
+        $jobType = jobcategory::whereNull('jobcategory_parent')->get();
         return view('admin.jobCategory.edit', compact('job_category', 'jobType'));
     }
 

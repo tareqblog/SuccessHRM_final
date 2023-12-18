@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Designation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth; 
+
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Employee extends Model
 {
     use HasFactory;
@@ -29,6 +32,7 @@ class Employee extends Model
         'employee_resignreason',
         'employee_numberofchildren',
         'users_id',
+        'roles_id',
         'manager_users_id',
         'team_leader_users_id',
         'employee_shrc',
@@ -98,7 +102,7 @@ class Employee extends Model
 
     public function Department()
     {
-        return $this->belongsTo('App\Models\Department');
+        return $this->belongsTo('App\Models\Department::class');
     } 
 
     public function outlet()
@@ -121,9 +125,9 @@ class Employee extends Model
         return $this->belongsTo('App\Models\paymode');
     } 
 
-    public function Designation()
+    public function Designation(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Designation');
+        return $this->belongsTo(Designation::class,'designations_id');
     } 
 
     public function dbsex()
@@ -133,14 +137,18 @@ class Employee extends Model
 
     public function maritalStatus()
     {
-        return $this->belongsTo('App\Models\maritalStatus');
+        return $this->belongsTo('App\Models\maritalStatus','marital_status_id');
     } 
 
     public function Race()
     {
-        return $this->belongsTo('App\Models\Race');
+        return $this->belongsTo('App\Models\Race','races_id');
     } 
-
+    public function role_data()
+    {
+        return $this->belongsTo('Spatie\Permission\Models\Role','roles_id');
+    } 
+  
     public function Religion()
     {
         return $this->belongsTo('App\Models\Religion');

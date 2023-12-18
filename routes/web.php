@@ -3,11 +3,14 @@
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ClientTermController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\DeshboardMenuController;
 use App\Http\Controllers\IndustryTypeController;
 use App\Http\Controllers\JobcategoryController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobTypeController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\Actions\FetchEmployeeController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\MaritalStatusController;
@@ -117,11 +120,14 @@ Route::get('/log', function(){
 });
 
 Route::get('/setting/profile',[App\Http\Controllers\AdminController::class, 'Index'])->name('user.profiles');
+Route::get('/employeefetch',[App\Http\Controllers\Action\FetchEmployeeController::class])->name('employee.fetch');
 
 Route::resources([
     '/roles' => RoleController::class,
     '/users' => UserController::class,
     '/department' => DepartmentController::class,
+    '/designation' => DesignationController::class,
+    '/employee' => EmployeeController::class,
     '/leave-type' => LeaveTypeController::class,
     '/tnc' => TncController::class,
     '/dashboard/menu' => DeshboardMenuController::class,
@@ -144,3 +150,4 @@ Route::get('{any}',  [App\Http\Controllers\HomeController::class, 'index']);
 Route::get('/',  [App\Http\Controllers\AdminController::class, 'root'])->name('/');
 
 })->middleware('AdminMiddleware');
+ 

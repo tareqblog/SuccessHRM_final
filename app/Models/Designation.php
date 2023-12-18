@@ -4,12 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
+use App\Models\Employee;
 class Designation extends Model
 {
     use HasFactory;
-    
-    public function Employee(){
-        return $this->hasMany('App\Models\Employee');
+    protected $guarded = ['_token'];
+
+    public function Employee(): HasMany
+    {
+        return $this->hasMany(Employee::class);
     }
 }

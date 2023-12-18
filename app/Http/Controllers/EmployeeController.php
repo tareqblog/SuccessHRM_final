@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
-use App\DataGrids\EmployeeDataGrid;
+use App\Models\Designation;
+use App\Models\Department;
+use App\Models\paymode;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 use \Illuminate\Http\JsonResponse;
 class EmployeeController extends Controller
@@ -18,9 +21,12 @@ class EmployeeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(EmployeeDataGrid $dataGrid, Request $request)
+    public function index()
     {
-        return $dataGrid->render('admin.employee.index');
+        
+        $datas = Employee::with('role_data','Designation')->latest()->get();
+    
+        return view('admin.employee.index', compact('datas'));
     }
 
     /**
@@ -28,7 +34,12 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
+        $rols=Role::latest()->where('guard_name','web')->get();
+        $department=Department::orderBy('department_seqno')->where('department_status','1')->get();
+        $designation=Designation::orderBy('designation_seqno')->where('designation_status','1')->get();
+        $paymode=paymode::orderBy('paymode_seqno')->where('paymode_status','1')->get();
+        
+        return view('admin.employee.create',compact('rols','department','designation','paymode'));
     }
 
     /**

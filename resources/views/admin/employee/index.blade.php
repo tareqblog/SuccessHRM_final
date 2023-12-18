@@ -27,10 +27,55 @@ Employee Management
                     </div>
                 </div>
                 <div class="card-body">
-                        <div js-hook-url="{{ route('employee.fetch') }}" js-hook-table-client></div>
-                        <div id="table-ecommerce-customers"></div>
-                       
-                        @include('vendor.laravel-datagrid.datagrid')
+                <table class="table table-bordered mb-0" id="myTable">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Name</th>
+                                    <th>User Role</th>
+                                    <th>Email</th>
+                                    <th>Mobile</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($datas as $data)
+                                    <tr>
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $data->employee_name }}</td>
+                                        <td>{{ $data->role_data->name }}</td>
+                                        <td>{{ $data->employee_email }}</td>
+                                        <td>{{ $data->employee_mobile }}</td>
+                                        <td>{{ $data->employee_status == 1 ? 'Active' : 'In-Active' }}</td>
+                                        <td style="display: flex;">
+
+                                            <a href="{{ route('employee.edit', $data->id) }}"
+                                                class="btn btn-info btn-sm me-3">Edit</a>
+
+                                            <form id="deleteForm" action="{{ route('employee.destroy', $data->id) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    onclick="return confirm('Are you sure you want to delete this item?')"
+                                                    class="btn btn-sm btn-danger">Delete</a>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    {{-- empty data --}}
+                                    <tr>
+                                        <td class="text-center text-warning" colspan="5">
+                                            No data found!
+                                        </td>
+                                    </tr>
+                                    {{-- empty data --}}
+                                @endforelse
+
+
+                            </tbody>
+                        </table>
                 </div>
             </div>
         </div>
