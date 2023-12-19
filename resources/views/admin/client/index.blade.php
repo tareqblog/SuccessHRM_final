@@ -46,13 +46,17 @@
                                         <td>{{ $data->industry_type->industry_code }}</td>
                                         <td>{{ $data->clients_status == 1 ? 'Active' : 'In-Active' }}</td>
                                         <td>{{ $data->Employee_Payroll->employee_code }}</td>
-                                        <td><u>{{ \App\Models\ClientFollowUp::latest()->where(['clients_id' =>$data->id ])->pluck('created_at')->first() }}</u><br/>
-                                        {!! \App\Models\ClientFollowUp::latest()->where(['clients_id' =>$data->id ])->pluck('description')->first() !!}</td>
+                                        <td>
+                                            @if ($data->latestFollowUp()->description)
+                                                <u>{{ $data->latestFollowUp()->created_at }}</u><br />
+                                                {!! $data->latestFollowUp()->description !!}
+                                            @endif
+                                        </td>
                                         <td style="display: flex;">
-                                            <a href="{{ route('clients.edit', $data->id)}}#upload_file"
+                                            <a href="{{ route('clients.edit', $data->id) }}#upload_file"
                                                 class="btn btn-secondary btn-sm me-3">Upload File</a>
 
-                                            <a href="{{ route('clients.edit', $data->id)}}#follow_up"
+                                            <a href="{{ route('clients.edit', $data->id) }}#follow_up"
                                                 class="btn btn-warning btn-sm me-3">Follow Up</a>
 
                                             <a href="{{ route('clients.edit', $data->id) }}"

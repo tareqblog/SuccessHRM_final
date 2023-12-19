@@ -166,35 +166,15 @@ Route::prefix('admin')->group(function () {
         return json_encode(activity::all()->last());
     });
 
-Route::get('/setting/profile',[App\Http\Controllers\AdminController::class, 'Index'])->name('user.profiles');
-Route::get('/employeefetch',[App\Http\Controllers\Action\FetchEmployeeController::class])->name('employee.fetch');
-
-Route::resources([
-    '/roles' => RoleController::class,
-    '/users' => UserController::class,
-    '/department' => DepartmentController::class,
-    '/designation' => DesignationController::class,
-    '/employee' => EmployeeController::class,
-    '/leave-type' => LeaveTypeController::class,
-    '/tnc' => TncController::class,
-    '/dashboard/menu' => DeshboardMenuController::class,
-    '/religion' => ReligionController::class,
-    '/client-term' => ClientTermController::class,
-    '/marital-status' => MaritalStatusController::class,
-    '/marital-status' => MaritalStatusController::class,
-    '/industry-type' => IndustryTypeController::class,
-    '/clients' => ClientController::class,
-    '/job-type' => JobTypeController::class,
-    '/job-category' => JobcategoryController::class,
-    '/job' => JobController::class,
-    '/leave' => LeaveController::class,
-]);
     Route::get('/setting/profile', [App\Http\Controllers\AdminController::class, 'Index'])->name('user.profiles');
+    // Route::get('/employeefetch',[App\Http\Controllers\Action\FetchEmployeeController::class])->name('employee.fetch');
 
     Route::resources([
         '/roles' => RoleController::class,
         '/users' => UserController::class,
         '/department' => DepartmentController::class,
+        '/designation' => DesignationController::class,
+        '/employee' => EmployeeController::class,
         '/leave-type' => LeaveTypeController::class,
         '/tnc' => TncController::class,
         '/dashboard/menu' => DeshboardMenuController::class,
@@ -210,8 +190,9 @@ Route::resources([
         '/leave' => LeaveController::class,
         '/candidate' => CandidateController::class,
         '/file-type' => UploadFileTypeController::class,
-        '/employee' => EmployeeController::class,
     ]);
+    Route::get('/setting/profile', [App\Http\Controllers\AdminController::class, 'Index'])->name('user.profiles');
+
 
 
     Route::post('/file-upload/{id}', [ClientController::class, 'fileUpload'])->name('client.file.upload');
@@ -228,4 +209,3 @@ Route::resources([
 
     Route::get('/',  [App\Http\Controllers\AdminController::class, 'root'])->name('/');
 })->middleware('AdminMiddleware');
- 
