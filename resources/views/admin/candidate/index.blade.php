@@ -27,12 +27,16 @@ Candidate Management
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>ID</th>
                                 <th>NRIC</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Mobile</th>
                                 <th>Last Update Date</th>
-                                <th>Action</th>
+                                <th>Job Assign</th>
+                                <th>Group</th> 
+                                <th>Status</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -41,12 +45,15 @@ Candidate Management
                                     <td>
                                         {{ $loop->index + 1 }}
                                     </td>
+                                    <td>{{ $data->id}}</td>
                                     <td>{{ $data->candidate_nric }}</td>
                                     <td>{{ $data->candidate_name }}</td>
                                     <td>{{ $data->candidate_email }}</td>
                                     <td>{{ $data->candidate_mobile }}</td>
                                     <td>{{ $data->updated_at->format('d-M-Y') }}</td>
                                     <td style="display: flex;">
+                                        <a href="{{ route('candidate.edit', $data->id) }}#follow-up"
+                                            class="btn btn-info btn-sm me-3"><i class="fas fa-pen"></i>Remarks</a>
                                         <a href="{{ route('candidate.edit', $data->id) }}"
                                             class="btn btn-info btn-sm me-3"><i class="fas fa-pen"></i></a>
                                         <form id="deleteForm" action="{{ route('candidate.destroy', $data->id) }}"
