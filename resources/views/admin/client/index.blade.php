@@ -24,15 +24,17 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered mb-0" id="myTable">
+                        <table class="table table-bordered mb-0 bg-light" id="myTable">
                             <thead>
                                 <tr>
                                     <th>No</th>
                                     <th>Client Name</th>
+                                    <th>Account Holder</th>
                                     <th>Industry</th>
-                                    <th>Remark</th>
                                     <th>Status</th>
-                                    <th>Action</th>
+                                    <th>Payroll PIC</th>
+                                    <th>Remark</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -40,10 +42,18 @@
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ $data->client_name }}</td>
+                                        <td>{{ $data->Employee->employee_code }}</td>
                                         <td>{{ $data->industry_type->industry_code }}</td>
-                                        <td>{{ $data->client_remarks }}</td>
                                         <td>{{ $data->clients_status == 1 ? 'Active' : 'In-Active' }}</td>
+                                        <td>{{ $data->Employee_Payroll->employee_code }}</td>
+                                        <td><u>{{ \App\Models\ClientFollowUp::latest()->where(['clients_id' =>$data->id ])->pluck('created_at')->first() }}</u><br/>
+                                        {!! \App\Models\ClientFollowUp::latest()->where(['clients_id' =>$data->id ])->pluck('description')->first() !!}</td>
                                         <td style="display: flex;">
+                                            <a href="{{ route('clients.edit', $data->id)}}#upload_file"
+                                                class="btn btn-secondary btn-sm me-3">Upload File</a>
+
+                                            <a href="{{ route('clients.edit', $data->id)}}#follow_up"
+                                                class="btn btn-warning btn-sm me-3">Follow Up</a>
 
                                             <a href="{{ route('clients.edit', $data->id) }}"
                                                 class="btn btn-info btn-sm me-3">Edit</a>

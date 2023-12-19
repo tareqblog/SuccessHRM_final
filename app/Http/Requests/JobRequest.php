@@ -35,7 +35,6 @@ class JobRequest extends FormRequest
             'job_type_id' => 'nullable|integer',
             'short_desc' => 'nullable|string',
             'job_added_date' => 'nullable|date',
-            'unit_no' => 'nullable|integer',
             'display_address' => 'nullable|string',
             'job_link' => 'nullable|string',
             'description' => 'nullable',

@@ -16,6 +16,8 @@ return new class extends Migration
             $table->integer('client_id');
             $table->string('file_path');
             $table->integer('file_type_id');
+            $table->integer('created_by')->nullable();
+            $table->integer('modify_by')->nullable();
             $table->timestamps();
         });
     }

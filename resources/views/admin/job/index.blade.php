@@ -34,7 +34,7 @@
                                     <th>Job Type</th>
                                     <th>Create Date</th>
                                     <th>Last Updated By</th>
-                                    <th>Internal Remark</th>
+                                    <th style="width:100px">Internal Remark</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -66,7 +66,7 @@
                                             {{ App\Helpers\FileHelper::modify_name($data->modify_by) }}
                                         </td>
                                         <td>
-                                            {{ $data->remark }}
+                                            {!! $data->remark !!}
                                         </td>
                                         <td style="display: flex;">
                                             <a href="{{ route('job.edit', $data->id) }}"

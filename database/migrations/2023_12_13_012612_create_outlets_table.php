@@ -13,6 +13,19 @@ return new class extends Migration
     {
         Schema::create('outlets', function (Blueprint $table) {
             $table->id();
+            $table->string('outlet_name');
+            $table->string('outlet_tel')->nullable();
+            $table->string('outlet_fax')->nullable();
+            $table->string('outlet_email')->nullable();
+            $table->string('outlet_website')->nullable();
+            $table->string('outlet_gstno')->nullable();
+            $table->string('outlet_gstpercent')->nullable();
+            $table->string('outlet_license')->nullable();
+            $table->string('outlet_description')->nullable();
+            $table->string('outlet_address')->nullable();
+            $table->integer('countries_id')->nullable();
+            $table->integer('created_by')->nullable();
+            $table->integer('modify_by')->nullable();
             $table->timestamps();
         });
     }

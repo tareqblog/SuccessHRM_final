@@ -31,4 +31,13 @@ class client extends Model
         return $this->belongsTo(IndustryType::class, 'industry_types_id');
     }
 
+    public function Employee()
+    {
+        return $this->belongsTo(Employee::class,'employees_id');
+    }
+    
+    public function Employee_Payroll()
+    {
+        return $this->belongsTo(Employee::class,'payroll_employees_id');
+    }
 }

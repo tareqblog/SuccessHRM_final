@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('client_follow_ups', function (Blueprint $table) {
             $table->id();
-            $table->integer('client_id');
+            $table->integer('clients_id')->nullable();
             $table->longText('description');
+            $table->integer('created_by')->nullable();
+            $table->integer('modify_by')->nullable();
             $table->timestamps();
         });
     }

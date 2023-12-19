@@ -91,12 +91,12 @@
                                                     <label for="two" class="col-sm-3 col-form-label">Manager /
                                                         Consultant (In Charge) <span class="text-danger">*</span></label>
                                                     <div class="col-sm-9">
-                                                        <select name="payroll_employees_id" class="form-control" required>
+                                                        <select name="employees_id" class="form-control" required>
                                                             <option value="">Select One</option>
                                                             @foreach ($employees as $employee)
                                                                 <option value="{{ $employee->id }}"
-                                                                    {{ $employee->id == $client->payroll_employees_id ? 'selected' : '' }}>
-                                                                    {{ $employee->employee_code }}</option>
+                                                                    {{ $employee->id == $client->employees_id ? 'selected' : '' }}>
+                                                                    {{ $employee->employee_name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -105,12 +105,12 @@
                                                     <label for="three" class="col-sm-3 col-form-label">Payroll
                                                         Person In Charge</label>
                                                     <div class="col-sm-9">
-                                                        <select name="payroll_users_id" class="form-control">
+                                                        <select name="payroll_employees_id" class="form-control">
                                                             <option value="">Select One</option>
-                                                            @foreach ($users as $user)
+                                                            @foreach ($employees_payroll as $user)
                                                                 <option value="{{ $user->id }}"
-                                                                    {{ $user->id == $client->payroll_users_id ? 'selected' : 0 }}>
-                                                                    {{ $user->name }}
+                                                                    {{ $user->id == $client->payroll_employees_id ? 'selected' : 0 }}>
+                                                                    {{ $user->employee_name }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -358,9 +358,10 @@
                                             <thead>
                                                 <tr>
                                                     <th>No</th>
+                                                    <th>Upload By</th>
                                                     <th>Document Type</th>
                                                     <th>File Name</th>
-                                                    <th>Upload Time</th>
+                                                    <th>Upload Date & Time</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -368,9 +369,15 @@
                                                 @forelse ($client_files as $file)
                                                     <tr>
                                                         <td>{{ $loop->index + 1 }}</td>
+                                                        <td>@if($file->created_by) 
+                                                            {{ \App\Models\Employee::where(['id' =>$file->created_by ])->pluck('employee_code')->first() }} 
+                                                        @else 
+                                                            User Not Found 
+                                                        @endif
+                                                        </td>
                                                         <td>{{ $file->file_type->uploadfiletype_code }}</td>
                                                         <td>{{ $file->file_path }}</td>
-                                                        <td>{{ $file->created_at->format('d-M-Y') }}</td>
+                                                        <td>{{ $file->created_at }}</td>
                                                         <td style="display: flex;">
                                                             <a href="{{ asset('storage') }}/{{ $file->file_path }}"
                                                                 class="btn btn-info btn-sm me-3" download>Donwload</a>
@@ -405,7 +412,7 @@
                                                 <label for="twente_four"
                                                     class="col-sm-2 col-form-label">Description</label>
                                                 <div class="col-sm-8">
-                                                    <input type="hidden" name="client_id" value="{{ $client->id }}">
+                                                    <input type="hidden" name="clients_id" value="{{ $client->id }}">
                                                     <textarea name="description" id="ckeditor-classic" rows="2"></textarea>
                                                 </div>
                                                 <div class="col-sm-2"></div>
@@ -418,25 +425,43 @@
                                             <thead>
                                                 <tr>
                                                     <th>No</th>
-                                                    <th>Document Type</th>
-                                                    <th>File Name</th>
-                                                    <th>Upload Time</th>
+                                                    <th>Create By</th>
+                                                    <th>Description</th>
+                                                    <th>Create Date & Time</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                </tr>
+                                            @forelse ($client_followup as $file)
+                                                    <tr>
+                                                        <td>{{ $loop->index + 1 }}</td>
+                                                        <td>@if($file->created_by) 
+                                                            {{ \App\Models\Employee::where(['id' =>$file->created_by ])->pluck('employee_code')->first() }} 
+                                                        @else 
+                                                            User Not Found 
+                                                        @endif
+                                                        </td>
+                                                        <td>{!! $file->description !!}</td>
+                                                        <td>{{ $file->created_at }}</td>
+                                                        <td style="display: flex;">
+                                                            
+                                                            <form action="{{ route('client.followup.delete', $file->id) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button class="btn btn-danger btn-sm"
+                                                                    onclick="return confirm('Are you sure you want to delete this item?')"
+                                                                    type="submit">Delete</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                @empty
+                                                    <tr class="text-center">
+                                                        <td colspan="50">No data found !</td>
+                                                    </tr>
+                                                @endforelse
                                             </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Document Type</th>
-                                                    <th>File Name</th>
-                                                    <th>Upload Time</th>
-                                                    <th></th>
-                                                </tr>
-                                            </tfoot>
+                                        
                                         </table>
                                     </div>
                                     <hr class="mt-3">
@@ -455,4 +480,11 @@
 
         <!-- init js -->
         <script src="{{ URL::asset('build/js/pages/form-editor.init.js') }}"></script>
+
+        <script language="javascript" type="text/javascript">
+  if(window.location.hash) { // Check if url hash is not empty
+      var hash = window.location.hash; // nav-y1
+      document.querySelector('[href="'+hash+'"]').click();
+  }
+</script>
     @endsection

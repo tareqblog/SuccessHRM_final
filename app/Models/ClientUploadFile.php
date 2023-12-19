@@ -4,14 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth; 
 
 class ClientUploadFile extends Model
 {
     use HasFactory;
     protected $guarded = ['_token'];
 
+    public static function boot()
+    {
+        parent::boot();
+        static::created(function ($ClientUploadFile) {
+           $ClientUploadFile->created_by = Auth::user()->id;
+            $ClientUploadFile->save();
+        });
 
-
+    }
 
     public function file_type()
     {

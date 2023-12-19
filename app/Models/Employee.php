@@ -102,27 +102,27 @@ class Employee extends Model
 
     public function Department()
     {
-        return $this->belongsTo('App\Models\Department::class');
+        return $this->belongsTo('App\Models\Department','departments_id');
     } 
 
     public function outlet()
     {
-        return $this->belongsTo('App\Models\outlet');
+        return $this->belongsTo('App\Models\outlet','employee_outlet_id');
     } 
 
     public function passtype()
     {
-        return $this->belongsTo('App\Models\passtype');
+        return $this->belongsTo('App\Models\passtype','passtypes_id');
     } 
 
     public function User()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo('App\Models\User','users_id');
     } 
 
     public function paymode()
     {
-        return $this->belongsTo('App\Models\paymode');
+        return $this->belongsTo('App\Models\paymode','paymodes_id');
     } 
 
     public function Designation(): BelongsTo
@@ -132,7 +132,7 @@ class Employee extends Model
 
     public function dbsex()
     {
-        return $this->belongsTo('App\Models\dbsex');
+        return $this->belongsTo('App\Models\dbsex','dbsexes_id');
     } 
 
     public function maritalStatus()
@@ -151,7 +151,8 @@ class Employee extends Model
   
     public function Religion()
     {
-        return $this->belongsTo('App\Models\Religion');
+        return $this->belongsTo('App\Models\Religion','religions_id');
     } 
 
+    
 }

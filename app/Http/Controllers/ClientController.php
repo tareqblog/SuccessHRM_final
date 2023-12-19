@@ -23,7 +23,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $datas = client::latest()->with('industry_type')->get();
+        $datas = client::latest()->with('industry_type','Employee')->where('clients_status','=',1)->get();
         return view('admin.client.index', compact('datas'));
     }
 
@@ -33,11 +33,12 @@ class ClientController extends Controller
     public function create()
     {
         $industries = IndustryType::latest()->get();
-        $employees = Employee::latest()->select('id', 'employee_code')->get();
+        $employees = Employee::latest()->where('roles_id','!=','13')->Where('roles_id','!=','14')->select('id', 'employee_name')->get();
+        $employees_payroll = Employee::latest()->where('roles_id','=','13')->orWhere('roles_id','=','14')->select('id', 'employee_name')->get();
         $users = User::latest()->select('id', 'name')->get();
         $tncs = TncTemplate::latest()->select('id', 'tnc_template_code')->get();
         $client_terms = clientTerm::latest()->select('id', 'client_term_code')->get();
-        return view('admin.client.create', compact('industries', 'employees', 'users', 'tncs', 'client_terms'));
+        return view('admin.client.create', compact('industries', 'employees','employees_payroll', 'users', 'tncs', 'client_terms'));
     }
 
     /**
@@ -63,7 +64,8 @@ class ClientController extends Controller
     public function edit(client $client)
     {
         $industries = IndustryType::latest()->get();
-        $employees = Employee::latest()->select('id', 'employee_code')->get();
+        $employees = Employee::latest()->where('roles_id','!=','13')->Where('roles_id','!=','14')->select('id', 'employee_name')->get();
+        $employees_payroll = Employee::latest()->where('roles_id','=','13')->orWhere('roles_id','=','14')->select('id', 'employee_name')->get();
         $users = User::latest()->select('id', 'name')->get();
         $tncs = TncTemplate::latest()->select('id', 'tnc_template_code')->get();
         $client_terms = clientTerm::latest()->select('id', 'client_term_code')->get();
@@ -71,8 +73,9 @@ class ClientController extends Controller
         $fileTypes = uploadfiletype::where('uploadfiletype_status', 1)->latest()->get();
 
         $client_files = ClientUploadFile::where('client_id', $client->id)->get();
-
-        return view('admin.client.edit', compact('client', 'industries', 'employees', 'users', 'tncs', 'client_terms', 'fileTypes', 'client_files'));
+        $client_followup = ClientFollowUp::where('clients_id', $client->id)->get();
+        
+        return view('admin.client.edit', compact('client', 'industries', 'employees', 'employees_payroll','users', 'tncs', 'client_terms', 'fileTypes', 'client_files','client_followup'));
     }
 
     /**
@@ -134,15 +137,23 @@ class ClientController extends Controller
     public function followUp(Request $request, $id)
     {
 
+        //dd($request);
         $request->validate([
-            'description' => 'required'
+            'description' => 'required',
+            'clients_id' => 'required'
         ]);
 
         ClientFollowUp::create([
-            'client_id' => $request->client_id,
-            'description' => $request->description,
+           'description' => $request->description,
+            'clients_id' => $request->clients_id
         ]);
 
         return back()->with('success', 'Follow up added successfully.');
+    }
+
+    public function folowupDelete($id)
+    {
+        ClientFollowUp::where('id', $id)->delete();
+        return back()->with('success', 'Successfully Deleted.');
     }
 }

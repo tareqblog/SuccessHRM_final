@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('job_title')->unique();
             $table->integer('job_category_id')->nullable()->comment('get id from job category table');
             $table->string('job_salary')->nullable();
-            $table->string('remark')->nullable();
+            $table->longText('remark')->nullable();
             $table->boolean('job_status')->default(1);
             $table->string('postal_code')->nullable();
             $table->string('address')->nullable();
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->integer('client_id')->comment('get id from client table');
             $table->integer('person_incharge')->comment('get id from user table');
             $table->integer('job_type_id')->nullable()->comment('get id from job type table');
-            $table->string('short_desc')->nullable();
+            $table->longText('short_desc')->nullable();
             $table->date('job_added_date')->nullable();
             $table->integer('unit_no')->nullable();
             $table->string('display_address')->nullable();
@@ -32,7 +32,7 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->string('meta_title')->nullable();
             $table->string('meta_tag')->nullable();
-            $table->string('meta_description')->nullable();
+            $table->longText('meta_description')->nullable();
             $table->integer('created_by')->nullable();
             $table->integer('modify_by')->nullable();
             $table->timestamps();

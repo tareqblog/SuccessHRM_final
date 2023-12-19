@@ -64,11 +64,11 @@
                                                     <label for="two" class="col-sm-3 col-form-label">Manager /
                                                         Consultant (In Charge) <span class="text-danger">*</span></label>
                                                     <div class="col-sm-9">
-                                                        <select name="payroll_employees_id" class="form-control" required>
+                                                        <select name="employees_id" class="form-control" required>
                                                             <option value="">Select One</option>
                                                             @foreach ($employees as $employee)
                                                                 <option value="{{ $employee->id }}">
-                                                                    {{ $employee->employee_code }}</option>
+                                                                    {{ $employee->employee_name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -77,10 +77,10 @@
                                                     <label for="three" class="col-sm-3 col-form-label">Payroll
                                                         Person In Charge</label>
                                                     <div class="col-sm-9">
-                                                        <select name="payroll_users_id" class="form-control">
+                                                        <select name="payroll_employees_id" class="form-control">
                                                             <option value="">Select One</option>
-                                                            @foreach ($users as $user)
-                                                                <option value="{{ $user->id }}">{{ $user->name }}
+                                                            @foreach ($employees_payroll as $user)
+                                                                <option value="{{ $user->id }}">{{ $user->employee_name }}
                                                                 </option>
                                                             @endforeach
                                                         </select>

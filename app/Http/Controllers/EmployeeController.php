@@ -45,7 +45,6 @@ class EmployeeController extends Controller
         
         return view('admin.employee.create',compact('rols','department','designation','paymode'));
 
-        return view('admin.employee.create');
     }
 
     /**

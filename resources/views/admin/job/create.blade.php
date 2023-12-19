@@ -64,7 +64,7 @@
                                     <div class="row mb-4">
                                         <label for="one" class="col-sm-2 col-form-label">Internal Remark</label>
                                         <div class="col-sm-9">
-                                            <textarea name="remark" rows="2" class="form-control" placeholder="Internal Remark"> {{ old('remark') }} </textarea>
+                                            <textarea name="remark" rows="2" class="editor" class="form-control" placeholder="Internal Remark"> {{ old('remark') }} </textarea>
                                         </div>
                                     </div>
                                     <div class="row mb-4">
@@ -122,7 +122,7 @@
                                             <select name="job_type_id" class="form-control">
                                                 <option value="">Select One</option>
                                                 @foreach ($jobType as $type)
-                                                    <option value="{{ $type->jobtype_code }}">{{ $type->jobtype_code }}</option>
+                                                    <option value="{{ $type->id }}">{{ $type->jobtype_code }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -130,7 +130,7 @@
                                     <div class="row mb-4">
                                         <label for="one" class="col-sm-2 col-form-label">Short Description</label>
                                         <div class="col-sm-9">
-                                            <textarea name="short_desc" rows="2" class="form-control" placeholder="Short Description"> {{ old('short_desc') }} </textarea>
+                                            <textarea name="short_desc" rows="2" class="editor" class="form-control" placeholder="Short Description"> {{ old('short_desc') }} </textarea>
                                         </div>
                                     </div>
                                     <div class="row mb-4">
@@ -158,7 +158,7 @@
                                     <div class="row mb-4">
                                         <label for="one" class="col-sm-1 col-form-label">Description</label>
                                         <div class="col-sm-10">
-                                            <textarea name="description" id="ckeditor-classic" rows="2"> {{ old('description') }} </textarea>
+                                            <textarea name="description" class="editor" rows="2"> {{ old('description') }} </textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -206,7 +206,12 @@
     @section('scripts')
         <!-- ckeditor -->
         <script src="{{ URL::asset('build/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
-
+        <script>
+            var allEditors = document.querySelectorAll('.editor');
+            for (var i = 0; i < allEditors.length; ++i) {
+            ClassicEditor.create(allEditors[i]);
+            }
+            </script>
         <!-- init js -->
         <script src="{{ URL::asset('build/js/pages/form-editor.init.js') }}"></script>
         <script>

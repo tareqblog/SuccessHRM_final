@@ -8,6 +8,13 @@ use App\Models\candidate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+use App\Models\Designation;
+use App\Models\Department;
+use App\Models\paymode;
+use App\Models\race;
+use App\Models\maritalStatus;
+use App\Models\passtype;
+use App\Models\religion;
 class CandidateController extends Controller
 {
     /**
@@ -15,9 +22,7 @@ class CandidateController extends Controller
      */
     public function index()
     {
-        $datas = candidate::latest()
-            ->select('id', 'candidate_name', 'candidate_email', 'candidate_mobile', 'updated_at', 'candidate_nric')
-            ->get();
+        $datas = candidate::latest()->with('Race')->where('candidate_status','=',1)->where('candidate_isDeleted','=',0)->get();
         return view('admin.candidate.index', compact('datas'));
     }
 
@@ -26,7 +31,14 @@ class CandidateController extends Controller
      */
     public function create()
     {
-        return view('admin.candidate.create');
+        $department_data=Department::orderBy('department_seqno')->where('department_status','1')->get();
+        $designation_data=Designation::orderBy('designation_seqno')->where('designation_status','1')->get();
+        $paymode_data=paymode::orderBy('paymode_seqno')->where('paymode_status','1')->get();
+        $race_data=Race::orderBy('race_seqno')->where('race_status','1')->get();
+        $marital_data=maritalStatus::orderBy('marital_statuses_seqno')->where('marital_statuses_status','1')->get();
+        $passtype_data=passtype::orderBy('passtype_seqno')->where('passtype_status','1')->get();
+        $religion_data=religion::orderBy('religion_seqno')->where('religion_status','1')->get();
+        return view('admin.candidate.create',compact('religion_data','passtype_data','marital_data','race_data','department_data','designation_data','paymode_data',));
     }
 
     /**

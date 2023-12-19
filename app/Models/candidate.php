@@ -26,4 +26,60 @@ class candidate extends Model
             // $candidate->save();
         });
     }
+
+    
+    public function Department()
+    {
+        return $this->belongsTo('App\Models\Department','departments_id');
+    } 
+
+    public function outlet()
+    {
+        return $this->belongsTo('App\Models\outlet','employee_outlet_id');
+    } 
+
+    public function passtype()
+    {
+        return $this->belongsTo('App\Models\passtype','passtypes_id');
+    } 
+
+    public function User()
+    {
+        return $this->belongsTo('App\Models\User','users_id');
+    } 
+
+    public function paymode()
+    {
+        return $this->belongsTo('App\Models\paymode','paymodes_id');
+    } 
+
+    public function Designation(): BelongsTo
+    {
+        return $this->belongsTo(Designation::class,'designations_id');
+    } 
+
+    public function dbsex()
+    {
+        return $this->belongsTo('App\Models\dbsex','dbsexes_id');
+    } 
+
+    public function maritalStatus()
+    {
+        return $this->belongsTo('App\Models\maritalStatus','marital_status_id');
+    } 
+
+    public function Race()
+    {
+        return $this->belongsTo('App\Models\Race','races_id');
+    } 
+    public function role_data()
+    {
+        return $this->belongsTo('Spatie\Permission\Models\Role','roles_id');
+    } 
+  
+    public function Religion()
+    {
+        return $this->belongsTo('App\Models\Religion','religions_id');
+    } 
+
 }

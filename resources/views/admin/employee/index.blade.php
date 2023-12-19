@@ -35,8 +35,9 @@ Employee Management
                                     <th>User Role</th>
                                     <th>Email</th>
                                     <th>Mobile</th>
+                                    <th>Initialize</th>
                                     <th>Status</th>
-                                    <th>Action</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -47,6 +48,7 @@ Employee Management
                                         <td>{{ $data->role_data->name }}</td>
                                         <td>{{ $data->employee_email }}</td>
                                         <td>{{ $data->employee_mobile }}</td>
+                                        <td>{{ $data->employee_code }}</td>
                                         <td>{{ $data->employee_status == 1 ? 'Active' : 'In-Active' }}</td>
                                         <td style="display: flex;">
 

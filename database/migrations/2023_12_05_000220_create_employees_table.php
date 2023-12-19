@@ -40,7 +40,7 @@ return new class extends Migration
             $table->integer('leave_aprv2_users_id')->nullable();
             $table->integer('leave_aprv3_users_id')->nullable();
             $table->integer('claims_aprv1_users_id')->nullable();
-            $table->integer('claims_aprv2_id')->nullable();
+            $table->integer('claims_aprv2_usersid')->nullable();
             $table->integer('claims_aprv3_users_id')->nullable();
 
             $table->integer('is_payroll_enable')->deafult(0)->comment('1=salary entry enable, 0=salary entry disable');

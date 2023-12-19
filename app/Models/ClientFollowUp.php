@@ -10,20 +10,20 @@ class ClientFollowUp extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['description'];
+    protected $guarded = ['_token'];
+    protected $fillable = ['description','clients_id','Create_by','Modify_by'];
 
     public static function boot()
     {
         parent::boot();
-        static::created(function ($client) {
-            $client->created_by = Auth::user()->id;
-            $client->save();
+        static::created(function ($ClientFollowUp) {
+            $ClientFollowUp->created_by = Auth::user()->id;
+            $ClientFollowUp->save();
         });
 
         // Update field update_by with current user id each time article is updated.
-        static::updating(function ($client) {
-            $client->modify_by = Auth::user()->id;
-            // $client->save();
+        static::updating(function ($ClientFollowUp) {
+            $ClientFollowUp->modify_by = Auth::user()->id;
         });
     }
 }
