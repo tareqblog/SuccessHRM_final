@@ -11,7 +11,6 @@ use App\Http\Controllers\IndustryTypeController;
 use App\Http\Controllers\JobcategoryController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobTypeController;
-use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\Actions\FetchEmployeeController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeaveTypeController;
@@ -218,6 +217,7 @@ Route::resources([
     Route::post('/file-upload/{id}', [ClientController::class, 'fileUpload'])->name('client.file.upload');
     Route::delete('/file-delete/{id}', [ClientController::class, 'fileDelete'])->name('client.file.delete');
     Route::post('/client/followup/{id}', [ClientController::class, 'followUp'])->name('client.followup');
+    Route::delete('/client/followup/{id}', [ClientController::class, 'folowupDelete'])->name('client.followup.delete');
 
     Route::get('{any}',  [App\Http\Controllers\HomeController::class, 'index']);
 
