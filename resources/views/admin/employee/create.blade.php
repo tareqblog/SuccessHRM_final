@@ -16,9 +16,11 @@
                     <div class="card-header">
                         <h4 class="card-title mb-0">Create New Employee</h4>
                         <div class="text-end">
-                            <a href="{{ route('employee.create') }}" class="btn btn-sm btn-success">Create New</a>
+                            <a href="{{ route('employee.create') }}" class="btn btn-sm btn-success">Create
+                                New</a>
                         </div>
                     </div>
+                    @include('admin.include.errors')
 
                     <div class="card-body">
                         <!-- Nav tabs -->
@@ -66,7 +68,8 @@
                         </div>
 
                         <!-- Tab panes -->
-                        <form>
+                        <form action="{{route('employee.store')}}" method="POST" enctype="multipart/form-data">
+                            @csrf
                             <div class="tab-content p-3 text-muted">
                                 <div class="tab-pane active" id="genarel_info" role="tabpanel">
                                     <div class="row">
@@ -77,14 +80,19 @@
                                                     <div class="col-sm-9">
                                                         <select name="employee_outlet_id" class="form-control">
                                                             <option value="">Select One</option>
+                                                            @foreach ($outlets as $outlet)
+                                                                <option value="{{ $outlet->id }}">
+                                                                    {{ $outlet->outlet_name }}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Reg No.</label>
+                                                    <label for="one" class="col-sm-3 col-form-label">Employee
+                                                        Code</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="employee_code" class="form-control"
-                                                            placeholder="Reg No.">
+                                                            placeholder="Code">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -96,58 +104,69 @@
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">DID</label>
+                                                    <label for="one" class="col-sm-3 col-form-label">Phone no</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" name="did" class="form-control"
-                                                            placeholder="Mobile">
+                                                        <input type="text" name="employee_phone" class="form-control"
+                                                            placeholder="Phone no">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="two" class="col-sm-3 col-form-label">Payroll</label>
+                                                    <label for="one" class="col-sm-3 col-form-label">Email
+                                                        Address</label>
                                                     <div class="col-sm-9">
-                                                        <select name="payroll" class="form-control">
-                                                            <option value="">Yes</option>
-                                                            <option value="">No</option>
-                                                        </select>
+                                                        <input type="text" name="employee_email" class="form-control"
+                                                            placeholder="Email">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="three" class="col-sm-3 col-form-label">Status</label>
+                                                    <label for="two" class="col-sm-3 col-form-label">Pass
+                                                        Type</label>
                                                     <div class="col-sm-9">
-                                                        <select name="status" class="form-control">
-                                                            <option value="">Active</option>
-                                                            <option value="">In-active</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="four" class="col-sm-3 col-form-label">Remark</label>
-                                                    <div class="col-sm-9">
-                                                        <textarea name="remark" rows="2" class="form-control" placeholder="Remark"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">User
-                                                        Right <span class="text-danger">*</span></label>
-                                                    <div class="col-sm-9">
-                                                        <select name="users_id" class="form-control" required>
+                                                        <select name="passtypes_id" class="form-control">
                                                             <option value="">Select One</option>
+                                                            @foreach ($passes as $pass)
+                                                                <option value="{{ $pass->id }}">
+                                                                    {{ $pass->passtype_code }} </option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Date Of
-                                                        Birth<span class="text-danger">*</span></label>
+                                                    <label for="one" class="col-sm-3 col-form-label">NRIC</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="employee_nric" class="form-control"
+                                                            placeholder="NRIC">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="two" class="col-sm-3 col-form-label">Race</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="races_id" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($races as $race)
+                                                                <option value="{{ $race->id }}">
+                                                                    {{ $race->race_code }} </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="two" class="col-sm-3 col-form-label">Religion</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="religions_id" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($religions as $religion)
+                                                                <option value="{{ $religion->id }}">
+                                                                    {{ $religion->religion_code }} </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="one" class="col-sm-3 col-form-label">Birthday</label>
                                                     <div class="col-sm-9">
                                                         <input type="date" name="employee_birthdate"
-                                                            class="form-control" required>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Email</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="email" name="employee_email" class="form-control"
-                                                            placeholder="Email">
+                                                            class="form-control" placeholder="Birthday">
                                                     </div>
                                                 </div>
                                             </div>
@@ -155,73 +174,123 @@
                                         <div class="col-lg-4">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Phone
-                                                        No.</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" name="employee_phone" class="form-control"
-                                                            placeholder="Phone No">
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Mobile
-                                                        No.</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" name="employee_mobile" class="form-control"
-                                                            placeholder="Mobile No">
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Telephone
-                                                        No.</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" name="employee_tel" class="form-control"
-                                                            placeholder="Telephone No">
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="two" class="col-sm-3 col-form-label">Pass
-                                                        Types</label>
-                                                    <div class="col-sm-9">
-                                                        <select name="passtypes_id" class="form-control">
-                                                            <option value="">Select One</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="two" class="col-sm-3 col-form-label">CPF
-                                                        Entitled</label>
-                                                    <div class="col-sm-9">
-                                                        <select name="cpf" class="form-control">
-                                                            <option value="">Yes</option>
-                                                            <option value="">No</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="four" class="col-sm-3 col-form-label">Position
-                                                        Title</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" name="title" class="form-control"
-                                                            placeholder="Position Title">
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="four" class="col-sm-3 col-form-label">Number Of
+                                                    <label for="one" class="col-sm-3 col-form-label">Number Of
                                                         Children</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" name="employee_numberofchildren"
-                                                            class="form-control" placeholder="Children">
+                                                        <input type="number" name="employee_numberofchildren"
+                                                            class="form-control" placeholder="Number Of Children">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="two" class="col-sm-3 col-form-label">User</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="users_id" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($users as $user)
+                                                                <option value="{{ $user->id }}">{{ $user->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="two" class="col-sm-3 col-form-label">User
+                                                        Right</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="roles_id" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($roles as $role)
+                                                                <option value="{{ $role->id }}">{{ $role->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="two" class="col-sm-3 col-form-label">Manager</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="manager_users_id" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($users as $user)
+                                                                <option value="{{ $user->id }}">{{ $user->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="two" class="col-sm-3 col-form-label">Team
+                                                        Leader</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="team_leader_users_id" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($users as $user)
+                                                                <option value="{{ $user->id }}">{{ $user->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="two" class="col-sm-3 col-form-label">SHRC</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="employee_shrc" placeholder="SHRC"
+                                                            class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="two"
+                                                        class="col-sm-3 col-form-label">Defination</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="employee_defination"
+                                                            placeholder="Defination" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="two" class="col-sm-3 col-form-label">Sex</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="dbsexes_id" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($sexs as $sex)
+                                                                <option value="{{ $sex->id }}">
+                                                                    {{ $sex->dbsexes_code }} </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="two" class="col-sm-3 col-form-label">Marital
+                                                        Status</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="marital_statuses_id" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($marital_status as $marital)
+                                                                <option value="{{ $marital->id }}">
+                                                                    {{ $marital->marital_statuses_code }} </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="two" class="col-sm-3 col-form-label">Client</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="marital_statuses_id" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($clients as $client)
+                                                                <option value="{{ $client->id }}">
+                                                                    {{ $client->client_code }} </option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
-
                                             <div class="row mb-4">
                                                 <div class="col-sm-9">
                                                     <img src="{{ URL::asset('build/images/avatar.png') }}" alt="avatar"
                                                         class="mb-2">
-                                                    <input type="file" name="avatar" class="form-control">
+                                                    <input type="file" name="employee_avater" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -236,23 +305,23 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Postal Code
                                                         1</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" name="postal_code_1" class="form-control"
-                                                            placeholder="Postal Code">
+                                                        <input type="text" name="employee_postal_code"
+                                                            class="form-control" placeholder="Postal Code">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Unit No
                                                         1</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" name="unit_no_1" class="form-control"
-                                                            placeholder="Unit No">
+                                                        <input type="text" name="employee_unit_number"
+                                                            class="form-control" placeholder="Unit No">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="four" class="col-sm-3 col-form-label">Address
                                                         1</label>
                                                     <div class="col-sm-9">
-                                                        <textarea name="address_1" rows="2" class="form-control" placeholder="Address"></textarea>
+                                                        <textarea name="employee_street" rows="2" class="form-control" placeholder="Address"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -263,23 +332,23 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Postal Code
                                                         2</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" name="postal_code_2" class="form-control"
-                                                            placeholder="Postal Code">
+                                                        <input type="text" name="employee_postal_code2"
+                                                            class="form-control" placeholder="Postal Code">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Unit No
                                                         2</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" name="unite_no_2" class="form-control"
-                                                            placeholder="Unit No">
+                                                        <input type="text" name="employee_unit_number2"
+                                                            class="form-control" placeholder="Unit No">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="four" class="col-sm-3 col-form-label">Address
                                                         2</label>
                                                     <div class="col-sm-9">
-                                                        <textarea name="address_2" rows="2" class="form-control" placeholder="Address"></textarea>
+                                                        <textarea name="employee_street2" rows="2" class="form-control" placeholder="Address"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -293,21 +362,21 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Contact
                                                         Person</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" name="contact_person" class="form-control"
-                                                            placeholder="Contact Person">
+                                                        <input type="text" name="employee_emr_contact"
+                                                            class="form-control" placeholder="Contact Person">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Phone 1</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" name="phone_1" class="form-control"
-                                                            placeholder="Phone 1">
+                                                        <input type="text" name="employee_emr_phone1"
+                                                            class="form-control" placeholder="Phone 1">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="four" class="col-sm-3 col-form-label">Address</label>
                                                     <div class="col-sm-9">
-                                                        <textarea name="address_3" rows="2" class="form-control" placeholder="Address"></textarea>
+                                                        <textarea name="employee_emr_address" rows="2" class="form-control" placeholder="Address"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -318,21 +387,21 @@
                                                     <label for="one"
                                                         class="col-sm-3 col-form-label">Relationship</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" name="relationship" class="form-control"
-                                                            placeholder="Relationship">
+                                                        <input type="text" name="employee_emr_relation"
+                                                            class="form-control" placeholder="Relationship">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Phone 2</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" name="phone_2" class="form-control"
-                                                            placeholder="Phone 2">
+                                                        <input type="text" name="employee_emr_phone2"
+                                                            class="form-control" placeholder="Phone 2">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="four" class="col-sm-3 col-form-label">Remarks</label>
                                                     <div class="col-sm-9">
-                                                        <textarea name="remarks" rows="2" class="form-control" placeholder="Remarks"></textarea>
+                                                        <textarea name="employee_emr_remarks" rows="2" class="form-control" placeholder="Remarks"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -348,8 +417,12 @@
                                                     <label for="one"
                                                         class="col-sm-3 col-form-label">Department</label>
                                                     <div class="col-sm-9">
-                                                        <select name="department" class="form-control" id="">
+                                                        <select name="departments_id" class="form-control">
                                                             <option value="">Select One</option>
+                                                            @foreach ($departments as $department)
+                                                                <option value="{{ $department->id }}">
+                                                                    {{ $department->department_code }} </option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -357,8 +430,8 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Work time
                                                         (Start)</label>
                                                     <div class="col-sm-9">
-                                                        <input type="time" name="work_time_start" class="form-control"
-                                                            placeholder="Unit No">
+                                                        <input type="time" name="employee_work_time_start"
+                                                            class="form-control" placeholder="Unit No">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -394,7 +467,12 @@
                                                     <div class="col-sm-9">
                                                         <select name="designations_id" class="form-control"
                                                             id="">
+
                                                             <option value="">Select One</option>
+                                                            @foreach ($designations as $designation)
+                                                                <option value="{{ $designation->id }}">
+                                                                    {{ $designation->designation_code }} </option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -402,15 +480,15 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Work time
                                                         (End)</label>
                                                     <div class="col-sm-9">
-                                                        <input type="time" name="work_time_end" class="form-control"
-                                                            placeholder="Work time (End)">
+                                                        <input type="time" name="employee_work_time_end"
+                                                            class="form-control" placeholder="Work time (End)">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Probation
                                                         Period</label>
                                                     <div class="col-sm-9">
-                                                        <select name="probation_period" class="form-control"
+                                                        <select name="employee_probation" class="form-control"
                                                             id="">
                                                             <option value="">Select One</option>
                                                         </select>
@@ -420,7 +498,7 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Extention of
                                                         Probation</label>
                                                     <div class="col-sm-9">
-                                                        <select name="extention_of_probation" class="form-control"
+                                                        <select name="employee_extentionprobation" class="form-control"
                                                             id="">
                                                             <option value="">Select One</option>
                                                         </select>
@@ -454,7 +532,7 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Approved level
                                                         1</label>
                                                     <div class="col-sm-9">
-                                                        <select name="approved_level_1" class="form-control"
+                                                        <select name="leave_aprv1_users_id" class="form-control"
                                                             id="">
                                                             <option value="">Select One</option>
                                                         </select>
@@ -464,7 +542,7 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Approved level
                                                         2</label>
                                                     <div class="col-sm-9">
-                                                        <select name="aprroved_level_2" class="form-control"
+                                                        <select name="leave_aprv2_users_id" class="form-control"
                                                             id="">
                                                             <option value="">Select One</option>
                                                         </select>
@@ -474,7 +552,7 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Approved level
                                                         3</label>
                                                     <div class="col-sm-9">
-                                                        <select name="aprroved_level_3" class="form-control"
+                                                        <select name="leave_aprv3_users_id" class="form-control"
                                                             id="">
                                                             <option value="">Select One</option>
                                                         </select>
@@ -489,7 +567,7 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Approved level
                                                         1</label>
                                                     <div class="col-sm-9">
-                                                        <select name="aprroved_level_1" class="form-control"
+                                                        <select name="claims_aprv1_users_id" class="form-control"
                                                             id="">
                                                             <option value="">Select One</option>
                                                         </select>
@@ -499,7 +577,7 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Approved level
                                                         2</label>
                                                     <div class="col-sm-9">
-                                                        <select name="aprroved_level_2" class="form-control"
+                                                        <select name="claims_aprv2_usersid" class="form-control"
                                                             id="">
                                                             <option value="">Select One</option>
                                                         </select>
@@ -509,7 +587,7 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Approved level
                                                         3</label>
                                                     <div class="col-sm-9">
-                                                        <select name="aprroved_level_3" class="form-control"
+                                                        <select name="claims_aprv3_users_id" class="form-control"
                                                             id="">
                                                             <option value="">Select One</option>
                                                         </select>
@@ -526,10 +604,10 @@
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Pay Mode</label>
                                                     <div class="col-sm-9">
-                                                        <select name="pay_mode" class="form-control" id="">
+                                                        <select name="paymodes_id" class="form-control" id="">
                                                             <option value="">Select One</option>
-                                                            <option value="">Cash</option>
-                                                            <option value="">Cheque</option>
+                                                            <option value="1">Cash</option>
+                                                            <option value="2">Cheque</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -537,8 +615,8 @@
                                                     <label for="one" class="col-sm-3 col-form-label">GIRO Account
                                                         Name</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" name="account_name" class="form-control"
-                                                            placeholder="GIRO Account Name">
+                                                        <input type="text" name="employee_bank_acc_title"
+                                                            class="form-control" placeholder="GIRO Account Name">
                                                     </div>
                                                 </div>
                                             </div>
@@ -546,9 +624,10 @@
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Pay Mode</label>
+                                                    <label for="one" class="col-sm-3 col-form-label">GIRO Bank
+                                                        Code</label>
                                                     <div class="col-sm-6">
-                                                        <select name="pay_mode_2" class="form-control" id="">
+                                                        <select name="employee_bank" class="form-control" id="">
                                                             <option value="">Select One</option>
                                                         </select>
                                                     </div>
@@ -560,8 +639,8 @@
                                                     <label for="one" class="col-sm-3 col-form-label">GIRO Account
                                                         No</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" name="account_no" class="form-control"
-                                                            placeholder="GIRO Account No">
+                                                        <input type="text" name="employee_bank_acc_no"
+                                                            class="form-control" placeholder="GIRO Account No">
                                                     </div>
                                                 </div>
                                             </div>
@@ -577,7 +656,7 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Work Permit
                                                         Number</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" name="work_permit_number"
+                                                        <input type="text" name="employee_fw_permit_number"
                                                             class="form-control" placeholder="Work Permit Number">
                                                     </div>
                                                 </div>
@@ -585,7 +664,7 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Application
                                                         Date</label>
                                                     <div class="col-sm-9">
-                                                        <input type="date" name="application_date"
+                                                        <input type="date" name="employee_fw_application_date"
                                                             class="form-control" placeholder="Application Date">
                                                     </div>
                                                 </div>
@@ -593,8 +672,8 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Renewal
                                                         Date</label>
                                                     <div class="col-sm-9">
-                                                        <input type="date" name="renewal_date" class="form-control"
-                                                            placeholder="Renewal Date">
+                                                        <input type="date" name="employee_fw_renewal_date"
+                                                            class="form-control" placeholder="Renewal Date">
                                                     </div>
                                                 </div>
                                             </div>
@@ -605,24 +684,24 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Date of
                                                         Arrival</label>
                                                     <div class="col-sm-9">
-                                                        <input type="date" name="date_of_arrival" class="form-control"
-                                                            placeholder="Date of Arrival">
+                                                        <input type="date" name="employee_fw_arrival_date"
+                                                            class="form-control" placeholder="Date of Arrival">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Issue
                                                         Date</label>
                                                     <div class="col-sm-9">
-                                                        <input type="date" name="issue_date" class="form-control"
-                                                            placeholder="Pass Issuance Date">
+                                                        <input type="date" name="employee_fw_issue_date"
+                                                            class="form-control" placeholder="Pass Issuance Date">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Levy
                                                         Amount</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" name="leay_amount" class="form-control"
-                                                            placeholder="Levy Amount">
+                                                        <input type="text" name="employee_fw_levy_amount"
+                                                            class="form-control" placeholder="Levy Amount">
                                                     </div>
                                                 </div>
                                             </div>

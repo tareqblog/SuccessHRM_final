@@ -35,9 +35,19 @@ class client extends Model
     {
         return $this->belongsTo(Employee::class,'employees_id');
     }
-    
+
     public function Employee_Payroll()
     {
         return $this->belongsTo(Employee::class,'payroll_employees_id');
+    }
+    public function followUps()
+    {
+        return $this->hasMany(ClientFollowUp::class, 'client_id');
+    }
+
+    // You can also define a method to get the latest follow-up
+    public function latestFollowUp()
+    {
+        return $this->followUps()->latest()->first();
     }
 }

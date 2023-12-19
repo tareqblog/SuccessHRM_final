@@ -68,8 +68,8 @@ class StoreEmployeeRequest extends FormRequest
             'employee_emr_phone2' => 'nullable',
             'employee_emr_address' => 'nullable',
             'employee_emr_remarks' => 'nullable',
-            'departments_id' => 'integer',
-            'designations_id' => 'integer',
+            'departments_id' => 'integer|nullable',
+            'designations_id' => 'integer|nullable',
             'employee_work_time_start' => 'string|nullable',
             'employee_work_time_end' => 'string|nullable',
             'employee_probation' => 'integer|nullable',
@@ -86,7 +86,8 @@ class StoreEmployeeRequest extends FormRequest
             'clients_id' => 'nullable|integer',
             'employee_status' => 'integer',
             'employee_isDeleted' => 'integer',
-            'avatar' => 'nullable'
+            'employee_avater' => 'nullable',
+            'employee_fw_levy_amount' => 'nullable',
         ];
     }
 }

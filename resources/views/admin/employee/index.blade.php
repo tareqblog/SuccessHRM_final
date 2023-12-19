@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-Employee Management
+    Employee Management
 @endsection
 @section('css')
     <!-- datepicker css -->
@@ -10,24 +10,24 @@ Employee Management
     <link rel="stylesheet" href="{{ URL::asset('build/libs/gridjs/theme/mermaid.min.css') }}">
 @endsection
 @section('page-title')
-Employee Management
+    Employee Management
 @endsection
 @section('body')
 
-<body>
+    <body>
     @endsection
     @section('content')
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title mb-0">Employee Table</h4>
-                    <div class="text-end">
-                        <a href="{{route('employee.create')}}" class="btn btn-sm btn-success">Create New</a>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Employee Table</h4>
+                        <div class="text-end">
+                            <a href="{{ route('employee.create') }}" class="btn btn-sm btn-success">Create New</a>
+                        </div>
                     </div>
-                </div>
-                <div class="card-body">
-                <table class="table table-bordered mb-0" id="myTable">
+                    <div class="card-body">
+                        <table class="table table-bordered mb-0" id="myTable">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -45,7 +45,7 @@ Employee Management
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ $data->employee_name }}</td>
-                                        <td>{{ $data->role_data->name }}</td>
+                                        <td>{{ $data->role_data?->name }}</td>
                                         <td>{{ $data->employee_email }}</td>
                                         <td>{{ $data->employee_mobile }}</td>
                                         <td>{{ $data->employee_code }}</td>
@@ -78,10 +78,10 @@ Employee Management
 
                             </tbody>
                         </table>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     @endsection
     @section('scripts')
         <!-- datepicker js -->
