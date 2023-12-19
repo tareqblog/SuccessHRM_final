@@ -328,6 +328,7 @@
                                         <form action="{{ route('client.file.upload', $client->id) }}" method="POST"
                                             enctype="multipart/form-data">
                                             @csrf
+                                            <input type="hidden" value="0" name="file_type_for">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
                                                     <label for="file_path" class="col-sm-3 col-form-label">Upload

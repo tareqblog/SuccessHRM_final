@@ -103,9 +103,13 @@
                                                     <label for="two" class="col-sm-3 col-form-label">Race</label>
                                                     <div class="col-sm-9">
                                                         <select name="races_id" class="form-control">
-                                                            <option value="">Select One</option>
+                                                        <option value="">Select One</option>    
+                                                        @foreach ($race_data as $row)
+                                                                <option value="{{ $row->id }}"  {{ old('races_id', $row->id) ? '' : 'selected' }}>
+                                                                    {{ old('races_id'). $row->race_code }}</option>
+                                                        @endforeach
                                                         </select>
-                                                    </div>
+                                                    </div> 
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="three" class="col-sm-3 col-form-label">Mobile</label>
@@ -126,7 +130,11 @@
                                                         Pass</label>
                                                     <div class="col-sm-9">
                                                         <select name="passtypes_id" class="form-control">
-                                                            <option value="">Select One</option>
+                                                        <option value="">Select One</option>    
+                                                        @foreach ($passtype_data as $row)
+                                                                <option value="{{ $row->id }}"  {{ old('passtype_id', $row->id) ? '' : 'selected' }}>
+                                                                    {{ $row->passtype_code }}</option>
+                                                        @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -137,16 +145,18 @@
                                                             name="candidate_height" placeholder="Height">
                                                     </div>
                                                 </div>
-                                                {{-- <div class="row mb-4">
-                                                <label for="two" class="col-sm-3 col-form-label">SHRC/SRC</label>
+                                                 <div class="row mb-4">
+                                                <label for="two" class="col-sm-3 col-form-label">Outlet</label>
                                                 <div class="col-sm-9">
-                                                    <select  class="form-control" name="src">
+                                                    <select  class="form-control" name="candidate_outlet_id">
                                                         <option value="">Select One</option>
-                                                        <option value="">SHRC</option>
-                                                        <option value="">SRC</option>
+                                                        @foreach ($outlet_data as $row)
+                                                                <option value="{{ $row->id }}"  {{ old('candidate_outlet_id', $row->id) ? '' : 'selected' }}>
+                                                                    {{ $row->outlet_name }}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
-                                            </div> --}}
+                                            </div> 
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -182,6 +192,10 @@
                                                     <div class="col-sm-9">
                                                         <select name="religions_id" class="form-control">
                                                             <option value="">Select One</option>
+                                                            @foreach ($religion_data as $row)
+                                                                <option value="{{ $row->id }}"  {{ old('religions_id', $row->id) ? '' : 'selected' }}>
+                                                                    {{  $row->religion_code }}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -191,13 +205,17 @@
                                                     <div class="col-sm-9">
                                                         <select name="marital_statuses_id" class="form-control">
                                                             <option value="">Select One</option>
+                                                            @foreach ($marital_data as $row)
+                                                                <option value="{{ $row->id }}"  {{ old('marital_statuses_id', $row->id) ? '' : 'selected' }}>
+                                                                    {{  $row->marital_statuses_code }}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="four" class="col-sm-4 col-form-label">Numbers of
+                                                    <label for="four" class="col-sm-3 col-form-label">Numbers of
                                                         Children</label>
-                                                    <div class="col-sm-8">
+                                                    <div class="col-sm-9">
                                                         <input type="text" name="children_no" class="form-control"
                                                             placeholder="Numbers of Children">
                                                     </div>
@@ -220,11 +238,12 @@
                                                     <label for="four" class="col-sm-3 col-form-label">Black
                                                         List</label>
                                                     <div class="col-sm-9">
-                                                        <input type="radio" name="candidate_isBlocked" value="1">
-                                                        <label for="yes">Yes</label>
-                                                        <input type="radio" name="candidate_isBlocked-list"
-                                                            id="no" value="0">
-                                                        <label for="no">No</label>
+                                                        
+                                                        <select name="candidate_isBlocked" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            <option value="1" {{ old('candidate_isBlocked', 1) ? '' : 'selected' }} >Yes</option>
+                                                            <option value="0" {{ old('candidate_isBlocked',0) ? '' : 'selected' }} >No</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <!-- sample modal content -->
@@ -386,11 +405,13 @@
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Pay Mode</label>
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-9"> 
                                                         <select name="paymodes_id" class="form-control" id="">
                                                             <option value="">Select One</option>
-                                                            <option value="">Cash</option>
-                                                            <option value="">Cheque</option>
+                                                            @foreach ($paymode_data as $row)
+                                                                <option value="{{ $row->id }}"  {{ old('paymodes_id', $row->id) ? '' : 'selected' }}>
+                                                                    {{  $row->paymode_code }}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -407,15 +428,10 @@
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">GIRO Bank
-                                                        Code</label>
-                                                    {{-- <div class="col-sm-6">
-                                                    <select name="pay_mode_2" class="form-control" id="">
-                                                        <option value="">Select One</option>
-                                                    </select>
-                                                </div> --}}
-                                                    <div class="col-sm-2">
-                                                        <input type="text" class="form-control" disabled>
+                                                    <label for="one" class="col-sm-3 col-form-label">GIRO Bank</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="candidate_bank"
+                                                            class="form-control" placeholder="Bank Name">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">

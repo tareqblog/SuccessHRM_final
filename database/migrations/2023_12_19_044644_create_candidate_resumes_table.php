@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('client_upload_files', function (Blueprint $table) {
+        Schema::create('candidate_resumes', function (Blueprint $table) {
             $table->id();
-            $table->integer('client_id');
-            $table->string('file_path');
-            $table->integer('file_type_id');
-            $table->integer('file_type_for')->default(1)->comment('1=Candidate,0=client');
+            $table->integer('candidates_id');
+            $table->string('resume_name');
+            $table->string('resume_type');
+            $table->string('resume_file_path')->nullable();
+            $table->longText('resume_details')->nullable();
+            $table->integer('isMain')->default(0)->comment('1=main,0=onlist');
             $table->integer('created_by')->nullable();
             $table->integer('modify_by')->nullable();
             $table->timestamps();
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('client_upload_files');
+        Schema::dropIfExists('candidate_resumes');
     }
 };

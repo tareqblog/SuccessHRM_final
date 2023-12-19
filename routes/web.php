@@ -218,6 +218,10 @@ Route::resources([
     Route::delete('/file-delete/{id}', [ClientController::class, 'fileDelete'])->name('client.file.delete');
     Route::post('/client/followup/{id}', [ClientController::class, 'followUp'])->name('client.followup');
     Route::delete('/client/followup/{id}', [ClientController::class, 'folowupDelete'])->name('client.followup.delete');
+    Route::post('/candidate/file-upload/{id}', [CandidateController::class, 'fileUpload'])->name('candidate.file.upload');
+    Route::delete('/candidate/file-delete/{id}', [CandidateController::class, 'fileDelete'])->name('candidate.file.delete');
+    Route::post('/candidate/followup/{id}', [CandidateController::class, 'followUp'])->name('candidate.followup');
+    Route::delete('/candidate/followup/{id}', [CandidateController::class, 'folowupDelete'])->name('candidate.followup.delete');
 
     Route::get('{any}',  [App\Http\Controllers\HomeController::class, 'index']);
 

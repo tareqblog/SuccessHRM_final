@@ -70,7 +70,7 @@ class ClientController extends Controller
         $tncs = TncTemplate::latest()->select('id', 'tnc_template_code')->get();
         $client_terms = clientTerm::latest()->select('id', 'client_term_code')->get();
 
-        $fileTypes = uploadfiletype::where('uploadfiletype_status', 1)->latest()->get();
+        $fileTypes = uploadfiletype::where('uploadfiletype_status', 1)->where('uploadfiletype_for',0)->latest()->get();
 
         $client_files = ClientUploadFile::where('client_id', $client->id)->get();
         $client_followup = ClientFollowUp::where('clients_id', $client->id)->get();
