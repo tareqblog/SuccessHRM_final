@@ -12,6 +12,8 @@ use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use App\Models\client;
 use App\Models\dbsex;
+use App\Models\EmployeeSalaryInfo;
+use App\Models\LeaveType;
 use App\Models\maritalStatus;
 use App\Models\outlet;
 use App\Models\passtype;
@@ -62,8 +64,10 @@ class EmployeeController extends Controller
         $clients = client::latest()->select('id', 'client_code')->where('clients_status', 1)->get();
         $Paybanks=Paybank::orderBy('Paybank_seqno')->select('id','Paybank_code')->where('Paybank_status',1)->get();
         $emp_admin=Employee::select('id','employee_name')->where('roles_id',1)->get();
-        $emp_manager=Employee::select('id','employee_name')->where('roles_id',4)->get();
-        return view('admin.employee.create', compact('Paybanks','emp_manager','emp_admin','rols', 'departments', 'designations', 'paymode', 'outlets', 'passes', 'users', 'roles', 'races', 'religions', 'sexs', 'marital_status', 'clients'));
+        $emp_manager=Employee::select('id','employee_name')->where('roles_id',2)->get();
+        $emp_team_leader=Employee::select('id','employee_name')->where('roles_id',10)->get();
+        $leave_types = LeaveType::latest()->select('id', 'leavetype_code','leavetype_default')->where('leavetype_status', 1)->get();
+        return view('admin.employee.create', compact('Paybanks','emp_manager','emp_admin','rols', 'departments', 'designations', 'paymode', 'outlets', 'passes', 'users', 'roles', 'races', 'religions', 'sexs', 'marital_status', 'clients', 'leave_types', 'emp_team_leader'));
     }
 
     /**
@@ -118,10 +122,11 @@ class EmployeeController extends Controller
         $marital_status = maritalStatus::latest()->select('id', 'marital_statuses_code')->where('marital_statuses_status', 1)->get();
         $clients = client::latest()->select('id', 'client_code')->where('clients_status', 1)->get();
         $Paybanks=Paybank::orderBy('Paybank_seqno')->select('id','Paybank_code')->where('Paybank_status',1)->get();
-
+        $emp_team_leader=Employee::select('id','employee_name')->where('roles_id',10)->get();
         $emp_admin=Employee::select('id','employee_name')->where('roles_id',1)->get();
-        $emp_manager=Employee::select('id','employee_name')->where('roles_id',4)->get();
-        return view('admin.employee.edit', compact('Paybanks','emp_manager','emp_admin','employee','rols', 'departments', 'designations', 'paymode', 'outlets', 'passes', 'users', 'roles', 'races', 'religions', 'sexs', 'marital_status', 'clients'));
+        $emp_manager=Employee::select('id','employee_name')->where('roles_id',2)->get();
+        $leave_types = LeaveType::latest()->select('id', 'leavetype_code','leavetype_default')->where('leavetype_status', 1)->get();
+        return view('admin.employee.edit', compact('Paybanks','emp_manager','emp_admin','employee','rols', 'departments', 'designations', 'paymode', 'outlets', 'passes', 'users', 'roles', 'races', 'religions', 'sexs', 'marital_status', 'clients', 'emp_team_leader', 'leave_types'));
     }
 
     /**
@@ -158,5 +163,15 @@ class EmployeeController extends Controller
         }
         $employee->delete();
         return back()->with('success', 'Deleted Successfully.');
+    }
+
+    public function salaryInfoPost(Request $request) {
+        $request->validate([
+            'employee_id' => 'required|integer',
+            'date' => 'required|date',
+            'salary_amount' => 'required'
+        ]);
+        EmployeeSalaryInfo::create($request->except('_token'));
+        return back()->with('success', 'Salary Info Added Successfully.');
     }
 }

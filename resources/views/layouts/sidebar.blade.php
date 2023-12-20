@@ -32,40 +32,45 @@
         <div id="sidebar-menu">
             <!-- Left Menu Start -->
             <ul class="metismenu list-unstyled" id="side-menu">
-            @foreach ($navbars as $navbarItem)
-           <!-- <li class="menu-title" data-key="{{ $navbarItem->slug }}" style="padding:5px 25px!important">{{ $navbarItem->menu_name }}</li>-->
+                @foreach ($navbars as $navbarItem)
+                    <!-- <li class="menu-title" data-key="{{ $navbarItem->slug }}" style="padding:5px 25px!important">{{ $navbarItem->menu_name }}</li>-->
 
-               <li>
-                    @if(count($navbarItem->childs))
-                        <a href="{{ $navbarItem->menu_path }}" class="has-arrow">
-                            <i class="{{ $navbarItem->menu_icon }} icon nav-icon"></i>
-                            <span class="menu-item" data-key="{{ $navbarItem->slug }}">{{ $navbarItem->menu_name }}</span>
-                        </a>
-                    @else
-                    <a href="{{ $navbarItem->menu_path }}">
-                        <i class="{{ $navbarItem->menu_icon }} icon nav-icon"></i>
-                        <span class="menu-item" data-key="{{ $navbarItem->slug }}">{{ $navbarItem->menu_name }}</span>
-                    </a>
-                    @endif
-                    @if(count($navbarItem->childs))
-                    <ul class="sub-menu" aria-expanded="false">
-                        @foreach($navbarItem->childs as $child)
-                            <li><a href="{{ $child->menu_path }}" data-key="{{ $child->slug }}">{{ $child->menu_name }}</a>
-                                @if(count($child->childs))
-                                <ul class="sub-menu" aria-expanded="false">
-                                    @foreach($child->childs as $lavel2)
-                                        <li><a href="{{ $lavel2->menu_path }}" data-key="{{ $lavel2->slug }}">{{ $lavel2->menu_name }}</a></li>
-                                    @endforeach
-                                </ul>
-                                @endif
+                    <li>
+                        @if (count($navbarItem->childs))
+                            <a href="{{ $navbarItem->menu_path }}" class="has-arrow">
+                                <i class="{{ $navbarItem->menu_icon }} icon nav-icon"></i>
+                                <span class="menu-item"
+                                    data-key="{{ $navbarItem->slug }}">{{ $navbarItem->menu_name }}</span>
+                            </a>
+                        @else
+                            <a href="{{ $navbarItem->menu_path }}">
+                                <i class="{{ $navbarItem->menu_icon }} icon nav-icon"></i>
+                                <span class="menu-item"
+                                    data-key="{{ $navbarItem->slug }}">{{ $navbarItem->menu_name }}</span>
+                            </a>
+                        @endif
+                        @if (count($navbarItem->childs))
+                            <ul class="sub-menu" aria-expanded="false">
+                                @foreach ($navbarItem->childs as $child)
+                                    <li><a href="{{ $child->menu_path }}"
+                                            data-key="{{ $child->slug }}">{{ $child->menu_name }}</a>
+                                        @if (count($child->childs))
+                                            <ul class="sub-menu" aria-expanded="false">
+                                                @foreach ($child->childs as $lavel2)
+                                                    <li><a href="{{ $lavel2->menu_path }}"
+                                                            data-key="{{ $lavel2->slug }}">{{ $lavel2->menu_name }}</a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
 
-                            </li>
-                        @endforeach
-                    </ul>
-                    @endif
-                </li>
-            </li>
-            @endforeach
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </li>
+                    </li>
+                @endforeach
             </ul>
         </div>
         <!-- Sidebar -->
