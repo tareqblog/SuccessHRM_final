@@ -88,19 +88,38 @@
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Employee
-                                                        Code</label>
+                                                    <label for="two" class="col-sm-3 col-form-label">Manager</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" name="employee_code" class="form-control"
-                                                            placeholder="Code">
+                                                        <select name="manager_users_id" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($emp_manager as $user)
+                                                                <option value="{{ $user->id }}">{{ $user->employee_name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Name <span
-                                                            class="text-danger">*</span></label>
+                                                    <label for="one" class="col-sm-3 col-form-label">Initial</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" name="employee_name" class="form-control"
-                                                            placeholder="Name" required>
+                                                        <input type="text" name="employee_code" class="form-control"
+                                                            placeholder="Employee Intial">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="one" class="col-sm-3 col-form-label">Birthday</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="date" name="employee_birthdate"
+                                                            class="form-control" placeholder="Birthday">
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="row mb-4">
+                                                    <label for="one" class="col-sm-3 col-form-label">Email
+                                                        Address</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="employee_email" class="form-control"
+                                                            placeholder="Email">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -110,14 +129,7 @@
                                                             placeholder="Phone no">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Email
-                                                        Address</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" name="employee_email" class="form-control"
-                                                            placeholder="Email">
-                                                    </div>
-                                                </div>
+                                                
                                                 <div class="row mb-4">
                                                     <label for="two" class="col-sm-3 col-form-label">Pass
                                                         Type</label>
@@ -138,81 +150,20 @@
                                                             placeholder="NRIC">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
-                                                    <label for="two" class="col-sm-3 col-form-label">Race</label>
-                                                    <div class="col-sm-9">
-                                                        <select name="races_id" class="form-control">
-                                                            <option value="">Select One</option>
-                                                            @foreach ($races as $race)
-                                                                <option value="{{ $race->id }}">
-                                                                    {{ $race->race_code }} </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="two" class="col-sm-3 col-form-label">Religion</label>
-                                                    <div class="col-sm-9">
-                                                        <select name="religions_id" class="form-control">
-                                                            <option value="">Select One</option>
-                                                            @foreach ($religions as $religion)
-                                                                <option value="{{ $religion->id }}">
-                                                                    {{ $religion->religion_code }} </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Birthday</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="date" name="employee_birthdate"
-                                                            class="form-control" placeholder="Birthday">
-                                                    </div>
-                                                </div>
+                                                
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Number Of
-                                                        Children</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="number" name="employee_numberofchildren"
-                                                            class="form-control" placeholder="Number Of Children">
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="two" class="col-sm-3 col-form-label">User</label>
-                                                    <div class="col-sm-9">
-                                                        <select name="users_id" class="form-control">
-                                                            <option value="">Select One</option>
-                                                            @foreach ($users as $user)
-                                                                <option value="{{ $user->id }}">{{ $user->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
+                                                
+                                                <div class="row mb-4 form-group required">
                                                     <label for="two" class="col-sm-3 col-form-label">User
                                                         Right</label>
                                                     <div class="col-sm-9">
-                                                        <select name="roles_id" class="form-control">
+                                                        <select name="roles_id" class="form-control" required>
                                                             <option value="">Select One</option>
                                                             @foreach ($roles as $role)
                                                                 <option value="{{ $role->id }}">{{ $role->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="two" class="col-sm-3 col-form-label">Manager</label>
-                                                    <div class="col-sm-9">
-                                                        <select name="manager_users_id" class="form-control">
-                                                            <option value="">Select One</option>
-                                                            @foreach ($users as $user)
-                                                                <option value="{{ $user->id }}">{{ $user->name }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -231,22 +182,16 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
-                                                    <label for="two" class="col-sm-3 col-form-label">SHRC</label>
+                                                
+                                                <div class="row mb-4 form-group required">
+                                                    <label for="one" class="col-sm-3 col-form-label">Name <span
+                                                            class="text-danger">*</span></label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" name="employee_shrc" placeholder="SHRC"
-                                                            class="form-control">
+                                                        <input type="text" name="employee_name" class="form-control"
+                                                            placeholder="Name" required>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
-                                                    <label for="two"
-                                                        class="col-sm-3 col-form-label">Defination</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" name="employee_defination"
-                                                            placeholder="Defination" class="form-control">
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-4 form-group required">
                                                     <label for="two" class="col-sm-3 col-form-label">Sex</label>
                                                     <div class="col-sm-9">
                                                         <select name="dbsexes_id" class="form-control">
@@ -272,13 +217,25 @@
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="two" class="col-sm-3 col-form-label">Client</label>
+                                                    <label for="two" class="col-sm-3 col-form-label">Religion</label>
                                                     <div class="col-sm-9">
-                                                        <select name="marital_statuses_id" class="form-control">
+                                                        <select name="religions_id" class="form-control">
                                                             <option value="">Select One</option>
-                                                            @foreach ($clients as $client)
-                                                                <option value="{{ $client->id }}">
-                                                                    {{ $client->client_code }} </option>
+                                                            @foreach ($religions as $religion)
+                                                                <option value="{{ $religion->id }}">
+                                                                    {{ $religion->religion_code }} </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="two" class="col-sm-3 col-form-label">Race</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="races_id" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($races as $race)
+                                                                <option value="{{ $race->id }}">
+                                                                    {{ $race->race_code }} </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -490,7 +447,14 @@
                                                     <div class="col-sm-9">
                                                         <select name="employee_probation" class="form-control"
                                                             id="">
-                                                            <option value="">Select One</option>
+                                            
+                                                            <option value = '0' >Select One</option>
+                                                            <option value = '1' {{ (old("employee_probation") == 1 ? "selected":"") }}>1</option>
+                                                            <option value = '2' {{ (old("employee_probation") == 2 ? "selected":"") }}>2</option>
+                                                            <option value = '3' {{ (old("employee_probation") == 3 ? "selected":"") }}>3</option>
+                                                            <option value = '4' {{ (old("employee_probation") == 4 ? "selected":"") }}>4</option>
+                                                            <option value = '5' {{ (old("employee_probation") == 5 ? "selected":"") }}>5</option>
+                                                            <option value = '6' {{ (old("employee_probation") == 6 ? "selected":"") }}>6</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -500,7 +464,13 @@
                                                     <div class="col-sm-9">
                                                         <select name="employee_extentionprobation" class="form-control"
                                                             id="">
-                                                            <option value="">Select One</option>
+                                                            <option value = '0' >Select One</option>
+                                                            <option value = '1' {{ (old("employee_extentionprobation") == 1 ? "selected":"") }}>1</option>
+                                                            <option value = '2' {{ (old("employee_extentionprobation") == 2 ? "selected":"") }}>2</option>
+                                                            <option value = '3' {{ (old("employee_extentionprobation") == 3 ? "selected":"") }}>3</option>
+                                                            <option value = '4' {{ (old("employee_extentionprobation") == 4 ? "selected":"") }}>4</option>
+                                                            <option value = '5' {{ (old("employee_extentionprobation") == 5 ? "selected":"") }}>5</option>
+                                                            <option value = '6' {{ (old("employee_extentionprobation") == 6 ? "selected":"") }}>6</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -535,6 +505,11 @@
                                                         <select name="leave_aprv1_users_id" class="form-control"
                                                             id="">
                                                             <option value="">Select One</option>
+                                                            @foreach ($emp_admin as $data)
+                                                                <option value="{{ $data->id }}" 
+                                                                {{ old("leave_aprv1_users_id") == $data->id ? "selected":"" }}>
+                                                                    {{ $data->employee_name }} </option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -545,6 +520,11 @@
                                                         <select name="leave_aprv2_users_id" class="form-control"
                                                             id="">
                                                             <option value="">Select One</option>
+                                                            @foreach ($emp_admin as $data)
+                                                                <option value="{{ $data->id }}" 
+                                                                {{ (old("leave_aprv2_users_id") == $data->id ? "selected":"") }}>
+                                                                    {{ $data->employee_name }} </option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -555,6 +535,11 @@
                                                         <select name="leave_aprv3_users_id" class="form-control"
                                                             id="">
                                                             <option value="">Select One</option>
+                                                            @foreach ($emp_admin as $data)
+                                                                <option value="{{ $data->id }}" 
+                                                                {{ (old("leave_aprv3_users_id") == $data->id ? "selected":"") }}>
+                                                                    {{ $data->employee_name }} </option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -570,6 +555,11 @@
                                                         <select name="claims_aprv1_users_id" class="form-control"
                                                             id="">
                                                             <option value="">Select One</option>
+                                                            @foreach ($emp_admin as $data)
+                                                                <option value="{{ $data->id }}" 
+                                                                {{ (old("claims_aprv1_users_id") == $data->id ? "selected":"") }}>
+                                                                    {{ $data->employee_name }} </option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -580,6 +570,11 @@
                                                         <select name="claims_aprv2_usersid" class="form-control"
                                                             id="">
                                                             <option value="">Select One</option>
+                                                            @foreach ($emp_admin as $data)
+                                                                <option value="{{ $data->id }}" 
+                                                                {{ (old("claims_aprv2_usersid") == $data->id ? "selected":"") }}>
+                                                                    {{ $data->employee_name }} </option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -590,6 +585,11 @@
                                                         <select name="claims_aprv3_users_id" class="form-control"
                                                             id="">
                                                             <option value="">Select One</option>
+                                                            @foreach ($emp_admin as $data)
+                                                                <option value="{{ $data->id }}" 
+                                                                {{ (old("claims_aprv3_users_id") == $data->id ? "selected":"") }}>
+                                                                    {{ $data->employee_name }} </option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -626,13 +626,15 @@
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">GIRO Bank
                                                         Code</label>
-                                                    <div class="col-sm-6">
+                                                    <div class="col-sm-9">
                                                         <select name="employee_bank" class="form-control" id="">
                                                             <option value="">Select One</option>
+                                                            @foreach ($Paybanks as $data)
+                                                                <option value="{{ $data->id }}" 
+                                                                {{ (old("employee_bank") == $data->id ? "selected":"") }}>
+                                                                    {{ $data->Paybank_code }} </option>
+                                                            @endforeach
                                                         </select>
-                                                    </div>
-                                                    <div class="col-sm-2">
-                                                        <input type="text" class="form-control" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -938,4 +940,6 @@
                 </div><!-- end card -->
             </div>
         </div>
+    
     @endsection
+    

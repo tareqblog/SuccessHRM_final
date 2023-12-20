@@ -18,6 +18,7 @@ use App\Models\passtype;
 use App\Models\Race;
 use App\Models\Religion;
 use App\Models\User;
+use App\Models\Paybank;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -59,9 +60,10 @@ class EmployeeController extends Controller
         $sexs = dbsex::latest()->select('id', 'dbsexes_code')->where('dbsexes_status', 1)->get();
         $marital_status = maritalStatus::latest()->select('id', 'marital_statuses_code')->where('marital_statuses_status', 1)->get();
         $clients = client::latest()->select('id', 'client_code')->where('clients_status', 1)->get();
-
-
-        return view('admin.employee.create', compact('rols', 'departments', 'designations', 'paymode', 'outlets', 'passes', 'users', 'roles', 'races', 'religions', 'sexs', 'marital_status', 'clients'));
+        $Paybanks=Paybank::orderBy('Paybank_seqno')->select('id','Paybank_code')->where('Paybank_status',1)->get();
+        $emp_admin=Employee::select('id','employee_name')->where('roles_id',1)->get();
+        $emp_manager=Employee::select('id','employee_name')->where('roles_id',4)->get();
+        return view('admin.employee.create', compact('Paybanks','emp_manager','emp_admin','rols', 'departments', 'designations', 'paymode', 'outlets', 'passes', 'users', 'roles', 'races', 'religions', 'sexs', 'marital_status', 'clients'));
     }
 
     /**
@@ -115,8 +117,11 @@ class EmployeeController extends Controller
         $sexs = dbsex::latest()->select('id', 'dbsexes_code')->where('dbsexes_status', 1)->get();
         $marital_status = maritalStatus::latest()->select('id', 'marital_statuses_code')->where('marital_statuses_status', 1)->get();
         $clients = client::latest()->select('id', 'client_code')->where('clients_status', 1)->get();
+        $Paybanks=Paybank::orderBy('Paybank_seqno')->select('id','Paybank_code')->where('Paybank_status',1)->get();
 
-        return view('admin.employee.edit', compact('employee','rols', 'departments', 'designations', 'paymode', 'outlets', 'passes', 'users', 'roles', 'races', 'religions', 'sexs', 'marital_status', 'clients'));
+        $emp_admin=Employee::select('id','employee_name')->where('roles_id',1)->get();
+        $emp_manager=Employee::select('id','employee_name')->where('roles_id',4)->get();
+        return view('admin.employee.edit', compact('Paybanks','emp_manager','emp_admin','employee','rols', 'departments', 'designations', 'paymode', 'outlets', 'passes', 'users', 'roles', 'races', 'religions', 'sexs', 'marital_status', 'clients'));
     }
 
     /**

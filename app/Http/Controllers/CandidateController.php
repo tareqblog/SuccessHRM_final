@@ -175,4 +175,44 @@ class CandidateController extends Controller
         ClientUploadFile::where('id', $id)->delete();
         return back()->with('success', 'Successfully Deleted.');
     }
+
+    
+    public function resumeUpload(Request $request, $id)
+    {
+
+        $request->validate([
+            'file_path' => 'required|mimes:pdf|max:2048',
+            'file_type_id' => 'required',
+        ]);
+
+        $file_path = $request->file('file_path');
+
+        // Check if $file_path is not empty before proceeding
+        if ($file_path) {
+            $uploadedFilePath = FileHelper::uploadFile($file_path);
+
+            ClientUploadFile::create([
+                'client_id' => $id,
+                'file_path' => $uploadedFilePath,
+                'file_type_id' => $request->file_type_id,
+                'file_type_for' => $request->file_type_for
+            ]);
+
+            return back()->with('success', 'Created successfully.');
+        } else {
+            return back()->with('error', 'Please select a file.');
+        }
+    }
+    public function resumeDelete($id)
+    {
+        $file_path_name = ClientUploadFile::where('id', $id)->value('file_path');
+
+        $filePath = storage_path("app/public/{$file_path_name}");
+
+        if (file_exists($filePath)) {
+            Storage::delete("public/{$file_path_name}");
+        }
+        ClientUploadFile::where('id', $id)->delete();
+        return back()->with('success', 'Successfully Deleted.');
+    }
 }

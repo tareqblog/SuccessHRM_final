@@ -6,8 +6,8 @@
     <!-- datepicker css -->
     <link rel="stylesheet" href="{{ URL::asset('build/libs/flatpickr/flatpickr.min.css') }}">
 
-    <!-- gridjs css -->
-    <link rel="stylesheet" href="{{ URL::asset('build/libs/gridjs/theme/mermaid.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+
 @endsection
 @section('page-title')
     Employee Management
@@ -27,8 +27,8 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered mb-0" id="myTable">
-                            <thead>
+                    <table class="table table-bordered mb-0 mt-0 bg-light" id="myTable">
+                            <thead> 
                                 <tr>
                                     <th>No</th>
                                     <th>Name</th>
@@ -53,7 +53,7 @@
                                         <td style="display: flex;">
 
                                             <a href="{{ route('employee.edit', $data->id) }}"
-                                                class="btn btn-info btn-sm me-3">Edit</a>
+                                                class="btn btn-info btn-sm me-3"><i class="fas fa-pen"></i></a>
 
                                             <form id="deleteForm" action="{{ route('employee.destroy', $data->id) }}"
                                                 method="POST">
@@ -61,7 +61,7 @@
                                                 @method('DELETE')
                                                 <button type="submit"
                                                     onclick="return confirm('Are you sure you want to delete this item?')"
-                                                    class="btn btn-sm btn-danger">Delete</a>
+                                                    class="btn btn-sm btn-danger"><i class="fas fa fa-trash"></i></a>
                                             </form>
                                         </td>
                                     </tr>
@@ -84,15 +84,12 @@
         </div>
     @endsection
     @section('scripts')
-        <!-- datepicker js -->
-        <script src="{{ URL::asset('build/libs/flatpickr/flatpickr.min.js') }}"></script>
-
-        <!-- gridjs js -->
-        <script src="{{ URL::asset('build/libs/gridjs/gridjs.umd.js') }}"></script>
-
-        <!-- Employee DataGride --->
-        <script src="{{ URL::asset('build/js/employee.js') }}"></script>
-
-        <!-- App js -->
-        <script src="{{ URL::asset('build/js/app.js') }}"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#myTable').DataTable();
+            });
+        </script>
     @endsection

@@ -42,7 +42,7 @@ class client extends Model
     }
     public function followUps()
     {
-        return $this->hasMany(ClientFollowUp::class, 'client_id');
+        return $this->hasMany(ClientFollowUp::class, 'clients_id');
     }
 
     // You can also define a method to get the latest follow-up
