@@ -28,7 +28,7 @@ return new class extends Migration
             $table->date('candidate_tc_date')->nullable();
             $table->integer('children_no')->nullable()->comment('general info end');
             $table->double('candidate_height', 8, 2)->default(0);
-            $table->string('avatar')->nullable();
+            $table->longText('avatar')->nullable();
             $table->double('candidate_weight', 8, 2)->default(0)->comment('general info end');
 
 

@@ -27,7 +27,7 @@ class candidate extends Model
         });
     }
 
-    
+     
     public function Department()
     {
         return $this->belongsTo('App\Models\Department','departments_id');

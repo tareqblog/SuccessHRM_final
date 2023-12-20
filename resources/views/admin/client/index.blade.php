@@ -60,7 +60,7 @@
                                                 class="btn btn-warning btn-sm me-3">Follow Up</a>
 
                                             <a href="{{ route('clients.edit', $data->id) }}"
-                                                class="btn btn-info btn-sm me-3">Edit</a>
+                                                class="btn btn-info btn-sm me-3"><i class="fas fa-pen"></i></a>
 
                                             <form id="deleteForm" action="{{ route('clients.destroy', $data->id) }}"
                                                 method="POST">
@@ -68,7 +68,7 @@
                                                 @method('DELETE')
                                                 <button type="submit"
                                                     onclick="return confirm('Are you sure you want to delete this item?')"
-                                                    class="btn btn-sm btn-danger">Delete</a>
+                                                    class="btn btn-sm btn-danger"><i class="fas fa fa-trash"></i></a>
                                             </form>
                                         </td>
                                     </tr>

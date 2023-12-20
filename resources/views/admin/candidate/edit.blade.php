@@ -24,7 +24,7 @@
                             <a href="#" class="btn btn-sm btn-success">Search</a>
                         </div>
                     </div>
-
+ 
                     <div class="card-body">
                         <!-- Nav tabs -->
                         <div class="row">
@@ -902,7 +902,130 @@
 
                                     </div>
                                 </div>
+                                {{-- Upload Resume tab--}}
+                            <div class="tab-pane" id="upload_resume" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="card-header">
+                                            <h4 class="card-title mb-0">Upload Resume</h4>
+                                            <div class="text-end">
+                                                <a data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
+                                                    class="btn btn-sm btn-info">Upload New Resume</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 mt-2">
+                                        <table class="table table-bordered mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Main</th>
+                                                    <th>Upload By</th>
+                                                    <th>File Name</th>
+                                                    <th>Document Type</th>
+                                                    <th>Upload Date & Time</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @forelse ($client_files as $file)
+                                                    <tr>
+                                                        <td>{{ $loop->index + 1 }}</td>
+                                                        <td></td>
+                                                        <td>@if($file->created_by) 
+                                                            {{ \App\Models\Employee::where(['id' =>$file->created_by ])->pluck('employee_code')->first() }} 
+                                                        @else 
+                                                            User Not Found 
+                                                        @endif
+                                                        </td>
+                                                        <td>{{ $file->file_type->uploadfiletype_code }}</td>
+                                                        <td>{{ $file->file_path }}</td>
+                                                        <td>{{ $file->created_at }}</td>
+                                                        <td style="display: flex;">
+                                                            <a href="{{ asset('storage') }}/{{ $file->file_path }}"
+                                                                class="btn btn-info btn-sm me-3" download>Donwload</a>
+                                                            <form action="{{ route('candidate.file.delete', $file->id) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button class="btn btn-danger btn-sm"
+                                                                    onclick="return confirm('Are you sure you want to delete this item?')"
+                                                                    type="submit">Delete</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                @empty
+                                                    <tr class="text-center">
+                                                        <td colspan="50">No data found !</td>
+                                                    </tr>
+                                                @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="tab-pane" id="upload_file" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="card-header">
+                                            <h4 class="card-title mb-0">Upload File</h4>
+                                            <div class="text-end">
+                                                <a data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
+                                                    class="btn btn-sm btn-info">Upload New File</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 mt-2">
+                                        <table class="table table-bordered mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Upload By</th>
+                                                    <th>Document Type</th>
+                                                    <th>File Name</th>
+                                                    <th>Upload Date & Time</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @forelse ($client_files as $file)
+                                                    <tr>
+                                                        <td>{{ $loop->index + 1 }}</td>
+                                                        <td>@if($file->created_by) 
+                                                            {{ \App\Models\Employee::where(['id' =>$file->created_by ])->pluck('employee_code')->first() }} 
+                                                        @else 
+                                                            User Not Found 
+                                                        @endif
+                                                        </td>
+                                                        <td>{{ $file->file_type->uploadfiletype_code }}</td>
+                                                        <td>{{ $file->file_path }}</td>
+                                                        <td>{{ $file->created_at }}</td>
+                                                        <td style="display: flex;">
+                                                            <a href="{{ asset('storage') }}/{{ $file->file_path }}"
+                                                                class="btn btn-info btn-sm me-3" download>Donwload</a>
+                                                            <form action="{{ route('candidate.file.delete', $file->id) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button class="btn btn-danger btn-sm"
+                                                                    onclick="return confirm('Are you sure you want to delete this item?')"
+                                                                    type="submit">Delete</button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                @empty
+                                                    <tr class="text-center">
+                                                        <td colspan="50">No data found !</td>
+                                                    </tr>
+                                                @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <hr class="mt-3">
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div class="row">
                                 <div class="col-sm-9 ms-3 mb-3">
                                     <div>
@@ -915,6 +1038,51 @@
                             </div>
                         </form>
                     </div><!-- end card-body -->
+                    
+                    <!--  Create modal example -->
+                    <div class="modal fade bs-example-modal-lg-create" tabindex="-1" role="dialog"
+                        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="myLargeModalLabel">Upload File</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+
+                                <form  action="{{ route('candidate.file.upload', $candidate->id) }}" method="POST"  enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" name="file_type_for" value="1" class="form-control">
+                                            <div class="mt-5 mt-lg-4 mt-xl-0">
+                                                <div class="row mb-4">
+                                                    <label for="file_path" class="col-sm-3 col-form-label">Upload
+                                                        File</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="file" name="file_path" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="twente_four" class="col-sm-3 col-form-label">File
+                                                        Type</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="file_type_id" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($fileTypes as $file)
+                                                                <option value="{{ $file->id }}">
+                                                                    {{ $file->uploadfiletype_code }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn btn-sm btn-info w-md">Submit</button>
+                                            </div>
+                                        </form>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+                    <!--  Edit modal example -->
                 </div><!-- end card -->
             </div>
         </div>
@@ -926,4 +1094,6 @@
 
         <!-- init js -->
         <script src="{{ URL::asset('build/js/pages/form-editor.init.js') }}"></script>
+
+
     @endsection

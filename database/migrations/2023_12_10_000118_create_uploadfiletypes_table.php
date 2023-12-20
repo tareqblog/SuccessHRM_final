@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('uploadfiletypes', function (Blueprint $table) {
             $table->id();
             $table->string('uploadfiletype_code')->unique();
+            $table->integer('uploadfiletype_for')->default(1)->comment('1=Candidate,0=client');
             $table->integer('uploadfiletype_status')->default(1);
             $table->integer('created_by')->nullable();
             $table->integer('modify_by')->nullable();

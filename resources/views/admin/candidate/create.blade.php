@@ -76,77 +76,87 @@
                                         <div class="col-lg-4">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Candidate
+                                                    <label for="one" class="col-sm-4 col-form-label">Candidate
                                                         Code</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" name="candidate_code" class="form-control"
-                                                            placeholder="Candidate code">
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="" class="form-control"
+                                                            placeholder="Candidate code" disabled value="--System Generate--">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Candidate
+                                                    <label for="one" class="col-sm-4 col-form-label">Candidate
                                                         Name</label>
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="candidate_name" class="form-control"
                                                             placeholder="Candidate name">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Date of
+                                                    <label for="one" class="col-sm-4 col-form-label">Date of
                                                         Birth</label>
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-8">
                                                         <input type="date" name="candidate_birthdate"
                                                             class="form-control" placeholder="Date of Birth">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="two" class="col-sm-3 col-form-label">Race</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="two" class="col-sm-4 col-form-label">Race</label>
+                                                    <div class="col-sm-8">
                                                         <select name="races_id" class="form-control">
-                                                            <option value="">Select One</option>
+                                                        <option value="">Select One</option>    
+                                                        @foreach ($race_data as $row)
+                                                                <option value="{{ $row->id }}"  {{ old('races_id', $row->id) ? '' : 'selected' }}>
+                                                                    {{ old('races_id'). $row->race_code }}</option>
+                                                        @endforeach
                                                         </select>
-                                                    </div>
+                                                    </div> 
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="three" class="col-sm-3 col-form-label">Mobile</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="three" class="col-sm-4 col-form-label">Mobile</label>
+                                                    <div class="col-sm-8">
                                                         <input type="text" class="form-control"
                                                             name="candidate_mobile" placeholder="Mobile">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="three" class="col-sm-3 col-form-label">Home Tel</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="three" class="col-sm-4 col-form-label">Home Tel</label>
+                                                    <div class="col-sm-8">
                                                         <input type="text" class="form-control"
                                                             name="candidate_home_phone" placeholder="Home Tel">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="two" class="col-sm-3 col-form-label">Type Of
+                                                    <label for="two" class="col-sm-4 col-form-label">Type Of
                                                         Pass</label>
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-8">
                                                         <select name="passtypes_id" class="form-control">
-                                                            <option value="">Select One</option>
+                                                        <option value="">Select One</option>    
+                                                        @foreach ($passtype_data as $row)
+                                                                <option value="{{ $row->id }}"  {{ old('passtype_id', $row->id) ? '' : 'selected' }}>
+                                                                    {{ $row->passtype_code }}</option>
+                                                        @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="three" class="col-sm-3 col-form-label">Height</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="three" class="col-sm-4 col-form-label">Height</label>
+                                                    <div class="col-sm-8">
                                                         <input type="text" class="form-control"
                                                             name="candidate_height" placeholder="Height">
                                                     </div>
                                                 </div>
-                                                {{-- <div class="row mb-4">
-                                                <label for="two" class="col-sm-3 col-form-label">SHRC/SRC</label>
-                                                <div class="col-sm-9">
-                                                    <select  class="form-control" name="src">
+                                                 <div class="row mb-4">
+                                                <label for="two" class="col-sm-4 col-form-label">Outlet</label>
+                                                <div class="col-sm-8">
+                                                    <select  class="form-control" name="candidate_outlet_id">
                                                         <option value="">Select One</option>
-                                                        <option value="">SHRC</option>
-                                                        <option value="">SRC</option>
+                                                        @foreach ($outlet_data as $row)
+                                                                <option value="{{ $row->id }}"  {{ old('candidate_outlet_id', $row->id) ? '' : 'selected' }}>
+                                                                    {{ $row->outlet_name }}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
-                                            </div> --}}
+                                            </div> 
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -160,16 +170,16 @@
                                                 </div>
                                             </div> --}}
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">NRIC/FIN
+                                                    <label for="one" class="col-sm-4 col-form-label">NRIC/FIN
                                                         No.</label>
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="candidate_nric" class="form-control"
                                                             placeholder="NRIC/FIN No.">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Gender</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="one" class="col-sm-4 col-form-label">Gender</label>
+                                                    <div class="col-sm-8">
                                                         <select name="dbsexes_id" class="form-control">
                                                             <option value="">Select One</option>
                                                             <option value="1">Male</option>
@@ -178,19 +188,27 @@
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="two" class="col-sm-3 col-form-label">Religion</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="two" class="col-sm-4 col-form-label">Religion</label>
+                                                    <div class="col-sm-8">
                                                         <select name="religions_id" class="form-control">
                                                             <option value="">Select One</option>
+                                                            @foreach ($religion_data as $row)
+                                                                <option value="{{ $row->id }}"  {{ old('religions_id', $row->id) ? '' : 'selected' }}>
+                                                                    {{  $row->religion_code }}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="two" class="col-sm-3 col-form-label">Marital
+                                                    <label for="two" class="col-sm-4 col-form-label">Marital
                                                         Status</label>
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-8">
                                                         <select name="marital_statuses_id" class="form-control">
                                                             <option value="">Select One</option>
+                                                            @foreach ($marital_data as $row)
+                                                                <option value="{{ $row->id }}"  {{ old('marital_statuses_id', $row->id) ? '' : 'selected' }}>
+                                                                    {{  $row->marital_statuses_code }}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -203,28 +221,29 @@
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="four" class="col-sm-3 col-form-label">Email</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="four" class="col-sm-4 col-form-label">Email</label>
+                                                    <div class="col-sm-8">
                                                         <input type="email" name="candidate_email" class="form-control"
                                                             placeholder="Email">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="four" class="col-sm-3 col-form-label">Weight</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="four" class="col-sm-4 col-form-label">Weight</label>
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="candidate_weight"
                                                             class="form-control" placeholder="Weight">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="four" class="col-sm-3 col-form-label">Black
+                                                    <label for="four" class="col-sm-4 col-form-label">Black
                                                         List</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="radio" name="candidate_isBlocked" value="1">
-                                                        <label for="yes">Yes</label>
-                                                        <input type="radio" name="candidate_isBlocked-list"
-                                                            id="no" value="0">
-                                                        <label for="no">No</label>
+                                                    <div class="col-sm-8">
+                                                        
+                                                        <select name="candidate_isBlocked" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            <option value="1" {{ old('candidate_isBlocked', 1) ? '' : 'selected' }} >Yes</option>
+                                                            <option value="0" {{ old('candidate_isBlocked',0) ? '' : 'selected' }} >No</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <!-- sample modal content -->
@@ -258,8 +277,8 @@
                                         <div class="col-lg-4">
 
                                             <div class="row mb-4">
-                                                {{-- <label for="one" class="col-sm-3 col-form-label">User Right</label> --}}
-                                                <div class="col-sm-9">
+                                                {{-- <label for="one" class="col-sm-4 col-form-label">User Right</label> --}}
+                                                <div class="col-sm-8">
                                                     <img src="{{ URL::asset('build/images/avatar.png') }}" alt="avatar"
                                                         class="mb-2">
                                                     <input type="file" name="avatar" class="form-control">
@@ -274,25 +293,25 @@
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Postal Code
+                                                    <label for="one" class="col-sm-4 col-form-label">Postal Code
                                                         1</label>
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="candidate_postal_code"
                                                             class="form-control" placeholder="Postal Code">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Unit No
+                                                    <label for="one" class="col-sm-4 col-form-label">Unit No
                                                         1</label>
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="candidate_unit_number"
                                                             class="form-control" placeholder="Unit No">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="four" class="col-sm-3 col-form-label">Address
+                                                    <label for="four" class="col-sm-4 col-form-label">Address
                                                         1</label>
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-8">
                                                         <textarea name="candidate_street" rows="2" class="form-control" placeholder="Address"></textarea>
                                                     </div>
                                                 </div>
@@ -301,25 +320,25 @@
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Postal Code
+                                                    <label for="one" class="col-sm-4 col-form-label">Postal Code
                                                         2</label>
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="candidate_postal_code2"
                                                             class="form-control" placeholder="Postal Code">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Unit No
+                                                    <label for="one" class="col-sm-4 col-form-label">Unit No
                                                         2</label>
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="candidate_unit_number2"
                                                             class="form-control" placeholder="Unit No">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="four" class="col-sm-3 col-form-label">Address
+                                                    <label for="four" class="col-sm-4 col-form-label">Address
                                                         2</label>
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-8">
                                                         <textarea name="candidate_street2" rows="2" class="form-control" placeholder="Address"></textarea>
                                                     </div>
                                                 </div>
@@ -331,23 +350,23 @@
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Contact
+                                                    <label for="one" class="col-sm-4 col-form-label">Contact
                                                         Person</label>
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="candidate_emr_contact"
                                                             class="form-control" placeholder="Contact Person">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Phone 1</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="one" class="col-sm-4 col-form-label">Phone 1</label>
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="candidate_emr_phone1"
                                                             class="form-control" placeholder="Phone 1">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="four" class="col-sm-3 col-form-label">Address</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="four" class="col-sm-4 col-form-label">Address</label>
+                                                    <div class="col-sm-8">
                                                         <textarea name="candidate_emr_address" rows="2" class="form-control" placeholder="Address"></textarea>
                                                     </div>
                                                 </div>
@@ -357,22 +376,22 @@
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
                                                     <label for="one"
-                                                        class="col-sm-3 col-form-label">Relationship</label>
-                                                    <div class="col-sm-9">
+                                                        class="col-sm-4 col-form-label">Relationship</label>
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="candidate_emr_relation"
                                                             class="form-control" placeholder="Relationship">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Phone 2</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="one" class="col-sm-4 col-form-label">Phone 2</label>
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="candidate_emr_phone2"
                                                             class="form-control" placeholder="Phone 2">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="four" class="col-sm-3 col-form-label">Remarks</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="four" class="col-sm-4 col-form-label">Remarks</label>
+                                                    <div class="col-sm-8">
                                                         <textarea name="candidate_emr_remarks" rows="2" class="form-control" placeholder="Remarks"></textarea>
                                                     </div>
                                                 </div>
@@ -385,19 +404,21 @@
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Pay Mode</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="one" class="col-sm-4 col-form-label">Pay Mode</label>
+                                                    <div class="col-sm-8"> 
                                                         <select name="paymodes_id" class="form-control" id="">
                                                             <option value="">Select One</option>
-                                                            <option value="">Cash</option>
-                                                            <option value="">Cheque</option>
+                                                            @foreach ($paymode_data as $row)
+                                                                <option value="{{ $row->id }}"  {{ old('paymodes_id', $row->id) ? '' : 'selected' }}>
+                                                                    {{  $row->paymode_code }}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">GIRO Account
+                                                    <label for="one" class="col-sm-4 col-form-label">GIRO Account
                                                         Name</label>
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="candidate_bank_acc_title"
                                                             class="form-control" placeholder="GIRO Account Name">
                                                     </div>
@@ -407,21 +428,16 @@
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">GIRO Bank
-                                                        Code</label>
-                                                    {{-- <div class="col-sm-6">
-                                                    <select name="pay_mode_2" class="form-control" id="">
-                                                        <option value="">Select One</option>
-                                                    </select>
-                                                </div> --}}
-                                                    <div class="col-sm-2">
-                                                        <input type="text" class="form-control" disabled>
+                                                    <label for="one" class="col-sm-4 col-form-label">GIRO Bank</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="candidate_bank"
+                                                            class="form-control" placeholder="Bank Name">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">GIRO Account
+                                                    <label for="one" class="col-sm-4 col-form-label">GIRO Account
                                                         No</label>
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="candidate_bank_acc_no"
                                                             class="form-control" placeholder="GIRO Account No">
                                                     </div>
@@ -436,22 +452,22 @@
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">N-Levels</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="one" class="col-sm-4 col-form-label">N-Levels</label>
+                                                    <div class="col-sm-8">
                                                         <input type="text" class="form-control"
                                                             name="candidate_n_level" placeholder="Course">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">O-Levels</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="one" class="col-sm-4 col-form-label">O-Levels</label>
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="candidate_o_level"
                                                             class="form-control" placeholder="Course">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">A-Levels</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="one" class="col-sm-4 col-form-label">A-Levels</label>
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="candidate_a_level"
                                                             class="form-control" placeholder="Course">
                                                     </div>
@@ -461,22 +477,22 @@
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Diploma</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="one" class="col-sm-4 col-form-label">Diploma</label>
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="candidate_diploma"
                                                             class="form-control" placeholder="Course">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Degree</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="one" class="col-sm-4 col-form-label">Degree</label>
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="candidate_degree"
                                                             class="form-control" placeholder="Course">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Other</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="one" class="col-sm-4 col-form-label">Other</label>
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="candidate_other" class="form-control"
                                                             placeholder="Course">
                                                     </div>
@@ -489,8 +505,8 @@
                                         </p>
                                         <div class="col-lg-6">
                                             <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Written</label>
-                                                <div class="col-sm-9">
+                                                <label for="one" class="col-sm-4 col-form-label">Written</label>
+                                                <div class="col-sm-8">
                                                     <input type="text" name="candidate_written" class="form-control"
                                                         placeholder="eg: English - good">
                                                 </div>
@@ -498,8 +514,8 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Spoken</label>
-                                                <div class="col-sm-9">
+                                                <label for="one" class="col-sm-4 col-form-label">Spoken</label>
+                                                <div class="col-sm-8">
                                                     <input type="text" name="candidate_spocken" class="form-control"
                                                         placeholder="eg: English - good">
                                                 </div>
@@ -514,16 +530,16 @@
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Name</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="one" class="col-sm-4 col-form-label">Name</label>
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="candidate_referee_name1"
                                                             class="form-control" placeholder="Name">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Years
+                                                    <label for="one" class="col-sm-4 col-form-label">Years
                                                         Known</label>
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="candidate_referee_year_know1"
                                                             class="form-control" placeholder="Year">
                                                     </div>
@@ -534,8 +550,8 @@
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
                                                     <label for="one"
-                                                        class="col-sm-3 col-form-label">Occupation</label>
-                                                    <div class="col-sm-9">
+                                                        class="col-sm-4 col-form-label">Occupation</label>
+                                                    <div class="col-sm-8">
                                                         <input type="text" class="form-control"
                                                             name="candidate_referee_occupation1" placeholder="Occupation">
                                                     </div>
@@ -556,16 +572,16 @@
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Name</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="one" class="col-sm-4 col-form-label">Name</label>
+                                                    <div class="col-sm-8">
                                                         <input type="text" class="form-control"
                                                             name="candidate_referee_name2" placeholder="Name">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Years
+                                                    <label for="one" class="col-sm-4 col-form-label">Years
                                                         Known</label>
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="candidate_referee_year_know2"
                                                             class="form-control" placeholder="Year">
                                                     </div>
@@ -576,8 +592,8 @@
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
                                                     <label for="one"
-                                                        class="col-sm-3 col-form-label">Occupation</label>
-                                                    <div class="col-sm-9">
+                                                        class="col-sm-4 col-form-label">Occupation</label>
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="candidate_referee_occupation2"
                                                             class="form-control" placeholder="Occupation">
                                                     </div>
@@ -604,7 +620,7 @@
                                                     <label for="declaration_bankrupt" class=" control-label">1. Are
                                                         you / Have you ever been an undischarged bankrupt?</label>
                                                     <div class="radio d-flex">
-                                                        <div class="col-sm-3">
+                                                        <div class="col-sm-4">
                                                             <label>
                                                                 <input type="radio" name="candidate_dec_bankrupt"
                                                                     value="1">Yes
@@ -626,7 +642,7 @@
                                                         suffering from any physical / mental impairment or chronic /
                                                         pre-existing illness?</label>
                                                     <div class="radio d-flex">
-                                                        <div class="col-sm-3">
+                                                        <div class="col-sm-4">
                                                             <label>
                                                                 <input type="radio" name="candidate_dec_physical"
                                                                     value="1">Yes
@@ -647,7 +663,7 @@
                                                     <label for="declaration_bankrupt" class=" control-label">3. Are you
                                                         currently undergoing long-term medical treatment?</label>
                                                     <div class="radio d-flex">
-                                                        <div class="col-sm-3">
+                                                        <div class="col-sm-4">
                                                             <label>
                                                                 <input type="radio" name="candidate_dec_lt_medical"
                                                                     value="1">Yes
@@ -669,7 +685,7 @@
                                                         ever been convicted or found guilty of an offence in Court Of Law in
                                                         any country?</label>
                                                     <div class="radio d-flex">
-                                                        <div class="col-sm-3">
+                                                        <div class="col-sm-4">
                                                             <label>
                                                                 <input type="radio" name="candidate_dec_law"
                                                                     value="1">Yes
@@ -691,7 +707,7 @@
                                                         ever been issued warning letters, suspended or dismissed from
                                                         employment before?</label>
                                                     <div class="radio d-flex">
-                                                        <div class="col-sm-3">
+                                                        <div class="col-sm-4">
                                                             <label>
                                                                 <input type="radio" name="candidate_dec_warning"
                                                                     value="1">Yes
@@ -712,7 +728,7 @@
                                                     <label for="declaration_bankrupt" class=" control-label">6. Have you
                                                         applied for any job with this company before?</label>
                                                     <div class="radio d-flex">
-                                                        <div class="col-sm-3">
+                                                        <div class="col-sm-4">
                                                             <label>
                                                                 <input type="radio" name="candidate_dec_applied"
                                                                     value="1">Yes
@@ -782,7 +798,7 @@
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-2 col-form-label">Join
                                                         Date</label>
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-4">
                                                         <input type="date" class="form-control"
                                                             name="candidate_joindate" placeholder="Join Date">
                                                     </div>
@@ -794,7 +810,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-9 ms-3 mb-3">
+                                <div class="col-sm-8 ms-3 mb-3">
                                     <div>
                                         <a href="{{ route('candidate.index') }}"
                                             class="btn btn-sm btn-secondary w-md">Back</a>
