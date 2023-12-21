@@ -34,7 +34,7 @@ Candidate Management
                                 <th>Mobile</th>
                                 <th>Last Update Date</th>
                                 <th>Job Assign</th>
-                                <th>Group</th> 
+                                <th>Group</th>
                                 <th>Status</th>
                                 <th></th>
                             </tr>
@@ -51,12 +51,12 @@ Candidate Management
                                     <td>{{ $data->candidate_email }}</td>
                                     <td>{{ $data->candidate_mobile }}</td>
                                     <td>{{ $data->updated_at }}</td>
-                                    <td><a href="{{ route('candidate.edit', $data->id) }}#follow-up"
-                                            class="btn btn-success btn-sm me-3">Assigned</a</td>
+                                    <td><a href="{{ route('candidate.edit', $data->id) }}"
+                                            class="btn btn-success btn-sm me-3">Assigned</a></td>
                                     <td></td>
                                     <td>{{ $data->candidate_status == 1 ? 'Active' : 'In-Active' }}</td>
                                     <td style="display: flex;">
-                                        <a href="{{ route('candidate.edit', $data->id) }}#follow-up"
+                                        <a href="{{ route('candidate.edit', $data->id) }}#remark"
                                             class="btn btn-warning btn-sm me-3"></i>Remarks</a>
                                         <a href="{{ route('candidate.edit', $data->id) }}"
                                             class="btn btn-info btn-sm me-3"><i class="fas fa-pen"></i></a>

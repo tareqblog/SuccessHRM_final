@@ -74,7 +74,7 @@ class ClientController extends Controller
 
         $client_files = ClientUploadFile::where('client_id', $client->id)->get();
         $client_followup = ClientFollowUp::where('clients_id', $client->id)->get();
-        
+
         return view('admin.client.edit', compact('client', 'industries', 'employees', 'employees_payroll','users', 'tncs', 'client_terms', 'fileTypes', 'client_files','client_followup'));
     }
 
