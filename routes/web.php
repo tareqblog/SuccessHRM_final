@@ -208,6 +208,16 @@ Route::prefix('admin')->group(function () {
     Route::delete('/candidate/file-delete/{id}', [CandidateController::class, 'fileDelete'])->name('candidate.file.delete');
     Route::post('/candidate/followup/{id}', [CandidateController::class, 'followUp'])->name('candidate.followup');
     Route::delete('/candidate/followup/{id}', [CandidateController::class, 'folowupDelete'])->name('candidate.followup.delete');
+    Route::post('/candidate/remark/{id}', [CandidateController::class, 'remark'])->name('candidate.remark');
+    Route::delete('/candidate/remark/{id}', [CandidateController::class, 'remarkDelete'])->name('candidate.remark.delete');
+    Route::post('/candidate/payroll/{id}', [CandidateController::class, 'payroll'])->name('candidate.payroll');
+    Route::delete('/candidate/payroll/{id}', [CandidateController::class, 'payrollDelete'])->name('candidate.payroll.delete');
+    Route::post('/candidate/working-hour/{id}', [CandidateController::class, 'workingHour'])->name('candidate.working.hour');
+    Route::post('/candidate/family/{id}', [CandidateController::class, 'family'])->name('candidate.family');
+    Route::delete('/candidate/family/{id}', [CandidateController::class, 'familyDelete'])->name('candidate.family.delete');
+    Route::post('/candidate/resume/{id}', [CandidateController::class, 'resumeUpload'])->name('candidate.resume');
+    Route::delete('/candidate/resume/{id}', [CandidateController::class, 'resumeDelete'])->name('candidate.resume.delete');
+
 
     Route::get('{any}',  [App\Http\Controllers\HomeController::class, 'index']);
 

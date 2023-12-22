@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class remarkstype extends Model
+class CandidateWorkingHour extends Model
 {
     use HasFactory;
     protected $guarded = ['_token'];

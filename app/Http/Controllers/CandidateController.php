@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Helpers\FileHelper;
 use App\Http\Requests\CandidateRequest;
+use App\Http\Requests\PayrollRequest;
 use App\Models\candidate;
+use App\Models\CandidateFamily;
+use App\Models\CandidatePayroll;
+use App\Models\CandidateRemark;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -12,14 +16,19 @@ use Illuminate\Http\Request;
 use App\Models\Designation;
 use App\Models\Department;
 use App\Models\paymode;
-use App\Models\race;
+use App\Models\Race;
 use App\Models\maritalStatus;
 use App\Models\passtype;
-use App\Models\religion;
+use App\Models\Religion;
 use App\Models\outlet;
 use App\Models\uploadfiletype;
 use App\Models\ClientUploadFile;
 use App\Models\CandidateResume;
+use App\Models\CandidateWorkingHour;
+use App\Models\client;
+use App\Models\jobtype;
+use App\Models\remarkstype;
+
 class CandidateController extends Controller
 {
     /**
@@ -27,7 +36,7 @@ class CandidateController extends Controller
      */
     public function index()
     {
-        $datas = candidate::latest()->with('Race')->where('candidate_status','=',1)->where('candidate_isDeleted','=',0)->get();
+        $datas = candidate::latest()->with('Race')->where('candidate_status', '=', 1)->where('candidate_isDeleted', '=', 0)->get();
         return view('admin.candidate.index', compact('datas'));
     }
 
@@ -36,17 +45,17 @@ class CandidateController extends Controller
      */
     public function create()
     {
-        $department_data=Department::orderBy('department_seqno')->where('department_status','1')->get();
-        $designation_data=Designation::orderBy('designation_seqno')->where('designation_status','1')->get();
-        $paymode_data=paymode::orderBy('paymode_seqno')->where('paymode_status','1')->get();
-        $race_data=Race::orderBy('race_seqno')->where('race_status','1')->get();
-        $marital_data=maritalStatus::orderBy('marital_statuses_seqno')->where('marital_statuses_status','1')->get();
-        $passtype_data=passtype::orderBy('passtype_seqno')->where('passtype_status','1')->get();
-        $religion_data=religion::orderBy('religion_seqno')->where('religion_status','1')->get();
-        $outlet_data=outlet::orderBy('id')->get();
-        return view('admin.candidate.create',compact('outlet_data','religion_data','passtype_data','marital_data','race_data','department_data','designation_data','paymode_data',));
+        $department_data = Department::orderBy('department_seqno')->where('department_status', '1')->get();
+        $designation_data = Designation::orderBy('designation_seqno')->where('designation_status', '1')->get();
+        $paymode_data = paymode::orderBy('paymode_seqno')->where('paymode_status', '1')->get();
+        $race_data = Race::orderBy('race_seqno')->where('race_status', '1')->get();
+        $marital_data = maritalStatus::orderBy('marital_statuses_seqno')->where('marital_statuses_status', '1')->get();
+        $passtype_data = passtype::orderBy('passtype_seqno')->where('passtype_status', '1')->get();
+        $religion_data = religion::orderBy('religion_seqno')->where('religion_status', '1')->get();
+        $outlet_data = outlet::orderBy('id')->get();
+        return view('admin.candidate.create', compact('outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data',));
     }
- 
+
     /**
      * Store a newly created resource in storage.
      */
@@ -84,19 +93,26 @@ class CandidateController extends Controller
      */
     public function edit(candidate $candidate)
     {
-        $fileTypes = uploadfiletype::where('uploadfiletype_status', 1)->where('uploadfiletype_for',1)->latest()->get();
-        $department_data=Department::orderBy('department_seqno')->where('department_status','1')->get();
-        $designation_data=Designation::orderBy('designation_seqno')->where('designation_status','1')->get();
-        $paymode_data=paymode::orderBy('paymode_seqno')->where('paymode_status','1')->get();
-        $race_data=Race::orderBy('race_seqno')->where('race_status','1')->get();
-        $marital_data=maritalStatus::orderBy('marital_statuses_seqno')->where('marital_statuses_status','1')->get();
-        $passtype_data=passtype::orderBy('passtype_seqno')->where('passtype_status','1')->get();
-        $religion_data=religion::orderBy('religion_seqno')->where('religion_status','1')->get();
-        $outlet_data=outlet::orderBy('id')->get();
+        $fileTypes = uploadfiletype::where('uploadfiletype_status', 1)->where('uploadfiletype_for', 1)->latest()->get();
+        $department_data = Department::orderBy('department_seqno')->where('department_status', '1')->get();
+        $designation_data = Designation::orderBy('designation_seqno')->where('designation_status', '1')->get();
+        $paymode_data = paymode::orderBy('paymode_seqno')->where('paymode_status', '1')->get();
+        $race_data = Race::orderBy('race_seqno')->where('race_status', '1')->get();
+        $marital_data = maritalStatus::orderBy('marital_statuses_seqno')->where('marital_statuses_status', '1')->get();
+        $passtype_data = passtype::orderBy('passtype_seqno')->where('passtype_status', '1')->get();
+        $religion_data = religion::orderBy('religion_seqno')->where('religion_status', '1')->get();
+        $outlet_data = outlet::orderBy('id')->get();
+        $client_files = ClientUploadFile::where('client_id', $candidate->id)->where('file_type_for', 1)->get();
+        $remarks_type = remarkstype::where('remarkstype_status', 1)->select('id', 'remarkstype_code')->latest()->get();
+        $client_remarks = CandidateRemark::where('candidate_id', $candidate->id)->latest()->get();
+        $job_types = jobtype::where('jobtype_status',1)->select('id', 'jobtype_code')->latest()->get();
+        $clients = client::where('clients_status', 1)->select('id', 'client_name')->latest()->get();
+        $payrolls = CandidatePayroll::where('candidate_id', $candidate->id)->latest()->get();
+        $families = CandidateFamily::where('candidate_id', $candidate->id)->latest()->get();
+        $time = CandidateWorkingHour::where('candidate_id', $candidate->id)->first();
+        $candidate_resume = CandidateResume::where('candidates_id', $candidate->id)->latest()->get();
 
-        $client_files = ClientUploadFile::where('client_id', $candidate->id)->where('file_type_for',1)->get();
-        return view('admin.candidate.edit',compact('fileTypes','client_files','candidate','outlet_data','religion_data','passtype_data','marital_data','race_data','department_data','designation_data','paymode_data',));
-    
+        return view('admin.candidate.edit', compact('fileTypes', 'client_files', 'candidate', 'outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data', 'remarks_type', 'client_remarks', 'job_types', 'clients', 'payrolls', 'time', 'families', 'candidate_resume'));
     }
 
     /**
@@ -112,7 +128,7 @@ class CandidateController extends Controller
             $uploadedFilePath = FileHelper::uploadFile($request->file('avatar'));
 
             // Update the database record
-            $candidate->update($request->except('_token', 'avatar')+[
+            $candidate->update($request->except('_token', 'avatar') + [
                 'avatar' => $uploadedFilePath,
             ]);
         } else {
@@ -176,26 +192,23 @@ class CandidateController extends Controller
         return back()->with('success', 'Successfully Deleted.');
     }
 
-    
+
     public function resumeUpload(Request $request, $id)
     {
 
         $request->validate([
-            'file_path' => 'required|mimes:pdf|max:2048',
-            'file_type_id' => 'required',
+            'resume_file_path' => 'required|mimes:pdf|max:2048',
         ]);
 
-        $file_path = $request->file('file_path');
+        $file_path = $request->file('resume_file_path');
 
         // Check if $file_path is not empty before proceeding
         if ($file_path) {
             $uploadedFilePath = FileHelper::uploadFile($file_path);
 
-            ClientUploadFile::create([
-                'client_id' => $id,
-                'file_path' => $uploadedFilePath,
-                'file_type_id' => $request->file_type_id,
-                'file_type_for' => $request->file_type_for
+            CandidateResume::create([
+                'candidates_id' => $id,
+                'resume_file_path' => $uploadedFilePath,
             ]);
 
             return back()->with('success', 'Created successfully.');
@@ -205,14 +218,74 @@ class CandidateController extends Controller
     }
     public function resumeDelete($id)
     {
-        $file_path_name = ClientUploadFile::where('id', $id)->value('file_path');
+        $file_path_name = CandidateResume::where('id', $id)->value('resume_file_path');
 
         $filePath = storage_path("app/public/{$file_path_name}");
 
         if (file_exists($filePath)) {
             Storage::delete("public/{$file_path_name}");
         }
-        ClientUploadFile::where('id', $id)->delete();
+        CandidateResume::where('id', $id)->delete();
         return back()->with('success', 'Successfully Deleted.');
+    }
+
+    public function remark(Request $request, $id)
+    {
+        $request->validate([
+            'candidate_id' => 'required|integer',
+            'remarkstype_id' => 'required|integer',
+            'isNotice' => 'required|boolean',
+            'remarks' => 'required',
+        ]);
+
+        CandidateRemark::create($request->except('_token') + [
+            'candidate_id' => $id,
+        ]);
+        return redirect()->route('candidate.edit', $id)->with('success','Remark added successfully.');
+    }
+
+
+    public function remarkDelete($id) {
+        CandidateRemark::find($id)->delete();
+        return back()->with('success', 'Deleted Successfully.');
+    }
+    public function payroll(PayrollRequest $request, $id)
+    {
+        CandidatePayroll::create($request->except('_token'));
+        return back()->with('success','Payroll added successfully.');
+    }
+
+
+    public function payrollDelete($id) {
+        CandidatePayroll::find($id)->delete();
+        return back()->with('success', 'Deleted Successfully.');
+    }
+
+    public function workingHour(Request $request, $id) {
+        $request->validate([
+            'candidate_id' => 'required|integer',
+            'sheet_type_id' => 'required|integer',
+            'schedul_type' => 'required|string',
+            'schedul_day' => 'required|integer',
+            'remarks' => 'nullable',
+        ]);
+        CandidateWorkingHour::create($request->except('_token'));
+        return back()->with('success', 'Working hour successfully updated.');
+    }
+    public function family(Request $request, $id) {
+        $request->validate([
+            'candidate_id' => 'integer|required',
+            'name' => 'string|required',
+            'age' => 'integer|required',
+            'relationship' => 'string|required',
+            'occupation' => 'string|required',
+            'contact_no' => 'string|required',
+        ]);
+        CandidateFamily::create($request->except('_token'));
+        return back()->with('success', 'Family member added successfully.');
+    }
+    public function familyDelete($id) {
+        CandidateFamily::find($id)->delete();
+        return back()->with('success', 'Family member removed successfully.');
     }
 }

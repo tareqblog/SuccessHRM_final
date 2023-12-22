@@ -370,13 +370,15 @@
                                                 @forelse ($client_files as $file)
                                                     <tr>
                                                         <td>{{ $loop->index + 1 }}</td>
-                                                        <td>@if($file->created_by) 
-                                                            {{ \App\Models\Employee::where(['id' =>$file->created_by ])->pluck('employee_code')->first() }} 
-                                                        @else 
-                                                            User Not Found 
+                                                        <td>@if($file->created_by)
+                                                            {{ \App\Models\Employee::where(['id' =>$file->created_by ])->pluck('employee_code')->first() }}
+                                                        @else
+                                                            User Not Found
                                                         @endif
                                                         </td>
-                                                        <td>{{ $file->file_type->uploadfiletype_code }}</td>
+                                                        <td>
+                                                                {{ $file->file_type->uploadfiletype_code }}
+                                                        </td>
                                                         <td>{{ $file->file_path }}</td>
                                                         <td>{{ $file->created_at }}</td>
                                                         <td style="display: flex;">
@@ -436,16 +438,16 @@
                                             @forelse ($client_followup as $file)
                                                     <tr>
                                                         <td>{{ $loop->index + 1 }}</td>
-                                                        <td>@if($file->created_by) 
-                                                            {{ \App\Models\Employee::where(['id' =>$file->created_by ])->pluck('employee_code')->first() }} 
-                                                        @else 
-                                                            User Not Found 
+                                                        <td>@if($file->created_by)
+                                                            {{ \App\Models\Employee::where(['id' =>$file->created_by ])->pluck('employee_code')->first() }}
+                                                        @else
+                                                            User Not Found
                                                         @endif
                                                         </td>
                                                         <td>{!! $file->description !!}</td>
                                                         <td>{{ $file->created_at }}</td>
                                                         <td style="display: flex;">
-                                                            
+
                                                             <form action="{{ route('client.followup.delete', $file->id) }}"
                                                                 method="POST">
                                                                 @csrf
@@ -462,7 +464,7 @@
                                                     </tr>
                                                 @endforelse
                                             </tbody>
-                                        
+
                                         </table>
                                     </div>
                                     <hr class="mt-3">
