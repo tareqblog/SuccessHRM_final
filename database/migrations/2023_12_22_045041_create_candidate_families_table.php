@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('candidate_resumes', function (Blueprint $table) {
+        Schema::create('candidate_families', function (Blueprint $table) {
             $table->id();
-            $table->integer('candidates_id');
-            $table->string('resume_file_path')->nullable();
-            $table->integer('isMain')->default(0)->comment('1=main,0=onlist');
-            $table->integer('created_by')->nullable();
-            $table->integer('modify_by')->nullable();
+            $table->integer('candidate_id');
+            $table->string('name');
+            $table->integer('age');
+            $table->string('relationship');
+            $table->string('occupation');
+            $table->string('contact_no');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('candidate_resumes');
+        Schema::dropIfExists('candidate_families');
     }
 };

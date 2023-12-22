@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('candidate_resumes', function (Blueprint $table) {
+        Schema::create('candidate_working_hours', function (Blueprint $table) {
             $table->id();
-            $table->integer('candidates_id');
-            $table->string('resume_file_path')->nullable();
-            $table->integer('isMain')->default(0)->comment('1=main,0=onlist');
-            $table->integer('created_by')->nullable();
-            $table->integer('modify_by')->nullable();
+            $table->integer('candidate_id');
+            $table->integer('sheet_type_id');
+            $table->string('schedul_type');
+            $table->integer('schedul_day');
+            $table->longText('remarks');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('candidate_resumes');
+        Schema::dropIfExists('candidate_working_hours');
     }
 };
