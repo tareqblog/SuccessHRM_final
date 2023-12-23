@@ -80,7 +80,8 @@
                                                         Code</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="" class="form-control"
-                                                            placeholder="Candidate code" disabled value="--System Generate--">
+                                                            placeholder="Candidate code" disabled
+                                                            value="--System Generate--">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -103,13 +104,33 @@
                                                     <label for="two" class="col-sm-4 col-form-label">Race</label>
                                                     <div class="col-sm-8">
                                                         <select name="races_id" class="form-control">
-                                                        <option value="">Select One</option>    
-                                                        @foreach ($race_data as $row)
-                                                                <option value="{{ $row->id }}"  {{ old('races_id', $row->id) ? '' : 'selected' }}>
-                                                                    {{ old('races_id'). $row->race_code }}</option>
-                                                        @endforeach
+                                                            <option value="">Select One</option>
+                                                            @foreach ($race_data as $row)
+                                                                <option value="{{ $row->id }}"
+                                                                    {{ old('races_id', $row->id) ? '' : 'selected' }}>
+                                                                    {{ old('races_id') . $row->race_code }}</option>
+                                                            @endforeach
                                                         </select>
-                                                    </div> 
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="two" class="col-sm-4 col-form-label">Nationality</label>
+                                                    <div class="col-sm-8">
+                                                        <select name="nationality_id" class="form-control" id="mySelect">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($nationality as $nation)
+                                                                <option value="{{ $nation->id }}"
+                                                                    {{ old('nationality_id', $nation->id) ? '' : 'selected' }}>
+                                                                    {{ old('nationality_id') . $nation->nationality_code }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="myNationality" style="display: none;">
+                                                    <label for="two" class="col-sm-4 col-form-label">Date of issue</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="date" name="nationality_date_of_issue" class="form-control">
+                                                    </div>
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="three" class="col-sm-4 col-form-label">Mobile</label>
@@ -130,11 +151,12 @@
                                                         Pass</label>
                                                     <div class="col-sm-8">
                                                         <select name="passtypes_id" class="form-control">
-                                                        <option value="">Select One</option>    
-                                                        @foreach ($passtype_data as $row)
-                                                                <option value="{{ $row->id }}"  {{ old('passtype_id', $row->id) ? '' : 'selected' }}>
+                                                            <option value="">Select One</option>
+                                                            @foreach ($passtype_data as $row)
+                                                                <option value="{{ $row->id }}"
+                                                                    {{ old('passtype_id', $row->id) ? '' : 'selected' }}>
                                                                     {{ $row->passtype_code }}</option>
-                                                        @endforeach
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -145,18 +167,19 @@
                                                             name="candidate_height" placeholder="Height">
                                                     </div>
                                                 </div>
-                                                 <div class="row mb-4">
-                                                <label for="two" class="col-sm-4 col-form-label">Outlet</label>
-                                                <div class="col-sm-8">
-                                                    <select  class="form-control" name="candidate_outlet_id">
-                                                        <option value="">Select One</option>
-                                                        @foreach ($outlet_data as $row)
-                                                                <option value="{{ $row->id }}"  {{ old('candidate_outlet_id', $row->id) ? '' : 'selected' }}>
+                                                <div class="row mb-4">
+                                                    <label for="two" class="col-sm-4 col-form-label">Outlet</label>
+                                                    <div class="col-sm-8">
+                                                        <select class="form-control" name="candidate_outlet_id">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($outlet_data as $row)
+                                                                <option value="{{ $row->id }}"
+                                                                    {{ old('candidate_outlet_id', $row->id) ? '' : 'selected' }}>
                                                                     {{ $row->outlet_name }}</option>
-                                                        @endforeach
-                                                    </select>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                            </div> 
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -193,8 +216,9 @@
                                                         <select name="religions_id" class="form-control">
                                                             <option value="">Select One</option>
                                                             @foreach ($religion_data as $row)
-                                                                <option value="{{ $row->id }}"  {{ old('religions_id', $row->id) ? '' : 'selected' }}>
-                                                                    {{  $row->religion_code }}</option>
+                                                                <option value="{{ $row->id }}"
+                                                                    {{ old('religions_id', $row->id) ? '' : 'selected' }}>
+                                                                    {{ $row->religion_code }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -206,8 +230,9 @@
                                                         <select name="marital_statuses_id" class="form-control">
                                                             <option value="">Select One</option>
                                                             @foreach ($marital_data as $row)
-                                                                <option value="{{ $row->id }}"  {{ old('marital_statuses_id', $row->id) ? '' : 'selected' }}>
-                                                                    {{  $row->marital_statuses_code }}</option>
+                                                                <option value="{{ $row->id }}"
+                                                                    {{ old('marital_statuses_id', $row->id) ? '' : 'selected' }}>
+                                                                    {{ $row->marital_statuses_code }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -238,11 +263,15 @@
                                                     <label for="four" class="col-sm-4 col-form-label">Black
                                                         List</label>
                                                     <div class="col-sm-8">
-                                                        
+
                                                         <select name="candidate_isBlocked" class="form-control">
                                                             <option value="">Select One</option>
-                                                            <option value="1" {{ old('candidate_isBlocked', 1) ? '' : 'selected' }} >Yes</option>
-                                                            <option value="0" {{ old('candidate_isBlocked',0) ? '' : 'selected' }} >No</option>
+                                                            <option value="1"
+                                                                {{ old('candidate_isBlocked', 1) ? '' : 'selected' }}>Yes
+                                                            </option>
+                                                            <option value="0"
+                                                                {{ old('candidate_isBlocked', 0) ? '' : 'selected' }}>No
+                                                            </option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -405,12 +434,13 @@
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-4 col-form-label">Pay Mode</label>
-                                                    <div class="col-sm-8"> 
+                                                    <div class="col-sm-8">
                                                         <select name="paymodes_id" class="form-control" id="">
                                                             <option value="">Select One</option>
                                                             @foreach ($paymode_data as $row)
-                                                                <option value="{{ $row->id }}"  {{ old('paymodes_id', $row->id) ? '' : 'selected' }}>
-                                                                    {{  $row->paymode_code }}</option>
+                                                                <option value="{{ $row->id }}"
+                                                                    {{ old('paymodes_id', $row->id) ? '' : 'selected' }}>
+                                                                    {{ $row->paymode_code }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -428,10 +458,11 @@
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-4 col-form-label">GIRO Bank</label>
+                                                    <label for="one" class="col-sm-4 col-form-label">GIRO
+                                                        Bank</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" name="candidate_bank"
-                                                            class="form-control" placeholder="Bank Name">
+                                                        <input type="text" name="candidate_bank" class="form-control"
+                                                            placeholder="Bank Name">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -825,4 +856,10 @@
             </div><!-- end card -->
         </div>
         </div>
+    @endsection
+
+    @section('scripts')
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
+        @include('admin.candidate.include.genarel')
     @endsection

@@ -12,6 +12,7 @@
     <script src="https://kit.fontawesome.com/6cc5870d50.js" crossorigin="anonymous"></script>
     <!-- include head css -->
     @include('layouts.head-css')
+    <link rel="stylesheet" href="{{asset('build/css/style.css')}}">
 </head>
 
 @yield('body')
