@@ -31,7 +31,7 @@ Dashboard
                                             <tr>
                                                 <th>No</th>
                                                 <th>Candidates Name</th>
-                                                <th>Job Assaign</th>
+                                                <th>Job Assign</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -66,7 +66,7 @@ Dashboard
                                             <tr>
                                                 <th>No</th>
                                                 <th>Candidates Name</th>
-                                                <th>Job Assaign</th>
+                                                <th>Job Assign</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -101,7 +101,7 @@ Dashboard
                                             <tr>
                                                 <th>No</th>
                                                 <th>Candidates Name</th>
-                                                <th>Job Assaign</th>
+                                                <th>Job Assign</th>
                                             </tr>
                                         </thead>
                                         <tbody>

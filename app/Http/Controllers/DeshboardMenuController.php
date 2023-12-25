@@ -58,6 +58,7 @@ class DeshboardMenuController extends Controller
      */
     public function edit(DeshboardMenu $menu)
     {
+        
         $perents = DeshboardMenu::where('menu_perent',0)->select('menu_group', 'id')->get();
         return view('admin.dashboardMenu.edit', compact('menu', 'perents'));
     }

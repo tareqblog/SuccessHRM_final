@@ -15,53 +15,49 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title mb-0">Create New Candidate</h4>
+                        <div class="text-end">
+                        <a href="{{route('candidate.index')}}" class="btn btn-sm btn-success">Search</a>
+                        </div>
                     </div>
                     @include('admin.include.errors')
                     <div class="card-body">
                         <!-- Nav tabs -->
                         <div class="row">
-                            <div class="col-lg-10">
+                            <div class="col-lg-12">
                                 <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" data-bs-toggle="tab" href="#genarel_info" role="tab">
-                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                            <span class="d-none d-sm-block">Genarel Info</span>
+                                        <a class="nav-link active" data-bs-toggle="tab" href="#General_info" role="tab">
+                                            <span class="d-sm-block">General Info</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-bs-toggle="tab" href="#contact_info" role="tab">
-                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                            <span class="d-none d-sm-block">Contact Info</span>
+                                            <span class="d-sm-block">Contact Info</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-bs-toggle="tab" href="#bank_info" role="tab">
-                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                            <span class="d-none d-sm-block">Bank Info</span>
+                                            <span class="d-sm-block">Bank Info</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-bs-toggle="tab" href="#qualification" role="tab">
-                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                            <span class="d-none d-sm-block">Qualification</span>
+                                            <span class="d-sm-block">Qualification</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-bs-toggle="tab" href="#character_referees" role="tab">
-                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                            <span class="d-none d-sm-block">Character Referee's</span>
+                                            <span class="d-sm-block">Character Referee's</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-bs-toggle="tab" href="#declaration" role="tab">
-                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                            <span class="d-none d-sm-block">Declaration</span>
+                                            <span class="d-sm-block">Declaration</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-bs-toggle="tab" href="#terms_conditions" role="tab">
-                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                            <span class="d-none d-sm-block">Terms & Conditions</span>
+                                            <span class="d-sm-block">Terms & Conditions</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -71,7 +67,7 @@
                         <form action="{{ route('candidate.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="tab-content p-3 text-muted">
-                                <div class="tab-pane active" id="genarel_info" role="tabpanel">
+                                <div class="tab-pane active" id="General_info" role="tabpanel">
                                     <div class="row">
                                         <div class="col-lg-4">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
@@ -109,7 +105,7 @@
                                                                 <option value="{{ $row->id }}"
                                                                     {{ old('races_id', $row->id) ? '' : 'selected' }}>
                                                                     {{ old('races_id') . $row->race_code }}</option>
-                                                            @endforeach
+                                                            @endforeach 
                                                         </select>
                                                     </div>
                                                 </div>
@@ -121,7 +117,7 @@
                                                             @foreach ($nationality as $nation)
                                                                 <option value="{{ $nation->id }}"
                                                                     {{ old('nationality_id', $nation->id) ? '' : 'selected' }}>
-                                                                    {{ old('nationality_id') . $nation->nationality_code }}</option>
+                                                                    {{ old('nationality_id') . $nation->en_nationality }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -461,8 +457,14 @@
                                                     <label for="one" class="col-sm-4 col-form-label">GIRO
                                                         Bank</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" name="candidate_bank" class="form-control"
-                                                            placeholder="Bank Name">
+                                                        <select name="candidate_bank" class="form-control" id="">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($Paybanks as $data)
+                                                                <option value="{{ $data->id }}"
+                                                                    {{ old('candidate_bank') == $data->id ? 'selected' : '' }}>
+                                                                    {{ $data->Paybank_code }} </option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -861,5 +863,5 @@
     @section('scripts')
         <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
             crossorigin="anonymous"></script>
-        @include('admin.candidate.include.genarel')
+        @include('admin.candidate.include.General')
     @endsection

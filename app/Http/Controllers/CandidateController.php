@@ -27,9 +27,10 @@ use App\Models\CandidateResume;
 use App\Models\CandidateWorkingHour;
 use App\Models\client;
 use App\Models\jobtype;
-use App\Models\Nationality;
+use App\Models\country;
 use App\Models\remarkstype;
 use App\Models\User;
+use App\Models\Paybank;
 
 class CandidateController extends Controller
 {
@@ -55,8 +56,9 @@ class CandidateController extends Controller
         $passtype_data = passtype::orderBy('passtype_seqno')->where('passtype_status', '1')->get();
         $religion_data = religion::orderBy('religion_seqno')->where('religion_status', '1')->get();
         $outlet_data = outlet::orderBy('id')->get();
-        $nationality = Nationality::where('nationality_status', 1)->latest()->get();
-        return view('admin.candidate.create', compact('outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data','nationality'));
+        $nationality = country::where('country_status', 1)->latest()->get();
+        $Paybanks=Paybank::orderBy('Paybank_seqno')->select('id','Paybank_code')->where('Paybank_status',1)->get();
+        return view('admin.candidate.create', compact('Paybanks','outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data','nationality'));
     }
 
     /**
@@ -114,9 +116,10 @@ class CandidateController extends Controller
         $families = CandidateFamily::where('candidate_id', $candidate->id)->latest()->get();
         $time = CandidateWorkingHour::where('candidate_id', $candidate->id)->first();
         $candidate_resume = CandidateResume::where('candidates_id', $candidate->id)->latest()->get();
-        $nationality = Nationality::where('nationality_status', 1)->latest()->get();
+        $nationality = country::where('country_status', 1)->latest()->get();
         $users = User::latest()->get();
-        return view('admin.candidate.edit', compact('fileTypes', 'client_files', 'candidate', 'outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data', 'remarks_type', 'client_remarks', 'job_types', 'clients', 'payrolls', 'time', 'families', 'candidate_resume', 'nationality', 'users'));
+        $Paybanks=Paybank::orderBy('Paybank_seqno')->select('id','Paybank_code')->where('Paybank_status',1)->get();
+        return view('admin.candidate.edit', compact('Paybanks','fileTypes', 'client_files', 'candidate', 'outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data', 'remarks_type', 'client_remarks', 'job_types', 'clients', 'payrolls', 'time', 'families', 'candidate_resume', 'nationality', 'users'));
     }
 
     /**
@@ -292,4 +295,5 @@ class CandidateController extends Controller
         CandidateFamily::find($id)->delete();
         return back()->with('success', 'Family member removed successfully.');
     }
+
 }

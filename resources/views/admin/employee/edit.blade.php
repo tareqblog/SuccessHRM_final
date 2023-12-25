@@ -27,9 +27,9 @@
                             <div class="col-lg-8">
                                 <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" data-bs-toggle="tab" href="#genarel_info" role="tab">
+                                        <a class="nav-link active" data-bs-toggle="tab" href="#General_info" role="tab">
                                             <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                            <span class="d-none d-sm-block">Genarel Info</span>
+                                            <span class="d-none d-sm-block">General Info</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
@@ -72,7 +72,7 @@
                             @csrf
                             @method('PATCH')
                             <div class="tab-content p-3 text-muted">
-                                <div class="tab-pane active" id="genarel_info" role="tabpanel">
+                                <div class="tab-pane active" id="General_info" role="tabpanel">
                                     <div class="row">
                                         <div class="col-lg-4">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">

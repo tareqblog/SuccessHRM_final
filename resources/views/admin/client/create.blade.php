@@ -27,9 +27,9 @@
                             <div class="col-lg-1">
                                 <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" data-bs-toggle="tab" href="#genarel" role="tab">
+                                        <a class="nav-link active" data-bs-toggle="tab" href="#General" role="tab">
                                             <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                            <span class="d-none d-sm-block">Genarel</span>
+                                            <span class="d-none d-sm-block">General</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -40,7 +40,7 @@
                         <form action="{{ route('clients.store') }}" method="POST">
                             @csrf
                             <div class="tab-content p-3 text-muted">
-                                <div class="tab-pane active" id="genarel" role="tabpanel">
+                                <div class="tab-pane active" id="General" role="tabpanel">
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
