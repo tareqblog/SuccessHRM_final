@@ -43,7 +43,7 @@
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ $data->client_name }}</td>
                                         <td>
-                                            @if ($data->employee_id)
+                                            @if ($data->employees_id)
                                                 {{ $data->Employee->employee_code }}
                                             @endif
                                         </td>

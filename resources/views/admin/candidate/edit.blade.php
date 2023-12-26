@@ -156,7 +156,7 @@ Candidate Edit
                                                     <select name="nationality_id" class="form-control" id="mySelect">
                                                         <option value="">Select One</option>
                                                         @foreach($nationality as $nation)
-                                                            <option value="{{ $nation->id }}"{{ $nation->id == old('nationality_id', $candidate->nationality_id) ? 'selected' : '' }}>
+                                                            <option value="{{ $nation->id }}" {{ $nation->id == old('nationality_id', $candidate->nationality_id) ? 'selected' : '' }}>
                                                                 {{ $nation->en_nationality }}
                                                             </option>
                                                         @endforeach
@@ -193,7 +193,12 @@ Candidate Edit
                                                 <div class="col-sm-9">
                                                     <select name="passtypes_id" class="form-control">
                                                         <option value="">Select One</option>
-                                                    </select>
+                                                        @foreach ($passtype_data as $row)
+                                                            <option value="{{ $row->id }}"
+                                                                {{ $row->id==old('passtype_id',$candidate->passtypes_id ) ? 'selected' : '' }}>
+                                                                {{ $row->passtype_code }}</option>
+                                                        @endforeach
+                                                </select>
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
@@ -240,8 +245,8 @@ Candidate Edit
                                                 <div class="col-sm-9">
                                                     <select name="dbsexes_id" class="form-control">
                                                         <option value="">Select One</option>
-                                                        <option value="1" {{ old('dbsexes_id', $candidate->dbsexes_id)==1 ? '' : 'selected' }} >Male</option>
-                                                        <option value="2" {{ old('dbsexes_id', $candidate->dbsexes_id)==2 ? '' : 'selected' }} >Female</option>
+                                                        <option value="1" {{ old('dbsexes_id', $candidate->dbsexes_id)==1 ? 'selected' : '' }} >Male</option>
+                                                        <option value="2" {{ old('dbsexes_id', $candidate->dbsexes_id)==2 ? 'selected' : '' }} >Female</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -252,7 +257,7 @@ Candidate Edit
                                                         <option value="">Select One</option>
                                                         @foreach ($religion_data as $row)
                                                             <option value="{{ $row->id }}"
-                                                                {{ $row->id == old('religions_id', $candidate->religions_id) ? '' : 'selected' }}>
+                                                                {{ $row->id == old('religions_id', $candidate->religions_id) ? 'selected' : '' }}>
                                                                 {{ $row->religion_code }}</option>
                                                         @endforeach
                                                     </select>
@@ -266,7 +271,7 @@ Candidate Edit
                                                         <option value="">Select One</option>
                                                         @foreach ($marital_data as $row)
                                                             <option value="{{ $row->id }}"
-                                                                {{ $row->id==old('marital_statuses_id',$candidate->marital_statuses_id ) ? '' : 'selected' }}>
+                                                                {{ $row->id==old('marital_statuses_id',$candidate->marital_statuses_id ) ? 'selected' : '' }}>
                                                                 {{ $row->marital_statuses_code }}</option>
                                                         @endforeach
                                                     </select>
@@ -390,7 +395,7 @@ Candidate Edit
                                                 <div class="col-sm-9">
                                                     <input type="text" name="candidate_unit_number" class="form-control"
                                                         placeholder="Unit No"
-                                                        value="{{ $candidate->candidate_nite_number }}">
+                                                        value="{{ $candidate->candidate_unit_number }}">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
