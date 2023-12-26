@@ -87,14 +87,6 @@ File: Main Js File
     }
 
 
-    function initMetisMenu() {
-        // MetisMenu js
-        document.addEventListener("DOMContentLoaded", function (event) {
-            if (document.getElementById("side-menu"))
-                new MetisMenu('#side-menu');
-        });
-    }
-
     function initCounterNumber() {
         var counter = document.querySelectorAll('.counter-value');
         var speed = 250; // The lower the slower

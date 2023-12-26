@@ -1,7 +1,9 @@
 @yield('css')
 <!-- Bootstrap Css -->
+<link href="{{ URL::asset('build/css/bootstrap.css') }}"  rel="stylesheet" type="text/css" />
 <link href="{{ URL::asset('build/css/bootstrap.min.css') }}"  rel="stylesheet" type="text/css" />
 <!-- Icons Css -->
+<link href="{{ URL::asset('build/css/icons.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ URL::asset('build/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
 <!-- App Css-->
 <link href="{{ URL::asset('build/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
@@ -17,5 +19,12 @@
 {
       content:"*"!important;
       color:red!important;
+}
+.nav-tabs .nav-link.active{
+      background-color:#fff!important;
+}
+
+.nav-tabs.nav-item{
+      height: 100%!important;
 }
 </style>

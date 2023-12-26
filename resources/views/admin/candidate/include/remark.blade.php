@@ -2,28 +2,28 @@
     $(document).ready(function() {
         $('#remark_type').change(function() {
             var selectedValue = $(this).val();
-            // AssaignToManager Start
+            // AssignToManager Start
             if (selectedValue === '1') {
-                $('#assaignToManager').show().css('display', 'show');
+                $('#AssignToManager').show().css('display', 'show');
             } else {
-                $('#assaignToManager').hide().css('display', 'none');
+                $('#AssignToManager').hide().css('display', 'none');
             }
-            //AssaignToManager end
-            // AssaignToTeamLeader Start
+            //AssignToManager end
+            // AssignToTeamLeader Start
             if (selectedValue === '2') {
-                $('#assaignToTeamLeader').show().css('display', 'show');
+                $('#AssignToTeamLeader').show().css('display', 'show');
             } else {
-                $('#assaignToTeamLeader').hide().css('display', 'none');
+                $('#AssignToTeamLeader').hide().css('display', 'none');
             }
-            //AssaignToTeamLeader end
-            // AssaignToRC Start
+            //AssignToTeamLeader end
+            // AssignToRC Start
             if (selectedValue === '3') {
-                $('#assaignToRC').show().css('display', 'show');
+                $('#AssignToRC').show().css('display', 'show');
             } else {
-                $('#assaignToRC').hide().css('display', 'none');
+                $('#AssignToRC').hide().css('display', 'none');
             }
-            //AssaignToRC end
-            //AssaignInterview start
+            //AssignToRC end
+            //AssignInterview start
             if (selectedValue === '5') {
                 $('#interviewTime').show().css('display', 'show');
                 $('#interviewCompany').show().css('display', 'show');
@@ -51,18 +51,18 @@
                 $('#availableDate').hide().css('display', 'none');
                 $('#interviewEmailNoticeDate').hide().css('display', 'none');
             }
-            //AssaignInterview end
+            //AssignInterview end
 
-            // AssaignToRC Start
+            // AssignToRC Start
             if (selectedValue === '6') {
-                $('#assaignToClient').show().css('display', 'show');
+                $('#AssignToClient').show().css('display', 'show');
                 $('#clientArNo').show().css('display', 'show');
             } else {
-                $('#assaignToClient').hide().css('display', 'none');
+                $('#AssignToClient').hide().css('display', 'none');
                 $('#clientArNo').hide().css('display', 'none');
             }
-            //AssaignToRC end
-            // AssaignToClient Start
+            //AssignToRC end
+            // AssignToClient Start
             if (selectedValue === '7') {
                 $('#shortlistClientCompany').show().css('display', 'show');
                 $('#shortlistDepartment').show().css('display', 'show');
@@ -85,6 +85,7 @@
                 $('#shortlistClientCompany').hide().css('display', 'none');
                 $('#shortlistDepartment').hide().css('display', 'none');
                 $('#shortlistPlacement').hide().css('display', 'none');
+                $('#shortlistJobTitle').show().css('display', 'none');
                 $('#shortlistJobType').hide().css('display', 'none');
                 $('#shortlistProbationPeriod').hide().css('display', 'none');
                 $('#shortlistContractSigningDate').hide().css('display', 'none');
@@ -100,7 +101,7 @@
                 $('#shortlistLastDay').hide().css('display', 'none');
                 $('#shortlistEmailNoticeTime').hide().css('display', 'none');
             }
-            //AssaignToClient end
+            //AssignToClient end
 
         });
         $('#remark_type').trigger('change');

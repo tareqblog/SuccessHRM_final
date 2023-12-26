@@ -20,8 +20,8 @@
                     <div class="card-header">
                         <h4 class="card-title mb-0">Edit Client</h4>
                         <div class="text-end">
-                            <a href="#" class="btn btn-sm btn-success">Create New</a>
-                            <a href="#" class="btn btn-sm btn-success">Search</a>
+                            <a href="{{route('clients.create')}}" class="btn btn-sm btn-success">Create New</a>
+                            <a href="{{route('clients.index')}}" class="btn btn-sm btn-success">Search</a>
                         </div>
                     </div>
 
@@ -40,9 +40,9 @@
                             <div class="col-lg-5">
                                 <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" data-bs-toggle="tab" href="#genarel" role="tab">
+                                        <a class="nav-link active" data-bs-toggle="tab" href="#General" role="tab">
                                             <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                            <span class="d-none d-sm-block">Genarel</span>
+                                            <span class="d-none d-sm-block">General</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
@@ -63,7 +63,7 @@
 
                         <!-- Tab panes -->
                         <div class="tab-content p-3 text-muted">
-                            <div class="tab-pane active" id="genarel" role="tabpanel">
+                            <div class="tab-pane active" id="General" role="tabpanel">
                                 <form action="{{ route('clients.update', $client->id) }}" method="POST">
                                     @csrf
                                     @method('PATCH')

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\CandidateFileImportController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ClientTermController;
 use App\Http\Controllers\DepartmentController;
@@ -107,7 +108,7 @@ Route::get('/invoice/edit', function () {
 // Invoice Ends
 
 
-// Invoice Start
+// Personal Folder Start
 Route::get('/personal-folder', function () {
     return view('admin.personalFolder.index');
 });
@@ -117,7 +118,7 @@ Route::get('/personal-folder/create', function () {
 Route::get('/personal-folder/edit', function () {
     return view('admin.personalFolder.edit');
 });
-// Invoice Ends
+// Personal Folder Ends
 
 
 // User Control Start
@@ -150,9 +151,6 @@ Route::get('/file-type', function () {
 });
 Route::get('/remark-type', function () {
     return view('admin.remarkType.index');
-});
-Route::get('/designation', function () {
-    return view('admin.designation.index');
 });
 // Activity Ends
 
@@ -189,6 +187,7 @@ Route::prefix('admin')->group(function () {
         '/job' => JobController::class,
         '/leave' => LeaveController::class,
         '/candidate' => CandidateController::class,
+        '/import' => CandidateFileImportController::class,
         '/file-type' => UploadFileTypeController::class,
     ]);
     Route::get('/setting/profile', [App\Http\Controllers\AdminController::class, 'Index'])->name('user.profiles');
@@ -204,6 +203,7 @@ Route::prefix('admin')->group(function () {
     Route::delete('/file-delete/{id}', [ClientController::class, 'fileDelete'])->name('client.file.delete');
     Route::post('/client/followup/{id}', [ClientController::class, 'followUp'])->name('client.followup');
     Route::delete('/client/followup/{id}', [ClientController::class, 'folowupDelete'])->name('client.followup.delete');
+    //Candidate extra part
     Route::post('/candidate/file-upload/{id}', [CandidateController::class, 'fileUpload'])->name('candidate.file.upload');
     Route::delete('/candidate/file-delete/{id}', [CandidateController::class, 'fileDelete'])->name('candidate.file.delete');
     Route::post('/candidate/followup/{id}', [CandidateController::class, 'followUp'])->name('candidate.followup');

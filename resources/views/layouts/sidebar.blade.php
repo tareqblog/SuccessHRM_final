@@ -33,11 +33,9 @@
             <!-- Left Menu Start -->
             <ul class="metismenu list-unstyled" id="side-menu">
                 @foreach ($navbars as $navbarItem)
-                    <!-- <li class="menu-title" data-key="{{ $navbarItem->slug }}" style="padding:5px 25px!important">{{ $navbarItem->menu_name }}</li>-->
-
                     <li>
                         @if (count($navbarItem->childs))
-                            <a href="{{ $navbarItem->menu_path }}" class="has-arrow">
+                            <a href="#" class="has-arrow" data-toggle="collapse" data-target="#{{$navbarItem->slug}}">
                                 <i class="{{ $navbarItem->menu_icon }} icon nav-icon"></i>
                                 <span class="menu-item"
                                     data-key="{{ $navbarItem->slug }}">{{ $navbarItem->menu_name }}</span>
@@ -50,7 +48,7 @@
                             </a>
                         @endif
                         @if (count($navbarItem->childs))
-                            <ul class="sub-menu" aria-expanded="false">
+                            <ul class="sub-menu collapse" aria-expanded="false" >
                                 @foreach ($navbarItem->childs as $child)
                                     <li><a href="{{ $child->menu_path }}"
                                             data-key="{{ $child->slug }}">{{ $child->menu_name }}</a>

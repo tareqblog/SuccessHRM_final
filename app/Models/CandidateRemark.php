@@ -26,7 +26,7 @@ class CandidateRemark extends Model
         });
     }
 
-    public function assaign()
+    public function Assign()
     {
         return $this->belongsTo(User::class, 'created_by');
     }

@@ -32,7 +32,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        $industries = IndustryType::latest()->get();
+        $industries = IndustryType::orderBy('industry_seqno')->get();
         $employees = Employee::latest()->where('roles_id','!=','13')->Where('roles_id','!=','14')->select('id', 'employee_name')->get();
         $employees_payroll = Employee::latest()->where('roles_id','=','13')->orWhere('roles_id','=','14')->select('id', 'employee_name')->get();
         $users = User::latest()->select('id', 'name')->get();
@@ -63,7 +63,7 @@ class ClientController extends Controller
      */
     public function edit(client $client)
     {
-        $industries = IndustryType::latest()->get();
+        $industries = IndustryType::orderBy('industry_seqno')->get();
         $employees = Employee::latest()->where('roles_id','!=','13')->Where('roles_id','!=','14')->select('id', 'employee_name')->get();
         $employees_payroll = Employee::latest()->where('roles_id','=','13')->orWhere('roles_id','=','14')->select('id', 'employee_name')->get();
         $users = User::latest()->select('id', 'name')->get();

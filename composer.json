@@ -15,6 +15,8 @@
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.2",
         "maatwebsite/excel": "*",
+        "onokumus/metismenu": "^3.0",
+        "onokumus/metismenujs": "dev-master",
         "phpoffice/phpspreadsheet": "^1.29",
         "pragmarx/google2fa-laravel": "^2.1",
         "spatie/laravel-activitylog": "^4.7",
