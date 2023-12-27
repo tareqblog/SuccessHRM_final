@@ -110,7 +110,7 @@ class CandidateController extends Controller
         $client_files = ClientUploadFile::where('client_id', $candidate->id)->where('file_type_for', 1)->get();
         $remarks_type = remarkstype::where('remarkstype_status', 1)->select('id', 'remarkstype_code')->latest()->get();
         $client_remarks = CandidateRemark::where('candidate_id', $candidate->id)->latest()->get();
-        $job_types = jobtype::where('jobtype_status',1)->select('id', 'jobtype_code')->latest()->get();
+        $job_types = jobtype::where('jobtype_status',1)->select('id', 'jobtype_code')->get();
         $clients = client::where('clients_status', 1)->select('id', 'client_name')->latest()->get();
         $payrolls = CandidatePayroll::where('candidate_id', $candidate->id)->latest()->get();
         $families = CandidateFamily::where('candidate_id', $candidate->id)->latest()->get();

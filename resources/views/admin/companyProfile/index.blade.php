@@ -16,7 +16,7 @@ Outlet Management
                 <div class="card-header">
                     <h4 class="card-title mb-0">Outlet Listing</h4>
                     <div class="text-end">
-                        <a href="#" class="btn btn-sm btn-info">Create New</a>
+                        <a href="/company-profile/create" class="btn btn-sm btn-info">Create New</a>
                     </div>
                 </div>
                 <div class="card-body">

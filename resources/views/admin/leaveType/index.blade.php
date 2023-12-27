@@ -50,7 +50,7 @@ Leave Type Management
                                     <td>{{ $loop->index + 1 }}</td>
                                     <td>{{ $data->leavetype_code }}</td>
                                     <td>{{ $data->leavetype_desc }}</td>
-                                    <td>{{ $data->industry_status == 1 ? 'Active' : 'In-Active' }}
+                                    <td>{{ $data->leavetype_status == 1 ? 'Active' : 'Inactive' }}
                                     </td>
                                     <td class="d-flex">
                                         <button data-id="{{ $data->id }}" data-bs-toggle="modal"
@@ -87,40 +87,40 @@ Leave Type Management
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body p-4">
                                 <form action="{{ route('leave-type.store') }}" method="POST">
                                     @csrf
-                                    <div class="row">
+                                    <div class="row p-2">
                                         <div class="col-lg-6">
                                             <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Leave Type
+                                                <label for="one" class="col-sm-4 col-form-label">Leave Type
                                                     Code</label>
-                                                <div class="col-sm-9">
+                                                <div class="col-sm-8">
                                                     <input type="text" name="leavetype_code" class="form-control"
                                                         placeholder="Leave Type Code">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Default Leave
+                                                <label for="one" class="col-sm-4 col-form-label">Default Leave
                                                     Days</label>
-                                                <div class="col-sm-9">
+                                                <div class="col-sm-8">
                                                     <input type="text" name="leavetype_default" class="form-control"
                                                         placeholder="Default Leave Days">
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Seq No</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control" name="industry_seqno"
-                                                        placeholder="Seq No">
+                                                <label for="one" class="col-sm-4 col-form-label">List Order</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" name="leavetype_seqno"
+                                                        placeholder="List Order">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Block
+                                                <label for="one" class="col-sm-4 col-form-label">Block
                                                     Candidate</label>
-                                                <div class="col-sm-9">
+                                                <div class="col-sm-8">
                                                     <select name="leavetype_block" id="" class="form-control">
                                                         <option value="">Select One</option>
                                                         <option value="1">Yes</option>
@@ -129,8 +129,8 @@ Leave Type Management
                                                 </div>
                                             </div>
                                             <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Description</label>
-                                                <div class="col-sm-9">
+                                                <label for="one" class="col-sm-4 col-form-label">Description</label>
+                                                <div class="col-sm-8">
                                                     <textarea name="leavetype_desc" rows="2" placeholder="Description"
                                                         class="form-control"></textarea>
                                                 </div>

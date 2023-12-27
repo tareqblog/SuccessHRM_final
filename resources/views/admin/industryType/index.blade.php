@@ -81,36 +81,33 @@
 
                                     <form action="{{ route('industry-type.store') }}" method="POST">
                                         @csrf
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Industy
+                                        <div class="row p-4">
+                                            <div class="col-lg-12 row">
+                                                <div class="row mb-4 col-lg-6">
+                                                    <label for="one" class="col-sm-4 col-form-label">Industy
                                                         Code</label>
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="industry_code" class="form-control"
                                                             placeholder="Title" value="{{ old('industry_code') }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Industry
+                                                <div class="row mb-4 col-lg-6">
+                                                    <label for="one" class="col-sm-4 col-form-label">Industry
                                                         Description</label>
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-8">
                                                         <textarea name="industry_desc" rows="2" class="form-control" placeholder="Descriptin"></textarea>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-lg-6">
-
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Seq No</label>
-                                                    <div class="col-sm-9">
+                                                <div class="row mb-4 col-lg-6">
+                                                    <label for="one" class="col-sm-4 col-form-label">List Order</label>
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="industry_seqno" class="form-control"
-                                                            placeholder="Seq no" value="{{ old('industry_seqno') }}">
+                                                            placeholder="List Order" value="{{ old('industry_seqno') }}">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row mt-5">
+                                        <div class="row mt-2">
                                             <div class="col-lg-12">
                                                 <button type="button" data-bs-dismiss="modal" aria-label="Close"
                                                     class="btn btn-sm btn-secondary">Cancel</button>

@@ -57,9 +57,9 @@
                                         <td>{{ $data->candidate_status == 1 ? 'Active' : 'In-Active' }}</td>
                                         <td style="display: flex;">
                                             <a href="{{ route('candidate.edit', $data->id) }}#remark"
-                                                class="btn btn-warning btn-sm"></i>Remarks</a>
+                                                class="btn btn-warning btn-sm me-2"></i>Remarks</a>
                                             <a href="{{ route('candidate.edit', $data->id) }}"
-                                                class="btn btn-info btn-sm"><i class="fas fa-pen"></i></a>
+                                                class="btn btn-info btn-sm me-2"><i class="fas fa-pen"></i></a>
                                             <form id="deleteForm" action="{{ route('candidate.destroy', $data->id) }}"
                                                 method="POST">
                                                 @csrf

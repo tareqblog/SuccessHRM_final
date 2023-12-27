@@ -142,10 +142,10 @@ Candidate Edit
                                                     <select name="races_id" class="form-control">
                                                         <option value="">Select One</option>
                                                         @foreach ($race_data as $row)
-                                                            <option value="{{ $row->id }}" 
+                                                            <option value="{{ $row->id }}"
                                                                 {{ $row->id == old('races_id', $candidate->races_id) ? 'selected' : '' }}>
                                                                 {{ old('races_id') . $row->race_code }}</option>
-                                                        @endforeach 
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </div>
@@ -305,11 +305,11 @@ Candidate Edit
                                                 <label for="four" class="col-sm-3 col-form-label">Black
                                                     List</label>
                                                 <div class="col-sm-9">
-                                                    <input type="radio" name="candidate_isBlocked" value="1">
-                                                    <label for="yes"
-                                                        {{ $candidate->candidate_isBlocked == 1 ? 'selected' : '' }}>Yes</label>
+                                                    <input type="radio" name="candidate_isBlocked" value="1"
+                                                    {{ $candidate->candidate_isBlocked == 1 ? 'checked' : '' }}>
+                                                    <label for="yes">Yes</label>
                                                     <input type="radio" name="candidate_isBlocked" id="no" value="0"
-                                                        {{ $candidate->candidate_isBlocked == 0 ? 'selected' : '' }}>
+                                                        {{ $candidate->candidate_isBlocked == 0 ? 'checked' : '' }}>
                                                     <label for="no">No</label>
                                                 </div>
                                             </div>
@@ -349,12 +349,14 @@ Candidate Edit
                                                 @if($candidate->avatar)
                                                     <img width="200"
                                                         src="{{ asset('storage') }}/{{ $candidate->avatar }}"
-                                                        alt="avatar">
+                                                        alt="avatar" id="avatar-preview">
                                                 @else
-                                                    <img src="{{ URL::asset('build/images/avatar.png') }}"
-                                                        alt="avatar" class="mb-2">
+                                                    <img width="200" src="{{ URL::asset('build/images/avatar.png') }}"
+                                                        alt="avatars" id="avatar-preview" class="mb-2">
                                                 @endif
-                                                <input type="file" name="avatar" class="form-control">
+                                                <input type="file" name="avatar" id="avatar-input" class="form-control" accept="images">
+
+
                                             </div>
                                         </div>
                                     </div>
@@ -1360,7 +1362,7 @@ Candidate Edit
                                                 <select name="client_company" class="form-control">
                                                     <option value="">Select One</option>
                                                     @foreach ($clients as $client)
-                                                        <option value="{{$client->id}}">{{$client->company_name}} </option>
+                                                        <option value="{{$client->id}}">{{$client->client_name}} </option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -1399,12 +1401,13 @@ Candidate Edit
                                             <div class="col-sm-9">
                                                 <select name="shortlistProbationPeriod" class="form-control">
                                                     <option value="">Select One</option>
-                                                    <option value="1 Month">1 Month</option>
-                                                    <option value="2 Months">2 Months</option>
-                                                    <option value="3 Months">3 Months</option>
-                                                    <option value="4 Months">4 Months</option>
-                                                    <option value="5 Months">5 Months</option>
-                                                    <option value="6 Months">6 Months</option>
+                                                    <option value="0">No Probation</option>
+                                                    <option value="1">1 Month</option>
+                                                    <option value="2">2 Months</option>
+                                                    <option value="3">3 Months</option>
+                                                    <option value="4">4 Months</option>
+                                                    <option value="5">5 Months</option>
+                                                    <option value="6">6 Months</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -1563,7 +1566,7 @@ Candidate Edit
                                             </div>
                                         </div>
 
-                                        
+
                                         <div class="row mb-4" id="interviewDate" style="display: none;">
                                             <label for="one" class="col-sm-3 col-form-label">Interview
                                                 Date<span class="text-danger">*</span> </label>
@@ -1689,14 +1692,13 @@ Candidate Edit
                                         <label for="one" class="col-form-label"><b>NRIC:
                                             {{ $candidate->candidate_nric }}</b></label>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="mt-5 mt-lg-4 mt-xl-0">
-                                            <div class="row mb-4">
+                                    <div class="col-lg-12 mt-5 mt-lg-4 mt-xl-0 row">
+                                            <div class="row mb-4 col-lg-6">
                                                 <input type="hidden" name="candidate_id" value="{{ $candidate->id }}">
                                                 <label for="one" class="col-sm-3 col-form-label">Job Type <span
                                                         class="text-danger">*</span></label>
                                                 <div class="col-sm-9">
-                                                    <select name="job_type" class="form-control">
+                                                    <select name="job_type" class="form-control" id="jobTypes">
                                                         <option value="">Select One</option>
                                                         @foreach($job_types as $job)
                                                             <option value="{{ $job->id }}">
@@ -1706,7 +1708,15 @@ Candidate Edit
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
+                                            <div class="row mb-4 col-lg-6" id="recruitmentFee">
+                                                <label for="one" class="col-sm-3 col-form-label">Placement /
+                                                    Recruitment Fee</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="recruitment_fee" class="form-control"
+                                                        placeholder="Placement / Recruitment Fee">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4 col-lg-6" id="adminFeeMonthly">
                                                 <label for="one" class="col-sm-3 col-form-label">Admin Fee
                                                     (Monthly)</label>
                                                 <div class="col-sm-9">
@@ -1714,11 +1724,19 @@ Candidate Edit
                                                         placeholder="Admin Fee">
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
+                                            <div class="row mb-4 col-lg-6" id="adminFeeDaily">
+                                                <label for="one" class="col-sm-3 col-form-label">Admin Fee
+                                                    (Daily)</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="admin_fee_daily" class="form-control"
+                                                        placeholder="Admin Fee (Daily)">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4 col-lg-6" id="clientCompany">
                                                 <label for="one" class="col-sm-3 col-form-label">Client
                                                     Company<span class="text-danger">*</span></label>
                                                 <div class="col-sm-9">
-                                                    <select name="client_company" id="" class="form-control">
+                                                    <select name="client_company" class="form-control">
                                                         <option value="">Select One</option>
                                                         @foreach($clients as $client)
                                                             <option value="{{ $client->id }}">
@@ -1727,7 +1745,15 @@ Candidate Edit
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
+                                            <div class="row mb-4 col-lg-6" id="arNo">
+                                                <label for="one" class="col-sm-3 col-form-label">AR No.</label>
+                                                <div class="col-sm-9">
+                                                    <select name="ar_no" id="" class="form-control">
+                                                        <option value="">Select One</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4 col-lg-6" id="invoiceRate">
                                                 <label for="one" class="col-sm-3 col-form-label">Invoice
                                                     Rate</label>
                                                 <div class="col-sm-9">
@@ -1735,7 +1761,14 @@ Candidate Edit
                                                         placeholder="Invoice Rate">
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
+                                            <div class="row mb-4 col-lg-6" id="salary">
+                                                <label for="one" class="col-sm-3 col-form-label">Salary</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="salary" class="form-control"
+                                                        placeholder="Salary">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4 col-lg-6" id="dailyRate">
                                                 <label for="one" class="col-sm-3 col-form-label">Daily
                                                     Rate</label>
                                                 <div class="col-sm-9">
@@ -1743,7 +1776,17 @@ Candidate Edit
                                                         placeholder="Daily Rate">
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
+                                            
+                                            <div class="row mb-4 col-lg-6" id="dailyRateNightShift">
+                                                <label for="one" class="col-sm-3 col-form-label">Daily Rate
+                                                    (Night
+                                                    Shift)</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="daily_rate_night_shift"
+                                                        class="form-control" placeholder="Daily Rate (Night Shift)">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4 col-lg-6" id="jobTitle">
                                                 <label for="one" class="col-sm-3 col-form-label">Job
                                                     Title <span class="text-danger">*</span></label>
                                                 <div class="col-sm-9">
@@ -1751,14 +1794,29 @@ Candidate Edit
                                                         placeholder="Job Title">
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
+                                            <div class="row mb-4 col-lg-6" id="programme">
+                                                <label for="one" class="col-sm-3 col-form-label">Programme</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="programme" class="form-control"
+                                                        placeholder="Programme">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4 col-lg-6" id="department">
                                                 <label for="one" class="col-sm-3 col-form-label">Department</label>
                                                 <div class="col-sm-9">
                                                     <input type="text" name="department" class="form-control"
                                                         placeholder="Department">
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
+                                            <div class="row mb-4 col-lg-6" id="hourlyRate">
+                                                <label for="one" class="col-sm-3 col-form-label">Hourly
+                                                    Rate</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="hourly_rate" class="form-control"
+                                                        placeholder="Hourly Rate">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4 col-lg-6" id="wica">
                                                 <label for="one" class="col-sm-3 col-form-label">WICA</label>
                                                 <div class="col-sm-9">
                                                     <select name="wica" id="" class="form-control">
@@ -1770,160 +1828,7 @@ Candidate Edit
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">University</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="university" class="form-control"
-                                                        placeholder="University">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Cost
-                                                    Centre</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="cost_center" class="form-control"
-                                                        placeholder="Cost Centre">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Working
-                                                    Hour</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="working_hour" class="form-control"
-                                                        placeholder="Working Hour">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Start
-                                                    Date <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" name="start_date" class="form-control"
-                                                        placeholder="Start Date">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Sales
-                                                    Period</label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" name="sales_period" class="form-control"
-                                                        placeholder="Sales Period">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Invoice
-                                                    No.</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="invoice_no" class="form-control"
-                                                        placeholder="Invoice No.">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Charge
-                                                    (%)</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="charge" class="form-control"
-                                                        placeholder="Charge (%)">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Closed By
-                                                    1</label>
-                                                <div class="col-sm-9">
-                                                    <select name="clods_by1" id="" class="form-control">
-                                                        <option value="">Select One</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Closed By
-                                                    2</label>
-                                                <div class="col-sm-9">
-                                                    <select name="closed_by2" id="" class="form-control">
-                                                        <option value="">Select One</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Closed By
-                                                    3</label>
-                                                <div class="col-sm-9">
-                                                    <select name="closed_by3" id="" class="form-control">
-                                                        <option value="">Select One</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Cut
-                                                    off</label>
-                                                <div class="col-sm-9">
-                                                    <select name="cut_off" id="" class="form-control">
-                                                        <option value="">Select One</option>
-                                                        <option value="">Yes</option>
-                                                        <option value="">No</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <button type="submit" class="btn btn-sm btn-info mt-3">Save</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="mt-5 mt-lg-4 mt-xl-0">
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Placement /
-                                                    Recruitment Fee</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="recruitment_fee" class="form-control"
-                                                        placeholder="Placement / Recruitment Fee">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Admin Fee
-                                                    (Daily)</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="admin_fee_daily" class="form-control"
-                                                        placeholder="Admin Fee (Daily)">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">AR No.</label>
-                                                <div class="col-sm-9">
-                                                    <select name="ar_no" id="" class="form-control">
-                                                        <option value="">Select One</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Salary</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="salary" class="form-control"
-                                                        placeholder="Salary">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Daily Rate
-                                                    (Night
-                                                    Shift)</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="daily_rate_night_shift"
-                                                        class="form-control" placeholder="Daily Rate (Night Shift)">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Programme</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="programme" class="form-control"
-                                                        placeholder="Programme">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Hourly
-                                                    Rate</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="hourly_rate" class="form-control"
-                                                        placeholder="Hourly Rate">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
+                                            <div class="row mb-4 col-lg-6" id="insuranceFee">
                                                 <label for="one" class="col-sm-3 col-form-label">Insurance
                                                     Fee</label>
                                                 <div class="col-sm-9">
@@ -1931,7 +1836,14 @@ Candidate Edit
                                                         placeholder="Insurance Fee">
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
+                                            <div class="row mb-4 col-lg-6" id="university">
+                                                <label for="one" class="col-sm-3 col-form-label">University</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="university" class="form-control"
+                                                        placeholder="University">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4 col-lg-6" id="teamLead">
                                                 <label for="one" class="col-sm-3 col-form-label">Team
                                                     Lead</label>
                                                 <div class="col-sm-9">
@@ -1939,29 +1851,54 @@ Candidate Edit
                                                         placeholder="Team Lead">
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
+                                            <div class="row mb-4 col-lg-6" id="costCenter">
+                                                <label for="one" class="col-sm-3 col-form-label">Cost
+                                                    Centre</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="cost_center" class="form-control"
+                                                        placeholder="Cost Centre">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4 col-lg-6" id="allowance">
                                                 <label for="one" class="col-sm-3 col-form-label">Allowance</label>
                                                 <div class="col-sm-9">
                                                     <input type="text" name="allowance" class="form-control"
                                                         placeholder="Allowance">
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
+                                            <div class="row mb-4 col-lg-6" id="workingHour">
+                                                <label for="one" class="col-sm-3 col-form-label">Working
+                                                    Hour</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="working_hour" class="form-control"
+                                                        placeholder="Working Hour">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4 col-lg-6" id="probationPeriod">
                                                 <label for="one" class="col-sm-3 col-form-label">Probation
                                                     Period</label>
                                                 <div class="col-sm-9">
                                                     <select name="probation_period" id="" class="form-control">
                                                         <option value="">Select One</option>
-                                                        <option value="1 Month">1 Month</option>
-                                                        <option value="2 Month">2 Month</option>
-                                                        <option value="3 Month">3 Month</option>
-                                                        <option value="4 Month">4 Month</option>
-                                                        <option value="5 Month">5 Month</option>
-                                                        <option value="6 Month">6 Month</option>
+                                                        <option value="0">No Probation</option>
+                                                        <option value="1">1 Month</option>
+                                                        <option value="2">2 Month</option>
+                                                        <option value="3">3 Month</option>
+                                                        <option value="4">4 Month</option>
+                                                        <option value="5">5 Month</option>
+                                                        <option value="6">6 Month</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
+                                            <div class="row mb-4 col-lg-6" id="startDate">
+                                                <label for="one" class="col-sm-3 col-form-label">Start
+                                                    Date <span class="text-danger">*</span></label>
+                                                <div class="col-sm-9">
+                                                    <input type="date" name="start_date" class="form-control"
+                                                        placeholder="Start Date">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4 col-lg-6" id="endDate">
                                                 <label for="one" class="col-sm-3 col-form-label">End
                                                     Date</label>
                                                 <div class="col-sm-9">
@@ -1969,7 +1906,15 @@ Candidate Edit
                                                         placeholder="End Date">
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
+                                            <div class="row mb-4 col-lg-6" id="salesPeriod">
+                                                <label for="one" class="col-sm-3 col-form-label">Sales
+                                                    Period</label>
+                                                <div class="col-sm-9">
+                                                    <input type="date" name="sales_period" class="form-control"
+                                                        placeholder="Sales Period">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4 col-lg-6" id="guaranteePeriod">
                                                 <label for="one" class="col-sm-3 col-form-label">Guarantee
                                                     Period</label>
                                                 <div class="col-sm-9">
@@ -1977,14 +1922,30 @@ Candidate Edit
                                                         placeholder="Guarantee Period">
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
+                                            <div class="row mb-4 col-lg-6" id="invoiceNo">
+                                                <label for="one" class="col-sm-3 col-form-label">Invoice
+                                                    No.</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="invoice_no" class="form-control"
+                                                        placeholder="Invoice No.">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4 col-lg-6" id="poNo">
                                                 <label for="one" class="col-sm-3 col-form-label">PO No</label>
                                                 <div class="col-sm-9">
                                                     <input type="text" name="po_no" class="form-control"
                                                         placeholder="PO No">
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
+                                            <div class="row mb-4 col-lg-6" id="charge">
+                                                <label for="one" class="col-sm-3 col-form-label">Charge
+                                                    (%)</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="charge" class="form-control"
+                                                        placeholder="Charge (%)">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4 col-lg-6" id="contributeCpf">
                                                 <label for="one" class="col-sm-3 col-form-label">Contribute
                                                     CPF</label>
                                                 <div class="col-sm-9">
@@ -1994,31 +1955,69 @@ Candidate Edit
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
+                                            <div class="row mb-4 col-lg-6" id="closeBy1">
+                                                <label for="one" class="col-sm-3 col-form-label">Closed By
+                                                    1</label>
+                                                <div class="col-sm-9">
+                                                    <select name="close_by1" id="" class="form-control">
+                                                        <option value="">Select One</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4 col-lg-6" id="closeRate1">
                                                 <label for="one" class="col-sm-3 col-form-label">Closed Rate
                                                     1</label>
                                                 <div class="col-sm-9">
-                                                    <input type="number" name="closed_rate1" class="form-control"
+                                                    <input type="number" name="close_rate1" class="form-control"
                                                         placeholder="Closed Rate 1">
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
+                                            <div class="row mb-4 col-lg-6" id="closeBy2">
+                                                <label for="one" class="col-sm-3 col-form-label">Closed By
+                                                    2</label>
+                                                <div class="col-sm-9">
+                                                    <select name="close_by2" id="" class="form-control">
+                                                        <option value="">Select One</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4 col-lg-6" id="closeRate2">
                                                 <label for="one" class="col-sm-3 col-form-label">Closed Rate
                                                     2</label>
                                                 <div class="col-sm-9">
-                                                    <input type="number" name="closed_rate2" class="form-control"
+                                                    <input type="number" name="close_rate2" class="form-control"
                                                         placeholder="Closed Rate 2">
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
+                                            <div class="row mb-4 col-lg-6" id="closeBy3">
+                                                <label for="one" class="col-sm-3 col-form-label">Closed By
+                                                    3</label>
+                                                <div class="col-sm-9">
+                                                    <select name="close_by3" id="" class="form-control">
+                                                        <option value="">Select One</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4 col-lg-6" id="closeRate3">
                                                 <label for="one" class="col-sm-3 col-form-label">Closed Rate
                                                     3</label>
                                                 <div class="col-sm-9">
-                                                    <input type="number" name="closed_rate3" class="form-control"
+                                                    <input type="number" name="close_rate3" class="form-control"
                                                         placeholder="Closed Rate 3">
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
+                                            <div class="row mb-4 col-lg-6" id="cutOff">
+                                                <label for="one" class="col-sm-3 col-form-label">Cut
+                                                    off</label>
+                                                <div class="col-sm-9">
+                                                    <select name="cut_off" id="" class="form-control">
+                                                        <option value="">Select One</option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="0">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-4 col-lg-6" id="payrollRemark">
                                                 <label for="one" class="col-sm-3 col-form-label">Payroll
                                                     Remarks</label>
                                                 <div class="col-sm-9">
@@ -2027,10 +2026,11 @@ Candidate Edit
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-12">
+                                        <button type="submit" class="btn btn-sm btn-info mt-3">Save</button>
+                                        </div>
                                     </div>
-                                </div>
                             </form>
-
                             <div class="row">
                                 <div class="col-lg-12 mt-2">
                                     <table class="table table-bordered mb-0">
@@ -2161,10 +2161,10 @@ Candidate Edit
                                             <label for="package_day" class="col-sm-2 control-label">Day</label>
                                         <div class="col-sm-3">
                                             <label for="package_day" class="control-label">Working Start Time</label>
-                                        </div>  
+                                        </div>
                                         <div class="col-sm-3">
                                             <label for="package_day" class="control-label">Working End Time</label>
-                                        </div>  
+                                        </div>
                                         <div class="col-sm-2">
                                             <label for="package_day" class="control-label">Lunch Hours</label>
                                         </div>
@@ -2406,7 +2406,9 @@ Candidate Edit
             document.querySelector('[href="' + hash + '"]').click();
         }
     </script>
-    @include('admin.candidate.include.General')
-    @include('admin.candidate.include.declaration')
-    @include('admin.candidate.include.remark')
+    <script src="{{asset('build/js/ajax/candidateDeclaration.js')}}"></script>
+    <script src="{{asset('build/js/ajax/candidate/genaral.js')}}"></script>
+    <script src="{{asset('build/js/ajax/candidateRemark.js')}}"></script>
+    <script src="{{asset('build/js/ajax/candidatePayroll.js')}}"></script>
+    <script src="{{asset('build/js/ajax/imagePreview.js')}}"></script>
     @endsection

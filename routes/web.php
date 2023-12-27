@@ -164,7 +164,6 @@ Route::prefix('admin')->group(function () {
         return json_encode(activity::all()->last());
     });
 
-    Route::get('/setting/profile', [App\Http\Controllers\AdminController::class, 'Index'])->name('user.profiles');
     // Route::get('/employeefetch',[App\Http\Controllers\Action\FetchEmployeeController::class])->name('employee.fetch');
 
     Route::resources([

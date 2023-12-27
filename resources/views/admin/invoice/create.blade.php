@@ -112,7 +112,7 @@ Tax Invoice Management
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-12">>
+                            <div class="col-lg-12">
                                 <button type="submit" class="btn btn-sm btn-info">Save</button>
                             </div>
                         </div>
