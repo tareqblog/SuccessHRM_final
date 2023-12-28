@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
+use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\View\View;
@@ -16,18 +17,14 @@ class RoleController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('permission:create-role|edit-role|delete-role', ['only' => ['index','show']]);
-        $this->middleware('permission:create-role', ['only' => ['create','store']]);
-        $this->middleware('permission:edit-role', ['only' => ['edit','update']]);
-        $this->middleware('permission:delete-role', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.
      */
     public function index(): View
     {
-        return view('roles.index', [
-            'roles' => Role::orderBy('id','DESC')->paginate(3)
+        return view('admin.roles.index', [
+            'roles' => Role::orderBy('id','DESC')->get()
         ]);
     }
 
@@ -36,9 +33,9 @@ class RoleController extends Controller
      */
     public function create(): View
     {
-        return view('roles.create', [
-            'permissions' => Permission::get()
-        ]);
+        $all_permissions  = Permission::all();
+        $permission_groups = User::getpermissionGroups();
+        return view('admin.roles.create', compact('all_permissions', 'permission_groups'));
     }
 
     /**
@@ -46,29 +43,32 @@ class RoleController extends Controller
      */
     public function store(StoreRoleRequest $request): RedirectResponse
     {
+
+        // Validation Data
+        $request->validate([
+            'name' => 'required|max:100|unique:roles'
+        ], [
+            'name.requried' => 'Please give a role name'
+        ]);
+
+        // Process Data
         $role = Role::create(['name' => $request->name]);
 
-        $permissions = Permission::whereIn('id', $request->permissions)->get(['name'])->toArray();
-        
-        $role->syncPermissions($permissions);
+        // $role = DB::table('roles')->where('name', $request->name)->first();
+        $permissions = $request->input('permissions');
 
-        return redirect()->route('roles.index')
-                ->withSuccess('New role is added successfully.');
+        if (!empty($permissions)) {
+            $role->syncPermissions($permissions);
+        }
+        return redirect()->route('roles.index')->with('success', 'Role Created');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Role $role): View
+    public function show(Role $role)
     {
-        $rolePermissions = Permission::join("role_has_permissions","permission_id","=","id")
-            ->where("role_id",$role->id)
-            ->select('name')
-            ->get();
-        return view('roles.show', [
-            'role' => $role,
-            'rolePermissions' => $rolePermissions
-        ]);
+        //
     }
 
     /**
@@ -76,19 +76,11 @@ class RoleController extends Controller
      */
     public function edit(Role $role): View
     {
-        if($role->name=='Super Admin'){
-            abort(403, 'SUPER ADMIN ROLE CAN NOT BE EDITED');
-        }
 
-        $rolePermissions = DB::table("role_has_permissions")->where("role_id",$role->id)
-            ->pluck('permission_id')
-            ->all();
-
-        return view('roles.edit', [
-            'role' => $role,
-            'permissions' => Permission::get(),
-            'rolePermissions' => $rolePermissions
-        ]);
+        $role = Role::findById($role->id);
+        $all_permissions = Permission::all();
+        $permission_groups = User::getpermissionGroups();
+        return view('admin.roles.edit', compact('role', 'all_permissions', 'permission_groups'));
     }
 
     /**
@@ -96,31 +88,28 @@ class RoleController extends Controller
      */
     public function update(UpdateRoleRequest $request, Role $role): RedirectResponse
     {
-        $input = $request->only('name');
+        $request->validate([
+            'name' => 'required|max:100|unique:roles,name,' . $role->id
+        ], [
+            'name.requried' => 'Please give a role name'
+        ]);
 
-        $role->update($input);
+        $role = Role::findById($role->id);
+        $permissions = $request->input('permissions');
 
-        $permissions = Permission::whereIn('id', $request->permissions)->get(['name'])->toArray();
+        if (!empty($permissions)) {
+            $role->syncPermissions($permissions);
+        }
 
-        $role->syncPermissions($permissions);    
-        
-        return redirect()->back()
-                ->withSuccess('Role is updated successfully.');
+        return redirect()->route('roles.index')->with('success', 'Role has been updated !!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Role $role): RedirectResponse
+    public function destroy(Role $role)
     {
-        if($role->name=='Super Admin'){
-            abort(403, 'SUPER ADMIN ROLE CAN NOT BE DELETED');
-        }
-        if(auth()->user()->hasRole($role->name)){
-            abort(403, 'CAN NOT DELETE SELF ASSIGNED ROLE');
-        }
         $role->delete();
-        return redirect()->route('roles.index')
-                ->withSuccess('Role is deleted successfully.');
+        return redirect()->route('roles.index')->with('Role is deleted successfully.');
     }
 }
