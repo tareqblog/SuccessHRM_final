@@ -18,6 +18,7 @@ use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\MaritalStatusController;
 use App\Http\Controllers\PassTypeController;
 use App\Http\Controllers\ReligionController;
+use App\Http\Controllers\RemarksTypesController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TncController;
 use App\Http\Controllers\UploadFileTypeController;
@@ -147,9 +148,6 @@ Route::get('/pay-mode', function () {
 Route::get('/file-type', function () {
     return view('admin.fileType.index');
 });
-Route::get('/remark-type', function () {
-    return view('admin.remarkType.index');
-});
 // Activity Ends
 
 
@@ -187,6 +185,7 @@ Route::prefix('admin')->group(function () {
         '/import' => CandidateFileImportController::class,
         '/file-type' => UploadFileTypeController::class,
         '/pass-type' => PassTypeController::class,
+        '/remarks-type' => RemarksTypesController::class,
     ]);
     Route::get('/setting/profile', [App\Http\Controllers\AdminController::class, 'Index'])->name('user.profiles');
 
