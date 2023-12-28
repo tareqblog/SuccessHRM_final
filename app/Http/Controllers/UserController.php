@@ -15,25 +15,14 @@ use Google2FA;
 
 class UserController extends Controller
 {
-    /**
-     * Instantiate a new UserController instance.
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('permission:create-user|edit-user|delete-user', ['only' => ['index','show']]);
-        $this->middleware('permission:create-user', ['only' => ['create','store']]);
-        $this->middleware('permission:edit-user', ['only' => ['edit','update']]);
-        $this->middleware('permission:delete-user', ['only' => ['destroy']]);
-    }
 
     /**
      * Display a listing of the resource.
      */
     public function index(): View
     {
-        return view('users.index', [
-            'users' => User::latest('id')->paginate(3)
+        return view('admin.users.index', [
+            'users' => User::latest('id')->get()
         ]);
     }
 
@@ -42,48 +31,36 @@ class UserController extends Controller
      */
     public function create(): View
     {
-        return view('users.create', [
-            'roles' => Role::pluck('name')->all()
-        ]);
+        $roles  = Role::all();
+        return view('admin.users.create', compact('roles'));
+
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request): RedirectResponse
+    public function store(StoreUserRequest $request)
     {
-        dd($request);
-        $input = $request->all();
-        $input['password'] = Hash::make($request->password);
 
-       // $user = User::create($input);
-       // $user->assignRole($request->roles);
+        // Validation Data
+        $request->validate([
+            'name' => 'required|max:50',
+            'email' => 'required|max:100|email|unique:users',
+            'password' => 'required|min:6|confirmed',
+        ]);
 
-        $google2fa = app('pragmarx.google2fa');
+        // Create New User
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->save();
 
-        $registration_data = $request->all();
+        if ($request->roles) {
+            $user->assignRole($request->roles);
+        }
 
-        $registration_data["google2fa_secret"] = $google2fa->generateSecretKey();
-
-        $request->session()->flash('registration_data', $registration_data);
-
-        $QR_Image = $google2fa->getQRCodeInline(
-
-            config('app.name'),
-
-            $registration_data['email'],
-
-            $registration_data['google2fa_secret']
-
-        );
-
-        return view('google2fa.register', ['QR_Image' => $QR_Image, 'secret' => $registration_data['google2fa_secret']]);
-
-
-
-
-        //return redirect()->route('users.index')
-         //       ->withSuccess('New user is added successfully.');
+        return redirect()->route('users.index')->with('success', 'User has been created !!');
     }
 
     /**
@@ -101,39 +78,40 @@ class UserController extends Controller
      */
     public function edit(User $user): View
     {
-        // Check Only Super Admin can update his own Profile
-        if ($user->hasRole('Super Admin')){
-            if($user->id != auth()->user()->id){
-                abort(403, 'USER DOES NOT HAVE THE RIGHT PERMISSIONS');
-            }
-        }
-
-        return view('users.edit', [
-            'user' => $user,
-            'roles' => Role::pluck('name')->all(),
-            'userRoles' => $user->roles->pluck('name')->all()
-        ]);
+        $user = User::find($user->id);
+        $roles  = Role::all();
+        return view('admin.users.edit', compact('user', 'roles'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user): RedirectResponse
+    public function update(Request $request, User $user)
     {
-        $input = $request->all();
- 
-        if(!empty($request->password)){
-            $input['password'] = Hash::make($request->password);
-        }else{
-            $input = $request->except('password');
+        // Create New User
+        $user = User::find($user->id);
+
+        // Validation Data
+        $request->validate([
+            'name' => 'required|max:50',
+            'email' => 'required|max:100|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|min:6|confirmed',
+        ]);
+
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        if ($request->password) {
+            $user->password = Hash::make($request->password);
         }
-        
-        $user->update($input);
+        $user->save();
 
-        $user->syncRoles($request->roles);
+        $user->roles()->detach();
+        if ($request->roles) {
+            $user->assignRole($request->roles);
+        }
 
-        return redirect()->back()
-                ->withSuccess('User is updated successfully.');
+        return redirect()->route('users.index')->with('success', 'User has been created !!');
     }
 
     /**
@@ -141,15 +119,11 @@ class UserController extends Controller
      */
     public function destroy(User $user): RedirectResponse
     {
-        // About if user is Super Admin or User ID belongs to Auth User
-        if ($user->hasRole('Super Admin') || $user->id == auth()->user()->id)
-        {
-            abort(403, 'USER DOES NOT HAVE THE RIGHT PERMISSIONS');
+        $user = User::find($user->id);
+        if (!is_null($user)) {
+            $user->delete();
         }
 
-        $user->syncRoles([]);
-        $user->delete();
-        return redirect()->route('users.index')
-                ->withSuccess('User is deleted successfully.');
+        return back()->with('success', 'User has been deleted !!');
     }
 }

@@ -16,6 +16,7 @@ use App\Http\Controllers\Actions\FetchEmployeeController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\MaritalStatusController;
+use App\Http\Controllers\PassTypeController;
 use App\Http\Controllers\ReligionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TncController;
@@ -140,9 +141,6 @@ Route::get('/employee-group', function () {
 Route::get('/job-status', function () {
     return view('admin.jobStatus.index');
 });
-Route::get('/pass-type', function () {
-    return view('admin.passType.index');
-});
 Route::get('/pay-mode', function () {
     return view('admin.payMode.index');
 });
@@ -188,6 +186,7 @@ Route::prefix('admin')->group(function () {
         '/candidate' => CandidateController::class,
         '/import' => CandidateFileImportController::class,
         '/file-type' => UploadFileTypeController::class,
+        '/pass-type' => PassTypeController::class,
     ]);
     Route::get('/setting/profile', [App\Http\Controllers\AdminController::class, 'Index'])->name('user.profiles');
 
@@ -216,6 +215,7 @@ Route::prefix('admin')->group(function () {
     Route::delete('/candidate/family/{id}', [CandidateController::class, 'familyDelete'])->name('candidate.family.delete');
     Route::post('/candidate/resume/{id}', [CandidateController::class, 'resumeUpload'])->name('candidate.resume');
     Route::delete('/candidate/resume/{id}', [CandidateController::class, 'resumeDelete'])->name('candidate.resume.delete');
+    Route::post('/candidate/main/{id}', [CandidateController::class, 'resumeMain'])->name('candidate.resume.main');
 
 
     Route::get('{any}',  [App\Http\Controllers\HomeController::class, 'index']);

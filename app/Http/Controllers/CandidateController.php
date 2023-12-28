@@ -57,8 +57,8 @@ class CandidateController extends Controller
         $religion_data = religion::orderBy('religion_seqno')->where('religion_status', '1')->get();
         $outlet_data = outlet::orderBy('id')->get();
         $nationality = country::where('country_status', 1)->latest()->get();
-        $Paybanks=Paybank::orderBy('Paybank_seqno')->select('id','Paybank_code')->where('Paybank_status',1)->get();
-        return view('admin.candidate.create', compact('Paybanks','outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data','nationality'));
+        $Paybanks = Paybank::orderBy('Paybank_seqno')->select('id', 'Paybank_code')->where('Paybank_status', 1)->get();
+        return view('admin.candidate.create', compact('Paybanks', 'outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data', 'nationality'));
     }
 
     /**
@@ -110,7 +110,7 @@ class CandidateController extends Controller
         $client_files = ClientUploadFile::where('client_id', $candidate->id)->where('file_type_for', 1)->get();
         $remarks_type = remarkstype::where('remarkstype_status', 1)->select('id', 'remarkstype_code')->latest()->get();
         $client_remarks = CandidateRemark::where('candidate_id', $candidate->id)->latest()->get();
-        $job_types = jobtype::where('jobtype_status',1)->select('id', 'jobtype_code')->get();
+        $job_types = jobtype::where('jobtype_status', 1)->select('id', 'jobtype_code')->get();
         $clients = client::where('clients_status', 1)->select('id', 'client_name')->latest()->get();
         $payrolls = CandidatePayroll::where('candidate_id', $candidate->id)->latest()->get();
         $families = CandidateFamily::where('candidate_id', $candidate->id)->latest()->get();
@@ -118,8 +118,8 @@ class CandidateController extends Controller
         $candidate_resume = CandidateResume::where('candidates_id', $candidate->id)->latest()->get();
         $nationality = country::where('country_status', 1)->latest()->get();
         $users = User::latest()->get();
-        $Paybanks=Paybank::orderBy('Paybank_seqno')->select('id','Paybank_code')->where('Paybank_status',1)->get();
-        return view('admin.candidate.edit', compact('Paybanks','fileTypes', 'client_files', 'candidate', 'outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data', 'remarks_type', 'client_remarks', 'job_types', 'clients', 'payrolls', 'time', 'families', 'candidate_resume', 'nationality', 'users'));
+        $Paybanks = Paybank::orderBy('Paybank_seqno')->select('id', 'Paybank_code')->where('Paybank_status', 1)->get();
+        return view('admin.candidate.edit', compact('Paybanks', 'fileTypes', 'client_files', 'candidate', 'outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data', 'remarks_type', 'client_remarks', 'job_types', 'clients', 'payrolls', 'time', 'families', 'candidate_resume', 'nationality', 'users'));
     }
 
     /**
@@ -204,6 +204,7 @@ class CandidateController extends Controller
     {
 
         $request->validate([
+            'resume_name' => 'required|string',
             'resume_file_path' => 'required|mimes:pdf|max:2048',
         ]);
 
@@ -215,6 +216,7 @@ class CandidateController extends Controller
 
             CandidateResume::create([
                 'candidates_id' => $id,
+                'resume_name' => $request->resume_name,
                 'resume_file_path' => $uploadedFilePath,
             ]);
 
@@ -236,6 +238,13 @@ class CandidateController extends Controller
         return back()->with('success', 'Successfully Deleted.');
     }
 
+    public function resumeMain(Request $request, $id)
+    {
+        CandidateResume::where('id', '!=', $id)->where('isMain', 1)->update(['isMain' => 0]);
+        $candidate = CandidateResume::findOrFail($id);
+        $candidate->update(['isMain' => $request->input('isMain')]);
+        return back()->with('success', "Assaign Main Successfully.");
+    }
     public function remark(Request $request, $id)
     {
         $request->validate([
@@ -248,27 +257,30 @@ class CandidateController extends Controller
         CandidateRemark::create($request->except('_token') + [
             'candidate_id' => $id,
         ]);
-        return redirect()->route('candidate.edit', $id)->with('success','Remark added successfully.');
+        return redirect()->route('candidate.edit', $id)->with('success', 'Remark added successfully.');
     }
 
 
-    public function remarkDelete($id) {
+    public function remarkDelete($id)
+    {
         CandidateRemark::find($id)->delete();
         return back()->with('success', 'Deleted Successfully.');
     }
     public function payroll(PayrollRequest $request, $id)
     {
         CandidatePayroll::create($request->except('_token'));
-        return back()->with('success','Payroll added successfully.');
+        return back()->with('success', 'Payroll added successfully.');
     }
 
 
-    public function payrollDelete($id) {
+    public function payrollDelete($id)
+    {
         CandidatePayroll::find($id)->delete();
         return back()->with('success', 'Deleted Successfully.');
     }
 
-    public function workingHour(Request $request, $id) {
+    public function workingHour(Request $request, $id)
+    {
         $request->validate([
             'candidate_id' => 'required|integer',
             'sheet_type_id' => 'required|integer',
@@ -279,7 +291,8 @@ class CandidateController extends Controller
         CandidateWorkingHour::create($request->except('_token'));
         return back()->with('success', 'Working hour successfully updated.');
     }
-    public function family(Request $request, $id) {
+    public function family(Request $request, $id)
+    {
         $request->validate([
             'candidate_id' => 'integer|required',
             'name' => 'string|required',
@@ -291,9 +304,9 @@ class CandidateController extends Controller
         CandidateFamily::create($request->except('_token'));
         return back()->with('success', 'Family member added successfully.');
     }
-    public function familyDelete($id) {
+    public function familyDelete($id)
+    {
         CandidateFamily::find($id)->delete();
         return back()->with('success', 'Family member removed successfully.');
     }
-
 }

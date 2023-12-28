@@ -1177,17 +1177,20 @@ Candidate Edit
                                                         {{ $loop->index + 1 }}
                                                     </td>
                                                     <td>
-                                                        <input type="radio" name="isMain"
-                                                            {{ $resume->isMain == 1 ? 'checked' : '' }}>
+                                                        @if ($resume->isMain == 0 )
+                                                            <input type="radio" name="isMain" {{ $resume->isMain == 1 ? 'checked' : '' }} class="isMainRadio" data-candidate-id="{{$resume->id}}">
+                                                            @else
+                                                            <input type="radio" name="isMain" {{ $resume->isMain == 1 ? 'checked' : '' }} >
+                                                        @endif
                                                     </td>
                                                     <td>
                                                         {{ $resume->modify_name->name }}
                                                     </td>
                                                     <td>
-                                                        {{ $resume->resume_file_path }}
+                                                        {{ $resume->resume_name }}
                                                     </td>
                                                     <td>
-                                                        {{ $resume->updated_at->format('d-M-y') }}
+                                                        {{ $resume->updated_at }}
                                                     </td>
                                                     <td style="display: flex;">
                                                         <a href="{{ asset('storage') }}/{{ $resume->resume_file_path }}"
@@ -1776,7 +1779,7 @@ Candidate Edit
                                                         placeholder="Daily Rate">
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="row mb-4 col-lg-6" id="dailyRateNightShift">
                                                 <label for="one" class="col-sm-3 col-form-label">Daily Rate
                                                     (Night
@@ -2370,6 +2373,12 @@ Candidate Edit
                                         class="form-control">
                                     <div class="mt-5 mt-lg-4 mt-xl-0">
                                         <div class="row mb-4">
+                                            <label for="resume_name" class="col-sm-3 col-form-label">Resume Name</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="resume_name" class="form-control" value="{{old('resume_name')}}">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-4">
                                             <label for="resume_file_path" class="col-sm-3 col-form-label">Upload
                                                 File</label>
                                             <div class="col-sm-9">
@@ -2405,6 +2414,42 @@ Candidate Edit
             var hash = window.location.hash; // nav-y1
             document.querySelector('[href="' + hash + '"]').click();
         }
+    </script>
+    <script>
+        // Get the radio button element
+        var isMainRadio = document.getElementById('isMainRadio');
+
+        // Add a change event listener
+        isMainRadio.addEventListener('change', function() {
+
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Add a change event listener to all radio buttons with class 'isMainRadio'
+            $('.isMainRadio').on('change', function () {
+                // Get the candidate ID from the data attribute
+                var currentCandidateId = $(this).data('candidate-id');
+
+                // Make an Ajax request to update the isMain status
+                $.ajax({
+                    type: 'POST',
+                    url: '/admin/candidate/main/' + currentCandidateId,
+                    data: {
+                        isMain: 1,
+                        _token: '{{ csrf_token() }}' // Set to 1 when the radio button is checked
+                    },
+                    success: function (response) {
+                        console.log(response.message);
+                        // You can handle the success response here
+                    },
+                    error: function (error) {
+                        console.error('Ajax request failed:', error);
+                        // You can handle the error response here
+                    }
+                });
+            });
+        });
     </script>
     <script src="{{asset('build/js/ajax/candidateDeclaration.js')}}"></script>
     <script src="{{asset('build/js/ajax/candidate/genaral.js')}}"></script>
