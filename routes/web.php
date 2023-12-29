@@ -182,14 +182,16 @@ Route::prefix('admin')->group(function () {
         '/job' => JobController::class,
         '/leave' => LeaveController::class,
         '/candidate' => CandidateController::class,
-        '/import' => CandidateFileImportController::class,
+       // '/import' => CandidateFileImportController::class,
         '/file-type' => UploadFileTypeController::class,
         '/pass-type' => PassTypeController::class,
         '/remarks-type' => RemarksTypesController::class,
     ]);
-    Route::get('/setting/profile', [App\Http\Controllers\AdminController::class, 'Index'])->name('user.profiles');
+    Route::get('/setting/profile', [App\Http\Controllers\AdminController::class, 'index'])->name('user.profiles');
 
-
+    Route::get('/import',  [CandidateFileImportController::class, 'index'])->name('import.index');
+    Route::post('/import/upload',  [CandidateFileImportController::class, 'upload'])->name('upload.files');
+    Route::post('/import/extract',  [CandidateFileImportController::class, 'extractInfo'])->name('extract.info');
     // Employee extra route start
     Route::post('salary/info/post', [EmployeeController::class, 'salaryInfoPost'])->name('employee.salary.info.post');
     // Employee extra route ends
