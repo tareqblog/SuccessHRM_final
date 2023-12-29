@@ -42,7 +42,6 @@
                                     <th>No.</th>
                                     <th>Department Code</th>
                                     <th>Description</th>
-                                    <th>Seq No</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -53,8 +52,7 @@
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ $data->department_code }}</td>
                                         <td>{{ $data->department_desc }}</td>
-                                        <td>{{ $data->department_seqno }}</td>
-                                        <td>{{ $data->department_status == '1' ? 'Active' : 'In-Active' }}
+                                        <td>{{ $data->department_status == '1' ? 'Active' : 'Inactive' }}
                                         </td>
                                         <td class="d-flex">
                                             <button data-id="{{ $data->id }}" data-bs-toggle="modal"
@@ -96,25 +94,25 @@
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-2 col-form-label">Department
+                                                    <label for="one" class="col-sm-4 col-form-label">Department
                                                         Code</label>
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-8">
                                                         <input type="text" class="form-control" name="department_code"
                                                             placeholder="Department Code">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-2 col-form-label">Seq No</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" class="form-control" name="department_seqno"
-                                                            placeholder="Seq No">
+                                                    <label for="one"
+                                                        class="col-sm-4 col-form-label">Description</label>
+                                                    <div class="col-sm-8">
+                                                        <textarea name="department_desc" rows="2" class="form-control" placeholder="Description"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one"
-                                                        class="col-sm-2 col-form-label">Description</label>
-                                                    <div class="col-sm-9">
-                                                        <textarea name="department_desc" rows="2" class="form-control" placeholder="Description"></textarea>
+                                                    <label for="one" class="col-sm-4 col-form-label">List Order</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control" name="department_seqno"
+                                                            placeholder="List Order">
                                                     </div>
                                                 </div>
                                             </div>

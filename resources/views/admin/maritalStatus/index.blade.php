@@ -94,15 +94,15 @@
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Marital Code</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="one" class="col-sm-4 col-form-label">Marital Code</label>
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="marital_statuses_code" class="form-control"
                                                             placeholder="Title" value="{{ old('marital_statuses_code') }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Marital Description</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="one" class="col-sm-4 col-form-label">Marital Description</label>
+                                                    <div class="col-sm-8">
                                                         <textarea name="marital_statuses_desc" rows="2" class="form-control" placeholder="Descriptin"></textarea>
                                                     </div>
                                                 </div>
@@ -110,10 +110,10 @@
                                             <div class="col-lg-6">
 
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Seq No</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="one" class="col-sm-4 col-form-label">List Order</label>
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="marital_statuses_seqno" class="form-control"
-                                                            placeholder="Seq no" value="{{ old('marital_statuses_seqno') }}">
+                                                            placeholder="List Order" value="{{ old('marital_statuses_seqno') }}">
                                                     </div>
                                                 </div>
                                             </div>

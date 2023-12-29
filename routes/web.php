@@ -188,6 +188,9 @@ Route::prefix('admin')->group(function () {
         '/file-type' => UploadFileTypeController::class,
         '/pass-type' => PassTypeController::class,
     ]);
+    Route::get('/authenticate',  [UserController::class, 'storecomplete'])->name('user.authenticate');
+    Route::post('/users/fetch-email',  [UserController::class, 'search'])->name('email.searchapi');
+
     Route::get('/setting/profile', [App\Http\Controllers\AdminController::class, 'index'])->name('user.profiles');
 
     Route::get('/import',  [CandidateFileImportController::class, 'index'])->name('import.index');

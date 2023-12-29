@@ -4,15 +4,15 @@
     <div class="row">
         <div class="col-lg-6">
             <div class="row mb-4">
-                <label for="one" class="col-sm-3 col-form-label">Pass Type Code</label>
-                <div class="col-sm-9">
+                <label for="one" class="col-sm-4 col-form-label">Pass Type Code</label>
+                <div class="col-sm-8">
                     <input type="text" name="passtype_code" class="form-control" placeholder="Title"
                         value="{{ $data->passtype_code }}">
                 </div>
             </div>
             <div class="row mb-4">
-                <label for="one" class="col-sm-3 col-form-label">Pass Type Description</label>
-                <div class="col-sm-9">
+                <label for="one" class="col-sm-4 col-form-label">Pass Type Description</label>
+                <div class="col-sm-8">
                     <textarea name="passtype_desc" rows="2" class="form-control"
                         placeholder="Descriptin">{{ $data->passtype_desc }} </textarea>
                 </div>
@@ -21,15 +21,15 @@
         <div class="col-lg-6">
 
             <div class="row mb-4">
-                <label for="one" class="col-sm-3 col-form-label">Seq No</label>
-                <div class="col-sm-9">
-                    <input type="text" name="marital_statuses_seqno" class="form-control" placeholder="Seq no"
+                <label for="one" class="col-sm-4 col-form-label">List Order</label>
+                <div class="col-sm-8">
+                    <input type="text" name="marital_statuses_seqno" class="form-control" placeholder="List Order"
                         value="{{ $data->passtype_seqno }}">
                 </div>
             </div>
             <div class="row mb-4">
-                <label for="one" class="col-sm-3 col-form-label">Status</label>
-                <div class="col-sm-9">
+                <label for="one" class="col-sm-4 col-form-label">Status</label>
+                <div class="col-sm-8">
                     <select name="passtype_status" class="form-control">
                         <option value="1"{{$data->passtype_status == 1 ? 'selected' : ''}} >Active</option>
                         <option value="0" {{$data->passtype_status == 0 ? 'selected' : ''}}>In-Active</option>

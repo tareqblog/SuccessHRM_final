@@ -20,14 +20,14 @@ Manage Users
                     </div>
                 </div>
                 <div class="card-body">
-                    <table id="dataTable" class="text-center">
+                <table class="table table-bordered" id="myTable">
                         <thead class="bg-light text-capitalize">
                             <tr>
-                                <th width="5%">Sl</th>
-                                <th width="10%">Name</th>
-                                <th width="10%">Email</th>
-                                <th width="40%">Roles</th>
-                                <th width="15%">Action</th>
+                                <th>Sl</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Roles</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -60,5 +60,15 @@ Manage Users
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
     @endsection
+    @section('scripts')
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#myTable').DataTable();
+            });
+        </script>
+    @endsection 

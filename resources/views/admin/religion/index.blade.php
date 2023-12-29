@@ -91,18 +91,18 @@ Religion Management
 
                                     <form action="{{ route('religion.store') }}" method="POST">
                                         @csrf
-                                        <div class="row">
+                                        <div class="row p-2">
                                             <div class="col-lg-6">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Religion Code</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="one" class="col-sm-4 col-form-label">Religion Code</label>
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="religion_code" class="form-control"
                                                             placeholder="Title" value="{{ old('religion_code') }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Religion Description</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="one" class="col-sm-4 col-form-label">Religion Description</label>
+                                                    <div class="col-sm-8">
                                                         <textarea name="religion_desc" rows="2" class="form-control" placeholder="Descriptin"></textarea>
                                                     </div>
                                                 </div>
@@ -110,10 +110,10 @@ Religion Management
                                             <div class="col-lg-6">
 
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Seq No</label>
-                                                    <div class="col-sm-9">
+                                                    <label for="one" class="col-sm-4 col-form-label">List Order</label>
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="religion_seqno" class="form-control"
-                                                            placeholder="Seq no" value="{{ old('religion_seqno') }}">
+                                                            placeholder="List Order" value="{{ old('religion_seqno') }}">
                                                     </div>
                                                 </div>
                                             </div>

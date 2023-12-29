@@ -20,35 +20,41 @@
                         </div>
                     </div>
                     @include('admin.include.errors')
-                    <div class="card-body">
+                    <div class="card-body p-4">
                         <form action="{{ route('users.store') }}" method="POST">
                             @csrf
-                            <div class="form-row">
-                                <div class="form-group col-md-6 col-sm-12">
-                                    <label for="name">User Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name">
+                            <div class="form-row row">
+                                <div class="form-group col-md-6 col-sm-6">
+                                    <label for="name">Employee Name</label>
+                                    <select name="name" id="name" class="form-control">
+                                    <option value="">Select One</option>
+                                        @foreach ($employees as $row)
+                                            <option value="{{ $row->employee_name }}">{{ $row->employee_name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                                <div class="form-group col-md-6 col-sm-12">
-                                    <label for="email">User Email</label>
-                                    <input type="text" class="form-control" id="email" name="email" placeholder="Enter Email">
+                                <div class="form-group col-md-6 col-sm-6">
+                                    <label for="email">Login Email</label>
+                                    <input id="email" name="email" class="form-control" type="text">
                                 </div>
                             </div>
 
-                            <div class="form-row">
-                                <div class="form-group col-md-6 col-sm-12">
+                            <div class="form-row row mt-4">
+                                <div class="form-group col-md-6 col-sm-6">
                                     <label for="password">Password</label>
                                     <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
                                 </div>
-                                <div class="form-group col-md-6 col-sm-12">
+                                <div class="form-group col-md-6 col-sm-6">
                                     <label for="password_confirmation">Confirm Password</label>
                                     <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Enter Password">
                                 </div>
                             </div>
 
-                            <div class="form-row">
-                                <div class="form-group col-md-6 col-sm-12">
+                            <div class="form-row row mt-4">
+                                <div class="form-group col-md-6 col-sm-6">
                                     <label for="password">Assign Roles</label>
-                                    <select name="roles[]" id="roles" class="form-control select2" multiple>
+                                    <select name="roles[]" id="roles" class="form-control">
+                                    <option value="">Select user role</option>
                                         @foreach ($roles as $role)
                                             <option value="{{ $role->name }}">{{ $role->name }}</option>
                                         @endforeach
@@ -56,7 +62,7 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Save User</button>
+                            <button type="submit" class="btn btn-primary mt-4 pr-4 pl-4">Get Authenticator Code</button>
                         </form>
                     </div>
                 </div>
@@ -71,7 +77,32 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
-    $('.select2').select2();
-});
+            $('.select2').select2();
+        });
     </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#name').on('change', function () {
+                var empName = this.value;
+                
+                $("#email").html('');
+                $.ajax({
+                    url: "{{route('email.searchapi')}}",
+                    type: "POST",
+                    data: {
+                        name: empName,
+                        _token: '{{csrf_token()}}'
+                    },
+                    dataType: 'json',
+                    success: function (result) {
+                        console.log(result);
+                        $.each(result.email, function (key, value) {
+                            $("#email").val(value.employee_email);
+                        });
+                    }
+                });
+            });
+             });
+  </script>
+
     @endsection

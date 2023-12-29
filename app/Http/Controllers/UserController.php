@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Session;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
@@ -10,6 +12,9 @@ use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Mail;
+use App\Models\Employee;
 
 use Google2FA;
 
@@ -32,13 +37,75 @@ class UserController extends Controller
     public function create(): View
     {
         $roles  = Role::all();
-        return view('admin.users.create', compact('roles'));
+        $employees=Employee::where('employee_status',1)->where('employee_isDeleted',0)->get();
+        return view('admin.users.create', compact('roles','employees'));
 
     }
+    /**
+     * Getting registration email address.
+     */
+    public function search(Request $request){
 
+        
+        $data['email'] = Employee::where('employee_name',$request->name)->get("employee_email");
+        return response()->json($data);
+    }
     /**
      * Store a newly created resource in storage.
      */
+    public function storecomplete(Request $request)
+    {
+      
+        $data=$request->merge(session('registration_data'));
+
+        return $this->registration($request);
+    }
+
+    public function registration(Request $request){
+
+        // Create New User
+        $user = new User();
+         $user->name = $request->name;
+         $user->email = $request->email;
+         $user->password = Hash::make($request->password);
+         $user->google2fa_secret = $request->google2fa_secret;
+         $user->save();
+ 
+         if ($request->roles) {
+            $user->assignRole($request->roles);
+         }
+ 
+         if ($this->sendResetEmail($request->email)) {
+            return redirect()->back()->with('success', 'A Secrate Code has been sent to registered email address.');
+        } else {
+            return redirect()->back()->with('error','A Network Error occurred. Please try again.');
+        }
+
+        return redirect()->route('users.index')->with('success', 'User has been created !!');
+        
+    } //End Method
+
+    private function sendResetEmail($email)
+    {
+    //Retrieve the user from the database
+    $user = DB::table('users')->where('email', $email)->select('name', 'email','google2fa_secret')->first();
+    $google2fa_secret=$user->google2fa_secret;
+    //Generate, the password reset link. The token generated is embedded in the link
+    $data[]=array('users' =>  $user);
+    $data["email"]=$user->email;
+    $data["name"]=$user->name;
+    $data["google2fa_secret"]=$user->google2fa_secret;
+    try {
+        Mail::send('google2fa.sendcode', compact('user','google2fa_secret'), function($message)use($data) {
+               $message->to($data["email"])
+                        ->subject('Set up Google Authenticator for '. $data["name"]);
+            });
+        return true;
+    } catch (\Exception $e) {
+        return false;
+    }
+        
+    }
     public function store(StoreUserRequest $request)
     {
 
@@ -46,21 +113,21 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|max:50',
             'email' => 'required|max:100|email|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'password' => 'required|min:8|confirmed',
         ]);
-
-        // Create New User
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->save();
-
-        if ($request->roles) {
-            $user->assignRole($request->roles);
-        }
-
-        return redirect()->route('users.index')->with('success', 'User has been created !!');
+        
+        
+        $google2fa = app('pragmarx.google2fa');
+        $registration_data = $request->all();
+        $registration_data["google2fa_secret"] = $google2fa->generateSecretKey();
+        $request->session()->flash('registration_data', $registration_data);
+        $QR_Image = $google2fa->getQRCodeInline(
+            config('app.name'),
+            $registration_data['email'],
+            $registration_data['google2fa_secret']
+        );
+        return view('google2fa.register', ['QR_Image' => $QR_Image, 'secret' => $registration_data['google2fa_secret']]);
+        
     }
 
     /**
