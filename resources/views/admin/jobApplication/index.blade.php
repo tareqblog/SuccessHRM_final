@@ -43,8 +43,16 @@
                                         <td>{{ $data->phone_no }}</td>
                                         <td>{{ $data->email }}</td>
                                         <td style="display: flex;">
-                                            <a href="{{ route('job-application.edit', $data->id) }}"
-                                                class="btn btn-info btn-sm me-3"><i class="fas fa-pen"></i></a>
+                                            @if ($data->candidate_id == null)
+                                            <form action="{{ route('job-application.update', $data->id) }}" method="POST">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="btn btn-success btn-sm me-3">Genarate to New Candidate</button>
+                                            </form>
+                                            @else
+                                            <a href="{{route('candidate.edit', $data->candidate_id)}}" class="btn btn-info btn-sm">View Profile</a>
+                                            @endif
+
                                         </td>
                                     </tr>
                                 @empty

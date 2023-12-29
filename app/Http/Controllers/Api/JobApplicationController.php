@@ -12,53 +12,20 @@ class JobApplicationController extends Controller
 {
     public function jobStore(Request $request)
     {
-
-        $request->validate([
-            'candidate_id' => 'required|integer',
-            'name' => 'required',
-            'email' => 'required',
+        $validator = $request->validate([
+            'name' => 'required|string|max:50',
+            'email' => 'required|email',
             'phone_no' => 'required',
-            'resume' => 'required|mimes:pdf,doc,docs,xls,xlsx|max:2048',
-            'remarks' => 'nullable'
+            'resume' => 'required|mimes:pdf,xls,xlsx,doc,docs|max:2048',
+            'remark' => 'nullable',
         ]);
 
-        $file_path = $request->file('resume');
+        if ($validator) {
+            $jobApplication = JobApplication::create($request->except('_token'));
 
-        // Check if $file_path is not empty before proceeding
-        if ($file_path) {
-            candidate::create([
-                'candidate_name' => $request->name,
-                'candidate_name' => $request->email,
-                'candidate_mobile' => $request->phone_no,
-            ]);
-
-            $uploadedFilePath = FileHelper::uploadFile($file_path);
-            JobApplication::create($request->except('_token', 'resume') + [
-                'resume' => $uploadedFilePath,
-            ]);
-
-            $responseMessage = 'Created successfully.';
+            return response()->json(['message' => 'Job application created successfully'], 201);
         } else {
-            candidate::create([
-                'candidate_name' => $request->name,
-                'candidate_name' => $request->email,
-                'candidate_mobile' => $request->phone_no,
-            ]);
-
-            JobApplication::create($request->except('_token', 'resume'));
-
-            $responseMessage = 'Created successfully.';
-        }
-
-        // Check if the request is an API request
-        if ($request->is('api/*')) {
-            return response()->json(['message' => $responseMessage], 201);
-        } else {
-            // Use dd to inspect the response before redirection
-            dd($responseMessage);
-
-            // Uncomment the line below when you're done debugging
-            // return redirect()->route('employee.index')->with('success', $responseMessage);
+            return response()->json(['message' => 'Validation failed', 'errors' => $validator->errors()], 422);
         }
     }
 }

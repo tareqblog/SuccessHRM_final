@@ -45,7 +45,11 @@
                                                 <li class="d-flex">
                                                     <input type="checkbox" name="selectedFiles[]"
                                                         value="{{ $file }}">
-                                                    {{ $file }}
+                                                        @php
+                                                            $parts = explode('_', $file);
+                                                            $originalFilename = $parts[1];
+                                                        @endphp
+                                                    {{ $originalFilename }}
                                                 </li>
                                             @endforeach
                                         </ul>
@@ -64,19 +68,22 @@
                                     <div class="row mb-4">
                                         <label for="one" class="col-sm-4 col-form-label">Name</label>
                                         <div class="col-sm-8">
-                                            <input type="text" name="name" class="form-control" value="" placeholder="Name">
+                                            <input type="text" name="name" class="form-control" value=""
+                                                placeholder="Name">
                                         </div>
                                     </div>
                                     <div class="row mb-4">
                                         <label for="one" class="col-sm-4 col-form-label">Email</label>
                                         <div class="col-sm-8">
-                                            <input type="text" name="email" class="form-control" value="" placeholder="Email">
+                                            <input type="text" name="email" class="form-control" value=""
+                                                placeholder="Email">
                                         </div>
                                     </div>
                                     <div class="row mb-4">
                                         <label for="one" class="col-sm-4 col-form-label">Phone No</label>
                                         <div class="col-sm-8">
-                                            <input type="text" name="phone_no" class="form-control"value="" placeholder="Phone no">
+                                            <input type="text" name="phone_no" class="form-control"value=""
+                                                placeholder="Phone no">
                                         </div>
                                     </div>
                                 </form>
@@ -89,9 +96,9 @@
                                         <form>
                                             {{-- @foreach ($info as $data) --}}
                                             <!-- Display extracted email, name, phone in text fields -->
-                                            <input class="form-control" type="text" name="email"
-                                                value="{{ $name }}">
                                             <input class="form-control" type="text" name="name"
+                                                value="{{ $name }}">
+                                            <input class="form-control" type="text" name="email"
                                                 value="{{ $email }}">
                                             <input class="form-control" type="text" name="phone"
                                                 value="{{ $phone_no }}">
@@ -112,21 +119,20 @@
             </div>
         </div>
     @endsection
-    @section('scripts')
-        <script>
-            // JavaScript code to load the PDF into the div
-            const pdfContainer = document.getElementById('fileViewer');
-            const iframe = document.createElement('iframe');
+    @section('scripts')<script>
+        // JavaScript code to load the PDF into the div
+        const pdfContainer = document.getElementById('fileViewer');
+        const iframe = document.createElement('iframe');
 
-            // URL to your PDF file in Laravel (replace 'your-pdf-file-path.pdf' with the actual file path)
-            const pdfUrl = "{{ isset($myPath) }}";
+        // URL to your PDF file in Laravel (replace 'your-pdf-file-path.pdf' with the actual file path)
+        const pdfUrl = "{{ isset($myPath) ? $myPath : '' }}";
 
-            // Set iframe attributes
-            iframe.src = pdfUrl;
-            iframe.width = "100%";
-            iframe.height = "600px"; // Set height as required
+        // Set iframe attributes
+        iframe.src = pdfUrl;
+        iframe.width = "100%";
+        iframe.height = "600px"; // Set height as required
 
-            // Append the iframe to the div
-            pdfContainer.appendChild(iframe);
-        </script>
+        // Append the iframe to the div
+        pdfContainer.appendChild(iframe);
+    </script>
     @endsection

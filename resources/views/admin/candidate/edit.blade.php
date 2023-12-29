@@ -2113,8 +2113,7 @@ Candidate Edit
                                                 <input type="hidden" name="candidate_id" value="{{ $candidate->id }}">
                                                 <div class="col-sm-9">
                                                     <select name="sheet_type_id" id="" class="form-control">
-                                                        <option value="" {{ $time->sheet_type_id }}>Select One
-                                                        </option>
+                                                        <option value="{{ $time?->sheet_type_id }}">Select One</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -2125,10 +2124,10 @@ Candidate Edit
                                                     <select name="schedul_type" id="" class="form-control">
                                                         <option value="">Select One</option>
                                                         <option value="Month End"
-                                                            {{ $time->schedul_type == 'Month End' ? 'selected' : '' }}>
+                                                            {{ $time?->schedul_type == 'Month End' ? 'selected' : '' }}>
                                                             Month End</option>
                                                         <option value="44 Hours"
-                                                            {{ $time->schedul_type == '44 Hours' ? 'selected' : '' }}>
+                                                            {{ $time?->schedul_type == '44 Hours' ? 'selected' : '' }}>
                                                             44 Hours</option>
                                                     </select>
                                                 </div>
@@ -2141,7 +2140,7 @@ Candidate Edit
                                                         <option value="">Select One</option>
                                                         @for ($i = 0; $i < 32; $i++)
                                                             <option value="{{ $i }}"
-                                                                {{ $i == $time->schedul_day ? 'selected' : '' }}>
+                                                                {{ $i == $time?->schedul_day ? 'selected' : '' }}>
                                                                 {{ $i }}</option>
                                                         @endfor
                                                     </select>
@@ -2151,7 +2150,7 @@ Candidate Edit
                                                 <label for="one" class="col-sm-3 col-form-label">Remarks</label>
                                                 <div class="col-sm-9">
                                                     <textarea name="remarks" rows="2" class="form-control"
-                                                        placeholder="Remarks"> {{ $time->remarks }} </textarea>
+                                                        placeholder="Remarks"> {{ $time?->remarks }} </textarea>
                                                 </div>
                                             </div>
                                         </div>

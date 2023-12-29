@@ -55,7 +55,16 @@ class JobApplicationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $job = JobApplication::find($id);
+        $candidate = candidate::create([
+            'candidate_name' => $job->name,
+            'candidate_email' => $job->email,
+            'candidate_mobile' => $job->phone_no,
+        ]);
+        $job->update([
+            'candidate_id' => $candidate->id
+        ]);
+        return back()->with('success', 'Candidate genarate successfully.');
     }
 
     /**

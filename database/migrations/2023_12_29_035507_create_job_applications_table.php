@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('job_applications', function (Blueprint $table) {
             $table->id();
-            $table->integer('candidate_id');
-            $table->string('capta_code');
+            $table->integer('candidate_id')->nullable();
+            $table->string('capta_code')->nullable();
             $table->string('name');
             $table->string('phone_no');
             $table->string('email');
