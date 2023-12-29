@@ -13,11 +13,13 @@ use App\Http\Controllers\JobcategoryController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobTypeController;
 use App\Http\Controllers\Actions\FetchEmployeeController;
+use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\MaritalStatusController;
 use App\Http\Controllers\PassTypeController;
 use App\Http\Controllers\ReligionController;
+use App\Http\Controllers\RemarksTypesController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TncController;
 use App\Http\Controllers\UploadFileTypeController;
@@ -147,9 +149,6 @@ Route::get('/pay-mode', function () {
 Route::get('/file-type', function () {
     return view('admin.fileType.index');
 });
-Route::get('/remark-type', function () {
-    return view('admin.remarkType.index');
-});
 // Activity Ends
 
 
@@ -184,9 +183,11 @@ Route::prefix('admin')->group(function () {
         '/job' => JobController::class,
         '/leave' => LeaveController::class,
         '/candidate' => CandidateController::class,
-       // '/import' => CandidateFileImportController::class,
+       '/import' => CandidateFileImportController::class,
         '/file-type' => UploadFileTypeController::class,
         '/pass-type' => PassTypeController::class,
+        '/remarks-type' => RemarksTypesController::class,
+        '/job-application' => JobApplicationController::class,
     ]);
     Route::get('/authenticate',  [UserController::class, 'storecomplete'])->name('user.authenticate');
     Route::post('/users/fetch-email',  [UserController::class, 'search'])->name('email.searchapi');
