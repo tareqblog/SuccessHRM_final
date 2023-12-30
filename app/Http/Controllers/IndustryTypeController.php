@@ -12,7 +12,7 @@ class IndustryTypeController extends Controller
      */
     public function index()
     {
-        $datas = IndustryType::latest()->get();
+        $datas = IndustryType::orderBy('industry_seqno')->get();
         return view('admin.industryType.index', compact('datas'));
     }
 

@@ -42,7 +42,7 @@ return new class extends Migration
             $table->integer('is_payroll_enable')->default(0)->comment('1=salary entry enable, 0=salary entry disable');
             $table->integer('is_cpf_enable')->default(0);
 
-            // Genarel Info Ends
+            // General Info Ends
 
             $table->string('employee_postal_code')->nullable();
             $table->string('employee_unit_number')->nullable();

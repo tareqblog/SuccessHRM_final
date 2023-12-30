@@ -15,53 +15,49 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title mb-0">Create New Candidate</h4>
+                        <div class="text-end">
+                            <a href="{{ route('candidate.index') }}" class="btn btn-sm btn-success">Search</a>
+                        </div>
                     </div>
                     @include('admin.include.errors')
                     <div class="card-body">
                         <!-- Nav tabs -->
                         <div class="row">
-                            <div class="col-lg-10">
+                            <div class="col-lg-12">
                                 <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" data-bs-toggle="tab" href="#genarel_info" role="tab">
-                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                            <span class="d-none d-sm-block">Genarel Info</span>
+                                        <a class="nav-link active" data-bs-toggle="tab" href="#General_info" role="tab">
+                                            <span class="d-sm-block">General Info</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-bs-toggle="tab" href="#contact_info" role="tab">
-                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                            <span class="d-none d-sm-block">Contact Info</span>
+                                            <span class="d-sm-block">Contact Info</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-bs-toggle="tab" href="#bank_info" role="tab">
-                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                            <span class="d-none d-sm-block">Bank Info</span>
+                                            <span class="d-sm-block">Bank Info</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-bs-toggle="tab" href="#qualification" role="tab">
-                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                            <span class="d-none d-sm-block">Qualification</span>
+                                            <span class="d-sm-block">Qualification</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-bs-toggle="tab" href="#character_referees" role="tab">
-                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                            <span class="d-none d-sm-block">Character Referee's</span>
+                                            <span class="d-sm-block">Character Referee's</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-bs-toggle="tab" href="#declaration" role="tab">
-                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                            <span class="d-none d-sm-block">Declaration</span>
+                                            <span class="d-sm-block">Declaration</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-bs-toggle="tab" href="#terms_conditions" role="tab">
-                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                            <span class="d-none d-sm-block">Terms & Conditions</span>
+                                            <span class="d-sm-block">Terms & Conditions</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -71,7 +67,7 @@
                         <form action="{{ route('candidate.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="tab-content p-3 text-muted">
-                                <div class="tab-pane active" id="genarel_info" role="tabpanel">
+                                <div class="tab-pane active" id="General_info" role="tabpanel">
                                     <div class="row">
                                         <div class="col-lg-4">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
@@ -80,7 +76,8 @@
                                                         Code</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="" class="form-control"
-                                                            placeholder="Candidate code" disabled value="--System Generate--">
+                                                            placeholder="Candidate code" disabled
+                                                            value="--System Generate--">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -103,13 +100,38 @@
                                                     <label for="two" class="col-sm-4 col-form-label">Race</label>
                                                     <div class="col-sm-8">
                                                         <select name="races_id" class="form-control">
-                                                        <option value="">Select One</option>    
-                                                        @foreach ($race_data as $row)
-                                                                <option value="{{ $row->id }}"  {{ old('races_id', $row->id) ? '' : 'selected' }}>
-                                                                    {{ old('races_id'). $row->race_code }}</option>
-                                                        @endforeach
+                                                            <option value="">Select One</option>
+                                                            @foreach ($race_data as $row)
+                                                                <option value="{{ $row->id }}"
+                                                                    {{ old('races_id') == $row->id ? 'selected' : '' }}>
+                                                                    {{ old('races_id') . $row->race_code }}</option>
+                                                            @endforeach
                                                         </select>
-                                                    </div> 
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="two"
+                                                        class="col-sm-4 col-form-label">Nationality</label>
+                                                    <div class="col-sm-8">
+                                                        <select name="nationality_id" class="form-control"
+                                                            id="mySelect">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($nationality as $nation)
+                                                                <option value="{{ $nation->id }}"
+                                                                    {{ old('nationality_id') == $nation->id ? 'selected' : '' }}>
+                                                                    {{ old('nationality_id') . $nation->en_nationality }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="myNationality" style="display: none;">
+                                                    <label for="two" class="col-sm-4 col-form-label">Date of
+                                                        issue</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="date" name="nationality_date_of_issue"
+                                                            class="form-control">
+                                                    </div>
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="three" class="col-sm-4 col-form-label">Mobile</label>
@@ -130,11 +152,12 @@
                                                         Pass</label>
                                                     <div class="col-sm-8">
                                                         <select name="passtypes_id" class="form-control">
-                                                        <option value="">Select One</option>    
-                                                        @foreach ($passtype_data as $row)
-                                                                <option value="{{ $row->id }}"  {{ old('passtype_id', $row->id) ? '' : 'selected' }}>
+                                                            <option value="">Select One</option>
+                                                            @foreach ($passtype_data as $row)
+                                                                <option value="{{ $row->id }}"
+                                                                    {{ old('passtype_id') == $row->id ? 'selected' : '' }}>
                                                                     {{ $row->passtype_code }}</option>
-                                                        @endforeach
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -145,18 +168,19 @@
                                                             name="candidate_height" placeholder="Height">
                                                     </div>
                                                 </div>
-                                                 <div class="row mb-4">
-                                                <label for="two" class="col-sm-4 col-form-label">Outlet</label>
-                                                <div class="col-sm-8">
-                                                    <select  class="form-control" name="candidate_outlet_id">
-                                                        <option value="">Select One</option>
-                                                        @foreach ($outlet_data as $row)
-                                                                <option value="{{ $row->id }}"  {{ old('candidate_outlet_id', $row->id) ? '' : 'selected' }}>
+                                                <div class="row mb-4">
+                                                    <label for="two" class="col-sm-4 col-form-label">Outlet</label>
+                                                    <div class="col-sm-8">
+                                                        <select class="form-control" name="candidate_outlet_id">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($outlet_data as $row)
+                                                                <option value="{{ $row->id }}"
+                                                                    {{ old('candidate_outlet_id') == $row->id ? 'selected' : '' }}>
                                                                     {{ $row->outlet_name }}</option>
-                                                        @endforeach
-                                                    </select>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                            </div> 
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -193,8 +217,9 @@
                                                         <select name="religions_id" class="form-control">
                                                             <option value="">Select One</option>
                                                             @foreach ($religion_data as $row)
-                                                                <option value="{{ $row->id }}"  {{ old('religions_id', $row->id) ? '' : 'selected' }}>
-                                                                    {{  $row->religion_code }}</option>
+                                                                <option value="{{ $row->id }}"
+                                                                    {{ old('religions_id') == $row->id ? 'selected' : '' }}>
+                                                                    {{ $row->religion_code }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -206,8 +231,9 @@
                                                         <select name="marital_statuses_id" class="form-control">
                                                             <option value="">Select One</option>
                                                             @foreach ($marital_data as $row)
-                                                                <option value="{{ $row->id }}"  {{ old('marital_statuses_id', $row->id) ? '' : 'selected' }}>
-                                                                    {{  $row->marital_statuses_code }}</option>
+                                                                <option value="{{ $row->id }}"
+                                                                    {{ old('marital_statuses_id') == $row->id ? 'selected' : '' }}>
+                                                                    {{ $row->marital_statuses_code }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -238,11 +264,15 @@
                                                     <label for="four" class="col-sm-4 col-form-label">Black
                                                         List</label>
                                                     <div class="col-sm-8">
-                                                        
+
                                                         <select name="candidate_isBlocked" class="form-control">
                                                             <option value="">Select One</option>
-                                                            <option value="1" {{ old('candidate_isBlocked', 1) ? '' : 'selected' }} >Yes</option>
-                                                            <option value="0" {{ old('candidate_isBlocked',0) ? '' : 'selected' }} >No</option>
+                                                            <option value="1"
+                                                                {{ old('candidate_isBlocked') == 1 ? 'selected' : '' }}>Yes
+                                                            </option>
+                                                            <option value="0"
+                                                                {{ old('candidate_isBlocked') == 0 ? 'selected' : '' }}>No
+                                                            </option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -405,12 +435,13 @@
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-4 col-form-label">Pay Mode</label>
-                                                    <div class="col-sm-8"> 
+                                                    <div class="col-sm-8">
                                                         <select name="paymodes_id" class="form-control" id="">
                                                             <option value="">Select One</option>
                                                             @foreach ($paymode_data as $row)
-                                                                <option value="{{ $row->id }}"  {{ old('paymodes_id', $row->id) ? '' : 'selected' }}>
-                                                                    {{  $row->paymode_code }}</option>
+                                                                <option value="{{ $row->id }}"
+                                                                    {{ old('paymodes_id') == $row->id ? 'selected' : '' }}>
+                                                                    {{ $row->paymode_code }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -428,10 +459,18 @@
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-4 col-form-label">GIRO Bank</label>
+                                                    <label for="one" class="col-sm-4 col-form-label">GIRO
+                                                        Bank</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" name="candidate_bank"
-                                                            class="form-control" placeholder="Bank Name">
+                                                        <select name="candidate_bank" class="form-control"
+                                                            id="">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($Paybanks as $data)
+                                                                <option value="{{ $data->id }}"
+                                                                    {{ old('candidate_bank') == $data->id ? 'selected' : '' }}>
+                                                                    {{ $data->Paybank_code }} </option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -611,7 +650,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane" id="declaration" role="tabpanel">
+                                {{-- <div class="tab-pane" id="declaration" role="tabpanel">
                                     <h5 class="mb-5">Declaration</h5>
                                     <div class="row">
                                         <div class="col-lg-6">
@@ -631,7 +670,7 @@
                                                             </label>
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <input type="text" class="form-control" id="db_specify"
+                                                            <input type="text" style="display: none;" class="form-control" id="db_specify"
                                                                 name="candidate_dec_bankrupt_details" value=""
                                                                 placeholder="If Yes, Please specify">
                                                         </div>
@@ -653,7 +692,7 @@
                                                             </label>
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <input type="text" class="form-control" id="db_specify"
+                                                            <input type="text" style="display: none;" class="form-control" id="db_specify"
                                                                 name="candidate_dec_physical_details" value=""
                                                                 placeholder="If Yes, Please specify">
                                                         </div>
@@ -674,7 +713,7 @@
                                                             </label>
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <input type="text" class="form-control" id="db_specify"
+                                                            <input type="text" style="display: none;" class="form-control" id="db_specify"
                                                                 name="candidate_dec_lt_medical_details" value=""
                                                                 placeholder="If Yes, Please specify">
                                                         </div>
@@ -696,7 +735,7 @@
                                                             </label>
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <input type="text" class="form-control" id="db_specify"
+                                                            <input type="text" style="display: none;" class="form-control" id="db_specify"
                                                                 name="candidate_dec_law_details" value=""
                                                                 placeholder="If Yes, Please specify">
                                                         </div>
@@ -718,7 +757,7 @@
                                                             </label>
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <input type="text" class="form-control" id="db_specify"
+                                                            <input type="text" style="display: none;" class="form-control" id="db_specify"
                                                                 name="candidate_dec_warning_details" value=""
                                                                 placeholder="If Yes, Please specify">
                                                         </div>
@@ -739,8 +778,158 @@
                                                             </label>
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <input type="text" class="form-control" id="db_specify"
+                                                            <input type="text" style="display: none;"  class="form-control" id="db_specify"
                                                                 name="candidate_dec_applied_details" value=""
+                                                                placeholder="If Yes, Please specify">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> --}}
+
+                                <div class="tab-pane" id="declaration" role="tabpanel">
+                                    <h5 class="mb-5">Declaration</h5>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="mt-5 mt-lg-4 mt-xl-0">
+                                                <div class="form-group mb-2" id="bankrupt">
+                                                    <label for="declaration_bankrupt" class=" control-label">1. Are
+                                                        you / Have you ever been an undischarged bankrupt?</label>
+                                                    <div class="radio d-flex">
+                                                        <div class="col-sm-3">
+                                                            <label>
+                                                                <input type="radio" name="candidate_dec_bankrupt"
+                                                                    value="1">Yes
+                                                            </label>
+                                                            <label>
+                                                                <input type="radio" name="candidate_dec_bankrupt"
+                                                                    value="0">No
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-sm-6" id="candidate_dec_bankrupt_details"
+                                                            style="display: none;">
+                                                            <input type="text" class="form-control"
+                                                                name="candidate_dec_bankrupt_details"
+                                                                placeholder="If Yes, Please specify">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label for="declaration_bankrupt" class=" control-label">2. Are you
+                                                        suffering from any physical / mental impairment or chronic /
+                                                        pre-existing illness?</label>
+                                                    <div class="radio d-flex">
+                                                        <div class="col-sm-3">
+                                                            <label>
+                                                                <input type="radio" name="candidate_dec_physical"
+                                                                    value="1">Yes
+                                                            </label>
+                                                            <label>
+                                                                <input type="radio" name="candidate_dec_physical"
+                                                                    value="0">No
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control"
+                                                                id="candidate_dec_physical_details"
+                                                                name="candidate_dec_physical_details"
+                                                                placeholder="If Yes, Please specify"
+                                                                id="candidate_dec_physical_details"
+                                                                style="display: none;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label for="declaration_bankrupt" class=" control-label">3. Are you
+                                                        currently undergoing long-term medical treatment?</label>
+                                                    <div class="radio d-flex">
+                                                        <div class="col-sm-3">
+                                                            <label>
+                                                                <input type="radio" name="candidate_dec_lt_medical"
+                                                                    value="1">Yes
+                                                            </label>
+                                                            <label>
+                                                                <input type="radio" name="candidate_dec_lt_medical"
+                                                                    value="0">No
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control"
+                                                                id="candidate_dec_lt_medical_details"
+                                                                name="candidate_dec_lt_medical_details"
+                                                                placeholder="If Yes, Please specify"
+                                                                style="display: none;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label for="declaration_bankrupt" class=" control-label">4. Have you
+                                                        ever been convicted or found guilty of an offence in Court Of Law in
+                                                        any country?</label>
+                                                    <div class="radio d-flex">
+                                                        <div class="col-sm-3">
+                                                            <label>
+                                                                <input type="radio" name="candidate_dec_law"
+                                                                    value="1">Yes
+                                                            </label>
+                                                            <label>
+                                                                <input type="radio" name="candidate_dec_law"
+                                                                    value="0">No
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control"
+                                                                id="candidate_dec_law_details"
+                                                                name="candidate_dec_law_details"
+                                                                placeholder="If Yes, Please specify"
+                                                                style="display: none;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label for="declaration_bankrupt" class=" control-label">5. Have you
+                                                        ever been issued warning letters, suspended or dismissed from
+                                                        employment before?</label>
+                                                    <div class="radio d-flex">
+                                                        <div class="col-sm-3">
+                                                            <label>
+                                                                <input type="radio" name="candidate_dec_warning"
+                                                                    value="1">Yes
+                                                            </label>
+                                                            <label>
+                                                                <input type="radio" name="candidate_dec_warning"
+                                                                    value="0">No
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control"
+                                                                id="candidate_dec_warning_details"
+                                                                name="candidate_dec_warning_details"
+                                                                placeholder="If Yes, Please specify"
+                                                                style="display: none;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label for="declaration_bankrupt" class=" control-label">6. Have you
+                                                        applied for any job with this company before?</label>
+                                                    <div class="radio d-flex">
+                                                        <div class="col-sm-3">
+                                                            <label>
+                                                                <input type="radio" name="candidate_dec_applied"
+                                                                    value="1">Yes
+                                                            </label>
+                                                            <label>
+                                                                <input type="radio" name="candidate_dec_applied"
+                                                                    value="0">No
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" class="form-control"
+                                                                id="candidate_dec_applied_details"
+                                                                name="candidate_dec_applied_details"
                                                                 placeholder="If Yes, Please specify">
                                                         </div>
                                                     </div>
@@ -825,4 +1014,12 @@
             </div><!-- end card -->
         </div>
         </div>
+    @endsection
+
+    @section('scripts')
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
+
+        <script src="{{ asset('build/js/ajax/candidateGenarel.js') }}"></script>
+        <script src="{{ asset('build/js/ajax/candidateDeclaration.js') }}"></script>
     @endsection

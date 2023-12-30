@@ -52,7 +52,7 @@ Client Terms Management
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ $data->client_term_code }}</td>
-                                        <td>{{ $data->client_term_status == '1' ? 'Active' : 'In-Active' }}</td>
+                                        <td>{{ $data->client_term_status == '1' ? 'Active' : 'Inactive' }}</td>
                                         <td class="d-flex">
                                             <button data-id="{{ $data->id }}" data-bs-toggle="modal"
                                                 data-bs-target=".bs-example-modal-lg-edit"
@@ -92,30 +92,28 @@ Client Terms Management
                                     <form action="{{ route('client-term.store') }}" method="POST">
                                         @csrf
                                         <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Terms Code</label>
-                                                    <div class="col-sm-9">
+                                            <div class="col-lg-12 row">
+                                                <div class="row mb-4 col-lg-6">
+                                                    <label for="one" class="col-sm-4 col-form-label">Terms Code</label>
+                                                    <div class="col-sm-8">
                                                         <input type="text" name="client_term_code" class="form-control"
                                                             placeholder="Title" value="{{ old('client_term_code') }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Terms Description</label>
-                                                    <div class="col-sm-9">
+                                                <div class="row mb-4 col-lg-6">
+                                                    <label for="one" class="col-sm-4 col-form-label">List Order</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="client_term_seqno" class="form-control"
+                                                            placeholder="List Order" value="{{ old('client_term_seqno') }}">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-12">
+                                                    <label for="one" class="col-sm-2 col-form-label">Terms Description</label>
+                                                    <div class="col-sm-6">
                                                         <textarea name="client_term_desc" rows="2" class="form-control" placeholder="Descriptin"></textarea>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-lg-6">
-
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Seq No</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" name="client_term_seqno" class="form-control"
-                                                            placeholder="Seq no" value="{{ old('client_term_seqno') }}">
-                                                    </div>
-                                                </div>
+                                                
                                             </div>
                                         </div>
                                         <div class="row mt-5">

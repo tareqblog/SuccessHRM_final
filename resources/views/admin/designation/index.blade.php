@@ -42,7 +42,6 @@
                                     <th>No.</th>
                                     <th>Designation Code</th>
                                     <th>Description</th>
-                                    <th>Seq No</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -53,8 +52,7 @@
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ $data->designation_code }}</td>
                                         <td>{{ $data->designation_desc }}</td>
-                                        <td>{{ $data->designation_seqno }}</td>
-                                        <td>{{ $data->designation_status == '1' ? 'Active' : 'In-Active' }}
+                                        <td>{{ $data->designation_status == '1' ? 'Active' : 'Inactive' }}
                                         </td>
                                         <td class="d-flex">
                                             <button data-id="{{ $data->id }}" data-bs-toggle="modal"
@@ -93,28 +91,28 @@
 
                                     <form action="{{ route('designation.store') }}" method="POST">
                                         @csrf
-                                        <div class="row">
+                                        <div class="row p-2">
                                             <div class="col-lg-12">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-2 col-form-label">Designation
+                                                    <label for="one" class="col-sm-4 col-form-label">Designation
                                                         Code</label>
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-8">
                                                         <input type="text" class="form-control" name="designation_code"
                                                             placeholder="Designation Code">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-2 col-form-label">Seq No</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" class="form-control" name="designation_seqno"
-                                                            placeholder="Seq No">
+                                                    <label for="one"
+                                                        class="col-sm-4 col-form-label">Description</label>
+                                                    <div class="col-sm-8">
+                                                        <textarea name="designation_desc" rows="2" class="form-control" placeholder="Description"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="one"
-                                                        class="col-sm-2 col-form-label">Description</label>
-                                                    <div class="col-sm-9">
-                                                        <textarea name="designation_desc" rows="2" class="form-control" placeholder="Description"></textarea>
+                                                    <label for="one" class="col-sm-4 col-form-label">List Order</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control" name="designation_seqno"
+                                                            placeholder="List Order">
                                                     </div>
                                                 </div>
                                             </div>

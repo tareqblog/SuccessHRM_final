@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class remarkstype extends Model
 {
     use HasFactory;
+    protected $guarded = ['_token'];
 }

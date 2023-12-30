@@ -16,7 +16,7 @@ Candidates Payroll Management
                 <div class="card-header">
                     <h4 class="card-title mb-0">Candidates Payroll Table</h4>
                     <div class="text-end">
-                        <a href="#" class="btn btn-sm btn-success">Create New</a>
+                        <a href="/candidate/payroll/create" class="btn btn-sm btn-success">Create New</a>
                     </div>
                 </div>
                 <div class="card-body">

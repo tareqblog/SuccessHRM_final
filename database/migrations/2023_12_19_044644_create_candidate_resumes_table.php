@@ -14,10 +14,7 @@ return new class extends Migration
         Schema::create('candidate_resumes', function (Blueprint $table) {
             $table->id();
             $table->integer('candidates_id');
-            $table->string('resume_name');
-            $table->string('resume_type');
             $table->string('resume_file_path')->nullable();
-            $table->longText('resume_details')->nullable();
             $table->integer('isMain')->default(0)->comment('1=main,0=onlist');
             $table->integer('created_by')->nullable();
             $table->integer('modify_by')->nullable();

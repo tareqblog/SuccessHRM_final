@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\CandidateFileImportController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ClientTermController;
 use App\Http\Controllers\DepartmentController;
@@ -12,10 +13,13 @@ use App\Http\Controllers\JobcategoryController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobTypeController;
 use App\Http\Controllers\Actions\FetchEmployeeController;
+use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\MaritalStatusController;
+use App\Http\Controllers\PassTypeController;
 use App\Http\Controllers\ReligionController;
+use App\Http\Controllers\RemarksTypesController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TncController;
 use App\Http\Controllers\UploadFileTypeController;
@@ -107,7 +111,7 @@ Route::get('/invoice/edit', function () {
 // Invoice Ends
 
 
-// Invoice Start
+// Personal Folder Start
 Route::get('/personal-folder', function () {
     return view('admin.personalFolder.index');
 });
@@ -117,7 +121,7 @@ Route::get('/personal-folder/create', function () {
 Route::get('/personal-folder/edit', function () {
     return view('admin.personalFolder.edit');
 });
-// Invoice Ends
+// Personal Folder Ends
 
 
 // User Control Start
@@ -139,20 +143,11 @@ Route::get('/employee-group', function () {
 Route::get('/job-status', function () {
     return view('admin.jobStatus.index');
 });
-Route::get('/pass-type', function () {
-    return view('admin.passType.index');
-});
 Route::get('/pay-mode', function () {
     return view('admin.payMode.index');
 });
 Route::get('/file-type', function () {
     return view('admin.fileType.index');
-});
-Route::get('/remark-type', function () {
-    return view('admin.remarkType.index');
-});
-Route::get('/designation', function () {
-    return view('admin.designation.index');
 });
 // Activity Ends
 
@@ -166,7 +161,6 @@ Route::prefix('admin')->group(function () {
         return json_encode(activity::all()->last());
     });
 
-    Route::get('/setting/profile', [App\Http\Controllers\AdminController::class, 'Index'])->name('user.profiles');
     // Route::get('/employeefetch',[App\Http\Controllers\Action\FetchEmployeeController::class])->name('employee.fetch');
 
     Route::resources([
@@ -189,9 +183,23 @@ Route::prefix('admin')->group(function () {
         '/job' => JobController::class,
         '/leave' => LeaveController::class,
         '/candidate' => CandidateController::class,
+       '/import' => CandidateFileImportController::class,
         '/file-type' => UploadFileTypeController::class,
+        '/pass-type' => PassTypeController::class,
+        '/remarks-type' => RemarksTypesController::class,
+        '/job-application' => JobApplicationController::class,
     ]);
-    Route::get('/setting/profile', [App\Http\Controllers\AdminController::class, 'Index'])->name('user.profiles');
+    Route::get('/authenticate',  [UserController::class, 'storecomplete'])->name('user.authenticate');
+    Route::post('/users/fetch-email',  [UserController::class, 'search'])->name('email.searchapi');
+
+    Route::get('/setting/profile', [App\Http\Controllers\AdminController::class, 'index'])->name('user.profiles');
+
+    Route::get('/import',  [CandidateFileImportController::class, 'index'])->name('import.index');
+    Route::post('/import/upload',  [CandidateFileImportController::class, 'upload'])->name('upload.files');
+    Route::post('/import/extract',  [CandidateFileImportController::class, 'extractInfo'])->name('extract.info');
+    // Employee extra route start
+    Route::post('salary/info/post', [EmployeeController::class, 'salaryInfoPost'])->name('employee.salary.info.post');
+    // Employee extra route ends
 
 
 
@@ -199,10 +207,22 @@ Route::prefix('admin')->group(function () {
     Route::delete('/file-delete/{id}', [ClientController::class, 'fileDelete'])->name('client.file.delete');
     Route::post('/client/followup/{id}', [ClientController::class, 'followUp'])->name('client.followup');
     Route::delete('/client/followup/{id}', [ClientController::class, 'folowupDelete'])->name('client.followup.delete');
+    //Candidate extra part
     Route::post('/candidate/file-upload/{id}', [CandidateController::class, 'fileUpload'])->name('candidate.file.upload');
     Route::delete('/candidate/file-delete/{id}', [CandidateController::class, 'fileDelete'])->name('candidate.file.delete');
     Route::post('/candidate/followup/{id}', [CandidateController::class, 'followUp'])->name('candidate.followup');
     Route::delete('/candidate/followup/{id}', [CandidateController::class, 'folowupDelete'])->name('candidate.followup.delete');
+    Route::post('/candidate/remark/{id}', [CandidateController::class, 'remark'])->name('candidate.remark');
+    Route::delete('/candidate/remark/{id}', [CandidateController::class, 'remarkDelete'])->name('candidate.remark.delete');
+    Route::post('/candidate/payroll/{id}', [CandidateController::class, 'payroll'])->name('candidate.payroll');
+    Route::delete('/candidate/payroll/{id}', [CandidateController::class, 'payrollDelete'])->name('candidate.payroll.delete');
+    Route::post('/candidate/working-hour/{id}', [CandidateController::class, 'workingHour'])->name('candidate.working.hour');
+    Route::post('/candidate/family/{id}', [CandidateController::class, 'family'])->name('candidate.family');
+    Route::delete('/candidate/family/{id}', [CandidateController::class, 'familyDelete'])->name('candidate.family.delete');
+    Route::post('/candidate/resume/{id}', [CandidateController::class, 'resumeUpload'])->name('candidate.resume');
+    Route::delete('/candidate/resume/{id}', [CandidateController::class, 'resumeDelete'])->name('candidate.resume.delete');
+    Route::post('/candidate/main/{id}', [CandidateController::class, 'resumeMain'])->name('candidate.resume.main');
+
 
     Route::get('{any}',  [App\Http\Controllers\HomeController::class, 'index']);
 

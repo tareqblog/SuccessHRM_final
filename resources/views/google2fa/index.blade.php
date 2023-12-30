@@ -18,7 +18,7 @@
                 @endif
   
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('2fa') }}">
+                    <form class="form-horizontal" method="POST" action="{ { route('2fa') } }">
                         {{ csrf_field() }}
   
                         <div class="form-group">

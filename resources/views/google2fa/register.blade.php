@@ -1,13 +1,15 @@
-@extends('admin.layouts.master')
+@extends('layouts.master')
 @section('title')
-    @lang('translation.Register')
+User Mangement
 @endsection
-@section('content')
-    @component('common-components.breadcrumb')
-        @slot('pagetitle') Contacts @endslot
-        @slot('title') Admin Registration @endslot
-    @endcomponent
+@section('page-title')
+Manage User Google Authenticator
+@endsection
+@section('body')
 
+<body>
+    @endsection
+    @section('content')
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -21,7 +23,7 @@
                     </div>
                     <p>You must set up your Google Authenticator app before continuing. You will be unable to login otherwise</p>
                     <div>
-                        <!-- <a href="{ { route('admin.complete') } }" class="btn btn-primary">Complete Registration</a>-->
+                        <a href="{{ route('user.authenticate') }}" class="btn btn-primary">Complete Registration</a>
                     </div>
                 </div>
             </div>

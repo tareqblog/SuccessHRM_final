@@ -42,10 +42,19 @@
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ $data->client_name }}</td>
-                                        <td>{{ $data->Employee->employee_code }}</td>
+                                        <td>
+                                            @if ($data->employees_id)
+                                                {{ $data->Employee->employee_code }}
+                                            @endif
+                                        </td>
                                         <td>{{ $data->industry_type->industry_code }}</td>
                                         <td>{{ $data->clients_status == 1 ? 'Active' : 'In-Active' }}</td>
-                                        <td>{{ $data->Employee_Payroll->employee_code }}</td>
+
+                                        <td>
+                                            @if ($data->payroll_employees_id)
+                                                {{ $data->Employee_Payroll->employee_code }}
+                                            @endif
+                                        </td>
                                         <td>
                                             @if ($data->latestFollowUp()->description)
                                                 <u>{{ $data->latestFollowUp()->created_at }}</u><br />

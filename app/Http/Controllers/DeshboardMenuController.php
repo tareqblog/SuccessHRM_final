@@ -17,10 +17,8 @@ class DeshboardMenuController extends Controller
      */
     public function index()
     {
-        $datas = DeshboardMenu::all();
-
-
-        $perents = DeshboardMenu::where('menu_perent',0)->select('menu_group', 'id')->get();
+        $datas = DeshboardMenu::orderBy('menu_short')->get();
+        $perents = DeshboardMenu::orderBy('menu_short')->where('menu_perent',0)->select('menu_group', 'id')->get();
 
         return view('admin.dashboardMenu.index', compact('datas', 'perents'));
     }
@@ -58,6 +56,7 @@ class DeshboardMenuController extends Controller
      */
     public function edit(DeshboardMenu $menu)
     {
+        
         $perents = DeshboardMenu::where('menu_perent',0)->select('menu_group', 'id')->get();
         return view('admin.dashboardMenu.edit', compact('menu', 'perents'));
     }

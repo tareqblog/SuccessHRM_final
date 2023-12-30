@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Session;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
@@ -10,30 +12,22 @@ use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Mail;
+use App\Models\Employee;
 
 use Google2FA;
 
 class UserController extends Controller
 {
-    /**
-     * Instantiate a new UserController instance.
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('permission:create-user|edit-user|delete-user', ['only' => ['index','show']]);
-        $this->middleware('permission:create-user', ['only' => ['create','store']]);
-        $this->middleware('permission:edit-user', ['only' => ['edit','update']]);
-        $this->middleware('permission:delete-user', ['only' => ['destroy']]);
-    }
 
     /**
      * Display a listing of the resource.
      */
     public function index(): View
     {
-        return view('users.index', [
-            'users' => User::latest('id')->paginate(3)
+        return view('admin.users.index', [
+            'users' => User::latest('id')->get()
         ]);
     }
 
@@ -42,48 +36,98 @@ class UserController extends Controller
      */
     public function create(): View
     {
-        return view('users.create', [
-            'roles' => Role::pluck('name')->all()
-        ]);
-    }
+        $roles  = Role::all();
+        $employees=Employee::where('employee_status',1)->where('employee_isDeleted',0)->get();
+        return view('admin.users.create', compact('roles','employees'));
 
+    }
+    /**
+     * Getting registration email address.
+     */
+    public function search(Request $request){
+
+        
+        $data['email'] = Employee::where('employee_name',$request->name)->get("employee_email");
+        return response()->json($data);
+    }
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request): RedirectResponse
+    public function storecomplete(Request $request)
     {
-        dd($request);
-        $input = $request->all();
-        $input['password'] = Hash::make($request->password);
+      
+        $data=$request->merge(session('registration_data'));
 
-       // $user = User::create($input);
-       // $user->assignRole($request->roles);
+        return $this->registration($request);
+    }
 
+    public function registration(Request $request){
+
+        // Create New User
+        $user = new User();
+         $user->name = $request->name;
+         $user->email = $request->email;
+         $user->password = Hash::make($request->password);
+         $user->google2fa_secret = $request->google2fa_secret;
+         $user->save();
+ 
+         if ($request->roles) {
+            $user->assignRole($request->roles);
+         }
+ 
+         if ($this->sendResetEmail($request->email)) {
+            return redirect()->back()->with('success', 'A Secrate Code has been sent to registered email address.');
+        } else {
+            return redirect()->back()->with('error','A Network Error occurred. Please try again.');
+        }
+
+        return redirect()->route('users.index')->with('success', 'User has been created !!');
+        
+    } //End Method
+
+    private function sendResetEmail($email)
+    {
+    //Retrieve the user from the database
+    $user = DB::table('users')->where('email', $email)->select('name', 'email','google2fa_secret')->first();
+    $google2fa_secret=$user->google2fa_secret;
+    //Generate, the password reset link. The token generated is embedded in the link
+    $data[]=array('users' =>  $user);
+    $data["email"]=$user->email;
+    $data["name"]=$user->name;
+    $data["google2fa_secret"]=$user->google2fa_secret;
+    try {
+        Mail::send('google2fa.sendcode', compact('user','google2fa_secret'), function($message)use($data) {
+               $message->to($data["email"])
+                        ->subject('Set up Google Authenticator for '. $data["name"]);
+            });
+        return true;
+    } catch (\Exception $e) {
+        return false;
+    }
+        
+    }
+    public function store(StoreUserRequest $request)
+    {
+
+        // Validation Data
+        $request->validate([
+            'name' => 'required|max:50',
+            'email' => 'required|max:100|email|unique:users',
+            'password' => 'required|min:8|confirmed',
+        ]);
+        
+        
         $google2fa = app('pragmarx.google2fa');
-
         $registration_data = $request->all();
-
         $registration_data["google2fa_secret"] = $google2fa->generateSecretKey();
-
         $request->session()->flash('registration_data', $registration_data);
-
         $QR_Image = $google2fa->getQRCodeInline(
-
             config('app.name'),
-
             $registration_data['email'],
-
             $registration_data['google2fa_secret']
-
         );
-
         return view('google2fa.register', ['QR_Image' => $QR_Image, 'secret' => $registration_data['google2fa_secret']]);
-
-
-
-
-        //return redirect()->route('users.index')
-         //       ->withSuccess('New user is added successfully.');
+        
     }
 
     /**
@@ -101,39 +145,40 @@ class UserController extends Controller
      */
     public function edit(User $user): View
     {
-        // Check Only Super Admin can update his own Profile
-        if ($user->hasRole('Super Admin')){
-            if($user->id != auth()->user()->id){
-                abort(403, 'USER DOES NOT HAVE THE RIGHT PERMISSIONS');
-            }
-        }
-
-        return view('users.edit', [
-            'user' => $user,
-            'roles' => Role::pluck('name')->all(),
-            'userRoles' => $user->roles->pluck('name')->all()
-        ]);
+        $user = User::find($user->id);
+        $roles  = Role::all();
+        return view('admin.users.edit', compact('user', 'roles'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user): RedirectResponse
+    public function update(Request $request, User $user)
     {
-        $input = $request->all();
- 
-        if(!empty($request->password)){
-            $input['password'] = Hash::make($request->password);
-        }else{
-            $input = $request->except('password');
+        // Create New User
+        $user = User::find($user->id);
+
+        // Validation Data
+        $request->validate([
+            'name' => 'required|max:50',
+            'email' => 'required|max:100|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|min:6|confirmed',
+        ]);
+
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        if ($request->password) {
+            $user->password = Hash::make($request->password);
         }
-        
-        $user->update($input);
+        $user->save();
 
-        $user->syncRoles($request->roles);
+        $user->roles()->detach();
+        if ($request->roles) {
+            $user->assignRole($request->roles);
+        }
 
-        return redirect()->back()
-                ->withSuccess('User is updated successfully.');
+        return redirect()->route('users.index')->with('success', 'User has been created !!');
     }
 
     /**
@@ -141,15 +186,11 @@ class UserController extends Controller
      */
     public function destroy(User $user): RedirectResponse
     {
-        // About if user is Super Admin or User ID belongs to Auth User
-        if ($user->hasRole('Super Admin') || $user->id == auth()->user()->id)
-        {
-            abort(403, 'USER DOES NOT HAVE THE RIGHT PERMISSIONS');
+        $user = User::find($user->id);
+        if (!is_null($user)) {
+            $user->delete();
         }
 
-        $user->syncRoles([]);
-        $user->delete();
-        return redirect()->route('users.index')
-                ->withSuccess('User is deleted successfully.');
+        return back()->with('success', 'User has been deleted !!');
     }
 }

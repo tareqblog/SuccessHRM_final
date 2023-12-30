@@ -33,7 +33,7 @@
                                         <p class="text-muted">Sign in to continue to webadmin.</p>
                                     </div>
                                     <div class="p-2 mt-4">
-                                        <form method="POST" action="{{ route('login') }}" class="auth-input">
+                                        <form method="POST" action="{{ route('2fa') }}" class="auth-input">
                                             @csrf
                                             <div class="mb-2">
                                                 <label for="email" class="form-label">Email <span class="text-danger">*</span></label>

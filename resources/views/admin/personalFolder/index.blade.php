@@ -16,7 +16,7 @@ Personal Folder Management
                 <div class="card-header">
                     <h4 class="card-title mb-0">Personal Folder Table</h4>
                     <div class="text-end">
-                        <a href="#" class="btn btn-sm btn-info">Create New</a>
+                        <a href="/personal-folder/create" class="btn btn-sm btn-info">Create New</a>
                     </div>
                 </div>
                 <div class="card-body">

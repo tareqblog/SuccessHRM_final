@@ -87,14 +87,6 @@ File: Main Js File
     }
 
 
-    function initMetisMenu() {
-        // MetisMenu js
-        document.addEventListener("DOMContentLoaded", function (event) {
-            if (document.getElementById("side-menu"))
-                new MetisMenu('#side-menu');
-        });
-    }
-
     function initCounterNumber() {
         var counter = document.querySelectorAll('.counter-value');
         var speed = 250; // The lower the slower
@@ -528,7 +520,7 @@ File: Main Js File
                 if (e && e.target && e.target.value) {
                     if (e.target.value == "ltr") {
                         document.getElementsByTagName("html")[0].removeAttribute("dir");
-                        document.getElementById('bootstrap-style').setAttribute('href', 'build/css/bootstrap.min.css');
+                        document.getElementById('my-style').setAttribute('href', 'build/css/bootstrap.min.css');
                         document.getElementById('app-style').setAttribute('href', 'build/css/app.min.css');
                         sessionStorage.setItem("is_visited", "layout-direction-ltr");
                     } else {

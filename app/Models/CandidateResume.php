@@ -26,4 +26,8 @@ class CandidateResume extends Model
             // $client->save();
         });
     }
+
+    public function modify_name () {
+        return $this->belongsTo(User::class, 'modify_by');
+    }
 }

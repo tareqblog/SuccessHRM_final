@@ -1,6 +1,7 @@
 <!-- JAVASCRIPT -->
+<script src="https://cdn.jsdelivr.net/npm/jquery"></script>
+
 <script src="{{ URL::asset('build/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ URL::asset('build/libs/metismenujs/metismenujs.min.js') }}"></script>
 <script src="{{ URL::asset('build/libs/simplebar/simplebar.min.js') }}"></script>
 <script src="{{ URL::asset('build/libs/eva-icons/eva.min.js') }}"></script>
  <!-- apexcharts -->
@@ -14,5 +15,12 @@
 <!-- App js -->
 <script src="{{ URL::asset('build/js/app.js') }}"></script>
 
-
+<script src="https://cdn.jsdelivr.net/npm/metismenu"></script>
+<script>
+    $('#side-menu').metisMenu();
+    $('#side-menu').metisMenu();
+    $('#side-menu').metisMenu(
+    {preventDefault: true}
+    );
+</script>
 @yield('scripts')

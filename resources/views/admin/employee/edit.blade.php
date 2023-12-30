@@ -27,9 +27,9 @@
                             <div class="col-lg-8">
                                 <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" data-bs-toggle="tab" href="#genarel_info" role="tab">
+                                        <a class="nav-link active" data-bs-toggle="tab" href="#General_info" role="tab">
                                             <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                            <span class="d-none d-sm-block">Genarel Info</span>
+                                            <span class="d-none d-sm-block">General Info</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
@@ -50,12 +50,6 @@
                                             <span class="d-none d-sm-block">Bank Info</span>
                                         </a>
                                     </li>
-                                    {{-- <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#salary_info" role="tab">
-                                        <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                        <span class="d-none d-sm-block">Salary Info</span>
-                                    </a>
-                                </li> --}}
                                     <li class="nav-item">
                                         <a class="nav-link" data-bs-toggle="tab" href="#foreign_worker" role="tab">
                                             <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
@@ -78,7 +72,7 @@
                             @csrf
                             @method('PATCH')
                             <div class="tab-content p-3 text-muted">
-                                <div class="tab-pane active" id="genarel_info" role="tabpanel">
+                                <div class="tab-pane active" id="General_info" role="tabpanel">
                                     <div class="row">
                                         <div class="col-lg-4">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
@@ -89,21 +83,49 @@
                                                             <option value="">Select One</option>
                                                             @foreach ($outlets as $outlet)
                                                                 <option value="{{ $outlet->id }}"
-                                                                    {{ $outlet->id == old('employee_outlet_id',$employee->employee_outlet_id) ? 'selected' : '' }}>
+                                                                    {{ $outlet->id == old('employee_outlet_id', $employee->employee_outlet_id) ? 'selected' : '' }}>
                                                                     {{ $outlet->outlet_name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-4" id="role7input" style="display: none;">
                                                     <label for="two" class="col-sm-3 col-form-label">Manager</label>
                                                     <div class="col-sm-9">
                                                         <select name="manager_users_id" class="form-control">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_manager as $user)
                                                                 <option value="{{ $user->id }}"
-                                                                {{ $user->id == old('manager_users_id',$employee->manager_users_id) ? 'selected' : '' }} >{{ $user->employee_name }}
-                                                                </option>
+                                                                    {{ $user->id == $employee->manager_users_id ? 'selected' : '' }}>
+                                                                    {{ $user->employee_name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-4" id="role10input" style="display: none;">
+                                                    <label for="two" class="col-sm-3 col-form-label">Manager</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="manager_users_id" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($emp_manager as $user)
+                                                                <option value="{{ $user->id }}"
+                                                                    {{ $user->id == $employee->manager_users_id ? 'selected' : '' }}>
+                                                                    {{ $user->employee_name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-4" id="role9input" style="display: none;">
+                                                    <label for="two" class="col-sm-3 col-form-label">Manager</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="manager_users_id" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($emp_manager as $user)
+                                                                <option value="{{ $user->id }}"
+                                                                    {{ $user->id == $employee->manager_users_id ? 'selected' : '' }}>
+                                                                    {{ $user->employee_name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -112,7 +134,8 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Initial</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="employee_code" class="form-control"
-                                                            placeholder="Code" value="{{ old('employee_code',$employee->employee_code) }}">
+                                                            placeholder="Code"
+                                                            value="{{ old('employee_code', $employee->employee_code) }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -120,7 +143,7 @@
                                                     <div class="col-sm-9">
                                                         <input type="date" name="employee_birthdate"
                                                             class="form-control" placeholder="Birthday"
-                                                            value="{{ old('employee_birthdate',$employee->employee_birthdate) }}">
+                                                            value="{{ old('employee_birthdate', $employee->employee_birthdate) }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -128,7 +151,8 @@
                                                         Address</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="employee_email" class="form-control"
-                                                            placeholder="Email" value="{{ old('employee_email',$employee->employee_email) }}">
+                                                            placeholder="Email"
+                                                            value="{{ old('employee_email', $employee->employee_email) }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -136,7 +160,7 @@
                                                     <div class="col-sm-9">
                                                         <input type="text" name="employee_phone" class="form-control"
                                                             placeholder="Phone no"
-                                                            value="{{ old('employee_phone',$employee->employee_phone) }}">
+                                                            value="{{ old('employee_phone', $employee->employee_phone) }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -147,7 +171,7 @@
                                                             <option value="">Select One</option>
                                                             @foreach ($passes as $pass)
                                                                 <option value="{{ $pass->id }}"
-                                                                    {{ $pass->id == old('passtypes_id',$employee->passtypes_id) ? 'selected' : '' }}>
+                                                                    {{ $pass->id == old('passtypes_id', $employee->passtypes_id) ? 'selected' : '' }}>
                                                                     {{ $pass->passtype_code }} </option>
                                                             @endforeach
                                                         </select>
@@ -157,41 +181,57 @@
                                                     <label for="one" class="col-sm-3 col-form-label">NRIC</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="employee_nric" class="form-control"
-                                                            placeholder="NRIC" value="{{old('employee_nric',$employee->employee_nric)}}">
+                                                            placeholder="NRIC"
+                                                            value="{{ old('employee_nric', $employee->employee_nric) }}">
                                                     </div>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                
+
                                                 <div class="row mb-4">
                                                     <label for="two" class="col-sm-3 col-form-label">User
                                                         Right</label>
                                                     <div class="col-sm-9">
-                                                        <select name="roles_id" class="form-control">
+                                                        <select name="roles_id" class="form-control" id="mySelect">
                                                             <option value="">Select One</option>
                                                             @foreach ($roles as $role)
                                                                 <option value="{{ $role->id }}"
-                                                                    {{ $role->id == old('roles_id',$employee->roles_id) ? 'selected' : '' }}>
+                                                                    {{ $role->id == old('roles_id', $employee->roles_id) ? 'selected' : '' }}>
                                                                     {{ $role->name }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
-                                                
-                                                <div class="row mb-4">
+
+                                                <div class="row mb-4" id="role7inputanother" style="display: none;">
                                                     <label for="two" class="col-sm-3 col-form-label">Team
                                                         Leader</label>
                                                     <div class="col-sm-9">
                                                         <select name="team_leader_users_id" class="form-control">
                                                             <option value="">Select One</option>
-                                                            @foreach ($users as $user)
-                                                                <option value="{{ $user->id }}"
-                                                                    {{ $user->id == old('team_leader_users_id',$employee->team_leader_users_id) ? 'selected' : '' }}>
-                                                                    {{ $user->name }}
+                                                            @foreach ($emp_team_leader as $leader)
+                                                                <option value="{{ $leader->id }}"
+                                                                    {{ $leader->id == $employee->team_leader_users_id ? 'selected' : '' }}>
+                                                                    {{ $leader->employee_name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="role9inputanother" style="display: none;">
+                                                    <label for="two" class="col-sm-3 col-form-label">Team
+                                                        Leader</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="team_leader_users_id" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($emp_team_leader as $leader)
+                                                                <option value="{{ $leader->id }}"
+                                                                    {{ $leader->id == $employee->team_leader_users_id ? 'selected' : '' }}>
+                                                                    {{ $leader->employee_name }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -202,8 +242,20 @@
                                                             class="text-danger">*</span></label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="employee_name" class="form-control"
-                                                            placeholder="Name" value="{{old('employee_name', $employee->employee_name)}}"
+                                                            placeholder="Name"
+                                                            value="{{ old('employee_name', $employee->employee_name) }}"
                                                             required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-4 form-group required" id="role4input"
+                                                    style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">SHRC/SRC<span
+                                                            class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <input id type="text" name="employee_shrc"
+                                                            class="form-control" placeholder="SHRC"
+                                                            value="{{ $employee->employee_shrc }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -213,7 +265,7 @@
                                                             <option value="">Select One</option>
                                                             @foreach ($sexs as $sex)
                                                                 <option value="{{ $sex->id }}"
-                                                                    {{ $sex->id == old('dbsexes_id',$employee->dbsexes_id) ? 'selected' : '' }}>
+                                                                    {{ $sex->id == old('dbsexes_id', $employee->dbsexes_id) ? 'selected' : '' }}>
                                                                     {{ $sex->dbsexes_code }} </option>
                                                             @endforeach
                                                         </select>
@@ -227,7 +279,7 @@
                                                             <option value="">Select One</option>
                                                             @foreach ($marital_status as $marital)
                                                                 <option value="{{ $marital->id }}"
-                                                                    {{ $marital->id == old('marital_statuses_id',$employee->marital_statuses_id) ? 'selected' : '' }}>
+                                                                    {{ $marital->id == old('marital_statuses_id', $employee->marital_statuses_id) ? 'selected' : '' }}>
                                                                     {{ $marital->marital_statuses_code }} </option>
                                                             @endforeach
                                                         </select>
@@ -240,13 +292,13 @@
                                                             <option value="">Select One</option>
                                                             @foreach ($religions as $religion)
                                                                 <option value="{{ $religion->id }}"
-                                                                    {{ $religion->id == old('religions_id',$employee->religions_id) ? 'selected' : '' }}>
+                                                                    {{ $religion->id == old('religions_id', $employee->religions_id) ? 'selected' : '' }}>
                                                                     {{ $religion->religion_code }} </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="row mb-4">
                                                     <label for="two" class="col-sm-3 col-form-label">Race</label>
                                                     <div class="col-sm-9">
@@ -254,7 +306,7 @@
                                                             <option value="">Select One</option>
                                                             @foreach ($races as $race)
                                                                 <option value="{{ $race->id }}"
-                                                                    {{ $race->id == old('races_id',$employee->races_id) ? 'selected' : '' }}>
+                                                                    {{ $race->id == old('races_id', $employee->races_id) ? 'selected' : '' }}>
                                                                     {{ $race->race_code }} </option>
                                                             @endforeach
                                                         </select>
@@ -266,7 +318,8 @@
                                             <div class="row mb-4">
                                                 <div class="col-sm-9">
                                                     @if ($employee->employee_avater)
-                                                        <img width="200" src="{{ asset('storage') }}/{{ $employee->employee_avater }}"
+                                                        <img width="200"
+                                                            src="{{ asset('storage') }}/{{ $employee->employee_avater }}"
                                                             alt="avatar" class="mb-2">
                                                     @else
                                                         <img src="{{ URL::asset('build/images/avatar.png') }}"
@@ -334,7 +387,7 @@
                                                     <label for="four" class="col-sm-3 col-form-label">Address
                                                         2</label>
                                                     <div class="col-sm-9">
-                                                        <textarea name="employee_street2" rows="2" class="form-control" placeholder="Address"> {{ old('employee_street2',$employee->employee_street2) }} </textarea>
+                                                        <textarea name="employee_street2" rows="2" class="form-control" placeholder="Address"> {{ old('employee_street2', $employee->employee_street2) }} </textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -350,7 +403,7 @@
                                                     <div class="col-sm-9">
                                                         <input type="text" name="employee_emr_contact"
                                                             class="form-control" placeholder="Contact Person"
-                                                            value="{{ old('employee_emr_contact',$employee->employee_emr_contact) }}">
+                                                            value="{{ old('employee_emr_contact', $employee->employee_emr_contact) }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -358,13 +411,13 @@
                                                     <div class="col-sm-9">
                                                         <input type="text" name="employee_emr_phone1"
                                                             class="form-control" placeholder="Phone 1"
-                                                            value="{{  old('employee_emr_phone1',$employee->employee_emr_phone1) }}">
+                                                            value="{{ old('employee_emr_phone1', $employee->employee_emr_phone1) }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="four" class="col-sm-3 col-form-label">Address</label>
                                                     <div class="col-sm-9">
-                                                        <textarea name="employee_emr_address" rows="2" class="form-control" placeholder="Address"> {{ old('employee_emr_address',$employee->employee_emr_address) }} </textarea>
+                                                        <textarea name="employee_emr_address" rows="2" class="form-control" placeholder="Address"> {{ old('employee_emr_address', $employee->employee_emr_address) }} </textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -377,7 +430,7 @@
                                                     <div class="col-sm-9">
                                                         <input type="text" name="employee_emr_relation"
                                                             class="form-control" placeholder="Relationship"
-                                                            value="{{ old('employee_emr_relation',$employee->employee_emr_relation) }}">
+                                                            value="{{ old('employee_emr_relation', $employee->employee_emr_relation) }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -385,13 +438,13 @@
                                                     <div class="col-sm-9">
                                                         <input type="text" name="employee_emr_phone2"
                                                             class="form-control" placeholder="Phone 2"
-                                                            value="{{ old('employee_emr_phone2',$employee->employee_emr_phone2) }}">
+                                                            value="{{ old('employee_emr_phone2', $employee->employee_emr_phone2) }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="four" class="col-sm-3 col-form-label">Remarks</label>
                                                     <div class="col-sm-9">
-                                                        <textarea name="employee_emr_remarks" rows="2" class="form-control" placeholder="Remarks"> {{ old('employee_emr_remarks',$employee->employee_emr_remarks) }} </textarea>
+                                                        <textarea name="employee_emr_remarks" rows="2" class="form-control" placeholder="Remarks"> {{ old('employee_emr_remarks', $employee->employee_emr_remarks) }} </textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -411,7 +464,7 @@
                                                             <option value="">Select One</option>
                                                             @foreach ($departments as $department)
                                                                 <option value="{{ $department->id }}"
-                                                                    {{ $department->id == old('departments_id',$employee->departments_id) ? 'selected' : '' }}>
+                                                                    {{ $department->id == old('departments_id', $employee->departments_id) ? 'selected' : '' }}>
                                                                     {{ $department->department_code }} </option>
                                                             @endforeach
                                                         </select>
@@ -423,7 +476,7 @@
                                                     <div class="col-sm-9">
                                                         <input type="time" name="employee_work_time_start"
                                                             class="form-control" placeholder="Unit No"
-                                                            value="{{ old('employee_work_time_start',$employee->employee_work_time_start) }}">
+                                                            value="{{ old('employee_work_time_start', $employee->employee_work_time_start) }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -441,7 +494,7 @@
                                                     <div class="col-sm-9">
                                                         <input type="date" name="employee_confirmationdate"
                                                             class="form-control" placeholder="Confirmation Date"
-                                                            value="{{ old('employee_confirmationdate',$employee->employee_confirmationdate) }}">
+                                                            value="{{ old('employee_confirmationdate', $employee->employee_confirmationdate) }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -449,7 +502,7 @@
                                                     <div class="col-sm-9">
                                                         <input type="date" name="employee_prdate" class="form-control"
                                                             placeholder="PR Date"
-                                                            value="{{ old('employee_prdate',$employee->employee_prdate) }}">
+                                                            value="{{ old('employee_prdate', $employee->employee_prdate) }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -466,7 +519,7 @@
                                                             <option value="">Select One</option>
                                                             @foreach ($designations as $designation)
                                                                 <option value="{{ $designation->id }}"
-                                                                    {{ $designation->id == old('designations_id',$employee->designations_id) ? 'selected' : '' }}>
+                                                                    {{ $designation->id == old('designations_id', $employee->designations_id) ? 'selected' : '' }}>
                                                                     {{ $designation->designation_code }} </option>
                                                             @endforeach
                                                         </select>
@@ -478,7 +531,7 @@
                                                     <div class="col-sm-9">
                                                         <input type="time" name="employee_work_time_end"
                                                             class="form-control" placeholder="Work time (End)"
-                                                            value="{{old('employee_work_time_end', $employee->employee_work_time_end) }}">
+                                                            value="{{ old('employee_work_time_end', $employee->employee_work_time_end) }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -487,14 +540,26 @@
                                                     <div class="col-sm-9">
                                                         <select name="employee_probation" class="form-control"
                                                             id="">
-                                                            <option value = '0' >Select One</option>
-                                                            <option value = '1' {{ (old("employee_probation",$employee->employee_probation) == 1 ? "selected":"") }}>1</option>
-                                                            <option value = '2' {{ (old("employee_probation",$employee->employee_probation) == 2 ? "selected":"") }}>2</option>
-                                                            <option value = '3' {{ (old("employee_probation",$employee->employee_probation) == 3 ? "selected":"") }}>3</option>
-                                                            <option value = '4' {{ (old("employee_probation",$employee->employee_probation) == 4 ? "selected":"") }}>4</option>
-                                                            <option value = '5' {{ (old("employee_probation",$employee->employee_probation) == 5 ? "selected":"") }}>5</option>
-                                                            <option value = '6' {{ (old("employee_probation",$employee->employee_probation) == 6 ? "selected":"") }}>6</option>
-                                                            
+                                                            <option value='0'>Select One</option>
+                                                            <option value='1'
+                                                                {{ old('employee_probation', $employee->employee_probation) == 1 ? 'selected' : '' }}>
+                                                                1</option>
+                                                            <option value='2'
+                                                                {{ old('employee_probation', $employee->employee_probation) == 2 ? 'selected' : '' }}>
+                                                                2</option>
+                                                            <option value='3'
+                                                                {{ old('employee_probation', $employee->employee_probation) == 3 ? 'selected' : '' }}>
+                                                                3</option>
+                                                            <option value='4'
+                                                                {{ old('employee_probation', $employee->employee_probation) == 4 ? 'selected' : '' }}>
+                                                                4</option>
+                                                            <option value='5'
+                                                                {{ old('employee_probation', $employee->employee_probation) == 5 ? 'selected' : '' }}>
+                                                                5</option>
+                                                            <option value='6'
+                                                                {{ old('employee_probation', $employee->employee_probation) == 6 ? 'selected' : '' }}>
+                                                                6</option>
+
                                                         </select>
                                                     </div>
                                                 </div>
@@ -504,13 +569,25 @@
                                                     <div class="col-sm-9">
                                                         <select name="employee_extentionprobation" class="form-control"
                                                             id="">
-                                                            <option value = '0' >Select One</option>
-                                                            <option value = '1' {{ (old("employee_extentionprobation",$employee->employee_extentionprobation) == 1 ? "selected":"") }}>1</option>
-                                                            <option value = '2' {{ (old("employee_extentionprobation",$employee->employee_extentionprobation) == 2 ? "selected":"") }}>2</option>
-                                                            <option value = '3' {{ (old("employee_extentionprobation",$employee->employee_extentionprobation) == 3 ? "selected":"") }}>3</option>
-                                                            <option value = '4' {{ (old("employee_extentionprobation",$employee->employee_extentionprobation) == 4 ? "selected":"") }}>4</option>
-                                                            <option value = '5' {{ (old("employee_extentionprobation",$employee->employee_extentionprobation) == 5 ? "selected":"") }}>5</option>
-                                                            <option value = '6' {{ (old("employee_extentionprobation",$employee->employee_extentionprobation) == 6 ? "selected":"") }}>6</option>
+                                                            <option value='0'>Select One</option>
+                                                            <option value='1'
+                                                                {{ old('employee_extentionprobation', $employee->employee_extentionprobation) == 1 ? 'selected' : '' }}>
+                                                                1</option>
+                                                            <option value='2'
+                                                                {{ old('employee_extentionprobation', $employee->employee_extentionprobation) == 2 ? 'selected' : '' }}>
+                                                                2</option>
+                                                            <option value='3'
+                                                                {{ old('employee_extentionprobation', $employee->employee_extentionprobation) == 3 ? 'selected' : '' }}>
+                                                                3</option>
+                                                            <option value='4'
+                                                                {{ old('employee_extentionprobation', $employee->employee_extentionprobation) == 4 ? 'selected' : '' }}>
+                                                                4</option>
+                                                            <option value='5'
+                                                                {{ old('employee_extentionprobation', $employee->employee_extentionprobation) == 5 ? 'selected' : '' }}>
+                                                                5</option>
+                                                            <option value='6'
+                                                                {{ old('employee_extentionprobation', $employee->employee_extentionprobation) == 6 ? 'selected' : '' }}>
+                                                                6</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -521,14 +598,14 @@
                                                         <input type="date" name="employee_resigndate"
                                                             class="form-control"
                                                             placeholder="Termination / Resignation Date"
-                                                            value="{{ old('employee_resigndate',$employee->employee_resigndate) }}">
+                                                            value="{{ old('employee_resigndate', $employee->employee_resigndate) }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Terminate
                                                         Reason</label>
                                                     <div class="col-sm-9">
-                                                        <textarea name="employee_resignreason" rows="2" placeholder="Terminate Reason" class="form-control"> {{ old('employee_resignreason',$employee->employee_resignreason) }} </textarea>
+                                                        <textarea name="employee_resignreason" rows="2" placeholder="Terminate Reason" class="form-control"> {{ old('employee_resignreason', $employee->employee_resignreason) }} </textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -546,11 +623,11 @@
                                                         <select name="leave_aprv1_users_id" class="form-control"
                                                             id="">
                                                             @foreach ($emp_admin as $data)
-                                                                <option value="{{ $data->id }}" 
-                                                                {{ old("leave_aprv1_users_id",$employee->leave_aprv1_users_id) == $data->id ? "selected":"" }}>
+                                                                <option value="{{ $data->id }}"
+                                                                    {{ old('leave_aprv1_users_id', $employee->leave_aprv1_users_id) == $data->id ? 'selected' : '' }}>
                                                                     {{ $data->employee_name }} </option>
                                                             @endforeach
-                                                            
+
                                                         </select>
                                                     </div>
                                                 </div>
@@ -561,8 +638,8 @@
                                                         <select name="leave_aprv2_users_id" class="form-control"
                                                             id="">
                                                             @foreach ($emp_admin as $data)
-                                                                <option value="{{ $data->id }}" 
-                                                                {{ old("leave_aprv2_users_id",$employee->leave_aprv2_users_id) == $data->id ? "selected":"" }}>
+                                                                <option value="{{ $data->id }}"
+                                                                    {{ old('leave_aprv2_users_id', $employee->leave_aprv2_users_id) == $data->id ? 'selected' : '' }}>
                                                                     {{ $data->employee_name }} </option>
                                                             @endforeach
                                                         </select>
@@ -575,8 +652,8 @@
                                                         <select name="leave_aprv3_users_id" class="form-control"
                                                             id="">
                                                             @foreach ($emp_admin as $data)
-                                                                <option value="{{ $data->id }}" 
-                                                                {{ old("leave_aprv3_users_id",$employee->leave_aprv3_users_id) == $data->id ? "selected":"" }}>
+                                                                <option value="{{ $data->id }}"
+                                                                    {{ old('leave_aprv3_users_id', $employee->leave_aprv3_users_id) == $data->id ? 'selected' : '' }}>
                                                                     {{ $data->employee_name }} </option>
                                                             @endforeach
                                                         </select>
@@ -594,8 +671,8 @@
                                                         <select name="claims_aprv1_users_id" class="form-control"
                                                             id="">
                                                             @foreach ($emp_admin as $data)
-                                                                <option value="{{ $data->id }}" 
-                                                                {{ old("claims_aprv1_users_id",$employee->claims_aprv1_users_id) == $data->id ? "selected":"" }}>
+                                                                <option value="{{ $data->id }}"
+                                                                    {{ old('claims_aprv1_users_id', $employee->claims_aprv1_users_id) == $data->id ? 'selected' : '' }}>
                                                                     {{ $data->employee_name }} </option>
                                                             @endforeach
                                                         </select>
@@ -608,8 +685,8 @@
                                                         <select name="claims_aprv2_usersid" class="form-control"
                                                             id="">
                                                             @foreach ($emp_admin as $data)
-                                                                <option value="{{ $data->id }}" 
-                                                                {{ old("claims_aprv2_usersid",$employee->claims_aprv2_usersid) == $data->id ? "selected":"" }}>
+                                                                <option value="{{ $data->id }}"
+                                                                    {{ old('claims_aprv2_usersid', $employee->claims_aprv2_usersid) == $data->id ? 'selected' : '' }}>
                                                                     {{ $data->employee_name }} </option>
                                                             @endforeach
                                                         </select>
@@ -622,8 +699,8 @@
                                                         <select name="claims_aprv3_users_id" class="form-control"
                                                             id="">
                                                             @foreach ($emp_admin as $data)
-                                                                <option value="{{ $data->id }}" 
-                                                                {{ old("claims_aprv3_users_id",$employee->claims_aprv3_users_id) == $data->id ? "selected":"" }}>
+                                                                <option value="{{ $data->id }}"
+                                                                    {{ old('claims_aprv3_users_id', $employee->claims_aprv3_users_id) == $data->id ? 'selected' : '' }}>
                                                                     {{ $data->employee_name }} </option>
                                                             @endforeach
                                                         </select>
@@ -643,10 +720,12 @@
                                                         <select name="paymodes_id" class="form-control" id="">
                                                             <option value="">Select One</option>
                                                             <option value="1"
-                                                                {{ $employee->paymodes_id == 1 ? 'selected' : '' }}>Cash
+                                                                {{ $employee->paymodes_id == 1 ? 'selected' : '' }}>
+                                                                Cash
                                                             </option>
                                                             <option value="2"
-                                                                {{ $employee->paymodes_id == 2 ? 'selected' : '' }}>Cheque
+                                                                {{ $employee->paymodes_id == 2 ? 'selected' : '' }}>
+                                                                Cheque
                                                             </option>
                                                         </select>
                                                     </div>
@@ -657,7 +736,7 @@
                                                     <div class="col-sm-9">
                                                         <input type="text" name="employee_bank_acc_title"
                                                             class="form-control" placeholder="GIRO Account Name"
-                                                            value="{{ old('employee_bank_acc_title',$employee->employee_bank_acc_title) }}">
+                                                            value="{{ old('employee_bank_acc_title', $employee->employee_bank_acc_title) }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -671,14 +750,14 @@
                                                         <select name="employee_bank" class="form-control" id="">
                                                             <option value="">Select One</option>
                                                             @foreach ($Paybanks as $data)
-                                                                <option value="{{ $data->id }}" 
-                                                                {{ (old("employee_bank",$employee->employee_bank) == $data->id ? "selected":"") }}>
+                                                                <option value="{{ $data->id }}"
+                                                                    {{ old('employee_bank', $employee->employee_bank) == $data->id ? 'selected' : '' }}>
                                                                     {{ $data->Paybank_code }} </option>
                                                             @endforeach
-                                                            
+
                                                         </select>
                                                     </div>
-                                                    
+
                                                 </div>
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">GIRO Account
@@ -686,7 +765,7 @@
                                                     <div class="col-sm-9">
                                                         <input type="text" name="employee_bank_acc_no"
                                                             class="form-control" placeholder="GIRO Account No"
-                                                            value="{{ old('employee_bank_acc_no',$employee->employee_bank_acc_no) }}">
+                                                            value="{{ old('employee_bank_acc_no', $employee->employee_bank_acc_no) }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -704,7 +783,7 @@
                                                     <div class="col-sm-9">
                                                         <input type="text" name="employee_fw_permit_number"
                                                             class="form-control" placeholder="Work Permit Number"
-                                                            value="{{ old('employee_fw_permit_number',$employee->employee_fw_permit_number) }}">
+                                                            value="{{ old('employee_fw_permit_number', $employee->employee_fw_permit_number) }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -713,7 +792,7 @@
                                                     <div class="col-sm-9">
                                                         <input type="date" name="employee_fw_application_date"
                                                             class="form-control" placeholder="Application Date"
-                                                            value="{{ old('employee_fw_application_date',$employee->employee_fw_application_date) }}">
+                                                            value="{{ old('employee_fw_application_date', $employee->employee_fw_application_date) }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -722,7 +801,7 @@
                                                     <div class="col-sm-9">
                                                         <input type="date" name="employee_fw_renewal_date"
                                                             class="form-control" placeholder="Renewal Date"
-                                                            value="{{ old('employee_fw_renewal_date',$employee->employee_fw_renewal_date) }}">
+                                                            value="{{ old('employee_fw_renewal_date', $employee->employee_fw_renewal_date) }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -735,7 +814,7 @@
                                                     <div class="col-sm-9">
                                                         <input type="date" name="employee_fw_arrival_date"
                                                             class="form-control" placeholder="Date of Arrival"
-                                                            value="{{ old('employee_fw_arrival_date',$employee->employee_fw_arrival_date) }}">
+                                                            value="{{ old('employee_fw_arrival_date', $employee->employee_fw_arrival_date) }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -744,7 +823,7 @@
                                                     <div class="col-sm-9">
                                                         <input type="date" name="employee_fw_issue_date"
                                                             class="form-control" placeholder="Pass Issuance Date"
-                                                            value="{{ old('employee_fw_issue_date',$employee->employee_fw_issue_date) }}">
+                                                            value="{{ old('employee_fw_issue_date', $employee->employee_fw_issue_date) }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -753,7 +832,7 @@
                                                     <div class="col-sm-9">
                                                         <input type="text" name="employee_fw_levy_amount"
                                                             class="form-control" placeholder="Levy Amount"
-                                                            value="{{ old('employee_fw_levy_amount',$employee->employee_fw_levy_amount) }}">
+                                                            value="{{ old('employee_fw_levy_amount', $employee->employee_fw_levy_amount) }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -770,217 +849,33 @@
                                         <label for="emplleave_leavetype" class="col-sm-3 control-label">Entitled
                                             (2023)</label>
                                     </div>
-                                    <div class="form-group mb-2">
-                                        <div class="row">
-                                            <label for="emplleave_leavetype" class="col-sm-2 control-label">Medical
-                                                Reimbursement</label>
-                                            <div class="col-sm-1">
-                                                <input type="checkbox" value="1" name="medical_reimbursement">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" name="medical_reimbursement"
-                                                    value="0" placeholder="Days">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" name="medical_reimbursement"
-                                                    value="0" placeholder="Days">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <div class="row">
-                                            <label for="emplleave_leavetype" class="col-sm-2 control-label">Annual
-                                                Leave</label>
-                                            <div class="col-sm-1">
-                                                <input type="checkbox" name="" value="1">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" name="" value="0"
-                                                    placeholder="Days">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" name="emplleave_entitled[]"
-                                                    value="0" placeholder="Days">
+                                    @foreach ($leave_types as $leave)
+                                        <div class="form-group mb-2">
+                                            <div class="row">
+                                                <label for="emplleave_leavetype"
+                                                    class="col-sm-2 control-label">{{ $leave->leavetype_code }}</label>
+                                                <div class="col-sm-1">
+                                                    <input type="checkbox" value="1" name="medical_reimbursement">
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <input type="text" class="form-control"
+                                                        name="medical_reimbursement"
+                                                        value="{{ $leave->leavetype_default }}" placeholder="Days">
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <input type="text" class="form-control"
+                                                        name="medical_reimbursement" value="0" placeholder="Days">
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <div class="row">
-                                            <label for="emplleave_leavetype" class="col-sm-2 control-label">Medical
-                                                Leave</label>
-                                            <div class="col-sm-1">
-                                                <input type="checkbox" name="" value="1">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" name="" value="0"
-                                                    placeholder="Days">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" name="emplleave_entitled[]"
-                                                    value="0" placeholder="Days">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <div class="row">
-                                            <label for="emplleave_leavetype"
-                                                class="col-sm-2 control-label">Hospitalisation
-                                                Leave</label>
-                                            <div class="col-sm-1">
-                                                <input type="checkbox" name="" value="1">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" name="" value="0"
-                                                    placeholder="Days">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" name="emplleave_entitled[]"
-                                                    value="0" placeholder="Days">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <div class="row">
-                                            <label for="emplleave_leavetype" class="col-sm-2 control-label">Off In
-                                                Lieu</label>
-                                            <div class="col-sm-1">
-                                                <input type="checkbox" name="" value="1">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" name="" value="0"
-                                                    placeholder="Days">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" name="emplleave_entitled[]"
-                                                    value="0" placeholder="Days">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <div class="row">
-                                            <label for="emplleave_leavetype" class="col-sm-2 control-label">Childcare
-                                                Leave</label>
-                                            <div class="col-sm-1">
-                                                <input type="checkbox" name="" value="1">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" name="" value="0"
-                                                    placeholder="Days">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" name="emplleave_entitled[]"
-                                                    value="0" placeholder="Days">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <div class="row">
-                                            <label for="emplleave_leavetype"
-                                                class="col-sm-2 control-label">Maternity/Paternity Leave</label>
-                                            <div class="col-sm-1">
-                                                <input type="checkbox" name="" value="1">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" name="" value="0"
-                                                    placeholder="Days">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" name="emplleave_entitled[]"
-                                                    value="0" placeholder="Days">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <div class="row">
-                                            <label for="emplleave_leavetype"
-                                                class="col-sm-2 control-label">Reservist</label>
-                                            <div class="col-sm-1">
-                                                <input type="checkbox" name="" value="1">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" name="" value="0"
-                                                    placeholder="Days">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" name="emplleave_entitled[]"
-                                                    value="0" placeholder="Days">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <div class="row">
-                                            <label for="emplleave_leavetype" class="col-sm-2 control-label">Compassionate
-                                                Leave</label>
-                                            <div class="col-sm-1">
-                                                <input type="checkbox" name="" value="1">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" name="" value="0"
-                                                    placeholder="Days">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" name="emplleave_entitled[]"
-                                                    value="0" placeholder="Days">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <div class="row">
-                                            <label for="emplleave_leavetype" class="col-sm-2 control-label">Marriage
-                                                Leave</label>
-                                            <div class="col-sm-1">
-                                                <input type="checkbox" name="" value="1">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" name="" value="0"
-                                                    placeholder="Days">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" name="emplleave_entitled[]"
-                                                    value="0" placeholder="Days">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <div class="row">
-                                            <label for="emplleave_leavetype" class="col-sm-2 control-label">Unpaid Annual
-                                                Leave</label>
-                                            <div class="col-sm-1">
-                                                <input type="checkbox" name="" value="1">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" name="" value="0"
-                                                    placeholder="Days">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" name="emplleave_entitled[]"
-                                                    value="0" placeholder="Days">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <div class="row">
-                                            <label for="emplleave_leavetype" class="col-sm-2 control-label">Unpaid Medical
-                                                Leave</label>
-                                            <div class="col-sm-1">
-                                                <input type="checkbox" name="" value="1">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" name="" value="0"
-                                                    placeholder="Days">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" class="form-control" name="emplleave_entitled[]"
-                                                    value="0" placeholder="Days">
-                                            </div>
-                                        </div>
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-9">
                                     <div>
-                                        <a href="#" class="btn btn-sm btn-secondary w-md">Back</a>
+                                        <a href="{{ route('employee.index') }}"
+                                            class="btn btn-sm btn-secondary w-md">Back</a>
                                         <button type="submit" class="btn btn-sm btn-info w-md">Submit</button>
                                     </div>
                                 </div>
@@ -990,4 +885,10 @@
                 </div><!-- end card -->
             </div>
         </div>
+    @endsection
+
+    @section('scripts')
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
+        <script src="{{asset('build/js/ajax/employeeUserRight.js')}}"></script>
     @endsection
