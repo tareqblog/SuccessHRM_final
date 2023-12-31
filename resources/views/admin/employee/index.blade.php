@@ -5,9 +5,7 @@
 @section('css')
     <!-- datepicker css -->
     <link rel="stylesheet" href="{{ URL::asset('build/libs/flatpickr/flatpickr.min.css') }}">
-
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
-
 @endsection
 @section('page-title')
     Employee Management
@@ -28,7 +26,7 @@
                     </div>
                     <div class="card-body">
                     <table class="table table-bordered mb-0 mt-0 bg-light" id="myTable">
-                            <thead> 
+                            <thead>
                                 <tr>
                                     <th>No</th>
                                     <th>Name</th>

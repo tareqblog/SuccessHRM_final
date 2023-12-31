@@ -185,14 +185,6 @@
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                {{-- <div class="row mb-4">
-                                                <label for="one" class="col-sm-4 col-form-label">Position
-                                                    Applied</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" name="position_applied" class="form-control"
-                                                        placeholder="Position Applied">
-                                                </div>
-                                            </div> --}}
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-4 col-form-label">NRIC/FIN
                                                         No.</label>

@@ -57,7 +57,7 @@
                                             {{ $data->job_status == 1 ? 'Active' : 'Close' }}
                                         </td>
                                         <td>
-                                            {{ $data->job_type->jobtype_code }}
+                                            {{ $data?->job_type?->jobtype_code }}
                                         </td>
                                         <td>
                                             {{ $data->created_at->format('d-M-Y') }}
