@@ -78,7 +78,7 @@
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Outlet <span class="text-danger">*</span> </label>
                                                     <div class="col-sm-9">
-                                                        <select name="employee_outlet_id" class="form-control" required>
+                                                        <select name="employee_outlet_id" class="form-control searchBox" required>
                                                             <option value="">Select One</option>
                                                             @foreach ($outlets as $outlet)
                                                                 <option value="{{ $outlet->id }}">
@@ -90,7 +90,7 @@
                                                 <div class="row mb-4" id="role7input" style="display: none;">
                                                     <label for="two" class="col-sm-3 col-form-label">Manager</label>
                                                     <div class="col-sm-9">
-                                                        <select name="manager_users_id" class="form-control">
+                                                        <select name="manager_users_id" class="form-control searchBox">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_manager as $user)
                                                                 <option value="{{ $user->id }}">
@@ -102,7 +102,7 @@
                                                 <div class="row mb-4" id="role10input" style="display: none;">
                                                     <label for="two" class="col-sm-3 col-form-label">Manager</label>
                                                     <div class="col-sm-9">
-                                                        <select name="manager_users_id" class="form-control">
+                                                        <select name="manager_users_id" class="form-control searchBox">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_manager as $user)
                                                                 <option value="{{ $user->id }}">
@@ -114,7 +114,7 @@
                                                 <div class="row mb-4" id="role9input" style="display: none;">
                                                     <label for="two" class="col-sm-3 col-form-label">Manager</label>
                                                     <div class="col-sm-9">
-                                                        <select name="manager_users_id" class="form-control">
+                                                        <select name="manager_users_id" class="form-control searchBox">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_manager as $user)
                                                                 <option value="{{ $user->id }}">
@@ -158,7 +158,7 @@
                                                     <label for="two" class="col-sm-3 col-form-label">Pass
                                                         Type</label>
                                                     <div class="col-sm-9">
-                                                        <select name="passtypes_id" class="form-control">
+                                                        <select name="passtypes_id" class="form-control searchBox">
                                                             <option value="">Select One</option>
                                                             @foreach ($passes as $pass)
                                                                 <option value="{{ $pass->id }}">
@@ -184,7 +184,7 @@
                                                     <label for="two" class="col-sm-3 col-form-label">User
                                                         Right</label>
                                                     <div class="col-sm-9">
-                                                        <select name="roles_id" class="form-control" id="mySelect" required>
+                                                        <select name="roles_id" class="form-control searchBox" id="mySelect" required>
                                                             <option value="">Select One</option>
                                                             @foreach ($roles as $role)
                                                                 <option value="{{ $role->id }}">{{ $role->name }}
@@ -197,7 +197,7 @@
                                                     <label for="two" class="col-sm-3 col-form-label">Team
                                                         Leader</label>
                                                     <div class="col-sm-9">
-                                                        <select name="team_leader_users_id" class="form-control">
+                                                        <select name="team_leader_users_id" class="form-control searchBox">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_team_leader as $leader)
                                                                 <option value="{{ $leader->id }}">
@@ -211,7 +211,7 @@
                                                     <label for="two" class="col-sm-3 col-form-label">Team
                                                         Leader</label>
                                                     <div class="col-sm-9">
-                                                        <select name="team_leader_users_id" class="form-control">
+                                                        <select name="team_leader_users_id" class="form-control searchBox">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_team_leader as $leader)
                                                                 <option value="{{ $leader->id }}">
@@ -242,7 +242,7 @@
                                                 <div class="row mb-4 form-group required">
                                                     <label for="two" class="col-sm-3 col-form-label">Sex</label>
                                                     <div class="col-sm-9">
-                                                        <select name="dbsexes_id" class="form-control">
+                                                        <select name="dbsexes_id" class="form-control searchBox">
                                                             <option value="">Select One</option>
                                                             @foreach ($sexs as $sex)
                                                                 <option value="{{ $sex->id }}">
@@ -255,7 +255,7 @@
                                                     <label for="two" class="col-sm-3 col-form-label">Marital
                                                         Status</label>
                                                     <div class="col-sm-9">
-                                                        <select name="marital_statuses_id" class="form-control">
+                                                        <select name="marital_statuses_id" class="form-control searchBox">
                                                             <option value="">Select One</option>
                                                             @foreach ($marital_status as $marital)
                                                                 <option value="{{ $marital->id }}">
@@ -267,7 +267,7 @@
                                                 <div class="row mb-4">
                                                     <label for="two" class="col-sm-3 col-form-label">Religion</label>
                                                     <div class="col-sm-9">
-                                                        <select name="religions_id" class="form-control">
+                                                        <select name="religions_id" class="form-control searchBox">
                                                             <option value="">Select One</option>
                                                             @foreach ($religions as $religion)
                                                                 <option value="{{ $religion->id }}">
@@ -279,7 +279,7 @@
                                                 <div class="row mb-4">
                                                     <label for="two" class="col-sm-3 col-form-label">Race</label>
                                                     <div class="col-sm-9">
-                                                        <select name="races_id" class="form-control">
+                                                        <select name="races_id" class="form-control searchBox">
                                                             <option value="">Select One</option>
                                                             @foreach ($races as $race)
                                                                 <option value="{{ $race->id }}">
@@ -422,7 +422,7 @@
                                                     <label for="one"
                                                         class="col-sm-3 col-form-label">Department</label>
                                                     <div class="col-sm-9">
-                                                        <select name="departments_id" class="form-control">
+                                                        <select name="departments_id" class="form-control searchBox">
                                                             <option value="">Select One</option>
                                                             @foreach ($departments as $department)
                                                                 <option value="{{ $department->id }}">
@@ -470,7 +470,7 @@
                                                     <label for="one"
                                                         class="col-sm-3 col-form-label">Designation</label>
                                                     <div class="col-sm-9">
-                                                        <select name="designations_id" class="form-control"
+                                                        <select name="designations_id" class="form-control searchBox"
                                                             id="">
 
                                                             <option value="">Select One</option>
@@ -493,7 +493,7 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Probation
                                                         Period</label>
                                                     <div class="col-sm-9">
-                                                        <select name="employee_probation" class="form-control"
+                                                        <select name="employee_probation" class="form-control searchBox"
                                                             id="">
 
                                                             <option value='0'>Select One</option>
@@ -528,7 +528,7 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Extention of
                                                         Probation</label>
                                                     <div class="col-sm-9">
-                                                        <select name="employee_extentionprobation" class="form-control"
+                                                        <select name="employee_extentionprobation" class="form-control searchBox"
                                                             id="">
                                                             <option value='0'>Select One</option>
                                                             <option value='1'
@@ -580,7 +580,7 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Approved level
                                                         1</label>
                                                     <div class="col-sm-9">
-                                                        <select name="leave_aprv1_users_id" class="form-control"
+                                                        <select name="leave_aprv1_users_id" class="form-control searchBox"
                                                             id="">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_admin as $data)
@@ -595,7 +595,7 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Approved level
                                                         2</label>
                                                     <div class="col-sm-9">
-                                                        <select name="leave_aprv2_users_id" class="form-control"
+                                                        <select name="leave_aprv2_users_id" class="form-control searchBox"
                                                             id="">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_admin as $data)
@@ -610,7 +610,7 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Approved level
                                                         3</label>
                                                     <div class="col-sm-9">
-                                                        <select name="leave_aprv3_users_id" class="form-control"
+                                                        <select name="leave_aprv3_users_id" class="form-control searchBox"
                                                             id="">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_admin as $data)
@@ -630,7 +630,7 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Approved level
                                                         1</label>
                                                     <div class="col-sm-9">
-                                                        <select name="claims_aprv1_users_id" class="form-control"
+                                                        <select name="claims_aprv1_users_id" class="form-control searchBox"
                                                             id="">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_admin as $data)
@@ -645,7 +645,7 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Approved level
                                                         2</label>
                                                     <div class="col-sm-9">
-                                                        <select name="claims_aprv2_usersid" class="form-control"
+                                                        <select name="claims_aprv2_usersid" class="form-control searchBox"
                                                             id="">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_admin as $data)
@@ -660,7 +660,7 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Approved level
                                                         3</label>
                                                     <div class="col-sm-9">
-                                                        <select name="claims_aprv3_users_id" class="form-control"
+                                                        <select name="claims_aprv3_users_id" class="form-control searchBox"
                                                             id="">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_admin as $data)
@@ -682,7 +682,7 @@
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Pay Mode</label>
                                                     <div class="col-sm-9">
-                                                        <select name="paymodes_id" class="form-control" id="">
+                                                        <select name="paymodes_id" class="form-control searchBox" id="">
                                                             <option value="">Select One</option>
                                                             <option value="1">Cash</option>
                                                             <option value="2">Cheque</option>

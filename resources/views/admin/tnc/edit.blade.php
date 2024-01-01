@@ -10,7 +10,7 @@
                         value="{{ $tnc->tnc_template_code }}">
                 </div>
             </div>
-            
+
             <div class="row mb-4 col-lg-6">
                 <label for="one" class="col-sm-4 col-form-label">TNC
                     Description</label>
@@ -21,7 +21,7 @@
             <div class="row mb-4 col-lg-6">
                 <label for="status" class="col-sm-4 col-form-label">Status</label>
                 <div class="col-sm-8">
-                    <select name="tnc_template_status" class="form-control">
+                    <select name="tnc_template_status" class="form-control searchBox">
                         <option value="1" {{ $tnc->tnc_template_status == 1 ? 'selected' : '' }}>Active</option>
                         <option value="0" {{ $tnc->tnc_template_status == 0 ? 'selected' : '' }}>Inactive</option>
                     </select>

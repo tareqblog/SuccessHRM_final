@@ -127,7 +127,7 @@
                                                             placeholder="List Order" value="{{ old('tnc_template_seqno') }}">
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="row mb-4 col-lg-6">
                                                     <label for="one" class="col-sm-4 col-form-label">Upload Template
                                                         File</label>

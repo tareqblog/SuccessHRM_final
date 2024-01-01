@@ -197,6 +197,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/import',  [CandidateFileImportController::class, 'index'])->name('import.index');
     Route::post('/import/upload',  [CandidateFileImportController::class, 'upload'])->name('upload.files');
     Route::post('/import/extract',  [CandidateFileImportController::class, 'extractInfo'])->name('extract.info');
+    // Route::post('/preview-file', [CandidateFileImportController::class, 'previewFile'])->name('preview.file');
     // Employee extra route start
     Route::post('salary/info/post', [EmployeeController::class, 'salaryInfoPost'])->name('employee.salary.info.post');
     // Employee extra route ends
