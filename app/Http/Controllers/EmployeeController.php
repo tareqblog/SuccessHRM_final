@@ -64,8 +64,8 @@ class EmployeeController extends Controller
         $clients = client::latest()->select('id', 'client_code')->where('clients_status', 1)->get();
         $Paybanks=Paybank::orderBy('Paybank_seqno')->select('id','Paybank_code')->where('Paybank_status',1)->get();
         $emp_admin=Employee::select('id','employee_name')->where('roles_id',1)->get();
-        $emp_manager=Employee::select('id','employee_name')->where('roles_id',2)->get();
-        $emp_team_leader=Employee::select('id','employee_name')->where('roles_id',10)->get();
+        $emp_manager=Employee::select('id','employee_name')->where('roles_id',4)->get();
+        $emp_team_leader=Employee::select('id','employee_name')->where('roles_id',11)->get();
         $leave_types = LeaveType::latest()->select('id', 'leavetype_code','leavetype_default')->where('leavetype_status', 1)->get();
         return view('admin.employee.create', compact('Paybanks','emp_manager','emp_admin','rols', 'departments', 'designations', 'paymode', 'outlets', 'passes', 'users', 'roles', 'races', 'religions', 'sexs', 'marital_status', 'clients', 'leave_types', 'emp_team_leader'));
     }

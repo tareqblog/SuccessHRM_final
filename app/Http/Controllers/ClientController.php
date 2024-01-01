@@ -10,6 +10,7 @@ use App\Models\clientTerm;
 use App\Models\ClientUploadFile;
 use App\Models\Employee;
 use App\Models\IndustryType;
+use App\Models\jobcategory;
 use App\Models\TncTemplate;
 use App\Models\uploadfiletype;
 use App\Models\User;
@@ -21,9 +22,10 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
-        $datas = client::latest()->with('industry_type','Employee')->where('clients_status','=',1)->get();
+        $datas = client::latest()->with('industry_type','Employee')->get();
         return view('admin.client.index', compact('datas'));
     }
 
@@ -32,7 +34,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        $industries = IndustryType::orderBy('industry_seqno')->get();
+        $industries = jobcategory::orderBy('jobcategory_seqno')->get();
         $employees = Employee::latest()->where('roles_id','!=','13')->Where('roles_id','!=','14')->select('id', 'employee_name')->get();
         $employees_payroll = Employee::latest()->where('roles_id','=','13')->orWhere('roles_id','=','14')->select('id', 'employee_name')->get();
         $users = User::latest()->select('id', 'name')->get();
@@ -63,7 +65,7 @@ class ClientController extends Controller
      */
     public function edit(client $client)
     {
-        $industries = IndustryType::orderBy('industry_seqno')->get();
+        $industries = jobcategory::orderBy('jobcategory_seqno')->get();
         $employees = Employee::latest()->where('roles_id','!=','13')->Where('roles_id','!=','14')->select('id', 'employee_name')->get();
         $employees_payroll = Employee::latest()->where('roles_id','=','13')->orWhere('roles_id','=','14')->select('id', 'employee_name')->get();
         $users = User::latest()->select('id', 'name')->get();

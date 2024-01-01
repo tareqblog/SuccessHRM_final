@@ -152,7 +152,7 @@
                                                             @foreach ($industries as $industry)
                                                                 <option value="{{ $industry->id }}"
                                                                     {{ $industry->id == $client->industry_types_id ? 'selected' : 0 }}>
-                                                                    {{ $industry->industry_code }}</option>
+                                                                    {{ $industry->jobcategory_name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>

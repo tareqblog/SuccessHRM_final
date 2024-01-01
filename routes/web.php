@@ -45,7 +45,7 @@ Route::get('/dashboard', function () {
 });
 // Dashbaord ends
 
-
+Route::get('/',  [App\Http\Controllers\AdminController::class, 'root']);
 
 // Candidate Payroll Start
 Route::get('/candidate/payroll/month', function () {
@@ -154,7 +154,7 @@ Route::get('/file-type', function () {
 
 
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::prefix('admin')->group(function () {
     Route::get('/log', function () {

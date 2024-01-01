@@ -120,7 +120,7 @@
                                                             <option value="">Select One</option>
                                                             @foreach ($industries as $industry)
                                                                 <option value="{{ $industry->id }}">
-                                                                    {{ $industry->industry_code }}</option>
+                                                                    {{ $industry->jobcategory_name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
