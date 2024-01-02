@@ -5,6 +5,10 @@
 @section('page-title')
     Client Create
 @endsection
+@section('css')
+    <!-- choices css -->
+    <link href="{{ URL::asset('build/libs/choices.js/public/assets/styles/choices.min.css') }}" rel="stylesheet" type="text/css" />
+@endsection
 @section('body')
 
     <body>
@@ -62,7 +66,7 @@
                                             <label for="two" class="col-sm-3 col-form-label">Manager /
                                                 Consultant (In Charge) <span class="text-danger">*</span></label>
                                             <div class="col-sm-9">
-                                                <select name="employees_id" class="form-control" required>
+                                                <select name="employees_id" data-trigger class="form-control" required>
                                                     <option value="">Select One</option>
                                                     @foreach ($employees as $employee)
                                                         <option value="{{ $employee->id }}">
@@ -252,4 +256,11 @@
         </div><!-- end card -->
         </div>
         </div>
+    @endsection
+
+    @section('scripts')
+        <!-- choices js -->
+        <script src="{{ URL::asset('build/libs/choices.js/public/assets/scripts/choices.min.js') }}"></script>
+        <!-- init js -->
+        <script src="{{ URL::asset('build/js/pages/form-advanced.init.js') }}"></script>
     @endsection

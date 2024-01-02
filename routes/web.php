@@ -196,7 +196,12 @@ Route::prefix('admin')->group(function () {
 
     Route::get('/import',  [CandidateFileImportController::class, 'index'])->name('import.index');
     Route::post('/import/upload',  [CandidateFileImportController::class, 'upload'])->name('upload.files');
+    Route::post('/delete/import/data',  [CandidateFileImportController::class, 'upload'])->name('upload.files');
     Route::post('/import/extract',  [CandidateFileImportController::class, 'extractInfo'])->name('extract.info');
+    Route::post('/import/data/temporary/save',  [CandidateFileImportController::class, 'temporaryDataSave'])->name('temporary.data.save');
+    Route::post('/import/data/temporary/delete/{id}',  [CandidateFileImportController::class, 'temporaryDataDelete'])->name('temporary.data.delete');
+    // Route::post('/import/candidate/data',  [CandidateFileImportController::class, 'importCandidateData'])->name('import.candidate.data');
+    Route::post('/import/candidate/data', [CandidateFileImportController::class, 'importCandidateData'])->name('import.candidate.data');
     // Route::post('/preview-file', [CandidateFileImportController::class, 'previewFile'])->name('preview.file');
     // Employee extra route start
     Route::post('salary/info/post', [EmployeeController::class, 'salaryInfoPost'])->name('employee.salary.info.post');

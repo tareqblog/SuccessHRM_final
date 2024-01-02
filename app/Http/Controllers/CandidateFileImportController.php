@@ -3,9 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\FileHelper;
+use App\Models\candidate;
 use App\Models\CandidateFileImport;
+use App\Models\CandidateResume;
+use App\Models\ImportCandidateData;
+use App\Models\TemporaryImportedData;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Files\TemporaryFile;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Spatie\PdfToText\Pdf;
 
@@ -16,7 +22,11 @@ class CandidateFileImportController extends Controller
      */
     public function index()
     {
-        return view('admin.candidate.import');
+        $importData = ImportCandidateData::where('user_id', Auth::id())->get();
+
+        $temporary_data = TemporaryImportedData::where('created_by', Auth::id())->get();
+
+        return view('admin.candidate.import', compact('importData', 'temporary_data'));
     }
 
     /**
@@ -109,10 +119,20 @@ class CandidateFileImportController extends Controller
                 $path = FileHelper::uploadFile($file);
                 //    dd($path);
                 //$file->storeAs('uploads', $filename); // Store file in storage/uploads directory
-                $uploadedFiles[] = $path;
+                ImportCandidateData::create([
+                    'user_id' => Auth::user()->id,
+                    'resume_path' => $path
+                ]);
+                // $uploadedFiles[] = $path;
+
             }
 
-            return view('admin.candidate.import')->with('uploadedFiles', $uploadedFiles);
+            $uploadedResume =  ImportCandidateData::where('user_id', Auth::user()->id)->get();
+
+            // return view('admin.candidate.import');
+            return back()->with('success', 'Uploaded successfully.');
+            // return response()->json(compact('uploadedFiles'));
+
         }
 
         return back()->with('error', 'No files were selected.');
@@ -127,6 +147,7 @@ class CandidateFileImportController extends Controller
                 $filePath = public_path() . Storage::url($file);
                 //dd($filePath);
                 if (pathinfo($file, PATHINFO_EXTENSION) === 'docx') {
+
                     $phpWord = IOFactory::load($filePath);
                     $docInfo = $phpWord->getDocInfo();
 
@@ -173,11 +194,68 @@ class CandidateFileImportController extends Controller
                     // Use libraries like TCPDF, FPDI, or others to read PDF contents
                 }
                 // Extract information from other file types similarly (xls, xlsx, doc)
-                $myPath = asset('storage/'.$file);
+                $myPath = asset('storage/' . $file);
             }
-            return view('admin.candidate.import', compact('name', 'email', 'phone_no', 'myPath'));
+            return response()->json(compact('name', 'email', 'phone_no', 'myPath'));
+            // return view('admin.candidate.import', compact('name', 'email', 'phone_no', 'myPath'));
+
         }
 
         return back()->with('error', 'No files were selected.');
+    }
+    public function temporaryDataSave(Request $request)
+    {
+        $fullPath = $request->resume_path;
+        $relativePath = str_replace('http://127.0.0.1:8000/storage/', '', $fullPath);
+        $data = ImportCandidateData::where('resume_path', $relativePath)->first();
+
+        TemporaryImportedData::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone_no' => $request->phone_no,
+            'resume_path' => $relativePath,
+        ]);
+        ImportCandidateData::find($data->id)->delete();
+        return redirect()->route('import.index')->with('success', 'Candidate Shortlisted successfully.');
+    }
+
+    public function temporaryDataDelete($id)
+    {
+        $data = TemporaryImportedData::find($id);
+
+        if ($data) {
+            $fullPath = $data->resume_path;
+            $filePath = storage_path("app/public/{$fullPath}");
+
+            if (file_exists($filePath)) {
+                // Perform the desired action, e.g., delete the file
+                Storage::delete("public/{$fullPath}");
+            }
+            TemporaryImportedData::find($id)->delete();
+        }
+
+        return back()->with('success', 'Deleted successfully');
+    }
+    public function importCandidateData(Request $request) {
+        $temporaryData = json_decode($request->input('temporary_data'), true);
+        foreach ($temporaryData as $data) {
+                $candidate = candidate::create([
+                'candidate_name' => $data['name'],
+                'candidate_email' => $data['email'],
+                'candidate_mobile' => $data['phone_no'],
+            ]);
+        }
+        foreach ($temporaryData as $data) {
+                CandidateResume::create([
+                'candidates_id' => $candidate->id,
+                'resume_file_path' => $data['resume_path']
+            ]);
+        }
+
+        foreach ($temporaryData as $data) {
+            TemporaryImportedData::find($data['id'])->delete();
+        }
+
+        return back()->with('success', 'Candidate uploaded successfully.');
     }
 }
