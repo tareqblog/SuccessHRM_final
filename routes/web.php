@@ -196,7 +196,7 @@ Route::prefix('admin')->group(function () {
 
     Route::get('/import',  [CandidateFileImportController::class, 'index'])->name('import.index');
     Route::post('/import/upload',  [CandidateFileImportController::class, 'upload'])->name('upload.files');
-    Route::post('/delete/import/data',  [CandidateFileImportController::class, 'upload'])->name('upload.files');
+    Route::post('/delete/import/data',  [CandidateFileImportController::class, 'deleteUploadedData'])->name('delete.uploaded.data');
     Route::post('/import/extract',  [CandidateFileImportController::class, 'extractInfo'])->name('extract.info');
     Route::post('/import/data/temporary/save',  [CandidateFileImportController::class, 'temporaryDataSave'])->name('temporary.data.save');
     Route::post('/import/data/temporary/delete/{id}',  [CandidateFileImportController::class, 'temporaryDataDelete'])->name('temporary.data.delete');

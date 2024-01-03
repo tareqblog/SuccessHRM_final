@@ -6,14 +6,18 @@ use App\Helpers\FileHelper;
 use App\Models\candidate;
 use App\Models\CandidateFileImport;
 use App\Models\CandidateResume;
+use App\Models\Employee;
 use App\Models\ImportCandidateData;
 use App\Models\TemporaryImportedData;
+use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Maatwebsite\Excel\Files\TemporaryFile;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Illuminate\Support\Str;
 use Spatie\PdfToText\Pdf;
+use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\PhpWord;
 
 class CandidateFileImportController extends Controller
 {
@@ -25,8 +29,9 @@ class CandidateFileImportController extends Controller
         $importData = ImportCandidateData::where('user_id', Auth::id())->get();
 
         $temporary_data = TemporaryImportedData::where('created_by', Auth::id())->get();
+        $assaignPerson = Employee::latest()->get();
 
-        return view('admin.candidate.import', compact('importData', 'temporary_data'));
+        return view('admin.candidate.import', compact('importData', 'temporary_data', 'assaignPerson'));
     }
 
     /**
@@ -115,19 +120,66 @@ class CandidateFileImportController extends Controller
         if ($request->hasFile('files')) {
             $uploadedFiles = [];
             foreach ($request->file('files') as $file) {
-                $filename = $file->getClientOriginalName();
-                $path = FileHelper::uploadFile($file);
-                //    dd($path);
-                //$file->storeAs('uploads', $filename); // Store file in storage/uploads directory
-                ImportCandidateData::create([
-                    'user_id' => Auth::user()->id,
-                    'resume_path' => $path
-                ]);
+                if ($file->getClientOriginalExtension() == 'docx') {
+                    $filename = $file->getClientOriginalName();
+                    $path = FileHelper::uploadFile($file);
+
+                    $domPdfPath = base_path('vendor/dompdf/dompdf');
+                    \PhpOffice\PhpWord\Settings::setPdfRendererPath($domPdfPath);
+                    \PhpOffice\PhpWord\Settings::setPdfRendererName('DomPDF');
+
+                    // Load Word file
+                    $wordFilePath = public_path('storage/' . $path);
+                    $Content = \PhpOffice\PhpWord\IOFactory::load($wordFilePath);
+
+                    // Extract the desired part from the filename
+                    $afterUploads = Str::after($path, 'uploads/');
+                    $beforeDocx = Str::before($afterUploads, '.docx');
+
+                    // Save as PDF
+                    $pdfFilePath = public_path('storage/uploads/' . $beforeDocx . '.pdf');
+                    $PDFWriter = \PhpOffice\PhpWord\IOFactory::createWriter($Content, 'PDF');
+                    $PDFWriter->save($pdfFilePath);
+                    ImportCandidateData::create([
+                        'user_id' => Auth::user()->id,
+                        'resume_path' => 'uploads/' . $beforeDocx . '.pdf',
+                    ]);
+                    $delete_path = 'app/public/uploads/' . $beforeDocx . '.docx';
+                    unlink(storage_path($delete_path));
+                } elseif ($file->getClientOriginalExtension() == 'xlsx') {
+                    $filename = $file->getClientOriginalName();
+                    $path = FileHelper::uploadFile($file);
+                    // Extract the desired part from the filename
+                    $afterUploads = Str::after($path, 'uploads/');
+                    $beforeXlsx = Str::before($afterUploads, '.xlsx');
+                    $pdfFilePath = public_path('storage/uploads/' . $beforeXlsx . '.pdf');
+
+                    $preadSheet = IOFactory::load(public_path('storage/' . $path));
+                    $writer = IOFactory::createWriter($preadSheet, 'Mpdf');
+                    $pdfFile = $pdfFilePath;
+                    $writer->save($pdfFile);
+
+                    // Store record in the database
+                    ImportCandidateData::create([
+                        'user_id' => Auth::user()->id,
+                        'resume_path' => 'uploads/' . $beforeXlsx . '.pdf',
+                    ]);
+
+                    // Delete the original XLSX file
+                    $delete_path = 'app/public/uploads/' . $beforeXlsx . '.xlsx';
+                    unlink(storage_path($delete_path));
+                } else {
+                    $filename = $file->getClientOriginalName();
+                    $path = FileHelper::uploadFile($file);
+                    //    dd($path);
+                    //$file->storeAs('uploads', $filename); // Store file in storage/uploads directory
+                    ImportCandidateData::create([
+                        'user_id' => Auth::user()->id,
+                        'resume_path' => $path
+                    ]);
+                }
                 // $uploadedFiles[] = $path;
-
             }
-
-            $uploadedResume =  ImportCandidateData::where('user_id', Auth::user()->id)->get();
 
             // return view('admin.candidate.import');
             return back()->with('success', 'Uploaded successfully.');
@@ -139,6 +191,7 @@ class CandidateFileImportController extends Controller
     }
     public function extractInfo(Request $request)
     {
+
         if ($request->has('selectedFiles')) {
             $selectedFiles = $request->selectedFiles;
 
@@ -177,6 +230,11 @@ class CandidateFileImportController extends Controller
                             $email = "Email not found";
                         }
 
+                        if (preg_match('/\b(male|female)\b/i', $text, $matches)) {
+                            $gender = ucfirst(strtolower($matches[0]));
+                        } else {
+                            $gender  = "Gender not found!";
+                        }
                         // Extract phone number
                         if (preg_match('/\+?[0-9]+/', $text, $matches)) {
                             $phone_no = trim($matches[0]);
@@ -196,12 +254,33 @@ class CandidateFileImportController extends Controller
                 // Extract information from other file types similarly (xls, xlsx, doc)
                 $myPath = asset('storage/' . $file);
             }
-            return response()->json(compact('name', 'email', 'phone_no', 'myPath'));
+            return response()->json(compact('name', 'email', 'phone_no', 'myPath', 'gender'));
             // return view('admin.candidate.import', compact('name', 'email', 'phone_no', 'myPath'));
 
         }
 
         return back()->with('error', 'No files were selected.');
+    }
+    public function deleteUploadedData(Request $request)
+    {
+        $request->validate([
+            'selectedFiles' => 'required|array',
+            'itemIds' => 'required|array',
+        ]);
+        $selectedFiles = $request->input('selectedFiles');
+        $itemIds = $request->input('itemIds');
+        foreach ($selectedFiles as $key => $selectedFile) {
+            $itemId = $itemIds[$key];
+            $item = ImportCandidateData::find($itemId);
+            if ($item && $item->user_id == Auth::user()->id) {
+                $deletePath = Str::after($selectedFile, 'uploads/');
+                $item->delete();
+                $delete_path = 'app/public/uploads/' . $deletePath;
+                unlink(storage_path($delete_path));
+            }
+        }
+
+        return redirect()->back()->with('success', 'Selected items deleted successfully.');
     }
     public function temporaryDataSave(Request $request)
     {
@@ -236,17 +315,18 @@ class CandidateFileImportController extends Controller
 
         return back()->with('success', 'Deleted successfully');
     }
-    public function importCandidateData(Request $request) {
+    public function importCandidateData(Request $request)
+    {
         $temporaryData = json_decode($request->input('temporary_data'), true);
         foreach ($temporaryData as $data) {
-                $candidate = candidate::create([
+            $candidate = candidate::create([
                 'candidate_name' => $data['name'],
                 'candidate_email' => $data['email'],
                 'candidate_mobile' => $data['phone_no'],
             ]);
         }
         foreach ($temporaryData as $data) {
-                CandidateResume::create([
+            CandidateResume::create([
                 'candidates_id' => $candidate->id,
                 'resume_file_path' => $data['resume_path']
             ]);
