@@ -114,7 +114,7 @@ class CandidateFileImportController extends Controller
     public function upload(Request $request)
     {
         $validatedData = $request->validate([
-            'files.*' => 'mimes:pdf,doc,docx,xls,xlsx'
+            'files.*' => 'mimes:pdf,docx,xlsx'
         ]);
 
         if ($request->hasFile('files')) {
@@ -145,6 +145,33 @@ class CandidateFileImportController extends Controller
                         'resume_path' => 'uploads/' . $beforeDocx . '.pdf',
                     ]);
                     $delete_path = 'app/public/uploads/' . $beforeDocx . '.docx';
+                    unlink(storage_path($delete_path));
+                }
+                elseif ($file->getClientOriginalExtension() == 'doc') {
+                    $filename = $file->getClientOriginalName();
+                    $path = FileHelper::uploadFile($file);
+
+                    $domPdfPath = base_path('vendor/dompdf/dompdf');
+                    \PhpOffice\PhpWord\Settings::setPdfRendererPath($domPdfPath);
+                    \PhpOffice\PhpWord\Settings::setPdfRendererName('DomPDF');
+
+                    // Load Word file
+                    $wordFilePath = public_path('storage/' . $path);
+                    $Content = \PhpOffice\PhpWord\IOFactory::load($wordFilePath);
+
+                    // Extract the desired part from the filename
+                    $afterUploads = Str::after($path, 'uploads/');
+                    $beforeDocx = Str::before($afterUploads, '.doc');
+
+                    // Save as PDF
+                    $pdfFilePath = public_path('storage/uploads/' . $beforeDocx . '.pdf');
+                    $PDFWriter = \PhpOffice\PhpWord\IOFactory::createWriter($Content, 'PDF');
+                    $PDFWriter->save($pdfFilePath);
+                    ImportCandidateData::create([
+                        'user_id' => Auth::user()->id,
+                        'resume_path' => 'uploads/' . $beforeDocx . '.pdf',
+                    ]);
+                    $delete_path = 'app/public/uploads/' . $beforeDocx . '.doc';
                     unlink(storage_path($delete_path));
                 } elseif ($file->getClientOriginalExtension() == 'xlsx') {
                     $filename = $file->getClientOriginalName();

@@ -23,11 +23,10 @@
                                 @csrf
                                 <div class="row mb-4">
                                     <label for="one" class="col-sm-12 col-form-label">Upload Resume (max 10 file)<br />
-                                        <small>(Please use PDF, MicrosoftWord.docx/doc, html, xls, xlsx or txt
-                                            file)</small></label>
+                                        <small>(Please use PDF, MicrosoftWord.docx orxlsx file)</small></label>
                                     <div class="col-sm-6">
                                         <input type="file" name="files[]" class="form-control"
-                                            accept=".pdf,.doc,.docx,.xls,.xlsx" multiple>
+                                            accept=".pdf,.docx,.xlsx" multiple>
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-sm btn-info">Import Resume</button>
