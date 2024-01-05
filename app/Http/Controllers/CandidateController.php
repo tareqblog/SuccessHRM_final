@@ -31,6 +31,7 @@ use App\Models\country;
 use App\Models\remarkstype;
 use App\Models\User;
 use App\Models\Paybank;
+use App\Models\TimeSheet;
 
 class CandidateController extends Controller
 {
@@ -119,7 +120,8 @@ class CandidateController extends Controller
         $nationality = country::where('country_status', 1)->latest()->get();
         $users = User::latest()->get();
         $Paybanks = Paybank::orderBy('Paybank_seqno')->select('id', 'Paybank_code')->where('Paybank_status', 1)->get();
-        return view('admin.candidate.edit', compact('Paybanks', 'fileTypes', 'client_files', 'candidate', 'outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data', 'remarks_type', 'client_remarks', 'job_types', 'clients', 'payrolls', 'time', 'families', 'candidate_resume', 'nationality', 'users'));
+        $time_sheet = TimeSheet::latest()->get();
+        return view('admin.candidate.edit', compact('Paybanks', 'fileTypes', 'client_files', 'candidate', 'outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data', 'remarks_type', 'client_remarks', 'job_types', 'clients', 'payrolls', 'time', 'families', 'candidate_resume', 'nationality', 'users', 'time_sheet'));
     }
 
     /**
@@ -283,12 +285,18 @@ class CandidateController extends Controller
     {
         $request->validate([
             'candidate_id' => 'required|integer',
-            'sheet_type_id' => 'required|integer',
+            'timesheet_id' => 'required|integer',
             'schedul_type' => 'required|string',
             'schedul_day' => 'required|integer',
             'remarks' => 'nullable',
         ]);
-        CandidateWorkingHour::create($request->except('_token'));
+        $candidate = CandidateWorkingHour::where('candidate_id', $id)->first();
+        if (!$candidate) {
+            CandidateWorkingHour::create($request->except('_token'));
+        } else {
+            $candidate->update($request->except('_token'));
+        }
+
         return back()->with('success', 'Working hour successfully updated.');
     }
     public function family(Request $request, $id)
@@ -308,5 +316,23 @@ class CandidateController extends Controller
     {
         CandidateFamily::find($id)->delete();
         return back()->with('success', 'Family member removed successfully.');
+    }
+
+    public function timeSheetData($sheetTypeId)
+    {
+        $timeSheet = TimeSheet::with('entries')
+            ->find($sheetTypeId);
+
+        $data = [
+            'sunday'    => $timeSheet->entries->where('day', 'Sunday')->first(),
+            'monday'    => $timeSheet->entries->where('day', 'Monday')->first(),
+            'tuesday'   => $timeSheet->entries->where('day', 'Tuesday')->first(),
+            'wednesday' => $timeSheet->entries->where('day', 'Wednesday')->first(),
+            'thursday'  => $timeSheet->entries->where('day', 'Thursday')->first(),
+            'friday'    => $timeSheet->entries->where('day', 'Friday')->first(),
+            'saturday'  => $timeSheet->entries->where('day', 'Saturday')->first(),
+        ];
+
+        return response()->json($data);
     }
 }

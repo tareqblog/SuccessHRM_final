@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TimeSheet extends Model
+class TimeSheetEntry extends Model
 {
     use HasFactory;
-    protected $guarded = ['_token'];
+    protected $guarded = [];
 
-    public function entries()
+    public function timeSheet()
     {
-        return $this->hasMany(TimeSheetEntry::class);
+        return $this->belongsTo(TimeSheet::class);
     }
 }

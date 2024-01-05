@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('candidate_working_hours', function (Blueprint $table) {
             $table->id();
             $table->integer('candidate_id');
-            $table->integer('sheet_type_id');
+            $table->integer('timesheet_id');
             $table->string('schedul_type');
             $table->integer('schedul_day');
-            $table->longText('remarks');
+            $table->longText('remarks')->nullable();
             $table->timestamps();
         });
     }

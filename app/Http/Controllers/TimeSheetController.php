@@ -15,7 +15,7 @@ class TimeSheetController extends Controller
      */
     public function index()
     {
-        $datas = TimeSheet::where('user_id', Auth::user()->id)->latest()->get();
+        $datas = TimeSheet::latest()->get();
         return view('admin.timesheet.index', compact('datas'));
     }
 
@@ -30,10 +30,34 @@ class TimeSheetController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(TimeSheetRequest $request)
+    public function store(Request $request)
     {
-        TimeSheet::create($request->except('_token'));
-        return redirect()->route('time-sheet.index')->with('success', 'Created successfully.');
+        $validatedData = $request->validate([
+            'title' => 'required',
+            'print' => 'nullable',
+            'remark' => 'nullable',
+        ]);
+
+        $timeSheet = TimeSheet::create($validatedData);
+
+        $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+        foreach ($days as $day) {
+            $entryData = [
+                'day' => $day,
+                'in_time' => $request->input(strtolower($day) . '_in'),
+                'out_time' => $request->input(strtolower($day) . '_out'),
+                'lunch_time' => $request->input(strtolower($day) . '_lunch'),
+                'isWork' => $request->input(strtolower($day) . '_isWork'),
+                'ot_rate' => $request->input(strtolower($day) . '_ot_rate'),
+                'minimum' => $request->input(strtolower($day) . '_minimum'),
+                'allowance' => $request->input(strtolower($day) . '_allowance'),
+            ];
+
+            $timeSheet->entries()->create($entryData);
+        }
+
+        return redirect()->route('time-sheet.index')->with('success', 'Time Sheet created successfully!');
     }
 
     /**
@@ -55,10 +79,42 @@ class TimeSheetController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(TimeSheetRequest $request, TimeSheet $time_sheet)
-    {
-        $time_sheet->update($request->except('_token'));
-        return back()->with('success', 'Updated successfully.');
+    public function update(Request $request, TimeSheet $time_sheet)
+    { // Validate the form data
+        $validatedData = $request->validate([
+            'title' => 'required',
+            'print' => 'nullable',
+            'remark' => 'nullable',
+            // Add other validation rules for time sheet fields
+        ]);
+
+        // Update the time sheet
+        $time_sheet->update($validatedData);
+
+        // Get days
+        $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+        // Loop through each day to update time sheet entries
+        foreach ($days as $day) {
+            $entryData = [
+                'in_time' => $request->input(strtolower($day) . '_in'),
+                'out_time' => $request->input(strtolower($day) . '_out'),
+                'lunch_time' => $request->input(strtolower($day) . '_lunch'),
+                'isWork' => $request->has(strtolower($day) . '_isWork') ? true : false,
+                'ot_rate' => $request->input(strtolower($day) . '_ot_rate'),
+                'minimum' => $request->input(strtolower($day) . '_minimum'),
+                'allowance' => $request->input(strtolower($day) . '_allowance'),
+                // Add other fields as needed
+            ];
+
+            // Update the time sheet entry
+            $time_sheet->entries()
+                ->where('day', $day)
+                ->update($entryData);
+        }
+
+        // Redirect or return a response
+        return redirect()->route('time-sheet.index')->with('success', 'Time Sheet updated successfully!');
     }
 
     /**
@@ -66,7 +122,14 @@ class TimeSheetController extends Controller
      */
     public function destroy(TimeSheet $time_sheet)
     {
-        $time_sheet->delete();
-        return back()->with('success', 'Deleted successfully.');
+        try {
+            $time_sheet->entries()->delete();
+
+            $time_sheet->delete();
+
+            return redirect()->route('time-sheet.index')->with('success', 'Timesheet deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('time-sheet.index')->with('error', 'Error deleting timesheet: ' . $e->getMessage());
+        }
     }
 }

@@ -13,6 +13,7 @@ use App\Http\Controllers\JobcategoryController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobTypeController;
 use App\Http\Controllers\Actions\FetchEmployeeController;
+use App\Http\Controllers\AttendenceController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\GiroController;
@@ -93,6 +94,7 @@ Route::prefix('admin')->group(function () {
         '/nationality' => NationalityController::class,
         '/company' => CompanyController::class,
         '/time-sheet' => TimeSheetController::class,
+        '/attendence' => AttendenceController::class,
     ]);
     Route::get('/authenticate',  [UserController::class, 'storecomplete'])->name('user.authenticate');
     Route::post('/users/fetch-email',  [UserController::class, 'search'])->name('email.searchapi');
@@ -133,6 +135,8 @@ Route::prefix('admin')->group(function () {
     Route::post('/candidate/resume/{id}', [CandidateController::class, 'resumeUpload'])->name('candidate.resume');
     Route::delete('/candidate/resume/{id}', [CandidateController::class, 'resumeDelete'])->name('candidate.resume.delete');
     Route::post('/candidate/main/{id}', [CandidateController::class, 'resumeMain'])->name('candidate.resume.main');
+
+    Route::get('/candidate/timesheet-data/{timeSheetId}', [CandidateController::class, 'timeSheetData'])->name('candidate.timesheet.data');
 
 
     Route::get('{any}',  [App\Http\Controllers\HomeController::class, 'index']);
