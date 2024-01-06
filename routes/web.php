@@ -48,7 +48,7 @@ use Spatie\Activitylog\Models\Activity;
 // Dashbaord Start
 Route::get('/dashboard', function () {
     return view('admin.dashboard.index');
-});
+})->name('dashboard');
 // Dashbaord ends
 
 
@@ -142,5 +142,5 @@ Route::prefix('admin')->group(function () {
     Route::get('{any}',  [App\Http\Controllers\HomeController::class, 'index']);
 
 
-    Route::get('/',  [App\Http\Controllers\AdminController::class, 'root'])->name('/');
+    Route::get('/',  [App\Http\Controllers\AdminController::class, 'root'])->name('admin.dashboard');
 })->middleware('AdminMiddleware');

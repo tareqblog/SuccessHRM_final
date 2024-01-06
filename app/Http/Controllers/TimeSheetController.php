@@ -10,11 +10,24 @@ use Illuminate\Support\Facades\Auth;
 
 class TimeSheetController extends Controller
 {
+    public $user;
+
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('web')->user();
+            return $next($request);
+        });
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        if (is_null($this->user) || !$this->user->can('time-sheet.index')) {
+            abort(403, 'Unauthorized');
+        }
         $datas = TimeSheet::latest()->get();
         return view('admin.timesheet.index', compact('datas'));
     }
@@ -24,6 +37,9 @@ class TimeSheetController extends Controller
      */
     public function create()
     {
+        if (is_null($this->user) || !$this->user->can('time-sheet.create')) {
+            abort(403, 'Unauthorized');
+        }
         return view('admin.timesheet.create');
     }
 
@@ -32,6 +48,9 @@ class TimeSheetController extends Controller
      */
     public function store(Request $request)
     {
+        if (is_null($this->user) || !$this->user->can('time-sheet.store')) {
+            abort(403, 'Unauthorized');
+        }
         $validatedData = $request->validate([
             'title' => 'required',
             'print' => 'nullable',
@@ -73,6 +92,9 @@ class TimeSheetController extends Controller
      */
     public function edit(TimeSheet $time_sheet)
     {
+        if (is_null($this->user) || !$this->user->can('time-sheet.edit')) {
+            abort(403, 'Unauthorized');
+        }
         return view('admin.timesheet.edit', compact('time_sheet'));
     }
 
@@ -80,7 +102,11 @@ class TimeSheetController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, TimeSheet $time_sheet)
-    { // Validate the form data
+    {
+        if (is_null($this->user) || !$this->user->can('time-sheet.update')) {
+            abort(403, 'Unauthorized');
+        }
+        // Validate the form data
         $validatedData = $request->validate([
             'title' => 'required',
             'print' => 'nullable',
@@ -122,6 +148,9 @@ class TimeSheetController extends Controller
      */
     public function destroy(TimeSheet $time_sheet)
     {
+        if (is_null($this->user) || !$this->user->can('time-sheet.destory')) {
+            abort(403, 'Unauthorized');
+        }
         try {
             $time_sheet->entries()->delete();
 

@@ -8,15 +8,30 @@ use App\Models\Employee;
 use App\Models\Leave;
 use App\Models\LeaveType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class LeaveController extends Controller
 {
+    public $user;
+
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('web')->user();
+            return $next($request);
+        });
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        if (is_null($this->user) || !$this->user->can('leave.index')) {
+        abort(403, 'Unauthorized');
+        }
         $datas = Leave::latest()->get();
         return view('admin.leave.index', compact('datas'));
     }
@@ -26,6 +41,9 @@ class LeaveController extends Controller
      */
     public function create()
     {
+        if (is_null($this->user) || !$this->user->can('leave.create')) {
+        abort(403, 'Unauthorized');
+        }
         $employees = Employee::latest()->select('id', 'employee_code')->get();
         $leaveType = LeaveType::latest()->select('id', 'leavetype_code')->get();
         return view('admin.leave.create', compact('employees', 'leaveType'));
@@ -37,6 +55,9 @@ class LeaveController extends Controller
     public function store(LeaveRequest $request)
     {
 
+        if (is_null($this->user) || !$this->user->can('leave.store')) {
+            abort(403, 'Unauthorized');
+            }
 
         $file_path = $request->file('leave_file_path');
 
@@ -69,6 +90,9 @@ class LeaveController extends Controller
      */
     public function edit(Leave $leave)
     {
+        if (is_null($this->user) || !$this->user->can('leave.edit')) {
+        abort(403, 'Unauthorized');
+        }
         $employees = Employee::latest()->select('id', 'employee_code')->get();
         $leaveType = LeaveType::latest()->select('id', 'leavetype_code')->get();
         return view('admin.leave.edit', compact('leave', 'employees', 'leaveType'));
@@ -79,6 +103,9 @@ class LeaveController extends Controller
      */
     public function update(LeaveRequest $request, Leave $leave)
     {
+        if (is_null($this->user) || !$this->user->can('leave.update')) {
+        abort(403, 'Unauthorized');
+        }
         if ($request->hasFile('leave_file_path')) {
             Storage::delete("public/{$leave->leave_file_path}");
 
@@ -108,6 +135,9 @@ class LeaveController extends Controller
      */
     public function destroy(Leave $leave)
     {
+        if (is_null($this->user) || !$this->user->can('leave.destory')) {
+        abort(403, 'Unauthorized');
+        }
         $filePath = storage_path("app/public/{$leave->leave_file_path}");
 
         if (file_exists($filePath)) {

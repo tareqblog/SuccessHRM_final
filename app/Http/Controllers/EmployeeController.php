@@ -25,11 +25,22 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
 use \Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class EmployeeController extends Controller
 {
 
+    public $user;
+
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('web')->user();
+            return $next($request);
+        });
+    }
 
 
 
@@ -39,6 +50,9 @@ class EmployeeController extends Controller
     public function index()
     {
 
+        if (is_null($this->user) || !$this->user->can('employee.index')) {
+            abort(403, 'Unauthorized');
+        }
         $datas = Employee::with('role_data', 'Designation')->latest()->get();
 
         return view('admin.employee.index', compact('datas'));
@@ -49,6 +63,9 @@ class EmployeeController extends Controller
      */
     public function create()
     {
+        if (is_null($this->user) || !$this->user->can('employee.create')) {
+            abort(403, 'Unauthorized');
+        }
         $rols = Role::latest()->where('guard_name', 'web')->get();
         $departments = Department::orderBy('department_seqno')->where('department_status', '1')->select('id', 'department_code')->get();
         $designations = Designation::orderBy('designation_seqno')->where('designation_status', '1')->select('id', 'designation_code')->get();
@@ -76,6 +93,9 @@ class EmployeeController extends Controller
     public function store(StoreEmployeeRequest $request)
     {
 
+        if (is_null($this->user) || !$this->user->can('employee.store')) {
+            abort(403, 'Unauthorized');
+        }
         $file_path = $request->file('employee_avater');
 
         // Check if $file_path is not empty before proceeding
@@ -107,6 +127,9 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
+        if (is_null($this->user) || !$this->user->can('employee.edit')) {
+            abort(403, 'Unauthorized');
+        }
 
         $rols = Role::latest()->where('guard_name', 'web')->get();
         $departments = Department::orderBy('department_seqno')->where('department_status', '1')->select('id', 'department_code')->get();
@@ -134,6 +157,9 @@ class EmployeeController extends Controller
      */
     public function update(StoreEmployeeRequest $request, Employee $employee)
     {
+        if (is_null($this->user) || !$this->user->can('employee.update')) {
+            abort(403, 'Unauthorized');
+        }
         if ($request->hasFile('employee_avater')) {
             // Delete the old file
             Storage::delete("public/{$employee->employee_avater}");
@@ -156,6 +182,10 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
+
+        if (is_null($this->user) || !$this->user->can('employee.destory')) {
+            abort(403, 'Unauthorized');
+        }
         $filePath = storage_path("app/public/{$employee->employee_avater}");
 
         if (file_exists($filePath)) {
@@ -166,6 +196,10 @@ class EmployeeController extends Controller
     }
 
     public function salaryInfoPost(Request $request) {
+
+        if (is_null($this->user) || !$this->user->can('employee.salary.info.post')) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'employee_id' => 'required|integer',
             'date' => 'required|date',

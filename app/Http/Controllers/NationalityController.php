@@ -4,14 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\Nationality;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NationalityController extends Controller
 {
+    public $user;
+
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('web')->user();
+            return $next($request);
+        });
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        if (is_null($this->user) || !$this->user->can('nationality.index')) {
+            abort(403, 'Unauthorized');
+        }
         $datas = Nationality::latest()->get();
         return view('admin.nationality.index', compact('datas'));
     }
@@ -29,6 +43,9 @@ class NationalityController extends Controller
      */
     public function store(Request $request)
     {
+        if (is_null($this->user) || !$this->user->can('nationality.store')) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'nationality_code' => 'required|string',
             'seq_no' => 'nullable',
@@ -61,6 +78,9 @@ class NationalityController extends Controller
      */
     public function update(Request $request, Nationality $nationality)
     {
+        if (is_null($this->user) || !$this->user->can('nationality.update')) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'nationality_code' => 'required|string',
             'seq_no' => 'nullable',
@@ -75,6 +95,9 @@ class NationalityController extends Controller
      */
     public function destroy(Nationality $nationality)
     {
+        if (is_null($this->user) || !$this->user->can('nationality.destroy')) {
+            abort(403, 'Unauthorized');
+        }
         $nationality->delete();
         return back()->with('success', 'Deleted successfully.');
     }

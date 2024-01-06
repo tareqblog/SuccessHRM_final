@@ -46,7 +46,7 @@ class UserController extends Controller
      */
     public function search(Request $request){
 
-        
+
         $data['email'] = Employee::where('employee_name',$request->name)->get("employee_email");
         return response()->json($data);
     }
@@ -55,7 +55,7 @@ class UserController extends Controller
      */
     public function storecomplete(Request $request)
     {
-      
+
         $data=$request->merge(session('registration_data'));
 
         return $this->registration($request);
@@ -70,11 +70,11 @@ class UserController extends Controller
          $user->password = Hash::make($request->password);
          $user->google2fa_secret = $request->google2fa_secret;
          $user->save();
- 
+
          if ($request->roles) {
             $user->assignRole($request->roles);
          }
- 
+
          if ($this->sendResetEmail($request->email)) {
             return redirect()->back()->with('success', 'A Secrate Code has been sent to registered email address.');
         } else {
@@ -82,7 +82,7 @@ class UserController extends Controller
         }
 
         return redirect()->route('users.index')->with('success', 'User has been created !!');
-        
+
     } //End Method
 
     private function sendResetEmail($email)
@@ -104,7 +104,7 @@ class UserController extends Controller
     } catch (\Exception $e) {
         return false;
     }
-        
+
     }
     public function store(StoreUserRequest $request)
     {
@@ -115,8 +115,8 @@ class UserController extends Controller
             'email' => 'required|max:100|email|unique:users',
             'password' => 'required|min:8|confirmed',
         ]);
-        
-        
+
+
         $google2fa = app('pragmarx.google2fa');
         $registration_data = $request->all();
         $registration_data["google2fa_secret"] = $google2fa->generateSecretKey();
@@ -127,7 +127,7 @@ class UserController extends Controller
             $registration_data['google2fa_secret']
         );
         return view('google2fa.register', ['QR_Image' => $QR_Image, 'secret' => $registration_data['google2fa_secret']]);
-        
+
     }
 
     /**

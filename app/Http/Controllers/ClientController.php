@@ -14,15 +14,29 @@ use App\Models\TncTemplate;
 use App\Models\uploadfiletype;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ClientController extends Controller
 {
+    public $user;
+
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('web')->user();
+            return $next($request);
+        });
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        if (is_null($this->user) || !$this->user->can('clients.index')) {
+            abort(403, 'Unauthorized');
+        }
         $datas = client::latest()->with('industry_type','Employee')->where('clients_status','=',1)->get();
         return view('admin.client.index', compact('datas'));
     }
@@ -32,6 +46,9 @@ class ClientController extends Controller
      */
     public function create()
     {
+        if (is_null($this->user) || !$this->user->can('clients.create')) {
+            abort(403, 'Unauthorized');
+        }
         $industries = IndustryType::orderBy('industry_seqno')->get();
         $employees = Employee::latest()->where('roles_id','!=','13')->Where('roles_id','!=','14')->select('id', 'employee_name')->get();
         $employees_payroll = Employee::latest()->where('roles_id','=','13')->orWhere('roles_id','=','14')->select('id', 'employee_name')->get();
@@ -46,6 +63,9 @@ class ClientController extends Controller
      */
     public function store(ClientRequest $request)
     {
+        if (is_null($this->user) || !$this->user->can('clients.store')) {
+            abort(403, 'Unauthorized');
+        }
         client::create($request->except('_token'));
         return redirect()->route('clients.index')->with('success', 'Client added successfully.');
     }
@@ -63,6 +83,9 @@ class ClientController extends Controller
      */
     public function edit(client $client)
     {
+        if (is_null($this->user) || !$this->user->can('clients.edit')) {
+            abort(403, 'Unauthorized');
+        }
         $industries = IndustryType::orderBy('industry_seqno')->get();
         $employees = Employee::latest()->where('roles_id','!=','13')->Where('roles_id','!=','14')->select('id', 'employee_name')->get();
         $employees_payroll = Employee::latest()->where('roles_id','=','13')->orWhere('roles_id','=','14')->select('id', 'employee_name')->get();
@@ -83,6 +106,9 @@ class ClientController extends Controller
      */
     public function update(ClientRequest $request, client $client)
     {
+        if (is_null($this->user) || !$this->user->can('clients.update')) {
+            abort(403, 'Unauthorized');
+        }
         $client->update($request->except('_token'));
 
         return redirect()->route('clients.index')->with('success', 'Client updated successfully.');
@@ -93,12 +119,18 @@ class ClientController extends Controller
      */
     public function destroy(client $client)
     {
+        if (is_null($this->user) || !$this->user->can('candidate.destroy')) {
+            abort(403, 'Unauthorized');
+        }
         $client->delete();
 
         return redirect()->route('clients.index')->with('success', 'Client deleted successfully.');
     }
     public function fileUpload(Request $request, $id)
     {
+        if (is_null($this->user) || !$this->user->can('candidate.file.upload')) {
+            abort(403, 'Unauthorized');
+        }
 
         $request->validate([
             'file_path' => 'required|mimes:pdf|max:2048',
@@ -124,6 +156,9 @@ class ClientController extends Controller
     }
     public function fileDelete($id)
     {
+        if (is_null($this->user) || !$this->user->can('candidate.file.delete')) {
+            abort(403, 'Unauthorized');
+        }
         $file_path_name = ClientUploadFile::where('id', $id)->value('file_path');
 
         $filePath = storage_path("app/public/{$file_path_name}");
@@ -136,6 +171,9 @@ class ClientController extends Controller
     }
     public function followUp(Request $request, $id)
     {
+        if (is_null($this->user) || !$this->user->can('candidate.followup')) {
+            abort(403, 'Unauthorized');
+        }
 
         //dd($request);
         $request->validate([
@@ -153,6 +191,9 @@ class ClientController extends Controller
 
     public function folowupDelete($id)
     {
+        if (is_null($this->user) || !$this->user->can('candidate.followup.delete')) {
+            abort(403, 'Unauthorized');
+        }
         ClientFollowUp::where('id', $id)->delete();
         return back()->with('success', 'Successfully Deleted.');
     }

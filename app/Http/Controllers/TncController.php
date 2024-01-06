@@ -5,15 +5,29 @@ namespace App\Http\Controllers;
 use App\Helpers\FileHelper;
 use App\Models\TncTemplate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class TncController extends Controller
 {
+    public $user;
+
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('web')->user();
+            return $next($request);
+        });
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        if (is_null($this->user) || !$this->user->can('tnc.index')) {
+            abort(403, 'Unauthorized');
+        }
         $datas = TncTemplate::latest()->get();
         return view('admin.tnc.index', compact('datas'));
     }
@@ -31,6 +45,9 @@ class TncController extends Controller
      */
     public function store(Request $request)
     {
+        if (is_null($this->user) || !$this->user->can('tnc.store')) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'tnc_template_code' => 'required|unique:tnc_templates',
             'tnc_template_desc' => 'required',
@@ -77,6 +94,9 @@ class TncController extends Controller
      */
     public function update(Request $request, TncTemplate $tnc)
     {
+        if (is_null($this->user) || !$this->user->can('tnc.update')) {
+            abort(403, 'Unauthorized');
+        }
 
         $request->validate([
             'tnc_template_code' => "required|unique:tnc_templates,tnc_template_code,{$tnc->id}",
@@ -111,6 +131,9 @@ class TncController extends Controller
      */
     public function destroy(TncTemplate $tnc)
     {
+        if (is_null($this->user) || !$this->user->can('tnc.destroy')) {
+            abort(403, 'Unauthorized');
+        }
         $filePath = storage_path("app/public/{$tnc->tnc_template_file_path}");
 
         if (file_exists($filePath)) {

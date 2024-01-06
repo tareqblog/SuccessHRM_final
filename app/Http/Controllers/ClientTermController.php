@@ -4,14 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Models\clientTerm;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClientTermController extends Controller
 {
+    public $user;
+
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('web')->user();
+            return $next($request);
+        });
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+
+        if (is_null($this->user) || !$this->user->can('client-term.index')) {
+            abort(403, 'Unauthorized');
+        }
         $datas = clientTerm::latest()->get();
 
         return view('admin.clientTerm.index', compact('datas'));
@@ -30,6 +45,9 @@ class ClientTermController extends Controller
      */
     public function store(Request $request)
     {
+        if (is_null($this->user) || !$this->user->can('client-term.store')) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'client_term_code' => 'required|unique:client_terms',
             'client_term_desc' => 'required',
@@ -61,6 +79,9 @@ class ClientTermController extends Controller
      */
     public function update(Request $request, clientTerm $client_term)
     {
+        if (is_null($this->user) || !$this->user->can('client-term.update')) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'client_term_code' => "required|unique:client_terms,client_term_code,{$client_term->id}",
             'client_term_desc' => 'required',
@@ -76,6 +97,9 @@ class ClientTermController extends Controller
      */
     public function destroy(clientTerm $client_term)
     {
+        if (is_null($this->user) || !$this->user->can('client-term.destory')) {
+            abort(403, 'Unauthorized');
+        }
         $client_term->delete();
 
         return back()->with('success', 'Successfully Deleted.');

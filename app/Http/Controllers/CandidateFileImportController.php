@@ -20,12 +20,24 @@ use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\PhpWord;
 
 class CandidateFileImportController extends Controller
-{
+{   public $user;
+
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('web')->user();
+            return $next($request);
+        });
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        if (is_null($this->user) || !$this->user->can('import.index')) {
+            abort(403, 'Unauthorized');
+        }
         $importData = ImportCandidateData::where('user_id', Auth::id())->get();
 
         $temporary_data = TemporaryImportedData::where('created_by', Auth::id())->get();
@@ -113,6 +125,9 @@ class CandidateFileImportController extends Controller
     }
     public function upload(Request $request)
     {
+        if (is_null($this->user) || !$this->user->can('upload.file')) {
+            abort(403, 'Unauthorized');
+        }
         $validatedData = $request->validate([
             'files.*' => 'mimes:pdf,docx,xlsx'
         ]);
@@ -218,6 +233,9 @@ class CandidateFileImportController extends Controller
     }
     public function extractInfo(Request $request)
     {
+        if (is_null($this->user) || !$this->user->can('extract.info')) {
+            abort(403, 'Unauthorized');
+        }
 
         if ($request->has('selectedFiles')) {
             $selectedFiles = $request->selectedFiles;
@@ -290,6 +308,9 @@ class CandidateFileImportController extends Controller
     }
     public function deleteUploadedData(Request $request)
     {
+        if (is_null($this->user) || !$this->user->can('delete.uploaded.data')) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'selectedFiles' => 'required|array',
             'itemIds' => 'required|array',
@@ -311,6 +332,9 @@ class CandidateFileImportController extends Controller
     }
     public function temporaryDataSave(Request $request)
     {
+        // if (is_null($this->user) || !$this->user->can('temporary.data.save')) {
+        //     abort(403, 'Unauthorized');
+        // }
         $fullPath = $request->resume_path;
         $relativePath = str_replace('http://127.0.0.1:8000/storage/', '', $fullPath);
         $data = ImportCandidateData::where('resume_path', $relativePath)->first();
@@ -327,6 +351,9 @@ class CandidateFileImportController extends Controller
 
     public function temporaryDataDelete($id)
     {
+        // if (is_null($this->user) || !$this->user->can('temporary.data.delete')) {
+        //     abort(403, 'Unauthorized');
+        // }
         $data = TemporaryImportedData::find($id);
 
         if ($data) {
@@ -344,6 +371,9 @@ class CandidateFileImportController extends Controller
     }
     public function importCandidateData(Request $request)
     {
+        // if (is_null($this->user) || !$this->user->can('import.candidate.data')) {
+        //     abort(403, 'Unauthorized');
+        // }
         $temporaryData = json_decode($request->input('temporary_data'), true);
         foreach ($temporaryData as $data) {
             $candidate = candidate::create([

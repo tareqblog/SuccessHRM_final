@@ -5,14 +5,29 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use App\Models\Nationality;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
+    public $user;
+
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('web')->user();
+            return $next($request);
+        });
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        if (is_null($this->user) || !$this->user->can('company.index')) {
+            abort(403, 'Unauthorized');
+        }
         $datas = Company::latest()->get();
         return view('admin.companyProfile.index', compact('datas'));
     }
@@ -22,6 +37,9 @@ class CompanyController extends Controller
      */
     public function create()
     {
+        if (is_null($this->user) || !$this->user->can('company.create')) {
+            abort(403, 'Unauthorized');
+        }
         $nationalities = Nationality::latest()->get();
         return view('admin.companyProfile.create', compact('nationalities'));
     }
@@ -31,6 +49,9 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
+        if (is_null($this->user) || !$this->user->can('company.store')) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'name' => 'required|string',
             'tel' => 'nullable',
@@ -61,6 +82,9 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
+        if (is_null($this->user) || !$this->user->can('company.edit')) {
+            abort(403, 'Unauthorized');
+        }
         $nationalities = Nationality::latest()->get();
         return view('admin.companyProfile.edit', compact('company', 'nationalities'));
     }
@@ -70,6 +94,9 @@ class CompanyController extends Controller
      */
     public function update(Request $request, Company $company)
     {
+        if (is_null($this->user) || !$this->user->can('company.update')) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'name' => 'required|string',
             'tel' => 'nullable',
@@ -92,6 +119,9 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
+        if (is_null($this->user) || !$this->user->can('company.destory')) {
+            abort(403, 'Unauthorized');
+        }
         $company->delete();
         return back()->with('success', 'Deleted successfully.');
     }

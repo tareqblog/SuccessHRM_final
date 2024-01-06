@@ -4,14 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\Bank;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BankController extends Controller
 {
+    public $user;
+
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('web')->user();
+            return $next($request);
+        });
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        if (is_null($this->user) || !$this->user->can('bank.index')) {
+            abort(403, 'Unauthorized');
+        }
         $datas = Bank::latest()->get();
         return view('admin.bank.index', compact('datas'));
     }
@@ -29,6 +43,9 @@ class BankController extends Controller
      */
     public function store(Request $request)
     {
+        if (is_null($this->user) || !$this->user->can('bank.store')) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'bank_no' => 'required|integer',
             'bank_code' => 'required|string',
@@ -52,6 +69,9 @@ class BankController extends Controller
      */
     public function edit(Bank $bank)
     {
+        if (is_null($this->user) || !$this->user->can('bank.edit')) {
+            abort(403, 'Unauthorized');
+        }
         return view('admin.bank.edit', compact('bank'));
     }
 
@@ -60,6 +80,9 @@ class BankController extends Controller
      */
     public function update(Request $request, Bank $bank)
     {
+        if (is_null($this->user) || !$this->user->can('bank.update')) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'bank_no' => 'required|integer',
             'bank_code' => 'required|string',
@@ -75,6 +98,9 @@ class BankController extends Controller
      */
     public function destroy(Bank $bank)
     {
+        if (is_null($this->user) || !$this->user->can('bank.destroy')) {
+            abort(403, 'Unauthorized');
+        }
         $bank->delete();
         return back()->with('success', 'Deleted successfully.');
     }
