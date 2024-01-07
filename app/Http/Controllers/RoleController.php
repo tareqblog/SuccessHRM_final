@@ -11,18 +11,29 @@ use Spatie\Permission\Models\Permission;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use DB;
+use Illuminate\Support\Facades\Auth;
 
 class RoleController extends Controller
 {
+    public $user;
+
+
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('web')->user();
+            return $next($request);
+        });
     }
     /**
      * Display a listing of the resource.
      */
     public function index(): View
     {
+        if (is_null($this->user) || !$this->user->can('roles.index')) {
+            abort(403, 'Unauthorized');
+        }
         return view('admin.roles.index', [
             'roles' => Role::orderBy('id','DESC')->get()
         ]);
@@ -33,6 +44,9 @@ class RoleController extends Controller
      */
     public function create(): View
     {
+        if (is_null($this->user) || !$this->user->can('roles.create')) {
+            abort(403, 'Unauthorized');
+        }
         $all_permissions  = Permission::all();
         $permission_groups = User::getpermissionGroups();
         return view('admin.roles.create', compact('all_permissions', 'permission_groups'));
@@ -44,6 +58,9 @@ class RoleController extends Controller
     public function store(StoreRoleRequest $request): RedirectResponse
     {
 
+        if (is_null($this->user) || !$this->user->can('roles.store')) {
+            abort(403, 'Unauthorized');
+        }
         // Validation Data
         $request->validate([
             'name' => 'required|max:100|unique:roles'
@@ -76,6 +93,9 @@ class RoleController extends Controller
      */
     public function edit(Role $role): View
     {
+        if (is_null($this->user) || !$this->user->can('roles.edit')) {
+            abort(403, 'Unauthorized');
+        }
 
         $role = Role::findById($role->id);
         $all_permissions = Permission::all();
@@ -88,6 +108,9 @@ class RoleController extends Controller
      */
     public function update(UpdateRoleRequest $request, Role $role): RedirectResponse
     {
+        if (is_null($this->user) || !$this->user->can('roles.update')) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'name' => 'required|max:100|unique:roles,name,' . $role->id
         ], [
@@ -109,6 +132,9 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
+        if (is_null($this->user) || !$this->user->can('roles.destroy')) {
+            abort(403, 'Unauthorized');
+        }
         $role->delete();
         return redirect()->route('roles.index')->with('Role is deleted successfully.');
     }

@@ -4,14 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\Designation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DesignationController extends Controller
 {
+    public $user;
+
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('web')->user();
+            return $next($request);
+        });
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        if (is_null($this->user) || !$this->user->can('designation.index')) {
+            abort(403, 'Unauthorized');
+        }
         $datas = Designation::latest()->get();
         return view('admin.designation.index', compact('datas'));
     }
@@ -21,7 +35,10 @@ class DesignationController extends Controller
      */
     public function create()
     {
-        return view('admin.designation.create'); 
+        if (is_null($this->user) || !$this->user->can('designation.create')) {
+            abort(403, 'Unauthorized');
+        }
+        return view('admin.designation.create');
     }
 
     /**
@@ -29,6 +46,9 @@ class DesignationController extends Controller
      */
     public function store(Request $request)
     {
+        if (is_null($this->user) || !$this->user->can('designation.store')) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'designation_code' => 'required|unique:designations',
             'designation_desc' => 'required',
@@ -62,6 +82,9 @@ class DesignationController extends Controller
      */
     public function update(Request $request, Designation $designation)
     {
+        if (is_null($this->user) || !$this->user->can('designation.update')) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'designation_code' => "required|unique:designations,designation_code,". "$designation->id'",
             'designation_desc' => 'required',
@@ -78,6 +101,9 @@ class DesignationController extends Controller
      */
     public function destroy(Designation $designation)
     {
+        if (is_null($this->user) || !$this->user->can('designation.destroy')) {
+            abort(403, 'Unauthorized');
+        }
         $designation->delete();
         return back()->with('success', 'Delete successfully.');
     }

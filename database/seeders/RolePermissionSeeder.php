@@ -15,19 +15,6 @@ class RolePermissionSeeder extends Seeder
     public function run(): void
     {
         $roleAministrator = Role::create(['name' => 'Aministrator']);
-        $roleHR = Role::create(['name' => 'HR']);
-        $roleStaff = Role::create(['name' => 'Staff']);
-        $roleManager = Role::create(['name' => 'Manager']);
-        $roleCandidate = Role::create(['name' => 'Candidate']);
-        $roleWalkInApplicant = Role::create(['name' => 'WalkInApplicant']);
-        $rolePayroll = Role::create(['name' => 'Payroll']);
-        $roleConsultant = Role::create(['name' => 'Consultant']);
-        $roleClientEmployee = Role::create(['name' => 'Client Employee']);
-        $roleRemarkInchargePerson = Role::create(['name' => 'Remark In-charge Person']);
-        $roleTeamLeader = Role::create(['name' => 'Team Leader']);
-        $roleInternship = Role::create(['name' => 'Internship']);
-        $rolePayrollManager = Role::create(['name' => 'Payroll Manager']);
-        $rolePayrollSupervisor = Role::create(['name' => 'Payroll Supervisor']);
 
 
         // Permission List as array
@@ -37,6 +24,28 @@ class RolePermissionSeeder extends Seeder
                 'group_name' => 'dashboard',
                 'permissions' => [
                     'admin.dashboard',
+                ]
+            ],
+            [
+                'group_name' => 'attendence',
+                'permissions' => [
+                    'attendence.index',
+                    'attendence.store',
+                    'attendence.create',
+                    'attendence.show',
+                    'attendence.update',
+                    'attendence.destroy',
+                ]
+            ],
+            [
+                'group_name' => 'bank',
+                'permissions' => [
+                    'bank.index',
+                    'bank.store',
+                    'bank.create',
+                    'bank.show',
+                    'bank.update',
+                    'bank.destroy',
                 ]
             ],
             [
@@ -61,6 +70,9 @@ class RolePermissionSeeder extends Seeder
                     'candidate.update',
                     'candidate.destroy',
                     'candidate.edit',
+                    'temporary.data.delete',
+                    'extract.info',
+                    'upload.files',
                 ]
             ],
             [
@@ -75,6 +87,7 @@ class RolePermissionSeeder extends Seeder
                     'client-term.edit',
                     'client-term.followup',
                     'client-term.followup.delete',
+
                 ]
             ],
             [
@@ -89,6 +102,18 @@ class RolePermissionSeeder extends Seeder
                     'clients.edit',
                     'client.file.delete',
                     'client.file.upload',
+                ]
+            ],
+            [
+                'group_name' => 'company',
+                'permissions' => [
+                    'company.index',
+                    'company.store',
+                    'company.show',
+                    'company.create',
+                    'company.update',
+                    'company.destory',
+                    'company.edit',
                 ]
             ],
             [
@@ -137,6 +162,7 @@ class RolePermissionSeeder extends Seeder
                     'employee.update',
                     'employee.destory',
                     'employee.edit',
+                    'employee.salary.info.post',
                 ]
             ],
             [
@@ -149,6 +175,18 @@ class RolePermissionSeeder extends Seeder
                     'file-type.update',
                     'file-type.destroy',
                     'file-type.edit',
+                ]
+            ],
+            [
+                'group_name' => 'giro',
+                'permissions' => [
+                    'giro.index',
+                    'giro.store',
+                    'giro.create',
+                    'giro.show',
+                    'giro.update',
+                    'giro.destroy',
+                    'giro.edit',
                 ]
             ],
             [
@@ -247,6 +285,18 @@ class RolePermissionSeeder extends Seeder
                 ]
             ],
             [
+                'group_name' => 'nationality',
+                'permissions' => [
+                    'nationality.index',
+                    'nationality.store',
+                    'nationality.create',
+                    'nationality.show',
+                    'nationality.update',
+                    'nationality.destory',
+                    'nationality.edit',
+                ]
+            ],
+            [
                 'group_name' => 'religion',
                 'permissions' => [
                     'religion.index',
@@ -256,6 +306,18 @@ class RolePermissionSeeder extends Seeder
                     'religion.update',
                     'religion.destroy',
                     'religion.edit',
+                ]
+            ],
+            [
+                'group_name' => 'remarks-type',
+                'permissions' => [
+                    'remarks-type.index',
+                    'remarks-type.store',
+                    'remarks-type.create',
+                    'remarks-type.show',
+                    'remarks-type.update',
+                    'remarks-type.destroy',
+                    'remarks-type.edit',
                 ]
             ],
             [
@@ -292,6 +354,18 @@ class RolePermissionSeeder extends Seeder
                     'users.update',
                     'users.destory',
                     'users.edit',
+                ]
+            ],
+            [
+                'group_name' => 'time-sheet',
+                'permissions' => [
+                    'time-sheet.index',
+                    'time-sheet.store',
+                    'time-sheet.create',
+                    'time-sheet.show',
+                    'time-sheet.update',
+                    'time-sheet.destory',
+                    'time-sheet.edit',
                 ]
             ],
         ];

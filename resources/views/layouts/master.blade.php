@@ -55,16 +55,17 @@
 
 <!-- vendor-scripts -->
 @include('layouts.vendor-scripts')
-<script>
+{{-- <script>
     $(document).ready(function() {
         $('select').select2({
             placeholder: 'Search...',
             allowClear: true
         });
     });
-</script>
+</script> --}}
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
 </body>
 
 </html>

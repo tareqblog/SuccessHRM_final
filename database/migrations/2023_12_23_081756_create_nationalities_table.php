@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('nationalities', function (Blueprint $table) {
             $table->id();
             $table->string('nationality_code');
-            $table->string('nationality_status');
+            $table->string('seq_no')->nullable();
+            $table->string('description')->nullable();
+            $table->string('status')->default(1);
             $table->timestamps();
         });
     }

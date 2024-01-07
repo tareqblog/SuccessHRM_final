@@ -4,14 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\passtype;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PassTypeController extends Controller
 {
+    public $user;
+
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('web')->user();
+            return $next($request);
+        });
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        if (is_null($this->user) || !$this->user->can('pass-type.index')) {
+            abort(403, 'Unauthorized');
+        }
         $datas =  passtype::latest()->get();
         return view('admin.passType.index', compact('datas'));
     }
@@ -29,6 +43,9 @@ class PassTypeController extends Controller
      */
     public function store(Request $request)
     {
+        if (is_null($this->user) || !$this->user->can('pass-type.store')) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'passtype_code' => 'required|unique:passtypes',
             'passtype_desc' => 'required',
@@ -61,6 +78,9 @@ class PassTypeController extends Controller
      */
     public function update(Request $request, passtype $pass_type)
     {
+        if (is_null($this->user) || !$this->user->can('pass-type.update')) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'passtype_code' => "required|unique:passtypes,passtype_code,{$pass_type->id}",
             'passtype_desc' => 'required',
@@ -76,6 +96,9 @@ class PassTypeController extends Controller
      */
     public function destroy(passtype $pass_type)
     {
+        if (is_null($this->user) || !$this->user->can('pass-type.destroy')) {
+            abort(403, 'Unauthorized');
+        }
         $pass_type->delete();
         return back()->with('success', 'Deleted Successfully.');
     }

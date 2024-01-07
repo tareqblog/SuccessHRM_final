@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use Auth;
 
 use App\Models\Admin;
 
@@ -27,6 +26,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Validator;
 
 use Google2FA;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 
@@ -37,7 +37,7 @@ class AdminController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     public function root()
     {
         return view('index');
@@ -141,7 +141,7 @@ class AdminController extends Controller
           $google2fa = app('pragmarx.google2fa');
 
           $registration_data = $request->all();
-        
+
           $registration_data["google2fa_secret"] = $google2fa->generateSecretKey();
 
           $request->session()->flash('registration_data', $registration_data);
@@ -188,7 +188,7 @@ class AdminController extends Controller
         ]);
 
         return redirect()->route('admin.contactlist')->with('success', 'Admin Created Successfully!');
-    
+
     } //End Method
 
 

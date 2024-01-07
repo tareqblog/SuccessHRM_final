@@ -13,14 +13,20 @@ use App\Http\Controllers\JobcategoryController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobTypeController;
 use App\Http\Controllers\Actions\FetchEmployeeController;
+use App\Http\Controllers\AttendenceController;
+use App\Http\Controllers\BankController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\GiroController;
 use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\MaritalStatusController;
+use App\Http\Controllers\NationalityController;
 use App\Http\Controllers\PassTypeController;
 use App\Http\Controllers\ReligionController;
 use App\Http\Controllers\RemarksTypesController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TimeSheetController;
 use App\Http\Controllers\TncController;
 use App\Http\Controllers\UploadFileTypeController;
 use App\Http\Controllers\UserController;
@@ -42,114 +48,10 @@ use Spatie\Activitylog\Models\Activity;
 // Dashbaord Start
 Route::get('/dashboard', function () {
     return view('admin.dashboard.index');
-});
+})->name('dashboard');
 // Dashbaord ends
 
 Route::get('/',  [App\Http\Controllers\AdminController::class, 'root']);
-
-// Candidate Payroll Start
-Route::get('/candidate/payroll/month', function () {
-    return view('admin.candidatePayroll.month');
-});
-Route::get('/candidate/payroll', function () {
-    return view('admin.candidatePayroll.index');
-});
-Route::get('/candidate/payroll/create', function () {
-    return view('admin.candidatePayroll.create');
-});
-Route::get('/candidate/payroll/edit', function () {
-    return view('admin.candidatePayroll.edit');
-});
-// Candidate Payroll Ends
-
-// Nationality Start
-Route::get('/nationality', function () {
-    return view('admin.nationality.index');
-});
-Route::get('/nationality/create', function () {
-    return view('admin.nationality.create');
-});
-Route::get('/nationality/edit', function () {
-    return view('admin.nationality.edit');
-});
-// Nationality Ends
-// company Start
-Route::get('/company-profile', function () {
-    return view('admin.companyProfile.index');
-});
-Route::get('/company-profile/create', function () {
-    return view('admin.companyProfile.create');
-});
-Route::get('/company-profile/edit', function () {
-    return view('admin.companyProfile.edit');
-});
-// company Ends
-// Timesheet Start
-Route::get('/timesheet', function () {
-    return view('admin.timesheet.index');
-});
-Route::get('/timesheet/create', function () {
-    return view('admin.timesheet.create');
-});
-Route::get('/timesheet/edit', function () {
-    return view('admin.timesheet.edit');
-});
-// Timesheet Ends
-// Invoice Start
-Route::get('/invoice/month', function () {
-    return view('admin.invoice.month');
-});
-Route::get('/invoice', function () {
-    return view('admin.invoice.index');
-});
-Route::get('/invoice/create', function () {
-    return view('admin.invoice.create');
-});
-Route::get('/invoice/edit', function () {
-    return view('admin.invoice.edit');
-});
-// Invoice Ends
-
-
-// Personal Folder Start
-Route::get('/personal-folder', function () {
-    return view('admin.personalFolder.index');
-});
-Route::get('/personal-folder/create', function () {
-    return view('admin.personalFolder.create');
-});
-Route::get('/personal-folder/edit', function () {
-    return view('admin.personalFolder.edit');
-});
-// Personal Folder Ends
-
-
-// User Control Start
-Route::get('/user-control', function () {
-    return view('admin.userControl.index');
-});
-// User Control Ends
-// Activity Start
-Route::get('/activity', function () {
-    return view('admin.activity.report');
-});
-// Activity Ends
-// Activity Start
-Route::get('/employee-group', function () {
-    return view('admin.employeeGroup.index');
-});
-// Activity Ends
-// Activity Start
-Route::get('/job-status', function () {
-    return view('admin.jobStatus.index');
-});
-Route::get('/pay-mode', function () {
-    return view('admin.payMode.index');
-});
-Route::get('/file-type', function () {
-    return view('admin.fileType.index');
-});
-// Activity Ends
 
 
 
@@ -175,7 +77,6 @@ Route::prefix('admin')->group(function () {
         '/religion' => ReligionController::class,
         '/client-term' => ClientTermController::class,
         '/marital-status' => MaritalStatusController::class,
-        '/marital-status' => MaritalStatusController::class,
         '/industry-type' => IndustryTypeController::class,
         '/clients' => ClientController::class,
         '/job-type' => JobTypeController::class,
@@ -188,6 +89,12 @@ Route::prefix('admin')->group(function () {
         '/pass-type' => PassTypeController::class,
         '/remarks-type' => RemarksTypesController::class,
         '/job-application' => JobApplicationController::class,
+        '/bank' => BankController::class,
+        '/giro' => GiroController::class,
+        '/nationality' => NationalityController::class,
+        '/company' => CompanyController::class,
+        '/time-sheet' => TimeSheetController::class,
+        '/attendence' => AttendenceController::class,
     ]);
     Route::get('/authenticate',  [UserController::class, 'storecomplete'])->name('user.authenticate');
     Route::post('/users/fetch-email',  [UserController::class, 'search'])->name('email.searchapi');
@@ -196,7 +103,12 @@ Route::prefix('admin')->group(function () {
 
     Route::get('/import',  [CandidateFileImportController::class, 'index'])->name('import.index');
     Route::post('/import/upload',  [CandidateFileImportController::class, 'upload'])->name('upload.files');
+    Route::post('/delete/import/data',  [CandidateFileImportController::class, 'deleteUploadedData'])->name('delete.uploaded.data');
     Route::post('/import/extract',  [CandidateFileImportController::class, 'extractInfo'])->name('extract.info');
+    Route::post('/import/data/temporary/save',  [CandidateFileImportController::class, 'temporaryDataSave'])->name('temporary.data.save');
+    Route::post('/import/data/temporary/delete/{id}',  [CandidateFileImportController::class, 'temporaryDataDelete'])->name('temporary.data.delete');
+    // Route::post('/import/candidate/data',  [CandidateFileImportController::class, 'importCandidateData'])->name('import.candidate.data');
+    Route::post('/import/candidate/data', [CandidateFileImportController::class, 'importCandidateData'])->name('import.candidate.data');
     // Route::post('/preview-file', [CandidateFileImportController::class, 'previewFile'])->name('preview.file');
     // Employee extra route start
     Route::post('salary/info/post', [EmployeeController::class, 'salaryInfoPost'])->name('employee.salary.info.post');
@@ -224,9 +136,11 @@ Route::prefix('admin')->group(function () {
     Route::delete('/candidate/resume/{id}', [CandidateController::class, 'resumeDelete'])->name('candidate.resume.delete');
     Route::post('/candidate/main/{id}', [CandidateController::class, 'resumeMain'])->name('candidate.resume.main');
 
+    Route::get('/candidate/timesheet-data/{timeSheetId}', [CandidateController::class, 'timeSheetData'])->name('candidate.timesheet.data');
+
 
     Route::get('{any}',  [App\Http\Controllers\HomeController::class, 'index']);
 
 
-    Route::get('/',  [App\Http\Controllers\AdminController::class, 'root'])->name('/');
+    Route::get('/',  [App\Http\Controllers\AdminController::class, 'root'])->name('admin.dashboard');
 })->middleware('AdminMiddleware');

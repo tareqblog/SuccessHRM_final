@@ -1,63 +1,47 @@
-@extends('layouts.master')
-@section('title')
-Department Management
-@endsection
-@section('page-title')
-Department Management
-@endsection
-@section('body')
-
-<body>
-    @endsection
-    @section('content')
+<form action="{{ route('nationality.update', $nationality->id) }}" method="POST">
+    @csrf
+    @method('PATCH')
     <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title mb-0">Update Nationality</h4>
+        <div class="col-lg-6">
+            <div class="row mb-4">
+                <label for="one" class="col-sm-3 col-form-label">Nationality Code</label>
+                <div class="col-sm-9">
+                    <input type="text" name="nationality_code" class="form-control" placeholder="Code"
+                        value="{{ $nationality->nationality_code }}">
                 </div>
-                <div class="card-body">
-                    <form action="">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="row mb-4">
-                                    <label for="one" class="col-sm-2 col-form-label">Nationality Code</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="Department Code">
-                                    </div>
-                                </div>
-                                <div class="row mb-4">
-                                    <label for="one" class="col-sm-2 col-form-label">Seq No</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="Seq No">
-                                    </div>
-                                </div>
-                                <div class="row mb-4">
-                                    <label for="one" class="col-sm-2 col-form-label">Status</label>
-                                    <div class="col-sm-9">
-                                        <select name="" id="" class="form-control">
-                                            <option value="">Active</option>
-                                            <option value="">In-Active</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row mb-4">
-                                    <label for="one" class="col-sm-2 col-form-label">Description</label>
-                                    <div class="col-sm-9">
-                                        <textarea name="" rows="2" class="form-control" placeholder="Description"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <a href="#" class="btn btn-sm btn-secondary">Cancel</a>
-                                <button type="submit" class="btn btn-sm btn-info">Submit</button>
-                            </div>
-                        </div>
-                    </form>
+            </div>
+            <div class="row mb-4">
+                <label for="one" class="col-sm-3 col-form-label">Seq No</label>
+                <div class="col-sm-9">
+                    <input type="text" name="seq_no" class="form-control" placeholder="Seq no"
+                        value="{{ $nationality->seq_no }}">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+
+            <div class="row mb-4">
+                <label for="one" class="col-sm-3 col-form-label">Status</label>
+                <div class="col-sm-9">
+                    <select name="status" id="" class="form-control">
+                        <option value="1" {{ $nationality->status == 1 ? 'selected' : '' }}>Active</option>
+                        <option value="0" {{ $nationality->status == 0 ? 'selected' : '' }}>In-Active</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <label for="one" class="col-sm-3 col-form-label">Description</label>
+                <div class="col-sm-9">
+                    <textarea name="description" rows="4" class="form-control">{{ $nationality->description }} </textarea>
                 </div>
             </div>
         </div>
     </div>
-    @endsection
+    <div class="row">
+        <div class="col-lg-12">
+            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal"
+                aria-label="Close">Cancel</button>
+            <button type="submit" class="btn btn-sm btn-info">Submit</button>
+        </div>
+    </div>
+</form>

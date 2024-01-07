@@ -53,7 +53,7 @@ class candidate extends Model
         return $this->belongsTo('App\Models\paymode','paymodes_id');
     }
 
-    public function Designation(): BelongsTo
+    public function Designation()
     {
         return $this->belongsTo(Designation::class,'designations_id');
     }
@@ -81,6 +81,4 @@ class candidate extends Model
     {
         return $this->belongsTo('App\Models\Religion','religions_id');
     }
-
-
 }

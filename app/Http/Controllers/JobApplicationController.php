@@ -6,14 +6,28 @@ use App\Helpers\FileHelper;
 use App\Models\candidate;
 use App\Models\JobApplication;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class JobApplicationController extends Controller
 {
+    public $user;
+
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('web')->user();
+            return $next($request);
+        });
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        if (is_null($this->user) || !$this->user->can('job-application.index')) {
+            abort(403, 'Unauthorized');
+        }
         $datas = JobApplication::latest()->get();
         return view('admin.jobApplication.index', compact('datas'));
     }
@@ -55,6 +69,9 @@ class JobApplicationController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        if (is_null($this->user) || !$this->user->can('job-application.update')) {
+            abort(403, 'Unauthorized');
+        }
         $job = JobApplication::find($id);
         $candidate = candidate::create([
             'candidate_name' => $job->name,

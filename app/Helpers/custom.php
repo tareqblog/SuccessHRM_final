@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class FileHelper
 {
@@ -15,5 +16,8 @@ class FileHelper
 
     public static function modify_name($modify_id) {
         return User::find($modify_id)->name;
+    }
+    public function usr() {
+        return Auth::guard('web')->user();
     }
 }

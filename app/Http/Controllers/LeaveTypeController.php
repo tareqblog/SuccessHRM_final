@@ -4,14 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\LeaveType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LeaveTypeController extends Controller
 {
+    public $user;
+
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('web')->user();
+            return $next($request);
+        });
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        if (is_null($this->user) || !$this->user->can('leave-type.index')) {
+        abort(403, 'Unauthorized');
+        }
         $datas = LeaveType::latest()->get();
         return view('admin.leaveType.index', compact('datas'));
     }
@@ -21,6 +35,9 @@ class LeaveTypeController extends Controller
      */
     public function create()
     {
+        if (is_null($this->user) || !$this->user->can('leave-type.create')) {
+        abort(403, 'Unauthorized');
+        }
         return view('admin.leaveType.create');
     }
 
@@ -29,6 +46,9 @@ class LeaveTypeController extends Controller
      */
     public function store(Request $request)
     {
+        if (is_null($this->user) || !$this->user->can('leave-type.store')) {
+        abort(403, 'Unauthorized');
+        }
         $request->validate([
             'leavetype_code' => 'required|unique:leave_types',
             'leavetype_block' => 'nullable',
@@ -64,6 +84,9 @@ class LeaveTypeController extends Controller
      */
     public function update(Request $request, LeaveType $leave_type)
     {
+        if (is_null($this->user) || !$this->user->can('leave-type.update')) {
+        abort(403, 'Unauthorized');
+        }
         $request->validate([
             'leavetype_code' => "required|unique:leave_types,leavetype_code,". "$leave_type->id'",
             'leavetype_block' => 'nullable',
@@ -83,6 +106,9 @@ class LeaveTypeController extends Controller
      */
     public function destroy(LeaveType $leave_type)
     {
+        if (is_null($this->user) || !$this->user->can('leave-type.destroy')) {
+        abort(403, 'Unauthorized');
+        }
         $leave_type->delete();
         return back()->with('success', 'Deleted Successfully.');
     }

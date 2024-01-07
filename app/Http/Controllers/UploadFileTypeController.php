@@ -4,14 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\uploadfiletype;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UploadFileTypeController extends Controller
 {
+    public $user;
+
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('web')->user();
+            return $next($request);
+        });
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        if (is_null($this->user) || !$this->user->can('file-type.index')) {
+            abort(403, 'Unauthorized');
+        }
         $datas = uploadfiletype::latest()->get();
         return view('admin.uploadFileType.index', compact('datas'));
     }
@@ -29,6 +43,9 @@ class UploadFileTypeController extends Controller
      */
     public function store(Request $request)
     {
+        if (is_null($this->user) || !$this->user->can('file-type.store')) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'uploadfiletype_code' => 'required|unique:uploadfiletypes',
         ]);
@@ -57,6 +74,9 @@ class UploadFileTypeController extends Controller
      */
     public function update(Request $request, uploadfiletype $file_type)
     {
+        if (is_null($this->user) || !$this->user->can('file-type.update')) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'uploadfiletype_code' => "required|unique:uploadfiletypes,uploadfiletype_code,{$file_type->id}",
         ]);
@@ -69,6 +89,9 @@ class UploadFileTypeController extends Controller
      */
     public function destroy(uploadfiletype $file_type)
     {
+        if (is_null($this->user) || !$this->user->can('file-type.destroy')) {
+            abort(403, 'Unauthorized');
+        }
         $file_type->delete();
         return back()->with('success', 'Deleted successfully.');
     }

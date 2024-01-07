@@ -31,14 +31,29 @@ use App\Models\country;
 use App\Models\remarkstype;
 use App\Models\User;
 use App\Models\Paybank;
+use App\Models\TimeSheet;
+use Illuminate\Support\Facades\Auth;
 
 class CandidateController extends Controller
 {
+    public $user;
+
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('web')->user();
+            return $next($request);
+        });
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        if (is_null($this->user) || !$this->user->can('candidate.index')) {
+            abort(403, 'Unauthorized');
+        }
         $datas = candidate::latest()->with('Race')->where('candidate_status', '=', 1)->where('candidate_isDeleted', '=', 0)->get();
         return view('admin.candidate.index', compact('datas'));
     }
@@ -48,6 +63,9 @@ class CandidateController extends Controller
      */
     public function create()
     {
+        if (is_null($this->user) || !$this->user->can('candidate.create')) {
+            abort(403, 'Unauthorized');
+        }
         $department_data = Department::orderBy('department_seqno')->where('department_status', '1')->get();
         $designation_data = Designation::orderBy('designation_seqno')->where('designation_status', '1')->get();
         $paymode_data = paymode::orderBy('paymode_seqno')->where('paymode_status', '1')->get();
@@ -67,6 +85,9 @@ class CandidateController extends Controller
     public function store(CandidateRequest $request)
     {
 
+        if (is_null($this->user) || !$this->user->can('candidate.store')) {
+            abort(403, 'Unauthorized');
+        }
         $file_path = $request->file('avatar');
 
         // Check if $file_path is not empty before proceeding
@@ -98,6 +119,9 @@ class CandidateController extends Controller
      */
     public function edit(candidate $candidate)
     {
+        if (is_null($this->user) || !$this->user->can('candidate.edit')) {
+            abort(403, 'Unauthorized');
+        }
         $fileTypes = uploadfiletype::where('uploadfiletype_status', 1)->where('uploadfiletype_for', 1)->latest()->get();
         $department_data = Department::orderBy('department_seqno')->where('department_status', '1')->get();
         $designation_data = Designation::orderBy('designation_seqno')->where('designation_status', '1')->get();
@@ -119,7 +143,8 @@ class CandidateController extends Controller
         $nationality = country::where('country_status', 1)->latest()->get();
         $users = User::latest()->get();
         $Paybanks = Paybank::orderBy('Paybank_seqno')->select('id', 'Paybank_code')->where('Paybank_status', 1)->get();
-        return view('admin.candidate.edit', compact('Paybanks', 'fileTypes', 'client_files', 'candidate', 'outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data', 'remarks_type', 'client_remarks', 'job_types', 'clients', 'payrolls', 'time', 'families', 'candidate_resume', 'nationality', 'users'));
+        $time_sheet = TimeSheet::latest()->get();
+        return view('admin.candidate.edit', compact('Paybanks', 'fileTypes', 'client_files', 'candidate', 'outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data', 'remarks_type', 'client_remarks', 'job_types', 'clients', 'payrolls', 'time', 'families', 'candidate_resume', 'nationality', 'users', 'time_sheet'));
     }
 
     /**
@@ -127,6 +152,9 @@ class CandidateController extends Controller
      */
     public function update(CandidateRequest $request, candidate $candidate)
     {
+        if (is_null($this->user) || !$this->user->can('candidate.update')) {
+            abort(403, 'Unauthorized');
+        }
         if ($request->hasFile('avatar')) {
             // Delete the old file
             Storage::delete("public/{$candidate->avatar}");
@@ -149,6 +177,9 @@ class CandidateController extends Controller
      */
     public function destroy(candidate $candidate)
     {
+        if (is_null($this->user) || !$this->user->can('candidate.destroy')) {
+            abort(403, 'Unauthorized');
+        }
 
 
         $filePath = storage_path("app/public/{$candidate->avatar}");
@@ -163,6 +194,9 @@ class CandidateController extends Controller
     public function fileUpload(Request $request, $id)
     {
 
+        if (is_null($this->user) || !$this->user->can('candidate.file.upload')) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'file_path' => 'required|mimes:pdf|max:2048',
             'file_type_id' => 'required',
@@ -188,6 +222,9 @@ class CandidateController extends Controller
     }
     public function fileDelete($id)
     {
+        if (is_null($this->user) || !$this->user->can('candidate.file.delete')) {
+            abort(403, 'Unauthorized');
+        }
         $file_path_name = ClientUploadFile::where('id', $id)->value('file_path');
 
         $filePath = storage_path("app/public/{$file_path_name}");
@@ -202,6 +239,9 @@ class CandidateController extends Controller
 
     public function resumeUpload(Request $request, $id)
     {
+        if (is_null($this->user) || !$this->user->can('candidate.resume')) {
+            abort(403, 'Unauthorized');
+        }
 
         $request->validate([
             'resume_name' => 'required|string',
@@ -227,6 +267,9 @@ class CandidateController extends Controller
     }
     public function resumeDelete($id)
     {
+        if (is_null($this->user) || !$this->user->can('candidate.resume.delete')) {
+            abort(403, 'Unauthorized');
+        }
         $file_path_name = CandidateResume::where('id', $id)->value('resume_file_path');
 
         $filePath = storage_path("app/public/{$file_path_name}");
@@ -240,6 +283,9 @@ class CandidateController extends Controller
 
     public function resumeMain(Request $request, $id)
     {
+        if (is_null($this->user) || !$this->user->can('candidate.resume.main')) {
+            abort(403, 'Unauthorized');
+        }
         CandidateResume::where('id', '!=', $id)->where('isMain', 1)->update(['isMain' => 0]);
         $candidate = CandidateResume::findOrFail($id);
         $candidate->update(['isMain' => $request->input('isMain')]);
@@ -247,6 +293,9 @@ class CandidateController extends Controller
     }
     public function remark(Request $request, $id)
     {
+        if (is_null($this->user) || !$this->user->can('candidate.remark')) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'candidate_id' => 'required|integer',
             'remarkstype_id' => 'required|integer',
@@ -263,11 +312,17 @@ class CandidateController extends Controller
 
     public function remarkDelete($id)
     {
+        if (is_null($this->user) || !$this->user->can('candidate.remark.delete')) {
+            abort(403, 'Unauthorized');
+        }
         CandidateRemark::find($id)->delete();
         return back()->with('success', 'Deleted Successfully.');
     }
     public function payroll(PayrollRequest $request, $id)
     {
+        if (is_null($this->user) || !$this->user->can('candidate.payroll')) {
+            abort(403, 'Unauthorized');
+        }
         CandidatePayroll::create($request->except('_token'));
         return back()->with('success', 'Payroll added successfully.');
     }
@@ -275,24 +330,39 @@ class CandidateController extends Controller
 
     public function payrollDelete($id)
     {
+        if (is_null($this->user) || !$this->user->can('candidate.payroll.delete')) {
+            abort(403, 'Unauthorized');
+        }
         CandidatePayroll::find($id)->delete();
         return back()->with('success', 'Deleted Successfully.');
     }
 
     public function workingHour(Request $request, $id)
     {
+        if (is_null($this->user) || !$this->user->can('candidate.working.hour')) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'candidate_id' => 'required|integer',
-            'sheet_type_id' => 'required|integer',
+            'timesheet_id' => 'required|integer',
             'schedul_type' => 'required|string',
             'schedul_day' => 'required|integer',
             'remarks' => 'nullable',
         ]);
-        CandidateWorkingHour::create($request->except('_token'));
+        $candidate = CandidateWorkingHour::where('candidate_id', $id)->first();
+        if (!$candidate) {
+            CandidateWorkingHour::create($request->except('_token'));
+        } else {
+            $candidate->update($request->except('_token'));
+        }
+
         return back()->with('success', 'Working hour successfully updated.');
     }
     public function family(Request $request, $id)
     {
+        if (is_null($this->user) || !$this->user->can('candidate.family')) {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'candidate_id' => 'integer|required',
             'name' => 'string|required',
@@ -306,7 +376,31 @@ class CandidateController extends Controller
     }
     public function familyDelete($id)
     {
+        if (is_null($this->user) || !$this->user->can('candidate.family.delete')) {
+            abort(403, 'Unauthorized');
+        }
         CandidateFamily::find($id)->delete();
         return back()->with('success', 'Family member removed successfully.');
+    }
+
+    public function timeSheetData($sheetTypeId)
+    {
+        // if (is_null($this->user) || !$this->user->can('candidate.timesheet.data')) {
+        //     abort(403, 'Unauthorized');
+        // }
+        $timeSheet = TimeSheet::with('entries')
+            ->find($sheetTypeId);
+
+        $data = [
+            'sunday'    => $timeSheet->entries->where('day', 'Sunday')->first(),
+            'monday'    => $timeSheet->entries->where('day', 'Monday')->first(),
+            'tuesday'   => $timeSheet->entries->where('day', 'Tuesday')->first(),
+            'wednesday' => $timeSheet->entries->where('day', 'Wednesday')->first(),
+            'thursday'  => $timeSheet->entries->where('day', 'Thursday')->first(),
+            'friday'    => $timeSheet->entries->where('day', 'Friday')->first(),
+            'saturday'  => $timeSheet->entries->where('day', 'Saturday')->first(),
+        ];
+
+        return response()->json($data);
     }
 }

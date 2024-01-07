@@ -10,15 +10,29 @@ use App\Models\jobtype;
 use App\Models\User;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class JobController extends Controller
 {
+    public $user;
+
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('web')->user();
+            return $next($request);
+        });
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        if (is_null($this->user) || !$this->user->can('job.index')) {
+            abort(403, 'Unauthorized');
+        }
         $datas = job::latest()->get();
         return view('admin.job.index', compact('datas'));
     }
@@ -28,6 +42,9 @@ class JobController extends Controller
      */
     public function create()
     {
+        if (is_null($this->user) || !$this->user->can('job.create')) {
+            abort(403, 'Unauthorized');
+        }
         $users = User::latest()->select('id', 'name')->get();
         $employees = Employee::latest()->where('roles_id','!=','13')->Where('roles_id','!=','14')->select('id', 'employee_name')->get();
         $jobType = jobtype::latest()->select('id', 'jobtype_code')->get();
@@ -41,6 +58,9 @@ class JobController extends Controller
      */
     public function store(JobRequest $request)
     {
+        if (is_null($this->user) || !$this->user->can('job.store')) {
+            abort(403, 'Unauthorized');
+        }
         job::create($request->except('_token') + [
             'job_link' => Str::slug($request->job_title),
         ]);
@@ -60,6 +80,9 @@ class JobController extends Controller
      */
     public function edit(job $job)
     {
+        if (is_null($this->user) || !$this->user->can('job.edit')) {
+            abort(403, 'Unauthorized');
+        }
         $users = User::latest()->select('id', 'name')->get();
         
         $employees = Employee::latest()->where('roles_id','!=','13')->Where('roles_id','!=','14')->select('id', 'employee_name')->get();
@@ -74,6 +97,9 @@ class JobController extends Controller
      */
     public function update(JobRequest $request, job $job)
     {
+        if (is_null($this->user) || !$this->user->can('job.update')) {
+            abort(403, 'Unauthorized');
+        }
         $job->update($request->except('_token'));
         return redirect()->route('job.index')->with('success', 'Update successfully.');
     }
@@ -83,6 +109,9 @@ class JobController extends Controller
      */
     public function destroy(job $job)
     {
+        if (is_null($this->user) || !$this->user->can('job.destroy')) {
+            abort(403, 'Unauthorized');
+        }
         $job->delete();
         return back()->with('success', 'Delete successfully.');
     }

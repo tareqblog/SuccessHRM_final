@@ -6,14 +6,29 @@ use App\Models\jobcategory;
 use App\Http\Requests\StorejobcategoryRequest;
 use App\Http\Requests\UpdatejobcategoryRequest;
 use App\Models\jobtype;
+use Illuminate\Support\Facades\Auth;
 
 class JobcategoryController extends Controller
 {
+    public $user;
+
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::guard('web')->user();
+            return $next($request);
+        });
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        if (is_null($this->user) || !$this->user->can('job-category.index')) {
+            abort(403, 'Unauthorized');
+        }
         $datas = jobcategory::latest()->get();
         $jobType = jobcategory::whereNull('jobcategory_parent')->get();
         return view('admin.jobCategory.index', compact('datas','jobType'));
@@ -32,6 +47,9 @@ class JobcategoryController extends Controller
      */
     public function store(StorejobcategoryRequest $request)
     {
+        if (is_null($this->user) || !$this->user->can('job-category.store')) {
+            abort(403, 'Unauthorized');
+        }
         jobcategory::create($request->except('_token'));
         return back()->with('success', 'Create successfully.');
     }
@@ -58,6 +76,9 @@ class JobcategoryController extends Controller
      */
     public function update(UpdatejobcategoryRequest $request, jobcategory $job_category)
     {
+        if (is_null($this->user) || !$this->user->can('job-category.update')) {
+            abort(403, 'Unauthorized');
+        }
         $job_category->update($request->except('_token'));
         return back()->with('success', 'Updated successfully.');
     }
@@ -67,6 +88,9 @@ class JobcategoryController extends Controller
      */
     public function destroy(jobcategory $job_category)
     {
+        if (is_null($this->user) || !$this->user->can('job-category.destroy')) {
+            abort(403, 'Unauthorized');
+        }
         $job_category->delete();
         return back()->with('success', 'Delete Successfully.');
     }
