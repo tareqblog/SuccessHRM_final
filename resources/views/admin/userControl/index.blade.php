@@ -5,6 +5,10 @@ User Control Management
 @section('page-title')
 User Control Management
 @endsection
+
+@section('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+@endsection
 @section('body')
 
 <body>

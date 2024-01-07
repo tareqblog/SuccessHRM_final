@@ -73,12 +73,12 @@
                             <div class="tab-content p-3 text-muted">
                                 <div class="tab-pane active" id="General_info" role="tabpanel">
                                     <div class="row">
-                                        <div class="col-lg-4">
-                                            <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                        <div class="col-lg-8">
+                                            <div class="mt-5 mt-lg-4 mt-xl-0 row">
+                                                <div class="row mb-4 col-md-6">
                                                     <label for="one" class="col-sm-3 col-form-label">Outlet <span class="text-danger">*</span> </label>
                                                     <div class="col-sm-9">
-                                                        <select name="employee_outlet_id" class="form-control searchBox" required>
+                                                        <select name="employee_outlet_id" class="form-control" required>
                                                             <option value="">Select One</option>
                                                             @foreach ($outlets as $outlet)
                                                                 <option value="{{ $outlet->id }}">
@@ -87,7 +87,22 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4" id="role7input" style="display: none;">
+                                                <div class="row mb-4 col-md-6">
+                                                    <label for="two" class="col-sm-3 col-form-label">User
+                                                        Right</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="roles_id" class="form-control" id="mySelect">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($roles as $role)
+                                                                <option value="{{ $role->id }}"
+                                                                    {{ $role->id == old('roles_id') ? 'selected' : '' }}>
+                                                                    {{ $role->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4  col-md-6" id="role7input" style="display: none;">
                                                     <label for="two" class="col-sm-3 col-form-label">Manager</label>
                                                     <div class="col-sm-9">
                                                         <select name="manager_users_id" class="form-control searchBox">
@@ -99,7 +114,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4" id="role10input" style="display: none;">
+                                                <div class="row mb-4  col-md-6" id="role10input" style="display: none;">
                                                     <label for="two" class="col-sm-3 col-form-label">Manager</label>
                                                     <div class="col-sm-9">
                                                         <select name="manager_users_id" class="form-control searchBox">
@@ -111,7 +126,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4" id="role9input" style="display: none;">
+                                                <div class="row mb-4  col-md-6" id="role9input" style="display: none;">
                                                     <label for="two" class="col-sm-3 col-form-label">Manager</label>
                                                     <div class="col-sm-9">
                                                         <select name="manager_users_id" class="form-control searchBox">
@@ -123,14 +138,21 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-4  col-md-6">
+                                                    <label for="one" class="col-sm-3 col-form-label">Reg. No.</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="employee_reg_no" class="form-control"
+                                                            placeholder="Employee Reg No.">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4  col-md-6">
                                                     <label for="one" class="col-sm-3 col-form-label">Initial</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="employee_code" class="form-control"
                                                             placeholder="Employee Intial">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-4  col-md-6">
                                                     <label for="one" class="col-sm-3 col-form-label">Birthday</label>
                                                     <div class="col-sm-9">
                                                         <input type="date" name="employee_birthdate"
@@ -138,7 +160,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="row mb-4">
+                                                <div class="row mb-4  col-md-6">
                                                     <label for="one" class="col-sm-3 col-form-label">Email
                                                         Address</label>
                                                     <div class="col-sm-9">
@@ -146,7 +168,7 @@
                                                             placeholder="Email">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-4  col-md-6">
                                                     <label for="one" class="col-sm-3 col-form-label">Phone no</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="employee_phone" class="form-control"
@@ -154,7 +176,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="row mb-4">
+                                                <div class="row mb-4  col-md-6">
                                                     <label for="two" class="col-sm-3 col-form-label">Pass
                                                         Type</label>
                                                     <div class="col-sm-9">
@@ -167,37 +189,19 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-4  col-md-6">
                                                     <label for="one" class="col-sm-3 col-form-label">NRIC</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="employee_nric" class="form-control"
                                                             placeholder="NRIC">
                                                     </div>
                                                 </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <div class="mt-5 mt-lg-4 mt-xl-0">
-
-                                                <div class="row mb-4 form-group required">
-                                                    <label for="two" class="col-sm-3 col-form-label">User
-                                                        Right</label>
-                                                    <div class="col-sm-9">
-                                                        <select name="roles_id" class="form-control searchBox" id="mySelect" required>
-                                                            <option value="">Select One</option>
-                                                            @foreach ($roles as $role)
-                                                                <option value="{{ $role->id }}">{{ $role->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4" id="role7inputanother" style="display: none;">
+                                                
+                                                <div class="row mb-4  col-md-6" id="role7inputanother" style="display: none;">
                                                     <label for="two" class="col-sm-3 col-form-label">Team
                                                         Leader</label>
                                                     <div class="col-sm-9">
-                                                        <select name="team_leader_users_id" class="form-control searchBox">
+                                                        <select name="team_leader_users_id" class="form-control">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_team_leader as $leader)
                                                                 <option value="{{ $leader->id }}">
@@ -207,7 +211,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4" id="role9inputanother" style="display: none;">
+                                                <div class="row mb-4  col-md-6" id="role9inputanother" style="display: none;">
                                                     <label for="two" class="col-sm-3 col-form-label">Team
                                                         Leader</label>
                                                     <div class="col-sm-9">
@@ -222,7 +226,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="row mb-4 form-group required">
+                                                <div class="row mb-4  col-md-6 form-group required">
                                                     <label for="one" class="col-sm-3 col-form-label">Name <span
                                                             class="text-danger">*</span></label>
                                                     <div class="col-sm-9">
@@ -230,7 +234,7 @@
                                                             placeholder="Name" required>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 form-group required" id="role4input"
+                                                <div class="row mb-4  col-md-6 form-group required" id="role4input"
                                                     style="display: none;">
                                                     <label for="one" class="col-sm-3 col-form-label">SHRC/SRC<span
                                                             class="text-danger">*</span></label>
@@ -239,7 +243,7 @@
                                                             class="form-control" placeholder="SHRC">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 form-group required">
+                                                <div class="row mb-4 col-md-6 form-group required">
                                                     <label for="two" class="col-sm-3 col-form-label">Sex</label>
                                                     <div class="col-sm-9">
                                                         <select name="dbsexes_id" class="form-control searchBox">
@@ -251,7 +255,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-4 col-md-6">
                                                     <label for="two" class="col-sm-3 col-form-label">Marital
                                                         Status</label>
                                                     <div class="col-sm-9">
@@ -264,7 +268,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-4 col-md-6">
                                                     <label for="two" class="col-sm-3 col-form-label">Religion</label>
                                                     <div class="col-sm-9">
                                                         <select name="religions_id" class="form-control searchBox">
@@ -276,7 +280,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-4  col-md-6">
                                                     <label for="two" class="col-sm-3 col-form-label">Race</label>
                                                     <div class="col-sm-9">
                                                         <select name="races_id" class="form-control searchBox">
