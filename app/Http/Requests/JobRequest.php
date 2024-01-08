@@ -22,7 +22,7 @@ class JobRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'job_title' => 'required',
+            'job_title' => 'required|unique:jobs',
             'job_category_id' => 'required|integer',
             'job_salary' => 'nullable|string',
             'remark' => 'nullable|string',

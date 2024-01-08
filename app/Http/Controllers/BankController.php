@@ -69,9 +69,6 @@ class BankController extends Controller
      */
     public function edit(Bank $bank)
     {
-        if (is_null($this->user) || !$this->user->can('bank.edit')) {
-            abort(403, 'Unauthorized');
-        }
         return view('admin.bank.edit', compact('bank'));
     }
 

@@ -84,7 +84,7 @@ class JobController extends Controller
             abort(403, 'Unauthorized');
         }
         $users = User::latest()->select('id', 'name')->get();
-        
+
         $employees = Employee::latest()->where('roles_id','!=','13')->Where('roles_id','!=','14')->select('id', 'employee_name')->get();
         $jobType = jobtype::latest()->select('id', 'jobtype_code')->get();
         $clients = client::latest()->select('id', 'client_code')->get();

@@ -84,7 +84,7 @@ Route::prefix('admin')->group(function () {
         '/job' => JobController::class,
         '/leave' => LeaveController::class,
         '/candidate' => CandidateController::class,
-       '/import' => CandidateFileImportController::class,
+        '/import' => CandidateFileImportController::class,
         '/file-type' => UploadFileTypeController::class,
         '/pass-type' => PassTypeController::class,
         '/remarks-type' => RemarksTypesController::class,

@@ -58,10 +58,10 @@
                                                 {{$data->jobcategory_name}}
                                             </td>
                                             <td>
-                                                @if($data->jobcategory_parent) 
-                                                    {{ \App\Models\jobcategory::where(['id' =>$data->jobcategory_parent ])->pluck('jobcategory_name')->first() }} 
-                                                @else 
-                                                    Parent 
+                                                @if($data->jobcategory_parent)
+                                                    {{ \App\Models\jobcategory::where(['id' =>$data->jobcategory_parent ])->pluck('jobcategory_name')->first() }}
+                                                @else
+                                                    Parent
                                                 @endif
                                             </td>
                                             <td>
