@@ -99,10 +99,10 @@
                                         <div class="col-sm-9">
                                             <select name="co_owner_id" class="form-control">
                                                 <option value="">Select One</option>
-                                                @foreach ($employees as $user)
+                                                @foreach ($users as $user)
                                                     <option value="{{ $user->id }}"
                                                         {{ $job->co_owner_id == $user->id ? 'selected' : '' }}>
-                                                        {{ $user->employee_name }} </option>
+                                                        {{ $user->name }} </option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -128,10 +128,10 @@
                                         <div class="col-sm-9">
                                             <select name="person_incharge" class="form-control">
                                                 <option value="">Select One</option>
-                                                @foreach ($employees as $user)
+                                                @foreach ($users as $user)
                                                     <option
                                                         value="{{ $user->id }}"{{ $job->person_incharge == $user->id ? 'selected' : '' }}>
-                                                        {{ $user->employee_name }} </option>
+                                                        {{ $user->name }} </option>
                                                 @endforeach
                                             </select>
                                         </div>

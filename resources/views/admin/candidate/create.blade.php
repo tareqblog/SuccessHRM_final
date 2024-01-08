@@ -85,7 +85,7 @@
                                                         Name</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="candidate_name" class="form-control"
-                                                            placeholder="Candidate name" required>
+                                                            placeholder="Candidate name">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -171,7 +171,7 @@
                                                 <div class="row mb-4">
                                                     <label for="two" class="col-sm-4 col-form-label">Outlet</label>
                                                     <div class="col-sm-8">
-                                                        <select class="form-control" name="candidate_outlet_id" required>
+                                                        <select class="form-control" name="candidate_outlet_id">
                                                             <option value="">Select One</option>
                                                             @foreach ($outlet_data as $row)
                                                                 <option value="{{ $row->id }}"

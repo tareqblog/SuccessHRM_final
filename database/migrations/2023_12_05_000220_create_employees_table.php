@@ -88,7 +88,7 @@ return new class extends Migration
             $table->date('employee_fw_issue_date')->nullable();
             $table->date('employee_fw_arrival_date')->nullable();
             $table->date('employee_fw_renewal_date')->nullable();
-            $table->float('employee_fw_levy_amount')->default(0.00)->comment('Foreign Worker info end');
+            $table->float('employee_fw_levy_amount')->nullable()->default(0)->comment('Foreign Worker info end');
             // Foreign worker ends
             $table->integer('employee_isovertime')->default(1);
             $table->integer('employee_isDeleted')->default(0)->commnet('delete mark- 0=Active or functional data, 1=not functional data  ');

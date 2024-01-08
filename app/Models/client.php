@@ -26,10 +26,9 @@ class client extends Model
             // $client->save();
         });
     }
- 
     public function industry_type()
     {
-        return $this->belongsTo(jobcategory::class, 'industry_types_id');
+        return $this->belongsTo(IndustryType::class, 'industry_types_id');
     }
 
     public function Employee()

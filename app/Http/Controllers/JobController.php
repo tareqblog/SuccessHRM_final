@@ -8,7 +8,6 @@ use App\Models\job;
 use App\Models\jobcategory;
 use App\Models\jobtype;
 use App\Models\User;
-use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -46,11 +45,10 @@ class JobController extends Controller
             abort(403, 'Unauthorized');
         }
         $users = User::latest()->select('id', 'name')->get();
-        $employees = Employee::latest()->where('roles_id','!=','13')->Where('roles_id','!=','14')->select('id', 'employee_name')->get();
         $jobType = jobtype::latest()->select('id', 'jobtype_code')->get();
         $clients = client::latest()->select('id', 'client_code')->get();
         $jobCategory = jobcategory::latest()->select('id', 'jobcategory_name')->get();
-        return view('admin.job.create', compact('users', 'jobType', 'clients', 'employees','jobCategory'));
+        return view('admin.job.create', compact('users', 'jobType', 'clients', 'jobCategory'));
     }
 
     /**
@@ -84,12 +82,10 @@ class JobController extends Controller
             abort(403, 'Unauthorized');
         }
         $users = User::latest()->select('id', 'name')->get();
-
-        $employees = Employee::latest()->where('roles_id','!=','13')->Where('roles_id','!=','14')->select('id', 'employee_name')->get();
         $jobType = jobtype::latest()->select('id', 'jobtype_code')->get();
         $clients = client::latest()->select('id', 'client_code')->get();
         $jobCategory = jobcategory::latest()->select('id', 'jobcategory_name')->get();
-        return view('admin.job.edit',compact('users', 'jobType', 'clients','employees', 'jobCategory', 'job'));
+        return view('admin.job.edit',compact('users', 'jobType', 'clients', 'jobCategory', 'job'));
     }
 
     /**

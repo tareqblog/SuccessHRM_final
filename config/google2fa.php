@@ -27,7 +27,7 @@ return [
     /*
      * Guard.
      */
-    'guard' => '',
+    'guard' => 'web',
 
     /*
      * 2FA verified session var.
@@ -37,7 +37,7 @@ return [
     /*
      * One Time Password request input name.
      */
-    'otp_input' => 'one_time_password',
+    'otp_input' => 'google2fa',
 
     /*
      * One Time Password Window.
@@ -57,7 +57,7 @@ return [
     /*
      * One Time Password View.
      */
-    'view' => 'google2fa.index',
+    'view' => 'index',
 
     /*
      * One Time Password error message.

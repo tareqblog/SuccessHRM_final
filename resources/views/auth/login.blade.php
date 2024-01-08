@@ -15,7 +15,7 @@
                                 <div class="card-body p-4">
                                     <div class="text-center mt-2">
                                         <h5>Welcome Back !</h5>
-                                        <p class="text-muted">Sign in to continue to webadmin.</p>
+                                        <p class="text-muted">Sign in to continue to ATS Portal.</p>
                                     </div>
                                     <div class="p-2 mt-4">
                                         <form method="POST" action="{{ route('login') }}" class="auth-input">
@@ -61,7 +61,7 @@
 
                                                 <label class="form-label" for="google2fa">One Time Password(OTP)</label>
 
-                                                <input id="google2fa" type="number" class="form-control @error('google2fa') is-invalid @enderror" name="google2fa" required autofocus>
+                                                <input id="google2fa" type="number"  min="111111" max="999999" class="form-control @error('google2fa') is-invalid @enderror" name="google2fa" required autofocus>
                                              
                                                 @error('google2fa')
                                                     <span class="invalid-feedback" role="alert">
@@ -83,8 +83,7 @@
                                                     In</button>
                                             </div>
                                             <div class="mt-4 text-center">
-                                               <!-- <p class="mb-0">Don't have an account ? <a href="{ { route('register') } }"
-                                                        class="fw-medium text-primary"> Register</a></p> -->
+                                                <p class="mb-0">Don't have an account ? <br/>Contact with Success HR Admin</p>
                                             </div>
                                         
                                         </form>

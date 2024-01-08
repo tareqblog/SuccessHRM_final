@@ -1,4 +1,4 @@
-<form action="{{ route('designation.update', $designation->id) }}" method="POST">
+<form action="{{ route('designation.update', $department->id) }}" method="POST">
     @csrf
     @method('PATCH')
     <div class="row">
@@ -7,16 +7,16 @@
                 <label for="one" class="col-sm-4 col-form-label">Designation Code</label>
                 <div class="col-sm-8">
                     <input type="text" name="designation_code" class="form-control" placeholder="Designation Code"
-                        value="{{ $designation->designation_code }}">
+                        value="{{ $department->designation_code }}">
                 </div>
             </div>
             <div class="row mb-4">
                 <label for="one" class="col-sm-4 col-form-label">Status</label>
                 <div class="col-sm-8">
                     <select name="designation_status" id="" class="form-control">
-                        <option value="1" {{ $designation->designation_status == 1 ? 'selected' : '' }}>Active
+                        <option value="1" {{ $department->designation_status == 1 ? 'selected' : '' }}>Active
                         </option>
-                        <option value="0" {{ $designation->designation_status == 0 ? 'selected' : '' }}>Inactive
+                        <option value="0" {{ $department->designation_status == 0 ? 'selected' : '' }}>Inactive
                         </option>
                     </select>
                 </div>
@@ -24,14 +24,14 @@
             <div class="row mb-4">
                 <label for="one" class="col-sm-4 col-form-label">Description</label>
                 <div class="col-sm-8">
-                    <textarea name="designation_desc" rows="2" class="form-control" placeholder="Description">{{ $designation->designation_desc }}</textarea>
+                    <textarea name="designation_desc" rows="2" class="form-control" placeholder="Description">{{ $department->designation_desc }}</textarea>
                 </div>
             </div>
             <div class="row mb-4">
                 <label for="one" class="col-sm-4 col-form-label">List Order</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" name="designation_seqno" placeholder="List Order"
-                        value="{{ $designation->designation_seqno }}">
+                        value="{{ $department->designation_seqno }}">
                 </div>
             </div>
         </div>

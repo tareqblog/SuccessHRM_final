@@ -48,22 +48,16 @@
                                             {{ $data->job_title }}
                                         </td>
                                         <td>
-                                            @if($data->job_category)
                                             {{ $data->job_category->jobcategory_name }}
-                                            @endif                                     
                                         </td>
                                         <td>
-                                            @if($data->owner)
-                                            {{ $data->owner->employee_name }}
-                                            @endif
+                                            {{ $data->owner->name }}
                                         </td>
                                         <td>
                                             {{ $data->job_status == 1 ? 'Active' : 'Close' }}
                                         </td>
                                         <td>
-                                            @if ($data->job_type)
-                                            {{ $data->job_type->jobtype_code }}
-                                            @endif
+                                            {{ $data?->job_type?->jobtype_code }}
                                         </td>
                                         <td>
                                             {{ $data->created_at->format('d-M-Y') }}

@@ -61,7 +61,6 @@ class RolePermissionSeeder extends Seeder
                     'candidate.followup',
                     'candidate.followup.delete',
                     'candidate.payroll',
-                    'candidate.payroll.delete',
                     'candidate.remark',
                     'candidate.remark.delete',
                     'candidate.resume',
@@ -74,7 +73,6 @@ class RolePermissionSeeder extends Seeder
                     'temporary.data.delete',
                     'extract.info',
                     'upload.files',
-                    'delete.uploaded.data',
                 ]
             ],
             [
@@ -126,7 +124,7 @@ class RolePermissionSeeder extends Seeder
                     'menu.create',
                     'menu.show',
                     'menu.update',
-                    'menu.destroy',
+                    'menu.destory',
                     'menu.edit',
                 ]
             ],
@@ -222,7 +220,7 @@ class RolePermissionSeeder extends Seeder
                     'job.create',
                     'job.show',
                     'job.update',
-                    'job.destroy',
+                    'job.destory',
                     'job.edit',
                 ]
             ],
@@ -270,7 +268,7 @@ class RolePermissionSeeder extends Seeder
                     'leave-type.create',
                     'leave-type.show',
                     'leave-type.update',
-                    'leave-type.destroy',
+                    'leave-type.destory',
                     'leave-type.edit',
                 ]
             ],
@@ -282,7 +280,7 @@ class RolePermissionSeeder extends Seeder
                     'marital-status.create',
                     'marital-status.show',
                     'marital-status.update',
-                    'marital-status.destroy',
+                    'marital-status.destory',
                     'marital-status.edit',
                 ]
             ],
@@ -294,7 +292,7 @@ class RolePermissionSeeder extends Seeder
                     'nationality.create',
                     'nationality.show',
                     'nationality.update',
-                    'nationality.destroy',
+                    'nationality.destory',
                     'nationality.edit',
                 ]
             ],
@@ -342,7 +340,7 @@ class RolePermissionSeeder extends Seeder
                     'tnc.create',
                     'tnc.show',
                     'tnc.update',
-                    'tnc.destroy',
+                    'tnc.destory',
                     'tnc.edit',
                 ]
             ],

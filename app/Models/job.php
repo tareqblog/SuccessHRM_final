@@ -34,10 +34,10 @@ class job extends Model
         return $this->belongsTo(client::class, 'client_id');
     }
     public function user() {
-        return $this->belongsTo(Employee::class, 'person_incharge');
+        return $this->belongsTo(User::class, 'person_incharge');
     }
     public function owner() {
-        return $this->belongsTo(Employee::class, 'co_owner_id');
+        return $this->belongsTo(User::class, 'co_owner_id');
     }
     public function job_type() {
         return $this->belongsTo(jobtype::class, 'job_type_id');

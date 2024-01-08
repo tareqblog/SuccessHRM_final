@@ -97,7 +97,7 @@ class ClientTermController extends Controller
      */
     public function destroy(clientTerm $client_term)
     {
-        if (is_null($this->user) || !$this->user->can('client-term.destroy')) {
+        if (is_null($this->user) || !$this->user->can('client-term.destory')) {
             abort(403, 'Unauthorized');
         }
         $client_term->delete();

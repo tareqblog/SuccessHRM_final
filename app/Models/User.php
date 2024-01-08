@@ -39,6 +39,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'google2fa_secret'
     ];
 
     /**
@@ -85,8 +86,8 @@ class User extends Authenticatable
         return $hasPermission;
     }
 
-
-    /**
+    
+    /** 
      * Interact with the user's first name.
      *
      * @param  string  $value

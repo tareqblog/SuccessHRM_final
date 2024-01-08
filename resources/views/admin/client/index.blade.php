@@ -47,7 +47,7 @@
                                                 {{ $data->Employee->employee_code }}
                                             @endif
                                         </td>
-                                        <td>{{ $data->industry_type->jobcategory_name }}</td>
+                                        <td>{{ $data->industry_type->industry_code }}</td>
                                         <td>{{ $data->clients_status == 1 ? 'Active' : 'In-Active' }}</td>
 
                                         <td>
@@ -55,8 +55,8 @@
                                                 {{ $data->Employee_Payroll->employee_code }}
                                             @endif
                                         </td>
-                                        <td> 
-                                            @if ($data->latestFollowUp())
+                                        <td>
+                                            @if ($data->latestFollowUp()->description)
                                                 <u>{{ $data->latestFollowUp()->created_at }}</u><br />
                                                 {!! $data->latestFollowUp()->description !!}
                                             @endif

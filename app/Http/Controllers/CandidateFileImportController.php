@@ -125,7 +125,7 @@ class CandidateFileImportController extends Controller
     }
     public function upload(Request $request)
     {
-        if (is_null($this->user) || !$this->user->can('upload.files')) {
+        if (is_null($this->user) || !$this->user->can('upload.file')) {
             abort(403, 'Unauthorized');
         }
         $validatedData = $request->validate([
