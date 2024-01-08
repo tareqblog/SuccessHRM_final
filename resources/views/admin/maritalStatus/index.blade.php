@@ -164,7 +164,7 @@
             //edit modal show and after submit
             $('body').on('click', '.edit', function() {
                 var id = $(this).data('id'); //i or 2 categoryid
-                $.get("/admin/marital-status/" + id + "/edit",
+                $.get("marital-status/" + id + "/edit",
                     function(data) {
                         $('#editSection').html(data);
                     })

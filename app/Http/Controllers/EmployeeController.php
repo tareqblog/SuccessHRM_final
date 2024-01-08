@@ -183,7 +183,7 @@ class EmployeeController extends Controller
     public function destroy(Employee $employee)
     {
 
-        if (is_null($this->user) || !$this->user->can('employee.destory')) {
+        if (is_null($this->user) || !$this->user->can('employee.destroy')) {
             abort(403, 'Unauthorized');
         }
         $filePath = storage_path("app/public/{$employee->employee_avater}");

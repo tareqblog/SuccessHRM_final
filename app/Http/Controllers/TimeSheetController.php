@@ -148,7 +148,7 @@ class TimeSheetController extends Controller
      */
     public function destroy(TimeSheet $time_sheet)
     {
-        if (is_null($this->user) || !$this->user->can('time-sheet.destory')) {
+        if (is_null($this->user) || !$this->user->can('time-sheet.destroy')) {
             abort(403, 'Unauthorized');
         }
         try {

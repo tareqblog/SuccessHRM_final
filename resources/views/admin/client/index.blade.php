@@ -56,7 +56,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if ($data->latestFollowUp()->description)
+                                            @if ($data->latestFollowUp()?->description)
                                                 <u>{{ $data->latestFollowUp()->created_at }}</u><br />
                                                 {!! $data->latestFollowUp()->description !!}
                                             @endif

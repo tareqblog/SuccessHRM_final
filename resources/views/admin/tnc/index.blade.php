@@ -187,7 +187,7 @@
             //edit modal show and after submit
             $('body').on('click', '.edit', function() {
                 var id = $(this).data('id'); //i or 2 categoryid
-                $.get("/admin/tnc/" + id + "/edit",
+                $.get("tnc/" + id + "/edit",
                     function(data) {
                         $('#editSection').html(data);
                     })

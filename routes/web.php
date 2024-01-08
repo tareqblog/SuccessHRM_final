@@ -59,15 +59,15 @@ Route::get('/ats',function () {
 return redirect(route('login'));
 
     })->middleware('AdminMiddleware');
-    
+
 
 Route::get('/',function () {
 
 return redirect(route('login'));
 
     })->middleware('AdminMiddleware');
-    
-    
+
+
 Auth::routes(['register' => false, 'login' => false]);
 Route::get('/login',[UserController::class, 'loginform'])->name('login');
 Route::post('/login',[UserController::class, 'login']);

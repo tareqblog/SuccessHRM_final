@@ -311,8 +311,10 @@
                                                     <label for="twente_four" class="col-sm-3 col-form-label">File
                                                         Type</label>
                                                     <div class="col-sm-9">
-                                                        <select name="" id="">
-                                                            <option value="">This is ok</option>
+                                                        <select name="file_type_id" id="" class="form-control">
+                                                            @foreach ($fileTypes as $file)
+                                                            <option value="{{$file->id}}">{{$file->uploadfiletype_code}}</option>
+                                                            @endforeach
                                                         </select>
                                                         {{-- <select name="file_type_id" class="form-control">
                                                             <option value="">Select One</option>

@@ -2423,7 +2423,7 @@
                     // Make an Ajax request to update the isMain status
                     $.ajax({
                         type: 'POST',
-                        url: '/admin/candidate/main/' + currentCandidateId,
+                        url: 'candidate/main/' + currentCandidateId,
                         data: {
                             isMain: 1,
                             _token: '{{ csrf_token() }}' // Set to 1 when the radio button is checked

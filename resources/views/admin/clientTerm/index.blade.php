@@ -113,7 +113,7 @@ Client Terms Management
                                                         <textarea name="client_term_desc" rows="2" class="form-control" placeholder="Descriptin"></textarea>
                                                     </div>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                         <div class="row mt-5">
@@ -162,7 +162,7 @@ Client Terms Management
             //edit modal show and after submit
             $('body').on('click', '.edit', function() {
                 var id = $(this).data('id'); //i or 2 categoryid
-                $.get("/admin/client-term/" + id + "/edit",
+                $.get("client-term/" + id + "/edit",
                     function(data) {
                         $('#editSection').html(data);
                     })

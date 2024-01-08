@@ -164,7 +164,7 @@ Religion Management
             //edit modal show and after submit
             $('body').on('click', '.edit', function() {
                 var id = $(this).data('id'); //i or 2 categoryid
-                $.get("/admin/religion/" + id + "/edit",
+                $.get("religion/" + id + "/edit",
                     function(data) {
                         $('#editSection').html(data);
                     })

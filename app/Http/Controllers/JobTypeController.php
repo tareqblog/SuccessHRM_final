@@ -95,7 +95,7 @@ class JobTypeController extends Controller
      */
     public function destroy(jobtype $job_type)
     {
-        if (is_null($this->user) || !$this->user->can('job-type.destory')) {
+        if (is_null($this->user) || !$this->user->can('job-type.destroy')) {
         abort(403, 'Unauthorized');
         }
         $job_type->delete();

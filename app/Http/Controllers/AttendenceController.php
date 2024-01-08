@@ -90,7 +90,7 @@ class AttendenceController extends Controller
      */
     public function destroy(string $id)
     {
-        if (is_null($this->user) || !$this->user->can('attendence.destory')) {
+        if (is_null($this->user) || !$this->user->can('attendence.destroy')) {
             abort(403, 'Unauthorized');
         }
         //

@@ -119,7 +119,7 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        if (is_null($this->user) || !$this->user->can('company.destory')) {
+        if (is_null($this->user) || !$this->user->can('company.destroy')) {
             abort(403, 'Unauthorized');
         }
         $company->delete();

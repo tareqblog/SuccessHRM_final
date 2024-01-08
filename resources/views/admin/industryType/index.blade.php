@@ -24,6 +24,7 @@
                         </div>
                     </div>
                     <div class="card-body">
+                        @include('admin.include.errors')
 
                         <table class="table table-bordered mb-0" id="myTable">
                             <thead>
@@ -44,8 +45,9 @@
                                             <button type="button" class="btn btn-sm btn-info edit me-2"
                                                 data-id="{{ $data->id }}" data-bs-toggle="modal"
                                                 data-bs-target=".bs-example-modal-lg-edit">Edit</a>
-                                                <form id="deleteForm" action="" method="POST">
+                                                <form id="deleteForm" action="{{route('industry-type.destroy', $data->id)}}" method="POST">
                                                     @csrf
+                                                    @method('DELETE')
                                                     <button type="submit"
                                                         onclick="return confirm('Are you sure you want to delete this item?')"
                                                         class="btn btn-sm btn-danger">Delete</a>
@@ -154,7 +156,7 @@
             //edit modal show and after submit
             $('body').on('click', '.edit', function() {
                 var id = $(this).data('id'); //i or 2 categoryid
-                $.get("/admin/industry-type/" + id + "/edit",
+                $.get(" industry-type/" + id + "/edit",
                     function(data) {
                         $('#editSection').html(data);
                     })
