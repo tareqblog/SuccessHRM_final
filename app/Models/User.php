@@ -85,8 +85,8 @@ class User extends Authenticatable
         return $hasPermission;
     }
 
-    
-    /** 
+
+    /**
      * Interact with the user's first name.
      *
      * @param  string  $value

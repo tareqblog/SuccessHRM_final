@@ -79,7 +79,7 @@
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Outlet</label>
                                                     <div class="col-sm-9">
-                                                        <select name="employee_outlet_id" class="form-control">
+                                                        <select name="employee_outlet_id" class="form-control" data-trigger name="choices-single-default">
                                                             <option value="">Select One</option>
                                                             @foreach ($outlets as $outlet)
                                                                 <option value="{{ $outlet->id }}"
@@ -128,6 +128,14 @@
                                                                     {{ $user->employee_name }}</option>
                                                             @endforeach
                                                         </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="one" class="col-sm-3 col-form-label">Reg No.</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="employee_reg_no" class="form-control"
+                                                            placeholder="Code"
+                                                            value="{{ old('employee_reg_no', $employee->employee_reg_no) }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -890,5 +898,6 @@
     @section('scripts')
         <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
             crossorigin="anonymous"></script>
+        
         <script src="{{asset('build/js/ajax/employeeUserRight.js')}}"></script>
     @endsection

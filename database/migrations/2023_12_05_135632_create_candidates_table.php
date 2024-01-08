@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('candidate_home_phone')->nullable();
             $table->string('candidate_email')->nullable();
             $table->integer('passtypes_id')->nullable()->comment('link to pass type table');
+            $table->integer('nationality_id')->nullable()->comment('link to country table');
+            $table->date('nationality_date_of_issue')->nullable();
             $table->string('candidate_nric')->nullable();
             $table->string('candidate_mobile')->nullable();
             $table->string('candidate_tel')->nullable();

@@ -45,7 +45,7 @@
                                         <td>{{ $data->employee_name }}</td>
                                         <td>{{ $data->role_data?->name }}</td>
                                         <td>{{ $data->employee_email }}</td>
-                                        <td>{{ $data->employee_mobile }}</td>
+                                        <td>{{ $data->employee_phone }}</td>
                                         <td>{{ $data->employee_code }}</td>
                                         <td>{{ $data->employee_status == 1 ? 'Active' : 'In-Active' }}</td>
                                         <td style="display: flex;">

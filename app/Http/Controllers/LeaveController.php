@@ -135,7 +135,7 @@ class LeaveController extends Controller
      */
     public function destroy(Leave $leave)
     {
-        if (is_null($this->user) || !$this->user->can('leave.destory')) {
+        if (is_null($this->user) || !$this->user->can('leave.destroy')) {
         abort(403, 'Unauthorized');
         }
         $filePath = storage_path("app/public/{$leave->leave_file_path}");

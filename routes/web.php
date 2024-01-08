@@ -51,12 +51,12 @@ Route::get('/dashboard', function () {
 })->name('dashboard');
 // Dashbaord ends
 
+Route::get('/',  [App\Http\Controllers\AdminController::class, 'root']);
 
 
 
 
-
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::prefix('admin')->group(function () {
     Route::get('/log', function () {
@@ -84,7 +84,7 @@ Route::prefix('admin')->group(function () {
         '/job' => JobController::class,
         '/leave' => LeaveController::class,
         '/candidate' => CandidateController::class,
-       '/import' => CandidateFileImportController::class,
+        '/import' => CandidateFileImportController::class,
         '/file-type' => UploadFileTypeController::class,
         '/pass-type' => PassTypeController::class,
         '/remarks-type' => RemarksTypesController::class,
