@@ -20,10 +20,10 @@
                     <div class="card-header">
                         <h4 class="card-title mb-0">Bank Table</h4>
                         <div class="text-end">
-                            {{-- @if () --}}
+                            @if (App\Helpers\FileHelper::usr()->can('bank.create'))
                             <button type="submit" class="btn btn-sm btn-success " data-bs-toggle="modal"
                                 data-bs-target=".bs-example-modal-lg-create">Create New</a>
-                            {{-- @endif --}}
+                            @endif
                         </div>
                     </div>
 
@@ -58,19 +58,22 @@
                                         <td>{{ $data->seq_no }}</td>
                                         <td>{{ $data->status == 1 ? 'Active' : 'In-Active' }}</td>
                                         <td style="display: flex;">
-
+                                            @if (App\Helpers\FileHelper::usr()->can('bank.update'))
                                             <button data-id="{{ $data->id }}" data-bs-toggle="modal"
                                                 data-bs-target=".bs-example-modal-lg-edit"
                                                 class="btn btn-sm btn-info edit me-3"><i
                                                     class="fa-solid fa-pen-to-square"></i></button>
+                                            @endif
+                                            @if (App\Helpers\FileHelper::usr()->can('bank.destroy'))
                                             <form id="deleteForm" action="{{ route('bank.destroy', $data->id) }}"
                                                 method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit"
                                                     onclick="return confirm('Are you sure you want to delete this item?')"
-                                                    class="btn btn-sm btn-danger">Delete</a>
+                                                    class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
                                             </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty

@@ -7,7 +7,7 @@
 @endsection
 @section('css')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
-  
+
     <style>
 	select{
 		font-family: fontAwesome
@@ -24,10 +24,12 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title mb-0">Menu Table</h4>
+                        @if (App\Helpers\FileHelper::usr()->can('menu.create'))
                         <div class="text-end">
                             <button data-bs-toggle="modal" data-bs-target="#menuCreate" class="btn btn-sm btn-info">Create
                                 New</button>
                         </div>
+                        @endif
                     </div>
                     <div class="card-body">
                         {{-- Here place table --}}
@@ -51,9 +53,12 @@
                                         <td>{{ $data->menu_path }}</td>
                                         <td>{{ $data->menu_short }}</td>
                                         <td class="d-flex">
+                                            @if (App\Helpers\FileHelper::usr()->can('menu.update'))
                                             <button data-bs-toggle="modal" data-bs-target="#menuEdit"
                                                 data-id="{{ $data->id }}" class="btn btn-sm btn-info edit me-3"><i
                                                     class="fa-solid fa-pen-to-square"></i></button>
+                                            @endif
+                                            @if (App\Helpers\FileHelper::usr()->can('menu.destroy'))
                                             <form action="{{ route('menu.destroy', $data->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
@@ -61,6 +66,7 @@
                                                     onclick="return confirm('Are you sure you want to delete this item?')"><i
                                                         class="fa-solid fa-trash"></i></button>
                                             </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty
@@ -89,7 +95,6 @@
                                         <input type="text" class="form-control mb-3" placeholder="Group name"
                                             name="menu_group" value="{{ old('menu_group') }}">
                                         <label for="menu_group">Menu icon</label>
-                                        
                                             <select class="form-control mb-3" name="menu_icon" >
                                             <option value='fa fa-500px'>&#xf26e; fa-500px</option>
                                                 <option value='fa fa-address-book'>&#xf2b9; fa-address-book</option>

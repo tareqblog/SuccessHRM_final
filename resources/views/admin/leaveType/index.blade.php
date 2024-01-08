@@ -18,10 +18,12 @@ Leave Type Management
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title mb-0">Leave Type Table</h4>
+                    @if (App\Helpers\FileHelper::usr()->can('leave-type.create'))
                     <div class="text-end">
                         <button data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
                             class="btn btn-sm btn-info">Create New</button>
                     </div>
+                    @endif
                 </div>
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -53,10 +55,13 @@ Leave Type Management
                                     <td>{{ $data->leavetype_status == 1 ? 'Active' : 'Inactive' }}
                                     </td>
                                     <td class="d-flex">
+                                        @if (App\Helpers\FileHelper::usr()->can('leave-type.update'))
                                         <button data-id="{{ $data->id }}" data-bs-toggle="modal"
                                             data-bs-target=".bs-example-modal-lg-edit"
                                             class="btn btn-sm btn-info edit me-3"><i
                                                 class="fa-solid fa-pen-to-square"></i></button>
+                                        @endif
+                                        @if (App\Helpers\FileHelper::usr()->can('leave-type.destroy'))
                                         <form
                                             action="{{ route('leave-type.destroy', $data->id) }}"
                                             method="POST">
@@ -66,6 +71,7 @@ Leave Type Management
                                                 onclick="return confirm('Are you sure you want to delete this item?')"><i
                                                     class="fa-solid fa-trash"></i></button>
                                         </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @empty

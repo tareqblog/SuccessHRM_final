@@ -19,7 +19,9 @@
                     <div class="card-header">
                         <h4 class="card-title mb-0">Candidate Table</h4>
                         <div class="text-end">
+                            @if (App\Helpers\FileHelper::usr()->can('candidate.create'))
                             <a href="{{ route('candidate.create') }}" class="btn btn-sm btn-success">Create New</a>
+                            @endif
                         </div>
                     </div>
                     <div class="card-body">
@@ -56,10 +58,15 @@
                                         <td></td>
                                         <td>{{ $data->candidate_status == 1 ? 'Active' : 'In-Active' }}</td>
                                         <td style="display: flex;">
+                                            @if (App\Helpers\FileHelper::usr()->can('candidate.remark'))
                                             <a href="{{ route('candidate.edit', $data->id) }}#remark"
                                                 class="btn btn-warning btn-sm me-2"></i>Remarks</a>
+                                            @endif
+                                            @if (App\Helpers\FileHelper::usr()->can('candidate.update'))
                                             <a href="{{ route('candidate.edit', $data->id) }}"
                                                 class="btn btn-info btn-sm me-2"><i class="fas fa-pen"></i></a>
+                                            @endif
+                                            @if (App\Helpers\FileHelper::usr()->can('candidate.destroy'))
                                             <form id="deleteForm" action="{{ route('candidate.destroy', $data->id) }}"
                                                 method="POST">
                                                 @csrf
@@ -68,6 +75,7 @@
                                                     onclick="return confirm('Are you sure you want to delete this item?')"
                                                     class="btn btn-sm btn-danger"> <i class="fas fa fa-trash"></i> </a>
                                             </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty

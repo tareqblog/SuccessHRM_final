@@ -20,8 +20,7 @@
                     <div class="card-header">
                         <h4 class="card-title mb-0">Edit Candidate</h4>
                         <div class="text-end">
-                            <a href="{{ route('candidate.create') }}" class="btn btn-sm btn-success">Create New</a>
-                            <a href="{{ route('candidate.index') }}" class="btn btn-sm btn-success">Search</a>
+                            <a href="{{ route('candidate.index') }}" class="btn btn-sm btn-success">Back</a>
                         </div>
                     </div>
                     @include('admin.include.errors')
@@ -696,64 +695,66 @@
                             </div>
 
                             <div class="tab-pane" id="family" role="tabpanel">
-                                <h5>Create Family Background</h5>
-                                <form action="{{ route('candidate.family', $candidate->id) }}" method="POST">
-                                    @csrf
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <input type="hidden" value="{{ $candidate->id }}" name="candidate_id">
-                                            <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Name</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" name="name" class="form-control"
-                                                            placeholder="Name">
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="one"
-                                                        class="col-sm-3 col-form-label">Relationship</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" name="relationship" name="one"
-                                                            class="form-control" placeholder="Relationship">
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Contact
-                                                        No</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" name="contact_no" class="form-control"
-                                                            placeholder="Contact No">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Age</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" name="age" class="form-control"
-                                                            placeholder="Age">
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="one"
-                                                        class="col-sm-3 col-form-label">Occupation</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" name="occupation" class="form-control"
-                                                            placeholder="Occupation">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                @if (App\Helpers\FileHelper::usr()->can('candidate.family'))
+                                    <h5>Create Family Background</h5>
+                                    <form action="{{ route('candidate.family', $candidate->id) }}" method="POST">
+                                        @csrf
                                         <div class="row">
-                                            <div class="col-lg-2">
-                                                <button type="submit" class="btn btn-info btn-sm">Save</button>
+                                            <div class="col-lg-6">
+                                                <input type="hidden" value="{{ $candidate->id }}" name="candidate_id">
+                                                <div class="mt-5 mt-lg-4 mt-xl-0">
+                                                    <div class="row mb-4">
+                                                        <label for="one" class="col-sm-3 col-form-label">Name</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" name="name" class="form-control"
+                                                                placeholder="Name">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-4">
+                                                        <label for="one"
+                                                            class="col-sm-3 col-form-label">Relationship</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" name="relationship" name="one"
+                                                                class="form-control" placeholder="Relationship">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-4">
+                                                        <label for="one" class="col-sm-3 col-form-label">Contact
+                                                            No</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" name="contact_no" class="form-control"
+                                                                placeholder="Contact No">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="mt-5 mt-lg-4 mt-xl-0">
+                                                    <div class="row mb-4">
+                                                        <label for="one" class="col-sm-3 col-form-label">Age</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" name="age" class="form-control"
+                                                                placeholder="Age">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-4">
+                                                        <label for="one"
+                                                            class="col-sm-3 col-form-label">Occupation</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" name="occupation" class="form-control"
+                                                                placeholder="Occupation">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-2">
+                                                    <button type="submit" class="btn btn-info btn-sm">Save</button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                @endif
                                 <div class="row">
                                     <div class="col-lg-12 mt-2">
                                         <table class="table table-bordered mb-0">
@@ -778,16 +779,19 @@
                                                         <td>{{ $family->contact_no }} </td>
                                                         <td>{{ $family->occupation }} </td>
                                                         <td>
-                                                            <form
-                                                                action="{{ route('candidate.family.delete', $family->id) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
+                                                            @if (App\Helpers\FileHelper::usr()->can('candidate.family.delete'))
+                                                                <form
+                                                                    action="{{ route('candidate.family.delete', $family->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
 
-                                                                <button class="btn btn-danger btn-sm"
-                                                                    onclick="return confirm('Are you sure you want to delete this item?')"
-                                                                    type="submit"><i class="fa fa-trash"></i></button>
-                                                            </form>
+                                                                    <button class="btn btn-danger btn-sm"
+                                                                        onclick="return confirm('Are you sure you want to delete this item?')"
+                                                                        type="submit"><i
+                                                                            class="fa fa-trash"></i></button>
+                                                                </form>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 @empty
@@ -1173,16 +1177,18 @@
                             {{-- Upload Resume tab --}}
                             <div class="tab-pane" id="upload_resume" role="tabpanel">
                                 <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="card-header">
-                                            <h4 class="card-title mb-0">Upload Resume</h4>
-                                            <div class="text-end">
-                                                <a data-bs-toggle="modal"
-                                                    data-bs-target=".bs-example-modal-lg-create-resume"
-                                                    class="btn btn-sm btn-info">Upload New Resume</a>
+                                    @if (App\Helpers\FileHelper::usr()->can('candidate.resume'))
+                                        <div class="col-lg-12">
+                                            <div class="card-header">
+                                                <h4 class="card-title mb-0">Upload Resume</h4>
+                                                <div class="text-end">
+                                                    <a data-bs-toggle="modal"
+                                                        data-bs-target=".bs-example-modal-lg-create-resume"
+                                                        class="btn btn-sm btn-info">Upload New Resume</a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endif
                                     <div class="col-lg-12 mt-2">
                                         <table class="table table-bordered mb-0">
                                             <thead>
@@ -1224,15 +1230,17 @@
                                                         <td style="display: flex;">
                                                             <a href="{{ asset('storage') }}/{{ $resume->resume_file_path }}"
                                                                 class="btn btn-info btn-sm me-3" download>Donwload</a>
-                                                            <form
-                                                                action="{{ route('candidate.resume.delete', $resume->id) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button class="btn btn-danger btn-sm"
-                                                                    onclick="return confirm('Are you sure you want to delete this item?')"
-                                                                    type="submit">Delete</button>
-                                                            </form>
+                                                            @if (App\Helpers\FileHelper::usr()->can('candidate.resume.delete'))
+                                                                <form
+                                                                    action="{{ route('candidate.resume.delete', $resume->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button class="btn btn-danger btn-sm"
+                                                                        onclick="return confirm('Are you sure you want to delete this item?')"
+                                                                        type="submit">Delete</button>
+                                                                </form>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 @empty
@@ -1247,15 +1255,17 @@
                             </div>
                             <div class="tab-pane" id="upload_file" role="tabpanel">
                                 <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="card-header">
-                                            <h4 class="card-title mb-0">Upload File</h4>
-                                            <div class="text-end">
-                                                <a data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
-                                                    class="btn btn-sm btn-info">Upload New File</a>
+                                    @if (App\Helpers\FileHelper::usr()->can('candidate.file.upload'))
+                                        <div class="col-lg-12">
+                                            <div class="card-header">
+                                                <h4 class="card-title mb-0">Upload File</h4>
+                                                <div class="text-end">
+                                                    <a data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
+                                                        class="btn btn-sm btn-info">Upload New File</a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endif
                                     <div class="col-lg-12 mt-2">
                                         <table class="table table-bordered mb-0">
                                             <thead>
@@ -1285,15 +1295,17 @@
                                                         <td style="display: flex;">
                                                             <a href="{{ asset('storage') }}/{{ $file->file_path }}"
                                                                 class="btn btn-info btn-sm me-3" download>Donwload</a>
-                                                            <form
-                                                                action="{{ route('candidate.file.delete', $file->id) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button class="btn btn-danger btn-sm"
-                                                                    onclick="return confirm('Are you sure you want to delete this item?')"
-                                                                    type="submit">Delete</button>
-                                                            </form>
+                                                            @if (App\Helpers\FileHelper::usr()->can('candidate.file.delete'))
+                                                                <form
+                                                                    action="{{ route('candidate.file.delete', $file->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button class="btn btn-danger btn-sm"
+                                                                        onclick="return confirm('Are you sure you want to delete this item?')"
+                                                                        type="submit">Delete</button>
+                                                                </form>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 @empty
@@ -1308,395 +1320,418 @@
                                 </div>
                             </div>
                             <div class="tab-pane" id="remark" role="tabpanel">
-                                <form action="{{ route('candidate.remark', $candidate->id) }}" method="POST">
-                                    @csrf
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <h5>Create Remarks</h5>
-                                            <p>Name: {{ $candidate->candidate_name }}</p>
-                                            <p>NRIC: {{ $candidate->candidate_nric }}</p>
+                                @if (App\Helpers\FileHelper::usr()->can('candidate.remark'))
+                                    <form action="{{ route('candidate.remark', $candidate->id) }}" method="POST">
+                                        @csrf
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <h5>Create Remarks</h5>
+                                                <p>Name: {{ $candidate->candidate_name }}</p>
+                                                <p>NRIC: {{ $candidate->candidate_nric }}</p>
 
-                                            <div class="row mb-4">
-                                                <input type="hidden" value="{{ $candidate->id }}" name="candidate_id">
-                                                <label for="one" class="col-sm-3 col-form-label">Remark Type</label>
-                                                <div class="col-sm-9">
-                                                    <select name="remarkstype_id" class="form-control" id="remark_type">
-                                                        <option value="">Select One</option>
-                                                        @foreach ($remarks_type as $type)
-                                                            <option value="{{ $type->id }}">
-                                                                {{ $type->remarkstype_code }} </option>
-                                                        @endforeach
-                                                    </select>
+                                                <div class="row mb-4">
+                                                    <input type="hidden" value="{{ $candidate->id }}"
+                                                        name="candidate_id">
+                                                    <label for="one" class="col-sm-3 col-form-label">Remark
+                                                        Type</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="remarkstype_id" class="form-control"
+                                                            id="remark_type">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($remarks_type as $type)
+                                                                <option value="{{ $type->id }}">
+                                                                    {{ $type->remarkstype_code }} </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row mb-4" id="AssignToClient" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Client
-                                                    Company</label>
-                                                <div class="col-sm-9">
-                                                    <select name="Assign_client_company" class="form-control">
-                                                        <option value="">Select One</option>
-                                                        @foreach ($clients as $client)
-                                                            <option value="{{ $client->id }}">
-                                                                {{ $client->company_name }} </option>
-                                                        @endforeach
-                                                    </select>
+                                                <div class="row mb-4" id="AssignToClient" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Client
+                                                        Company</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="Assign_client_company" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($clients as $client)
+                                                                <option value="{{ $client->id }}">
+                                                                    {{ $client->company_name }} </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row mb-4" id="interviewTime" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Interview
-                                                    Time</label>
-                                                <div class="col-sm-9">
-                                                    <input type="time" class="form-control" name="interview_time">
+                                                <div class="row mb-4" id="interviewTime" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Interview
+                                                        Time</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="time" class="form-control" name="interview_time">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row mb-4" id="interviewCompany" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Interview Company
-                                                    <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <select name="interview_company" id="" class="form-control">
-                                                        <option value="">Select One</option>
-                                                        @foreach ($clients as $client)
-                                                            <option value="{{ $client->id }}">
-                                                                {{ $client->company_name }} </option>
-                                                        @endforeach
-                                                    </select>
+                                                <div class="row mb-4" id="interviewCompany" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Interview
+                                                        Company
+                                                        <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <select name="interview_company" id=""
+                                                            class="form-control">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($clients as $client)
+                                                                <option value="{{ $client->id }}">
+                                                                    {{ $client->company_name }} </option>
+                                                            @endforeach
+                                                        </select>
 
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row mb-4" id="expectedSalary" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Expected
-                                                    Salary</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control"
-                                                        name="interview_expected_salary">
+                                                <div class="row mb-4" id="expectedSalary" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Expected
+                                                        Salary</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control"
+                                                            name="interview_expected_salary">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row mb-4" id="interviewPosition" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Interview
-                                                    Position <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control"
-                                                        name="interview_position">
+                                                <div class="row mb-4" id="interviewPosition" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Interview
+                                                        Position <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control"
+                                                            name="interview_position">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row mb-4" id="receivedJobOffer" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Received Job
-                                                    Offer</label>
-                                                <div class="col-sm-9">
-                                                    <select name="interview_received_job_offer" class="form-control">
-                                                        <option value="pending">Pending</option>
-                                                        <option value="yes">Yes</option>
-                                                        <option value="no">No</option>
-                                                    </select>
+                                                <div class="row mb-4" id="receivedJobOffer" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Received Job
+                                                        Offer</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="interview_received_job_offer"
+                                                            class="form-control">
+                                                            <option value="pending">Pending</option>
+                                                            <option value="yes">Yes</option>
+                                                            <option value="no">No</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="row mb-4" id="shortlistClientCompany" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Client Company
-                                                    <span class="text-danger">*</span> </label>
-                                                <div class="col-sm-9">
-                                                    <select name="client_company" class="form-control">
-                                                        <option value="">Select One</option>
-                                                        @foreach ($clients as $client)
-                                                            <option value="{{ $client->id }}">
-                                                                {{ $client->client_name }} </option>
-                                                        @endforeach
-                                                    </select>
+                                                <div class="row mb-4" id="shortlistClientCompany"
+                                                    style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Client Company
+                                                        <span class="text-danger">*</span> </label>
+                                                    <div class="col-sm-9">
+                                                        <select name="client_company" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($clients as $client)
+                                                                <option value="{{ $client->id }}">
+                                                                    {{ $client->client_name }} </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="shortlistDepartment" style="display: none;">
+                                                    <label for="one"
+                                                        class="col-sm-3 col-form-label">Department</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control"
+                                                            name="shortlistDepartment">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="shortlistPlacement" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Placement /
+                                                        Recruitment Fee </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control"
+                                                            name="shortlistPlacement">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="shortlistJobTitle" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Job Title
+                                                        <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control"
+                                                            name="shortlistJobTitle">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="shortlistJobType" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Job Type <span
+                                                            class="text-danger">*</span> </label>
+                                                    <div class="col-sm-9">
+                                                        <select name="shortlistJobType" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($job_types as $type)
+                                                                <option value="{{ $type->id }}">
+                                                                    {{ $type->jobtype_code }} </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="shortlistProbationPeriod"
+                                                    style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Probation
+                                                        Period</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="shortlistProbationPeriod" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            <option value="0">No Probation</option>
+                                                            <option value="1">1 Month</option>
+                                                            <option value="2">2 Months</option>
+                                                            <option value="3">3 Months</option>
+                                                            <option value="4">4 Months</option>
+                                                            <option value="5">5 Months</option>
+                                                            <option value="6">6 Months</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="shortlistContractSigningDate"
+                                                    style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Contract
+                                                        Signing
+                                                        Date <span class="text-danger"></span></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="date" class="form-control"
+                                                            name="shortlistContractSigningDate">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="shortlistEmailNoticeDate"
+                                                    style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Email Notice
+                                                        Date</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="date" class="form-control"
+                                                            name="shortlistEmailNoticeDate">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="interviewEmailNoticeDate"
+                                                    style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Email Notice
+                                                        Date</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="date" class="form-control"
+                                                            name="interviewEmailNoticeDate">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="one" class="col-sm-3 col-form-label">Notice</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="isNotice" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="0">No</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div style="margin-top: 100px;"></div>
+                                                <div class="row mb-4" id="AssignToManager" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Assign To
+                                                        <span class="text-danger">*</span> </label>
+                                                    <div class="col-sm-9">
+                                                        <select name="Assign_to_manager" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($users as $user)
+                                                                <option value="{{ $user->id }}">
+                                                                    {{ $user->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-4" id="clientArNo" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">AR No</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="client_ar_no" id=""
+                                                            class="form-control">
+                                                            <option value="0">Select On</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="shortlistSalary" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Salary <span
+                                                            class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control"
+                                                            name="shortlistSalary">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="shortlistArNo" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">AR No</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="shortlistArNo" class="form-control">
+                                                            <option value="">Select One</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="shortlistHourlyRate" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Hourly
+                                                        Rate</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control"
+                                                            name="shortlistHourlyRate">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="shortlistAdminFee" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Admin
+                                                        Fee</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control"
+                                                            name="shortlistAdminFee">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="shortlistStartDate" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Start Date
+                                                        <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="date" class="form-control"
+                                                            name="shortlistStartDate">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="shortlistContractEndDate"
+                                                    style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Contract End
+                                                        Date <span class="text-danger"></span></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="date" class="form-control"
+                                                            name="shortlistContractEndDate">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="shortlistReminderPeriod"
+                                                    style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Reminder
+                                                        Period <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <select name="shortlistReminderPeriod" class="form-control">
+                                                            <option value="1 Week Before">1 Week Before</option>
+                                                            <option value="2 Week Before">2 Week Before</option>
+                                                            <option value="3 Week Before">3 Week Before</option>
+                                                            <option value="4 Week Before">4 Week Before</option>
+                                                            <option value="5 Week Before">5 Week Before</option>
+                                                            <option value="6 Week Before">6 Week Before</option>
+                                                            <option value="7 Week Before">7 Week Before</option>
+                                                            <option value="8 Week Before">8 Week Before</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="shortlistContractSigningTime"
+                                                    style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Contract
+                                                        Signing
+                                                        Time <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="time" class="form-control"
+                                                            name="shortlistContractSigningTime">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="shortlistLastDay" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Last
+                                                        Day</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="date" class="form-control"
+                                                            name="shortlistLastDay">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="shortlistEmailNoticeTime"
+                                                    style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Email Notice
+                                                        Time</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="time" class="form-control"
+                                                            name="shortlistEmailNoticeTime">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="AssignToTeamLeader" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Assign To
+                                                        <span class="text-danger">*</span> </label>
+                                                    <div class="col-sm-9">
+                                                        <select name="team_leader" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($users as $user)
+                                                                <option value="{{ $user->id }}">
+                                                                    {{ $user->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="AssignToRC" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Assign To
+                                                        <span class="text-danger">*</span> </label>
+                                                    <div class="col-sm-9">
+                                                        <select name="rc" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($users as $user)
+                                                                <option value="{{ $user->id }}">
+                                                                    {{ $user->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row mb-4" id="interviewDate" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Interview
+                                                        Date<span class="text-danger">*</span> </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="date" class="form-control"
+                                                            name="interview_date">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="interviewBy" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Interview
+                                                        By</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control"
+                                                            name="interview_by">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="jobOfferSalary" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Jobs Offer
+                                                        Salary</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="inteview_job_offer_salary"
+                                                            class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="attendInterview" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Attend
+                                                        Interview</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="attendInterview" class="form-control">
+                                                            <option value="pending">Pending</option>
+                                                            <option value="yes">Yes</option>
+                                                            <option value="no">No</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="availableDate" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Available
+                                                        Date</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="date" class="form-control"
+                                                            name="available_date">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="emailNoticeTime" style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Email Notice
+                                                        Time</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="time" name="interviewEmailNoticeTime"
+                                                            class="form-control">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row mb-4" id="shortlistDepartment" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Department</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control"
-                                                        name="shortlistDepartment">
+                                            <div class="col-lg-8">
+                                                <div class="row mb-4">
+                                                    <label for="one" class="col-sm-2 col-form-label">Remark</label>
+                                                    <div class="col-sm-10">
+                                                        <textarea name="remarks" id="ckeditor-classic" class="form-control"></textarea>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row mb-4" id="shortlistPlacement" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Placement /
-                                                    Recruitment Fee </label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control"
-                                                        name="shortlistPlacement">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4" id="shortlistJobTitle" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Job Title <span
-                                                        class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control"
-                                                        name="shortlistJobTitle">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4" id="shortlistJobType" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Job Type <span
-                                                        class="text-danger">*</span> </label>
-                                                <div class="col-sm-9">
-                                                    <select name="shortlistJobType" class="form-control">
-                                                        <option value="">Select One</option>
-                                                        @foreach ($job_types as $type)
-                                                            <option value="{{ $type->id }}">
-                                                                {{ $type->jobtype_code }} </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4" id="shortlistProbationPeriod"
-                                                style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Probation
-                                                    Period</label>
-                                                <div class="col-sm-9">
-                                                    <select name="shortlistProbationPeriod" class="form-control">
-                                                        <option value="">Select One</option>
-                                                        <option value="0">No Probation</option>
-                                                        <option value="1">1 Month</option>
-                                                        <option value="2">2 Months</option>
-                                                        <option value="3">3 Months</option>
-                                                        <option value="4">4 Months</option>
-                                                        <option value="5">5 Months</option>
-                                                        <option value="6">6 Months</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4" id="shortlistContractSigningDate"
-                                                style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Contract Signing
-                                                    Date <span class="text-danger"></span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control"
-                                                        name="shortlistContractSigningDate">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4" id="shortlistEmailNoticeDate"
-                                                style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Email Notice
-                                                    Date</label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control"
-                                                        name="shortlistEmailNoticeDate">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4" id="interviewEmailNoticeDate"
-                                                style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Email Notice
-                                                    Date</label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control"
-                                                        name="interviewEmailNoticeDate">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-3 col-form-label">Notice</label>
-                                                <div class="col-sm-9">
-                                                    <select name="isNotice" class="form-control">
-                                                        <option value="">Select One</option>
-                                                        <option value="1">Yes</option>
-                                                        <option value="0">No</option>
-                                                    </select>
-                                                </div>
+                                                <button type="submit" class="btn btn-sm btn-info">Save</button>
                                             </div>
 
                                         </div>
-                                        <div class="col-lg-6">
-                                            <div style="margin-top: 100px;"></div>
-                                            <div class="row mb-4" id="AssignToManager" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Assign To <span
-                                                        class="text-danger">*</span> </label>
-                                                <div class="col-sm-9">
-                                                    <select name="Assign_to_manager" class="form-control">
-                                                        <option value="">Select One</option>
-                                                        @foreach ($users as $user)
-                                                            <option value="{{ $user->id }}"> {{ $user->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="row mb-4" id="clientArNo" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">AR No</label>
-                                                <div class="col-sm-9">
-                                                    <select name="client_ar_no" id="" class="form-control">
-                                                        <option value="0">Select On</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4" id="shortlistSalary" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Salary <span
-                                                        class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control" name="shortlistSalary">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4" id="shortlistArNo" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">AR No</label>
-                                                <div class="col-sm-9">
-                                                    <select name="shortlistArNo" class="form-control">
-                                                        <option value="">Select One</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4" id="shortlistHourlyRate" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Hourly
-                                                    Rate</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control"
-                                                        name="shortlistHourlyRate">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4" id="shortlistAdminFee" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Admin Fee</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control"
-                                                        name="shortlistAdminFee">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4" id="shortlistStartDate" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Start Date <span
-                                                        class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control"
-                                                        name="shortlistStartDate">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4" id="shortlistContractEndDate"
-                                                style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Contract End
-                                                    Date <span class="text-danger"></span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control"
-                                                        name="shortlistContractEndDate">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4" id="shortlistReminderPeriod" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Reminder
-                                                    Period <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <select name="shortlistReminderPeriod" class="form-control">
-                                                        <option value="1 Week Before">1 Week Before</option>
-                                                        <option value="2 Week Before">2 Week Before</option>
-                                                        <option value="3 Week Before">3 Week Before</option>
-                                                        <option value="4 Week Before">4 Week Before</option>
-                                                        <option value="5 Week Before">5 Week Before</option>
-                                                        <option value="6 Week Before">6 Week Before</option>
-                                                        <option value="7 Week Before">7 Week Before</option>
-                                                        <option value="8 Week Before">8 Week Before</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4" id="shortlistContractSigningTime"
-                                                style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Contract Signing
-                                                    Time <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="time" class="form-control"
-                                                        name="shortlistContractSigningTime">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4" id="shortlistLastDay" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Last Day</label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control"
-                                                        name="shortlistLastDay">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4" id="shortlistEmailNoticeTime"
-                                                style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Email Notice
-                                                    Time</label>
-                                                <div class="col-sm-9">
-                                                    <input type="time" class="form-control"
-                                                        name="shortlistEmailNoticeTime">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4" id="AssignToTeamLeader" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Assign To <span
-                                                        class="text-danger">*</span> </label>
-                                                <div class="col-sm-9">
-                                                    <select name="team_leader" class="form-control">
-                                                        <option value="">Select One</option>
-                                                        @foreach ($users as $user)
-                                                            <option value="{{ $user->id }}">{{ $user->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4" id="AssignToRC" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Assign To <span
-                                                        class="text-danger">*</span> </label>
-                                                <div class="col-sm-9">
-                                                    <select name="rc" class="form-control">
-                                                        <option value="">Select One</option>
-                                                        @foreach ($users as $user)
-                                                            <option value="{{ $user->id }}">{{ $user->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="row mb-4" id="interviewDate" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Interview
-                                                    Date<span class="text-danger">*</span> </label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control" name="interview_date">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4" id="interviewBy" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Interview
-                                                    By</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control" name="interview_by">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4" id="jobOfferSalary" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Jobs Offer
-                                                    Salary</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="inteview_job_offer_salary"
-                                                        class="form-control">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4" id="attendInterview" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Attend
-                                                    Interview</label>
-                                                <div class="col-sm-9">
-                                                    <select name="attendInterview" class="form-control">
-                                                        <option value="pending">Pending</option>
-                                                        <option value="yes">Yes</option>
-                                                        <option value="no">No</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4" id="availableDate" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Available
-                                                    Date</label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control" name="available_date">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4" id="emailNoticeTime" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label">Email Notice
-                                                    Time</label>
-                                                <div class="col-sm-9">
-                                                    <input type="time" name="interviewEmailNoticeTime"
-                                                        class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-8">
-                                            <div class="row mb-4">
-                                                <label for="one" class="col-sm-2 col-form-label">Remark</label>
-                                                <div class="col-sm-10">
-                                                    <textarea name="remarks" id="ckeditor-classic" class="form-control"></textarea>
-                                                </div>
-                                            </div>
-                                            <button type="submit" class="btn btn-sm btn-info">Save</button>
-                                        </div>
-
-                                    </div>
-                                </form>
+                                    </form>
+                                @endif
                                 <div class="row">
                                     <div class="col-lg-12 mt-2">
                                         <table class="table table-bordered mb-0">
@@ -1727,15 +1762,17 @@
                                                         <td style="display: flex;">
                                                             <a href="#" class="btn btn-info btn-sm me-3"
                                                                 download>Edit</a>
-                                                            <form
-                                                                action="{{ route('candidate.remark.delete', $remark->id) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button class="btn btn-danger btn-sm"
-                                                                    onclick="return confirm('Are you sure you want to delete this item?')"
-                                                                    type="submit">Delete</button>
-                                                            </form>
+                                                            @if (App\Helpers\FileHelper::usr()->can('candidate.remark.delete'))
+                                                                <form
+                                                                    action="{{ route('candidate.remark.delete', $remark->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button class="btn btn-danger btn-sm"
+                                                                        onclick="return confirm('Are you sure you want to delete this item?')"
+                                                                        type="submit">Delete</button>
+                                                                </form>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 @empty
@@ -1751,6 +1788,7 @@
                             </div>
 
                             <div class="tab-pane" id="payroll" role="tabpanel">
+                                @if (App\Helpers\FileHelper::usr()->can('candidate.payroll'))
                                 <h5>Create Payroll</h5>
                                 <form action="{{ route('candidate.payroll', $candidate->id) }}" method="POST">
                                     @csrf
@@ -2102,6 +2140,7 @@
                                         </div>
                                     </div>
                                 </form>
+                                @endif
                                 <div class="row">
                                     <div class="col-lg-12 mt-2">
                                         <table class="table table-bordered mb-0">
@@ -2128,6 +2167,7 @@
                                                         <td>{{ $payroll->created_at->format('d-M-y') }}
                                                         </td>
                                                         <td>
+                                                            @if (App\Helpers\FileHelper::usr()->can('candidate.payroll.delete'))
                                                             <form
                                                                 action="{{ route('candidate.payroll.delete', $payroll->id) }}"
                                                                 method="POST">
@@ -2137,6 +2177,7 @@
                                                                     onclick="return confirm('Are you sure you want to delete this item?')"
                                                                     type="submit">Delete</button>
                                                             </form>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 @empty
@@ -2183,7 +2224,8 @@
                                                             class="form-control">
                                                             <option value="">Select One</option>
                                                             @foreach ($time_sheet as $sheet)
-                                                                <option value="{{ $sheet->id }}" {{$time?->timesheet_id == $sheet->id ? 'selected' : ''}}>
+                                                                <option value="{{ $sheet->id }}"
+                                                                    {{ $time?->timesheet_id == $sheet->id ? 'selected' : '' }}>
                                                                     {{ $sheet->title }}</option>
                                                             @endforeach
                                                         </select>

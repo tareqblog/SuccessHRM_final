@@ -18,6 +18,7 @@
                         <h4 class="card-title mb-0">Import Applicant Table</h4>
                     </div>
                     <div class="card-body">
+                        @if (App\Helpers\FileHelper::usr()->can('upload.files'))
                         <div class="col-lg-12">
                             <form action="{{ route('upload.files') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
@@ -25,13 +26,14 @@
                                     <label for="one" class="col-sm-12 col-form-label">Upload Resume (max 10 file)<br />
                                         <small>(Please use PDF, MicrosoftWord.docx orxlsx file)</small></label>
                                     <div class="col-sm-6">
-                                        <input type="file" name="files[]" class="form-control"
-                                            accept=".pdf,.docx,.xlsx" multiple>
+                                        <input type="file" name="files[]" class="form-control" accept=".pdf,.docx,.xlsx"
+                                            multiple>
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-sm btn-info">Import Resume</button>
                             </form>
                         </div>
+                        @endif
                         <div class="row">
                             <div class="col-lg-3 card-body mt-4">
                                 <input type="checkbox" id="selectAll"> Select All
@@ -64,32 +66,6 @@
                             </div>
 
                             <div class="col-lg-4 card-body mt-4">
-                                {{-- @if (isset($name))
-                                    <h2>Extracted Information:</h2>
-                                    <form>
-                                        <div class="row mb-4">
-                                            <label for="one" class="col-sm-4 col-form-label">Name</label>
-                                            <div class="col-sm-8">
-                                                <input type="text" name="name" class="form-control"
-                                                    value="{{ $name }}" placeholder="Name">
-                        </div>
-                    </div>
-                    <div class="row mb-4">
-                        <label for="one" class="col-sm-4 col-form-label">Email</label>
-                        <div class="col-sm-8">
-                            <input type="text" name="email" class="form-control" value="{{ $email }}"
-                                placeholder="Email">
-                        </div>
-                    </div>
-                    <div class="row mb-4">
-                        <label for="one" class="col-sm-4 col-form-label">Phone No</label>
-                        <div class="col-sm-8">
-                            <input type="text" name="phone_no" class="form-control" value="{{ $phone_no }}"
-                                placeholder="Phone no">
-                        </div>
-                    </div>
-                    </form>
-                    @endif --}}
                                 <h2>Extracted Information:</h2>
                                 <form action="{{ route('temporary.data.save') }}" method="POST">
                                     @csrf
@@ -179,18 +155,18 @@
                 </div>
             @endsection
             @section('scripts')
-            <script>
-                // JavaScript
-                document.getElementById('selectAll').addEventListener('click', function () {
-                    // Get all radio buttons with the name 'selectedFiles'
-                    var radioButtons = document.querySelectorAll('input[name="selectedFiles"]');
+                <script>
+                    // JavaScript
+                    document.getElementById('selectAll').addEventListener('click', function() {
+                        // Get all radio buttons with the name 'selectedFiles'
+                        var radioButtons = document.querySelectorAll('input[name="selectedFiles"]');
 
-                    // Clear the selection of all radio buttons
-                    radioButtons.forEach(function (radio) {
-                        radio.checked = false;
+                        // Clear the selection of all radio buttons
+                        radioButtons.forEach(function(radio) {
+                            radio.checked = false;
+                        });
                     });
-                });
-            </script>
+                </script>
                 <script type="text/javascript">
                     $(document).ready(function() {
                         $('input[name="selectedFiles[]"]').on('change', function() {

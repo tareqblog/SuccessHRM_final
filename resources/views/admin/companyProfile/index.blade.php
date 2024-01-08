@@ -19,11 +19,11 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title mb-0">Company Profile Table</h4>
+                        @if (App\Helpers\FileHelper::usr()->can('company.create'))
                         <div class="text-end">
-                            {{-- <button type="submit" class="btn btn-sm btn-success " data-bs-toggle="modal"
-                                data-bs-target=".bs-example-modal-lg-create">Create New</a> --}}
                             <a href="{{ route('company.create') }}" class="btn btn-sm btn-success">Create new</a>
                         </div>
+                        @endif
                     </div>
 
                     @if ($errors->any())
@@ -59,7 +59,10 @@
                                         <td>{{ $data->website }}</td>
                                         <td>{{ $data->description }}</td>
                                         <td style="display: flex;">
+                                            @if (App\Helpers\FileHelper::usr()->can('company.edit'))
                                             <a href="{{route('company.edit', $data->id)}}" class="btn btn-sm btn-info me-2"><i class="fa fa-pen"></i></a>
+                                            @endif
+                                            @if (App\Helpers\FileHelper::usr()->can('company.destroy'))
                                             <form id="deleteForm" action="{{ route('company.destroy', $data->id) }}"
                                                 method="POST">
                                                 @csrf
@@ -68,6 +71,7 @@
                                                     onclick="return confirm('Are you sure you want to delete this item?')"
                                                     class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
                                             </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty

@@ -17,7 +17,7 @@ class FileHelper
     public static function modify_name($modify_id) {
         return User::find($modify_id)->name;
     }
-    public function usr() {
+    public static function usr() {
         return Auth::guard('web')->user();
     }
 }

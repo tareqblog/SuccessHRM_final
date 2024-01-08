@@ -19,9 +19,11 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title mb-0">Client Table</h4>
-                        <div class="text-end">
-                            <a href="{{ route('clients.create') }}" class="btn btn-sm btn-success">Create New</a>
-                        </div>
+                        @if (App\Helpers\FileHelper::usr()->can('clients.create'))
+                            <div class="text-end">
+                                <a href="{{ route('clients.create') }}" class="btn btn-sm btn-success">Create New</a>
+                            </div>
+                        @endif
                     </div>
                     <div class="card-body">
                         <table class="table table-bordered mb-0 bg-light" id="myTable">
@@ -62,23 +64,31 @@
                                             @endif
                                         </td>
                                         <td style="display: flex;">
-                                            <a href="{{ route('clients.edit', $data->id) }}#upload_file"
-                                                class="btn btn-secondary btn-sm me-3">Upload File</a>
+                                            @if (App\Helpers\FileHelper::usr()->can('client.file.upload'))
+                                                <a href="{{ route('clients.edit', $data->id) }}#upload_file"
+                                                    class="btn btn-secondary btn-sm me-3">Upload File</a>
+                                            @endif
 
-                                            <a href="{{ route('clients.edit', $data->id) }}#follow_up"
-                                                class="btn btn-warning btn-sm me-3">Follow Up</a>
+                                            @if (App\Helpers\FileHelper::usr()->can('client.followup'))
+                                                <a href="{{ route('clients.edit', $data->id) }}#follow_up"
+                                                    class="btn btn-warning btn-sm me-3">Follow Up</a>
+                                            @endif
 
-                                            <a href="{{ route('clients.edit', $data->id) }}"
-                                                class="btn btn-info btn-sm me-3"><i class="fas fa-pen"></i></a>
+                                            @if (App\Helpers\FileHelper::usr()->can('clients.edit'))
+                                                <a href="{{ route('clients.edit', $data->id) }}"
+                                                    class="btn btn-info btn-sm me-3"><i class="fas fa-pen"></i></a>
+                                            @endif
 
-                                            <form id="deleteForm" action="{{ route('clients.destroy', $data->id) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit"
-                                                    onclick="return confirm('Are you sure you want to delete this item?')"
-                                                    class="btn btn-sm btn-danger"><i class="fas fa fa-trash"></i></a>
-                                            </form>
+                                            @if (App\Helpers\FileHelper::usr()->can('clients.destroy'))
+                                                <form id="deleteForm" action="{{ route('clients.destroy', $data->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        onclick="return confirm('Are you sure you want to delete this item?')"
+                                                        class="btn btn-sm btn-danger"><i class="fas fa fa-trash"></i></a>
+                                                </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty

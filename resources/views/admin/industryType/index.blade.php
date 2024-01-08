@@ -19,8 +19,10 @@
                     <div class="card-header">
                         <h4 class="card-title mb-0">Industry Type Table</h4>
                         <div class="text-end">
+                            @if (App\Helpers\FileHelper::usr()->can('industry-type.create'))
                             <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
                                 data-bs-target=".bs-example-modal-lg-create">Create New</button>
+                            @endif
                         </div>
                     </div>
                     <div class="card-body">
@@ -42,16 +44,20 @@
                                         <td>{{ $data->industry_code }}</td>
                                         <td>{{ $data->industry_status == 1 ? 'Active' : 'In-Active' }}</td>
                                         <td style="display: flex;">
+                                            @if (App\Helpers\FileHelper::usr()->can('industry-type.update'))
                                             <button type="button" class="btn btn-sm btn-info edit me-2"
                                                 data-id="{{ $data->id }}" data-bs-toggle="modal"
                                                 data-bs-target=".bs-example-modal-lg-edit">Edit</a>
-                                                <form id="deleteForm" action="{{route('industry-type.destroy', $data->id)}}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        onclick="return confirm('Are you sure you want to delete this item?')"
-                                                        class="btn btn-sm btn-danger">Delete</a>
-                                                </form>
+                                            @endif
+                                            @if (App\Helpers\FileHelper::usr()->can('industry-type.destroy'))
+                                            <form id="deleteForm" action="{{route('industry-type.destroy', $data->id)}}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    onclick="return confirm('Are you sure you want to delete this item?')"
+                                                    class="btn btn-sm btn-danger">Delete</a>
+                                            </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty

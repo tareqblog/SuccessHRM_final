@@ -18,9 +18,11 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title mb-0">Job Summary Table</h4>
+                        @if (App\Helpers\FileHelper::usr()->can('job.create'))
                         <div class="text-end">
                             <a href="{{ route('job.create') }}" class="btn btn-sm btn-success">Create New</a>
                         </div>
+                        @endif
                     </div>
                     <div class="card-body">
                         <table class="table table-bordered mb-0" id="myTable">
@@ -69,8 +71,11 @@
                                             {!! $data->remark !!}
                                         </td>
                                         <td style="display: flex;">
+                                            @if (App\Helpers\FileHelper::usr()->can('job.edit'))
                                             <a href="{{ route('job.edit', $data->id) }}"
                                                 class="btn btn-info btn-sm me-3"><i class="fas fa-pen"></i></a>
+                                            @endif
+                                            @if (App\Helpers\FileHelper::usr()->can('job.destroy'))
                                             <form id="deleteForm" action="{{ route('job.destroy', $data->id) }}"
                                                 method="POST">
                                                 @csrf
@@ -79,6 +84,7 @@
                                                     onclick="return confirm('Are you sure you want to delete this item?')"
                                                     class="btn btn-sm btn-danger"> <i class="fas fa fa-trash"></i> </a>
                                             </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty

@@ -20,9 +20,10 @@ Client Terms Management
                     <div class="card-header">
                         <h4 class="card-title mb-0">Client Terms Table</h4>
                         <div class="text-end">
-
+                            @if (App\Helpers\FileHelper::usr()->can('client-term.create'))
                             <button data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
                                 class="btn btn-sm btn-info">Create New</button>
+                            @endif
                         </div>
                     </div>
 
@@ -54,10 +55,12 @@ Client Terms Management
                                         <td>{{ $data->client_term_code }}</td>
                                         <td>{{ $data->client_term_status == '1' ? 'Active' : 'Inactive' }}</td>
                                         <td class="d-flex">
+                                            @if (App\Helpers\FileHelper::usr()->can('client-term.update'))
                                             <button data-id="{{ $data->id }}" data-bs-toggle="modal"
                                                 data-bs-target=".bs-example-modal-lg-edit"
                                                 class="btn btn-sm btn-info edit me-3"><i
                                                     class="fa-solid fa-pen-to-square"></i></button>
+                                            @endif
                                             <form action="{{ route('client-term.destroy', $data->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')

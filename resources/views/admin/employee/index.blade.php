@@ -21,7 +21,9 @@
                     <div class="card-header">
                         <h4 class="card-title mb-0">Employee Table</h4>
                         <div class="text-end">
+                            @if (App\Helpers\FileHelper::usr()->can('employee.create'))
                             <a href="{{ route('employee.create') }}" class="btn btn-sm btn-success">Create New</a>
+                            @endif
                         </div>
                     </div>
                     <div class="card-body">
@@ -49,18 +51,20 @@
                                         <td>{{ $data->employee_code }}</td>
                                         <td>{{ $data->employee_status == 1 ? 'Active' : 'In-Active' }}</td>
                                         <td style="display: flex;">
-
+                                            @if (App\Helpers\FileHelper::usr()->can('employee.edit'))
                                             <a href="{{ route('employee.edit', $data->id) }}"
                                                 class="btn btn-info btn-sm me-3"><i class="fas fa-pen"></i></a>
-
-                                            <form id="deleteForm" action="{{ route('employee.destroy', $data->id) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit"
-                                                    onclick="return confirm('Are you sure you want to delete this item?')"
-                                                    class="btn btn-sm btn-danger"><i class="fas fa fa-trash"></i></a>
-                                            </form>
+                                            @endif
+                                                @if (App\Helpers\FileHelper::usr()->can('employee.destroy'))
+                                                <form id="deleteForm" action="{{ route('employee.destroy', $data->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        onclick="return confirm('Are you sure you want to delete this item?')"
+                                                        class="btn btn-sm btn-danger"><i class="fas fa fa-trash"></i></a>
+                                                </form>
+                                                @endif
                                         </td>
                                     </tr>
                                 @empty

@@ -85,8 +85,6 @@ class RolePermissionSeeder extends Seeder
                     'client-term.update',
                     'client-term.destroy',
                     'client-term.edit',
-                    'client-term.followup',
-                    'client-term.followup.delete',
 
                 ]
             ],
@@ -102,6 +100,8 @@ class RolePermissionSeeder extends Seeder
                     'clients.edit',
                     'client.file.delete',
                     'client.file.upload',
+                    'client.followup',
+                    'client.followup.delete',
                 ]
             ],
             [

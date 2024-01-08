@@ -18,9 +18,11 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title mb-0">Leave Table</h4>
+                        @if (App\Helpers\FileHelper::usr()->can('leave.create'))
                         <div class="text-end">
                             <a href="{{ route('leave.create') }}" class="btn btn-sm btn-success">Create New</a>
                         </div>
+                        @endif
                     </div>
                     <div class="card-body">
                         <table class="table table-bordered mb-0" id="myTable">
@@ -53,8 +55,11 @@
                                         <td>--</td>
                                         <td>--</td>
                                         <td style="display: flex;">
+                                            @if (App\Helpers\FileHelper::usr()->can('leave.edit'))
                                             <a href="{{ route('leave.edit', $data->id) }}" class="btn btn-info btn-sm me-3"><i
                                                     class="fas fa-pen"></i></a>
+                                            @endif
+                                            @if (App\Helpers\FileHelper::usr()->can('leave.destroy'))
                                             <form action="{{ route('leave.destroy', $data->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
@@ -62,6 +67,7 @@
                                                     onclick="return confirm('Are you sure you want to delete this item?')"><i
                                                         class="fa-solid fa-trash"></i></button>
                                             </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty

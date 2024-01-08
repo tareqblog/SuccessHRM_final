@@ -294,6 +294,7 @@
                             </div>
                             <div class="tab-pane" id="upload_file" role="tabpanel">
                                 <div class="row">
+                                    @if (App\Helpers\FileHelper::usr()->can('client.file.upload'))
                                     <div class="col-lg-12">
                                         <form action="{{ route('client.file.upload', $client->id) }}" method="POST"
                                             enctype="multipart/form-data">
@@ -329,6 +330,7 @@
                                             </div>
                                         </form>
                                     </div>
+                                    @endif
                                     <div class="col-lg-12 mt-2">
                                         <table class="table table-bordered mb-0">
                                             <thead>
@@ -360,14 +362,16 @@
                                                         <td style="display: flex;">
                                                             <a href="{{ asset('storage') }}/{{ $file->file_path }}"
                                                                 class="btn btn-info btn-sm me-3" download>Donwload</a>
-                                                            <form action="{{ route('client.file.delete', $file->id) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button class="btn btn-danger btn-sm"
-                                                                    onclick="return confirm('Are you sure you want to delete this item?')"
-                                                                    type="submit">Delete</button>
-                                                            </form>
+                                                                @if (App\Helpers\FileHelper::usr()->can('client.file.delete'))
+                                                                <form action="{{ route('client.file.delete', $file->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button class="btn btn-danger btn-sm"
+                                                                        onclick="return confirm('Are you sure you want to delete this item?')"
+                                                                        type="submit">Delete</button>
+                                                                </form>
+                                                                @endif
                                                         </td>
                                                     </tr>
                                                 @empty
@@ -383,6 +387,7 @@
                             </div>
                             <div class="tab-pane" id="follow_up" role="tabpanel">
                                 <div class="row">
+                                    @if (App\Helpers\FileHelper::usr()->can('client.followup'))
                                     <div class="col-lg-12">
                                         <h5>Create Follow Up</h5>
                                         <form action="{{ route('client.followup', $client->id) }}" method="POST">
@@ -399,6 +404,7 @@
                                             <button type="submit" class="btn btn-sm btn-info mt-2">Save</button>
                                         </form>
                                     </div>
+                                    @endif
                                     <div class="col-lg-12 mt-2">
                                         <table class="table table-bordered mb-0">
                                             <thead>
@@ -424,7 +430,7 @@
                                                         <td>{!! $file->description !!}</td>
                                                         <td>{{ $file->created_at }}</td>
                                                         <td style="display: flex;">
-
+                                                            @if (App\Helpers\FileHelper::usr()->can('client.followup.delete'))
                                                             <form
                                                                 action="{{ route('client.followup.delete', $file->id) }}"
                                                                 method="POST">
@@ -434,6 +440,7 @@
                                                                     onclick="return confirm('Are you sure you want to delete this item?')"
                                                                     type="submit">Delete</button>
                                                             </form>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 @empty

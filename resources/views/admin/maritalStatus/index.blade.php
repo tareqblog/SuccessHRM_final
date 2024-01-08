@@ -20,9 +20,10 @@
                     <div class="card-header">
                         <h4 class="card-title mb-0">Marial Status Table</h4>
                         <div class="text-end">
-
+                            @if (App\Helpers\FileHelper::usr()->can('marital-status.create'))
                             <button data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
                                 class="btn btn-sm btn-info">Create New</button>
+                            @endif
                         </div>
                     </div>
 
@@ -54,10 +55,13 @@
                                         <td>{{ $data->marital_statuses_code }}</td>
                                         <td>{{ $data->marital_statuses_status == '1' ? 'Active' : 'In-Active' }}</td>
                                         <td class="d-flex">
+                                            @if (App\Helpers\FileHelper::usr()->can('marital-status.update'))
                                             <button data-id="{{ $data->id }}" data-bs-toggle="modal"
                                                 data-bs-target=".bs-example-modal-lg-edit"
                                                 class="btn btn-sm btn-info edit me-3"><i
                                                     class="fa-solid fa-pen-to-square"></i></button>
+                                            @endif
+                                            @if (App\Helpers\FileHelper::usr()->can('marital-status.destroy'))
                                             <form action="{{ route('marital-status.destroy', $data->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
@@ -65,6 +69,7 @@
                                                     onclick="return confirm('Are you sure you want to delete this item?')"><i
                                                         class="fa-solid fa-trash"></i></button>
                                             </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty

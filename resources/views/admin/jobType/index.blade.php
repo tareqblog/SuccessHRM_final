@@ -19,10 +19,12 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title mb-0">Job Type Table</h4>
+                        @if (App\Helpers\FileHelper::usr()->can('job-type.index'))
                         <div class="text-end">
                             <button type="submit" class="btn btn-sm btn-success " data-bs-toggle="modal"
                                 data-bs-target=".bs-example-modal-lg-create">Create New</a>
                         </div>
+                        @endif
                     </div>
 
                     @if ($errors->any())
@@ -54,11 +56,13 @@
                                         <td>{{ $data->jobtype_seqno }}</td>
                                         <td>{{ $data->jobtype_status == 1 ? 'Active' : 'In-Active' }}</td>
                                         <td style="display: flex;">
-
+                                            @if (App\Helpers\FileHelper::usr()->can('job-type.update'))
                                             <button data-id="{{ $data->id }}" data-bs-toggle="modal"
                                                 data-bs-target=".bs-example-modal-lg-edit"
                                                 class="btn btn-sm btn-info edit me-3"><i
                                                     class="fa-solid fa-pen-to-square"></i></button>
+                                            @endif
+                                            @if (App\Helpers\FileHelper::usr()->can('job-type.destroy'))
                                             <form id="deleteForm" action="{{route('job-type.destroy', $data->id)}}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
@@ -66,6 +70,7 @@
                                                     onclick="return confirm('Are you sure you want to delete this item?')"
                                                     class="btn btn-sm btn-danger">Delete</a>
                                             </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty

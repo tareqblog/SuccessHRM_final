@@ -20,9 +20,10 @@
                     <div class="card-header">
                         <h4 class="card-title mb-0">TNC Template Table</h4>
                         <div class="text-end">
-
+                            @if (App\Helpers\FileHelper::usr()->can('tnc.create'))
                             <button data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
                                 class="btn btn-sm btn-info">Create New</button>
+                            @endif
                         </div>
                     </div>
 
@@ -67,17 +68,22 @@
                                             @endif
                                         </td>
                                         <td class="d-flex">
+                                            @if (App\Helpers\FileHelper::usr()->can('tnc.update'))
                                             <button data-id="{{ $data->id }}" data-bs-toggle="modal"
                                                 data-bs-target=".bs-example-modal-lg-edit"
                                                 class="btn btn-sm btn-info edit me-3"><i
                                                     class="fa-solid fa-pen-to-square"></i></button>
-                                            <form action="{{ route('tnc.destroy', $data->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger"
-                                                    onclick="return confirm('Are you sure you want to delete this item?')"><i
-                                                        class="fa-solid fa-trash"></i></button>
-                                            </form>
+                                            @endif
+                                                    @if (App\Helpers\FileHelper::usr()->can('tnc.destroy'))
+
+                                                    <form action="{{ route('tnc.destroy', $data->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-sm btn-danger"
+                                                            onclick="return confirm('Are you sure you want to delete this item?')"><i
+                                                                class="fa-solid fa-trash"></i></button>
+                                                    </form>
+                                                    @endif
                                         </td>
                                     </tr>
                                 @empty

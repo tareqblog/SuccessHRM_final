@@ -15,9 +15,11 @@ Manage Roles
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title mb-0">Roles Table</h4>
+                    @if (App\Helpers\FileHelper::usr()->can('roles.create'))
                     <div class="text-end">
                         <a href="{{route('roles.create')}}" class="btn btn-sm btn-success">Create New</a>
                     </div>
+                    @endif
                 </div>
                 <div class="card-body">
 
@@ -43,7 +45,10 @@ Manage Roles
                                     @endforeach
                                 </td>
                                 <td class="d-flex">
+                                    @if (App\Helpers\FileHelper::usr()->can('roles.update'))
                                     <a href="{{route('roles.edit', $role->id)}}" class="btn btn-info me-2"><i class="fa fa-pen"></i></a>
+                                    @endif
+                                    @if (App\Helpers\FileHelper::usr()->can('roles.destroy'))
                                     <form id="deleteForm" action="{{route('roles.destroy', $role->id)}}" method="POST">
                                         @csrf
                                         @method('DELETE')
@@ -51,6 +56,7 @@ Manage Roles
                                             onclick="return confirm('Are you sure you want to delete this item?')"
                                             class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                     </form>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
