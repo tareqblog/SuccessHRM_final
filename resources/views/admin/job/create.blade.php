@@ -85,8 +85,8 @@
                                         <div class="col-sm-9">
                                             <select name="co_owner_id" class="form-control">
                                                 <option value="">Select One</option>
-                                                @foreach ($employees as $user)
-                                                    <option value="{{ $user->id }}"> {{ $user->employee_name }} </option>
+                                                @foreach ($users as $user)
+                                                    <option value="{{ $user->id }}"> {{ $user->name }} </option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -110,8 +110,8 @@
                                         <div class="col-sm-9">
                                             <select name="person_incharge" class="form-control">
                                                 <option value="">Select One</option>
-                                                @foreach ($employees as $user)
-                                                    <option value="{{ $user->id }}">{{ $user->employee_name }} </option>
+                                                @foreach ($users as $user)
+                                                    <option value="{{ $user->id }}">{{ $user->name }} </option>
                                                 @endforeach
                                             </select>
                                         </div>

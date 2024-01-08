@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\DB;
 use Mail;
 use App\Models\Employee;
 
+
+use Auth;
+
 use Google2FA;
 
 class UserController extends Controller
@@ -27,6 +30,17 @@ class UserController extends Controller
     public function index(): View
     {
         return view('admin.users.index', [
+            'users' => User::latest('id')->get()
+        ]);
+    }
+
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function dashboard(): View
+    {
+        return view('index', [
             'users' => User::latest('id')->get()
         ]);
     }
@@ -193,4 +207,47 @@ class UserController extends Controller
 
         return back()->with('success', 'User has been deleted !!');
     }
+    
+    /**
+     * Display the login view.
+     */
+    public function loginform(): View
+    {
+        return view('auth.login');
+    }
+    
+    public function Login(Request $request){
+
+    //dd($request);   //<-----TO CHECK
+
+    $check = $request->all();
+
+    if(Auth::guard('web')->attempt(['email' => $check['email'], 'password' => $check['password'] ]))
+
+    {
+        //$request->session()->flash('login_data', $registration_data);
+
+            $user = User::where('email','=',$check['email'])->first();
+
+            $token = $request->get('google2fa');
+
+                    if (Google2FA::verifyKey($user->google2fa_secret, $token)) {
+
+                        $request->session()->remove('email');
+
+                        auth()->loginUsingId($user->id);
+
+                        return redirect()->route('2fa')->with('success', 'Login Successfully!');
+                    }
+
+                    return back()->with('error', 'Invalid OTP');
+    }
+    else{
+
+        return back()->with('error', 'Invalid Email or Password.');
+
+    }
+
+    } //End Method
+
 }

@@ -51,14 +51,38 @@ Route::get('/dashboard', function () {
 })->name('dashboard');
 // Dashbaord ends
 
-Route::get('/',  [App\Http\Controllers\AdminController::class, 'root']);
 
 
 
+Route::get('/ats',function () {
 
-Auth::routes(['register' => false]);
+return redirect(route('login'));
 
-Route::prefix('admin')->group(function () {
+    })->middleware('AdminMiddleware');
+    
+
+Route::get('/',function () {
+
+return redirect(route('login'));
+
+    })->middleware('AdminMiddleware');
+    
+    
+Auth::routes(['register' => false, 'login' => false]);
+Route::get('/login',[UserController::class, 'loginform'])->name('login');
+Route::post('/login',[UserController::class, 'login']);
+
+Route::middleware(['2fa','auth'])->group(function () {
+
+Route::get('/ATS/dashboard', [UserController::class,'dashboard'])->name('admin.dashboard');
+Route::any('/ATS/dashboard', function () {
+
+        return redirect('/ATS/designation');
+
+    })->name('2fa');
+});
+
+Route::prefix('ATS')->group(function () {
     Route::get('/log', function () {
         return json_encode(activity::all()->last());
     });
@@ -84,7 +108,7 @@ Route::prefix('admin')->group(function () {
         '/job' => JobController::class,
         '/leave' => LeaveController::class,
         '/candidate' => CandidateController::class,
-        '/import' => CandidateFileImportController::class,
+       '/import' => CandidateFileImportController::class,
         '/file-type' => UploadFileTypeController::class,
         '/pass-type' => PassTypeController::class,
         '/remarks-type' => RemarksTypesController::class,
@@ -142,5 +166,5 @@ Route::prefix('admin')->group(function () {
     Route::get('{any}',  [App\Http\Controllers\HomeController::class, 'index']);
 
 
-    Route::get('/',  [App\Http\Controllers\AdminController::class, 'root'])->name('admin.dashboard');
+  //  Route::get('/',  [App\Http\Controllers\AdminController::class, 'root'])->name('admin.dashboard');
 })->middleware('AdminMiddleware');
