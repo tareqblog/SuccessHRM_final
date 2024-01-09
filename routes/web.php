@@ -125,6 +125,8 @@ Route::prefix('ATS')->group(function () {
 
     Route::get('/setting/profile', [App\Http\Controllers\AdminController::class, 'index'])->name('user.profiles');
 
+    Route::get('/attendence/candidate/data/{id}',  [AttendenceController::class, 'getCandidateAttendenceData'])->name('attendence.get.candidate.data');
+
     Route::get('/import',  [CandidateFileImportController::class, 'index'])->name('import.index');
     Route::post('/import/upload',  [CandidateFileImportController::class, 'upload'])->name('upload.files');
     Route::post('/delete/import/data',  [CandidateFileImportController::class, 'deleteUploadedData'])->name('delete.uploaded.data');

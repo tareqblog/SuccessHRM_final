@@ -19,6 +19,7 @@ return new class extends Migration
             $table->time('out_time')->nullable();
             $table->string('lunch_time')->nullable();
             $table->string('isWork')->nullable();
+            $table->string('isNextDay')->nullable();
             $table->string('ot_rate')->nullable();
             $table->integer('minimum')->nullable();
             $table->integer('allowance')->nullable();

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\candidate;
+use App\Models\CandidateWorkingHour;
 use App\Models\Company;
+use App\Models\TimeSheetEntry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Psy\CodeCleaner\ReturnTypePass;
 
 class AttendenceController extends Controller
 {
@@ -39,8 +42,10 @@ class AttendenceController extends Controller
         if (is_null($this->user) || !$this->user->can('attendence.create')) {
             abort(403, 'Unauthorized');
         }
+
         $companies = Company::latest()->get();
         $candidates = candidate::latest()->get();
+
         return view('admin.attendence.create', compact('companies', 'candidates'));
     }
 
@@ -94,5 +99,18 @@ class AttendenceController extends Controller
             abort(403, 'Unauthorized');
         }
         //
+    }
+
+    public function getCandidateAttendenceData($id)
+    {
+        $workingHours = CandidateWorkingHour::where('candidate_id', $id)->pluck('timesheet_id');
+
+        $timesheetData = TimeSheetEntry::whereIn('time_sheet_id', $workingHours)->get();
+
+        foreach ($timesheetData as $time) {
+            $daysArray[] = $time;
+        }
+
+        return response()->json(['daysArray' => $daysArray]);
     }
 }

@@ -50,14 +50,15 @@
                             <div class="col-lg-12">
                                 <h5 class="mb-5">Days Setting</h5>
                                 <div class="form-group">
-                                    <label style="width: 9%;" for="package_day" class="col-sm-1 control-label">Day</label>
-                                    <label style="width: 16%;" for="package_day" class="col-sm-1 control-label">Time In</label>
-                                    <label style="width: 17%;" for="package_day" class="col-sm-1 control-label">Time Out</label>
-                                    <label style="width: 16%;" for="package_day" class="col-sm-1 control-label">Lunch Hour</label>
-                                    <label style="width: 9%;" for="package_day" class="col-sm-1 control-label">Work</label>
-                                    <label style="width: 9%;" for="package_day" class="col-sm-1 control-label">OT Rate</label>
-                                    <label style="width: 12%;" for="package_day" class="col-sm-1 control-label">Minimum</label>
-                                    <label style="width: 10%;" for="package_day" class="col-sm-1 control-label">Allowance</label>
+                                    <label for="package_day" class="col-sm-1 control-label">Day</label>
+                                    <label for="package_day" class="col-sm-1 control-label">Time In</label>
+                                    <label for="package_day" class="col-sm-1 control-label" style="margin-left: 120px;">Time Out</label>
+                                    <label for="package_day" class="col-sm-1 control-label" style="margin-left: 130px;">Lunch Hour</label>
+                                    <label for="package_day" class="col-sm-1 control-label">Work</label>
+                                    <label for="package_day" class="col-sm-1 control-label">Next Day</label>
+                                    <label for="package_day" class="col-sm-1 control-label">OT Rate</label>
+                                    <label for="package_day" class="col-sm-1 ms-5 control-label">Minimum</label>
+                                    <label for="package_day" class="col-sm-1 ms-5 control-label">Allowance</label>
                                     <!-- Add labels for other days as needed -->
                                 </div>
 
@@ -75,7 +76,7 @@
                                             <div class="col-sm-2">
                                                 <input type="time" class="form-control" name="{{ strtolower($day) }}_out" placeholder="Time Out">
                                             </div>
-                                            <div class="col-sm-2">
+                                            <div class="col-sm-1">
                                                 <select class="form-control" name="{{ strtolower($day) }}_lunch">
                                                     <option value="30 minutes">30 minutes</option>
                                                     <option value="45 minutes">45 minutes</option>
@@ -88,6 +89,11 @@
                                             <div class="col-sm-1">
                                                 <label>
                                                     <input type="checkbox" name="{{ strtolower($day) }}_isWork">
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <label>
+                                                    <input type="checkbox" name="{{ strtolower($day) }}_isNextDay">
                                                 </label>
                                             </div>
                                             <div class="col-sm-1">
