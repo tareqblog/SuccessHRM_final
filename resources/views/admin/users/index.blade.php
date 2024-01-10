@@ -5,6 +5,10 @@
 @section('page-title')
     Manage Users
 @endsection
+
+@section('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+@endsection
 @section('body')
 
     <body>
