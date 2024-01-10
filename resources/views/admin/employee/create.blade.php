@@ -16,8 +16,7 @@
                     <div class="card-header">
                         <h4 class="card-title mb-0">Create New Employee</h4>
                         <div class="text-end">
-                            <a href="{{ route('employee.create') }}" class="btn btn-sm btn-success">Create
-                                New</a>
+                            <a href="{{ route('employee.index') }}" class="btn btn-sm btn-success">Search</a>
                         </div>
                     </div>
                     @include('admin.include.errors')
@@ -82,7 +81,7 @@
                                                             <option value="">Select One</option>
                                                             @foreach ($outlets as $outlet)
                                                                 <option value="{{ $outlet->id }}">
-                                                                    {{ $outlet->outlet_name }}</option>
+                                                                    {{ $outlet->name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>

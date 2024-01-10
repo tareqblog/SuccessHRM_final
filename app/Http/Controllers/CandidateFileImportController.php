@@ -41,7 +41,7 @@ class CandidateFileImportController extends Controller
         $importData = ImportCandidateData::where('user_id', Auth::id())->get();
 
         $temporary_data = TemporaryImportedData::where('created_by', Auth::id())->get();
-        $assaignPerson = Employee::latest()->get();
+        $assaignPerson = Employee::where('employee_status', 1)->get();
 
         return view('admin.candidate.import', compact('importData', 'temporary_data', 'assaignPerson'));
     }

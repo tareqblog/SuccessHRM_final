@@ -119,7 +119,7 @@
                                                             @foreach ($nationality as $nation)
                                                                 <option value="{{ $nation->id }}"
                                                                     {{ old('nationality_id') == $nation->id ? 'selected' : '' }}>
-                                                                    {{ old('nationality_id') . $nation->en_nationality }}
+                                                                    {{ old('nationality_id') . $nation->nationality_code }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -176,7 +176,7 @@
                                                             @foreach ($outlet_data as $row)
                                                                 <option value="{{ $row->id }}"
                                                                     {{ old('candidate_outlet_id') == $row->id ? 'selected' : '' }}>
-                                                                    {{ $row->outlet_name }}</option>
+                                                                    {{ $row->name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>

@@ -27,7 +27,7 @@ class DepartmentController extends Controller
         if (is_null($this->user) || !$this->user->can('department.index')) {
             abort(403, 'Unauthorized');
         }
-        $datas = Department::latest()->get();
+        $datas = Department::orderBy('department_seqno')->get();
         return view('admin.department.index', compact('datas'));
     }
 

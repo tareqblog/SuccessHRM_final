@@ -22,7 +22,7 @@ class ClientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'client_code' => 'nullable',
+            'client_code' => 'required',
             'client_name' => 'nullable',
             'industry_types_id' => 'nullable|integer',
             'client_attention_person' => 'nullable',

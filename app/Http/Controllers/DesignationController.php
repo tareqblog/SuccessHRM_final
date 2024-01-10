@@ -26,7 +26,7 @@ class DesignationController extends Controller
         if (is_null($this->user) || !$this->user->can('designation.index')) {
             abort(403, 'Unauthorized');
         }
-        $datas = Designation::latest()->get();
+        $datas = Designation::orderBy('designation_seqno')->get();
         return view('admin.designation.index', compact('datas'));
     }
 

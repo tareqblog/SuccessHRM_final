@@ -10,6 +10,7 @@ use App\Models\LeaveType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Models\Role;
 
 class LeaveController extends Controller
 {
@@ -44,9 +45,10 @@ class LeaveController extends Controller
         if (is_null($this->user) || !$this->user->can('leave.create')) {
         abort(403, 'Unauthorized');
         }
-        $employees = Employee::latest()->select('id', 'employee_code')->get();
+        $employees = Employee::latest()->select('id', 'employee_name')->get();
         $leaveType = LeaveType::latest()->select('id', 'leavetype_code')->get();
-        return view('admin.leave.create', compact('employees', 'leaveType'));
+        $roles = Role::latest()->get();
+        return view('admin.leave.create', compact('employees', 'leaveType', 'roles'));
     }
 
     /**
@@ -93,9 +95,10 @@ class LeaveController extends Controller
         if (is_null($this->user) || !$this->user->can('leave.edit')) {
         abort(403, 'Unauthorized');
         }
-        $employees = Employee::latest()->select('id', 'employee_code')->get();
+        $employees = Employee::latest()->select('id', 'employee_name')->get();
         $leaveType = LeaveType::latest()->select('id', 'leavetype_code')->get();
-        return view('admin.leave.edit', compact('leave', 'employees', 'leaveType'));
+        $roles = Role::latest()->get();
+        return view('admin.leave.edit', compact('leave', 'employees', 'leaveType', 'roles'));
     }
 
     /**

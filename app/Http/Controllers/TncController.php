@@ -28,7 +28,7 @@ class TncController extends Controller
         if (is_null($this->user) || !$this->user->can('tnc.index')) {
             abort(403, 'Unauthorized');
         }
-        $datas = TncTemplate::latest()->get();
+        $datas = TncTemplate::orderBy('tnc_template_seqno')->get();
         return view('admin.tnc.index', compact('datas'));
     }
 
@@ -106,21 +106,26 @@ class TncController extends Controller
         ]);
 
         if ($request->hasFile('tnc_template_file_path')) {
-            // Delete the old file
             Storage::delete("public/{$tnc->tnc_template_file_path}");
 
-            // Upload the new file
             $uploadedFilePath = FileHelper::uploadFile($request->file('tnc_template_file_path'));
 
-            // Update the database record
+            if ($request->tnc_template_isDefault == 1) {
+                TncTemplate::where('tnc_template_isDefault', 1)->update(['tnc_template_isDefault' => 0]);
+            }
+
             $tnc->update([
                 'tnc_template_file_path' => $uploadedFilePath,
                 'tnc_template_code' => $request->input('tnc_template_code'),
                 'tnc_template_desc' => $request->input('tnc_template_desc'),
                 'tnc_template_seqno' => $request->input('tnc_template_seqno'),
-                // Add other columns as needed
+                'tnc_template_isDefault' => $request->input('tnc_template_isDefault')
             ]);
         } else {
+
+            if ($request->tnc_template_isDefault == 1) {
+                TncTemplate::where('tnc_template_isDefault', 1)->update(['tnc_template_isDefault' => 0]);
+            }
             $tnc->update($request->except('_token', 'tnc_template_file_path'));
         }
         return back()->with('success', 'Successfully updated.');

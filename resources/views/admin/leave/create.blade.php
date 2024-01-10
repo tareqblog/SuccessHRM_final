@@ -9,94 +9,109 @@
 
     <body>
     @endsection
+    @section('css')
+        <!-- quill css -->
+        <link href="{{ URL::asset('build/libs/quill/quill.core.css') }}" rel="stylesheet" type="text/css" />
+    @endsection
     @section('content')
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Apply New Leave</h4>
+                        <h4 class="card-title mb-0">Create Leave</h4>
+                        <div class="text-end">
+                            <a href="{{ route('leave.index') }}" class="btn btn-sm btn-success">Search</a>
+                        </div>
                     </div>
-                    @include('admin.include.errors')
-                    <div class="card-body">
+                    <div class="card-body p-5">
                         <form action="{{ route('leave.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="row mb-4">
-                                        <label for="one" class="col-sm-2 col-form-label">Group</label>
+                                <div class="col-lg-12 row">
+                                    <div class="row mb-4 col-lg-6">
+                                        <label for="one" class="col-sm-3 col-form-label">Group</label>
                                         <div class="col-sm-9">
                                             <select name="leave_empl_type" class="form-control">
                                                 <option value="">Select One</option>
-                                                <option value="0">Candidate</option>
-                                                <option value="1">Employee</option>
+                                                @foreach ($roles as $role)
+                                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="row mb-4">
-                                        <label for="one" class="col-sm-2 col-form-label">Employee Name</label>
+                                    <div class="row mb-4 col-lg-6">
+                                        <label for="one" class="col-sm-3 col-form-label">Employee Name</label>
                                         <div class="col-sm-9">
                                             <select name="employees_id" class="form-control">
                                                 <option value="">Select One</option>
                                                 @foreach ($employees as $employee)
-                                                    <option value="{{ $employee->id }}">{{ $employee->employee_code }}
+                                                    <option value="{{ $employee->id }}">
+                                                        {{ $employee->employee_name }}
                                                     </option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="row mb-4">
-                                        <label for="one" class="col-sm-2 col-form-label">Type of Leave</label>
+                                    <div class="row mb-4 col-lg-6">
+                                        <label for="one" class="col-sm-3 col-form-label">Type of Leave</label>
                                         <div class="col-sm-9">
                                             <select name="leave_types_id" class="form-control">
                                                 <option value="">Select One</option>
                                                 @foreach ($leaveType as $type)
-                                                    <option value="{{ $type->id }}">{{ $type->leavetype_code }}</option>
+                                                    <option value="{{ $type->id }}">
+                                                        {{ $type->leavetype_code }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="row mb-4">
-                                        <label for="one" class="col-sm-2 col-form-label">Leave Duration</label>
+                                    <div class="row mb-4 col-lg-6">
+                                        <label for="one" class="col-sm-3 col-form-label">Leave Duration</label>
                                         <div class="col-sm-9">
                                             <select name="leave_duration" class="form-control">
-                                                <option value="Full Day Leave">Full Day Leave</option>
-                                                <option value="Half Day AM">Half Day AM</option>
-                                                <option value="Half Day PM">Half Day PM</option>
+                                                <option value="Full Day Leave" {{ old('leave_duration') }}>Full
+                                                    Day Leave</option>
+                                                <option value="Half Day AM" {{ old('leave_duration') }}>Half
+                                                    Day
+                                                    AM</option>
+                                                <option value="Half Day PM" {{ old('leave_duration') }}>Half
+                                                    Day
+                                                    PM</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="row mb-4">
-                                        <label for="one" class="col-sm-2 col-form-label">Date (From)</label>
+                                    <div class="row mb-4 col-lg-6">
+                                        <label for="one" class="col-sm-3 col-form-label">Date (From)</label>
                                         <div class="col-sm-9">
                                             <input type="date" name="leave_datefrom" class="form-control"
-                                                placeholder="Date (From)">
+                                                placeholder="Date (From)" value="{{ old('leave_datefrom') }}">
                                         </div>
                                     </div>
-                                    <div class="row mb-4">
-                                        <label for="one" class="col-sm-2 col-form-label">Date (To)</label>
+                                    <div class="row mb-4 col-lg-6">
+                                        <label for="one" class="col-sm-3 col-form-label">Date (To)</label>
                                         <div class="col-sm-9">
                                             <input type="date" class="form-control" name="leave_dateto"
-                                                placeholder="Date (To)">
+                                                placeholder="Date (To)" value="{{ old('leave_dateto') }}">
                                         </div>
                                     </div>
-                                    <div class="row mb-4">
-                                        <label for="one" class="col-sm-2 col-form-label">Total Days</label>
+                                    <div class="row mb-4 col-lg-6">
+                                        <label for="one" class="col-sm-3 col-form-label">Total Days</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" placeholder="Total Hours"
-                                                name="leave_total_day">
+                                            <input type="text" class="form-control" placeholder="Total Days"
+                                                name="leave_total_day" value="{{ old('leave_total_day') }}">
                                         </div>
                                     </div>
-                                    <div class="row mb-4">
-                                        <label for="one" class="col-sm-2 col-form-label">Upload File</label>
+                                    <div class="row mb-4 col-lg-6">
+                                        <label for="one" class="col-sm-3 col-form-label">Upload File</label>
                                         <div class="col-sm-9">
                                             <input type="file" class="form-control" placeholder="Upload File"
                                                 name="leave_file_path">
+
                                         </div>
                                     </div>
-                                    <div class="row mb-4">
-                                        <label for="one" class="col-sm-2 col-form-label">Remarks</label>
+                                    <div class="row mb-4 col-lg-6">
+                                        <label for="one" class="col-sm-3 col-form-label">Remarks</label>
                                         <div class="col-sm-9">
-                                            <textarea rows="2" name="leave_reason" class="form-control" placeholder="Remarks"></textarea>
+                                            <textarea rows="2" name="leave_reason" class="form-control" placeholder="Remarks"> {{ old('leave_reason') }} </textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -112,4 +127,28 @@
                 </div>
             </div>
         </div>
+    @endsection
+
+    @section('scripts')
+        <!-- ckeditor -->
+        <script src="{{ URL::asset('build/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
+
+        <!-- init js -->
+        <script src="{{ URL::asset('build/js/pages/form-editor.init.js') }}"></script>
+        <script>
+            function job_link() {
+                // Get the text field
+                var copyText = document.getElementById("job_link");
+
+                // Select the text field
+                copyText.select();
+                copyText.setSelectionRange(0, 99999); // For mobile devices
+
+                // Copy the text inside the text field
+                navigator.clipboard.writeText(copyText.value);
+
+                // Alert the copied text
+                //   alert("Copied the text: " + copyText.value);
+            }
+        </script>
     @endsection

@@ -73,6 +73,8 @@ class RolePermissionSeeder extends Seeder
                     'temporary.data.delete',
                     'extract.info',
                     'upload.files',
+                    'delete.uploaded.data',
+                    'candidate.payroll.delete',
                 ]
             ],
             [
@@ -114,6 +116,18 @@ class RolePermissionSeeder extends Seeder
                     'company.update',
                     'company.destroy',
                     'company.edit',
+                ]
+            ],
+            [
+                'group_name' => 'pass-type',
+                'permissions' => [
+                    'pass-type.index',
+                    'pass-type.store',
+                    'pass-type.show',
+                    'pass-type.create',
+                    'pass-type.update',
+                    'pass-type.destroy',
+                    'pass-type.edit',
                 ]
             ],
             [
@@ -234,6 +248,18 @@ class RolePermissionSeeder extends Seeder
                     'job-category.update',
                     'job-category.destroy',
                     'job-category.edit',
+                ]
+            ],
+            [
+                'group_name' => 'job-application',
+                'permissions' => [
+                    'job-application.index',
+                    'job-application.store',
+                    'job-application.create',
+                    'job-application.show',
+                    'job-application.update',
+                    'job-application.destroy',
+                    'job-application.edit',
                 ]
             ],
             [

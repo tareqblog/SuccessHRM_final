@@ -23,7 +23,7 @@
             <div class="row mb-4">
                 <label for="one" class="col-sm-4 col-form-label">List Order</label>
                 <div class="col-sm-8">
-                    <input type="text" name="marital_statuses_seqno" class="form-control" placeholder="List Order"
+                    <input type="text" name="passtype_seqno" class="form-control" placeholder="List Order"
                         value="{{ $data->passtype_seqno }}">
                 </div>
             </div>

@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="row mb-4">
-                <label for="one" class="col-sm-2 col-form-label">Seq No</label>
+                <label for="one" class="col-sm-2 col-form-label">List Order</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control" name="department_seqno" placeholder="Seq No"
                         value="{{ $department->department_seqno }}">

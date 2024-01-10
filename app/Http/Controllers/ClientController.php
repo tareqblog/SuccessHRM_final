@@ -37,7 +37,7 @@ class ClientController extends Controller
         if (is_null($this->user) || !$this->user->can('clients.index')) {
             abort(403, 'Unauthorized');
         }
-        $datas = client::latest()->with('industry_type','Employee')->where('clients_status','=',1)->get();
+        $datas = client::latest()->with('industry_type','Employee')->get();
         return view('admin.client.index', compact('datas'));
     }
 
@@ -49,12 +49,13 @@ class ClientController extends Controller
         if (is_null($this->user) || !$this->user->can('clients.create')) {
             abort(403, 'Unauthorized');
         }
-        $industries = IndustryType::orderBy('industry_seqno')->get();
-        $employees = Employee::latest()->where('roles_id','!=','13')->Where('roles_id','!=','14')->select('id', 'employee_name')->get();
-        $employees_payroll = Employee::latest()->where('roles_id','=','13')->orWhere('roles_id','=','14')->select('id', 'employee_name')->get();
+
+        $industries = IndustryType::orderBy('industry_seqno')->where('industry_status',1)->get();
+        $employees = Employee::latest()->where('roles_id','!=','13')->Where('roles_id','!=','14')->where('employee_status', 1)->select('id', 'employee_name')->get();
+        $employees_payroll = Employee::latest()->where('roles_id','=','13')->orWhere('roles_id','=','14')->where('employee_status',1)->select('id', 'employee_name')->get();
         $users = User::latest()->select('id', 'name')->get();
-        $tncs = TncTemplate::latest()->select('id', 'tnc_template_code')->get();
-        $client_terms = clientTerm::latest()->select('id', 'client_term_code')->get();
+        $tncs = TncTemplate::orderBy('tnc_template_seqno')->where('tnc_template_status',1)->select('id', 'tnc_template_code')->get();
+        $client_terms = clientTerm::orderBy('client_term_seqno')->where('client_term_status',1)->select('id', 'client_term_code')->get();
         return view('admin.client.create', compact('industries', 'employees','employees_payroll', 'users', 'tncs', 'client_terms'));
     }
 
@@ -86,12 +87,12 @@ class ClientController extends Controller
         if (is_null($this->user) || !$this->user->can('clients.edit')) {
             abort(403, 'Unauthorized');
         }
-        $industries = IndustryType::orderBy('industry_seqno')->get();
-        $employees = Employee::latest()->where('roles_id','!=','13')->Where('roles_id','!=','14')->select('id', 'employee_name')->get();
-        $employees_payroll = Employee::latest()->where('roles_id','=','13')->orWhere('roles_id','=','14')->select('id', 'employee_name')->get();
+        $industries = IndustryType::orderBy('industry_seqno')->where('industry_status',1)->get();
+        $employees = Employee::latest()->where('roles_id','!=','13')->Where('roles_id','!=','14')->where('employee_status', 1)->select('id', 'employee_name')->get();
+        $employees_payroll = Employee::latest()->where('roles_id','=','13')->orWhere('roles_id','=','14')->where('employee_status', 1)->select('id', 'employee_name')->get();
         $users = User::latest()->select('id', 'name')->get();
-        $tncs = TncTemplate::latest()->select('id', 'tnc_template_code')->get();
-        $client_terms = clientTerm::latest()->select('id', 'client_term_code')->get();
+        $tncs = TncTemplate::orderBy('tnc_template_seqno')->where('tnc_template_status',1)->select('id', 'tnc_template_code')->get();
+        $client_terms = clientTerm::orderBy('client_term_seqno')->where('client_term_status',1)->select('id', 'client_term_code')->get();
 
         $fileTypes = uploadfiletype::where('uploadfiletype_status', 1)->where('uploadfiletype_for',0)->latest()->get();
 
@@ -149,9 +150,11 @@ class ClientController extends Controller
                 'file_type_id' => $request->file_type_id
             ]);
 
-            return back()->with('success', 'Created successfully.');
+            $url = '/ATS/clients/' . $id . '/edit#upload_file';
+            return redirect($url)->with('success', 'Created successfully.');
         } else {
-            return back()->with('error', 'Please select a file.');
+            $url = '/ATS/clients/' . $id . '/edit#upload_file';
+            return redirect($url)->with('error', 'Please select a file.');
         }
     }
     public function fileDelete($id)
@@ -167,7 +170,8 @@ class ClientController extends Controller
             Storage::delete("public/{$file_path_name}");
         }
         ClientUploadFile::where('id', $id)->delete();
-        return back()->with('success', 'Successfully Deleted.');
+        $url = '/ATS/clients/' . request()->file_delete . '/edit#upload_file';
+        return redirect($url)->with('success', 'Successfully Deleted.');
     }
     public function followUp(Request $request, $id)
     {
@@ -186,7 +190,10 @@ class ClientController extends Controller
             'clients_id' => $request->clients_id
         ]);
 
-        return back()->with('success', 'Follow up added successfully.');
+        $url = '/ATS/clients/' . $request->clients_id . '/edit#follow_up';
+
+        return redirect($url)->with('success', 'Follow up added successfully.');
+
     }
 
     public function folowupDelete($id)
@@ -194,7 +201,11 @@ class ClientController extends Controller
         if (is_null($this->user) || !$this->user->can('candidate.followup.delete')) {
             abort(403, 'Unauthorized');
         }
+
         ClientFollowUp::where('id', $id)->delete();
-        return back()->with('success', 'Successfully Deleted.');
+
+        $url = '/ATS/clients/' . request()->followup_delete . '/edit#follow_up';
+
+        return redirect($url)->with('success', 'Successfully Deleted.');
     }
 }
