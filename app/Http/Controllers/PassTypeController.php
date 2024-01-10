@@ -26,7 +26,7 @@ class PassTypeController extends Controller
         if (is_null($this->user) || !$this->user->can('pass-type.index')) {
             abort(403, 'Unauthorized');
         }
-        $datas =  passtype::latest()->get();
+        $datas =  passtype::orderBy('passtype_seqno')->get();
         return view('admin.passType.index', compact('datas'));
     }
 

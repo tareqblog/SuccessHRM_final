@@ -18,6 +18,7 @@ use App\Http\Controllers\BankController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\GiroController;
 use App\Http\Controllers\JobApplicationController;
+use App\Http\Controllers\JobStatusController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\MaritalStatusController;
@@ -119,6 +120,7 @@ Route::prefix('ATS')->group(function () {
         '/company' => CompanyController::class,
         '/time-sheet' => TimeSheetController::class,
         '/attendence' => AttendenceController::class,
+        '/job-status' => JobStatusController::class,
     ]);
     Route::get('/authenticate',  [UserController::class, 'storecomplete'])->name('user.authenticate');
     Route::post('/users/fetch-email',  [UserController::class, 'search'])->name('email.searchapi');

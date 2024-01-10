@@ -66,6 +66,7 @@
                             </div>
 
                             <div class="col-lg-4 card-body mt-4">
+                                @if (isset($importData) && count($importData) > 0)
                                 <h2>Extracted Information:</h2>
                                 <form action="{{ route('temporary.data.save') }}" method="POST">
                                     @csrf
@@ -94,12 +95,27 @@
                                     <div class="row mb-4">
                                         <label for="one" class="col-sm-4 col-form-label">Gender</label>
                                         <div class="col-sm-8">
-                                            <input type="text" id="gender" name="gender" class="form-control"
-                                                value="" placeholder="Gender" required>
+                                                <select name="gender" class="form-control" id="gender">
+                                                    <option value="">Select One</option>
+                                                    <option value="Male">Male</option>
+                                                    <option value="Female">Female</option>
+                                                </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4">
+                                        <label for="one" class="col-sm-4 col-form-label">Assaign To</label>
+                                        <div class="col-sm-8">
+                                                <select name="assaign_to" class="form-control">
+                                                    <option value="">Select One</option>
+                                                    @foreach ($assaignPerson as $assaign)
+                                                    <option value="{{$assaign->id}}">{{$assaign->employee_name}}</option>
+                                                    @endforeach
+                                                </select>
                                         </div>
                                     </div>
                                     <button type="submit" id="" class="btn btn-info">Add to list</button>
                                 </form>
+                                @endif
                             </div>
                             <div class="col-lg-5 card-body mt-4">
                                 {{-- <div id="fileViewer"></div> --}}
@@ -189,7 +205,6 @@
                                         $('input[name="name"]').val(result.name);
                                         $('input[name="email"]').val(result.email);
                                         $('input[name="phone_no"]').val(result.phone_no);
-                                        $('input[name="gender"]').val(result.gender);
                                         $('input[name="resume_path"]').val(result.myPath);
                                         const iframe = document.getElementById('pdfViewer');
                                         const pdfUrl = result.myPath;

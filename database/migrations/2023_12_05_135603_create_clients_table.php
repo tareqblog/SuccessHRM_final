@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('industry_types_id')->nullable()->comment('link to industry_types table');
             $table->string('client_attention_person')->nullable();
             $table->string('client_attention_designation')->nullable();
+            $table->string('client_designation')->nullable();
             $table->string('client_attention_phone')->nullable();
             $table->string('client_contact_person')->nullable();
             $table->string('client_contact_number')->nullable();

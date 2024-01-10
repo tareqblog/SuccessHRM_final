@@ -20,6 +20,7 @@
                     <div class="card-header">
                         <h4 class="card-title mb-0">Update Leave</h4>
                         <div class="text-end">
+                            <a href="{{ route('leave.create') }}" class="btn btn-sm btn-success">Create New</a>
                             <a href="{{ route('leave.index') }}" class="btn btn-sm btn-success">Search</a>
                         </div>
                     </div>
@@ -33,11 +34,9 @@
                                         <label for="one" class="col-sm-3 col-form-label">Group</label>
                                         <div class="col-sm-9">
                                             <select name="leave_empl_type" class="form-control">
-                                                <option value="">Select One</option>
-                                                <option value="0" {{ $leave->leave_empl_type == 0 ? 'selected' : '' }}>
-                                                    Candidate</option>
-                                                <option value="1" {{ $leave->leave_empl_type == 1 ? 'selected' : '' }}>
-                                                    Employee</option>
+                                                @foreach ($roles as $role)
+                                                <option value="{{$role->id}}" {{$leave->leave_empl_type == $role->id ? 'selected' : ''}}>{{$role->name}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -47,10 +46,7 @@
                                             <select name="employees_id" class="form-control">
                                                 <option value="">Select One</option>
                                                 @foreach ($employees as $employee)
-                                                    <option value="{{ $employee->id }}"
-                                                        {{ old('employees_id',$leave->employees_id) == $employee->id ? 'selected' : '' }}>
-                                                        {{ $employee->employee_code }}
-                                                    </option>
+                                                <option value="{{$employee->id}}" {{$leave->employees_id == $employee->id ? 'selected' : '' }}>{{$employee->employee_name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>

@@ -22,7 +22,7 @@
                         <div class="text-end">
                             @if (App\Helpers\FileHelper::usr()->can('marital-status.create'))
                             <button data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
-                                class="btn btn-sm btn-info">Create New</button>
+                                class="btn btn-sm btn-success">Create New</button>
                             @endif
                         </div>
                     </div>

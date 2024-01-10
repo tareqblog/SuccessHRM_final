@@ -27,7 +27,7 @@ class ClientTermController extends Controller
         if (is_null($this->user) || !$this->user->can('client-term.index')) {
             abort(403, 'Unauthorized');
         }
-        $datas = clientTerm::latest()->get();
+        $datas = clientTerm::orderBy('client_term_seqno')->get();
 
         return view('admin.clientTerm.index', compact('datas'));
     }

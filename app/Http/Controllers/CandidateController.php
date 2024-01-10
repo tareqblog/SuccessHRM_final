@@ -26,8 +26,10 @@ use App\Models\ClientUploadFile;
 use App\Models\CandidateResume;
 use App\Models\CandidateWorkingHour;
 use App\Models\client;
+use App\Models\Company;
 use App\Models\jobtype;
 use App\Models\country;
+use App\Models\Nationality;
 use App\Models\remarkstype;
 use App\Models\User;
 use App\Models\Paybank;
@@ -73,8 +75,8 @@ class CandidateController extends Controller
         $marital_data = maritalStatus::orderBy('marital_statuses_seqno')->where('marital_statuses_status', '1')->get();
         $passtype_data = passtype::orderBy('passtype_seqno')->where('passtype_status', '1')->get();
         $religion_data = religion::orderBy('religion_seqno')->where('religion_status', '1')->get();
-        $outlet_data = outlet::orderBy('id')->get();
-        $nationality = country::where('country_status', 1)->latest()->get();
+        $outlet_data = Company::latest()->get();
+        $nationality = Nationality::orderBy('seq_no')->where('status', 1)->get();
         $Paybanks = Paybank::orderBy('Paybank_seqno')->select('id', 'Paybank_code')->where('Paybank_status', 1)->get();
         return view('admin.candidate.create', compact('Paybanks', 'outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data', 'nationality'));
     }
@@ -130,7 +132,7 @@ class CandidateController extends Controller
         $marital_data = maritalStatus::orderBy('marital_statuses_seqno')->where('marital_statuses_status', '1')->get();
         $passtype_data = passtype::orderBy('passtype_seqno')->where('passtype_status', '1')->get();
         $religion_data = religion::orderBy('religion_seqno')->where('religion_status', '1')->get();
-        $outlet_data = outlet::orderBy('id')->get();
+        $outlet_data = Company::orderBy('id')->get();
         $client_files = ClientUploadFile::where('client_id', $candidate->id)->where('file_type_for', 1)->get();
         $remarks_type = remarkstype::where('remarkstype_status', 1)->select('id', 'remarkstype_code')->latest()->get();
         $client_remarks = CandidateRemark::where('candidate_id', $candidate->id)->latest()->get();
@@ -140,7 +142,7 @@ class CandidateController extends Controller
         $families = CandidateFamily::where('candidate_id', $candidate->id)->latest()->get();
         $time = CandidateWorkingHour::where('candidate_id', $candidate->id)->first();
         $candidate_resume = CandidateResume::where('candidates_id', $candidate->id)->latest()->get();
-        $nationality = country::where('country_status', 1)->latest()->get();
+        $nationality = Nationality::orderBy('seq_no')->where('status', 1)->get();
         $users = User::latest()->get();
         $Paybanks = Paybank::orderBy('Paybank_seqno')->select('id', 'Paybank_code')->where('Paybank_status', 1)->get();
         $time_sheet = TimeSheet::latest()->get();

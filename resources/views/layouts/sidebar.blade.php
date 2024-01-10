@@ -130,13 +130,23 @@
                     </ul>
                 </li>
                 @endif
-                @if ($usr->can('department.index') || $usr->can('religion.index') || $usr->can('marital-status.index') || $usr->can('designation.index')|| $usr->can('pass-type.index'))
+                @if ($usr->can('department.index')|| $usr->can('roles.index') || $usr->can('users.index') || $usr->can('religion.index') || $usr->can('marital-status.index') || $usr->can('designation.index')|| $usr->can('pass-type.index'))
                 <li>
                     <a href="#" class="has-arrow" data-toggle="collapse" data-target="#employee-setting">
                         <i class="fa fa-won icon nav-icon" aria-hidden="true"></i>
                         <span class="menu-item" data-key="employee-setting">Employee Setting</span>
                     </a>
                     <ul class="sub-menu collapse mm-collapse" aria-expanded="false">
+                        @if ($usr->can('roles.index'))
+                        <li><a href="{{route('roles.index')}}" data-key="create-role">Create Role</a>
+
+                        </li>
+                        @endif
+                        @if ($usr->can('users.index'))
+                        <li><a href="{{route('users.index')}}" data-key="all-user">All User</a>
+
+                        </li>
+                        @endif
                         @if ($usr->can('department.index'))
                         <li><a href="{{route('department.index')}}" data-key="department">Department</a></li>
                         @endif
@@ -225,9 +235,9 @@
 
                         </li>
                         @endif
-                        {{-- <li><a href="/job-status" data-key="job-status">Job Status</a>
+                        <li><a href="{{route('job-status.index')}}" data-key="job-status">Job Status</a>
 
-                        </li> --}}
+                        </li>
                     </ul>
                 </li>
                 @endif
@@ -335,7 +345,7 @@
                         </li>
                     </ul>
                 </li> --}}
-                @if ($usr->can('company.index') || $usr->can('company.index') || $usr->can('roles.index') || $usr->can('users.index') || $usr->can('bank.index') || $usr->can('giro.index') || $usr->can('nationality.index'))
+                @if ($usr->can('company.index') || $usr->can('company.index')  || $usr->can('bank.index') || $usr->can('giro.index') || $usr->can('nationality.index'))
                 <li>
                     <a href="#" class="has-arrow" data-toggle="collapse" data-target="#setting">
                         <i class="fa-solid fa-gear icon nav-icon" aria-hidden="true"></i>
@@ -347,16 +357,6 @@
                         @endif
                         @if ($usr->can('company.index'))
                         <li><a href="{{route('company.index')}}" data-key="company-profile">Company Profile</a>
-
-                        </li>
-                        @endif
-                        @if ($usr->can('roles.index'))
-                        <li><a href="{{route('roles.index')}}" data-key="create-role">Create Role</a>
-
-                        </li>
-                        @endif
-                        @if ($usr->can('users.index'))
-                        <li><a href="{{route('users.index')}}" data-key="all-user">All User</a>
 
                         </li>
                         @endif

@@ -20,7 +20,8 @@
                     <div class="card-header">
                         <h4 class="card-title mb-0">Edit Candidate</h4>
                         <div class="text-end">
-                            <a href="{{ route('candidate.index') }}" class="btn btn-sm btn-success">Back</a>
+                            <a href="{{ route('candidate.create') }}" class="btn btn-sm btn-success">Create New</a>
+                            <a href="{{ route('candidate.index') }}" class="btn btn-sm btn-success">Search</a>
                         </div>
                     </div>
                     @include('admin.include.errors')
@@ -158,7 +159,7 @@
                                                             @foreach ($nationality as $nation)
                                                                 <option value="{{ $nation->id }}"
                                                                     {{ $nation->id == old('nationality_id', $candidate->nationality_id) ? 'selected' : '' }}>
-                                                                    {{ $nation->en_nationality }}
+                                                                    {{ $nation->nationality_code }}
                                                                 </option>
                                                             @endforeach
                                                         </select>

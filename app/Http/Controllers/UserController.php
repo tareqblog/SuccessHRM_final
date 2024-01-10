@@ -207,7 +207,7 @@ class UserController extends Controller
 
         return back()->with('success', 'User has been deleted !!');
     }
-    
+
     /**
      * Display the login view.
      */
@@ -215,7 +215,7 @@ class UserController extends Controller
     {
         return view('auth.login');
     }
-    
+
     public function Login(Request $request){
 
     //dd($request);   //<-----TO CHECK

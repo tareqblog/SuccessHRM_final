@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 
 class Leave extends Model
 {
@@ -29,6 +30,10 @@ class Leave extends Model
     public function employee()
     {
         return $this->belongsTo(Employee::class, 'employees_id');
+    }
+    public function employee_type()
+    {
+        return $this->belongsTo(Role::class, 'leave_empl_type');
     }
 
     public function leaveType()

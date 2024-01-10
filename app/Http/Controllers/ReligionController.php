@@ -26,7 +26,7 @@ class ReligionController extends Controller
         if (is_null($this->user) || !$this->user->can('religion.index')) {
             abort(403, 'Unauthorized');
         }
-        $datas = Religion::latest()->get();
+        $datas = Religion::orderBy('religion_seqno')->get();
         return view('admin.religion.index', compact('datas'));
     }
 

@@ -17,7 +17,7 @@ Type Of Pass
                     <h4 class="card-title mb-0">Type Of Pass Table</h4>
                     <div class="text-end">
                         <button data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
-                        class="btn btn-sm btn-info">Create New</button>
+                        class="btn btn-sm btn-success">Create New</button>
                     </div>
                 </div>
                 @include('admin.include.errors')
@@ -101,7 +101,7 @@ Type Of Pass
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-4 col-form-label">List Order</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" name="marital_statuses_seqno" class="form-control"
+                                                        <input type="text" name="passtype_seqno" class="form-control"
                                                             placeholder="List Order" value="{{ old('passtype_seqno') }}">
                                                     </div>
                                                 </div>
@@ -154,7 +154,7 @@ Type Of Pass
             //edit modal show and after submit
             $('body').on('click', '.edit', function() {
                 var id = $(this).data('id'); //i or 2 categoryid
-                $.get("/admin/pass-type/" + id + "/edit",
+                $.get("pass-type/" + id + "/edit",
                     function(data) {
                         $('#editSection').html(data);
                     })
