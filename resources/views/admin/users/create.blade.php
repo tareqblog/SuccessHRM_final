@@ -84,7 +84,7 @@
         $(document).ready(function () {
             $('#name').on('change', function () {
                 var empName = this.value;
-                
+
                 $("#email").html('');
                 $.ajax({
                     url: "{{route('email.searchapi')}}",

@@ -233,6 +233,7 @@ class CandidateFileImportController extends Controller
     }
     public function extractInfo(Request $request)
     {
+
         if (is_null($this->user) || !$this->user->can('extract.info')) {
             abort(403, 'Unauthorized');
         }
@@ -300,6 +301,8 @@ class CandidateFileImportController extends Controller
                 $myPath = asset('storage/' . $file);
             }
             return response()->json(compact('name', 'email', 'phone_no', 'myPath', 'gender'));
+
+            dd('ok');
             // return view('admin.candidate.import', compact('name', 'email', 'phone_no', 'myPath'));
 
         }

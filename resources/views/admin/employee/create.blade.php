@@ -299,6 +299,32 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <h5>Login Information</h5>
+
+                                        <div class="col-lg-4">
+                                            <div class="mt-5 mt-lg-4 mt-xl-0">
+                                                <div class="row mb-4 form-group">
+                                                    <label for="two" class="col-sm-4 col-form-label">Login Initialize / ID <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="email" class="form-control" name="email">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 form-group">
+                                                    <label for="two" class="col-sm-4 col-form-label">Password<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="password" class="form-control" name="password">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 form-group">
+                                                    <label for="two" class="col-sm-4 col-form-label">Confirm Password<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-8">
+                                                        <input type="password" class="form-control" name="password_confirmation">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="tab-pane" id="contact_info" role="tabpanel">
                                     <div class="row">

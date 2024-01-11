@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Helpers\FileHelper;
 use App\Http\Requests\ClientRequest;
+use App\Imports\ClientImport;
 use App\Models\client;
+use App\Models\ClientDepartment;
 use App\Models\ClientFollowUp;
 use App\Models\clientTerm;
 use App\Models\ClientUploadFile;
@@ -16,6 +18,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+// use Maatwebsite\Excel\Excel;
+use Excel;
 
 class ClientController extends Controller
 {
@@ -87,6 +91,7 @@ class ClientController extends Controller
         if (is_null($this->user) || !$this->user->can('clients.edit')) {
             abort(403, 'Unauthorized');
         }
+        $departments = ClientDepartment::where('client_id', $client->id)->latest()->get();
         $industries = IndustryType::orderBy('industry_seqno')->where('industry_status',1)->get();
         $employees = Employee::latest()->where('roles_id','!=','13')->Where('roles_id','!=','14')->where('employee_status', 1)->select('id', 'employee_name')->get();
         $employees_payroll = Employee::latest()->where('roles_id','=','13')->orWhere('roles_id','=','14')->where('employee_status', 1)->select('id', 'employee_name')->get();
@@ -99,7 +104,7 @@ class ClientController extends Controller
         $client_files = ClientUploadFile::where('client_id', $client->id)->get();
         $client_followup = ClientFollowUp::where('clients_id', $client->id)->get();
 
-        return view('admin.client.edit', compact('client', 'industries', 'employees', 'employees_payroll','users', 'tncs', 'client_terms', 'fileTypes', 'client_files','client_followup'));
+        return view('admin.client.edit', compact('departments','client', 'industries', 'employees', 'employees_payroll','users', 'tncs', 'client_terms', 'fileTypes', 'client_files','client_followup'));
     }
 
     /**
@@ -208,4 +213,35 @@ class ClientController extends Controller
 
         return redirect($url)->with('success', 'Successfully Deleted.');
     }
+    public function clientImport(Request $request)  {
+        Excel::import(new ClientImport, $request->file('client_import_file'));
+    }
+
+
+    public function clientDepartmentStore(Request $request) {
+        $request->validate([
+            'client_id' => 'required|integer',
+            'name' => 'string|required',
+            'remarks' => 'nullable',
+        ]);
+
+        ClientDepartment::create([
+            'client_id' => $request->client_id,
+            'name' => $request->name,
+            'remarks' => $request->remarks
+        ]);
+
+        $url = '/ATS/clients/' . $request->client_id . '/edit#department';
+
+        return redirect($url)->with('success', 'Successfully Created.');
+    }
+
+    public function clientDepartmentDelete($id) {
+        ClientDepartment::find($id)->delete();
+
+        $url = '/ATS/clients/' . request()->department_delete . '/edit#department';
+        return redirect($url)->with('success', 'Successfully Deleted.');
+    }
+
+
 }

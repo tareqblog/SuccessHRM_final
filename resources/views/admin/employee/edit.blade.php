@@ -85,7 +85,7 @@
                                                             @foreach ($outlets as $outlet)
                                                                 <option value="{{ $outlet->id }}"
                                                                     {{ $outlet->id == old('employee_outlet_id', $employee->employee_outlet_id) ? 'selected' : '' }}>
-                                                                    {{ $outlet->outlet_name }}</option>
+                                                                    {{ $outlet->name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -352,7 +352,7 @@
                                                     <div class="col-sm-9">
                                                         <input type="text" name="employee_unit_number"
                                                             class="form-control" placeholder="Unit No"
-                                                            {{ $employee->employee_unit_number }}>
+                                                            value="{{$employee->employee_unit_number}}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">

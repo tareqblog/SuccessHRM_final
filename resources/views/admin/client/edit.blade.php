@@ -57,6 +57,12 @@
                                             <span class="d-none d-sm-block">Follow Up</span>
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#department" role="tab">
+                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                            <span class="d-none d-sm-block">Department</span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -452,6 +458,73 @@
                                                 @endforelse
                                             </tbody>
 
+                                        </table>
+                                    </div>
+                                    <hr class="mt-3">
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="department" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <form action="{{ route('client.department.store') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="client_id" value="{{$client->id}}">
+                                            <div class="mt-5 mt-lg-4 mt-xl-0">
+                                                <div class="row mb-4">
+                                                    <div class="col-lg-6 d-flex">
+                                                        <label for="twente_four" class="col-sm-3 col-form-label">Department Name</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" name="name" class="form-control" placeholder="Department name">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <div class="col-lg-6 d-flex">
+                                                        <label for="twente_four" class="col-sm-3 col-form-label">Remarks</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea name="remarks" rows="4" class="form-control"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn btn-sm btn-info">Save</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-lg-12 mt-2">
+                                        <table class="table table-bordered mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Department</th>
+                                                    <th>Remarks</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @forelse ($departments as $department)
+                                                    <tr>
+                                                        <td>{{ $loop->index + 1 }}</td>
+                                                        <td>{{ $department->name }}</td>
+                                                        <td>{{ $department->remarks }}</td>
+                                                        <td style="display: flex;">
+                                                                <form action="{{ route('client.department.delete', $department->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <input type="hidden" name="department_delete" value="{{$client->id}}">
+                                                                    <button class="btn btn-danger btn-sm"
+                                                                        onclick="return confirm('Are you sure you want to delete this item?')"
+                                                                        type="submit">Delete</button>
+                                                                </form>
+                                                        </td>
+                                                    </tr>
+                                                @empty
+                                                    <tr class="text-center">
+                                                        <td colspan="50">No data found !</td>
+                                                    </tr>
+                                                @endforelse
+                                            </tbody>
                                         </table>
                                     </div>
                                     <hr class="mt-3">

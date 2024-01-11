@@ -11,6 +11,7 @@ use App\Helpers\FileHelper;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use App\Models\client;
+use App\Models\Company;
 use App\Models\dbsex;
 use App\Models\EmployeeSalaryInfo;
 use App\Models\LeaveType;
@@ -23,10 +24,14 @@ use App\Models\User;
 use App\Models\Paybank;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
-
+use Illuminate\Support\Facades\DB;
 use \Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+
+use Google2FA;
 
 class EmployeeController extends Controller
 {
@@ -70,7 +75,7 @@ class EmployeeController extends Controller
         $departments = Department::orderBy('department_seqno')->where('department_status', '1')->select('id', 'department_code')->get();
         $designations = Designation::orderBy('designation_seqno')->where('designation_status', '1')->select('id', 'designation_code')->get();
         $paymode = paymode::orderBy('paymode_seqno')->where('paymode_status', '1')->get();
-        $outlets = outlet::latest()->select('id', 'outlet_name')->get();
+        $outlets = Company::latest()->select('id', 'name')->get();
         $passes = passtype::latest()->where('passtype_status', 1)->select('id', 'passtype_code')->get();
         $users = User::latest()->select('id', 'name')->get();
         $roles = Role::latest()->select('id', 'name')->get();
@@ -79,13 +84,41 @@ class EmployeeController extends Controller
         $sexs = dbsex::latest()->select('id', 'dbsexes_code')->where('dbsexes_status', 1)->get();
         $marital_status = maritalStatus::latest()->select('id', 'marital_statuses_code')->where('marital_statuses_status', 1)->get();
         $clients = client::latest()->select('id', 'client_code')->where('clients_status', 1)->get();
-        $Paybanks=Paybank::orderBy('Paybank_seqno')->select('id','Paybank_code')->where('Paybank_status',1)->get();
-        $emp_admin=Employee::select('id','employee_name')->where('roles_id',1)->get();
-        $emp_manager=Employee::select('id','employee_name')->where('roles_id',2)->get();
-        $emp_team_leader=Employee::select('id','employee_name')->where('roles_id',10)->get();
-        $leave_types = LeaveType::latest()->select('id', 'leavetype_code','leavetype_default')->where('leavetype_status', 1)->get();
-        return view('admin.employee.create', compact('Paybanks','emp_manager','emp_admin','rols', 'departments', 'designations', 'paymode', 'outlets', 'passes', 'users', 'roles', 'races', 'religions', 'sexs', 'marital_status', 'clients', 'leave_types', 'emp_team_leader'));
+        $Paybanks = Paybank::orderBy('Paybank_seqno')->select('id', 'Paybank_code')->where('Paybank_status', 1)->get();
+        $emp_admin = Employee::select('id', 'employee_name')->where('roles_id', 1)->get();
+        $emp_manager = Employee::select('id', 'employee_name')->where('roles_id', 2)->get();
+        $emp_team_leader = Employee::select('id', 'employee_name')->where('roles_id', 10)->get();
+        $leave_types = LeaveType::latest()->select('id', 'leavetype_code', 'leavetype_default')->where('leavetype_status', 1)->get();
+        return view('admin.employee.create', compact('Paybanks', 'emp_manager', 'emp_admin', 'rols', 'departments', 'designations', 'paymode', 'outlets', 'passes', 'users', 'roles', 'races', 'religions', 'sexs', 'marital_status', 'clients', 'leave_types', 'emp_team_leader'));
     }
+
+
+
+
+    private function sendResetEmail($email)
+    {
+    //Retrieve the user from the database
+    $user = DB::table('users')->where('email', $email)->select('name', 'email','google2fa_secret')->first();
+    $google2fa_secret=$user->google2fa_secret;
+    //Generate, the password reset link. The token generated is embedded in the link
+    $data[]=array('users' =>  $user);
+    $data["email"]=$user->email;
+    $data["name"]=$user->name;
+    $data["google2fa_secret"]=$user->google2fa_secret;
+    try {
+        Mail::send('google2fa.sendcode', compact('user','google2fa_secret'), function($message)use($data) {
+               $message->to($data["email"])
+                        ->subject('Set up Google Authenticator for '. $data["name"]);
+            });
+        return true;
+    } catch (\Exception $e) {
+        return false;
+    }
+
+    }
+
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -96,6 +129,9 @@ class EmployeeController extends Controller
         if (is_null($this->user) || !$this->user->can('employee.store')) {
             abort(403, 'Unauthorized');
         }
+
+
+
         $file_path = $request->file('employee_avater');
 
         // Check if $file_path is not empty before proceeding
@@ -106,10 +142,63 @@ class EmployeeController extends Controller
                 'employee_avater' => $uploadedFilePath,
             ]);
 
+
+
+            if ($request->email) {
+                $request->validate([
+                    'email' => 'required',
+                    'password' => 'required|min:8',
+                    'password_confirmation' => 'required|min:8',
+                ]);
+
+
+                $google2fa = app('pragmarx.google2fa');
+
+                // Create New User
+                $user = new User();
+                $user->name = $request->employee_name;
+                $user->email = $request->email;
+                $user->password = Hash::make($request->password);
+                $user->google2fa_secret = $google2fa->generateSecretKey();
+                $user->save();
+
+
+                $role = Role::where('id', $request->roles_id)->first()->name;
+                if ($request->roles_id) {
+                    $user->assignRole($role);
+                }
+            }
+
+
             return redirect()->route('employee.index')->with('success', 'Created successfully.');
         } else {
 
             Employee::create($request->except('_token', 'employee_avater'));
+
+            if ($request->email) {
+                $request->validate([
+                    'email' => 'required',
+                    'password' => 'required|min:8',
+                    'password_confirmation' => 'required|min:8',
+                ]);
+
+
+                $google2fa = app('pragmarx.google2fa');
+
+                // Create New User
+                $user = new User();
+                $user->name = $request->employee_name;
+                $user->email = $request->email;
+                $user->password = Hash::make($request->password);
+                $user->google2fa_secret = $google2fa->generateSecretKey();
+                $user->save();
+
+
+                $role = Role::where('id', $request->roles_id)->first()->name;
+                if ($request->roles_id) {
+                    $user->assignRole($role);
+                }
+            }
             return redirect()->route('employee.index')->with('success', 'Created successfully.');
         }
     }
@@ -135,7 +224,7 @@ class EmployeeController extends Controller
         $departments = Department::orderBy('department_seqno')->where('department_status', '1')->select('id', 'department_code')->get();
         $designations = Designation::orderBy('designation_seqno')->where('designation_status', '1')->select('id', 'designation_code')->get();
         $paymode = paymode::orderBy('paymode_seqno')->where('paymode_status', '1')->get();
-        $outlets = outlet::latest()->select('id', 'outlet_name')->get();
+        $outlets = Company::latest()->select('id', 'name')->get();
         $passes = passtype::latest()->where('passtype_status', 1)->select('id', 'passtype_code')->get();
         $users = User::latest()->select('id', 'name')->get();
         $roles = Role::latest()->select('id', 'name')->get();
@@ -144,12 +233,12 @@ class EmployeeController extends Controller
         $sexs = dbsex::latest()->select('id', 'dbsexes_code')->where('dbsexes_status', 1)->get();
         $marital_status = maritalStatus::latest()->select('id', 'marital_statuses_code')->where('marital_statuses_status', 1)->get();
         $clients = client::latest()->select('id', 'client_code')->where('clients_status', 1)->get();
-        $Paybanks=Paybank::orderBy('Paybank_seqno')->select('id','Paybank_code')->where('Paybank_status',1)->get();
-        $emp_team_leader=Employee::select('id','employee_name')->where('roles_id',10)->get();
-        $emp_admin=Employee::select('id','employee_name')->where('roles_id',1)->get();
-        $emp_manager=Employee::select('id','employee_name')->where('roles_id',2)->get();
-        $leave_types = LeaveType::latest()->select('id', 'leavetype_code','leavetype_default')->where('leavetype_status', 1)->get();
-        return view('admin.employee.edit', compact('Paybanks','emp_manager','emp_admin','employee','rols', 'departments', 'designations', 'paymode', 'outlets', 'passes', 'users', 'roles', 'races', 'religions', 'sexs', 'marital_status', 'clients', 'emp_team_leader', 'leave_types'));
+        $Paybanks = Paybank::orderBy('Paybank_seqno')->select('id', 'Paybank_code')->where('Paybank_status', 1)->get();
+        $emp_team_leader = Employee::select('id', 'employee_name')->where('roles_id', 10)->get();
+        $emp_admin = Employee::select('id', 'employee_name')->where('roles_id', 1)->get();
+        $emp_manager = Employee::select('id', 'employee_name')->where('roles_id', 2)->get();
+        $leave_types = LeaveType::latest()->select('id', 'leavetype_code', 'leavetype_default')->where('leavetype_status', 1)->get();
+        return view('admin.employee.edit', compact('Paybanks', 'emp_manager', 'emp_admin', 'employee', 'rols', 'departments', 'designations', 'paymode', 'outlets', 'passes', 'users', 'roles', 'races', 'religions', 'sexs', 'marital_status', 'clients', 'emp_team_leader', 'leave_types'));
     }
 
     /**
@@ -195,7 +284,8 @@ class EmployeeController extends Controller
         return back()->with('success', 'Deleted Successfully.');
     }
 
-    public function salaryInfoPost(Request $request) {
+    public function salaryInfoPost(Request $request)
+    {
 
         if (is_null($this->user) || !$this->user->can('employee.salary.info.post')) {
             abort(403, 'Unauthorized');

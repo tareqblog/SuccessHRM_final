@@ -47,10 +47,10 @@
                                     <div class="row">
                                         <div class="row col-lg-6 mb-4">
                                             <label for="one" class="col-sm-3 col-form-label">Client
-                                                Code</label>
+                                                Code <span class="text-danger">*</span></label>
                                             <div class="col-sm-9">
                                                 <input type="text" name="client_code" class="form-control"
-                                                    placeholder="Client Code" value="{{old('client_code')}}">
+                                                    placeholder="Client Code" value="{{old('client_code')}}" required>
                                             </div>
                                         </div>
                                         <div class="row col-lg-6  mb-4">
@@ -58,14 +58,14 @@
                                                 Name <span class="text-danger">*</span> </label>
                                             <div class="col-sm-9">
                                                 <input type="text" name="client_name" class="form-control"
-                                                    placeholder="Client Name" value="{{old('client_name')}}">
+                                                    placeholder="Client Name" value="{{old('client_name')}}" required>
                                             </div>
                                         </div>
                                         <div class="row col-lg-6  mb-4">
                                             <label for="two" class="col-sm-3 col-form-label">Manager /
                                                 Consultant (In Charge) <span class="text-danger">*</span></label>
                                             <div class="col-sm-9">
-                                                <select name="employees_id" data-trigger class="form-control">
+                                                <select name="employees_id" class="form-control" required>
                                                     <option value="">Select One</option>
                                                     @foreach ($employees as $employee)
                                                         <option value="{{ $employee->id }}" {{ old('employees_id') == $employee->id ? 'selected' : '' }}>
@@ -106,7 +106,7 @@
                                             <label for="seven" class="col-sm-3 col-form-label">Industry
                                                 <span class="text-danger">*</span></label>
                                             <div class="col-sm-9">
-                                                <select name="industry_types_id" class="form-control">
+                                                <select name="industry_types_id" class="form-control" required>
                                                     <option value="">Select One</option>
                                                     @foreach ($industries as $industry)
                                                         <option value="{{ $industry->id }}" {{ old('industry_types_id') == $industry->id ? 'selected' : '' }}>
@@ -119,7 +119,7 @@
                                             <label for="nine" class="col-sm-3 col-form-label">TNC Template
                                                 <span class="text-danger">*</span></label>
                                             <div class="col-sm-9">
-                                                <select name="tnc_templates_id" class="form-control">
+                                                <select name="tnc_templates_id" class="form-control" required>
                                                     <option value="">Select One</option>
                                                     @foreach ($tncs as $tnc)
                                                         <option value="{{ $tnc->id }}" {{ old('tnc_templates_id') == $tnc->id ? 'selected' : '' }}>
@@ -158,7 +158,7 @@
                                             Person <span class="text-danger">*</span></label>
                                         <div class="col-sm-9">
                                             <input type="text" name="client_contact_person" class="form-control"
-                                                placeholder="Contact Person" value="{{old('client_contact_person')}}">
+                                                placeholder="Contact Person" value="{{old('client_contact_person')}}" required>
                                         </div>
                                     </div>
                                     <div class="row col-lg-6 mb-4">
@@ -166,7 +166,7 @@
                                             Number <span class="text-danger">*</span></label>
                                         <div class="col-sm-9">
                                             <input type="text" name="client_contact_number" class="form-control"
-                                                placeholder="Contact Number" value="{{old('client_contact_number')}}">
+                                                placeholder="Contact Number" value="{{old('client_contact_number')}}" required>
                                         </div>
                                     </div>
                                     <div class="row col-lg-6  mb-4">

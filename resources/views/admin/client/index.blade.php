@@ -21,6 +21,8 @@
                         <h4 class="card-title mb-0">Client Table</h4>
                         @if (App\Helpers\FileHelper::usr()->can('clients.create'))
                             <div class="text-end">
+                                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                    data-bs-target=".bs-example-modal-lg-create">Import</button>
                                 <a href="{{ route('clients.create') }}" class="btn btn-sm btn-success">Create New</a>
                             </div>
                         @endif
@@ -104,6 +106,43 @@
 
                             </tbody>
                         </table>
+
+                            <!--  Create modal example -->
+                            <div class="modal fade bs-example-modal-lg-create" tabindex="-1" role="dialog"
+                                aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="myLargeModalLabel">Import Candidate</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="{{route('client.import')}}" method="POST">
+                                                @csrf
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="row mb-4">
+                                                            <label for="one" class="col-sm-4 col-form-label">Import Candidate</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="file" name="client_import_file" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <button type="button"  data-bs-dismiss="modal"
+                                                        aria-label="Close"
+                                                            class="btn btn-sm btn-secondary me-3">Cancel</a>
+                                                        <button type="submit" class="btn btn-sm btn-info">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
                     </div>
                 </div>
             </div>

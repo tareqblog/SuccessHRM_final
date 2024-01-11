@@ -75,7 +75,7 @@
                                                     <label for="one" class="col-sm-4 col-form-label">Candidate
                                                         Code</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" name="" class="form-control"
+                                                        <input type="text" name="candidate_code" class="form-control"
                                                             placeholder="Candidate code" disabled
                                                             value="--System Generate--">
                                                     </div>
@@ -85,7 +85,7 @@
                                                         Name</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="candidate_name" class="form-control"
-                                                            placeholder="Candidate name">
+                                                            placeholder="Candidate name" required>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -137,7 +137,7 @@
                                                     <label for="three" class="col-sm-4 col-form-label">Mobile</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" class="form-control"
-                                                            name="candidate_mobile" placeholder="Mobile">
+                                                            name="candidate_mobile" placeholder="Mobile" required>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -171,7 +171,7 @@
                                                 <div class="row mb-4">
                                                     <label for="two" class="col-sm-4 col-form-label">Outlet</label>
                                                     <div class="col-sm-8">
-                                                        <select class="form-control" name="candidate_outlet_id">
+                                                        <select class="form-control" name="candidate_outlet_id" required>
                                                             <option value="">Select One</option>
                                                             @foreach ($outlet_data as $row)
                                                                 <option value="{{ $row->id }}"

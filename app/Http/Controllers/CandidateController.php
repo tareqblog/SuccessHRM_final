@@ -91,6 +91,7 @@ class CandidateController extends Controller
             abort(403, 'Unauthorized');
         }
         $file_path = $request->file('avatar');
+        $candidate_code = "Cand-".random_int(10000, 99999);
 
         // Check if $file_path is not empty before proceeding
         if ($file_path) {
@@ -98,12 +99,15 @@ class CandidateController extends Controller
 
             candidate::create($request->except('_token', 'avatar') + [
                 'avatar' => $uploadedFilePath,
+                'candidate_code' => $candidate_code
             ]);
 
             return redirect()->route('candidate.index')->with('success', 'Created successfully.');
         } else {
 
-            candidate::create($request->except('_token', 'avatar'));
+            candidate::create($request->except('_token', 'avatar') + [
+                'candidate_code' => $candidate_code
+            ]);
             return redirect()->route('candidate.index')->with('success', 'Created successfully.');
         }
     }
