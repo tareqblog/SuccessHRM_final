@@ -33,17 +33,18 @@
                                     <div class="row mb-4 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Group</label>
                                         <div class="col-sm-9">
-                                            <select name="leave_empl_type" class="form-control">
-                                                @foreach ($roles as $role)
-                                                <option value="{{$role->id}}" {{$leave->leave_empl_type == $role->id ? 'selected' : ''}}>{{$role->name}}</option>
-                                                @endforeach
+                                            <select name="leave_empl_type" class="form-control" disabled>
+                                            <option value="0" {{ $leave->leave_empl_type == 0 ? 'selected' : '' }}>
+                                                    Candidate</option>
+                                                <option value="1" {{ $leave->leave_empl_type == 1 ? 'selected' : '' }}>
+                                                    Employee</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="row mb-4 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Employee Name</label>
                                         <div class="col-sm-9">
-                                            <select name="employees_id" class="form-control">
+                                            <select name="employees_id" class="form-control" >
                                                 <option value="">Select One</option>
                                                 @foreach ($employees as $employee)
                                                 <option value="{{$employee->id}}" {{$leave->employees_id == $employee->id ? 'selected' : '' }}>{{$employee->employee_name}}</option>

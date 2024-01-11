@@ -31,18 +31,17 @@
                                     <div class="row mb-4 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Group</label>
                                         <div class="col-sm-9">
-                                            <select name="leave_empl_type" class="form-control">
+                                            <select name="leave_empl_type" id="leave_empl_type" class="form-control">
                                                 <option value="">Select One</option>
-                                                @foreach ($roles as $role)
-                                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
-                                                @endforeach
+                                                <option value="0">Candidate</option>
+                                                <option value="1">Employee</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="row mb-4 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Employee Name</label>
                                         <div class="col-sm-9">
-                                            <select name="employees_id" class="form-control">
+                                            <select name="employees_id" id="employees_id" class="form-control">
                                                 <option value="">Select One</option>
                                                 @foreach ($employees as $employee)
                                                     <option value="{{ $employee->id }}">
@@ -151,4 +150,27 @@
                 //   alert("Copied the text: " + copyText.value);
             }
         </script>
+        <!-- <script type="text/javascript">
+        $(document).ready(function () {
+            $('#leave_empl_type').on('change', function () {
+                var empName = this.value;
+                
+                $("#employees_id").html('');
+                $.ajax({
+                    url: "{{route('leave.searchapi')}}",
+                    type: "POST",
+                    data: {
+                        type: empName,
+                        _token: '{{csrf_token()}}'
+                    },
+                    dataType: 'json',
+                    success: function (result) {
+                        $.each(result.id, function (key, value) {
+                            $("#email").val(value.employee_email);
+                        });
+                    }
+                });
+            });
+             });
+  </script> -->
     @endsection
