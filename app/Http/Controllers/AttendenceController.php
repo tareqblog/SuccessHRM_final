@@ -6,9 +6,11 @@ use App\Models\candidate;
 use App\Models\CandidateWorkingHour;
 use App\Models\Company;
 use App\Models\TimeSheetEntry;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Psy\CodeCleaner\ReturnTypePass;
+use Illuminate\Support\Facades\Log;
 
 class AttendenceController extends Controller
 {
@@ -112,5 +114,53 @@ class AttendenceController extends Controller
         }
 
         return response()->json(['daysArray' => $daysArray]);
+    }
+
+    public function getCandidateCompany($id)
+    {
+        $id = explode('-', $id);
+
+        if (count($id) === 2) {
+            $companyId = $id[0];
+            $candidateId = $id[1];
+
+            $data = Company::where('id', $companyId)->first();
+
+            if ($data) {
+                return response()->json(['company' => $data, 'candidateId' => $candidateId]);
+            } else {
+                return response()->json(['error' => 'Company not found'], 404);
+            }
+        } else {
+            return response()->json(['error' => 'Invalid data format'], 400);
+        }
+    }
+    public function getMonthData(Request $request)
+    {
+        // dd($request->all());
+
+        $companies = Company::latest()->get();
+        $candidates = candidate::latest()->get();
+
+        $selectedDate = $request->date;
+
+        $selectCandidate = $request->company_id. '-' .$request->candidate_id;
+
+        $currentMonth = Carbon::parse($selectedDate);
+
+        $candidateTimesheet = candidate::find($request->candidate_id)->first();
+
+        $month = $currentMonth->format('F');
+        $year = $currentMonth->format('Y');
+
+        $daysInMonth = $currentMonth->daysInMonth;
+
+
+
+
+
+        return view('admin.attendence.create', compact('daysInMonth', 'currentMonth', 'candidates', 'selectedDate', 'selectCandidate'));
+
+
     }
 }
