@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\FileHelper;
 use App\Http\Requests\LeaveRequest;
+use App\Models\candidate;
 use App\Models\Employee;
 use App\Models\Leave;
 use App\Models\LeaveType;
@@ -31,7 +32,7 @@ class LeaveController extends Controller
     public function index()
     {
         if (is_null($this->user) || !$this->user->can('leave.index')) {
-        abort(403, 'Unauthorized');
+            abort(403, 'Unauthorized');
         }
         $datas = Leave::latest()->get();
         return view('admin.leave.index', compact('datas'));
@@ -43,7 +44,7 @@ class LeaveController extends Controller
     public function create()
     {
         if (is_null($this->user) || !$this->user->can('leave.create')) {
-        abort(403, 'Unauthorized');
+            abort(403, 'Unauthorized');
         }
         $employees = Employee::latest()->select('id', 'employee_name')->get();
         $leaveType = LeaveType::latest()->select('id', 'leavetype_code')->get();
@@ -59,7 +60,7 @@ class LeaveController extends Controller
 
         if (is_null($this->user) || !$this->user->can('leave.store')) {
             abort(403, 'Unauthorized');
-            }
+        }
 
         $file_path = $request->file('leave_file_path');
 
@@ -67,8 +68,10 @@ class LeaveController extends Controller
         if ($file_path) {
             $uploadedFilePath = FileHelper::uploadFile($file_path);
 
-            Leave::create($request->except('_token', 'leave_file_path') + [
+            Leave::create($request->except('_token', 'leave_file_path', 'candidate_id', 'employees_id') + [
                 'leave_file_path' => $uploadedFilePath,
+                'candidate_id' => $request->input('leave_empl_type') == 0 ? $request->input('employees_id') : null,
+                'employees_id' => $request->input('leave_empl_type') != 0 ? $request->input('employees_id') : null,
             ]);
 
             return redirect()->route('leave.index')->with('success', 'Created successfully.');
@@ -93,7 +96,7 @@ class LeaveController extends Controller
     public function edit(Leave $leave)
     {
         if (is_null($this->user) || !$this->user->can('leave.edit')) {
-        abort(403, 'Unauthorized');
+            abort(403, 'Unauthorized');
         }
         $employees = Employee::latest()->select('id', 'employee_name')->get();
         $leaveType = LeaveType::latest()->select('id', 'leavetype_code')->get();
@@ -107,7 +110,7 @@ class LeaveController extends Controller
     public function update(LeaveRequest $request, Leave $leave)
     {
         if (is_null($this->user) || !$this->user->can('leave.update')) {
-        abort(403, 'Unauthorized');
+            abort(403, 'Unauthorized');
         }
         if ($request->hasFile('leave_file_path')) {
             Storage::delete("public/{$leave->leave_file_path}");
@@ -117,7 +120,8 @@ class LeaveController extends Controller
             $leave->update([
                 'leave_file_path' => $uploadedFilePath,
                 'leave_approveds_id' => $request->input('leave_approveds_id'),
-                'employees_id' => $request->input('employees_id'),
+                'candidate_id' => $request->input('leave_empl_type') == 0 ? $request->input('employees_id') : null,
+                'employees_id' => $request->input('leave_empl_type') != 0 ? $request->input('employees_id') : null,
                 'leave_types_id' => $request->input('leave_types_id'),
                 'leave_duration' => $request->input('leave_duration'),
                 'leave_datefrom' => $request->input('leave_datefrom'),
@@ -139,7 +143,7 @@ class LeaveController extends Controller
     public function destroy(Leave $leave)
     {
         if (is_null($this->user) || !$this->user->can('leave.destroy')) {
-        abort(403, 'Unauthorized');
+            abort(403, 'Unauthorized');
         }
         $filePath = storage_path("app/public/{$leave->leave_file_path}");
 
@@ -148,5 +152,17 @@ class LeaveController extends Controller
         }
         $leave->delete();
         return back()->with('success', 'Deleted Successfully.');
+    }
+
+
+    public function getEmployees($type)
+    {
+        $employees = Employee::where('employee_status', 1)->select('id', 'employee_name')->get();
+        return response()->json(['employees' => $employees]);
+    }
+    public function getCandidates($type)
+    {
+        $candidates = candidate::where('candidate_status', 1)->select('id', 'candidate_name')->get();
+        return response()->json(['candidates' => $candidates]);
     }
 }

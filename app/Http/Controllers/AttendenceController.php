@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\candidate;
 use App\Models\CandidateWorkingHour;
 use App\Models\Company;
+use App\Models\Leave;
+use App\Models\LeaveType;
 use App\Models\TimeSheetEntry;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -137,30 +139,57 @@ class AttendenceController extends Controller
     }
     public function getMonthData(Request $request)
     {
-        // dd($request->all());
+        // dd($request->company_id);
+
 
         $companies = Company::latest()->get();
+
         $candidates = candidate::latest()->get();
 
         $selectedDate = $request->date;
 
-        $selectCandidate = $request->company_id. '-' .$request->candidate_id;
+        $company_outlet_id = $request->company_id;
+
+        $company_name = Company::find($request->company_id)->name;
+
+        $selectCandidate = $request->company_id . '-' . $request->candidate_id;
 
         $currentMonth = Carbon::parse($selectedDate);
-
-        $candidateTimesheet = candidate::find($request->candidate_id)->first();
+        $candidateTimesheet = candidate::find($request->candidate_id);
 
         $month = $currentMonth->format('F');
+
         $year = $currentMonth->format('Y');
 
         $daysInMonth = $currentMonth->daysInMonth;
 
 
+        $work_data = CandidateWorkingHour::where('candidate_id', $request->candidate_id)->firstOrFail();
+
+        $leaves = Leave::where('candidate_id', $request->candidate_id)->get();
+        $leaveTypes = LeaveType::where('leavetype_status',1)->get();
 
 
 
-        return view('admin.attendence.create', compact('daysInMonth', 'currentMonth', 'candidates', 'selectedDate', 'selectCandidate'));
+        $timesheet_id  = $work_data->timesheet_id;
 
 
+
+        $timeSheetData  = TimeSheetEntry::where('time_sheet_id', $timesheet_id)->get();
+
+
+
+        return view('admin.attendence.create', compact(
+            'daysInMonth',
+            'currentMonth',
+            'candidates',
+            'selectedDate',
+            'selectCandidate',
+            'timeSheetData',
+            'company_outlet_id',
+            'company_name',
+            'leaves',
+            'leaveTypes'
+        ));
     }
 }

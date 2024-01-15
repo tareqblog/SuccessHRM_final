@@ -43,11 +43,11 @@
                                         <div class="col-sm-9">
                                             <select name="employees_id" id="employees_id" class="form-control">
                                                 <option value="">Select One</option>
-                                                @foreach ($employees as $employee)
+                                                {{-- @foreach ($employees as $employee)
                                                     <option value="{{ $employee->id }}">
                                                         {{ $employee->employee_name }}
                                                     </option>
-                                                @endforeach
+                                                @endforeach --}}
                                             </select>
                                         </div>
                                     </div>
@@ -136,41 +136,88 @@
         <script src="{{ URL::asset('build/js/pages/form-editor.init.js') }}"></script>
         <script>
             function job_link() {
-                // Get the text field
                 var copyText = document.getElementById("job_link");
 
-                // Select the text field
                 copyText.select();
-                copyText.setSelectionRange(0, 99999); // For mobile devices
-
-                // Copy the text inside the text field
+                copyText.setSelectionRange(0, 99999);
                 navigator.clipboard.writeText(copyText.value);
-
-                // Alert the copied text
-                //   alert("Copied the text: " + copyText.value);
             }
         </script>
-        <!-- <script type="text/javascript">
-        $(document).ready(function () {
-            $('#leave_empl_type').on('change', function () {
-                var empName = this.value;
-                
-                $("#employees_id").html('');
-                $.ajax({
-                    url: "{{route('leave.searchapi')}}",
-                    type: "POST",
-                    data: {
-                        type: empName,
-                        _token: '{{csrf_token()}}'
-                    },
-                    dataType: 'json',
-                    success: function (result) {
-                        $.each(result.id, function (key, value) {
-                            $("#email").val(value.employee_email);
-                        });
+
+        <script>
+            $(document).ready(function() {
+
+                // Listen for changes in the candidate dropdown
+                $('#leave_empl_type').change(function() {
+                    var selectedGroupType = $(this).val();
+
+                    // Check if a group type is selected
+                    if (selectedGroupType == 1) {
+                        if (selectedGroupType) {
+                            $.ajax({
+                                type: 'GET',
+                                url: '/ATS/leave/get/employee/' + selectedGroupType,
+                                success: function(response) {
+                                    updateEmployee(response);
+                                },
+                                error: function(error) {
+                                    console.error('Error fetching employee data:', error);
+                                    $('#employees_id').empty();
+                                    $('#employees_id').append(
+                                        '<option value="" disabled selected>No Employee Available</option>'
+                                    );
+                                }
+                            });
+                        } else {
+                            // If no group type is selected, clear the employees dropdown
+                            $('#employees_id').empty();
+                            $('#employees_id').append(
+                                '<option value="" disabled selected>Select a Group Type first</option>');
+                        }
+                    } else if (selectedGroupType == 0) {
+                        if (selectedGroupType) {
+                            $.ajax({
+                                type: 'GET',
+                                url: '/ATS/leave/get/candidate/' + selectedGroupType,
+                                success: function(response) {
+                                    updateCandidate(response);
+                                },
+                                error: function(error) {
+                                    console.error('Error fetching candidate data:', error);
+                                    $('#candidates_id').empty();
+                                    $('#candidates_id').append(
+                                        '<option value="" disabled selected>No Candidate Available</option>'
+                                    );
+                                }
+                            });
+                        } else {
+                            // If no group type is selected, clear the employees dropdown
+                            $('#candidates_id').empty();
+                            $('#candidates_id').append(
+                                '<option value="" disabled selected>Select a Group Type first</option>');
+                        }
                     }
                 });
+
+                function updateEmployee(response) {
+                    $('#employees_id').empty();
+                    response.employees.forEach(function(employee) {
+                        $('#employees_id').append('<option value="' + employee.id + '">' + employee
+                            .employee_name +
+                            '</option>');
+                    });
+                }
+
+                function updateCandidate(response) {
+                    $('#employees_id').empty();
+                    response.candidates.forEach(function(candidate) {
+                        $('#employees_id').append('<option value="' + candidate.id + '">' + candidate
+                            .candidate_name +
+                            '</option>');
+                    });
+                }
+                $('#leave_empl_type').trigger('change');
+
             });
-             });
-  </script> -->
+        </script>
     @endsection

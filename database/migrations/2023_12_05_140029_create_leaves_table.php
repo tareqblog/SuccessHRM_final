@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('leaves', function (Blueprint $table) {
             $table->id();
             $table->integer('leave_approveds_id')->nullable()->comment('link to leave_approveds table');
-            $table->integer('employees_id')->nullable()->comment('link to Employee/Candidate table');
+            $table->integer('employees_id')->nullable()->comment('link to Employee table');
+            $table->integer('candidate_id')->nullable()->comment('link to Candidate table');
             $table->integer('leave_types_id')->nullable();
             $table->string('leave_duration')->nullable();
             $table->date('leave_datefrom')->nullable();

@@ -24,6 +24,7 @@ class LeaveRequest extends FormRequest
         return [
             'leave_approveds_id' => 'nullable|integer',
             'employees_id' => 'nullable|integer',
+            'candidate_id' => 'nullable|integer',
             'leave_types_id' => 'nullable|integer',
             'leave_duration' => 'nullable|string',
             'leave_datefrom' => 'nullable|date',

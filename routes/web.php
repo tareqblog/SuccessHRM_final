@@ -122,6 +122,10 @@ Route::prefix('ATS')->group(function () {
         '/attendence' => AttendenceController::class,
         '/job-status' => JobStatusController::class,
     ]);
+
+    Route::get('/leave/get/employee/{type}',  [LeaveController::class, 'getEmployees'])->name('leave.get.employees');
+    Route::get('/leave/get/candidate/{type}',  [LeaveController::class, 'getCandidates'])->name('leave.get.candidates');
+
     Route::get('/authenticate',  [UserController::class, 'storecomplete'])->name('user.authenticate');
     Route::post('/users/fetch-email',  [UserController::class, 'search'])->name('email.searchapi');
 

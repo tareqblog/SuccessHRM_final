@@ -45,9 +45,9 @@
                                 @forelse ($datas as $data)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $data->employee_type->name }}</td>
-                                        <td>{{ $data->employee->employee_name }}</td>
-                                        <td>{{ $data->leaveType->leavetype_code }}</td>
+                                        <td>{{ $data->employee_type?->name }}</td>
+                                        <td>{{ $data->employee?->employee_name }}</td>
+                                        <td>{{ $data->leaveType?->leavetype_code }}</td>
                                         <td>{{ $data->leave_reason }}</td>
                                         <td>{{ $data->leave_datefrom }}</td>
                                         <td>{{ $data->leave_dateto }}</td>
