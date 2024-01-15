@@ -136,7 +136,7 @@
                                                     <label class="control-label"
                                                         style="margin-left: 20px;">Remarks</label>
                                                     <!--<label class="control-label" style="flex:0 0 120px;text-align:center;">Date</label>
-                                                                                                                                                                                                        <label class="control-label" style="flex:0 0 120px;text-align:center;">Day</label>-->
+                                                                                                                                                                                                            <label class="control-label" style="flex:0 0 120px;text-align:center;">Day</label>-->
                                                     <label class="control-label" style="margin-left: 100px;">Type of
                                                         Leave</label>
                                                     <label class="control-label" style="margin-left: 70px;">Leave
@@ -206,24 +206,21 @@
                                                                 style="flex:0 0 120px;position: sticky;left: 120px;z-index: 20;">
                                                                 <input type="time" class="form-control"
                                                                     name="attendance_day1"
-                                                                    value="{{ (Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom) ? '--' : ($isWorkDay ? $inTime : '') }}"
+                                                                    value="{{ Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? '--' : ($isWorkDay ? $inTime : '') }}"
                                                                     placeholder="time">
                                                             </div>
                                                             <div
                                                                 style="flex:0 0 120px;position: sticky;left: 120px;z-index: 20;">
                                                                 <input type="time" class="form-control"
                                                                     name="attendance_day1"
-                                                                    value="{{ (Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom) ? '--' : ($isWorkDay ? $outTime : '') }}"
+                                                                    value="{{ Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? '--' : ($isWorkDay ? $outTime : '') }}"
                                                                     placeholder="time">
                                                             </div>
                                                             <!--next-->
                                                             <div style="flex:0 0 50px;text-align:center">
                                                                 <input type="checkbox" class="attendance_next_day1 change"
                                                                     data-line="1" value="1"
-                                                                    name="attendance_next_day1"
-                                                                    {{-- {{ (Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom) ? '' : ($isWorkDay ? ($isNextDay == '1' ? 'checked' : '') : '' )}} --}}
-
-                                                                    >
+                                                                    name="attendance_next_day1" {{-- {{ (Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom) ? '' : ($isWorkDay ? ($isNextDay == '1' ? 'checked' : '') : '' )}} --}}>
                                                             </div>
                                                             <!--lunch-->
                                                             <div style="flex:0 0 120px;">
@@ -232,26 +229,22 @@
                                                                     data-content="" style="width:100%">
                                                                     <option value="">Select One</option>
                                                                     <option value="30 minutes"
-                                                                    {{ (Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom) ? '' : ($isWorkDay ? ($lunchTime == '30 minutes' ? 'selected' : '') : '') }}>
+                                                                        {{ Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? '' : ($isWorkDay ? ($lunchTime == '30 minutes' ? 'selected' : '') : '') }}>
                                                                         30 minutes</option>
                                                                     <option value="45 minutes"
-                                                                        {{ (Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom) ? '' : ($isWorkDay ? ($lunchTime == '45 minutes' ? 'selected' : '') : '') }}
-                                                                        >
+                                                                        {{ Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? '' : ($isWorkDay ? ($lunchTime == '45 minutes' ? 'selected' : '') : '') }}>
                                                                         45 minutes</option>
                                                                     <option value="1 hour"
-                                                                    {{ (Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom) ? '' : ($isWorkDay ? ($lunchTime == '1 hour' ? 'selected' : '') : '') }}
-                                                                        >
+                                                                        {{ Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? '' : ($isWorkDay ? ($lunchTime == '1 hour' ? 'selected' : '') : '') }}>
                                                                         1 hour</option>
                                                                     <option value="No Lunch"
-                                                                        {{ (Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom) ? '' : ($isWorkDay ? ($lunchTime == 'No Lunch' ? 'selected' : '') : '') }}
-                                                                        >
+                                                                        {{ Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? '' : ($isWorkDay ? ($lunchTime == 'No Lunch' ? 'selected' : '') : '') }}>
                                                                         No Lunch</option>
                                                                     <option value="1.5 hour"
-                                                                    {{ (Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom) ? '' : ($isWorkDay ? ($lunchTime == '1.5 hour' ? 'selected' : '') : '') }}>
+                                                                        {{ Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? '' : ($isWorkDay ? ($lunchTime == '1.5 hour' ? 'selected' : '') : '') }}>
                                                                         1.5 hour</option>
                                                                     <option value="2 hour"
-                                                                        {{ (Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom) ? '' : ($isWorkDay ? ($lunchTime == '2 hour' ? 'selected' : '') : '') }}
-                                                                        >
+                                                                        {{ Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? '' : ($isWorkDay ? ($lunchTime == '2 hour' ? 'selected' : '') : '') }}>
                                                                         2 hour</option>
                                                                 </select>
                                                             </div>
@@ -341,13 +334,13 @@
                                                                     name="attendance_leave_day1" style="width:100%">
                                                                     <option value="0">Select One</option>
                                                                     <option value="Full Day Leave"
-                                                                        {{ $leaveDuration == 'Full Day Leave' && Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? 'selected' : '' }}>
+                                                                        {{ isset($leaveDuration) == 'Full Day Leave' && Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? 'selected' : '' }}>
                                                                         Full Day Leave</option>
                                                                     <option value="Half Day AM"
-                                                                        {{ $leaveDuration == 'Half Day AM' && Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? 'selected' : '' }}>
+                                                                        {{ isset($leaveDuration) == 'Half Day AM' && Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? 'selected' : '' }}>
                                                                         Half Day AM</option>
                                                                     <option value="Half Day PM"
-                                                                        {{ $leaveDuration == 'Half Day PM' && Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? 'selected' : '' }}>
+                                                                        {{ isset($leaveDuration) == 'Half Day PM' && Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? 'selected' : '' }}>
                                                                         Half Day PM</option>
                                                                 </select>
 
@@ -357,10 +350,10 @@
                                                                 <input type="file" id="attendance_leave_file1"
                                                                     name="attendance_leave_file1[]" multiple="">
                                                                 @if (Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom)
-                                                                <a href="{{asset('storage/'.$leaveFilePath)}}"
-                                                                    target="_blank">
-                                                                    <i class="fa fa-eye"></i>
-                                                                </a>
+                                                                    <a href="{{ asset('storage/' . $leaveFilePath) }}"
+                                                                        target="_blank">
+                                                                        <i class="fa fa-eye"></i>
+                                                                    </a>
                                                                 @endif
 
                                                             </div>
@@ -420,7 +413,7 @@
                                                         @endif
                                                     @endfor
                                                 @else
-                                                    {{-- @php
+                                                    @php
                                                         $currentMonth = Carbon\Carbon::now();
                                                         $daysInMonth = $currentMonth->daysInMonth;
                                                     @endphp
@@ -572,7 +565,7 @@
                                                                     data-line="1" id="attendance_leave_day1"
                                                                     name="attendance_leave_day1" style="width:100%">
                                                                     <option value="0">Select One</option>
-                                                                    <option value="Full Day Leave" {{$}}>Full Day Leave</option>
+                                                                    <option value="Full Day Leave">Full Day Leave</option>
                                                                     <option value="0.5 AM">Half Day AM</option>
                                                                     <option value="0.5 PM">Half Day PM</option>
                                                                 </select>
@@ -634,7 +627,7 @@
                                                                     name="attendance_reimbursement_amount1">
                                                             </div>
                                                         </div>
-                                                    @endfor --}}
+                                                    @endfor
                                                 @endif
 
                                                 <input type="hidden" name="attendance_total_day" value="31">
