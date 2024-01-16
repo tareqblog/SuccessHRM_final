@@ -141,7 +141,6 @@ class AttendenceController extends Controller
     {
         // dd($request->company_id);
 
-
         $companies = Company::latest()->get();
 
         $candidates = candidate::latest()->get();
@@ -167,7 +166,7 @@ class AttendenceController extends Controller
         $work_data = CandidateWorkingHour::where('candidate_id', $request->candidate_id)->firstOrFail();
 
         $leaves = Leave::where('candidate_id', $request->candidate_id)->get();
-        $leaveTypes = LeaveType::where('leavetype_status',1)->get();
+        $leaveTypes = LeaveType::where('leavetype_status', 1)->get();
 
 
 
@@ -177,7 +176,20 @@ class AttendenceController extends Controller
 
         $timeSheetData  = TimeSheetEntry::where('time_sheet_id', $timesheet_id)->get();
 
+        $data = [
+            'daysInMonth' => $daysInMonth,
+            'currentMonth' => $currentMonth,
+            'candidates' => $candidates,
+            'selectedDate' => $selectedDate,
+            'selectCandidate' => $selectCandidate,
+            'timeSheetData' => $timeSheetData,
+            'company_outlet_id' => $company_outlet_id,
+            'company_name' => $company_name,
+            'leaves' => $leaves,
+            'leaveTypes' => $leaveTypes
+        ];
 
+        // return $data;
 
         return view('admin.attendence.create', compact(
             'daysInMonth',
