@@ -15,6 +15,20 @@
     <body>
     @endsection
     @section('content')
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script>
+            function work_check(day) {
+                if ($('.h-' + day).is(':hidden')) {
+                    $('.s-' + day).hide();
+                    $('.h-' + day).show();
+                } else {
+                    $('.h-' + day).hide();
+                    $('.s-' + day).show();
+                }
+
+            }
+        </script>
+
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -48,6 +62,7 @@
                                             <div class="col-sm-9">
                                                 <input type="hidden" id="candidateId" name="candidate_id">
                                                 <select id="candidateDropdown" class="form-control">
+                                                    {{-- <select id="candidateDropdown" class="form-control"> --}}
                                                     <option value="">Select One</option>
                                                     @foreach ($candidates as $candidate)
                                                         <option
@@ -136,7 +151,7 @@
                                                     <label class="control-label"
                                                         style="margin-left: 20px;">Remarks</label>
                                                     <!--<label class="control-label" style="flex:0 0 120px;text-align:center;">Date</label>
-                                                                                                                                                                                                            <label class="control-label" style="flex:0 0 120px;text-align:center;">Day</label>-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <label class="control-label" style="flex:0 0 120px;text-align:center;">Day</label>-->
                                                     <label class="control-label" style="margin-left: 100px;">Type of
                                                         Leave</label>
                                                     <label class="control-label" style="margin-left: 70px;">Leave
@@ -171,6 +186,7 @@
                                                                     break; // Exit the loop if a matching work day is found
                                                                 }
                                                             }
+                                                            $isLeave = false;
                                                             $leaveDateFrom = null;
                                                             $leaveType = null;
                                                             $leaveRemarks = null;
@@ -178,18 +194,81 @@
                                                             $leaveDateFrom = null;
                                                             foreach ($leaves as $leave) {
                                                                 $leaveDateFrom = $leave->leave_datefrom;
-                                                                $leaveType = $leave->leave_types_id;
-                                                                $leaveDuration = $leave->leave_duration;
-                                                                $leaveRemarks = $leave->leave_reason;
-                                                                $leaveFilePath = $leave->leave_file_path;
+                                                                $leaveDateto = $leave->leave_dateto;
+
+                                                                $date1 = Carbon\Carbon::parse($leaveDateFrom);
+                                                                $date2 = Carbon\Carbon::parse($leaveDateto);
+                                                                $currentDay = Carbon\Carbon::parse($currentDay);
+                                                                for ($date = $date1->copy(); $date->lte($date2); $date->addDay()) {
+                                                                    if ($currentDay->isSameDay($date)) {
+                                                                        $isLeave = true;
+                                                                        $leaveType = $leave->leave_types_id;
+                                                                        $leaveDuration = $leave->leave_duration;
+                                                                        $leaveRemarks = $leave->leave_reason;
+                                                                        $leaveFilePath = $leave->leave_file_path;
+                                                                    }
+                                                                }
                                                             }
+
+                                                            $startTime = Carbon\Carbon::parse($inTime);
+                                                            $endTime = Carbon\Carbon::parse($outTime);
+
+                                                            $duration = $endTime->diff($startTime);
+
+                                                            $hours = $duration->h;
+                                                            $minutes = $duration->i;
+                                                            $durationParts = [];
+                                                            if ($hours > 0) {
+                                                                $durationParts[] = $hours . ' h';
+                                                            }
+                                                            if ($minutes > 0) {
+                                                                $durationParts[] = $minutes . ' m';
+                                                            }
+                                                            $normalTime = implode(' ', $durationParts);
+
+                                                            $l_minutes = 0;
+                                                            $l_hours = 0;
+                                                            $launch_part = 0;
+
+                                                            if ($lunchTime == '30 minutes') {
+                                                                $l_minutes = 30;
+                                                                $launch_part = $duration + $l_minutes;
+                                                            }
+                                                            if ($lunchTime == '45 minutes') {
+                                                                $l_minutes = 45;
+                                                            }
+                                                            if ($lunchTime == '1 hour') {
+                                                                $l_hours = 1;
+                                                            }
+                                                            if ($lunchTime == '1.5 hour') {
+                                                                $l_hours = 1;
+                                                                $l_minutes = 30;
+                                                            }
+                                                            if ($lunchTime == '2 hour') {
+                                                                $l_hours = 2;
+                                                            }
+                                                            $updatedEndTime = $endTime
+                                                                ->copy()
+                                                                ->addHours($l_hours)
+                                                                ->addMinutes($l_minutes);
+
+                                                            $updatedDuration = $updatedEndTime->diff($startTime);
+                                                            $updatedHours = $updatedDuration->h;
+                                                            $updatedMinutes = $updatedDuration->i;
+                                                            $total_part = [];
+                                                            if ($updatedHours > 0) {
+                                                                $total_part[] = $updatedHours . ' h';
+                                                            }
+                                                            if ($updatedMinutes > 0) {
+                                                                $total_part[] = $updatedMinutes . ' m';
+                                                            }
+
+                                                            $total_part = implode(' ', $total_part);
                                                         @endphp
                                                         <div style="display:flex">
                                                             <div
                                                                 style="flex:0 0 120px;position: sticky;left: 0;z-index: 20;">
-                                                                <input type="text"
-                                                                    class="form-control {{ $isWorkDay ? 'bg-info' : '' }}"
-                                                                    readonly=""
+                                                                <input type="text" class="form-control" readonly=""
                                                                     name="attendance_date{{ $day }}"
                                                                     placeholder="Date" readonly=""
                                                                     name="attendance_date1" placeholder="Date"
@@ -202,49 +281,72 @@
                                                                     value="{{ $currentDay->format('l') }}"
                                                                     placeholder="Title">
                                                             </div>
-                                                            <div
+                                                            {{-- <div
                                                                 style="flex:0 0 120px;position: sticky;left: 120px;z-index: 20;">
                                                                 <input type="time" class="form-control"
                                                                     name="attendance_day1"
                                                                     value="{{ Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? '--' : ($isWorkDay ? $inTime : '') }}"
                                                                     placeholder="time">
+                                                            </div> --}}
+                                                            <div
+                                                                style="flex:0 0 120px;position: sticky;left: 120px;z-index: 20;">
+                                                                <input type="time" style="display: none"
+                                                                    class="form-control h-{{ $day }}"
+                                                                    name="intime_h"
+                                                                    value="{{ $isLeave == true ? '--' : ($isWorkDay ? $inTime : '') }}"
+                                                                    placeholder="time">
+                                                                <input type="time"
+                                                                    class="form-control s-{{ $day }}"
+                                                                    name="intime_d" value="" placeholder="time">
+
+                                                                {{-- <input type="time" class="form-control"
+                                                                    name="attendance_day1"
+                                                                    value="{{ $isLeave == true ? '--' : ($isWorkDay ? $inTime : '') }}"
+                                                                    placeholder="time"> --}}
                                                             </div>
                                                             <div
                                                                 style="flex:0 0 120px;position: sticky;left: 120px;z-index: 20;">
-                                                                <input type="time" class="form-control"
+                                                                <input type="time" style="display: none"
+                                                                    class="form-control h-{{ $day }}"
                                                                     name="attendance_day1"
-                                                                    value="{{ Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? '--' : ($isWorkDay ? $outTime : '') }}"
+                                                                    value="{{ $isLeave == true ? '--' : ($isWorkDay ? $outTime : '') }}"
                                                                     placeholder="time">
+                                                                <input type="time"
+                                                                    class="form-control s-{{ $day }}"
+                                                                    name="attendance_day1" placeholder="time">
                                                             </div>
                                                             <!--next-->
                                                             <div style="flex:0 0 50px;text-align:center">
                                                                 <input type="checkbox" class="attendance_next_day1 change"
                                                                     data-line="1" value="1"
-                                                                    name="attendance_next_day1" {{-- {{ (Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom) ? '' : ($isWorkDay ? ($isNextDay == '1' ? 'checked' : '') : '' )}} --}}>
+                                                                    name="attendance_next_day1"
+                                                                    {{ $isNextDay == 1 ? 'checked' : '' }}
+                                                                    {{-- {{ (Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom) ? '' : ($isWorkDay ? ($isNextDay == '1' ? 'checked' : '') : '' )}} --}}>
                                                             </div>
                                                             <!--lunch-->
                                                             <div style="flex:0 0 120px;">
                                                                 <select class="form-control change" data-line="1"
                                                                     id="attendance_lunch1" name="attendance_lunch1"
                                                                     data-content="" style="width:100%">
-                                                                    <option value="">Select One</option>
+                                                                    <option value="">Select One
+                                                                    </option>
                                                                     <option value="30 minutes"
-                                                                        {{ Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? '' : ($isWorkDay ? ($lunchTime == '30 minutes' ? 'selected' : '') : '') }}>
+                                                                        {{ $isLeave == true ? '' : ($isWorkDay ? ($lunchTime == '30 minutes' ? 'selected' : '') : '') }}>
                                                                         30 minutes</option>
                                                                     <option value="45 minutes"
-                                                                        {{ Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? '' : ($isWorkDay ? ($lunchTime == '45 minutes' ? 'selected' : '') : '') }}>
+                                                                        {{ $isLeave == true ? '' : ($isWorkDay ? ($lunchTime == '45 minutes' ? 'selected' : '') : '') }}>
                                                                         45 minutes</option>
                                                                     <option value="1 hour"
-                                                                        {{ Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? '' : ($isWorkDay ? ($lunchTime == '1 hour' ? 'selected' : '') : '') }}>
+                                                                        {{ $isLeave == true ? '' : ($isWorkDay ? ($lunchTime == '1 hour' ? 'selected' : '') : '') }}>
                                                                         1 hour</option>
                                                                     <option value="No Lunch"
-                                                                        {{ Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? '' : ($isWorkDay ? ($lunchTime == 'No Lunch' ? 'selected' : '') : '') }}>
+                                                                        {{ $isLeave == true ? '' : ($isWorkDay ? ($lunchTime == 'No Lunch' ? 'selected' : '') : '') }}>
                                                                         No Lunch</option>
                                                                     <option value="1.5 hour"
-                                                                        {{ Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? '' : ($isWorkDay ? ($lunchTime == '1.5 hour' ? 'selected' : '') : '') }}>
+                                                                        {{ $isLeave == true ? '' : ($isWorkDay ? ($lunchTime == '1.5 hour' ? 'selected' : '') : '') }}>
                                                                         1.5 hour</option>
                                                                     <option value="2 hour"
-                                                                        {{ Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? '' : ($isWorkDay ? ($lunchTime == '2 hour' ? 'selected' : '') : '') }}>
+                                                                        {{ $isLeave == true ? '' : ($isWorkDay ? ($lunchTime == '2 hour' ? 'selected' : '') : '') }}>
                                                                         2 hour</option>
                                                                 </select>
                                                             </div>
@@ -252,15 +354,15 @@
                                                             <div style="flex:0 0 120px;">
                                                                 <input type="text" style="text-align:center"
                                                                     class="form-control week_1" data-week="1"
-                                                                    readonly="" id="attendance_total1"
-                                                                    name="attendance_total1" data-content="-1 h "
-                                                                    value="--">
+                                                                    readonly="" name="attendance_total1"
+                                                                    data-content="-1 h "
+                                                                    value="{{ $isLeave == true ? '--' : ($isWorkDay ? $total_part : '') }}">
                                                             </div>
                                                             <!--normal-->
                                                             <div style="flex:0 0 120px;">
                                                                 <input type="text" style="text-align:center"
-                                                                    class="form-control" data-week="1"
-                                                                    id="attendance_normal1" name="attendance_normal1">
+                                                                    class="form-control" name="attendance_normal1"
+                                                                    value="{{ $isLeave == true ? '--' : ($isWorkDay ? $normalTime : '') }}">
                                                                 <input type="hidden" id="attendance_normal_hidden1"
                                                                     name="attendance_normal_hidden1" value="">
                                                             </div>
@@ -296,8 +398,14 @@
                                                             <!--work-->
                                                             <div style="flex:0 0 100px;text-align:center">
                                                                 <input type="checkbox" class="work attendance_work1"
-                                                                    data-line="1" value="1" name="work1">
+                                                                    data-line="1" value="1" name="work1"
+                                                                    onclick="work_check('{{ $day }}')">
                                                             </div>
+                                                            {{-- <div style="flex:0 0 100px;text-align:center">
+                                                                <input type="checkbox" id="work_check"
+                                                                    class="work attendance_work1" data-line="1"
+                                                                    value="1" name="work1">
+                                                            </div> --}}
                                                             <!--ph-->
                                                             <div style="flex:0 0 50px;text-align:center">
                                                                 <input type="checkbox" class="work attendance_ph1"
@@ -312,17 +420,17 @@
                                                             <!--remark-->
                                                             <div style="flex:0 0 150px;">
                                                                 <textarea class="form-control" rows="1" id="attendance_remarks" name="attendance_remarks1"
-                                                                    placeholder="Remarks">{{ Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? $leaveRemarks : '' }} </textarea>
+                                                                    placeholder="Remarks">{{ $isLeave == false ? '' : $leaveRemarks }} </textarea>
                                                             </div>
                                                             <div style="flex:0 0 120px;">
                                                                 <select class="form-control change leave_type"
                                                                     data-line="1" id="attendance_leave1"
                                                                     name="attendance_leave1" style="width:100%">
-                                                                    <option value="">Select One
-                                                                    </option>
+                                                                    <option value="">Select One</option>
                                                                     @foreach ($leaveTypes as $type)
+                                                                        </option>
                                                                         <option value="{{ $type->id }}"
-                                                                            {{ $type->id == $leaveType && Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? 'selected' : '' }}>
+                                                                            {{ $isLeave == false ? '' : ($type->id == $leaveType ? 'selected' : '') }}>
                                                                             {{ $type->leavetype_code }}</option>
                                                                     @endforeach
                                                                 </select>
@@ -334,13 +442,13 @@
                                                                     name="attendance_leave_day1" style="width:100%">
                                                                     <option value="0">Select One</option>
                                                                     <option value="Full Day Leave"
-                                                                        {{ isset($leaveDuration) == 'Full Day Leave' && Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? 'selected' : '' }}>
+                                                                        {{ $isLeave == true ? ($leaveDuration == 'Full Day Leave' ? 'selected' : '') : '' }}>
                                                                         Full Day Leave</option>
                                                                     <option value="Half Day AM"
-                                                                        {{ isset($leaveDuration) == 'Half Day AM' && Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? 'selected' : '' }}>
+                                                                        {{ $isLeave == true ? ($leaveDuration == 'Half Day AM' ? 'selected' : '') : '' }}>
                                                                         Half Day AM</option>
                                                                     <option value="Half Day PM"
-                                                                        {{ isset($leaveDuration) == 'Half Day PM' && Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom ? 'selected' : '' }}>
+                                                                        {{ $isLeave == true ? ($leaveDuration == 'Half Day PM' ? 'selected' : '') : '' }}>
                                                                         Half Day PM</option>
                                                                 </select>
 
@@ -349,10 +457,10 @@
                                                             <div style="flex:0 0 235px;">
                                                                 <input type="file" id="attendance_leave_file1"
                                                                     name="attendance_leave_file1[]" multiple="">
-                                                                @if (Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom)
+                                                                @if ($isLeave == true)
                                                                     <a href="{{ asset('storage/' . $leaveFilePath) }}"
                                                                         target="_blank">
-                                                                        <i class="fa fa-eye"></i>
+                                                                        <i class="fas fa-eye"></i>
                                                                     </a>
                                                                 @endif
 
@@ -478,7 +586,8 @@
                                                             <div style="flex:0 0 120px;">
                                                                 <input type="text" style="text-align:center"
                                                                     class="form-control" data-week="1"
-                                                                    id="attendance_normal1" name="attendance_normal1">
+                                                                    id="attendance_normal1" name="attendance_normal1"
+                                                                    value="">
                                                                 <input type="hidden" id="attendance_normal_hidden1"
                                                                     name="attendance_normal_hidden1" value="">
                                                             </div>
@@ -533,11 +642,11 @@
                                                                     placeholder="Remarks"></textarea>
                                                             </div>
                                                             <!--<div style="flex:0 0 120px;">
-                                                                                <input type="text" class="form-control" id="attendance_date1" readonly name="attendance_date1" value = "01-Jan-2024" placeholder="Date" >
-                                                                            </div>
-                                                                            <div style="flex:0 0 120px;">
-                                                                                <input type="text" class="form-control attendance_day1" id="attendance_day" readonly name="attendance_day1" value = "Monday" placeholder="Title">
-                                                                            </div>-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <input type="text" class="form-control" id="attendance_date1" readonly name="attendance_date1" value = "01-Jan-2024" placeholder="Date" >
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <div style="flex:0 0 120px;">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <input type="text" class="form-control attendance_day1" id="attendance_day" readonly name="attendance_day1" value = "Monday" placeholder="Title">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>-->
                                                             <!--leave-->
                                                             <div style="flex:0 0 120px;">
                                                                 <select class="form-control change leave_type"
@@ -684,6 +793,7 @@
                         type: 'GET',
                         url: '/ATS/get/candidate/company/' + selectedCandidateId,
                         success: function(response) {
+                            console.log(response);
                             updateCompanyDropdown(response);
 
                             submitForm();
