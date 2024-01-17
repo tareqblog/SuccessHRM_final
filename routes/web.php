@@ -13,6 +13,7 @@ use App\Http\Controllers\JobcategoryController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobTypeController;
 use App\Http\Controllers\Actions\FetchEmployeeController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AttendenceController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\CompanyController;
@@ -181,5 +182,9 @@ Route::prefix('ATS')->group(function () {
     Route::get('{any}',  [App\Http\Controllers\HomeController::class, 'index']);
 
 
-  //  Route::get('/',  [App\Http\Controllers\AdminController::class, 'root'])->name('admin.dashboard');
+    //  Route::get('/',  [App\Http\Controllers\AdminController::class, 'root'])->name('admin.dashboard');
+
+
+    Route::post('/attendance/create', [AttendanceController::class, 'create'])->name('admin.attendances.create');
+
 })->middleware('AdminMiddleware');
