@@ -176,22 +176,25 @@ class AttendenceController extends Controller
 
         $timeSheetData  = TimeSheetEntry::where('time_sheet_id', $timesheet_id)->get();
 
-        $data = [
-            'daysInMonth' => $daysInMonth,
-            'currentMonth' => $currentMonth,
-            'candidates' => $candidates,
-            'selectedDate' => $selectedDate,
-            'selectCandidate' => $selectCandidate,
-            'timeSheetData' => $timeSheetData,
-            'company_outlet_id' => $company_outlet_id,
-            'company_name' => $company_name,
-            'leaves' => $leaves,
-            'leaveTypes' => $leaveTypes
-        ];
+        $candidate_id = $request->candidate_id;
+        // $data = [
+        //     'daysInMonth' => $daysInMonth,
+        //     'currentMonth' => $currentMonth,
+        //     'candidates' => $candidates,
+        //     'selectedDate' => $selectedDate,
+        //     'selectCandidate' => $selectCandidate,
+        //     'timeSheetData' => $timeSheetData,
+        //     'company_outlet_id' => $company_outlet_id,
+        //     'company_name' => $company_name,
+        //     'leaves' => $leaves,
+        //     'leaveTypes' => $leaveTypes
+        // ];
 
         // return $data;
 
         return view('admin.attendence.create', compact(
+            'candidate_id',
+            'daysInMonth',
             'daysInMonth',
             'currentMonth',
             'candidates',
