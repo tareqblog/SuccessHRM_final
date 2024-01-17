@@ -201,7 +201,6 @@
                                             <div class="col-sm-9">
                                                 <input type="hidden" id="candidateId" name="candidate_id">
                                                 <select id="candidateDropdown" class="form-control">
-                                                    {{-- <select id="candidateDropdown" class="form-control"> --}}
                                                     <option value="">Select One</option>
                                                     @foreach ($candidates as $candidate)
                                                         <option
@@ -239,7 +238,7 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    <button type="submit">submit</button>
                                 </form>
                                 <div class="row">
                                     <div class="col-sm-12">
@@ -254,13 +253,12 @@
                                             4 Wrong / incomplete attendance submission will result to delay in
                                             payment.<br>
                                         </p>
-
-                                        <form action="{{ route('admin.attendances.create') }}" method="POST"  enctype="multipart/form-data">
+                                        <form  method="POST" action="{{ route('mystore') }}" enctype="multipart/form-data">
                                             @csrf
-                                            <div class="form-group" style="max-width: 100%;overflow: auto;">
+                                            <div class="form-group" style="max-width: 100%; overflow: auto;">
                                                 <div style="display:flex">
                                                     <label class="control-label">Date</label>
-                                                    <label class="control-label" style="margin-left: 130px">Day</label>
+                                                    <label class="control-label" style="margin-left: 90px">Day</label>
                                                     <label class="control-label" style="margin-left: 100px;">Time
                                                         In</label>
                                                     <label class="control-label" style="margin-left:90px;">Time
@@ -924,7 +922,7 @@
                             console.log(response);
                             updateCompanyDropdown(response);
 
-                            submitForm();
+                            // submitForm();
 
                         },
                         error: function(error) {
@@ -950,9 +948,9 @@
                     }
                 }
 
-                function submitForm() {
-                    $('#attendenceForm').submit();
-                }
+                // function submitForm() {
+                //     $('#attendenceForm').submit();
+                // }
 
             });
         </script>

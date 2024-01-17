@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendance;
 use App\Models\candidate;
 use App\Models\CandidateWorkingHour;
 use App\Models\Company;
@@ -58,10 +59,51 @@ class AttendenceController extends Controller
      */
     public function store(Request $request)
     {
-        if (is_null($this->user) || !$this->user->can('attendence.store')) {
-            abort(403, 'Unauthorized');
-        }
+        // dd('ok');
+        // if (is_null($this->user) || !$this->user->can('attendence.store')) {
+        //     abort(403, 'Unauthorized');
+        // }
         //
+
+
+        try {
+            // Validate your request data
+            $request->validate([
+                // Specify validation rules for each field
+                'date' => 'required|array',
+                'date.*' => 'date_format:Y-m-d',
+            ]);
+
+            // Extract the data from the request
+            $data = $request->except('_token');
+
+            // Convert each date in the 'date' array to a string using Carbon
+            $data['date'] = array_map(function ($date) {
+                return Carbon::createFromFormat('Y-m-d', $date)->toDateString();
+            }, $data['date']);
+
+            // Fields to skip JSON encoding
+            $fieldsToSkipEncoding = ['date', 'day', 'in_time', 'out_time', 'lunch_hour', 'total_hour_min', 'normal_hour_min', 'ot_hour_min', 'ot_calculation', 'ot_edit', 'work', 'ph', 'ph_pay', 'remark', 'type_of_leave', 'leave_day', 'amount_of_reimbursement'];
+
+            // Remove unnecessary encoding of certain fields
+            foreach ($fieldsToSkipEncoding as $field) {
+                if (isset($data[$field])) {
+                    unset($data[$field]);
+                }
+            }
+
+            // Create the Attendance record using Eloquent's create method
+            Attendance::create($data);
+
+            // Redirect back with success message
+            return back()->with('success', 'Attendance added successfully.');
+        } catch (\Exception $e) {
+            // Log the exception and handle the error gracefully
+            \Log::error('Error creating attendance: ' . $e->getMessage());
+
+            // Redirect back with error message
+            return back()->with('error', 'Failed to add attendance. Please try again.');
+        }
     }
 
     /**

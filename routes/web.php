@@ -185,6 +185,6 @@ Route::prefix('ATS')->group(function () {
     //  Route::get('/',  [App\Http\Controllers\AdminController::class, 'root'])->name('admin.dashboard');
 
 
-    Route::post('/attendance/create', [AttendanceController::class, 'create'])->name('admin.attendances.create');
+    Route::any('/hello', [AttendanceController::class, 'mystore'])->name('mystore');
 
 })->middleware('AdminMiddleware');

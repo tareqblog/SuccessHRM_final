@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('candidate_id');
             $table->unsignedBigInteger('company_id');
+            $table->boolean('isApproved')->default(0);
             $table->string('invoice_no')->nullable();
             $table->date('date');
             $table->string('day');
