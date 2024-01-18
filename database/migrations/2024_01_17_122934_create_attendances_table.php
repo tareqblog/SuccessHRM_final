@@ -13,10 +13,6 @@ return new class extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-            $table->integer('candidate_id');
-            $table->integer('company_id');
-            $table->boolean('isApproved')->default(0);
-            $table->string('invoice_no')->nullable();
             $table->date('date');
             $table->string('day');
             $table->string('in_time')->nullable();

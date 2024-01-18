@@ -29,41 +29,27 @@
                                     <th>No</th>
                                     <th>Name</th>
                                     <th>Client</th>
-                                    {{-- <th>AR No</th> --}}
                                     <th>Attendence Month</th>
                                     <th>Approved Date & Time</th>
-                                    <th></th>
+                                    {{-- <th>Action</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse ($datas as $data)
                                     <tr>
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $data->candidate?->candidate_name }}</td>
+                                        <td>{{ $data->company?->name }}</td>
                                         <td>
-                                            {{ $loop->index + 1 }}
+                                            {{ Carbon\Carbon::parse($data->month_year)->format('M, Y') }}
                                         </td>
-                                        <td>{{ $data->candidate->candidate_name }}</td>
-                                        <td>{{ $data->company_id }}</td>
-                                        <td>{{ $data->candidate_email }}</td>
-                                        <td>{{ $data->candidate_mobile }}</td>
                                         <td>{{ $data->updated_at }}</td>
-                                        <td><a href="{{ route('attendence.edit', $data->id) }}"
-                                                class="btn btn-success btn-sm me-3">Assigned</a></td>
-                                        <td></td>
-                                        <td>{{ $data->candidate_status == 1 ? 'Active' : 'In-Active' }}</td>
-                                        <td style="display: flex;">
-                                            <a href="{{ route('candidate.edit', $data->id) }}#remark"
-                                                class="btn btn-warning btn-sm me-2"></i>Remarks</a>
-                                            <a href="{{ route('candidate.edit', $data->id) }}"
+                                        {{-- <td style="display: flex;">
+                                            <a href="{{ route('attendence.edit', $data->id) }}"
                                                 class="btn btn-info btn-sm me-2"><i class="fas fa-pen"></i></a>
-                                            <form id="deleteForm" action="{{ route('candidate.destroy', $data->id) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit"
-                                                    onclick="return confirm('Are you sure you want to delete this item?')"
-                                                    class="btn btn-sm btn-danger"> <i class="fas fa fa-trash"></i> </a>
-                                            </form>
-                                        </td>
+                                            <a href="{{ route('attendence.edit', $data->id) }}"
+                                                class="btn btn-primary btn-sm me-2">Resubmit</a>
+                                        </td> --}}
                                     </tr>
                                 @empty
 

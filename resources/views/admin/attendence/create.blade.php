@@ -15,16 +15,16 @@
     <body>
     @endsection
     @section('content')
-        <style>
-            .remove-label,
-            .remove-claim {
-                display: none;
-                cursor: pointer;
-            }
-        </style>
+    <style>
+        .remove-label, .remove-claim {
+            display: none;
+            cursor: pointer;
+        }
+    </style>
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <script>
-            function allWork(days) {
+            function allWork(days)
+            {
                 for (let day = 1; day <= days; day++) {
                     if ($('#allCheckB').is(':checked')) {
                         $('.bg-' + day).addClass('bg-info');
@@ -42,13 +42,14 @@
                 }
             }
 
-            function work_check(day) {
+            function work_check(day)
+            {
                 if ($('#workCheB-' + day).is(':checked')) {
                     $('.bg-' + day).addClass('bg-info');
                     $('.s-' + day).hide();
                     $('.hi-' + day).show();
                     $('#workCheB-' + day).prop('checked', true).addClass('checked');
-                } else if ($('#workCheB-' + day).is(':not(:checked)')) {
+                } else if($('#workCheB-' + day).is(':not(:checked)')) {
                     $('.bg-' + day).removeClass('bg-info');
                     $('.hi-' + day).hide();
                     $('.s-' + day).show();
@@ -57,25 +58,30 @@
                 timeCalculation(day);
             }
 
-            function removeFile(day) {
+            function removeFile(day)
+            {
                 $('.attendance_leave_file-' + day).val('');
                 $('.remove-label').hide();
             }
 
-            function hasFile(day) {
-                $('.remove-label-' + day).show();
+            function hasFile(day)
+            {
+                $('.remove-label-'+day).show();
             }
 
-            function removeClaim(day) {
+            function removeClaim(day)
+            {
                 $('.attendance_claim_file-' + day).val('');
                 $('.remove-claim').hide();
             }
 
-            function hasClaim(day) {
-                $('.remove-claim-' + day).show();
+            function hasClaim(day)
+            {
+                $('.remove-claim-'+day).show();
             }
 
-            function timeCalculation(day) {
+            function timeCalculation(day)
+            {
                 let lunch_val = tream($('.lunch_val-' + day).val());
                 let inTime = $('.inTime-' + day).val();
                 let outTime = $('.outTime-' + day).val();
@@ -92,14 +98,16 @@
                 $('.normal_time-' + day).val(normal_time);
             }
 
-            function leaveDay(day, hour_min) {
+            function leaveDay(day, hour_min)
+            {
                 let hours = 0;
                 let minutes = 0;
                 let will_pay = 1;
                 let leave_day = $('.change.leave_days.hi-' + day).val();
-                if (leave_day == 'Full Day Leave') {
+                if(leave_day == 'Full Day Leave')
+                {
                     will_pay = 0;
-                } else if (leave_day == 'Half Day AM' || leave_day == 'Half Day PM') {
+                } else if(leave_day == 'Half Day AM' || leave_day == 'Half Day PM') {
                     will_pay = 0.5;
                 }
 
@@ -108,10 +116,7 @@
                 hours = Math.floor(total_min / 60);
                 minutes = total_min % 60;
 
-                return {
-                    hours,
-                    minutes
-                };
+                return { hours, minutes };
             }
 
             function parseTimeString(timeString) {
@@ -126,10 +131,7 @@
                     minutes = parseInt(match[2], 10);
                 }
 
-                return {
-                    hours,
-                    minutes
-                };
+                return { hours, minutes };
             }
 
             function tream(value) {
@@ -148,13 +150,11 @@
 
                 const hours = Math.floor(totalMinutes / 60);
                 const minutes = totalMinutes % 60;
-                return {
-                    hours,
-                    minutes
-                };
+                return { hours, minutes };
             }
 
-            function calculateTimeDifference(inTime, outTime) {
+            function calculateTimeDifference(inTime, outTime)
+            {
                 let hours = 0;
                 let minutes = 0;
                 // if (!isValidTimeString(inTime) || !isValidTimeString(outTime)) {
@@ -170,12 +170,8 @@
                 hours = (Math.floor(minutesDifference / 60));
                 minutes = (minutesDifference % 60);
 
-                return {
-                    hours,
-                    minutes
-                };
+                return { hours, minutes };
             }
-
             function isValidTimeString(timeString) {
                 const regex = /^([01]\d|2[0-3]):([0-5]\d)$/;
                 return regex.test(timeString);
@@ -189,10 +185,7 @@
                     totalHours--;
                     totalMinutes += 60;
                 }
-                return {
-                    hours: totalHours,
-                    minutes: totalMinutes
-                };
+                return { hours: totalHours, minutes: totalMinutes };
             }
 
             function sumTimeDifferences(timeDifferences) {
@@ -208,10 +201,7 @@
                 totalHours += Math.floor(totalMinutes / 60);
                 totalMinutes %= 60;
 
-                return {
-                    hours: totalHours,
-                    minutes: totalMinutes
-                };
+                return { hours: totalHours, minutes: totalMinutes };
             }
         </script>
 
@@ -243,6 +233,13 @@
                                 <form action="{{ route('get.month.attendence.data') }}" method="POST" id="attendenceForm">
                                     @csrf
                                     <div class="row">
+                                        <div class="row col-lg-6 mb-4">
+                                            <label for="thirteen" class="col-sm-3 col-form-label">Select Date</label>
+                                            <div class="col-sm-9">
+                                                <input type="date" name="date" id="dateInput" class="form-control"
+                                                    value="{{ isset($selectedDate) ? $selectedDate : Carbon\Carbon::now() }}" required>
+                                            </div>
+                                        </div>
                                         <div class="row col-lg-6  mb-4">
                                             <label for="eleven" class="col-sm-3 col-form-label">Candidate</label>
                                             <div class="col-sm-9">
@@ -273,21 +270,15 @@
                                         <div class="row col-lg-6 mb-4">
                                             <label for="thirteen" class="col-sm-3 col-form-label">Invoice Number</label>
                                             <div class="col-sm-9">
-                                                <input type="text" name="invoice_no" class="form-control"
+                                                <input type="text" name="invoice_no" class="form-control invoice"
                                                     placeholder="Invoice no">
-                                            </div>
-                                        </div>
-                                        <div class="row col-lg-6 mb-4">
-                                            <label for="thirteen" class="col-sm-3 col-form-label">Select Date</label>
-                                            <div class="col-sm-9">
-                                                <input type="date" name="date" id="dateInput" class="form-control"
-                                                    value="{{ isset($selectedDate) ? $selectedDate : Carbon\Carbon::now() }}">
                                             </div>
                                         </div>
                                     </div>
                                 </form>
                                 <div class="row">
                                     <div class="col-sm-12">
+
                                         <p style="color:red">
                                             Reminders:<br>
                                             1 Indicate actual working hours if you are on half day leave (example: 9am -
@@ -298,7 +289,7 @@
                                             4 Wrong / incomplete attendance submission will result to delay in
                                             payment.<br>
                                         </p>
-                                        <form method="POST" action="{{ route('mystore') }}" enctype="multipart/form-data">
+                                        <form  method="POST" action="{{ route('mystore') }}" enctype="multipart/form-data">
                                             @csrf
                                             <div class="form-group" style="max-width: 100%; overflow: auto;">
                                                 <div style="display:flex">
@@ -325,8 +316,7 @@
                                                         Edit</label>
                                                     <label style="margin-left: 70px;" class="control-label"><input
                                                             type="checkbox" id="allCheckB" name="work_checkbox"
-                                                            class="work_checkbox_parent"
-                                                            onclick="allWork({{ $daysInMonth ?? '' }})">
+                                                            class="work_checkbox_parent" onclick="allWork({{$daysInMonth ?? ''}})">
                                                         Work</label>
                                                     <label class="control-label" style="margin-left: 30px;">PH</label>
                                                     <label class="control-label" style="margin-left: 40px;">PH
@@ -348,6 +338,7 @@
                                                 </div>
 
                                                 @if (isset($daysInMonth))
+
                                                     @for ($day = 1; $day <= $daysInMonth; $day++)
                                                         @php
                                                             $currentDay = $currentMonth->copy()->day($day);
@@ -449,25 +440,23 @@
 
                                                             $total_part = implode(' ', $total_part);
                                                         @endphp
-                                                        <input type="hidden" value="{{ $candidate_id }}"
-                                                            name="group[{{ $day }}][candidate_id]">
-                                                        <input type="hidden" value="{{ $company_outlet_id }}"
-                                                            name="group[{{ $day }}][company_id]">
+                                                        <input type="hidden" value="{{$candidate_id}}" name="group[{{$day}}][candidate_id]">
+                                                        <input type="hidden" value="{{$company_outlet_id}}" name="group[{{$day}}][company_id]">
+                                                        <input type="hidden" name="group[{{$day}}][invoice_no]" class="form-control" id="invoice"
+                                                    placeholder="Invoice no">
                                                         <div style="display:flex">
                                                             <div
                                                                 style="flex:0 0 120px;position: sticky;left: 0;z-index: 20;">
-                                                                <input type="text"
-                                                                    class="form-control bg-{{ $day }}" readonly
+                                                                <input type="text" class="form-control bg-{{ $day }}"
+                                                                    readonly
                                                                     placeholder="Date" readonly=""
-                                                                    name="group[{{ $day }}][date]"
-                                                                    placeholder="Date"
+                                                                    name="group[{{$day}}][date]" placeholder="Date"
                                                                     value="{{ $currentDay->format('Y-m-d') }}">
                                                             </div>
                                                             <div
                                                                 style="flex:0 0 120px;position: sticky;left: 120px;z-index: 20;">
-                                                                <input type="text"
-                                                                    class="form-control bg-{{ $day }}"
-                                                                    readonly="" name="group[{{ $day }}][day]"
+                                                                <input type="text" class="form-control bg-{{ $day }}" readonly=""
+                                                                    name="group[{{$day}}][day]"
                                                                     value="{{ $currentDay->format('l') }}"
                                                                     placeholder="Title">
                                                             </div>
@@ -481,14 +470,12 @@
                                                             <div
                                                                 style="flex:0 0 120px;position: sticky;left: 120px;z-index: 20;">
                                                                 <input type="time" style="display: none"
-                                                                    class="form-control hi-{{ $day }} inTime-{{ $day }}"
-                                                                    name="group[{{ $day }}][in_time]"
+                                                                    class="form-control hi-{{ $day }} inTime-{{$day}}"
+                                                                    name="group[{{$day}}][in_time]"
                                                                     value="{{ $isLeave == true ? '--' : ($isWorkDay ? $inTime : '') }}"
-                                                                    placeholder="time"
-                                                                    onchange="timeCalculation({{ $day }})">
+                                                                    placeholder="time" onchange="timeCalculation({{$day}})">
                                                                 <input type="time"
-                                                                    class="form-control s-{{ $day }}"
-                                                                    value="" placeholder="time">
+                                                                    class="form-control s-{{ $day }}" value="" placeholder="time">
 
                                                                 {{-- <input type="time" class="form-control"
                                                                     name="attendance_day1"
@@ -498,72 +485,59 @@
                                                             <div
                                                                 style="flex:0 0 120px;position: sticky;left: 120px;z-index: 20;">
                                                                 <input type="time" style="display: none"
-                                                                    class="form-control hi-{{ $day }}  outTime-{{ $day }}"
-                                                                    name="group[{{ $day }}][out_time]"
+                                                                    class="form-control hi-{{ $day }}  outTime-{{$day}}"
+                                                                    name="group[{{$day}}][out_time]"
                                                                     value="{{ $isLeave == true ? '--' : ($isWorkDay ? $outTime : '') }}"
-                                                                    placeholder="time"
-                                                                    onchange="timeCalculation({{ $day }})">
+                                                                    placeholder="time" onchange="timeCalculation({{$day}})">
                                                                 <input type="time"
-                                                                    class="form-control s-{{ $day }}"
-                                                                    placeholder="time">
+                                                                    class="form-control s-{{ $day }}" placeholder="time">
                                                             </div>
                                                             <!--next-->
                                                             <div style="flex:0 0 50px;text-align:center">
                                                                 <input type="hidden" name="group[{{$day}}][next_day]" value="0" >
                                                                 <input type="checkbox" class="attendance_next_day1 change"
                                                                     data-line="1" value="1"
-                                                                    name="group[{{ $day }}][next_day]"
+                                                                    name="group[{{$day}}][next_day]"
                                                                     {{ $isNextDay == 1 ? 'checked' : '' }}>
                                                             </div>
                                                             <!--lunch-->
                                                             <div style="flex:0 0 120px;">
-                                                                <select
-                                                                    class="form-control change hi-{{ $day }} lunch_val-{{ $day }}"
-                                                                    data-line="1"
-                                                                    onchange="timeCalculation({{ $day }})"
-                                                                    id="attendance_lunch"
-                                                                    name="group[{{ $day }}][lunch_hour]"
+                                                                <select class="form-control change hi-{{ $day }} lunch_val-{{$day}}" data-line="1" onchange="timeCalculation({{$day}})"
+                                                                    id="attendance_lunch" name="group[{{$day}}][lunch_hour]"
                                                                     data-content="" style="width:100%; display: none">
                                                                     <option value="">Select One</option>
                                                                     @include('admin.attendence.inc.options')
                                                                 </select>
-                                                                <select class="form-control change s-{{ $day }}"
-                                                                    data-line="1" data-content="" style="width:100%">
+                                                                <select class="form-control change s-{{ $day }}" data-line="1"
+                                                                    data-content="" style="width:100%">
                                                                     <option value="">Select One</option>
                                                                     @include('admin.attendence.inc.options')
                                                                 </select>
                                                             </div>
                                                             <!--total-->
                                                             <div style="flex:0 0 120px;">
-                                                                <input type="text"
-                                                                    style="text-align:center; display: none"
-                                                                    class="form-control week_1 hi-{{ $day }} totla_time-{{ $day }}"
-                                                                    data-week="1" readonly=""
-                                                                    name="group[{{ $day }}][total_hour_min]"
+                                                                <input type="text" style="text-align:center; display: none"
+                                                                    class="form-control week_1 hi-{{ $day }} totla_time-{{$day}}" data-week="1"
+                                                                    readonly="" name="group[{{$day}}][total_hour_min]"
                                                                     data-content="-1 h "
                                                                     value="{{ $isLeave == true ? '--' : ($isWorkDay ? $total_part : '') }}">
                                                                 <input type="text" style="text-align:center"
-                                                                    class="form-control week_1 s-{{ $day }}"
-                                                                    data-week="1" readonly="" data-content="-1 h "
-                                                                    value="0 h">
+                                                                    class="form-control week_1 s-{{ $day }}" data-week="1"
+                                                                    readonly=""
+                                                                    data-content="-1 h " value="0 h">
                                                             </div>
                                                             <!--normal-->
                                                             <div style="flex:0 0 120px;">
-                                                                <input type="text"
-                                                                    style="text-align:center; display: none"
-                                                                    class="form-control hi-{{ $day }} normal_time-{{ $day }}"
-                                                                    name="group[{{ $day }}][normal_hour_min]"
+                                                                <input type="text" style="text-align:center; display: none"
+                                                                    class="form-control hi-{{ $day }} normal_time-{{$day}}" name="group[{{$day}}][normal_hour_min]"
                                                                     value="{{ $isLeave == true ? '--' : ($isWorkDay ? $normalTime : '') }}">
                                                                 <input type="text" style="text-align:center;"
-                                                                    class="form-control s-{{ $day }}"
-                                                                    value="0 h">
+                                                                    class="form-control s-{{ $day }}" value="0 h">
                                                             </div>
                                                             <!--ot-->
                                                             <div style="flex:0 0 120px;">
-                                                                <input type="text" style="text-align:center"
-                                                                    name="group[{{ $day }}][ot_hour_min]"
-                                                                    class="form-control ot-{{ $day }}"
-                                                                    data-week="1" value="0">
+                                                                <input type="text" style="text-align:center" name="group[{{$day}}][ot_hour_min]"
+                                                                    class="form-control ot-{{$day}}" data-week="1" value="0">
                                                                 <!--<input type="hidden" id="attendance_ot_hidden1" name="attendance_ot_hidden1" value="">-->
 
 
@@ -580,32 +554,21 @@
                                                             <div style="flex:0 0 120px;">
                                                                 <input type="text" style="text-align:center"
                                                                     class="form-control"
-                                                                    name="group[{{ $day }}][ot_calculation]"
-                                                                    value="0">
+                                                                    name="group[{{$day}}][ot_calculation]" value="0">
                                                             </div>
                                                             <!--edit-->
                                                             <div style="flex:0 0 80px;text-align:center">
-                                                                <input type="checkbox" class="attendance_edit1"
-                                                                    data-line="1" value="1"
-                                                                    name="group[{{ $day }}][ot_edit]">
-                                                                <input type="hidden" class="attendance_edit1"
-                                                                    value="0"
-                                                                    name="group[{{ $day }}][ot_edit]">
+                                                                <input type="checkbox" class="attendance_edit1" data-line="1" value="1" name="group[{{$day}}][ot_edit]">
+                                                                <input type="hidden" class="attendance_edit1" value="0" name="group[{{$day}}][ot_edit]">
                                                             </div>
                                                             <!--work-->
                                                             <div style="flex:0 0 100px;text-align:center">
                                                                 @if ($isWorkDay == true && $isLeave == false)
-                                                                    <input type="checkbox"
-                                                                        id="workCheB-{{ $day }}"
-                                                                        class="work attendance_work1" data-line="1"
-                                                                        value="1"
-                                                                        name="group[{{ $day }}][work]"
-                                                                        onclick="work_check('{{ $day }}')">
+                                                                    <input type="checkbox" id="workCheB-{{$day}}" class="work attendance_work1" data-line="1" value="1" name="group[{{$day}}][work]" onclick="work_check('{{ $day }}')">
                                                                 @else
                                                                     <input type="checkbox" class="work attendance_work1"
-                                                                        value="0"
-                                                                        name="group[{{ $day }}][work]"
-                                                                        onclick="work_check('{{ $day }}')">
+                                                                    value="0" name="group[{{$day}}][work]"
+                                                                    onclick="work_check('{{ $day }}')">
                                                                 @endif
 
 
@@ -613,36 +576,31 @@
                                                             <!--ph-->
                                                             <div style="flex:0 0 50px;text-align:center">
                                                                 <input type="checkbox" class="work attendance_ph1"
-                                                                    data-line="1" value="1"
-                                                                    name="group[{{ $day }}][ph]">
-                                                                <input type="hidden"
-                                                                    name="group[{{ $day }}][ph]" value="0">
+                                                                    data-line="1" value="1" name="group[{{$day}}][ph]">
+                                                                <input type="hidden" name="group[{{$day}}][ph]" value="0">
                                                             </div>
                                                             <!--ph pay-->
                                                             <div style="flex:0 0 50px;text-align:center">
                                                                 <input type="checkbox" class="work attendance_ph_pay1"
                                                                     data-line="1" value="1"
-                                                                    name="group[{{ $day }}][ph_pay]">
-                                                                <input type="hidden"
-                                                                    name="group[{{ $day }}][ph_pay]"
-                                                                    value="0">
+                                                                    name="group[{{$day}}][ph_pay]">
+                                                                <input type="hidden" name="group[{{$day}}][ph_pay]" value="0">
                                                             </div>
                                                             <!--remark-->
                                                             <div style="flex:0 0 150px;">
                                                                 {{-- <textarea class="form-control hi-{{ $day }}" rows="1" name="attendance_remarks1" style="display: none"
                                                                     placeholder="Remarks">{{ $isLeave == true ? $leaveRemarks : '' }} </textarea> --}}
 
-                                                                <textarea class="form-control hi-{{ $day }}" rows="1" name="group[{{ $day }}][remark]"
-                                                                    style="display: none" placeholder="{{ $isLeave ? '' : 'Remarks' }}">{{ $isLeave ? $leaveRemarks : '' }}</textarea>
+                                                                <textarea class="form-control hi-{{ $day }}" rows="1" name="group[{{$day}}][remark]" style="display: none"
+                                                                placeholder="{{ $isLeave ? '' : 'Remarks' }}">{{ $isLeave ? $leaveRemarks : '' }}</textarea>
 
-                                                                <textarea class="form-control s-{{ $day }}" rows="1" placeholder="Remarks"></textarea>
+                                                                <textarea class="form-control s-{{$day}}" rows="1"
+                                                                    placeholder="Remarks"></textarea>
                                                             </div>
                                                             <div style="flex:0 0 120px;">
-                                                                <select
-                                                                    class="form-control change leave_type hi-{{ $day }}"
+                                                                <select class="form-control change leave_type hi-{{ $day }}"
                                                                     data-line="1"
-                                                                    name="group[{{ $day }}][type_of_leave]"
-                                                                    style="width:100%; display: none;">
+                                                                    name="group[{{$day}}][type_of_leave]" style="width:100%; display: none;">
                                                                     <option value="">Select One</option>
                                                                     @foreach ($leaveTypes as $type)
                                                                         <option value="{{ $type->id }}"
@@ -650,8 +608,7 @@
                                                                             {{ $type->leavetype_code }}</option>
                                                                     @endforeach
                                                                 </select>
-                                                                <select
-                                                                    class="form-control change leave_type s-{{ $day }}"
+                                                                <select class="form-control change leave_type s-{{$day}}"
                                                                     data-line="1" style="width:100%;">
                                                                     <option value="">Select One</option>
                                                                     @foreach ($leaveTypes as $type)
@@ -661,12 +618,9 @@
                                                             </div>
                                                             <!--attendance leave day-->
                                                             <div style="flex:0 0 120px;">
-                                                                <select
-                                                                    class="form-control change leave_days hi-{{ $day }}"
-                                                                    onchange="timeCalculation({{ $day }})"
+                                                                <select class="form-control change leave_days hi-{{ $day }}" onchange="timeCalculation({{$day}})"
                                                                     data-line="1"
-                                                                    name="group[{{ $day }}][leave_day]"
-                                                                    style="width:100%; display: none">
+                                                                    name="group[{{$day}}][leave_day]" style="width:100%; display: none">
                                                                     <option value="0">Select One</option>
                                                                     <option value="Full Day Leave"
                                                                         {{ $isLeave == true ? ($leaveDuration == 'Full Day Leave' ? 'selected' : '') : '' }}>
@@ -678,10 +632,8 @@
                                                                         {{ $isLeave == true ? ($leaveDuration == 'Half Day PM' ? 'selected' : '') : '' }}>
                                                                         Half Day PM</option>
                                                                 </select>
-                                                                <select
-                                                                    class="form-control change leave_days s-{{ $day }}"
-                                                                    data-line="1" style="width:100%"
-                                                                    onchange="timeCalculation({{ $day }})">
+                                                                <select class="form-control change leave_days s-{{$day}}"
+                                                                    data-line="1" style="width:100%" onchange="timeCalculation({{$day}})">
                                                                     <option value="0">Select One</option>
                                                                     <option value="Full Day Leave">
                                                                         Full Day Leave</option>
@@ -694,18 +646,6 @@
                                                             </div>
                                                             <!--attendance leave file-->
                                                             <div style="flex:0 0 235px;">
-                                                                <input type="file"
-                                                                    class="attendance_leave_file-{{ $day }}"
-                                                                    name="leave_attachment[]" multiple=""
-                                                                    onchange="hasFile({{ $day }})">
-                                                                <label
-                                                                    class="remove-label remove-label-{{ $day }}"
-                                                                    onclick="removeFile('{{ $day }}')"><i
-                                                                        class="fas fa-trash text-danger"></i></label>
-                                                                {{-- <input type="file" id="attendance_leave_file1"
-                                                                    name="group[{{$day}}][attendance_leave_file1]" multiple=""> --}}
-                                                                <div class="hi-{{ $day }}"
-                                                                    style="display: none">
                                                                 <input type="file" class="attendance_leave_file-{{$day}}" name="group[{{$day}}][leave_attachment]" multiple="" onchange="hasFile({{$day}})">
                                                                 <label class="remove-label remove-label-{{$day}}" onclick="removeFile('{{$day}}')"><i class="fas fa-trash text-danger"></i></label>
                                                                 <div class="hi-{{ $day }}" style="display: none">
@@ -719,22 +659,15 @@
                                                             </div>
                                                             <!--attendance claim file-->
                                                             <div style="flex:0 0 235px;">
-                                                                <input type="file"
-                                                                    class="attendance_claim_file-{{ $day }}"
-                                                                    name="group[{{ $day }}][claim_attachment]"
-                                                                    multiple=""
-                                                                    onchange="hasClaim({{ $day }})">
-                                                                <label
-                                                                    class="remove-claim remove-claim-{{ $day }}"
-                                                                    onclick="removeClaim('{{ $day }}')"><i
-                                                                        class="fas fa-trash text-danger"></i></label>
+                                                                <input type="file" class="attendance_claim_file-{{$day}}" name="group[{{$day}}][claim_attachment]" multiple="" onchange="hasClaim({{$day}})">
+                                                                <label class="remove-claim remove-claim-{{$day}}" onclick="removeClaim('{{$day}}')"><i class="fas fa-trash text-danger"></i></label>
                                                             </div>
                                                             <!--reimbursement-->
                                                             <div style="flex:0 0 200px;">
                                                                 <select
                                                                     class="form-control change attendance_reimbursement select2 select2-hidden-accessible"
-                                                                    data-line="1" multiple=""
-                                                                    name="group[{{ $day }}][type_of_reimbursement]"
+                                                                    data-line="1"
+                                                                    multiple="" name="group[{{$day}}][type_of_reimbursement]"
                                                                     style="width:100%" tabindex="-1" aria-hidden="true">
                                                                     <!--<select class="form-control change attendance_reimbursement select2 select2-hidden-accessible" data-line="1" id="attendance_reimbursement1" name="attendance_reimbursement1[]" style = 'width:100%'>-->
                                                                     <option value="1">Transport Reimbursement</option>
@@ -769,7 +702,7 @@
                                                             <div style="flex:0 0 150px;">
                                                                 <input type="text" style="text-align:center"
                                                                     class="form-control" value="0" data-week="1"
-                                                                    name="group[{{ $day }}][amount_of_reimbursement]">
+                                                                    name="group[{{$day}}][amount_of_reimbursement]">
                                                             </div>
                                                         </div>
 
@@ -789,8 +722,7 @@
                                                         <div style="display:flex">
                                                             <div
                                                                 style="flex:0 0 120px;position: sticky;left: 0;z-index: 20;">
-                                                                <input type="date" class="form-control" readonly=""
-                                                                    placeholder="Date"
+                                                                <input type="date" class="form-control" readonly="" placeholder="Date"
                                                                     value="{{ $currentDay->toDateString() }}">
                                                             </div>
                                                             <div
@@ -812,13 +744,14 @@
                                                             <!--next-->
                                                             <div style="flex:0 0 50px;text-align:center">
                                                                 <input type="checkbox" class="attendance_next_day1 change"
-                                                                    data-line="1" name="attendance_next_day1">
+                                                                    data-line="1"
+                                                                    name="attendance_next_day1">
                                                             </div>
                                                             <!--lunch-->
                                                             <div style="flex:0 0 120px;">
                                                                 <select class="form-control change" data-line="1"
-                                                                    id="attendance_lunch1" data-content=""
-                                                                    style="width:100%">
+                                                                    id="attendance_lunch1"
+                                                                    data-content="" style="width:100%">
                                                                     <option value="1">30 minutes</option>
                                                                     <option value="2">45 minutes</option>
                                                                     <option value="3">1 hour</option>
@@ -831,21 +764,19 @@
                                                             <div style="flex:0 0 120px;">
                                                                 <input type="text" style="text-align:center"
                                                                     class="form-control week_1" data-week="1"
-                                                                    readonly="" id="attendance_total1"
-                                                                    data-content="-1 h " value="--">
+                                                                    readonly="" id="attendance_total1" data-content="-1 h "
+                                                                    value="--">
                                                             </div>
                                                             <!--normal-->
                                                             <div style="flex:0 0 120px;">
                                                                 <input type="text" style="text-align:center"
                                                                     class="form-control" data-week="1">
-                                                                <input type="hidden" id="attendance_normal_hidden1"
-                                                                    value="">
+                                                                <input type="hidden" id="attendance_normal_hidden1" value="">
                                                             </div>
                                                             <!--ot-->
                                                             <div style="flex:0 0 120px;">
-                                                                <input type="text" name="ot[]"
-                                                                    style="text-align:center" class="form-control"
-                                                                    data-week="1">
+                                                                <input type="text" name="ot[]" style="text-align:center"
+                                                                    class="form-control" data-week="1">
                                                                 <!--<input type="hidden" id="attendance_ot_hidden1" name="attendance_ot_hidden1" value="">-->
 
 
@@ -870,7 +801,7 @@
                                                             <!--work-->
                                                             <div style="flex:0 0 100px;text-align:center">
                                                                 <input type="checkbox" class="work attendance_work1"
-                                                                    data-line="1">
+                                                                    data-line="1" >
                                                             </div>
                                                             <!--ph-->
                                                             <div style="flex:0 0 50px;text-align:center">
@@ -884,14 +815,15 @@
                                                             </div>
                                                             <!--remark-->
                                                             <div style="flex:0 0 150px;">
-                                                                <textarea class="form-control" rows="1" placeholder="Remarks"></textarea>
+                                                                <textarea class="form-control" rows="1"
+                                                                    placeholder="Remarks"></textarea>
                                                             </div>
                                                             <!--<div style="flex:0 0 120px;">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <input type="text" class="form-control" id="attendance_date1" readonly name="attendance_date1" value = "01-Jan-2024" placeholder="Date" >
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div style="flex:0 0 120px;">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <input type="text" class="form-control attendance_day1" id="attendance_day" readonly name="attendance_day1" value = "Monday" placeholder="Title">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <input type="text" class="form-control" id="attendance_date1" readonly name="attendance_date1" value = "01-Jan-2024" placeholder="Date" >
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div style="flex:0 0 120px;">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <input type="text" class="form-control attendance_day1" id="attendance_day" readonly name="attendance_day1" value = "Monday" placeholder="Title">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>-->
                                                             <!--leave-->
                                                             <div style="flex:0 0 120px;">
                                                                 <select class="form-control change leave_type"
@@ -936,8 +868,9 @@
                                                             <div style="flex:0 0 200px;">
                                                                 <select
                                                                     class="form-control change attendance_reimbursement select2 select2-hidden-accessible"
-                                                                    data-line="1" multiple="" style="width:100%"
-                                                                    tabindex="-1" aria-hidden="true">
+                                                                    data-line="1"
+                                                                    multiple=""
+                                                                    style="width:100%" tabindex="-1" aria-hidden="true">
                                                                     <!--<select class="form-control change attendance_reimbursement select2 select2-hidden-accessible" data-line="1" id="attendance_reimbursement1" name="attendance_reimbursement1[]" style = 'width:100%'>-->
                                                                     <option value="1">Transport Reimbursement</option>
                                                                     <option value="2">Medical Reimbursement</option>
@@ -1057,6 +990,11 @@
                             '<option value="" disabled selected>No Company Available</option>');
                     }
                 }
+
+                $(".invoice").on('keyup',function(){
+                    var inp = $(this).val();
+                    $("#invoice").val(inp);
+                });
 
                 function submitForm() {
                     $('#attendenceForm').submit();
