@@ -56,31 +56,28 @@ Route::get('/dashboard', function () {
 
 
 
-Route::get('/ats',function () {
+Route::get('/ats', function () {
 
-return redirect(route('login'));
+    return redirect(route('login'));
+})->middleware('AdminMiddleware');
 
-    })->middleware('AdminMiddleware');
 
+Route::get('/', function () {
 
-Route::get('/',function () {
-
-return redirect(route('login'));
-
-    })->middleware('AdminMiddleware');
+    return redirect(route('login'));
+})->middleware('AdminMiddleware');
 
 
 Auth::routes(['register' => false, 'login' => false]);
-Route::get('/login',[UserController::class, 'loginform'])->name('login');
-Route::post('/login',[UserController::class, 'login']);
+Route::get('/login', [UserController::class, 'loginform'])->name('login');
+Route::post('/login', [UserController::class, 'login']);
 
-Route::middleware(['2fa','auth'])->group(function () {
+Route::middleware(['2fa', 'auth'])->group(function () {
 
-Route::get('/ATS/dashboard', [UserController::class,'dashboard'])->name('admin.dashboard');
-Route::any('/ATS/dashboard', function () {
+    Route::get('/ATS/dashboard', [UserController::class, 'dashboard'])->name('admin.dashboard');
+    Route::any('/ATS/dashboard', function () {
 
         return redirect('/ATS/designation');
-
     })->name('2fa');
 });
 
@@ -110,7 +107,7 @@ Route::prefix('ATS')->group(function () {
         '/job' => JobController::class,
         '/leave' => LeaveController::class,
         '/candidate' => CandidateController::class,
-       '/import' => CandidateFileImportController::class,
+        '/import' => CandidateFileImportController::class,
         '/file-type' => UploadFileTypeController::class,
         '/pass-type' => PassTypeController::class,
         '/remarks-type' => RemarksTypesController::class,
@@ -186,5 +183,4 @@ Route::prefix('ATS')->group(function () {
 
 
     Route::any('/hello', [AttendanceController::class, 'mystore'])->name('mystore');
-
 })->middleware('AdminMiddleware');
