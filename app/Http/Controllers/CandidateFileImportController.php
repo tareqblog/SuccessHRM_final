@@ -18,6 +18,7 @@ use Illuminate\Support\Str;
 use Spatie\PdfToText\Pdf;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\PhpWord;
+use Smalot\PdfParser\Parser;
 
 class CandidateFileImportController extends Controller
 {
@@ -231,85 +232,142 @@ class CandidateFileImportController extends Controller
 
         return back()->with('error', 'No files were selected.');
     }
+
     public function extractInfo(Request $request)
     {
+        if ($request->has('selectedFiles')) {
+            $file = $request->selectedFiles;
+            $filePath = public_path(Storage::url($file));
+            if (pathinfo($file, PATHINFO_EXTENSION) === 'docx') {
 
+            } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'pdf') {
+                try {
+                    $parser = new Parser();
+                    $pdf = $parser->parseFile($filePath);
+
+                    $text = $pdf->getText();
+                    if (preg_match('/^[A-Z][A-Z. ]+$/m', $text, $matches)) {
+                        $name = trim($matches[0]);
+                    } else {
+                        $name = "Name not found";
+                    }
 
         if (is_null($this->user) || !$this->user->can('extract.info')) {
             abort(403, 'Unauthorized');
         }
-
-        if ($request->has('selectedFiles')) {
-            $selectedFiles = $request->selectedFiles;
-
-            foreach ($selectedFiles as $file) {
-                // Process each file to extract information
-                $filePath = public_path() . Storage::url($file);
-                //dd($filePath);
-                if (pathinfo($file, PATHINFO_EXTENSION) === 'docx') {
-
-                    $phpWord = IOFactory::load($filePath);
-                    $docInfo = $phpWord->getDocInfo();
-
-                    // Extract relevant info from the document
-                    $title = $docInfo->getTitle();
-                    $subject = $docInfo->getSubject();
-                    // Extract email, name, phone, etc.
-                    // Extract the information and pass it to the view
-                } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'pdf') {
-                    // Extract information from PDF files
-                    // Use libraries like TCPDF, FPDI, or others to read PDF contents
-                    // $extractedInfo= (new Pdf())->getText($filePath);
-                    try {
-                        $extractedInfo =  Pdf::getText($filePath);
-                        $text = $extractedInfo;
-                        // Extract name
-                        if (preg_match('/^[A-Z][A-Z. ]+$/m', $text, $matches)) {
-                            $name = trim($matches[0]);
-                        } else {
-                            $name = "Name not found";
-                        }
-
-                        // Extract email
-                        if (preg_match('/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/', $text, $matches)) {
-                            $email = trim($matches[0]);
-                        } else {
-                            $email = "Email not found";
-                        }
-
-                        if (preg_match('/\b(male|female)\b/i', $text, $matches)) {
-                            $gender = ucfirst(strtolower($matches[0]));
-                        } else {
-                            $gender  = "Gender not found!";
-                        }
-                        // Extract phone number
-                        if (preg_match('/\+?[0-9]+/', $text, $matches)) {
-                            $phone_no = trim($matches[0]);
-                        } else {
-                            $phone_no = "Phone number not found";
-                        }
-                    } catch (\Exception $e) {
-                        return response('Error reading PDF: ' . $e->getMessage(), 500);
+                    // Extract email
+                    if (preg_match('/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/', $text, $matches)) {
+                        $email = trim($matches[0]);
+                    } else {
+                        $email = "Email not found";
                     }
-                } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'xls || xlsx') {
-                    // Extract information from PDF files
-                    // Use libraries like TCPDF, FPDI, or others to read PDF contents
-                } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'doc') {
-                    // Extract information from PDF files
-                    // Use libraries like TCPDF, FPDI, or others to read PDF contents
-                }
-                // Extract information from other file types similarly (xls, xlsx, doc)
-                $myPath = asset('storage/' . $file);
-            }
-            return response()->json(compact('name', 'email', 'phone_no', 'myPath', 'gender'));
 
-            dd('ok');
-            // return view('admin.candidate.import', compact('name', 'email', 'phone_no', 'myPath'));
+                    if (preg_match('/\b(male|female)\b/i', $text, $matches)) {
+                        $gender = ucfirst(strtolower($matches[0]));
+                    } else {
+                        $gender  = "Gender not found!";
+                    }
+                    // Extract phone number
+                    if (preg_match('/\+?[0-9]{6,}/', $text, $matches)) {
+                        $phone_no = trim($matches[0]);
+                    } else {
+                        $phone_no = "Phone number not found";
+                    }
+                } catch (\Exception $e) {
+                    return response('Error reading PDF: ' . $e->getMessage(), 500);
+                }
+            } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'xls || xlsx') {
+                // Extract information from PDF files
+                // Use libraries like TCPDF, FPDI, or others to read PDF contents
+            } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'doc') {
+                // Extract information from PDF files
+                // Use libraries like TCPDF, FPDI, or others to read PDF contents
+            }
+
+            $myPath = asset('storage/' . $file);
+            return response()->json(compact('name', 'email', 'phone_no', 'myPath', 'gender'));
 
         }
 
-        return back()->with('error', 'No files were selected.');
+        // if (is_null($this->user) || !$this->user->can('extract.info')) {
+        //     abort(403, 'Unauthorized');
+        // }
+
+        // if ($request->has('selectedFiles')) {
+        //     $selectedFiles = $request->selectedFiles;
+
+        //     return $selectedFiles;
+        //     foreach ($selectedFiles as $file) {
+        //         // Process each file to extract information
+        //         $filePath = public_path() . Storage::url($file);
+        //         //dd($filePath);
+        //         if (pathinfo($file, PATHINFO_EXTENSION) === 'docx') {
+
+        //             $phpWord = IOFactory::load($filePath);
+        //             $docInfo = $phpWord->getDocInfo();
+
+        //             // Extract relevant info from the document
+        //             $title = $docInfo->getTitle();
+        //             $subject = $docInfo->getSubject();
+        //             // Extract email, name, phone, etc.
+        //             // Extract the information and pass it to the view
+        //         } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'pdf') {
+        //             // Extract information from PDF files
+        //             // Use libraries like TCPDF, FPDI, or others to read PDF contents
+        //             // $extractedInfo= (new Pdf())->getText($filePath);
+        //             try {
+        //                 $extractedInfo =  Pdf::getText($filePath);
+        //                 $text = $extractedInfo;
+        //                 // Extract name
+        //                 if (preg_match('/^[A-Z][A-Z. ]+$/m', $text, $matches)) {
+        //                     $name = trim($matches[0]);
+        //                 } else {
+        //                     $name = "Name not found";
+        //                 }
+
+        //                 // Extract email
+        //                 if (preg_match('/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/', $text, $matches)) {
+        //                     $email = trim($matches[0]);
+        //                 } else {
+        //                     $email = "Email not found";
+        //                 }
+
+        //                 if (preg_match('/\b(male|female)\b/i', $text, $matches)) {
+        //                     $gender = ucfirst(strtolower($matches[0]));
+        //                 } else {
+        //                     $gender  = "Gender not found!";
+        //                 }
+        //                 // Extract phone number
+        //                 if (preg_match('/\+?[0-9]+/', $text, $matches)) {
+        //                     $phone_no = trim($matches[0]);
+        //                 } else {
+        //                     $phone_no = "Phone number not found";
+        //                 }
+        //             } catch (\Exception $e) {
+        //                 return response('Error reading PDF: ' . $e->getMessage(), 500);
+        //             }
+        //         } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'xls || xlsx') {
+        //             // Extract information from PDF files
+        //             // Use libraries like TCPDF, FPDI, or others to read PDF contents
+        //         } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'doc') {
+        //             // Extract information from PDF files
+        //             // Use libraries like TCPDF, FPDI, or others to read PDF contents
+        //         }
+        //         // Extract information from other file types similarly (xls, xlsx, doc)
+        //         $myPath = asset('storage/' . $file);
+        //     }
+        //     return response()->json(compact('name', 'email', 'phone_no', 'myPath', 'gender'));
+
+        //     dd('ok');
+        //     // return view('admin.candidate.import', compact('name', 'email', 'phone_no', 'myPath'));
+
+        // }
+
+        // return back()->with('error', 'No files were selected.');
+    // }
     }
+
+
     public function deleteUploadedData(Request $request)
     {
         if (is_null($this->user) || !$this->user->can('delete.uploaded.data')) {
