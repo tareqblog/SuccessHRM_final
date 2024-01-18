@@ -57,7 +57,7 @@
                                                 </li>
                                             @endforeach
                                         </ul>
-                                        <button type="submit">Select Files</button>
+                                        {{-- <button type="submit">Select Files</button> --}}
                                         {{-- <button type="submit" class="btn btn-sm btn-info">Save</button> --}}
                                         <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                                     </form>
