@@ -26,33 +26,36 @@
             function allWork(days)
             {
                 for (let day = 1; day <= days; day++) {
-                    if ($('.hi-' + day).is(':hidden')) {
+                    if ($('#allCheckB').is(':checked')) {
                         $('.bg-' + day).addClass('bg-info');
-                        $('#workCheB-' + day).hide();
+                        $('#workCheB-' + day).prop('checked', true).addClass('checked');
                         $('.s-' + day).hide();
                         $('.hi-' + day).show();
-                    } else {
+                    } else if ($('#allCheckB').is(':not(:checked)')) {
                         $('.bg-' + day).removeClass('bg-info');
-                        $('.hi-' + day).hide();
+                        $('#workCheB-' + day).prop('checked', false).removeClass('checked');
                         $('.s-' + day).show();
-                        $('#workCheB-' + day).show();
+                        $('.hi-' + day).hide();
                     }
+
+                    timeCalculation(day);
                 }
             }
 
             function work_check(day)
             {
-                if ($('.hi-' + day).is(':hidden')) {
+                if ($('#workCheB-' + day).is(':checked')) {
                     $('.bg-' + day).addClass('bg-info');
                     $('.s-' + day).hide();
                     $('.hi-' + day).show();
-                    $('#workCheB-' + day).hide();
-                } else {
+                    $('#workCheB-' + day).prop('checked', true).addClass('checked');
+                } else if($('#workCheB-' + day).is(':not(:checked)')) {
                     $('.bg-' + day).removeClass('bg-info');
                     $('.hi-' + day).hide();
                     $('.s-' + day).show();
-                    $('#workCheB-' + day).show();
+                    $('#workCheB-' + day).prop('checked', false).removeClass('checked');
                 }
+                timeCalculation(day);
             }
 
             function removeFile(day)
@@ -77,21 +80,45 @@
                 $('.remove-claim-'+day).show();
             }
 
-            function lunchChange(day)
+            function timeCalculation(day)
             {
                 let lunch_val = tream($('.lunch_val-' + day).val());
                 let inTime = $('.inTime-' + day).val();
                 let outTime = $('.outTime-' + day).val();
                 let ot = parseTimeString($('.ot-' + day).val());
                 const timeDifference = calculateTimeDifference(inTime, outTime);
-                const totalTimeDifference = sumTimeDifferences([timeDifference, ot]);
-                const result = subtractTimeDifference(totalTimeDifference, lunch_val);
+                const sumTimeDifference = sumTimeDifferences([timeDifference, ot]);
 
-                const formattedTime = result.hours + ' h ' + result.minutes + ' m';
+                const normal_time = sumTimeDifference.hours + ' h ' + sumTimeDifference.minutes + ' m';
+                let result = subtractTimeDifference(sumTimeDifference, lunch_val);
+                result = leaveDay(day, result);
+                const total_time = result.hours + ' h ' + result.minutes + ' m';
 
-                $('.totla_time-' + day).val(formattedTime);
-
+                $('.totla_time-' + day).val(total_time);
+                $('.normal_time-' + day).val(normal_time);
             }
+
+            function leaveDay(day, hour_min)
+            {
+                let hours = 0;
+                let minutes = 0;
+                let will_pay = 1;
+                let leave_day = $('.change.leave_days.hi-' + day).val();
+                if(leave_day == 'Full Day Leave')
+                {
+                    will_pay = 0;
+                } else if(leave_day == 'Half Day AM' || leave_day == 'Half Day PM') {
+                    will_pay = 0.5;
+                }
+
+                const total_min = (hour_min.hours * 60 + hour_min.minutes) * will_pay;
+                // Calculate hours and remaining minutes
+                hours = Math.floor(total_min / 60);
+                minutes = total_min % 60;
+
+                return { hours, minutes };
+            }
+
             function parseTimeString(timeString) {
                 const regex = /(\d+)\s*h\s*(\d+)\s*m/;
                 const match = timeString.match(regex);
@@ -126,7 +153,13 @@
                 return { hours, minutes };
             }
 
-            function calculateTimeDifference(inTime, outTime) {
+            function calculateTimeDifference(inTime, outTime)
+            {
+                let hours = 0;
+                let minutes = 0;
+                // if (!isValidTimeString(inTime) || !isValidTimeString(outTime)) {
+                //     return { hours, minutes };
+                // }
                 const [inHours, inMinutes] = inTime.split(':').map(Number);
                 const [outHours, outMinutes] = outTime.split(':').map(Number);
 
@@ -134,10 +167,14 @@
                 const totalOutMinutes = outHours * 60 + outMinutes;
 
                 const minutesDifference = totalOutMinutes - totalInMinutes;
-                const hours = Math.floor(minutesDifference / 60);
-                const minutes = minutesDifference % 60;
+                hours = (Math.floor(minutesDifference / 60));
+                minutes = (minutesDifference % 60);
 
                 return { hours, minutes };
+            }
+            function isValidTimeString(timeString) {
+                const regex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+                return regex.test(timeString);
             }
 
             function subtractTimeDifference(minuend, subtrahend) {
@@ -252,7 +289,7 @@
                                             \ : * " ? &lt; &gt; ')<br>
                                             4 Wrong / incomplete attendance submission will result to delay in
                                             payment.<br>
-                                        </p> 
+                                        </p>
                                         <form  method="POST" action="{{ route('mystore') }}" enctype="multipart/form-data">
                                             @csrf
                                             <div class="form-group" style="max-width: 100%; overflow: auto;">
@@ -279,7 +316,7 @@
                                                     <label class="control-label" style="margin-left: 60px;">OT
                                                         Edit</label>
                                                     <label style="margin-left: 70px;" class="control-label"><input
-                                                            type="checkbox" name="work_checkbox"
+                                                            type="checkbox" id="allCheckB" name="work_checkbox"
                                                             class="work_checkbox_parent" onclick="allWork({{$daysInMonth ?? ''}})">
                                                         Work</label>
                                                     <label class="control-label" style="margin-left: 30px;">PH</label>
@@ -432,7 +469,7 @@
                                                                     class="form-control hi-{{ $day }} inTime-{{$day}}"
                                                                     name="group[{{$day}}][in_time]"
                                                                     value="{{ $isLeave == true ? '--' : ($isWorkDay ? $inTime : '') }}"
-                                                                    placeholder="time">
+                                                                    placeholder="time" onchange="timeCalculation({{$day}})">
                                                                 <input type="time"
                                                                     class="form-control s-{{ $day }}" value="" placeholder="time">
 
@@ -447,7 +484,7 @@
                                                                     class="form-control hi-{{ $day }}  outTime-{{$day}}"
                                                                     name="group[{{$day}}][out_time]"
                                                                     value="{{ $isLeave == true ? '--' : ($isWorkDay ? $outTime : '') }}"
-                                                                    placeholder="time">
+                                                                    placeholder="time" onchange="timeCalculation({{$day}})">
                                                                 <input type="time"
                                                                     class="form-control s-{{ $day }}" placeholder="time">
                                                             </div>
@@ -461,7 +498,7 @@
                                                             </div>
                                                             <!--lunch-->
                                                             <div style="flex:0 0 120px;">
-                                                                <select class="form-control change hi-{{ $day }} lunch_val-{{$day}}" data-line="1" onchange="lunchChange({{$day}})"
+                                                                <select class="form-control change hi-{{ $day }} lunch_val-{{$day}}" data-line="1" onchange="timeCalculation({{$day}})"
                                                                     id="attendance_lunch" name="group[{{$day}}][lunch_hour]"
                                                                     data-content="" style="width:100%; display: none">
                                                                     <option value="">Select One</option>
@@ -522,11 +559,15 @@
                                                             </div>
                                                             <!--work-->
                                                             <div style="flex:0 0 100px;text-align:center">
-                                                                <input type="checkbox" id="workCheB-{{$day}}" class="work attendance_work1"
-                                                                     value="0" name="group[{{$day}}][work]"
+                                                                @if ($isWorkDay == true && $isLeave == false)
+                                                                    <input type="checkbox" id="workCheB-{{$day}}" class="work attendance_work1" data-line="1" value="1" name="group[{{$day}}][work]" onclick="work_check('{{ $day }}')">
+                                                                @else
+                                                                    <input type="checkbox" class="work attendance_work1"
+                                                                    value="0" name="group[{{$day}}][work]"
                                                                     onclick="work_check('{{ $day }}')">
-                                                                <input type="checkbox" {{$isWorkDay == true ? 'checked' : ''}}
-                                                                    class="work attendance_work1 hi-{{ $day }}" style="display: none" data-line="1" value="1" name="group[{{$day}}][work]" onclick="work_check('{{ $day }}')">
+                                                                @endif
+
+
                                                             </div>
                                                             <!--ph-->
                                                             <div style="flex:0 0 50px;text-align:center">
@@ -573,10 +614,10 @@
                                                             </div>
                                                             <!--attendance leave day-->
                                                             <div style="flex:0 0 120px;">
-                                                                <select class="form-control change leave_days hi-{{ $day }}"
+                                                                <select class="form-control change leave_days hi-{{ $day }}" onchange="timeCalculation({{$day}})"
                                                                     data-line="1"
                                                                     name="group[{{$day}}][leave_day]" style="width:100%; display: none">
-                                                                    <option>Select One</option>
+                                                                    <option value="0">Select One</option>
                                                                     <option value="Full Day Leave"
                                                                         {{ $isLeave == true ? ($leaveDuration == 'Full Day Leave' ? 'selected' : '') : '' }}>
                                                                         Full Day Leave</option>
@@ -588,7 +629,7 @@
                                                                         Half Day PM</option>
                                                                 </select>
                                                                 <select class="form-control change leave_days s-{{$day}}"
-                                                                    data-line="1" style="width:100%">
+                                                                    data-line="1" style="width:100%" onchange="timeCalculation({{$day}})">
                                                                     <option value="0">Select One</option>
                                                                     <option value="Full Day Leave">
                                                                         Full Day Leave</option>
@@ -920,7 +961,6 @@
                         type: 'GET',
                         url: '/ATS/get/candidate/company/' + selectedCandidateId,
                         success: function(response) {
-                            console.log(response);
                             updateCompanyDropdown(response);
 
                             // submitForm();
