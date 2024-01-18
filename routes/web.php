@@ -130,6 +130,9 @@ Route::prefix('ATS')->group(function () {
     Route::get('/setting/profile', [App\Http\Controllers\AdminController::class, 'index'])->name('user.profiles');
 
     Route::get('/attendence/candidate/data/{id}',  [AttendenceController::class, 'getCandidateAttendenceData'])->name('attendence.get.candidate.data');
+
+    Route::get('/attendence/edit/{id}/{month}',  [AttendenceController::class, 'editAttendence'])->name('edit.attendence');
+
     Route::get('/get/candidate/company/{id}',  [AttendenceController::class, 'getCandidateCompany'])->name('get.candidate.company');
     Route::any('/get/month/data',  [AttendenceController::class, 'getMonthData'])->name('get.month.attendence.data');
 

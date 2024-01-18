@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('candidate_id');
             $table->integer('company_id');
             $table->string('month_year');
-            $table->string('invoice_no');
+            $table->string('invoice_no')->nullable();
             $table->boolean('isApproved')->default(0);
             $table->timestamps();
         });

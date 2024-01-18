@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AttendenceParent;
 use App\Models\Attendance;
 use App\Models\candidate;
 use App\Models\CandidateWorkingHour;
@@ -37,8 +38,8 @@ class AttendenceController extends Controller
             abort(403, 'Unauthorized');
         }
 
-        $datas = Attendance::latest()->get();
-        return view('admin.attendence.index',compact('datas'));
+        $datas = AttendenceParent::latest()->get();
+        return view('admin.attendence.index', compact('datas'));
     }
 
     /**
@@ -59,57 +60,65 @@ class AttendenceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        try {
+    // public function mystore(Request $request)
+    // {
+    //     try {
 
-            // $request->validate([
-            //     'date' => 'required|array',
-            //     'date.*' => 'date_format:Y-m-d',
-            // ]);
+    //         dd($request->all());
 
+    //         // $request->validate([
+    //         //     'date' => 'required|array',
+    //         //     'date.*' => 'date_format:Y-m-d',
+    //         // ]);
 
-            $data=$request->group;
-            foreach($data as $group){
-                // dd($group['next_day']);
-                // $day = $group['day'];
-            $att=new Attendance();
-            $att->candidate_id=$group['candidate_id'];
-            $att->company_id=$group['company_id'];
-            $att->date=$group['date'];
-            $att->day=$group['day'];
-            $att->in_time=$group['in_time'];
-            $att->out_time=$group['out_time'];
-            $att->next_day=$group['next_day'];
-            // $att->lunch_hour = isset($group['day']['lunch_hour']) ? $group['day']['lunch_hour'] : 'done';
-            $att->lunch_hour= $group['lunch_hour'] ? $group['lunch_hour'] : "";
-            $att->total_hour_min=$group['total_hour_min'];
-            $att->normal_hour_min=$group['normal_hour_min'];
-            $att->ot_hour_min=$group['ot_hour_min'];
-            $att->ot_calculation=$group['ot_calculation'];
-            $att->ot_edit=$group['ot_edit'];
-            $att->work=isset($group['work']) ? 1 : 0;
-            $att->ph=$group['ph'];
-            $att->ph_pay=$group['ph_pay'];
-            $att->remark=$group['remark'];
-            $att->type_of_leave=$group['type_of_leave'];
-            $att->leave_day=$group['leave_day'];
-            $att->leave_attachment= isset($group['leave_attachment']) ?  FileHelper::uploadFile($group['leave_attachment']) : "";
-            $att->claim_attachment= isset($group['claim_attachment']) ? FileHelper::uploadFile($group['claim_attachment']) : "";
-            $att->type_of_reimbursement=isset($group['type_of_reimbursement']) ? $group['type_of_reimbursement'] : '';
-            $att->amount_of_reimbursement=isset($group['amount_of_reimbursement']) ? $group['amount_of_reimbursement'] : 0.00;
-            $att->save();
-
-                }
-            return redirect()->route('admin.dashboard');
-         } catch (\Exception $e) {
-
-             \Log::error('Error creating attendance: ' . $e->getMessage());
+    //         $attP = New AttendenceParent;
+    //         $attP->candidate_id = $request->candidate_id;
+    //         $attP->company_id = $request->company_id;
+    //         $attP->invoice_no = $request->invoice_no;
+    //         $attP->month_year = $request->date;
+    //         $attP->save();
 
 
-             return redirect()->route('attendence.create')->with('error', 'Failed to add attendance. Please try again.');
-         }
-    }
+    //         $data=$request->group;
+    //         foreach($data as $group){
+    //         $att=new Attendance();
+    //         $att->attendance_parrent_id=$attP->id;
+    //         $att->candidate_id=$group['candidate_id'];
+    //         $att->company_id=$group['company_id'];
+    //         $att->date=$group['date'];
+    //         $att->day=$group['day'];
+    //         $att->in_time=$group['in_time'];
+    //         $att->out_time=$group['out_time'];
+    //         $att->next_day=$group['next_day'];
+    //         // $att->lunch_hour = isset($group['day']['lunch_hour']) ? $group['day']['lunch_hour'] : 'done';
+    //         $att->lunch_hour= $group['lunch_hour'] ? $group['lunch_hour'] : "";
+    //         $att->total_hour_min=$group['total_hour_min'];
+    //         $att->normal_hour_min=$group['normal_hour_min'];
+    //         $att->ot_hour_min=$group['ot_hour_min'];
+    //         $att->ot_calculation=$group['ot_calculation'];
+    //         $att->ot_edit=$group['ot_edit'];
+    //         $att->work=isset($group['work']) ? 1 : 0;
+    //         $att->ph=$group['ph'];
+    //         $att->ph_pay=$group['ph_pay'];
+    //         $att->remark=$group['remark'];
+    //         $att->type_of_leave=$group['type_of_leave'];
+    //         $att->leave_day=$group['leave_day'];
+    //         $att->leave_attachment= isset($group['leave_attachment']) ?  FileHelper::uploadFile($group['leave_attachment']) : "";
+    //         $att->claim_attachment= isset($group['claim_attachment']) ? FileHelper::uploadFile($group['claim_attachment']) : "";
+    //         $att->type_of_reimbursement=isset($group['type_of_reimbursement']) ? $group['type_of_reimbursement'] : '';
+    //         $att->amount_of_reimbursement=isset($group['amount_of_reimbursement']) ? $group['amount_of_reimbursement'] : 0.00;
+    //         $att->save();
+
+    //             }
+    //         return redirect()->route('admin.dashboard');
+    //      } catch (\Exception $e) {
+
+    //          \Log::error('Error creating attendance: ' . $e->getMessage());
+
+
+    //          return redirect()->route('attendence.create')->with('error', 'Failed to add attendance. Please try again.');
+    //      }
+    // }
 
     /**
      * Display the specified resource.
@@ -124,12 +133,37 @@ class AttendenceController extends Controller
      */
     public function edit(string $id)
     {
-        // if (is_null($this->user) || !$this->user->can('attendence.edit')) {
-        //     abort(403, 'Unauthorized');
-        // }
-        // return view('admin.attendence.edit');
-        dd('sdgsdg');
+
+        $datas = Attendance::where('attendance_parrent_id', $id)->get();
+
+        $info = AttendenceParent::find($id);
+        $candidate = candidate::where('id', $info->candidate_id)->first();
+        $company = Company::where('id', $info->company_id)->first();
+        $candidate_name = $candidate->candidate_name;
+        $candidate_id = $candidate->id;
+        $company_name = $company->name;
+        $company_id = $company->id;
+        $invoice = $info->invoice_no;
+        $month = $info->month_year;
+
+        $leaves = Leave::where('candidate_id', $candidate_id)->get();
+        $leaveTypes = LeaveType::where('leavetype_status', 1)->get();
+        return view(
+            'admin.attendence.edit',
+            compact(
+                'datas',
+                'candidate_name',
+                'company_name',
+                'candidate_id',
+                'company_id',
+                'invoice',
+                'month',
+                'leaves',
+                'leaveTypes'
+            )
+        );
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -197,11 +231,11 @@ class AttendenceController extends Controller
 
         $company_outlet_id = 1;
 
-        if($request->company_id){
+        if ($request->company_id) {
             $company_name = Company::find($request->company_id)->name;
             $selectCandidate = $request->company_id . '-' . $request->candidate_id;
-        }else{
-            $company_name='No company selected';
+        } else {
+            $company_name = 'No company selected';
             $selectCandidate = $request->candidate_id;
         }
 
