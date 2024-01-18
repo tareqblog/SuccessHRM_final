@@ -14,6 +14,7 @@ class AttendanceController extends Controller
     }
     public function mystore(Request $request)
     {
+         dd($request);
         try {
 
             $request->validate([
@@ -21,28 +22,29 @@ class AttendanceController extends Controller
                 'date.*' => 'date_format:Y-m-d',
             ]);
 
-            $data = $request->except('_token');
+           
+            $data=$request->group;
+            foreach($data as $group){
+            $att=new Attendance();
+            $att->date=$group['date'];  
+            $att->    
+            $att->    
+            $att->    
+            $att->    
+            $att->    
+            $att->    
+            $att->    
+            $att->    
+            $att->save();   
 
-            foreach ($data['date'] as $date) {
-                $date = Carbon::createFromFormat('Y-m-d', $date)->toDateString();
             }
-
-            $fieldsToSkipEncoding = ['day', 'in_time', 'out_time', 'lunch_hour', 'total_hour_min', 'normal_hour_min', 'ot_hour_min', 'ot_calculation', 'ot_edit', 'work', 'ph', 'ph_pay', 'remark', 'type_of_leave', 'leave_day', 'amount_of_reimbursement'];
-
-            foreach ($fieldsToSkipEncoding as $field) {
-                if (isset($data[$field])) {
-                    unset($data[$field]);
-                }
-            }
-
-            Attendance::create($data);
-
             return redirect()->route('admin.dashboard');
-        } catch (\Exception $e) {
+         } catch (\Exception $e) {
 
-            \Log::error('Error creating attendance: ' . $e->getMessage());
+             \Log::error('Error creating attendance: ' . $e->getMessage());
 
-            return back()->with('error', 'Failed to add attendance. Please try again.');
-        }
+            
+             return redirect()->route('attendence.create')->with('error', 'Failed to add attendance. Please try again.');
+         }
     }
 }

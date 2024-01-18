@@ -61,7 +61,7 @@
 
                                                 <label class="form-label" for="google2fa">One Time Password(OTP)</label>
 
-                                                <input id="google2fa" type="number"  min="111111" max="999999" class="form-control @error('google2fa') is-invalid @enderror" name="google2fa" required autofocus>
+                                                <input id="google2fa" type="number"  min="0" max="999999" class="form-control @error('google2fa') is-invalid @enderror" name="google2fa" required autofocus>
                                              
                                                 @error('google2fa')
                                                     <span class="invalid-feedback" role="alert">

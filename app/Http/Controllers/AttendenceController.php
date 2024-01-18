@@ -189,11 +189,17 @@ class AttendenceController extends Controller
 
         $selectedDate = $request->date;
 
-        $company_outlet_id = $request->company_id;
+        $company_outlet_id = 1;
 
-        $company_name = Company::find($request->company_id)->name;
+        if($request->company_id){
+            $company_name = Company::find($request->company_id)->name;
+            $selectCandidate = $request->company_id . '-' . $request->candidate_id;
+        }else{
+            $company_name='No company selected';
+            $selectCandidate = $request->candidate_id;
+        }
 
-        $selectCandidate = $request->company_id . '-' . $request->candidate_id;
+        
 
         $currentMonth = Carbon::parse($selectedDate);
         $candidateTimesheet = candidate::find($request->candidate_id);
