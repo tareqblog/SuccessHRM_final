@@ -352,6 +352,9 @@
                                                         @php
                                                             $currentDay = $currentMonth->copy()->day($day);
                                                             $isWorkDay = false;
+                                                            $inTime = null;
+                                                            $outTime = null;
+                                                            $lunchTime = null;
 
                                                             foreach ($timeSheetData as $timesheet) {
                                                                 if ($timesheet->day == $currentDay->format('l') && $timesheet->isWork == '1') {
@@ -506,11 +509,11 @@
                                                             </div>
                                                             <!--next-->
                                                             <div style="flex:0 0 50px;text-align:center">
+                                                                <input type="hidden" name="group[{{$day}}][next_day]" value="0" >
                                                                 <input type="checkbox" class="attendance_next_day1 change"
                                                                     data-line="1" value="1"
                                                                     name="group[{{ $day }}][next_day]"
                                                                     {{ $isNextDay == 1 ? 'checked' : '' }}>
-                                                                {{-- {{ (Carbon\Carbon::parse($currentDay)->format('Y-m-d') == $leaveDateFrom) ? '' : ($isWorkDay ? ($isNextDay == '1' ? 'checked' : '') : '' )}} --}}
                                                             </div>
                                                             <!--lunch-->
                                                             <div style="flex:0 0 120px;">
@@ -527,7 +530,7 @@
                                                                 <select class="form-control change s-{{ $day }}"
                                                                     data-line="1" data-content="" style="width:100%">
                                                                     <option value="">Select One</option>
-                                                                    {{-- @include('admin.attendence.inc.options') --}}
+                                                                    @include('admin.attendence.inc.options')
                                                                 </select>
                                                             </div>
                                                             <!--total-->
@@ -703,6 +706,9 @@
                                                                     name="group[{{$day}}][attendance_leave_file1]" multiple=""> --}}
                                                                 <div class="hi-{{ $day }}"
                                                                     style="display: none">
+                                                                <input type="file" class="attendance_leave_file-{{$day}}" name="group[{{$day}}][leave_attachment]" multiple="" onchange="hasFile({{$day}})">
+                                                                <label class="remove-label remove-label-{{$day}}" onclick="removeFile('{{$day}}')"><i class="fas fa-trash text-danger"></i></label>
+                                                                <div class="hi-{{ $day }}" style="display: none">
                                                                     @if ($isLeave == true)
                                                                         <a href="{{ asset('storage/' . $leaveFilePath) }}"
                                                                             target="_blank">

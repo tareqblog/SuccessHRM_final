@@ -127,9 +127,9 @@ class CandidateFileImportController extends Controller
     }
     public function upload(Request $request)
     {
-        if (is_null($this->user) || !$this->user->can('upload.files')) {
-            abort(403, 'Unauthorized');
-        }
+        // if (is_null($this->user) || !$this->user->can('upload.files')) {
+        //     abort(403, 'Unauthorized');
+        // }
         $validatedData = $request->validate([
             'files.*' => 'mimes:pdf,docx,xlsx'
         ]);
@@ -252,6 +252,9 @@ class CandidateFileImportController extends Controller
                         $name = "Name not found";
                     }
 
+        if (is_null($this->user) || !$this->user->can('extract.info')) {
+            abort(403, 'Unauthorized');
+        }
                     // Extract email
                     if (preg_match('/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/', $text, $matches)) {
                         $email = trim($matches[0]);
