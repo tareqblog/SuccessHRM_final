@@ -19,20 +19,21 @@
                     </div>
                     <div class="card-body">
                         @if (App\Helpers\FileHelper::usr()->can('upload.files'))
-                        <div class="col-lg-12">
-                            <form action="{{ route('upload.files') }}" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                <div class="row mb-4">
-                                    <label for="one" class="col-sm-12 col-form-label">Upload Resume (max 10 file)<br />
-                                        <small>(Please use PDF, MicrosoftWord.docx orxlsx file)</small></label>
-                                    <div class="col-sm-6">
-                                        <input type="file" name="files[]" class="form-control" accept=".pdf,.docx,.xlsx"
-                                            multiple>
+                            <div class="col-lg-12">
+                                <form action="{{ route('upload.files') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="row mb-4">
+                                        <label for="one" class="col-sm-12 col-form-label">Upload Resume (max 10
+                                            file)<br />
+                                            <small>(Please use PDF, MicrosoftWord.docx orxlsx file)</small></label>
+                                        <div class="col-sm-6">
+                                            <input type="file" name="files[]" class="form-control"
+                                                accept=".pdf,.docx,.xlsx" multiple>
+                                        </div>
                                     </div>
-                                </div>
-                                <button type="submit" class="btn btn-sm btn-info">Import Resume</button>
-                            </form>
-                        </div>
+                                    <button type="submit" class="btn btn-sm btn-info">Import Resume</button>
+                                </form>
+                            </div>
                         @endif
                         <div class="row">
                             <div class="col-lg-3 card-body mt-4">
@@ -45,7 +46,7 @@
                                             style="list-style: none; width: 100%; height: 500px;overflow: scroll; background: #f1f1f1;">
                                             @foreach ($importData as $resume)
                                                 <li class="d-flex">
-                                                    <input type="radio" name="selectedFiles[]"
+                                                    <input type="radio" name="selectedFiles"
                                                         value="{{ $resume->resume_path }}">
                                                     <input type="hidden" name="itemIds[]" value="{{ $resume->id }}">
                                                     @php
@@ -67,54 +68,55 @@
 
                             <div class="col-lg-4 card-body mt-4">
                                 @if (isset($importData) && count($importData) > 0)
-                                <h2>Extracted Information:</h2>
-                                <form action="{{ route('temporary.data.save') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" id="resume_path" name="resume_path" value="">
-                                    <div class="row mb-4">
-                                        <label for="one" class="col-sm-4 col-form-label">Name</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" id="name" name="name" class="form-control"
-                                                value="" placeholder="Name" required>
+                                    <h2>Extracted Information:</h2>
+                                    <form action="{{ route('temporary.data.save') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" id="resume_path" name="resume_path" value="">
+                                        <div class="row mb-4">
+                                            <label for="one" class="col-sm-4 col-form-label">Name</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" id="name" name="name" class="form-control"
+                                                    value="" placeholder="Name" required>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row mb-4">
-                                        <label for="one" class="col-sm-4 col-form-label">Email</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" id="email" name="email" class="form-control"
-                                                value="" placeholder="Email" required>
+                                        <div class="row mb-4">
+                                            <label for="one" class="col-sm-4 col-form-label">Email</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" id="email" name="email" class="form-control"
+                                                    value="" placeholder="Email" required>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row mb-4">
-                                        <label for="one" class="col-sm-4 col-form-label">Phone No</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" id="phone_no" name="phone_no" class="form-control"
-                                                value="" placeholder="Phone no" required>
+                                        <div class="row mb-4">
+                                            <label for="one" class="col-sm-4 col-form-label">Phone No</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" id="phone_no" name="phone_no" class="form-control"
+                                                    value="" placeholder="Phone no" required>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row mb-4">
-                                        <label for="one" class="col-sm-4 col-form-label">Gender</label>
-                                        <div class="col-sm-8">
+                                        <div class="row mb-4">
+                                            <label for="one" class="col-sm-4 col-form-label">Gender</label>
+                                            <div class="col-sm-8">
                                                 <select name="gender" class="form-control" id="gender">
                                                     <option value="">Select One</option>
                                                     <option value="Male">Male</option>
                                                     <option value="Female">Female</option>
                                                 </select>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row mb-4">
-                                        <label for="one" class="col-sm-4 col-form-label">Assaign To</label>
-                                        <div class="col-sm-8">
+                                        <div class="row mb-4">
+                                            <label for="one" class="col-sm-4 col-form-label">Assaign To</label>
+                                            <div class="col-sm-8">
                                                 <select name="assaign_to" class="form-control">
                                                     <option value="">Select One</option>
                                                     @foreach ($assaignPerson as $assaign)
-                                                    <option value="{{$assaign->id}}">{{$assaign->employee_name}}</option>
+                                                        <option value="{{ $assaign->id }}">{{ $assaign->employee_name }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <button type="submit" id="" class="btn btn-info">Add to list</button>
-                                </form>
+                                        <button type="submit" id="" class="btn btn-info">Add to list</button>
+                                    </form>
                                 @endif
                             </div>
                             <div class="col-lg-5 card-body mt-4">
@@ -144,7 +146,8 @@
                                             <td>{{ $data->name }}</td>
                                             <td>{{ $data->email }}</td>
                                             <td>{{ $data->phone_no }}</td>
-                                            <td><a target="_blank" href="{{ asset('storage') }}/{{ $data->resume_path }}"
+                                            <td><a target="_blank"
+                                                    href="{{ asset('storage') }}/{{ $data->resume_path }}"
                                                     class="btn btn-info"><i class="fa fa-eye"></i></a></td>
                                             <td>
                                                 <form action="{{ route('temporary.data.delete', $data->id) }}"
@@ -169,9 +172,50 @@
                         </div>
                     @endif
                 </div>
+
+                <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+                    integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+                <script>
+                    $(document).ready(function() {
+                        $('input[name="selectedFiles"]').on('change', function() {
+                            var selectedFiles = $(this).val();
+
+                            $.ajax({
+                                url: "{{ route('extract.info') }}",
+                                type: "POST",
+                                data: {
+                                    selectedFiles: selectedFiles,
+                                    _token: '{{ csrf_token() }}'
+                                },
+                                // dataType: 'json',
+                                success: function(result) {
+                                    // Update the form fields with the extracted information
+                                    $('input[name="name"]').val(result.name);
+                                    $('input[name="email"]').val(result.email);
+                                    $('input[name="phone_no"]').val(result.phone_no);
+                                    $('input[name="resume_path"]').val(result.myPath);
+                                    const iframe = document.getElementById('pdfViewer');
+                                    const pdfUrl = result.myPath;
+
+                                    iframe.src = pdfUrl;
+                                    iframe.width = "100%";
+                                    iframe.height = "600px"; // Set height as required
+
+                                    // Append the iframe to the div
+                                    // pdfContainer.appendChild(iframe);
+
+                                    // $('#fileViewer').text(result.myPath);
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error('Error:', error);
+                                }
+                            });
+                        });
+                    });
+                </script>
             @endsection
             @section('scripts')
-                <script>
+                {{-- <script>
                     // JavaScript
                     document.getElementById('selectAll').addEventListener('click', function() {
                         // Get all radio buttons with the name 'selectedFiles'
@@ -228,5 +272,5 @@
                             }
                         });
                     });
-                </script>
+                </script> --}}
             @endsection
