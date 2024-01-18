@@ -20,7 +20,8 @@ use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\PhpWord;
 
 class CandidateFileImportController extends Controller
-{   public $user;
+{
+    public $user;
 
 
     public function __construct()
@@ -125,9 +126,9 @@ class CandidateFileImportController extends Controller
     }
     public function upload(Request $request)
     {
-        if (is_null($this->user) || !$this->user->can('upload.files')) {
-            abort(403, 'Unauthorized');
-        }
+        // if (is_null($this->user) || !$this->user->can('upload.files')) {
+        //     abort(403, 'Unauthorized');
+        // }
         $validatedData = $request->validate([
             'files.*' => 'mimes:pdf,docx,xlsx'
         ]);
@@ -161,8 +162,7 @@ class CandidateFileImportController extends Controller
                     ]);
                     $delete_path = 'app/public/uploads/' . $beforeDocx . '.docx';
                     unlink(storage_path($delete_path));
-                }
-                elseif ($file->getClientOriginalExtension() == 'doc') {
+                } elseif ($file->getClientOriginalExtension() == 'doc') {
                     $filename = $file->getClientOriginalName();
                     $path = FileHelper::uploadFile($file);
 
@@ -233,6 +233,7 @@ class CandidateFileImportController extends Controller
     }
     public function extractInfo(Request $request)
     {
+
 
         if (is_null($this->user) || !$this->user->can('extract.info')) {
             abort(403, 'Unauthorized');
