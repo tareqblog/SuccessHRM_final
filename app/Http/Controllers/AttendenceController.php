@@ -36,7 +36,9 @@ class AttendenceController extends Controller
         if (is_null($this->user) || !$this->user->can('attendence.index')) {
             abort(403, 'Unauthorized');
         }
-        return view('admin.attendence.index');
+
+        $datas = Attendance::latest()->get();
+        return view('admin.attendence.index',compact('datas'));
     }
 
     /**
@@ -59,51 +61,54 @@ class AttendenceController extends Controller
      */
     public function store(Request $request)
     {
-        // dd('ok');
-        // if (is_null($this->user) || !$this->user->can('attendence.store')) {
-        //     abort(403, 'Unauthorized');
-        // }
-        //
-
-
         try {
-            // Validate your request data
-            $request->validate([
-                // Specify validation rules for each field
-                'date' => 'required|array',
-                'date.*' => 'date_format:Y-m-d',
-            ]);
 
-            // Extract the data from the request
-            $data = $request->except('_token');
+            // $request->validate([
+            //     'date' => 'required|array',
+            //     'date.*' => 'date_format:Y-m-d',
+            // ]);
 
-            // Convert each date in the 'date' array to a string using Carbon
-            $data['date'] = array_map(function ($date) {
-                return Carbon::createFromFormat('Y-m-d', $date)->toDateString();
-            }, $data['date']);
 
-            // Fields to skip JSON encoding
-            $fieldsToSkipEncoding = ['date', 'day', 'in_time', 'out_time', 'lunch_hour', 'total_hour_min', 'normal_hour_min', 'ot_hour_min', 'ot_calculation', 'ot_edit', 'work', 'ph', 'ph_pay', 'remark', 'type_of_leave', 'leave_day', 'amount_of_reimbursement'];
+            $data=$request->group;
+            foreach($data as $group){
+                // dd($group['next_day']);
+                // $day = $group['day'];
+            $att=new Attendance();
+            $att->candidate_id=$group['candidate_id'];
+            $att->company_id=$group['company_id'];
+            $att->date=$group['date'];
+            $att->day=$group['day'];
+            $att->in_time=$group['in_time'];
+            $att->out_time=$group['out_time'];
+            $att->next_day=$group['next_day'];
+            // $att->lunch_hour = isset($group['day']['lunch_hour']) ? $group['day']['lunch_hour'] : 'done';
+            $att->lunch_hour= $group['lunch_hour'] ? $group['lunch_hour'] : "";
+            $att->total_hour_min=$group['total_hour_min'];
+            $att->normal_hour_min=$group['normal_hour_min'];
+            $att->ot_hour_min=$group['ot_hour_min'];
+            $att->ot_calculation=$group['ot_calculation'];
+            $att->ot_edit=$group['ot_edit'];
+            $att->work=isset($group['work']) ? 1 : 0;
+            $att->ph=$group['ph'];
+            $att->ph_pay=$group['ph_pay'];
+            $att->remark=$group['remark'];
+            $att->type_of_leave=$group['type_of_leave'];
+            $att->leave_day=$group['leave_day'];
+            $att->leave_attachment= isset($group['leave_attachment']) ?  FileHelper::uploadFile($group['leave_attachment']) : "";
+            $att->claim_attachment= isset($group['claim_attachment']) ? FileHelper::uploadFile($group['claim_attachment']) : "";
+            $att->type_of_reimbursement=isset($group['type_of_reimbursement']) ? $group['type_of_reimbursement'] : '';
+            $att->amount_of_reimbursement=isset($group['amount_of_reimbursement']) ? $group['amount_of_reimbursement'] : 0.00;
+            $att->save();
 
-            // Remove unnecessary encoding of certain fields
-            foreach ($fieldsToSkipEncoding as $field) {
-                if (isset($data[$field])) {
-                    unset($data[$field]);
                 }
-            }
+            return redirect()->route('admin.dashboard');
+         } catch (\Exception $e) {
 
-            // Create the Attendance record using Eloquent's create method
-            Attendance::create($data);
+             \Log::error('Error creating attendance: ' . $e->getMessage());
 
-            // Redirect back with success message
-            return back()->with('success', 'Attendance added successfully.');
-        } catch (\Exception $e) {
-            // Log the exception and handle the error gracefully
-            \Log::error('Error creating attendance: ' . $e->getMessage());
 
-            // Redirect back with error message
-            return back()->with('error', 'Failed to add attendance. Please try again.');
-        }
+             return redirect()->route('attendence.create')->with('error', 'Failed to add attendance. Please try again.');
+         }
     }
 
     /**
@@ -119,10 +124,11 @@ class AttendenceController extends Controller
      */
     public function edit(string $id)
     {
-        if (is_null($this->user) || !$this->user->can('attendence.edit')) {
-            abort(403, 'Unauthorized');
-        }
-        return view('admin.attendence.edit');
+        // if (is_null($this->user) || !$this->user->can('attendence.edit')) {
+        //     abort(403, 'Unauthorized');
+        // }
+        // return view('admin.attendence.edit');
+        dd('sdgsdg');
     }
 
     /**
@@ -199,7 +205,7 @@ class AttendenceController extends Controller
             $selectCandidate = $request->candidate_id;
         }
 
-        
+
 
         $currentMonth = Carbon::parse($selectedDate);
         $candidateTimesheet = candidate::find($request->candidate_id);

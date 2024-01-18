@@ -29,7 +29,7 @@
                                     <th>No</th>
                                     <th>Name</th>
                                     <th>Client</th>
-                                    <th>AR No</th>
+                                    {{-- <th>AR No</th> --}}
                                     <th>Attendence Month</th>
                                     <th>Approved Date & Time</th>
                                     <th></th>
@@ -41,13 +41,12 @@
                                         <td>
                                             {{ $loop->index + 1 }}
                                         </td>
-                                        <td>{{ $data->id }}</td>
-                                        <td>{{ $data->candidate_nric }}</td>
-                                        <td>{{ $data->candidate_name }}</td>
+                                        <td>{{ $data->candidate->candidate_name }}</td>
+                                        <td>{{ $data->company_id }}</td>
                                         <td>{{ $data->candidate_email }}</td>
                                         <td>{{ $data->candidate_mobile }}</td>
                                         <td>{{ $data->updated_at }}</td>
-                                        <td><a href="{{ route('candidate.edit', $data->id) }}"
+                                        <td><a href="{{ route('attendence.edit', $data->id) }}"
                                                 class="btn btn-success btn-sm me-3">Assigned</a></td>
                                         <td></td>
                                         <td>{{ $data->candidate_status == 1 ? 'Active' : 'In-Active' }}</td>
