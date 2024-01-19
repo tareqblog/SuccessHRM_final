@@ -11,47 +11,37 @@ use App\Helpers\FileHelper;
 class AttendanceController extends Controller
 {
 
-    public function create(Request $request)
-    {
-        //
-    }
     public function mystore(Request $request)
     {
-        // dd($request->group);
-        // die();
+        // return $request;
         // try {
 
 
         $attP = new AttendenceParent;
         $attP->candidate_id = $request->group[1]['candidate_id'];
         $attP->company_id = $request->group[1]['company_id'];
-        $attP->invoice_no = $request->group[1]['invoice_no'];
+        $attP->invoice_no = $request->group[1]['invoice_no'] ?? 0;
         $attP->month_year = $request->group[1]['date'];
         $attP->save();
-
+        
         $data = $request->group;
         foreach ($data as $group) {
-            // dd($group['next_day']);
-            // $day = $group['day'];
             $att = new Attendance();
-            $att->attendance_parrent_id = $attP->id;
-            // $att->candidate_id=$group['candidate_id'];
-            // $att->company_id=$group['company_id'];
+            $att->parent_id = $attP->id;
             $att->date = $group['date'];
             $att->day = $group['day'];
             $att->in_time = $group['in_time'];
             $att->out_time = $group['out_time'];
             $att->next_day = $group['next_day'];
-            // $att->lunch_hour = isset($group['day']['lunch_hour']) ? $group['day']['lunch_hour'] : 'done';
             $att->lunch_hour = $group['lunch_hour'] ? $group['lunch_hour'] : "";
             $att->total_hour_min = $group['total_hour_min'];
             $att->normal_hour_min = $group['normal_hour_min'];
             $att->ot_hour_min = $group['ot_hour_min'];
             $att->ot_calculation = $group['ot_calculation'];
-            $att->ot_edit = $group['ot_edit'];
+            $att->ot_edit = $group['ot_edit'] ?? 0;
             $att->work = isset($group['work']) ? 1 : 0;
-            $att->ph = $group['ph'];
-            $att->ph_pay = $group['ph_pay'];
+            $att->ph = $group['ph'] ?? 0;
+            $att->ph_pay = $group['ph_pay'] ?? 0;
             $att->remark = $group['remark'];
             $att->type_of_leave = $group['type_of_leave'];
             $att->leave_day = $group['leave_day'];

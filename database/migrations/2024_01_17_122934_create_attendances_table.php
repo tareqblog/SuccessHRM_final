@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
+            $table->integer('parent_id');
             $table->date('date');
             $table->string('day');
             $table->string('in_time')->nullable();

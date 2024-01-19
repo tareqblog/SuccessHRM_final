@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FileHelper;
 use App\Models\AttendenceParent;
 use App\Models\Attendance;
 use App\Models\candidate;
@@ -134,45 +135,87 @@ class AttendenceController extends Controller
     public function edit(string $id)
     {
 
-        $datas = Attendance::where('attendance_parrent_id', $id)->get();
+        // $datas = Attendance::where('attendance_parrent_id', $id)->get();
 
-        $info = AttendenceParent::find($id);
-        $candidate = candidate::where('id', $info->candidate_id)->first();
-        $company = Company::where('id', $info->company_id)->first();
-        $candidate_name = $candidate->candidate_name;
-        $candidate_id = $candidate->id;
-        $company_name = $company->name;
-        $company_id = $company->id;
-        $invoice = $info->invoice_no;
-        $month = $info->month_year;
-
-        $leaves = Leave::where('candidate_id', $candidate_id)->get();
+        $parent = AttendenceParent::find($id);
+        $attendances = Attendance::where('parent_id', $parent->id)->get();
         $leaveTypes = LeaveType::where('leavetype_status', 1)->get();
-        return view(
-            'admin.attendence.edit',
-            compact(
-                'datas',
-                'candidate_name',
-                'company_name',
-                'candidate_id',
-                'company_id',
-                'invoice',
-                'month',
-                'leaves',
-                'leaveTypes'
-            )
-        );
+        return view('admin.attendence.edit', compact('parent', 'attendances', 'leaveTypes'));
+
+        // $candidate = candidate::where('id', $info->candidate_id)->first();
+        // $company = Company::where('id', $info->company_id)->first();
+        // $candidate_name = $candidate->candidate_name;
+        // $candidate_id = $candidate->id;
+        // $company_name = $company->name;
+        // $company_id = $company->id;
+        // $invoice = $info->invoice_no;
+        // $month = $info->month_year;
+
+        // $leaves = Leave::where('candidate_id', $candidate_id)->get();
+        // $leaveTypes = LeaveType::where('leavetype_status', 1)->get();
+
+
+        // return view(
+        //     'admin.attendence.edit',
+        //     compact(
+        //         'datas',
+        //         'candidate_name',
+        //         'company_name',
+        //         'candidate_id',
+        //         'company_id',
+        //         'invoice',
+        //         'month',
+        //         'leaves',
+        //         'leaveTypes'
+        //     )
+        // );
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        if (is_null($this->user) || !$this->user->can('attendence.update')) {
-            abort(403, 'Unauthorized');
+        // if (is_null($this->user) || !$this->user->can('attendence.update')) {
+        //     abort(403, 'Unauthorized');
+        // }
+
+        // return $request;
+        $parent = AttendenceParent::find($id);
+
+        $data = $request->group;
+        foreach ($data as $group) {
+            $attendance = Attendance::where('parent_id', $parent->id)
+                            ->where('date', $group['date'])
+                            ->first();
+            $attendance->parent_id = $parent->id;
+            $attendance->date = $group['date'];
+            $attendance->day = $group['day'];
+            $attendance->in_time = $group['in_time'];
+            $attendance->out_time = $group['out_time'];
+            $attendance->next_day = $group['next_day'] ?? 0;
+            $attendance->lunch_hour = $group['lunch_hour'] ? $group['lunch_hour'] : "";
+            $attendance->total_hour_min = $group['total_hour_min'];
+            $attendance->normal_hour_min = $group['normal_hour_min'];
+            $attendance->ot_hour_min = $group['ot_hour_min'];
+            $attendance->ot_calculation = $group['ot_calculation'];
+            $attendance->ot_edit = $group['ot_edit'] ?? 0;
+            $attendance->work = isset($group['work']) ? 1 : 0;
+            $attendance->ph = $group['ph'] ?? 0;
+            $attendance->ph_pay = $group['ph_pay'] ?? 0;
+            $attendance->remark = $group['remark'];
+            $attendance->type_of_leave = $group['type_of_leave'];
+            $attendance->leave_day = $group['leave_day'];
+            if (isset($group['leave_attachment'])) {
+                $attendance->leave_attachment =  FileHelper::uploadFile($group['leave_attachment']);
+            }
+            if (isset($group['claim_attachment'])) {
+                $attendance->claim_attachment =  FileHelper::uploadFile($group['claim_attachment']);
+            }
+            $attendance->type_of_reimbursement = isset($group['type_of_reimbursement']) ? $group['type_of_reimbursement'] : '';
+            $attendance->amount_of_reimbursement = isset($group['amount_of_reimbursement']) ? $group['amount_of_reimbursement'] : 0.00;
+            $attendance->save();
         }
+
+        // return Attendance::where('parent_id', $parent->id)->get();
+        return redirect()->back();
         //
     }
 
@@ -221,6 +264,7 @@ class AttendenceController extends Controller
     }
     public function getMonthData(Request $request)
     {
+        // return $request;
         // dd($request->company_id);
 
         $companies = Company::latest()->get();

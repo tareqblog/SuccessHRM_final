@@ -134,7 +134,7 @@ Route::prefix('ATS')->group(function () {
     Route::get('/attendence/edit/{id}/{month}',  [AttendenceController::class, 'editAttendence'])->name('edit.attendence');
 
     Route::get('/get/candidate/company/{id}',  [AttendenceController::class, 'getCandidateCompany'])->name('get.candidate.company');
-    Route::any('/get/month/data',  [AttendenceController::class, 'getMonthData'])->name('get.month.attendence.data');
+    Route::any('/get/month/data', [AttendenceController::class, 'getMonthData'])->name('get.month.attendence.data');
 
     Route::get('/import',  [CandidateFileImportController::class, 'index'])->name('import.index');
     Route::post('/import/upload',  [CandidateFileImportController::class, 'upload'])->name('upload.files');

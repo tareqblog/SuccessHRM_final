@@ -292,6 +292,9 @@
                                 (Candidate)</a>
 
                         </li>
+                        <li><a href="{{route('attendence.index')}}" data-key="attendance-candidate">Attendance Lists</a>
+
+                        </li>
                         <li><a href="{{route('time-sheet.index')}}" data-key="time-sheet">Time Sheet</a>
 
                         </li>
