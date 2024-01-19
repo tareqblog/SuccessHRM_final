@@ -31,7 +31,7 @@
                                     <th>Client</th>
                                     <th>Attendence Month</th>
                                     <th>Approved Date & Time</th>
-                                    {{-- <th>Action</th> --}}
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -44,12 +44,12 @@
                                             {{ Carbon\Carbon::parse($data->month_year)->format('M, Y') }}
                                         </td>
                                         <td>{{ $data->updated_at }}</td>
-                                        {{-- <td style="display: flex;">
+                                        <td style="display: flex;">
                                             <a href="{{ route('attendence.edit', $data->id) }}"
                                                 class="btn btn-info btn-sm me-2"><i class="fas fa-pen"></i></a>
                                             <a href="{{ route('attendence.edit', $data->id) }}"
                                                 class="btn btn-primary btn-sm me-2">Resubmit</a>
-                                        </td> --}}
+                                        </td>
                                     </tr>
                                 @empty
 

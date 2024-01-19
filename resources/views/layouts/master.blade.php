@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <title> @yield('title') | Success HR</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Build with Digipixel Singapore" name="description" />
     <meta content="Digipixel" name="author" />
