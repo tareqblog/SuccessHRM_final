@@ -84,128 +84,139 @@
                 $('.remove-claim-'+day).show();
             }
 
-            function timeCalculation(day)
-            {
-                let lunch_val = tream($('.lunch_val-' + day).val());
-                let inTime = $('.inTime-' + day).val();
-                let outTime = $('.outTime-' + day).val();
-                let ot = parseTimeString($('.ot-' + day).val());
-                const timeDifference = calculateTimeDifference(inTime, outTime);
-                const sumTimeDifference = sumTimeDifferences([timeDifference, ot]);
-                const normal_time = sumTimeDifference.hours + ' h ' + sumTimeDifference.minutes + ' m';
-                let result = subtractTimeDifference(sumTimeDifference, lunch_val);
-                result = leaveDay(day, result);
-                const total_time = result.hours + ' h ' + result.minutes + ' m';
+            function timeCalculation(day) {
+        let lunch_val = tream($('.lunch_val-' + day).val());
+        let inTime = $('.inTime-' + day).val();
+        let outTime = $('.outTime-' + day).val();
+        let ot = parseTimeString($('.ot-' + day).val());
+        const timeDifference = calculateTimeDifference(inTime, outTime);
+        const after_leave = leaveDay(day, timeDifference);
+        const sumTimeDifference = sumTimeDifferences([after_leave, ot]);
+        const normal_time = sumTimeDifference.hours + ' h ' + sumTimeDifference.minutes + ' m';
 
-                $('.totla_time-' + day).val(total_time);
-                $('.normal_time-' + day).val(normal_time);
-            }
+        let result = subtractTimeDifference(sumTimeDifference, lunch_val);
+        const total_time = result.hours + ' h ' + result.minutes + ' m';
 
-            function leaveDay(day, hour_min)
-            {
-                let hours = 0;
-                let minutes = 0;
-                let will_pay = 1;
-                let leave_day = $('.change.leave_days.hi-' + day).val();
-                if(leave_day == 'Full Day Leave')
-                {
-                    will_pay = 0;
-                } else if(leave_day == 'Half Day AM' || leave_day == 'Half Day PM') {
-                    will_pay = 0.5;
-                }
+        $('.totla_time-' + day).val(total_time);
+        $('.normal_time-' + day).val(normal_time);
+    }
 
-                const total_min = (hour_min.hours * 60 + hour_min.minutes) * will_pay;
-                // Calculate hours and remaining minutes
-                hours = Math.floor(total_min / 60);
-                minutes = total_min % 60;
+    function leaveDay(day, hour_min) {
+        let hours = 0;
+        let minutes = 0;
+        let will_pay = 1;
+        let leave_day = $('.change.leave_days.hi-' + day).val();
+        if (leave_day == 'Full Day Leave') {
+            will_pay = 0;
+        } else if (leave_day == 'Half Day AM' || leave_day == 'Half Day PM') {
+            will_pay = 0.5;
+        }
 
-                return { hours, minutes };
-            }
+        const total_min = (hour_min.hours * 60 + hour_min.minutes) * will_pay;
+        // Calculate hours and remaining minutes
+        hours = Math.floor(total_min / 60);
+        minutes = total_min % 60;
 
-            function parseTimeString(timeString) {
-                const regex = /(\d+)\s*h\s*(\d+)\s*m/;
-                const match = timeString.match(regex);
+        return {
+            hours,
+            minutes
+        };
+    }
 
-                let hours = 0;
-                let minutes = 0;
+    function parseTimeString(timeString) {
+        const regex = /(\d+)\s*h\s*(\d+)\s*m/;
+        const match = timeString.match(regex);
 
-                if (match) {
-                    hours = parseInt(match[1], 10);
-                    minutes = parseInt(match[2], 10);
-                }
+        let hours = 0;
+        let minutes = 0;
 
-                return { hours, minutes };
-            }
+        if (match) {
+            hours = parseInt(match[1], 10);
+            minutes = parseInt(match[2], 10);
+        }
 
-            function tream(value) {
-                let totalMinutes = 0;
-                if (value === '30 minutes') {
-                    totalMinutes = 30;
-                } else if (value === '45 minutes') {
-                    totalMinutes = 45;
-                } else if (value === '1 hour') {
-                    totalMinutes = 60;
-                } else if (value === '1.5 hour') {
-                    totalMinutes = 90;
-                } else if (value === '2 hour') {
-                    totalMinutes = 120;
-                }
+        return {
+            hours,
+            minutes
+        };
+    }
 
-                const hours = Math.floor(totalMinutes / 60);
-                const minutes = totalMinutes % 60;
-                return { hours, minutes };
-            }
+    function tream(value) {
+        let totalMinutes = 0;
+        if (value === '30 minutes') {
+            totalMinutes = 30;
+        } else if (value === '45 minutes') {
+            totalMinutes = 45;
+        } else if (value === '1 hour') {
+            totalMinutes = 60;
+        } else if (value === '1.5 hour') {
+            totalMinutes = 90;
+        } else if (value === '2 hour') {
+            totalMinutes = 120;
+        }
 
-            function calculateTimeDifference(inTime, outTime)
-            {
-                let hours = 0;
-                let minutes = 0;
-                if (!inTime || !outTime) {
-                    return { hours, minutes };
-                }
-                const [inHours, inMinutes] = inTime.split(':').map(Number);
-                const [outHours, outMinutes] = outTime.split(':').map(Number);
+        const hours = Math.floor(totalMinutes / 60);
+        const minutes = totalMinutes % 60;
+        return {
+            hours,
+            minutes
+        };
+    }
 
-                const totalInMinutes = inHours * 60 + inMinutes;
-                const totalOutMinutes = outHours * 60 + outMinutes;
+    function calculateTimeDifference(inTime, outTime) {
+        let hours = 0;
+        let minutes = 0;
+        if (!inTime || !outTime) {
+            return { hours, minutes };
+        }
+        const [inHours, inMinutes] = inTime.split(':').map(Number);
+        const [outHours, outMinutes] = outTime.split(':').map(Number);
 
-                const minutesDifference = totalOutMinutes - totalInMinutes;
-                hours = (Math.floor(minutesDifference / 60));
-                minutes = (minutesDifference % 60);
+        const totalInMinutes = inHours * 60 + inMinutes;
+        const totalOutMinutes = outHours * 60 + outMinutes;
 
-                return { hours, minutes };
-            }
-            function isValidTimeString(timeString) {
-                const regex = /^([01]\d|2[0-3]):([0-5]\d)$/;
-                return regex.test(timeString);
-            }
+        const minutesDifference = totalOutMinutes - totalInMinutes;
+        hours = (Math.floor(minutesDifference / 60));
+        minutes = (minutesDifference % 60);
 
-            function subtractTimeDifference(minuend, subtrahend) {
-                let totalHours = minuend.hours - subtrahend.hours;
-                let totalMinutes = minuend.minutes - subtrahend.minutes;
+        return {
+            hours,
+            minutes
+        };
+    }
 
-                if (totalMinutes < 0) {
-                    totalHours--;
-                    totalMinutes += 60;
-                }
-                return { hours: totalHours, minutes: totalMinutes };
-            }
+    function subtractTimeDifference(minuend, subtrahend) {
+        let totalHours = minuend.hours - subtrahend.hours;
+        let totalMinutes = minuend.minutes - subtrahend.minutes;
 
-            function sumTimeDifferences(timeDifferences) {
-                let totalHours = 0;
-                let totalMinutes = 0;
+        if (totalMinutes < 0) {
+            totalHours--;
+            totalMinutes += 60;
+        }
+        return {
+            hours: totalHours,
+            minutes: totalMinutes
+        };
+    }
 
-                for (const timeDiff of timeDifferences) {
-                    totalHours += timeDiff.hours;
-                    totalMinutes += timeDiff.minutes;
-                }
+    function sumTimeDifferences(timeDifferences) {
+        let totalHours = 0;
+        let totalMinutes = 0;
 
-                // Adjust total minutes if it exceeds 60
-                totalHours += Math.floor(totalMinutes / 60);
-                totalMinutes %= 60;
+        for (const timeDiff of timeDifferences) {
+            totalHours += timeDiff.hours;
+            totalMinutes += timeDiff.minutes;
+        }
 
-                return { hours: totalHours, minutes: totalMinutes };
-            }
+        // Adjust total minutes if it exceeds 60
+        totalHours += Math.floor(totalMinutes / 60);
+        totalMinutes %= 60;
+
+        return {
+            hours: totalHours,
+            minutes: totalMinutes
+        };
+    }
         </script>
 
         <div class="row">
@@ -642,16 +653,14 @@
                                                                     <option value="Half Day PM">
                                                                         Half Day PM</option>
                                                                 </select>
-
                                                             </div>
                                                             <!--attendance leave file-->
                                                             <div style="flex:0 0 235px;">
-                                                                <input type="file" class="attendance_leave_file-{{$day}}" name="group[{{$day}}][leave_attachment]" multiple="" onchange="hasFile({{$day}})">
+                                                                <input type="file" class="attendance_leave_file-{{$day}}" name="group[{{$day}}][leave_attachment][]" multiple onchange="hasFile({{$day}})">
                                                                 <label class="remove-label remove-label-{{$day}}" onclick="removeFile('{{$day}}')"><i class="fas fa-trash text-danger"></i></label>
                                                                 <div class="hi-{{ $day }}" style="display: none">
                                                                     @if ($isLeave == true)
-                                                                        <a href="{{ asset('storage/' . $leaveFilePath) }}"
-                                                                            target="_blank">
+                                                                        <a href="{{ asset('storage/' . $leaveFilePath) }}" target="_blank">
                                                                             <i class="fas fa-eye"></i>
                                                                         </a>
                                                                     @endif
@@ -659,7 +668,7 @@
                                                             </div>
                                                             <!--attendance claim file-->
                                                             <div style="flex:0 0 235px;">
-                                                                <input type="file" class="attendance_claim_file-{{$day}}" name="group[{{$day}}][claim_attachment]" multiple="" onchange="hasClaim({{$day}})">
+                                                                <input type="file" class="attendance_claim_file-{{$day}}" name="group[{{$day}}][claim_attachment][]" multiple="" onchange="hasClaim({{$day}})">
                                                                 <label class="remove-claim remove-claim-{{$day}}" onclick="removeClaim('{{$day}}')"><i class="fas fa-trash text-danger"></i></label>
                                                             </div>
                                                             <!--reimbursement-->
@@ -957,7 +966,7 @@
             $(document).ready(function() {
 
                 // Listen for changes in the candidate dropdown
-                
+
                 $('#candidateDropdown').change(function() {
                     var selectedCandidateId = $(this).val();
                     $.ajax({

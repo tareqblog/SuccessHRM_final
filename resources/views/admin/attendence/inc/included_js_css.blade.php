@@ -153,11 +153,6 @@
         };
     }
 
-    function isValidTimeString(timeString) {
-        const regex = /^([01]\d|2[0-3]):([0-5]\d)$/;
-        return regex.test(timeString);
-    }
-
     function subtractTimeDifference(minuend, subtrahend) {
         let totalHours = minuend.hours - subtrahend.hours;
         let totalMinutes = minuend.minutes - subtrahend.minutes;
