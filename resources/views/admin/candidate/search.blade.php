@@ -16,19 +16,30 @@ Search Candidate Detail
             <div class="card-header">
                 <h4 class="card-title mb-0">Search Table</h4>
             </div>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="card-body">
-                <form action="">
+                <form action="{{ route('candidate.search.resutl') }}" method="POST">
+                    @csrf
+
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="row mb-4">
-                                <label for="one" class="col-sm-2 col-form-label">Keyword</label>
-                                <div class="col-sm-9">
-                                    <input type="text" name="Keyword" class="form-control" placeholder="Keyword">
+                                <label for="one" class="col-sm-3 col-form-label">Keyword</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="keyword" class="form-control" placeholder="Keyword">
                                 </div>
                             </div>
                             <div class="row mb-4">
-                                <label for="one" class="col-sm-2 col-form-label">Grouping</label>
-                                <div class="col-sm-9">
+                                <label for="one" class="col-sm-3 col-form-label">Grouping</label>
+                                <div class="col-sm-8">
                                     <select name="" id="" class="form-control">
                                         <option value="">Yes</option>
                                         <option value="">No</option>
@@ -38,13 +49,14 @@ Search Candidate Detail
                         </div>
                         <div class="col-lg-6">
                             <div class="row mb-4">
-                                <label for="one" class="col-sm-2 col-form-label">Keyword</label>
-                                <div class="col-sm-9"><input type="text" name="daterange" value="01/01/2018 - 01/15/2018" class="form-control" />
+                                <label for="one" class="col-sm-3 col-form-label">Keyword</label>
+                                <div class="col-sm-8">
+                                     <input type="text" name="daterange" value="{{ old('daterange', '2023-12-01 - 2024-01-25') }}" class="form-control" />
                                 </div>
                             </div>
                             <div class="row mb-4">
-                                <label for="one" class="col-sm-2 col-form-label">Existing Folder</label>
-                                <div class="col-sm-9">
+                                <label for="one" class="col-sm-3 col-form-label">Existing Folder</label>
+                                <div class="col-sm-8">
                                     <select name="" id="" class="form-control">
                                         <option value="">Create New</option>
                                     </select>
@@ -69,12 +81,23 @@ Search Candidate Detail
                                     <th>Phone</th>
                                     <th>Email</th>
                                     <th>Resume Detail</th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                </tr>
+                                @if (isset($data))
+                                @foreach ($data as $key => $item)
+                                    <tr>
+                                        <th>{{++$key}}</th>
+                                        <th>{{ $item['candidate_name']}}</th>
+                                        <th>{{ $item['candidate_mobile']}}</th>
+                                        <th>{{ $item['candidate_email']}}</th>
+                                        <td>
+                                            {{ $item['resume_details'] }}
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+                                @endif
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -83,7 +106,6 @@ Search Candidate Detail
                                     <th>Phone</th>
                                     <th>Email</th>
                                     <th>Resume Detail</th>
-                                    <th></th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -95,14 +117,22 @@ Search Candidate Detail
 </div>
 @endsection
 @section('scripts')
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.css" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.js"></script>
+
     <script>
         $(function() {
-          $('input[name="daterange"]').daterangepicker({
-            opens: 'left'
-          }, function(start, end, label) {
-            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-          });
+            $('input[name="daterange"]').daterangepicker({
+                opens: 'left',
+                locale: {
+                    format: 'YYYY-MM-DD'
+                },
+                endDate: moment().format('YYYY-MM-DD')
+            }, function(start, end, label) {
+                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+            });
         });
     </script>
 @endsection

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
 
 class candidate extends Model
@@ -80,5 +81,10 @@ class candidate extends Model
     public function Religion()
     {
         return $this->belongsTo('App\Models\Religion','religions_id');
+    }
+
+    public function resumes(): HasMany
+    {
+        return $this->hasMany(CandidateResume::class, 'candidate_id');
     }
 }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('candidate_resumes', function (Blueprint $table) {
             $table->id();
-            $table->integer('candidates_id');
+            $table->integer('candidate_id');
             $table->string('resume_file_path')->nullable();
             $table->integer('isMain')->default(0)->comment('1=main,0=onlist');
             $table->integer('created_by')->nullable();

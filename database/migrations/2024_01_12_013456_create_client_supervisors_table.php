@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('client_supervisors', function (Blueprint $table) {
             $table->id();
             $table->integer('client_id');
+            $table->integer('user_id');
             $table->string('name');
             $table->string('email');
             $table->string('direct_number');

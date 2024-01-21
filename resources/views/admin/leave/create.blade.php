@@ -184,16 +184,16 @@
                                 },
                                 error: function(error) {
                                     console.error('Error fetching candidate data:', error);
-                                    $('#candidates_id').empty();
-                                    $('#candidates_id').append(
+                                    $('#candidate_id').empty();
+                                    $('#candidate_id').append(
                                         '<option value="" disabled selected>No Candidate Available</option>'
                                     );
                                 }
                             });
                         } else {
                             // If no group type is selected, clear the employees dropdown
-                            $('#candidates_id').empty();
-                            $('#candidates_id').append(
+                            $('#candidate_id').empty();
+                            $('#candidate_id').append(
                                 '<option value="" disabled selected>Select a Group Type first</option>');
                         }
                     }
