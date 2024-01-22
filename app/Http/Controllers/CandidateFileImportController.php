@@ -543,4 +543,12 @@ class CandidateFileImportController extends Controller
 
         return $text;
     }
+
+    public function getCandidateRemark(candidate $candidate)
+    {
+        return $candidate;
+        $remarks = $candidate->remarks;
+
+        return response()->json(['remarks' => $remarks]);
+    }
 }

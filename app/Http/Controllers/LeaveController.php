@@ -11,6 +11,7 @@ use App\Models\LeaveType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 
 class LeaveController extends Controller
@@ -164,5 +165,47 @@ class LeaveController extends Controller
     {
         $candidates = candidate::where('candidate_status', 1)->select('id', 'candidate_name')->get();
         return response()->json(['candidates' => $candidates]);
+    }
+
+    public function searchLeave(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'leave_datefrom' => 'date',
+            'leave_dateto' => 'date|after_or_equal:leave_datefrom',
+            'ar_number' => 'nullable|numeric',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $validator->errors(),
+            ], 400);
+        }
+        $validator->validated();
+
+        $query = Leave::query();
+
+        if ($request->has('leave_datefrom')) {
+            $query->where('leave_datefrom', '>=', $request->input('leave_datefrom'));
+        }
+
+        if ($request->has('leave_dateto')) {
+            $query->where('leave_dateto', '<=', $request->input('leave_dateto'));
+        }
+
+        if ($request->ar_number != null) {
+            $query->where('ar_number', $request->input('ar_number'));
+        }
+
+        $datas = $query->get();
+        return view('admin.leave.index', compact('datas'));
+    }
+
+    public function cancle(Leave $leave)
+    {
+        $done = $leave->update(['leave_status' => 4]);
+        if(!$done) return redirect()->back()->with('error', 'Not Cancled!! Try Again.');
+        return redirect()->back()->with('success', 'Cancle Successfully.');
     }
 }

@@ -15,6 +15,37 @@
     @section('content')
         <div class="row">
             <div class="col-lg-12">
+                @if($errors->any())
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">
+                          <strong>{{$errors->first()}}</strong>
+                        </div>
+                    </div>
+                @endif
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Filter </h4>
+                        <hr>
+                        <form method="GET" action="{{ route('attendence.index') }}" id="attendanceFilter">
+                            @csrf
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 row">
+                                <label for="three" class="col-sm-12 col-md-4 col-form-label"> Start Date</label>
+                                <div class="col-sm-12 col-md-8">
+                                    <input type="date" class="form-control" name="start_date" id="start_date" value="{{$start}}">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 row">
+                                <label for="three" class="col-sm-12 col-md-4 col-form-label">End Date</label>
+                                <div class="col-sm-12 col-md-8">
+                                    <input type="date" class="form-control" name="end_date" id="end_date" value="{{$end}}">
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title mb-0">Attendence Table</h4>
@@ -48,7 +79,11 @@
                                             <a href="{{ route('attendence.edit', $data->id) }}"
                                                 class="btn btn-info btn-sm me-2"><i class="fas fa-pen"></i></a>
                                             <a href="{{ route('attendence.edit', $data->id) }}"
-                                                class="btn btn-primary btn-sm me-2">Resubmit</a>
+                                                class="btn btn-danger btn-sm me-2">Resubmit</a>
+                                            <a target="_blank" href="{{ route('attendence.print', $data->id) }}"
+                                                class="btn btn-warning btn-sm me-2">Print</a>
+                                            <a href="{{ route('attendence.edit', $data->id) }}"
+                                                class="btn btn-success btn-sm me-2">Attachments</a>
                                         </td>
                                     </tr>
                                 @empty
@@ -75,6 +110,16 @@
         <script>
             $(document).ready(function() {
                 $('#myTable').DataTable();
+            });
+
+            $(document).ready(function () {
+                $('#start_date, #end_date').on('change', function () {
+                    var startDateValue = $('#start_date').val();
+                    var endDateValue = $('#end_date').val();
+
+                    var newUrl = "{{ route('attendence.index') }}?start_date=" + startDateValue + "&end_date=" + endDateValue;
+                    window.location.href = newUrl;
+                });
             });
         </script>
     @endsection

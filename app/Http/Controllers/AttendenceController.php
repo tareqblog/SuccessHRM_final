@@ -16,6 +16,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Psy\CodeCleaner\ReturnTypePass;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class AttendenceController extends Controller
 {
@@ -33,14 +35,48 @@ class AttendenceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         if (is_null($this->user) || !$this->user->can('attendence.index')) {
             abort(403, 'Unauthorized');
         }
 
-        $datas = AttendenceParent::latest()->get();
-        return view('admin.attendence.index', compact('datas'));
+        $validator = Validator::make($request->all(), [
+            'start_date' => 'nullable|date',
+            'end_date' => [
+                'nullable',
+                'date',
+                Rule::requiredIf(function () use ($request) {
+                    // Only require end_date if start_date is provided
+                    return !is_null($request->input('start_date'));
+                }),
+            ],
+        ]);
+
+        // Check if validation fails
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $validator->validated();
+
+        $start = $request->input('start_date');
+        $end = $request->input('end_date');
+
+        // Filter records based on the date range
+        $query = AttendenceParent::query();
+
+        if ($start && $end) {
+            $query->whereBetween('month_year', [$start, $end]);
+        } else {
+            $start = $end = Carbon::now()->toDateString();
+        }
+
+        $datas = $query->latest()->get();
+
+        return view('admin.attendence.index', compact('datas', 'start', 'end'));
     }
 
     /**
@@ -338,5 +374,15 @@ class AttendenceController extends Controller
             'leaves',
             'leaveTypes'
         ));
+    }
+
+    public function attendencePrint(AttendenceParent $attendence)
+    {
+
+        $parent = $attendence;
+        $attendence = $attendence->load('attendences');
+        $attendances = $attendence->attendences;
+        $leaveTypes = LeaveType::where('leavetype_status', 1)->get();
+        return view('admin.attendence.print', compact('attendances', 'parent', 'leaveTypes'));
     }
 }

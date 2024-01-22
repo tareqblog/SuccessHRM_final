@@ -195,4 +195,9 @@ Route::prefix('ATS')->group(function () {
     Route::get('/candidates/search', [CandidateFileImportController::class, 'candidateSearch'])->name('candidates.search');
     Route::post('/candidates/search/result', [CandidateFileImportController::class, 'candidateSearchResult'])->name('candidate.search.resutl');
 
+    Route::get('/get/candidate/remarks/{candidate}',  [CandidateFileImportController::class, 'getCandidateRemark']);
+    Route::post('/search/leave',  [LeaveController::class, 'searchLeave'])->name('search.leave');
+    Route::get('/search/cancle/{leave}',  [LeaveController::class, 'cancle'])->name('leave.cancle');
+    Route::get('/attendence/print/{attendence}',  [AttendenceController::class, 'attendencePrint'])->name('attendence.print');
+
 })->middleware('AdminMiddleware');
