@@ -100,6 +100,13 @@
       0 => 'Spatie\\Activitylog\\ActivitylogServiceProvider',
     ),
   ),
+  'spatie/laravel-enum' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Spatie\\Enum\\Laravel\\EnumServiceProvider',
+    ),
+  ),
   'spatie/laravel-ignition' => 
   array (
     'providers' => 

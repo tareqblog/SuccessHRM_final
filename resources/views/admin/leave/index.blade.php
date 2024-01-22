@@ -17,6 +17,44 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
+                        <div>
+                            <p class="card-title mb-0 text-secondary">Filter</p>
+                        </div>
+                        <hr>
+                        <form action="{{ route('search.leave') }}" method="POST">
+                            @csrf
+
+                            <div class="row">
+                                <div class="col-sm-12 col-md-4 row">
+                                    <label for="one" class="col-sm-5 col-form-label fw-bold">Filter Start Date</label>
+                                    <div class="col-sm-7">
+                                        <input type="date" class="form-control" name="leave_datefrom" value="{{ old('leave_datefrom') }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 row">
+                                    <label for="one" class="col-sm-5 col-form-label fw-bold">Filter End Date</label>
+                                    <div class="col-sm-7">
+                                        <input type="date" class="form-control" name="leave_dateto" value="{{ old('leave_dateto') }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 row">
+                                    <label for="one" class="col-sm-5 col-form-label fw-bold">AR Number</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" name="ar_number" value="{{ old('ar_number') }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-12  d-flex justify-content-center align-items-center">
+                                    <button type="submit" class="btn btn-sm btn-success">Search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
                         <h4 class="card-title mb-0">Leave Table</h4>
                         @if (App\Helpers\FileHelper::usr()->can('leave.create'))
                         <div class="text-end">
@@ -53,11 +91,13 @@
                                         <td>{{ $data->leave_dateto }}</td>
                                         <td>{{ $data->leave_total_day }}</td>
                                         <td>--</td>
-                                        <td>--</td>
+                                        {{-- <td>{{$data->leave_status}}</td> --}}
+                                        <td class="text-{{\App\Enums\Status::from($data->leave_status)->message()}}">{{\App\Enums\Status::from($data->leave_status)->title()}}</td>
                                         <td style="display: flex;">
                                             @if (App\Helpers\FileHelper::usr()->can('leave.edit'))
                                             <a href="{{ route('leave.edit', $data->id) }}" class="btn btn-info btn-sm me-3"><i
                                                     class="fas fa-pen"></i></a>
+                                            <a href="{{ route('leave.cancle', $data->id) }}" class="btn btn-warning btn-sm me-3">Cancle</a>
                                             @endif
                                             @if (App\Helpers\FileHelper::usr()->can('leave.destroy'))
                                             <form action="{{ route('leave.destroy', $data->id) }}" method="POST">
