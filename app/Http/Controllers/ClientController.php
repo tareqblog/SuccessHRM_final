@@ -8,6 +8,7 @@ use App\Imports\ClientImport;
 use App\Models\client;
 use App\Models\ClientDepartment;
 use App\Models\ClientFollowUp;
+use App\Models\ClientSupervisor;
 use App\Models\clientTerm;
 use App\Models\ClientUploadFile;
 use App\Models\Employee;
@@ -18,6 +19,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\DB;
 // use Maatwebsite\Excel\Excel;
 use Excel;
 
@@ -243,5 +247,72 @@ class ClientController extends Controller
         return redirect($url)->with('success', 'Successfully Deleted.');
     }
 
+    public function supervisorStore(Request $request, client $client)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'mobile' => 'required|string',
+            'email' => 'required|email',
+            'password' => 'required|min:6|confirmed',
+            'department' => 'string',
+            'direct_number' => 'string',
+            'remark' => 'string',
+            'defination' => 'string',
+            'log_email' => 'required|email',
+        ]);
+
+        $url = '/ATS/clients/' . $client->id . '/edit#supervisor';
+        if ($validator->fails()) {
+            return redirect($url)
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->log_email,
+                'password' => bcrypt($request->password),
+                'role' => 9,
+            ]);
+
+            ClientSupervisor::create([
+                'client_id' => $client->id,
+                'user_id' => $user->id,
+                'name' => $request->name,
+                'mobile' => $request->mobile,
+                'email' => $request->email,
+                'department' => $request->department,
+                'direct_number' => $request->direct_number,
+                'remark' => $request->remark,
+                'defination' => $request->defination,
+            ]);
+
+            DB::commit();
+            return redirect($url)->with('success', 'Successfully Added.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect($url)->with('error', $e->getMessage());
+        }
+    }
+
+    public function deleteSupervisor(ClientSupervisor $supervisor)
+    {
+        $url = '/ATS/clients/' .$supervisor->client_id. '/edit#supervisor';
+        DB::beginTransaction();
+
+        try {
+            User::destroy($supervisor->user_id);
+
+            $supervisor->delete();
+            DB::commit();
+            return redirect($url)->with('success', 'Successfully Added.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect($url)->with('error', $e->getMessage());
+        }
+    }
 
 }

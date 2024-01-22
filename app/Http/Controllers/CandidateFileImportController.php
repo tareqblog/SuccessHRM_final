@@ -13,6 +13,7 @@ use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Str;
 use Spatie\PdfToText\Pdf;
@@ -233,13 +234,14 @@ class CandidateFileImportController extends Controller
         return back()->with('error', 'No files were selected.');
     }
 
+
     public function extractInfo(Request $request)
     {
         if ($request->has('selectedFiles')) {
             $file = $request->selectedFiles;
-            $filePath = public_path(Storage::url($file));
-            if (pathinfo($file, PATHINFO_EXTENSION) === 'docx') {
+           $filePath = public_path(Storage::url($file));
 
+            if (pathinfo($file, PATHINFO_EXTENSION) === 'docx') {
             } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'pdf') {
                 try {
                     $parser = new Parser();
@@ -252,9 +254,9 @@ class CandidateFileImportController extends Controller
                         $name = "Name not found";
                     }
 
-        if (is_null($this->user) || !$this->user->can('extract.info')) {
-            abort(403, 'Unauthorized');
-        }
+                    if (is_null($this->user) || !$this->user->can('extract.info')) {
+                        abort(403, 'Unauthorized');
+                    }
                     // Extract email
                     if (preg_match('/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/', $text, $matches)) {
                         $email = trim($matches[0]);
@@ -446,7 +448,7 @@ class CandidateFileImportController extends Controller
         }
         foreach ($temporaryData as $data) {
             CandidateResume::create([
-                'candidates_id' => $candidate->id,
+                'candidate_id' => $candidate->id,
                 'resume_file_path' => $data['resume_path']
             ]);
         }
@@ -456,5 +458,89 @@ class CandidateFileImportController extends Controller
         }
 
         return back()->with('success', 'Candidate uploaded successfully.');
+    }
+
+    public function candidateSearch()
+    {
+        return view('admin.candidate.search');
+    }
+
+    public function candidateSearchResult(Request $request)
+    {
+
+        $keyword = $request->input('keyword');
+        $dateRange = $request->input('daterange');
+
+        [$startDate, $endDate] = explode(' - ', $dateRange);
+
+        $query = Candidate::query();
+
+        if ($keyword)
+        {
+            $query->where('candidate_name', 'like', "%$keyword%");
+        }
+
+        if ($dateRange)
+        {
+            $query->whereBetween('candidate_joindate', [$startDate, $endDate]);
+        }
+
+        // $candidates = $query->select('id', 'candidate_name', 'candidate_email', 'candidate_mobile')->with(['resumes:id,resume_file_path']) ->get();
+
+        $candidates = $query->select('id', 'candidate_name', 'candidate_email', 'candidate_mobile')->get();
+        $data = [];
+
+        foreach ($candidates as $key => $candidate) {
+            $candidate->load(['resumes' => function ($query) {
+                $query->where('isMain', 1);
+            }]);
+
+            $mainResume = $candidate->resumes->first();
+
+            if ($mainResume) {
+                $candidateDetails = [
+                    'candidate_id' => $candidate->id,
+                    'candidate_name' => $candidate->candidate_name,
+                    'candidate_email' => $candidate->candidate_email,
+                    'candidate_mobile' => $candidate->candidate_mobile,
+                ];
+
+                if ($mainResume->resume_file_path) {
+                    $file = $mainResume->resume_file_path;
+                    $filePath = public_path(Storage::url($file));
+                    $candidateDetails['resume_id'] = $mainResume->id;
+                    $candidateDetails['resume_details'] = $this->file_to_text($file, $filePath);
+                }
+                $data[] = $candidateDetails;
+            }
+        }
+
+        return view('admin.candidate.search', compact('data'));
+
+
+    }
+
+    private function file_to_text($file, $filePath)
+    {
+        $text = '';
+        if (pathinfo($file, PATHINFO_EXTENSION) === 'docx') {
+        } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'pdf') {
+            try {
+                $parser = new Parser();
+                $pdf = $parser->parseFile($filePath);
+
+                $text = $pdf->getText();
+            } catch (\Exception $e) {
+                return response('Error reading PDF: ' . $e->getMessage(), 500);
+            }
+        } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'xls || xlsx') {
+            // Extract information from PDF files
+            // Use libraries like TCPDF, FPDI, or others to read PDF contents
+        } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'doc') {
+            // Extract information from PDF files
+            // Use libraries like TCPDF, FPDI, or others to read PDF contents
+        }
+
+        return $text;
     }
 }

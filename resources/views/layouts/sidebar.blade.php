@@ -172,12 +172,18 @@
                         <span class="menu-item" data-key="candidate">Candidate</span>
                     </a>
                     <ul class="sub-menu collapse mm-collapse" aria-expanded="false">
+                        @if ($usr->can('candidate.create'))
+                            <li><a href="{{route('candidate.create')}}" data-key="candidates">Walk In Candidate</a></li>
+                        @endif
                         @if ($usr->can('candidate.index'))
-                        <li><a href="{{route('candidate.index')}}" data-key="candidates">Candidates</a></li>
+                            <li><a href="{{route('candidate.index')}}" data-key="candidates">Candidates</a></li>
                         @endif
                         @if ($usr->can('import.index'))
-                        <li><a href="{{route('import.index')}}" data-key="import-multiple-candidate">Import Multiple Candidate</a></li>
+                            <li><a href="{{route('import.index')}}" data-key="import-multiple-candidate">Import Multiple Candidate</a></li>
                         @endif
+                        {{-- @if ($usr->can('import.index')) --}}
+                            <li><a href="{{route('candidates.search')}}" data-key="import-multiple-candidate"><i class="fa fa-search"></i> Search Function</a></li>
+                        {{-- @endif --}}
                     </ul>
                 </li>
                 @endif

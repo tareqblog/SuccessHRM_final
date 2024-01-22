@@ -261,27 +261,31 @@
                                                     </div>
                                                     <!--attendance leave file-->
                                                     <div style="flex:0 0 235px;">
-                                                        <input type="file" class="attendance_leave_file-{{$day}}" name="group[{{$day}}][leave_attachment]" multiple="" onchange="hasFile({{$day}})">
+                                                        <input type="file" class="attendance_leave_file-{{$day}}" name="group[{{$day}}][leave_attachment][]" multiple onchange="hasFile({{$day}})">
                                                         <label class="remove-label remove-label-" onclick="removeFile('{{$day}}')"><i class="fas fa-trash text-danger"></i></label>
                                                         <div class="hi-{{$day}}">
-                                                            @if ($attendance->leave_attachment)
-                                                                <a href="{{ asset('storage/' . $attendance->leave_attachment) }}"
-                                                                    target="_blank">
-                                                                    <i class="fas fa-eye"></i>
-                                                                </a>
+                                                            @php $attachments = json_decode($attendance->leave_attachment); @endphp
+                                                            @if ($attachments)
+                                                                @foreach ($attachments as $attachment)
+                                                                    <a href="{{ asset('storage/' . $attachment) }}" target="_blank">
+                                                                        <i class="fas fa-eye"></i>
+                                                                    </a>
+                                                                @endforeach
                                                             @endif
                                                         </div>
                                                     </div>
                                                     {{-- claim_attachment --}}
                                                     <div style="flex:0 0 235px;">
-                                                        <input type="file" class="attendance_claim_file-{{$day}}" name="group[{{$day}}][claim_attachment]" multiple="" onchange="hasFile({{$day}})">
+                                                        <input type="file" class="attendance_claim_file-{{$day}}" name="group[{{$day}}][claim_attachment][]" multiple onchange="hasFile({{$day}})">
                                                         <label class="remove-label remove-label-" onclick="removeClaim('{{$day}}')"><i class="fas fa-trash text-danger"></i></label>
                                                         <div class="hi-{{$day}}">
-                                                            @if ($attendance->claim_attachment)
-                                                                <a href="{{ asset('storage/' . $attendance->claim_attachment) }}"
-                                                                    target="_blank">
-                                                                    <i class="fas fa-eye"></i>
-                                                                </a>
+                                                            @php $attachments = json_decode($attendance->claim_attachment); @endphp
+                                                            @if ($attachments)
+                                                                @foreach ($attachments as $attachment)
+                                                                    <a href="{{ asset('storage/' . $attachment) }}" target="_blank">
+                                                                        <i class="fas fa-eye"></i>
+                                                                    </a>
+                                                                @endforeach
                                                             @endif
                                                         </div>
                                                     </div>

@@ -11,21 +11,41 @@ use App\Helpers\FileHelper;
 class AttendanceController extends Controller
 {
 
+    private function processAttachments($uploadedFiles)
+    {
+        $attachments = [];
+
+        if ($uploadedFiles) {
+            foreach ($uploadedFiles as $uploadedFile) {
+                $attachments[] = FileHelper::uploadFile($uploadedFile);
+            }
+            return json_encode($attachments);
+        }
+
+        return null;
+    }
+
     public function mystore(Request $request)
     {
         // return $request;
         // try {
-
-
         $attP = new AttendenceParent;
         $attP->candidate_id = $request->group[1]['candidate_id'];
         $attP->company_id = $request->group[1]['company_id'];
         $attP->invoice_no = $request->group[1]['invoice_no'] ?? 0;
         $attP->month_year = $request->group[1]['date'];
         $attP->save();
-        
+
         $data = $request->group;
-        foreach ($data as $group) {
+        foreach ($data as $day => $group) {
+            $leave_attachment = isset($request->file('group')[$day]['leave_attachment'])
+                                ? $this->processAttachments($request->file('group')[$day]['leave_attachment'])
+                                : null;
+
+            $claim_attachment = isset($request->file('group')[$day]['claim_attachment'])
+                                ? $this->processAttachments($request->file('group')[$day]['claim_attachment'])
+                                    : null;
+
             $att = new Attendance();
             $att->parent_id = $attP->id;
             $att->date = $group['date'];
@@ -45,8 +65,8 @@ class AttendanceController extends Controller
             $att->remark = $group['remark'];
             $att->type_of_leave = $group['type_of_leave'];
             $att->leave_day = $group['leave_day'];
-            $att->leave_attachment = isset($group['leave_attachment']) ?  FileHelper::uploadFile($group['leave_attachment']) : "";
-            $att->claim_attachment = isset($group['claim_attachment']) ? FileHelper::uploadFile($group['claim_attachment']) : "";
+            $att->leave_attachment = $leave_attachment;
+            $att->claim_attachment = $claim_attachment;
             $att->type_of_reimbursement = isset($group['type_of_reimbursement']) ? $group['type_of_reimbursement'] : '';
             $att->amount_of_reimbursement = isset($group['amount_of_reimbursement']) ? $group['amount_of_reimbursement'] : 0.00;
             $att->save();

@@ -186,4 +186,13 @@ Route::prefix('ATS')->group(function () {
 
 
     Route::any('/hello', [AttendanceController::class, 'mystore'])->name('mystore');
+
+    // Client
+    Route::post('/client/supervisor/store/{client}', [ClientController::class, 'supervisorStore'])->name('client.supervisor.store');
+    Route::delete('/client/supervisor/{supervisor}',  [ClientController::class, 'deleteSupervisor'])->name('client.supervisor.delete');
+
+    // Candidate
+    Route::get('/candidates/search', [CandidateFileImportController::class, 'candidateSearch'])->name('candidates.search');
+    Route::post('/candidates/search/result', [CandidateFileImportController::class, 'candidateSearchResult'])->name('candidate.search.resutl');
+
 })->middleware('AdminMiddleware');

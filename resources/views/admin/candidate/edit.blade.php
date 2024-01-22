@@ -2400,7 +2400,7 @@
                                     <form action="{{ route('candidate.resume', $candidate->id) }}" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf
-                                        <input type="hidden" name="candidates_id" value="{{ $candidate->id }}"
+                                        <input type="hidden" name="candidate_id" value="{{ $candidate->id }}"
                                             class="form-control">
                                         <div class="mt-5 mt-lg-4 mt-xl-0">
                                             <div class="row mb-4">

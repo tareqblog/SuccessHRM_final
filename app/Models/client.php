@@ -45,6 +45,11 @@ class client extends Model
         return $this->hasMany(ClientFollowUp::class, 'clients_id');
     }
 
+    public function supervisors()
+    {
+        return $this->hasMany(ClientSupervisor::class, 'client_id');
+    }
+
     // You can also define a method to get the latest follow-up
     public function latestFollowUp()
     {

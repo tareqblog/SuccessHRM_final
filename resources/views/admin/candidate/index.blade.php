@@ -43,6 +43,7 @@
                             </thead>
                             <tbody>
                                 @forelse ($datas as $data)
+                                {{-- @dump($data) --}}
                                     <tr>
                                         <td>
                                             {{ $loop->index + 1 }}
@@ -58,9 +59,13 @@
                                         <td></td>
                                         <td>{{ $data->candidate_status == 1 ? 'Active' : 'In-Active' }}</td>
                                         <td style="display: flex;">
+                                            {{-- @if (App\Helpers\FileHelper::usr()->can('candidate.remark')) --}}
+                                            <a href="" class="btn btn-info btn-sm me-2"><i class="fab fa-dyalog"></i></a>
+                                            <a href="" class="btn btn-secondary btn-sm me-2">Resume</a>
+                                            {{-- @endif --}}
                                             @if (App\Helpers\FileHelper::usr()->can('candidate.remark'))
                                             <a href="{{ route('candidate.edit', $data->id) }}#remark"
-                                                class="btn btn-warning btn-sm me-2"></i>Remarks</a>
+                                                class="btn btn-warning btn-sm me-2">Remarks</a>
                                             @endif
                                             @if (App\Helpers\FileHelper::usr()->can('candidate.update'))
                                             <a href="{{ route('candidate.edit', $data->id) }}"

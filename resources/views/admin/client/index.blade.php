@@ -38,7 +38,7 @@
                                     <th>Status</th>
                                     <th>Payroll PIC</th>
                                     <th>Remark</th>
-                                    <th></th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>

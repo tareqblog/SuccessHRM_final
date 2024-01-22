@@ -37,7 +37,7 @@
                     <div class="card-body">
                         <!-- Nav tabs -->
                         <div class="row">
-                            <div class="col-lg-5">
+                            <div class="col-lg-8">
                                 <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link active" data-bs-toggle="tab" href="#General" role="tab">
@@ -61,6 +61,12 @@
                                         <a class="nav-link" data-bs-toggle="tab" href="#department" role="tab">
                                             <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
                                             <span class="d-none d-sm-block">Department</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#supervisor" role="tab">
+                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                            <span class="d-none d-sm-block">Supervisor</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -530,9 +536,134 @@
                                     <hr class="mt-3">
                                 </div>
                             </div>
+                            <div class="tab-pane" id="supervisor" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <form action="{{ route('client.supervisor.store', $client->id) }}" method="POST">
+                                            @csrf
+
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-6 d-flex mt-3">
+                                                    <label for="twente_four" class="col-sm-3 col-form-label">Name <strong class="text-danger">*</strong></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="name" class="form-control" placeholder="Name">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 d-flex mt-3">
+                                                    <label for="twente_four" class="col-sm-3 col-form-label">Mobile <strong class="text-danger">*</strong></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="mobile" class="form-control" placeholder="Mobile">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 d-flex mt-3">
+                                                    <label for="twente_four" class="col-sm-3 col-form-label">Email <strong class="text-danger">*</strong></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="email" name="email" class="form-control" placeholder="Email">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 d-flex mt-3">
+                                                    <label for="twente_four" class="col-sm-3 col-form-label">Department</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="department" class="form-control" required>
+                                                            <option value="">Select One</option>
+                                                            @foreach($departments as $department)
+                                                                <option value="{{ $department->id }}"> {{$department->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 d-flex mt-3">
+                                                    <label for="twente_four" class="col-sm-3 col-form-label">Direct Number (DID)</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="direct_number" class="form-control" placeholder="Direct Number (DID)">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 d-flex mt-3">
+
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 d-flex mt-3">
+                                                    <label for="twente_four" class="col-sm-3 col-form-label">Remark</label>
+                                                    <div class="col-sm-9">
+                                                        <textarea name="remark" cols="30" rows="2" placeholder="remark" class="form-control"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 d-flex mt-3">
+                                                    <label for="twente_four" class="col-sm-3 col-form-label">Defination</label>
+                                                    <div class="col-sm-9">
+                                                        <textarea name="defination" cols="30" rows="2" placeholder="Defination" class="form-control"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h4 class="mt-3">Login Information</h4>
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-8 d-flex mt-3">
+                                                    <label for="twente_four" class="col-sm-3 col-form-label">Login ID <strong class="text-danger">*</strong></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="email" name="log_email" class="form-control" placeholder="Login Email" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-8 d-flex mt-3">
+                                                    <label for="twente_four" class="col-sm-3 col-form-label">Password <strong class="text-danger">*</strong></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="password" name="password" class="form-control" placeholder="Password" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-8 d-flex mt-3">
+                                                    <label for="twente_four" class="col-sm-3 col-form-label">Confirm Password <strong class="text-danger">*</strong></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="password" name="password_confirmation" class="form-control" placeholder="Confirm Password" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-sm btn-info my-3">Save</button>
+                                        </div>
+                                    </form>
+                                    <div class="col-lg-12 mt-2">
+                                        <table class="table table-bordered mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Name</th>
+                                                    <th>Email</th>
+                                                    <th>Mobile</th>
+                                                    <th>Department</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @forelse ($client->supervisors as $supervisor)
+                                                    <tr>
+                                                        <td>{{ $loop->index + 1 }}</td>
+                                                        <td>{{ $supervisor->name }}</td>
+                                                        <td>{{ $supervisor->email }}</td>
+                                                        <td>{{ $supervisor->mobile }}</td>
+                                                        <td>{{ $supervisor->department_name->name }}</td>
+                                                        <td style="display: flex;">
+                                                            <form action="{{ route('client.supervisor.delete', $supervisor->id) }}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+
+                                                                <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this item?')" type="submit">
+                                                                    Delete
+                                                                </button>
+                                                            </form>
+
+                                                        </td>
+                                                    </tr>
+                                                @empty
+                                                    <tr class="text-center">
+                                                        <td colspan="50">No data found !</td>
+                                                    </tr>
+                                                @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <hr class="mt-3">
+                                </div>
+                            </div>
                         </div>
-                    </div><!-- end card-body -->
-                </div><!-- end card -->
+                    </div>
+                </div>
             </div>
         </div>
     @endsection
