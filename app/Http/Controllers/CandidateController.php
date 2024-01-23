@@ -76,7 +76,7 @@ class CandidateController extends Controller
         $passtype_data = passtype::orderBy('passtype_seqno')->where('passtype_status', '1')->get();
         $religion_data = religion::orderBy('religion_seqno')->where('religion_status', '1')->get();
         $outlet_data = Company::latest()->get();
-        $nationality = Nationality::orderBy('seq_no')->where('status', 1)->get();
+        $nationality = country::orderBy('id', 'DESC')->get();
         $Paybanks = Paybank::orderBy('Paybank_seqno')->select('id', 'Paybank_code')->where('Paybank_status', 1)->get();
         return view('admin.candidate.create', compact('Paybanks', 'outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data', 'nationality'));
     }
@@ -146,7 +146,7 @@ class CandidateController extends Controller
         $families = CandidateFamily::where('candidate_id', $candidate->id)->latest()->get();
         $time = CandidateWorkingHour::where('candidate_id', $candidate->id)->first();
         $candidate_resume = CandidateResume::where('candidate_id', $candidate->id)->latest()->get();
-        $nationality = Nationality::orderBy('seq_no')->where('status', 1)->get();
+        $nationality = country::orderBy('id', 'DESC')->get();
         $users = User::latest()->get();
         $Paybanks = Paybank::orderBy('Paybank_seqno')->select('id', 'Paybank_code')->where('Paybank_status', 1)->get();
         $time_sheet = TimeSheet::latest()->get();

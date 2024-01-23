@@ -117,7 +117,7 @@
                                                         <select name="bank_id" id="" class="form-control">
                                                             <option value="">Select One</option>
                                                             @foreach ($banks as $bank)
-                                                                <option value="{{$bank->id}}">{{$bank->bank_code}}</option>
+                                                                <option value="{{$bank->id}}">{{$bank->paybank_code}}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>

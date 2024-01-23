@@ -41,7 +41,7 @@
                                                 <option value="">Select One</option>
                                                 @foreach ($nationalities as $nationality)
                                                     <option value="{{ $nationality->id }}">
-                                                        {{ $nationality->nationality_code }} </option>
+                                                        {{ $nationality->en_nationality }} </option>
                                                 @endforeach
                                             </select>
                                         </div>

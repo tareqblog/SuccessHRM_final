@@ -44,7 +44,7 @@
                                                 @foreach ($nationalities as $nationality)
                                                     <option value="{{ $nationality->id }}"
                                                         {{ $nationality->id == $company->nationality_id ? 'selected' : '' }}>
-                                                        {{ $nationality->nationality_code }} </option>
+                                                        {{ $nationality->en_nationality }} </option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -53,13 +53,13 @@
                                         <label for="one" class="col-sm-3 col-form-label">GST No</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" placeholder="GST No" name="gst_no"
-                                                value="{{ $nationality->gst_no }}">
+                                                value="{{ $company->gst_no }}">
                                         </div>
                                     </div>
                                     <div class="row mb-4">
                                         <label for="one" class="col-sm-3 col-form-label">Address</label>
                                         <div class="col-sm-9">
-                                            <textarea name="address" rows="2" placeholder="Address" class="form-control">{{ $nationality->address }} </textarea>
+                                            <textarea name="address" rows="2" placeholder="Address" class="form-control">{{ $company->address }} </textarea>
                                         </div>
                                     </div>
                                     <div class="row mb-4">
@@ -68,7 +68,7 @@
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control"
                                                 placeholder="Remark Time Set (in Minute)" name="remark_time"
-                                                value="{{ $nationality->remark_time }}">
+                                                value="{{ $company->remark_time }}">
                                         </div>
                                     </div>
                                 </div>
@@ -77,34 +77,34 @@
                                         <label for="one" class="col-sm-3 col-form-label">Tel</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" placeholder="Tel" name="tel"
-                                                value="{{ $nationality->tel }}">
+                                                value="{{ $company->tel }}">
                                         </div>
                                     </div>
                                     <div class="row mb-4">
                                         <label for="one" class="col-sm-3 col-form-label">Email</label>
                                         <div class="col-sm-9">
                                             <input type="email" class="form-control" placeholder="Email" name="email"
-                                                value="{{ $nationality->email }}">
+                                                value="{{ $company->email }}">
                                         </div>
                                     </div>
                                     <div class="row mb-4">
                                         <label for="one" class="col-sm-3 col-form-label">Website</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" placeholder="Website" name="website"
-                                                value="{{ $nationality->website }}">
+                                                value="{{ $company->website }}">
                                         </div>
                                     </div>
                                     <div class="row mb-4">
                                         <label for="one" class="col-sm-3 col-form-label">GST %</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" placeholder="%" name="gst_percent"
-                                                value="{{ $nationality->gst_percent }}">
+                                                value="{{ $company->gst_percent }}">
                                         </div>
                                     </div>
                                     <div class="row mb-4">
                                         <label for="one" class="col-sm-3 col-form-label">Remark</label>
                                         <div class="col-sm-9">
-                                            <textarea name="remark" rows="2" placeholder="Remark" class="form-control">{{ $nationality->remark }} </textarea>
+                                            <textarea name="remark" rows="2" placeholder="Remark" class="form-control">{{ $company->remark }} </textarea>
                                         </div>
                                     </div>
                                 </div>

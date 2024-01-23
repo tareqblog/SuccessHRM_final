@@ -361,19 +361,19 @@
                         <span class="menu-item" data-key="setting">Settings</span>
                     </a>
                     <ul class="sub-menu collapse mm-collapse" aria-expanded="false">
-                        @if ($usr->can('menu.index'))
+                        {{-- @if ($usr->can('menu.index'))
                         <li><a href="{{route('menu.index')}}" data-key="menu">Menu</a></li>
-                        @endif
+                        @endif --}}
                         @if ($usr->can('company.index'))
                         <li><a href="{{route('company.index')}}" data-key="company-profile">Company Profile</a>
 
                         </li>
                         @endif
-                        @if ($usr->can('bank.index'))
+                        {{-- @if ($usr->can('bank.index'))
                         <li><a href="{{route('bank.index')}}" data-key="bank">Bank</a>
 
                         </li>
-                        @endif
+                        @endif --}}
                         @if ($usr->can('giro.index'))
 
                         <li><a href="{{route('giro.index')}}" data-key="giro">Giro</a>

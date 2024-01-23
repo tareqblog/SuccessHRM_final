@@ -119,7 +119,7 @@
                                                             @foreach ($nationality as $nation)
                                                                 <option value="{{ $nation->id }}"
                                                                     {{ old('nationality_id') == $nation->id ? 'selected' : '' }}>
-                                                                    {{ old('nationality_id') . $nation->nationality_code }}
+                                                                    {{ old('nationality_id') . $nation->en_nationality }}
                                                                 </option>
                                                             @endforeach
                                                         </select>

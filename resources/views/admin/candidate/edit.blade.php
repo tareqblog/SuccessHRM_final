@@ -159,7 +159,7 @@
                                                             @foreach ($nationality as $nation)
                                                                 <option value="{{ $nation->id }}"
                                                                     {{ $nation->id == old('nationality_id', $candidate->nationality_id) ? 'selected' : '' }}>
-                                                                    {{ $nation->nationality_code }}
+                                                                    {{ $nation->en_nationality }}
                                                                 </option>
                                                             @endforeach
                                                         </select>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\country;
 use App\Models\Nationality;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,7 +41,8 @@ class CompanyController extends Controller
         if (is_null($this->user) || !$this->user->can('company.create')) {
             abort(403, 'Unauthorized');
         }
-        $nationalities = Nationality::latest()->get();
+        $nationalities = country::latest()->get();
+
         return view('admin.companyProfile.create', compact('nationalities'));
     }
 
@@ -85,7 +87,7 @@ class CompanyController extends Controller
         if (is_null($this->user) || !$this->user->can('company.edit')) {
             abort(403, 'Unauthorized');
         }
-        $nationalities = Nationality::latest()->get();
+        $nationalities = country::latest()->get();
         return view('admin.companyProfile.edit', compact('company', 'nationalities'));
     }
 

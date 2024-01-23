@@ -54,7 +54,7 @@
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ $data->name }}</td>
-                                        <td>{{ $data?->nationality->nationality_code }}</td>
+                                        <td>{{ $data->nationality->en_nationality }}</td>
                                         <td>{{ $data->tel }}</td>
                                         <td>{{ $data->website }}</td>
                                         <td>{{ $data->description }}</td>

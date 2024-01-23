@@ -92,9 +92,6 @@ class EmployeeController extends Controller
         return view('admin.employee.create', compact('Paybanks', 'emp_manager', 'emp_admin', 'rols', 'departments', 'designations', 'paymode', 'outlets', 'passes', 'users', 'roles', 'races', 'religions', 'sexs', 'marital_status', 'clients', 'leave_types', 'emp_team_leader'));
     }
 
-
-
-
     private function sendResetEmail($email)
     {
     //Retrieve the user from the database
