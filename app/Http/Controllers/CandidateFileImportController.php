@@ -444,15 +444,18 @@ class CandidateFileImportController extends Controller
 
         if ($validator->fails()) {
             return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
+            ->withErrors($validator)
+            ->withInput();
         }
         $validatedData = $validator->validated();
 
+
         $fullPath = $request->resume_path;
-        $relativePath = str_replace('http://127.0.0.1:8000/storage/', '', $fullPath);
+        $baseUrl = url('/storage').'/';
+        $relativePath = str_replace($baseUrl, '', $fullPath);
         $validatedData['resume_path'] = $relativePath;
         $data = ImportCandidateData::where('resume_path', $relativePath)->first();
+
 
         DB::beginTransaction();
         try {

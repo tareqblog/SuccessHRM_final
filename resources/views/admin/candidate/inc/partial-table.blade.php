@@ -23,7 +23,9 @@
                         @csrf
                         <button {{$data->status == 0 ? '' : 'hidden'}} class="btn btn-danger" type="submit"><i class="fa fa-trash"></i></button>
                     </form>
-                    <a href="{{ route('candidate.edit', $data->candidate_id) }}" {{$data->status == 0 ? 'hidden' : ''}} class="btn btn-success">Candidate</a>
+                    @if($data->status == 1)
+                        <a href="{{ route('candidate.edit', $data->candidate_id) }}"  class="btn btn-success">Candidate</a>
+                    @endif
                 </td>
             </tr>
         @empty
