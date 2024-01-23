@@ -75,9 +75,11 @@
                                         <div class="col-lg-4">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Outlet <span class="text-danger">*</span> </label>
+                                                    <label for="one" class="col-sm-3 col-form-label">Outlet <span
+                                                            class="text-danger">*</span> </label>
                                                     <div class="col-sm-9">
-                                                        <select name="employee_outlet_id" class="form-control searchBox" required>
+                                                        <select name="employee_outlet_id" class="form-control searchBox"
+                                                            required>
                                                             <option value="">Select One</option>
                                                             @foreach ($outlets as $outlet)
                                                                 <option value="{{ $outlet->id }}">
@@ -183,7 +185,8 @@
                                                     <label for="two" class="col-sm-3 col-form-label">User
                                                         Right</label>
                                                     <div class="col-sm-9">
-                                                        <select name="roles_id" class="form-control searchBox" id="mySelect" required>
+                                                        <select name="roles_id" class="form-control searchBox"
+                                                            id="mySelect" required>
                                                             <option value="">Select One</option>
                                                             @foreach ($roles as $role)
                                                                 <option value="{{ $role->id }}">{{ $role->name }}
@@ -196,7 +199,8 @@
                                                     <label for="two" class="col-sm-3 col-form-label">Team
                                                         Leader</label>
                                                     <div class="col-sm-9">
-                                                        <select name="team_leader_users_id" class="form-control searchBox">
+                                                        <select name="team_leader_users_id"
+                                                            class="form-control searchBox">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_team_leader as $leader)
                                                                 <option value="{{ $leader->id }}">
@@ -210,7 +214,8 @@
                                                     <label for="two" class="col-sm-3 col-form-label">Team
                                                         Leader</label>
                                                     <div class="col-sm-9">
-                                                        <select name="team_leader_users_id" class="form-control searchBox">
+                                                        <select name="team_leader_users_id"
+                                                            class="form-control searchBox">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_team_leader as $leader)
                                                                 <option value="{{ $leader->id }}">
@@ -305,21 +310,25 @@
                                         <div class="col-lg-4">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4 form-group">
-                                                    <label for="two" class="col-sm-4 col-form-label">Login Initialize / ID <span class="text-danger">*</span></label>
+                                                    <label for="two" class="col-sm-4 col-form-label">Login Initialize
+                                                        / ID <span class="text-danger">*</span></label>
                                                     <div class="col-sm-8">
                                                         <input type="email" class="form-control" name="email">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4 form-group">
-                                                    <label for="two" class="col-sm-4 col-form-label">Password<span class="text-danger">*</span></label>
+                                                    <label for="two" class="col-sm-4 col-form-label">Password<span
+                                                            class="text-danger">*</span></label>
                                                     <div class="col-sm-8">
                                                         <input type="password" class="form-control" name="password">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4 form-group">
-                                                    <label for="two" class="col-sm-4 col-form-label">Confirm Password<span class="text-danger">*</span></label>
+                                                    <label for="two" class="col-sm-4 col-form-label">Confirm
+                                                        Password<span class="text-danger">*</span></label>
                                                     <div class="col-sm-8">
-                                                        <input type="password" class="form-control" name="password_confirmation">
+                                                        <input type="password" class="form-control"
+                                                            name="password_confirmation">
                                                     </div>
                                                 </div>
                                             </div>
@@ -553,8 +562,8 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Extention of
                                                         Probation</label>
                                                     <div class="col-sm-9">
-                                                        <select name="employee_extentionprobation" class="form-control searchBox"
-                                                            id="">
+                                                        <select name="employee_extentionprobation"
+                                                            class="form-control searchBox" id="">
                                                             <option value='0'>Select One</option>
                                                             <option value='1'
                                                                 {{ old('employee_extentionprobation') == 1 ? 'selected' : '' }}>
@@ -655,8 +664,8 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Approved level
                                                         1</label>
                                                     <div class="col-sm-9">
-                                                        <select name="claims_aprv1_users_id" class="form-control searchBox"
-                                                            id="">
+                                                        <select name="claims_aprv1_users_id"
+                                                            class="form-control searchBox" id="">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_admin as $data)
                                                                 <option value="{{ $data->id }}"
@@ -685,8 +694,8 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Approved level
                                                         3</label>
                                                     <div class="col-sm-9">
-                                                        <select name="claims_aprv3_users_id" class="form-control searchBox"
-                                                            id="">
+                                                        <select name="claims_aprv3_users_id"
+                                                            class="form-control searchBox" id="">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_admin as $data)
                                                                 <option value="{{ $data->id }}"
@@ -707,7 +716,8 @@
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Pay Mode</label>
                                                     <div class="col-sm-9">
-                                                        <select name="paymodes_id" class="form-control searchBox" id="">
+                                                        <select name="paymodes_id" class="form-control searchBox"
+                                                            id="">
                                                             <option value="">Select One</option>
                                                             <option value="1">Cash</option>
                                                             <option value="2">Cheque</option>
@@ -867,19 +877,19 @@
                 $('#mySelect').change(function() {
                     var selectedValue = $(this).val();
 
-                    if (selectedValue === '4') {
-                        myPayroll();
-                    } else {
-                        $('#role4input').hide().css('display', 'none');
-                    }
+                    // if (selectedValue === '4') {
+                    //     myPayroll();
+                    // } else {
+                    //     $('#role4input').hide().css('display', 'none');
+                    // }
 
 
-                    function myPayroll() {
-                        $('#role4input').show().css('display', 'show');
-                    }
+                    // function myPayroll() {
+                    //     $('#role4input').show().css('display', 'show');
+                    // }
 
                     // Payroll end
-                    if (selectedValue === '7') {
+                    if (selectedValue === '8') {
                         myConsultent();
                     } else {
                         $('#role7input').hide().css('display', 'none');
@@ -893,7 +903,7 @@
 
                     // Consultent
 
-                    if (selectedValue === '9') {
+                    if (selectedValue === '12') {
                         myInternship();
                     } else {
                         $('#role9input').hide().css('display', 'none');
@@ -905,7 +915,7 @@
                         $('#role9inputanother').show().css('display', 'show');
                     }
                     // Internship
-                    if (selectedValue === '10') {
+                    if (selectedValue === '11') {
                         myTeamLeader();
                     } else {
                         $('#role10input').hide().css('display', 'none');

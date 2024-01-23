@@ -101,7 +101,7 @@
                 <li>
                     <a href="#" class="has-arrow" data-toggle="collapse" data-target="#client-setting">
                         <i class="fa fa-bitbucket icon nav-icon" aria-hidden="true"></i>
-                        <span class="menu-item" data-key="client-setting">Client Setting</span>
+                        <span class="menu-item" data-key="client-setting">Client Settings</span>
                     </a>
                     <ul class="sub-menu collapse mm-collapse" aria-expanded="false">
                         @if ($usr->can('tnc.index'))
@@ -134,7 +134,7 @@
                 <li>
                     <a href="#" class="has-arrow" data-toggle="collapse" data-target="#employee-setting">
                         <i class="fa fa-won icon nav-icon" aria-hidden="true"></i>
-                        <span class="menu-item" data-key="employee-setting">Employee Setting</span>
+                        <span class="menu-item" data-key="employee-setting">Employee Settings</span>
                     </a>
                     <ul class="sub-menu collapse mm-collapse" aria-expanded="false">
                         @if ($usr->can('roles.index'))
@@ -191,7 +191,7 @@
                 <li>
                     <a href="#" class="has-arrow" data-toggle="collapse" data-target="#candidate-setting">
                         <i class="fa fa-stack-exchange icon nav-icon" aria-hidden="true"></i>
-                        <span class="menu-item" data-key="candidate-setting">Candidate Setting</span>
+                        <span class="menu-item" data-key="candidate-setting">Candidate Settings</span>
                     </a>
                     <ul class="sub-menu collapse mm-collapse" aria-expanded="false">
                         {{-- <li><a href="/admin/marital-status" data-key="marital-status-c">Marital Status (C)</a>
@@ -228,7 +228,7 @@
                 <li>
                     <a href="#" class="has-arrow" data-toggle="collapse" data-target="#job-setting">
                         <i class="fa fa-sun-o icon nav-icon" aria-hidden="true"></i>
-                        <span class="menu-item" data-key="job-setting">Job Setting</span>
+                        <span class="menu-item" data-key="job-setting">Job Settings</span>
                     </a>
                     <ul class="sub-menu collapse mm-collapse" aria-expanded="false">
                         @if ($usr->can('job-category.index'))
@@ -268,7 +268,7 @@
                 <li>
                     <a href="#" class="has-arrow" data-toggle="collapse" data-target="#leave-setting">
                         <i class="fa fa-user-times icon nav-icon" aria-hidden="true"></i>
-                        <span class="menu-item" data-key="leave-setting">Leave Setting</span>
+                        <span class="menu-item" data-key="leave-setting">Leave Settings</span>
                     </a>
                     <ul class="sub-menu collapse mm-collapse" aria-expanded="false">
                         <li><a href="{{route('leave-type.index')}}" data-key="leave-type">Leave Type</a>
@@ -358,7 +358,7 @@
                 <li>
                     <a href="#" class="has-arrow" data-toggle="collapse" data-target="#setting">
                         <i class="fa-solid fa-gear icon nav-icon" aria-hidden="true"></i>
-                        <span class="menu-item" data-key="setting">Setting</span>
+                        <span class="menu-item" data-key="setting">Settings</span>
                     </a>
                     <ul class="sub-menu collapse mm-collapse" aria-expanded="false">
                         @if ($usr->can('menu.index'))

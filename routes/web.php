@@ -199,5 +199,4 @@ Route::prefix('ATS')->group(function () {
     Route::post('/search/leave',  [LeaveController::class, 'searchLeave'])->name('search.leave');
     Route::get('/search/cancle/{leave}',  [LeaveController::class, 'cancle'])->name('leave.cancle');
     Route::get('/attendence/print/{attendence}',  [AttendenceController::class, 'attendencePrint'])->name('attendence.print');
-
 })->middleware('AdminMiddleware');

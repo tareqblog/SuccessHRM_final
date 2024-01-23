@@ -20,4 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::post('admin/job-application/create', [JobApplicationController::class, 'jobStore'])->name('job.store');
+Route::post('admin/job-application/create', [JobApplicationController::class, 'jobStore'])->name('api.job.store');

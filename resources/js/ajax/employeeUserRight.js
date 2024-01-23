@@ -1,21 +1,24 @@
+const { log } = require("handsontable/helpers");
 
 $(document).ready(function() {
     $('#mySelect').change(function() {
         var selectedValue = $(this).val();
 
-        if (selectedValue === '4') {
-            myPayroll();
-        } else {
-            $('#role4input').hide().css('display', 'none');
-        }
+        console.log(selectedValue);
+
+        // if (selectedValue === '4') {
+        //     myPayroll();
+        // } else {
+        //     $('#role4input').hide().css('display', 'none');
+        // }
 
 
-        function myPayroll() {
-            $('#role4input').show().css('display', 'show');
-        }
+        // function myPayroll() {
+        //     $('#role4input').show().css('display', 'show');
+        // }
 
         // Payroll end
-        if (selectedValue === '7') {
+        if (selectedValue === '8') {
             myConsultent();
         } else {
             $('#role7input').hide().css('display', 'none');
@@ -29,7 +32,7 @@ $(document).ready(function() {
 
         // Consultent
 
-        if (selectedValue === '9') {
+        if (selectedValue === '12') {
             myInternship();
         } else {
             $('#role9input').hide().css('display', 'none');
@@ -41,7 +44,7 @@ $(document).ready(function() {
             $('#role9inputanother').show().css('display', 'show');
         }
         // Internship
-        if (selectedValue === '10') {
+        if (selectedValue === '11') {
             myTeamLeader();
         } else {
             $('#role10input').hide().css('display', 'none');
