@@ -9,17 +9,16 @@ use App\Models\CandidateResume;
 use App\Models\Employee;
 use App\Models\ImportCandidateData;
 use App\Models\TemporaryImportedData;
-use Dompdf\Dompdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Str;
-use Spatie\PdfToText\Pdf;
-use PhpOffice\PhpWord\Settings;
-use PhpOffice\PhpWord\PhpWord;
 use Smalot\PdfParser\Parser;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class CandidateFileImportController extends Controller
 {
@@ -36,17 +35,53 @@ class CandidateFileImportController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+
         if (is_null($this->user) || !$this->user->can('import.index')) {
             abort(403, 'Unauthorized');
         }
+
+        $validator = Validator::make($request->all(), [
+            'start_date' => 'nullable|date',
+            'end_date' => [
+                'nullable',
+                'date',
+                Rule::requiredIf(function () use ($request) {
+                    return !is_null($request->input('start_date'));
+                }),
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $validate = $validator->validated();
+
+        $history_data = TemporaryImportedData::query();
+
+        $start = $validate['start_date'] ?? Carbon::now()->toDateString();
+        $end = $validate['end_date'] ?? Carbon::now()->toDateString();
+
         $importData = ImportCandidateData::where('user_id', Auth::id())->get();
 
-        $temporary_data = TemporaryImportedData::where('created_by', Auth::id())->get();
+        $temporary_data = TemporaryImportedData::where('created_by', Auth::id())
+                            ->where('status', 0)
+                            ->paginate(10);
+
+        $history_data = TemporaryImportedData::where('created_by', Auth::id())
+                            ->where('status', 1)
+                            ->where('created_at', '>=', $start)
+                            ->where('created_at', '<=', $end . ' 23:59:59')
+                            // ->whereBetween('created_at', [$start, $end])
+                            ->paginate(10);
+
         $assaignPerson = Employee::where('employee_status', 1)->get();
 
-        return view('admin.candidate.import', compact('importData', 'temporary_data', 'assaignPerson'));
+        return view('admin.candidate.import', compact('importData', 'temporary_data', 'history_data', 'assaignPerson', 'start', 'end'));
     }
 
     /**
@@ -237,8 +272,8 @@ class CandidateFileImportController extends Controller
 
     public function extractInfo(Request $request)
     {
-        if ($request->has('selectedFiles')) {
-            $file = $request->selectedFiles;
+        if ($request->has('selectedFile')) {
+            $file = $request->selectedFile;
            $filePath = public_path(Storage::url($file));
 
             if (pathinfo($file, PATHINFO_EXTENSION) === 'docx') {
@@ -375,42 +410,61 @@ class CandidateFileImportController extends Controller
         if (is_null($this->user) || !$this->user->can('delete.uploaded.data')) {
             abort(403, 'Unauthorized');
         }
+
         $request->validate([
-            'selectedFiles' => 'required|array',
-            'itemIds' => 'required|array',
+            'selectedFile' => 'required|string'
         ]);
-        $selectedFiles = $request->input('selectedFiles');
-        $itemIds = $request->input('itemIds');
-        foreach ($selectedFiles as $key => $selectedFile) {
-            $itemId = $itemIds[$key];
-            $item = ImportCandidateData::find($itemId);
-            if ($item && $item->user_id == Auth::user()->id) {
-                $deletePath = Str::after($selectedFile, 'uploads/');
-                $item->delete();
-                $delete_path = 'app/public/uploads/' . $deletePath;
-                unlink(storage_path($delete_path));
-            }
+
+        $selectedFile = $request->input('selectedFile');
+        $item = ImportCandidateData::where('resume_path', $selectedFile)->first();
+        if ($item && $item->user_id == Auth::user()->id) {
+            $deletePath = Str::after($selectedFile, 'uploads/');
+            $item->delete();
+            $delete_path = 'app/public/uploads/' . $deletePath;
+            unlink(storage_path($delete_path));
         }
 
         return redirect()->back()->with('success', 'Selected items deleted successfully.');
     }
+
     public function temporaryDataSave(Request $request)
     {
+
+
         // if (is_null($this->user) || !$this->user->can('temporary.data.save')) {
         //     abort(403, 'Unauthorized');
         // }
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone_no' => 'required|string|max:20',
+            'resume_path' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $validatedData = $validator->validated();
+
         $fullPath = $request->resume_path;
         $relativePath = str_replace('http://127.0.0.1:8000/storage/', '', $fullPath);
+        $validatedData['resume_path'] = $relativePath;
         $data = ImportCandidateData::where('resume_path', $relativePath)->first();
 
-        TemporaryImportedData::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone_no' => $request->phone_no,
-            'resume_path' => $relativePath,
-        ]);
-        ImportCandidateData::find($data->id)->delete();
-        return redirect()->route('import.index')->with('success', 'Candidate Shortlisted successfully.');
+        DB::beginTransaction();
+        try {
+            TemporaryImportedData::create($validatedData);
+            ImportCandidateData::find($data->id)->delete();
+
+            DB::commit();
+            return redirect()->route('import.index')->with('success', 'Candidate Shortlisted successfully.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function temporaryDataDelete($id)
@@ -438,23 +492,23 @@ class CandidateFileImportController extends Controller
         // if (is_null($this->user) || !$this->user->can('import.candidate.data')) {
         //     abort(403, 'Unauthorized');
         // }
+
         $temporaryData = json_decode($request->input('temporary_data'), true);
-        foreach ($temporaryData as $data) {
+
+        foreach ($temporaryData['data'] as $data) {
             $candidate = candidate::create([
                 'candidate_name' => $data['name'],
                 'candidate_email' => $data['email'],
                 'candidate_mobile' => $data['phone_no'],
             ]);
-        }
-        foreach ($temporaryData as $data) {
+
             CandidateResume::create([
                 'candidate_id' => $candidate->id,
                 'resume_file_path' => $data['resume_path']
             ]);
-        }
 
-        foreach ($temporaryData as $data) {
-            TemporaryImportedData::find($data['id'])->delete();
+            TemporaryImportedData::find($data['id'])
+                                    ->update(['candidate_id' => $candidate->id,'status' => 1]);
         }
 
         return back()->with('success', 'Candidate uploaded successfully.');

@@ -47,7 +47,6 @@ class AttendenceController extends Controller
                 'nullable',
                 'date',
                 Rule::requiredIf(function () use ($request) {
-                    // Only require end_date if start_date is provided
                     return !is_null($request->input('start_date'));
                 }),
             ],

@@ -13,6 +13,15 @@
 
         <div class="row">
             <div class="col-lg-12">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title mb-0">Import Applicant Table</h4>
@@ -37,28 +46,25 @@
                         @endif
                         <div class="row">
                             <div class="col-lg-3 card-body mt-4">
-                                <input type="checkbox" id="selectAll"> Select All
                                 @if (isset($importData) && count($importData) > 0)
                                     <form action="{{ route('delete.uploaded.data') }}" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf
-                                        <ul
-                                            style="list-style: none; width: 100%; height: 500px;overflow: scroll; background: #f1f1f1;">
-                                            @foreach ($importData as $resume)
+                                        <ul style="list-style: none; width: 100%; height: 500px;overflow: scroll; background: #f1f1f1;">
+                                            @foreach ($importData as $key => $resume)
                                                 <li class="d-flex">
-                                                    <input type="radio" name="selectedFiles"
-                                                        value="{{ $resume->resume_path }}">
-                                                    <input type="hidden" name="itemIds[]" value="{{ $resume->id }}">
                                                     @php
                                                         $parts = explode('_', $resume->resume_path);
                                                         $originalFilename = $parts[1];
                                                     @endphp
-                                                    {{ $originalFilename }}
+
+                                                    <input style="margin-bottom: 8px; margin-right: 10px" type="radio" id="selectedFile-{{$key}}" name="selectedFile" value="{{ $resume->resume_path }}">
+                                                    <label for="selectedFile-{{$key}}">{{ $originalFilename }}</label>
+
+
                                                 </li>
                                             @endforeach
                                         </ul>
-                                        {{-- <button type="submit">Select Files</button> --}}
-                                        {{-- <button type="submit" class="btn btn-sm btn-info">Save</button> --}}
                                         <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                                     </form>
                                 @else
@@ -126,65 +132,69 @@
                             </div>
                         </div>
                     </div>
-                    @if (isset($temporary_data))
+                    @if ($temporary_data->isNotEmpty())
                         <div class="col-lg-11 m-auto">
-                            <table class="table table-bordered dataTable no-footer">
-                                <thead>
-                                    <tr>
-                                        <th>NO</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Resume</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($temporary_data as $data)
-                                        <tr>
-                                            <td>{{ $loop->index + 1 }}</td>
-                                            <td>{{ $data->name }}</td>
-                                            <td>{{ $data->email }}</td>
-                                            <td>{{ $data->phone_no }}</td>
-                                            <td><a target="_blank"
-                                                    href="{{ asset('storage') }}/{{ $data->resume_path }}"
-                                                    class="btn btn-info"><i class="fa fa-eye"></i></a></td>
-                                            <td>
-                                                <form action="{{ route('temporary.data.delete', $data->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    <button class="btn btn-danger" type="submit"><i
-                                                            class="fa fa-trash"></i></button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                            <div class="text-end mb-5">
-                                <form
-                                    action="{{ route('import.candidate.data', ['temporary_data' => json_encode($temporary_data)]) }}"
-                                    method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn btn-success">Proceed to candidate</button>
-                                </form>
-                            </div>
+                                <h4>Temporary Imported Data</h4>
+                                @include('admin.candidate.inc.partial-table', ['items' => $temporary_data])
+                                {{ $temporary_data->links() }}
+                                <div class="text-end mb-5">
+                                    <form action="{{ route('import.candidate.data', ['temporary_data' => json_encode($temporary_data)]) }}" method="POST">
+                                        @csrf
+
+                                        <button type="submit" class="btn btn-success">Proceed to candidate</button>
+                                    </form>
+                                </div>
                         </div>
                     @endif
+                    <div class="col-lg-11 m-auto">
+                        <form method="GET" action="{{ route('import.index') }}" id="attendanceFilter">
+                            @csrf
+                            <div class="row mb-2">
+                                <div class="col-sm-12 col-md-6">
+                                    <h4>History Imported Data</h4>
+                                </div>
+
+                                <div class="col-sm-12 col-md-3">
+                                    <input type="date" class="form-control" name="start_date" id="start_date" placeholder="Start Date" value="{{ $start ?? old('start_date')}}">
+                                </div>
+                                <div class="col-sm-12 col-md-3">
+                                    <input type="date" class="form-control" name="end_date" id="end_date" placeholder="End Date" value="{{ $end ?? old('end_date')}}">
+                                </div>
+                            </div>
+                        </form>
+                        @include('admin.candidate.inc.partial-table', ['items' => $history_data])
+                        {{ $history_data->links() }}
+                    </div>
                 </div>
 
                 <script src="https://code.jquery.com/jquery-3.6.3.min.js"
                     integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
                 <script>
+                     $(document).ready(function () {
+                        $('#start_date, #end_date').on('change', function () {
+                            var start_date = $('#start_date').val();
+                            var end_date = $('#end_date').val();
+
+                            if (start_date > end_date) {
+                                alert('Start date cannot be greater than end date');
+                                return false;
+                            }
+                            var newUrl = "{{ route('import.index') }}?start_date=" + start_date + "&end_date=" + end_date;
+                            window.location.href = newUrl;
+
+                        });
+                    });
+
                     $(document).ready(function() {
-                        $('input[name="selectedFiles"]').on('change', function() {
-                            var selectedFiles = $(this).val();
+                        $('input[name="selectedFile"]').on('change', function() {
+                            var selectedFile = $(this).val();
 
                             $.ajax({
                                 url: "{{ route('extract.info') }}",
                                 type: "POST",
                                 data: {
-                                    selectedFiles: selectedFiles,
+                                    selectedFile: selectedFile,
                                     _token: '{{ csrf_token() }}'
                                 },
                                 // dataType: 'json',
