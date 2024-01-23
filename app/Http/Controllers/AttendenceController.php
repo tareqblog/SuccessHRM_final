@@ -218,8 +218,8 @@ class AttendenceController extends Controller
         $data = $request->group;
         foreach ($data as $group) {
             $attendance = Attendance::where('parent_id', $parent->id)
-                            ->where('date', $group['date'])
-                            ->first();
+                ->where('date', $group['date'])
+                ->first();
             $attendance->parent_id = $parent->id;
             $attendance->date = $group['date'];
             $attendance->day = $group['day'];

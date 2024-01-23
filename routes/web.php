@@ -24,6 +24,7 @@ use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\MaritalStatusController;
 use App\Http\Controllers\NationalityController;
+use App\Http\Controllers\OutletController;
 use App\Http\Controllers\PassTypeController;
 use App\Http\Controllers\ReligionController;
 use App\Http\Controllers\RemarksTypesController;
@@ -116,6 +117,7 @@ Route::prefix('ATS')->group(function () {
         '/giro' => GiroController::class,
         '/nationality' => NationalityController::class,
         '/company' => CompanyController::class,
+        '/outlets' => OutletController::class,
         '/time-sheet' => TimeSheetController::class,
         '/attendence' => AttendenceController::class,
         '/job-status' => JobStatusController::class,
