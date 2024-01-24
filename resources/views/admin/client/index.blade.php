@@ -51,7 +51,7 @@
                                                 {{ $data->Employee->employee_code }}
                                             @endif
                                         </td>
-                                        <td>{{ $data->industry_type?->industry_code }}</td>
+                                        <td>{{ $data->industry_type?->jobcategory_name }}</td>
                                         <td>{{ $data->clients_status == 1 ? 'Active' : 'In-Active' }}</td>
 
                                         <td>

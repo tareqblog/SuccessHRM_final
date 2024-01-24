@@ -145,10 +145,10 @@
                                             <div class="col-sm-9">
                                                 <select name="industry_types_id" class="form-control" required>
                                                     <option value="">Select One</option>
-                                                    @foreach ($industries as $industry)
-                                                        <option value="{{ $industry->id }}"
-                                                            {{ old('industry_types_id', $industry->id) == $client->industry_types_id ? 'selected' : 0 }}>
-                                                            {{ $industry->industry_code }}</option>
+                                                    @foreach ($job_categories as $category)
+                                                        <option value="{{ $category->id }}"
+                                                            {{ old('industry_types_id', $category->id) == $client->industry_types_id ? 'selected' : 0 }}>
+                                                            {{ $category->jobcategory_name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -369,7 +369,14 @@
                                                         <td>
                                                             {{ $file->file_type->uploadfiletype_code }}
                                                         </td>
-                                                        <td>{{ $file->file_path }}</td>
+                                                        <?php
+                                                            $path = $file->file_path;
+                                                            $parts = explode('/', $path);
+                                                            $filename = end($parts);
+                                                            $filenameParts = explode('_', $filename);
+                                                            $cleanedFilename = end($filenameParts);
+                                                        ?>
+                                                        <td>{{ $cleanedFilename }}</td>
                                                         <td>{{ $file->created_at }}</td>
                                                         <td style="display: flex;">
                                                             <a href="{{ asset('storage') }}/{{ $file->file_path }}"
@@ -399,12 +406,13 @@
                                 </div>
                             </div>
                             <div class="tab-pane" id="follow_up" role="tabpanel">
-                                <div class="row">
+                                <div class="row" id="follow_upeditClient">
                                     @if (App\Helpers\FileHelper::usr()->can('client.followup'))
                                     <div class="col-lg-12">
                                         <h5>Create Follow Up</h5>
                                         <form action="{{ route('client.followup', $client->id) }}" method="POST">
                                             @csrf
+
                                             <div class="row mb-4">
                                                 <label for="twente_four"
                                                     class="col-sm-2 col-form-label">Description</label>
@@ -426,7 +434,7 @@
                                                     <th>Create By</th>
                                                     <th>Description</th>
                                                     <th>Create Date & Time</th>
-                                                    <th></th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -443,16 +451,17 @@
                                                         <td>{!! $file->description !!}</td>
                                                         <td>{{ $file->created_at }}</td>
                                                         <td style="display: flex;">
+                                                           <button class="btn btn-info btn-sm" onclick="editClient({{ $file->clients_id }}, {{ $file->id }}, '{{ $file->description }}')" type="button">Show</button>
+
                                                             @if (App\Helpers\FileHelper::usr()->can('client.followup.delete'))
                                                             <form
                                                                 action="{{ route('client.followup.delete', $file->id) }}"
                                                                 method="POST">
                                                                 @csrf
                                                                 @method('DELETE')
-                                                                <input type="hidden" name="followup_delete" value="{{$client->id}}">
-                                                                <button class="btn btn-danger btn-sm"
-                                                                    onclick="return confirm('Are you sure you want to delete this item?')"
-                                                                    type="submit">Delete</button>
+
+                                                                    <input type="hidden" name="followup_delete" value="{{$client->id}}">
+                                                                    <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this item?')" type="submit">Delete</button>
                                                             </form>
                                                             @endif
                                                         </td>
@@ -668,12 +677,88 @@
         </div>
     @endsection
 
+
     @section('scripts')
-        <!-- ckeditor -->
-        <script src="{{ URL::asset('build/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
+    <!-- ckeditor -->
+    <script src="{{ URL::asset('build/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
 
         <!-- init js -->
         <script src="{{ URL::asset('build/js/pages/form-editor.init.js') }}"></script>
+    <script>
+
+        function editClient(clients_id, id, description) {
+    var formAction = "{{ route('client.followup.update', '') }}";
+    formAction = formAction + '/' + id;
+
+    console.log(formAction);
+    $('#follow_upeditClient').html('');
+    $('#follow_upeditClient').html('<div class="col-lg-12">\
+        <h5>Edit Follow Up</h5>\
+        <form action="' + formAction + '" method="POST">\
+            @csrf\
+            <div class="row mb-4">\
+                <label for="twente_four" class="col-sm-2 col-form-label">Description</label>\
+                <div class="col-sm-8">\
+                    <input type="hidden" name="clients_id" value="' + clients_id + '">\
+                    <div id="ckeditor-container-' + id + '"></div>\
+                    <input type="hidden" name="description">\
+                </div>\
+                <div class="col-sm-2"></div>\
+            </div>\
+            <button type="submit" class="btn btn-sm btn-info mt-2">Update</button>\
+        </form>\
+    </div>');
+
+    // Dynamically initialize CKEditor for the added textarea
+    ClassicEditor
+        .create(document.querySelector('#ckeditor-container-' + id))
+        .then(editor => {
+            editor.setData(description);
+
+            // Update the hidden input with CKEditor content before form submission
+            $('form').submit(function () {
+                $('input[name="description"]').val(editor.getData());
+            });
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+
+        // function editClient(clients_id, id, description) {
+        //    var formAction = "{{ route('client.followup.update', '') }}";
+        //     formAction = formAction + '/' + id;
+
+        //     console.log(formAction);
+        //     $('#follow_upeditClient').html('');
+        //     $('#follow_upeditClient').html('<div class="col-lg-12">\
+        //         <h5>Edit Follow Up</h5>\
+        //         <form action="' + formAction + '" method="POST">\
+        //             @csrf\
+        //             <div class="row mb-4">\
+        //                 <label for="twente_four" class="col-sm-2 col-form-label">Description</label>\
+        //                 <div class="col-sm-8">\
+        //                     <input type="hidden" name="clients_id" value="' + clients_id + '">\
+        //                     <div id="ckeditor-container-' + id + '"></div>\
+        //                 </div>\
+        //                 <div class="col-sm-2"></div>\
+        //             </div>\
+        //             <button type="submit" class="btn btn-sm btn-info mt-2">Update</button>\
+        //         </form>\
+        //     </div>');
+
+        //     // Dynamically initialize CKEditor for the added textarea
+        //     ClassicEditor
+        //         .create(document.querySelector('#ckeditor-container-' + id))
+        //         .then(editor => {
+        //             editor.setData(description);
+        //         })
+        //         .catch(error => {
+        //             console.error(error);
+        //         });
+        // }
+    </script>
+
 
         <script language="javascript" type="text/javascript">
             if (window.location.hash) { // Check if url hash is not empty

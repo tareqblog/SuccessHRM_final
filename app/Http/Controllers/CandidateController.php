@@ -10,8 +10,6 @@ use App\Models\CandidateFamily;
 use App\Models\CandidatePayroll;
 use App\Models\CandidateRemark;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-
 use Illuminate\Http\Request;
 use App\Models\Designation;
 use App\Models\Department;
@@ -84,30 +82,19 @@ class CandidateController extends Controller
      */
     public function store(CandidateRequest $request)
     {
-
         if (is_null($this->user) || !$this->user->can('candidate.store')) {
             abort(403, 'Unauthorized');
         }
+
         $file_path = $request->file('avatar');
-        $candidate_code = "Cand-".random_int(10000, 99999);
+        $uploadedFilePath = $file_path ? FileHelper::uploadFile($file_path) : null;
 
-        // Check if $file_path is not empty before proceeding
-        if ($file_path) {
-            $uploadedFilePath = FileHelper::uploadFile($file_path);
+        $candidateData = $request->except('_token', 'avatar') + ['avatar' => $uploadedFilePath];
+        $candidate = Candidate::create($candidateData);
 
-            candidate::create($request->except('_token', 'avatar') + [
-                'avatar' => $uploadedFilePath,
-                'candidate_code' => $candidate_code
-            ]);
+        $candidate->update(['candidate_code' => 'Cand-' . $candidate->id]);
 
-            return redirect()->route('candidate.index')->with('success', 'Created successfully.');
-        } else {
-
-            candidate::create($request->except('_token', 'avatar') + [
-                'candidate_code' => $candidate_code
-            ]);
-            return redirect()->route('candidate.index')->with('success', 'Created successfully.');
-        }
+        return redirect()->route('candidate.index')->with('success', 'Created successfully.');
     }
 
     /**

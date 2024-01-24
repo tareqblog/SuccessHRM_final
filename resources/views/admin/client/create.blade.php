@@ -108,9 +108,9 @@
                                             <div class="col-sm-9">
                                                 <select name="industry_types_id" class="form-control" required>
                                                     <option value="">Select One</option>
-                                                    @foreach ($industries as $industry)
-                                                        <option value="{{ $industry->id }}" {{ old('industry_types_id') == $industry->id ? 'selected' : '' }}>
-                                                            {{ $industry->industry_code }}</option>
+                                                    @foreach ($job_categories as $category)
+                                                        <option value="{{ $category->id }}" {{ old('industry_types_id') == $category->id ? 'selected' : '' }}>
+                                                            {{ $category->jobcategory_name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

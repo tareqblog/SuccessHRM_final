@@ -13,6 +13,7 @@ use App\Models\clientTerm;
 use App\Models\ClientUploadFile;
 use App\Models\Employee;
 use App\Models\IndustryType;
+use App\Models\jobcategory;
 use App\Models\TncTemplate;
 use App\Models\uploadfiletype;
 use App\Models\User;
@@ -58,13 +59,14 @@ class ClientController extends Controller
             abort(403, 'Unauthorized');
         }
 
-        $industries = IndustryType::orderBy('industry_seqno')->where('industry_status',1)->get();
+        // $industries = IndustryType::orderBy('industry_seqno')->where('industry_status',1)->get();
+        $job_categories = jobcategory::select('id', 'jobcategory_name')->get();
         $employees = Employee::latest()->where('roles_id','!=','13')->Where('roles_id','!=','14')->where('employee_status', 1)->select('id', 'employee_name')->get();
         $employees_payroll = Employee::latest()->where('roles_id','=','13')->orWhere('roles_id','=','14')->where('employee_status',1)->select('id', 'employee_name')->get();
         $users = User::latest()->select('id', 'name')->get();
         $tncs = TncTemplate::orderBy('tnc_template_seqno')->where('tnc_template_status',1)->select('id', 'tnc_template_code')->get();
         $client_terms = clientTerm::orderBy('client_term_seqno')->where('client_term_status',1)->select('id', 'client_term_code')->get();
-        return view('admin.client.create', compact('industries', 'employees','employees_payroll', 'users', 'tncs', 'client_terms'));
+        return view('admin.client.create', compact('job_categories', 'employees','employees_payroll', 'users', 'tncs', 'client_terms'));
     }
 
     /**
@@ -96,7 +98,7 @@ class ClientController extends Controller
             abort(403, 'Unauthorized');
         }
         $departments = ClientDepartment::where('client_id', $client->id)->latest()->get();
-        $industries = IndustryType::orderBy('industry_seqno')->where('industry_status',1)->get();
+        $job_categories = jobcategory::select('id', 'jobcategory_name')->get();
         $employees = Employee::latest()->where('roles_id','!=','13')->Where('roles_id','!=','14')->where('employee_status', 1)->select('id', 'employee_name')->get();
         $employees_payroll = Employee::latest()->where('roles_id','=','13')->orWhere('roles_id','=','14')->where('employee_status', 1)->select('id', 'employee_name')->get();
         $users = User::latest()->select('id', 'name')->get();
@@ -108,7 +110,7 @@ class ClientController extends Controller
         $client_files = ClientUploadFile::where('client_id', $client->id)->get();
         $client_followup = ClientFollowUp::where('clients_id', $client->id)->get();
 
-        return view('admin.client.edit', compact('departments','client', 'industries', 'employees', 'employees_payroll','users', 'tncs', 'client_terms', 'fileTypes', 'client_files','client_followup'));
+        return view('admin.client.edit', compact('departments','client', 'job_categories', 'employees', 'employees_payroll','users', 'tncs', 'client_terms', 'fileTypes', 'client_files','client_followup'));
     }
 
     /**
@@ -136,6 +138,7 @@ class ClientController extends Controller
 
         return redirect()->route('clients.index')->with('success', 'Client deleted successfully.');
     }
+
     public function fileUpload(Request $request, $id)
     {
         if (is_null($this->user) || !$this->user->can('candidate.file.upload')) {
@@ -150,8 +153,9 @@ class ClientController extends Controller
         $file_path = $request->file('file_path');
 
         // Check if $file_path is not empty before proceeding
+
         if ($file_path) {
-            $uploadedFilePath = FileHelper::uploadFile($file_path);
+            $uploadedFilePath = FileHelper::uploadFile($file_path, 'client');
 
             ClientUploadFile::create([
                 'client_id' => $id,
@@ -188,7 +192,6 @@ class ClientController extends Controller
             abort(403, 'Unauthorized');
         }
 
-        //dd($request);
         $request->validate([
             'description' => 'required',
             'clients_id' => 'required'
@@ -315,4 +318,24 @@ class ClientController extends Controller
         }
     }
 
+
+    public function updateFollowUp(Request $request, $id)
+    {
+
+        $request->validate([
+            'description' => 'required',
+            'clients_id' => 'required'
+        ]);
+
+        $followup = ClientFollowUp::find($id);
+
+        $followup->update([
+            'description' => $request->description,
+            'clients_id' => $request->clients_id
+        ]);
+
+        $url = '/ATS/clients/' . $request->clients_id . '/edit#follow_up';
+
+        return redirect($url)->with('success', 'Follow up added successfully.');
+    }
 }
