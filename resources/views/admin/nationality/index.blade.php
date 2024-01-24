@@ -41,10 +41,12 @@
                         <table class="table table-bordered mb-0" id="myTable">
                             <thead>
                                 <tr>
+                                    {{-- alpha_2_code`, `alpha_3_code`, `en_country_name`, `en_nationality --}}
                                     <th>No</th>
-                                    <th>Nationality Code</th>
-                                    {{-- <th>Seq No</th> --}}
-                                    <th>Status</th>
+                                    <th>Name</th>
+                                    <th>Nationality</th>
+                                    <th>Alpha 2 Code</th>
+                                    <th>Alpha 3 Code</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -52,9 +54,8 @@
                                 @forelse ($datas as $data)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $data->en_country_name }}</td>
                                         <td>{{ $data->en_nationality }}</td>
-                                        {{-- <td>{{ $data->seq_no }}</td> --}}
-                                        <td>{{ $data->country_status == 1 ? 'Active' : 'In-Active' }}</td>
                                         <td style="display: flex;">
                                             @if (App\Helpers\FileHelper::usr()->can('nationality.update'))
                                                 <button data-id="{{ $data->id }}" data-bs-toggle="modal"
