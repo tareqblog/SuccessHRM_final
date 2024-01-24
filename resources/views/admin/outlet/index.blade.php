@@ -83,8 +83,6 @@
                                     </tr>
                                     {{-- empty data --}}
                                 @endforelse
-
-
                             </tbody>
                         </table>
                     </div>

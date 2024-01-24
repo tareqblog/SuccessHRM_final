@@ -15,9 +15,9 @@
                 @include('layouts.bootstrap-error')
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Create Outlet Profile</h4>
+                        <h4 class="card-title mb-0 px-3">Create Outlet Profile</h4>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body px-5">
                         <form action="{{ route('outlets.store') }}" method="POST">
                             @csrf
                             <div class="row">
@@ -85,9 +85,9 @@
                                         </div>
                                     </div>
                                     <div class="row mb-4">
-                                        <label for="one" class="col-sm-3 col-form-label">Outlet License</label>
+                                        <label for="one" class="col-sm-3 col-form-label">Outlet UEN</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" placeholder="Outlet License" name="outlet_license" value="{{old('outlet_license')}}">
+                                            <input type="text" class="form-control" placeholder="Outlet UEN" name="outlet_license" value="{{old('outlet_license')}}">
                                         </div>
                                     </div>
                                 </div>

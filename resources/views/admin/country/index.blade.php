@@ -38,13 +38,14 @@
                     @endif
                     <div class="card-body">
 
-                        <table class="table table-bordered mb-0" id="myTable">
+                        <table class="table table-bordered mb-0" id="nationalityDataTable">
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nationality Code</th>
-                                    {{-- <th>Seq No</th> --}}
-                                    <th>Status</th>
+                                    <th>Name</th>
+                                    <th>Nationality</th>
+                                    <th>Alpha_2_Code</th>
+                                    <th>Alpha_3_Code</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -52,17 +53,18 @@
                                 @forelse ($datas as $data)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $data->en_country_name }}</td>
                                         <td>{{ $data->en_nationality }}</td>
-                                        {{-- <td>{{ $data->seq_no }}</td> --}}
-                                        <td>{{ $data->country_status == 1 ? 'Active' : 'In-Active' }}</td>
+                                        <td>{{ $data->alpha_2_code }}</td>
+                                        <td>{{ $data->alpha_3_code }}</td>
                                         <td style="display: flex;">
                                             @if (App\Helpers\FileHelper::usr()->can('nationality.update'))
-                                                <button data-id="{{ $data->id }}" data-bs-toggle="modal"
-                                                    data-bs-target=".bs-example-modal-lg-edit"
+                                                <button data-bs-toggle="modal"
+                                                    data-bs-target=".bs-example-modal-lg-edit-{{$data->id}}"
                                                     class="btn btn-sm btn-info edit me-3"><i
                                                         class="fa-solid fa-pen-to-square"></i></button>
                                             @endif
-                                            @if (App\Helpers\FileHelper::usr()->can('nationality.destroy'))
+                                            {{-- @if (App\Helpers\FileHelper::usr()->can('nationality.destroy'))
                                                 <form id="deleteForm" action="{{ route('nationality.destroy', $data->id) }}"
                                                     method="POST">
                                                     @csrf
@@ -71,17 +73,16 @@
                                                         onclick="return confirm('Are you sure you want to delete this item?')"
                                                         class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
                                                 </form>
-                                            @endif
+                                            @endif --}}
                                         </td>
                                     </tr>
+                                    @include('admin.country.edit')
                                 @empty
-                                    {{-- empty data --}}
                                     <tr>
                                         <td class="text-center text-warning" colspan="5">
                                             No data found!
                                         </td>
                                     </tr>
-                                    {{-- empty data --}}
                                 @endforelse
 
 
@@ -93,39 +94,59 @@
                     <div class="modal fade bs-example-modal-lg-create" tabindex="-1" role="dialog"
                         aria-labelledby="myLargeModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl">
-                            <div class="modal-content">
+                            <div class="modal-content p-4">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="myLargeModalLabel">Create Nationality</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="{{ route('nationality.store') }}" method="POST">
+                                    <form action="{{ route('countries.store') }}" method="POST">
                                         @csrf
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Nationality
-                                                        Code</label>
+                                                    <label for="one" class="col-sm-3 col-form-label">Name</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" name="nationality_code" class="form-control"
-                                                            placeholder="Code">
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Seq No</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" name="seq_no" class="form-control"
-                                                            placeholder="Seq no">
+                                                        <input type="text" name="en_country_name" class="form-control"
+                                                            placeholder="Country Name" value="{{ old('en_country_name') }}">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="row mb-4">
-                                                    <label for="one"
-                                                        class="col-sm-3 col-form-label">Description</label>
+                                                    <label for="one" class="col-sm-3 col-form-label">Nationality
+                                                        Code</label>
                                                     <div class="col-sm-9">
-                                                        <textarea name="description" rows="4" class="form-control"></textarea>
+                                                        <input type="text" name="country_code" class="form-control"
+                                                            placeholder="Nationality code" value="{{ old('country_code') }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="row mb-4">
+                                                    <label for="one" class="col-sm-3 col-form-label">Nationality</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="en_nationality" class="form-control"
+                                                            placeholder="Nationality" value="{{ old('en_nationality') }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="row mb-4">
+                                                    <label for="one" class="col-sm-3 col-form-label">Alpha 2 Code</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="alpha_2_code" class="form-control"
+                                                            placeholder="alpha 2 code" value="{{ old('alpha_2_code') }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="row mb-4">
+                                                    <label for="one" class="col-sm-3 col-form-label">Alpha 3 Code</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="alpha_3_code" class="form-control"
+                                                            placeholder="alpha 3 code" value="{{ old('alpha_3_code') }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -134,29 +155,15 @@
                                             <div class="col-lg-12">
                                                 <button type="button" class="btn btn-sm btn-secondary"
                                                     data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                                                <button type="submit" class="btn btn-sm btn-info">Submit</button>
+                                                <button type="submit" class="btn btn-sm btn-info">Create</button>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal-dialog -->
-                    </div><!-- /.modal -->
+                            </div>
+                        </div>
+                    </div>
                     <!--  Edit modal example -->
-                    <div class="modal fade bs-example-modal-lg-edit" tabindex="-1" role="dialog"
-                        aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-xl">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="myLargeModalLabel">Update Nationality</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body" id="editSection">
-                                </div>
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal-dialog -->
-                    </div><!-- /.modal -->
                 </div>
             </div>
         </div>
@@ -168,18 +175,19 @@
         <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
         <script>
             $(document).ready(function() {
-                $('#myTable').DataTable();
+                $('#nationalityDataTable').DataTable();
             });
         </script>
 
-        <script>
+        {{-- <script>
             //edit modal show and after submit
             $('body').on('click', '.edit', function() {
                 var id = $(this).data('id'); //i or 2 categoryid
-                $.get("nationality/" + id + "/edit",
+                $.get("/ATS/countries/" + id + "/edit",
                     function(data) {
+                        console.log(data);
                         $('#editSection').html(data);
                     })
             });
-        </script>
+        </script> --}}
     @endsection

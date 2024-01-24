@@ -91,9 +91,9 @@
                                         </div>
                                     </div>
                                     <div class="row mb-4">
-                                        <label for="one" class="col-sm-3 col-form-label">Outlet License</label>
+                                        <label for="one" class="col-sm-3 col-form-label">Outlet UEN</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" placeholder="Outlet License" name="outlet_license" value="{{ $outlet->outlet_license ?? old('outlet_license')}}">
+                                            <input type="text" class="form-control" placeholder="Outlet UEN" name="outlet_license" value="{{ $outlet->outlet_license ?? old('outlet_license')}}">
                                         </div>
                                     </div>
                                 </div>
