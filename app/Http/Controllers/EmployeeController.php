@@ -55,7 +55,7 @@ class EmployeeController extends Controller
         if (is_null($this->user) || !$this->user->can('employee.index')) {
             abort(403, 'Unauthorized');
         }
-        $datas = Employee::with('role_data', 'Designation')->latest()->get();
+        $datas = Employee::with('role_data', 'Designation')->where('active_status', 1)->latest()->get();
 
         return view('admin.employee.index', compact('datas'));
     }
@@ -75,7 +75,7 @@ class EmployeeController extends Controller
         $outlets = Outlet::latest()->select('id', 'outlet_name')->get();
         $passes = passtype::latest()->where('passtype_status', 1)->select('id', 'passtype_code')->get();
         $users = User::latest()->select('id', 'name')->get();
-        $roles = Role::latest()->select('id', 'name')->where('active_status',0)->get();
+        $roles = Role::latest()->select('id', 'name')->where('active_status', 0)->get();
         $races = Race::latest()->select('id', 'race_code')->where('race_status', 1)->get();
         $religions = Religion::latest()->select('id', 'religion_code')->where('religion_status', 1)->get();
         $sexs = dbsex::latest()->select('id', 'dbsexes_code')->where('dbsexes_status', 1)->get();
@@ -83,32 +83,35 @@ class EmployeeController extends Controller
         $clients = client::latest()->select('id', 'client_code')->where('clients_status', 1)->get();
         $Paybanks = Paybank::orderBy('Paybank_seqno')->select('id', 'Paybank_code')->where('Paybank_status', 1)->get();
         $emp_admin = Employee::select('id', 'employee_name')->where('roles_id', 1)->get();
-        $emp_manager = Employee::select('id', 'employee_name')->where('roles_id', 2)->get();
-        $emp_team_leader = Employee::select('id', 'employee_name')->where('roles_id', 10)->get();
+
+        $emp_manager = Employee::select('id', 'employee_name')->where('roles_id', 4)->get();
+        // dd($emp_manager);
+
+        $emp_team_leader = Employee::select('id', 'employee_name')->where('roles_id', 11)->get();
+
         $leave_types = LeaveType::latest()->select('id', 'leavetype_code', 'leavetype_default')->where('leavetype_status', 1)->get();
         return view('admin.employee.create', compact('Paybanks', 'emp_manager', 'emp_admin', 'rols', 'departments', 'designations', 'paymode', 'outlets', 'passes', 'users', 'roles', 'races', 'religions', 'sexs', 'marital_status', 'clients', 'leave_types', 'emp_team_leader'));
     }
 
     private function sendResetEmail($email)
     {
-    //Retrieve the user from the database
-    $user = DB::table('users')->where('email', $email)->select('name', 'email','google2fa_secret')->first();
-    $google2fa_secret=$user->google2fa_secret;
-    //Generate, the password reset link. The token generated is embedded in the link
-    $data[]=array('users' =>  $user);
-    $data["email"]=$user->email;
-    $data["name"]=$user->name;
-    $data["google2fa_secret"]=$user->google2fa_secret;
-    try {
-        Mail::send('google2fa.sendcode', compact('user','google2fa_secret'), function($message)use($data) {
-               $message->to($data["email"])
-                        ->subject('Set up Google Authenticator for '. $data["name"]);
+        //Retrieve the user from the database
+        $user = DB::table('users')->where('email', $email)->select('name', 'email', 'google2fa_secret')->first();
+        $google2fa_secret = $user->google2fa_secret;
+        //Generate, the password reset link. The token generated is embedded in the link
+        $data[] = array('users' =>  $user);
+        $data["email"] = $user->email;
+        $data["name"] = $user->name;
+        $data["google2fa_secret"] = $user->google2fa_secret;
+        try {
+            Mail::send('google2fa.sendcode', compact('user', 'google2fa_secret'), function ($message) use ($data) {
+                $message->to($data["email"])
+                    ->subject('Set up Google Authenticator for ' . $data["name"]);
             });
-        return true;
-    } catch (\Exception $e) {
-        return false;
-    }
-
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
 
@@ -132,7 +135,7 @@ class EmployeeController extends Controller
         if ($file_path) {
             $uploadedFilePath = FileHelper::uploadFile($file_path);
 
-            Employee::create($request->except('_token', 'employee_avater') + [
+            $employee = Employee::create($request->except('_token', 'employee_avater', 'user_table_id') + [
                 'employee_avater' => $uploadedFilePath,
             ]);
 
@@ -160,6 +163,9 @@ class EmployeeController extends Controller
                 $role = Role::where('id', $request->roles_id)->first()->name;
                 if ($request->roles_id) {
                     $user->assignRole($role);
+                    $employee->update([
+                        'user_table_id' => $user->id,
+                    ]);
                 }
             }
 
@@ -167,7 +173,7 @@ class EmployeeController extends Controller
             return redirect()->route('employee.index')->with('success', 'Created successfully.');
         } else {
 
-            Employee::create($request->except('_token', 'employee_avater'));
+            $employee = Employee::create($request->except('_token', 'employee_avater', 'user_table_id'));
 
             if ($request->email) {
                 $request->validate([
@@ -191,6 +197,9 @@ class EmployeeController extends Controller
                 $role = Role::where('id', $request->roles_id)->first()->name;
                 if ($request->roles_id) {
                     $user->assignRole($role);
+                    $employee->update([
+                        'user_table_id' => $user->id,
+                    ]);
                 }
             }
             return redirect()->route('employee.index')->with('success', 'Created successfully.');
@@ -221,16 +230,19 @@ class EmployeeController extends Controller
         $outlets = Outlet::latest()->select('id', 'outlet_name')->get();
         $passes = passtype::latest()->where('passtype_status', 1)->select('id', 'passtype_code')->get();
         $users = User::latest()->select('id', 'name')->get();
-        $roles = Role::latest()->select('id', 'name')->where('active_status',0)->get();
+        $roles = Role::latest()->select('id', 'name')->where('active_status', 0)->get();
         $races = Race::latest()->select('id', 'race_code')->where('race_status', 1)->get();
         $religions = Religion::latest()->select('id', 'religion_code')->where('religion_status', 1)->get();
         $sexs = dbsex::latest()->select('id', 'dbsexes_code')->where('dbsexes_status', 1)->get();
         $marital_status = maritalStatus::latest()->select('id', 'marital_statuses_code')->where('marital_statuses_status', 1)->get();
         $clients = client::latest()->select('id', 'client_code')->where('clients_status', 1)->get();
         $Paybanks = Paybank::orderBy('Paybank_seqno')->select('id', 'Paybank_code')->where('Paybank_status', 1)->get();
-        $emp_team_leader = Employee::select('id', 'employee_name')->where('roles_id', 10)->get();
+
+        $emp_manager = Employee::select('id', 'employee_name')->where('roles_id', 4)->get();
+
+        $emp_team_leader = Employee::select('id', 'employee_name')->where('roles_id', 11)->get();
+
         $emp_admin = Employee::select('id', 'employee_name')->where('roles_id', 1)->get();
-        $emp_manager = Employee::select('id', 'employee_name')->where('roles_id', 2)->get();
         $leave_types = LeaveType::latest()->select('id', 'leavetype_code', 'leavetype_default')->where('leavetype_status', 1)->get();
         return view('admin.employee.edit', compact('Paybanks', 'emp_manager', 'emp_admin', 'employee', 'rols', 'departments', 'designations', 'paymode', 'outlets', 'passes', 'users', 'roles', 'races', 'religions', 'sexs', 'marital_status', 'clients', 'emp_team_leader', 'leave_types'));
     }
@@ -243,6 +255,7 @@ class EmployeeController extends Controller
         if (is_null($this->user) || !$this->user->can('employee.update')) {
             abort(403, 'Unauthorized');
         }
+        // dd($request);
         if ($request->hasFile('employee_avater')) {
             // Delete the old file
             Storage::delete("public/{$employee->employee_avater}");
@@ -269,13 +282,19 @@ class EmployeeController extends Controller
         if (is_null($this->user) || !$this->user->can('employee.destroy')) {
             abort(403, 'Unauthorized');
         }
-        $filePath = storage_path("app/public/{$employee->employee_avater}");
+        // $filePath = storage_path("app/public/{$employee->employee_avater}");
 
-        if (file_exists($filePath)) {
-            Storage::delete("public/{$employee->employee_avater}");
-        }
-        $employee->delete();
-        return back()->with('success', 'Deleted Successfully.');
+        // if (file_exists($filePath)) {
+        //     Storage::delete("public/{$employee->employee_avater}");
+        // }
+        $employee->update([
+            'active_status' => 0
+        ]);
+        $user = User::where('id', $employee->user_table_id);
+        $user->update([
+            'active_status' => 0
+        ]);
+        return back()->with('success', 'Employee disabled.');
     }
 
     public function salaryInfoPost(Request $request)

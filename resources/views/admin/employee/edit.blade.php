@@ -21,7 +21,7 @@
                             <a href="{{ route('employee.index') }}" class="btn btn-sm btn-success">Search</a>
                         </div>
                     </div>
-
+                    @include('admin.include.errors')
                     <div class="card-body">
                         <!-- Nav tabs -->
                         <div class="row">
@@ -352,7 +352,7 @@
                                                     <div class="col-sm-9">
                                                         <input type="text" name="employee_unit_number"
                                                             class="form-control" placeholder="Unit No"
-                                                            value="{{$employee->employee_unit_number}}">
+                                                            value="{{ $employee->employee_unit_number }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -891,7 +891,7 @@
     @section('scripts')
         <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
             crossorigin="anonymous"></script>
-            <script>
+        <script>
             $(document).ready(function() {
                 $('#mySelect').change(function() {
                     var selectedValue = $(this).val();
@@ -948,7 +948,7 @@
 
                 });
 
-    $('#mySelect').trigger('change');
+                $('#mySelect').trigger('change');
             });
         </script>
     @endsection

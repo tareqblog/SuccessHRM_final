@@ -128,7 +128,7 @@
                             @if ($usr->can('employee.index'))
                                 <li><a href="{{ route('employee.index') }}" data-key="employees">Employees</a></li>
                             @endif
-                            <li><a href="#" data-key="login-control">Login Control</a></li>
+                            {{-- <li><a href="#" data-key="login-control">Login Control</a></li> --}}
                         </ul>
                     </li>
                 @endif

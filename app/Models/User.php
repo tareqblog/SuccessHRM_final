@@ -28,7 +28,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'google2fa_secret'
+        'google2fa_secret',
+        'active_status'
     ];
 
     /**
@@ -86,8 +87,8 @@ class User extends Authenticatable
         return $hasPermission;
     }
 
-    
-    /** 
+
+    /**
      * Interact with the user's first name.
      *
      * @param  string  $value
