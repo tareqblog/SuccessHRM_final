@@ -159,7 +159,7 @@
                                                             @foreach ($nationality as $nation)
                                                                 <option value="{{ $nation->id }}"
                                                                     {{ $nation->id == old('nationality_id', $candidate->nationality_id) ? 'selected' : '' }}>
-                                                                    {{ $nation->nationality_code }}
+                                                                    {{ $nation->en_nationality }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -189,28 +189,6 @@
                                                             value="{{ $candidate->candidate_home_phone }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
-                                                    <label for="two" class="col-sm-3 col-form-label">Type Of
-                                                        Pass</label>
-                                                    <div class="col-sm-9">
-                                                        <select name="passtypes_id" class="form-control">
-                                                            <option value="">Select One</option>
-                                                            @foreach ($passtype_data as $row)
-                                                                <option value="{{ $row->id }}"
-                                                                    {{ $row->id == old('passtype_id', $candidate->passtypes_id) ? 'selected' : '' }}>
-                                                                    {{ $row->passtype_code }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="three" class="col-sm-3 col-form-label">Height</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" class="form-control"
-                                                            name="candidate_height" placeholder="Height"
-                                                            value="{{ $candidate->candidate_height }}">
-                                                    </div>
-                                                </div>
                                                 {{-- <div class="row mb-4">
                                                 <label for="two" class="col-sm-3 col-form-label">SHRC/SRC</label>
                                                 <div class="col-sm-9">
@@ -233,6 +211,34 @@
                                                         placeholder="Position Applied">
                                                 </div>
                                             </div> --}}
+
+                                                <div class="row mb-4">
+                                                    <label for="two" class="col-sm-3 col-form-label">Type Of
+                                                        Pass</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="passtypes_id" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($passtype_data as $row)
+                                                                <option value="{{ $row->id }}"
+                                                                    {{ $row->id == old('passtype_id', $candidate->passtypes_id) ? 'selected' : '' }}>
+                                                                    {{ $row->passtype_code }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="two" class="col-sm-4 col-form-label">Outlet</label>
+                                                    <div class="col-sm-8">
+                                                        <select class="form-control" name="candidate_outlet_id" required>
+                                                            <option value="">Select One</option>
+                                                            @foreach ($outlet_data as $row)
+                                                                <option value="{{ $row->id }}"
+                                                                    {{ $candidate->candidate_outlet_id == $row->id ? 'selected' : '' }}>
+                                                                    {{ $row->outlet_name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">NRIC/FIN
                                                         No.</label>
@@ -284,28 +290,11 @@
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="four" class="col-sm-4 col-form-label">Numbers of
-                                                        Children</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text" name="children_no" class="form-control"
-                                                            placeholder="Numbers of Children"
-                                                            value="{{ $candidate->children_no }}">
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
                                                     <label for="four" class="col-sm-3 col-form-label">Email</label>
                                                     <div class="col-sm-9">
                                                         <input type="email" name="candidate_email" class="form-control"
                                                             placeholder="Email"
                                                             value="{{ $candidate->candidate_email }}">
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="four" class="col-sm-3 col-form-label">Weight</label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" name="candidate_weight"
-                                                            class="form-control" placeholder="Weight"
-                                                            value="{{ $candidate->candidate_weight }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
@@ -1790,357 +1779,363 @@
 
                             <div class="tab-pane" id="payroll" role="tabpanel">
                                 @if (App\Helpers\FileHelper::usr()->can('candidate.payroll'))
-                                <h5>Create Payroll</h5>
-                                <form action="{{ route('candidate.payroll', $candidate->id) }}" method="POST">
-                                    @csrf
-                                    <div class="row mb-5">
-                                        <div class="col-lg-12">
-                                            <label for="one" class="col-form-label"><b>Name :
-                                                    {{ $candidate->candidate_name }}</b></label>
-                                            <br>
-                                            <label for="one" class="col-form-label"><b>NRIC:
-                                                    {{ $candidate->candidate_nric }}</b></label>
-                                        </div>
-                                        <div class="col-lg-12 mt-5 mt-lg-4 mt-xl-0 row">
-                                            <div class="row mb-4 col-lg-6">
-                                                <input type="hidden" name="candidate_id"
-                                                    value="{{ $candidate->id }}">
-                                                <label for="one" class="col-sm-3 col-form-label">Job Type <span
-                                                        class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <select name="job_type" class="form-control" id="jobTypes">
-                                                        <option value="">Select One</option>
-                                                        @foreach ($job_types as $job)
-                                                            <option value="{{ $job->id }}">
-                                                                {{ $job->jobtype_code }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
+                                    <h5>Create Payroll</h5>
+                                    <form action="{{ route('candidate.payroll', $candidate->id) }}" method="POST">
+                                        @csrf
+                                        <div class="row mb-5">
+                                            <div class="col-lg-12">
+                                                <label for="one" class="col-form-label"><b>Name :
+                                                        {{ $candidate->candidate_name }}</b></label>
+                                                <br>
+                                                <label for="one" class="col-form-label"><b>NRIC:
+                                                        {{ $candidate->candidate_nric }}</b></label>
                                             </div>
-                                            <div class="row mb-4 col-lg-6" id="recruitmentFee">
-                                                <label for="one" class="col-sm-3 col-form-label">Placement /
-                                                    Recruitment Fee</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="recruitment_fee" class="form-control"
-                                                        placeholder="Placement / Recruitment Fee">
+                                            <div class="col-lg-12 mt-5 mt-lg-4 mt-xl-0 row">
+                                                <div class="row mb-4 col-lg-6">
+                                                    <input type="hidden" name="candidate_id"
+                                                        value="{{ $candidate->id }}">
+                                                    <label for="one" class="col-sm-3 col-form-label">Job Type <span
+                                                            class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <select name="job_type" class="form-control" id="jobTypes">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($job_types as $job)
+                                                                <option value="{{ $job->id }}">
+                                                                    {{ $job->jobtype_code }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="adminFeeMonthly">
-                                                <label for="one" class="col-sm-3 col-form-label">Admin Fee
-                                                    (Monthly)</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="admin_fee_monthly"
-                                                        class="form-control" placeholder="Admin Fee">
+                                                <div class="row mb-4 col-lg-6" id="recruitmentFee">
+                                                    <label for="one" class="col-sm-3 col-form-label">Placement /
+                                                        Recruitment Fee</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="recruitment_fee"
+                                                            class="form-control"
+                                                            placeholder="Placement / Recruitment Fee">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="adminFeeDaily">
-                                                <label for="one" class="col-sm-3 col-form-label">Admin Fee
-                                                    (Daily)</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="admin_fee_daily" class="form-control"
-                                                        placeholder="Admin Fee (Daily)">
+                                                <div class="row mb-4 col-lg-6" id="adminFeeMonthly">
+                                                    <label for="one" class="col-sm-3 col-form-label">Admin Fee
+                                                        (Monthly)</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="admin_fee_monthly"
+                                                            class="form-control" placeholder="Admin Fee">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="clientCompany">
-                                                <label for="one" class="col-sm-3 col-form-label">Client
-                                                    Company<span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <select name="client_company" class="form-control">
-                                                        <option value="">Select One</option>
-                                                        @foreach ($clients as $client)
-                                                            <option value="{{ $client->id }}">
-                                                                {{ $client->client_name }} </option>
-                                                        @endforeach
-                                                    </select>
+                                                <div class="row mb-4 col-lg-6" id="adminFeeDaily">
+                                                    <label for="one" class="col-sm-3 col-form-label">Admin Fee
+                                                        (Daily)</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="admin_fee_daily"
+                                                            class="form-control" placeholder="Admin Fee (Daily)">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="arNo">
-                                                <label for="one" class="col-sm-3 col-form-label">AR No.</label>
-                                                <div class="col-sm-9">
-                                                    <select name="ar_no" id="" class="form-control">
-                                                        <option value="">Select One</option>
-                                                    </select>
+                                                <div class="row mb-4 col-lg-6" id="clientCompany">
+                                                    <label for="one" class="col-sm-3 col-form-label">Client
+                                                        Company<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <select name="client_company" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($clients as $client)
+                                                                <option value="{{ $client->id }}">
+                                                                    {{ $client->client_name }} </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="invoiceRate">
-                                                <label for="one" class="col-sm-3 col-form-label">Invoice
-                                                    Rate</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="invoice_rate" class="form-control"
-                                                        placeholder="Invoice Rate">
+                                                <div class="row mb-4 col-lg-6" id="arNo">
+                                                    <label for="one" class="col-sm-3 col-form-label">AR No.</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="ar_no" id="" class="form-control">
+                                                            <option value="">Select One</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="salary">
-                                                <label for="one" class="col-sm-3 col-form-label">Salary</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="salary" class="form-control"
-                                                        placeholder="Salary">
+                                                <div class="row mb-4 col-lg-6" id="invoiceRate">
+                                                    <label for="one" class="col-sm-3 col-form-label">Invoice
+                                                        Rate</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="invoice_rate" class="form-control"
+                                                            placeholder="Invoice Rate">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="dailyRate">
-                                                <label for="one" class="col-sm-3 col-form-label">Daily
-                                                    Rate</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="daily_rate" class="form-control"
-                                                        placeholder="Daily Rate">
+                                                <div class="row mb-4 col-lg-6" id="salary">
+                                                    <label for="one" class="col-sm-3 col-form-label">Salary</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="salary" class="form-control"
+                                                            placeholder="Salary">
+                                                    </div>
                                                 </div>
-                                            </div>
+                                                <div class="row mb-4 col-lg-6" id="dailyRate">
+                                                    <label for="one" class="col-sm-3 col-form-label">Daily
+                                                        Rate</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="daily_rate" class="form-control"
+                                                            placeholder="Daily Rate">
+                                                    </div>
+                                                </div>
 
-                                            <div class="row mb-4 col-lg-6" id="dailyRateNightShift">
-                                                <label for="one" class="col-sm-3 col-form-label">Daily Rate
-                                                    (Night
-                                                    Shift)</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="daily_rate_night_shift"
-                                                        class="form-control" placeholder="Daily Rate (Night Shift)">
+                                                <div class="row mb-4 col-lg-6" id="dailyRateNightShift">
+                                                    <label for="one" class="col-sm-3 col-form-label">Daily Rate
+                                                        (Night
+                                                        Shift)</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="daily_rate_night_shift"
+                                                            class="form-control" placeholder="Daily Rate (Night Shift)">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="jobTitle">
+                                                    <label for="one" class="col-sm-3 col-form-label">Job
+                                                        Title <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="job_title" class="form-control"
+                                                            placeholder="Job Title">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="programme">
+                                                    <label for="one"
+                                                        class="col-sm-3 col-form-label">Programme</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="programme" class="form-control"
+                                                            placeholder="Programme">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="department">
+                                                    <label for="one"
+                                                        class="col-sm-3 col-form-label">Department</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="department" class="form-control"
+                                                            placeholder="Department">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="hourlyRate">
+                                                    <label for="one" class="col-sm-3 col-form-label">Hourly
+                                                        Rate</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="hourly_rate" class="form-control"
+                                                            placeholder="Hourly Rate">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="wica">
+                                                    <label for="one" class="col-sm-3 col-form-label">WICA</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="wica" id="" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            <option value="1">1</option>
+                                                            <option value="0.3">0.3</option>
+                                                            <option value="Fixed">Fixed</option>
+                                                            <option value="Others">Others</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="insuranceFee">
+                                                    <label for="one" class="col-sm-3 col-form-label">Insurance
+                                                        Fee</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="insurance_fee"
+                                                            class="form-control" placeholder="Insurance Fee">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="university">
+                                                    <label for="one"
+                                                        class="col-sm-3 col-form-label">University</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="university" class="form-control"
+                                                            placeholder="University">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="teamLead">
+                                                    <label for="one" class="col-sm-3 col-form-label">Team
+                                                        Lead</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="team_lead" class="form-control"
+                                                            placeholder="Team Lead">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="costCenter">
+                                                    <label for="one" class="col-sm-3 col-form-label">Cost
+                                                        Centre</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="cost_center" class="form-control"
+                                                            placeholder="Cost Centre">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="allowance">
+                                                    <label for="one"
+                                                        class="col-sm-3 col-form-label">Allowance</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="allowance" class="form-control"
+                                                            placeholder="Allowance">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="workingHour">
+                                                    <label for="one" class="col-sm-3 col-form-label">Working
+                                                        Hour</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="working_hour" class="form-control"
+                                                            placeholder="Working Hour">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="probationPeriod">
+                                                    <label for="one" class="col-sm-3 col-form-label">Probation
+                                                        Period</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="probation_period" id=""
+                                                            class="form-control">
+                                                            <option value="">Select One</option>
+                                                            <option value="0">No Probation</option>
+                                                            <option value="1">1 Month</option>
+                                                            <option value="2">2 Month</option>
+                                                            <option value="3">3 Month</option>
+                                                            <option value="4">4 Month</option>
+                                                            <option value="5">5 Month</option>
+                                                            <option value="6">6 Month</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="startDate">
+                                                    <label for="one" class="col-sm-3 col-form-label">Start
+                                                        Date <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="date" name="start_date" class="form-control"
+                                                            placeholder="Start Date">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="endDate">
+                                                    <label for="one" class="col-sm-3 col-form-label">End
+                                                        Date</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="date" name="end_date" class="form-control"
+                                                            placeholder="End Date">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="salesPeriod">
+                                                    <label for="one" class="col-sm-3 col-form-label">Sales
+                                                        Period</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="date" name="sales_period" class="form-control"
+                                                            placeholder="Sales Period">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="guaranteePeriod">
+                                                    <label for="one" class="col-sm-3 col-form-label">Guarantee
+                                                        Period</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="guarantee_period"
+                                                            class="form-control" placeholder="Guarantee Period">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="invoiceNo">
+                                                    <label for="one" class="col-sm-3 col-form-label">Invoice
+                                                        No.</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="invoice_no" class="form-control"
+                                                            placeholder="Invoice No.">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="poNo">
+                                                    <label for="one" class="col-sm-3 col-form-label">PO No</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="po_no" class="form-control"
+                                                            placeholder="PO No">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="charge">
+                                                    <label for="one" class="col-sm-3 col-form-label">Charge
+                                                        (%)</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="charge" class="form-control"
+                                                            placeholder="Charge (%)">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="contributeCpf">
+                                                    <label for="one" class="col-sm-3 col-form-label">Contribute
+                                                        CPF</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="contribute_cpf" id=""
+                                                            class="form-control">
+                                                            <option value="1">Yes</option>
+                                                            <option value="0">No</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="closeBy1">
+                                                    <label for="one" class="col-sm-3 col-form-label">Closed By
+                                                        1</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="close_by1" id="" class="form-control">
+                                                            <option value="">Select One</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="closeRate1">
+                                                    <label for="one" class="col-sm-3 col-form-label">Closed Rate
+                                                        1</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="number" name="close_rate1" class="form-control"
+                                                            placeholder="Closed Rate 1">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="closeBy2">
+                                                    <label for="one" class="col-sm-3 col-form-label">Closed By
+                                                        2</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="close_by2" id="" class="form-control">
+                                                            <option value="">Select One</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="closeRate2">
+                                                    <label for="one" class="col-sm-3 col-form-label">Closed Rate
+                                                        2</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="number" name="close_rate2" class="form-control"
+                                                            placeholder="Closed Rate 2">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="closeBy3">
+                                                    <label for="one" class="col-sm-3 col-form-label">Closed By
+                                                        3</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="close_by3" id="" class="form-control">
+                                                            <option value="">Select One</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="closeRate3">
+                                                    <label for="one" class="col-sm-3 col-form-label">Closed Rate
+                                                        3</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="number" name="close_rate3" class="form-control"
+                                                            placeholder="Closed Rate 3">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="cutOff">
+                                                    <label for="one" class="col-sm-3 col-form-label">Cut
+                                                        off</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="cut_off" id="" class="form-control">
+                                                            <option value="">Select One</option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="0">No</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4 col-lg-6" id="payrollRemark">
+                                                    <label for="one" class="col-sm-3 col-form-label">Payroll
+                                                        Remarks</label>
+                                                    <div class="col-sm-9">
+                                                        <textarea name="payroll_remark" rows="2" class="form-control" placeholder="PO Remarks"></textarea>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row mb-4 col-lg-6" id="jobTitle">
-                                                <label for="one" class="col-sm-3 col-form-label">Job
-                                                    Title <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="job_title" class="form-control"
-                                                        placeholder="Job Title">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="programme">
-                                                <label for="one" class="col-sm-3 col-form-label">Programme</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="programme" class="form-control"
-                                                        placeholder="Programme">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="department">
-                                                <label for="one" class="col-sm-3 col-form-label">Department</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="department" class="form-control"
-                                                        placeholder="Department">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="hourlyRate">
-                                                <label for="one" class="col-sm-3 col-form-label">Hourly
-                                                    Rate</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="hourly_rate" class="form-control"
-                                                        placeholder="Hourly Rate">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="wica">
-                                                <label for="one" class="col-sm-3 col-form-label">WICA</label>
-                                                <div class="col-sm-9">
-                                                    <select name="wica" id="" class="form-control">
-                                                        <option value="">Select One</option>
-                                                        <option value="1">1</option>
-                                                        <option value="0.3">0.3</option>
-                                                        <option value="Fixed">Fixed</option>
-                                                        <option value="Others">Others</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="insuranceFee">
-                                                <label for="one" class="col-sm-3 col-form-label">Insurance
-                                                    Fee</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="insurance_fee" class="form-control"
-                                                        placeholder="Insurance Fee">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="university">
-                                                <label for="one" class="col-sm-3 col-form-label">University</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="university" class="form-control"
-                                                        placeholder="University">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="teamLead">
-                                                <label for="one" class="col-sm-3 col-form-label">Team
-                                                    Lead</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="team_lead" class="form-control"
-                                                        placeholder="Team Lead">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="costCenter">
-                                                <label for="one" class="col-sm-3 col-form-label">Cost
-                                                    Centre</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="cost_center" class="form-control"
-                                                        placeholder="Cost Centre">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="allowance">
-                                                <label for="one" class="col-sm-3 col-form-label">Allowance</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="allowance" class="form-control"
-                                                        placeholder="Allowance">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="workingHour">
-                                                <label for="one" class="col-sm-3 col-form-label">Working
-                                                    Hour</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="working_hour" class="form-control"
-                                                        placeholder="Working Hour">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="probationPeriod">
-                                                <label for="one" class="col-sm-3 col-form-label">Probation
-                                                    Period</label>
-                                                <div class="col-sm-9">
-                                                    <select name="probation_period" id=""
-                                                        class="form-control">
-                                                        <option value="">Select One</option>
-                                                        <option value="0">No Probation</option>
-                                                        <option value="1">1 Month</option>
-                                                        <option value="2">2 Month</option>
-                                                        <option value="3">3 Month</option>
-                                                        <option value="4">4 Month</option>
-                                                        <option value="5">5 Month</option>
-                                                        <option value="6">6 Month</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="startDate">
-                                                <label for="one" class="col-sm-3 col-form-label">Start
-                                                    Date <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" name="start_date" class="form-control"
-                                                        placeholder="Start Date">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="endDate">
-                                                <label for="one" class="col-sm-3 col-form-label">End
-                                                    Date</label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" name="end_date" class="form-control"
-                                                        placeholder="End Date">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="salesPeriod">
-                                                <label for="one" class="col-sm-3 col-form-label">Sales
-                                                    Period</label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" name="sales_period" class="form-control"
-                                                        placeholder="Sales Period">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="guaranteePeriod">
-                                                <label for="one" class="col-sm-3 col-form-label">Guarantee
-                                                    Period</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="guarantee_period" class="form-control"
-                                                        placeholder="Guarantee Period">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="invoiceNo">
-                                                <label for="one" class="col-sm-3 col-form-label">Invoice
-                                                    No.</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="invoice_no" class="form-control"
-                                                        placeholder="Invoice No.">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="poNo">
-                                                <label for="one" class="col-sm-3 col-form-label">PO No</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="po_no" class="form-control"
-                                                        placeholder="PO No">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="charge">
-                                                <label for="one" class="col-sm-3 col-form-label">Charge
-                                                    (%)</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="charge" class="form-control"
-                                                        placeholder="Charge (%)">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="contributeCpf">
-                                                <label for="one" class="col-sm-3 col-form-label">Contribute
-                                                    CPF</label>
-                                                <div class="col-sm-9">
-                                                    <select name="contribute_cpf" id="" class="form-control">
-                                                        <option value="1">Yes</option>
-                                                        <option value="0">No</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="closeBy1">
-                                                <label for="one" class="col-sm-3 col-form-label">Closed By
-                                                    1</label>
-                                                <div class="col-sm-9">
-                                                    <select name="close_by1" id="" class="form-control">
-                                                        <option value="">Select One</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="closeRate1">
-                                                <label for="one" class="col-sm-3 col-form-label">Closed Rate
-                                                    1</label>
-                                                <div class="col-sm-9">
-                                                    <input type="number" name="close_rate1" class="form-control"
-                                                        placeholder="Closed Rate 1">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="closeBy2">
-                                                <label for="one" class="col-sm-3 col-form-label">Closed By
-                                                    2</label>
-                                                <div class="col-sm-9">
-                                                    <select name="close_by2" id="" class="form-control">
-                                                        <option value="">Select One</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="closeRate2">
-                                                <label for="one" class="col-sm-3 col-form-label">Closed Rate
-                                                    2</label>
-                                                <div class="col-sm-9">
-                                                    <input type="number" name="close_rate2" class="form-control"
-                                                        placeholder="Closed Rate 2">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="closeBy3">
-                                                <label for="one" class="col-sm-3 col-form-label">Closed By
-                                                    3</label>
-                                                <div class="col-sm-9">
-                                                    <select name="close_by3" id="" class="form-control">
-                                                        <option value="">Select One</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="closeRate3">
-                                                <label for="one" class="col-sm-3 col-form-label">Closed Rate
-                                                    3</label>
-                                                <div class="col-sm-9">
-                                                    <input type="number" name="close_rate3" class="form-control"
-                                                        placeholder="Closed Rate 3">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="cutOff">
-                                                <label for="one" class="col-sm-3 col-form-label">Cut
-                                                    off</label>
-                                                <div class="col-sm-9">
-                                                    <select name="cut_off" id="" class="form-control">
-                                                        <option value="">Select One</option>
-                                                        <option value="1">Yes</option>
-                                                        <option value="0">No</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-4 col-lg-6" id="payrollRemark">
-                                                <label for="one" class="col-sm-3 col-form-label">Payroll
-                                                    Remarks</label>
-                                                <div class="col-sm-9">
-                                                    <textarea name="payroll_remark" rows="2" class="form-control" placeholder="PO Remarks"></textarea>
-                                                </div>
+                                            <div class="col-lg-12">
+                                                <button type="submit" class="btn btn-sm btn-info mt-3">Save</button>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12">
-                                            <button type="submit" class="btn btn-sm btn-info mt-3">Save</button>
-                                        </div>
-                                    </div>
-                                </form>
+                                    </form>
                                 @endif
                                 <div class="row">
                                     <div class="col-lg-12 mt-2">
@@ -2169,15 +2164,15 @@
                                                         </td>
                                                         <td>
                                                             @if (App\Helpers\FileHelper::usr()->can('candidate.payroll.delete'))
-                                                            <form
-                                                                action="{{ route('candidate.payroll.delete', $payroll->id) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button class="btn btn-danger btn-sm"
-                                                                    onclick="return confirm('Are you sure you want to delete this item?')"
-                                                                    type="submit">Delete</button>
-                                                            </form>
+                                                                <form
+                                                                    action="{{ route('candidate.payroll.delete', $payroll->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button class="btn btn-danger btn-sm"
+                                                                        onclick="return confirm('Are you sure you want to delete this item?')"
+                                                                        type="submit">Delete</button>
+                                                                </form>
                                                             @endif
                                                         </td>
                                                     </tr>

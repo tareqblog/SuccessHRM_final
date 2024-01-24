@@ -119,7 +119,7 @@
                                                             @foreach ($nationality as $nation)
                                                                 <option value="{{ $nation->id }}"
                                                                     {{ old('nationality_id') == $nation->id ? 'selected' : '' }}>
-                                                                    {{ old('nationality_id') . $nation->nationality_code }}
+                                                                    {{ old('nationality_id') . $nation->en_nationality }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -161,13 +161,18 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                {{-- <div class="row mb-4">
                                                     <label for="three" class="col-sm-4 col-form-label">Height</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" class="form-control"
                                                             name="candidate_height" placeholder="Height">
                                                     </div>
-                                                </div>
+                                                </div> --}}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="mt-5 mt-lg-4 mt-xl-0">
+
                                                 <div class="row mb-4">
                                                     <label for="two" class="col-sm-4 col-form-label">Outlet</label>
                                                     <div class="col-sm-8">
@@ -176,15 +181,11 @@
                                                             @foreach ($outlet_data as $row)
                                                                 <option value="{{ $row->id }}"
                                                                     {{ old('candidate_outlet_id') == $row->id ? 'selected' : '' }}>
-                                                                    {{ $row->name }}</option>
+                                                                    {{ $row->outlet_name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-4 col-form-label">NRIC/FIN
                                                         No.</label>
@@ -230,14 +231,14 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                {{-- <div class="row mb-4">
                                                     <label for="four" class="col-sm-4 col-form-label">Numbers of
                                                         Children</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="children_no" class="form-control"
                                                             placeholder="Numbers of Children">
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                                 <div class="row mb-4">
                                                     <label for="four" class="col-sm-4 col-form-label">Email</label>
                                                     <div class="col-sm-8">
@@ -245,13 +246,13 @@
                                                             placeholder="Email">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                {{-- <div class="row mb-4">
                                                     <label for="four" class="col-sm-4 col-form-label">Weight</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="candidate_weight"
                                                             class="form-control" placeholder="Weight">
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                                 <div class="row mb-4">
                                                     <label for="four" class="col-sm-4 col-form-label">Black
                                                         List</label>

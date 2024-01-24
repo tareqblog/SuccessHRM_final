@@ -85,7 +85,7 @@
                                                             @foreach ($outlets as $outlet)
                                                                 <option value="{{ $outlet->id }}"
                                                                     {{ $outlet->id == old('employee_outlet_id', $employee->employee_outlet_id) ? 'selected' : '' }}>
-                                                                    {{ $outlet->name }}</option>
+                                                                    {{ $outlet->outlet_name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>

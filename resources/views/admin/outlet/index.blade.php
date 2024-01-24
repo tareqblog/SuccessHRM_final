@@ -1,9 +1,9 @@
 @extends('layouts.master')
 @section('title')
-    Company Profile
+    Outlet
 @endsection
 @section('page-title')
-    Company Profile
+    Outlet
 @endsection
 
 @section('css')
@@ -18,12 +18,12 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Company Profile Table</h4>
-                        @if (App\Helpers\FileHelper::usr()->can('company.create'))
+                        <h4 class="card-title mb-0">Outlet Table</h4>
+                        {{-- @if (App\Helpers\FileHelper::usr()->can('outlets.create')) --}}
                         <div class="text-end">
-                            <a href="{{ route('company.create') }}" class="btn btn-sm btn-success">Create new</a>
+                            <a href="{{ route('outlets.create') }}" class="btn btn-sm btn-success">Create new</a>
                         </div>
-                        @endif
+                        {{-- @endif --}}
                     </div>
 
                     @if ($errors->any())
@@ -53,17 +53,17 @@
                                 @forelse ($datas as $data)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $data->name }}</td>
+                                        <td>{{ $data->outlet_name }}</td>
                                         <td>{{ $data->nationality->en_nationality }}</td>
-                                        <td>{{ $data->tel }}</td>
-                                        <td>{{ $data->website }}</td>
-                                        <td>{{ $data->description }}</td>
+                                        <td>{{ $data->outlet_tel }}</td>
+                                        <td>{{ $data->outlet_website }}</td>
+                                        <td>{{ $data->outlet_description }}</td>
                                         <td style="display: flex;">
-                                            @if (App\Helpers\FileHelper::usr()->can('company.edit'))
-                                            <a href="{{route('company.edit', $data->id)}}" class="btn btn-sm btn-info me-2"><i class="fa fa-pen"></i></a>
-                                            @endif
-                                            @if (App\Helpers\FileHelper::usr()->can('company.destroy'))
-                                            <form id="deleteForm" action="{{ route('company.destroy', $data->id) }}"
+                                            {{-- @if (App\Helpers\FileHelper::usr()->can('outlets.edit')) --}}
+                                            <a href="{{route('outlets.edit', $data->id)}}" class="btn btn-sm btn-info me-2"><i class="fa fa-pen"></i></a>
+                                            {{-- @endif
+                                            @if (App\Helpers\FileHelper::usr()->can('outlets.destroy')) --}}
+                                            <form id="deleteForm" action="{{ route('outlets.destroy', $data->id) }}"
                                                 method="POST">
                                                 @csrf
                                                 @method('DELETE')
@@ -71,7 +71,7 @@
                                                     onclick="return confirm('Are you sure you want to delete this item?')"
                                                     class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
                                             </form>
-                                            @endif
+                                            {{-- @endif --}}
                                         </td>
                                     </tr>
                                 @empty

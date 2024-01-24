@@ -6,17 +6,14 @@ use App\Models\Employee;
 use App\Models\Designation;
 use App\Models\Department;
 use App\Models\paymode;
-use App\DataGrids\EmployeeDataGrid;
 use App\Helpers\FileHelper;
 use App\Http\Requests\StoreEmployeeRequest;
-use App\Http\Requests\UpdateEmployeeRequest;
 use App\Models\client;
-use App\Models\Company;
 use App\Models\dbsex;
 use App\Models\EmployeeSalaryInfo;
 use App\Models\LeaveType;
 use App\Models\maritalStatus;
-use App\Models\outlet;
+use App\Models\Outlet;
 use App\Models\passtype;
 use App\Models\Race;
 use App\Models\Religion;
@@ -75,7 +72,7 @@ class EmployeeController extends Controller
         $departments = Department::orderBy('department_seqno')->where('department_status', '1')->select('id', 'department_code')->get();
         $designations = Designation::orderBy('designation_seqno')->where('designation_status', '1')->select('id', 'designation_code')->get();
         $paymode = paymode::orderBy('paymode_seqno')->where('paymode_status', '1')->get();
-        $outlets = Company::latest()->select('id', 'name')->get();
+        $outlets = Outlet::latest()->select('id', 'outlet_name')->get();
         $passes = passtype::latest()->where('passtype_status', 1)->select('id', 'passtype_code')->get();
         $users = User::latest()->select('id', 'name')->get();
         $roles = Role::latest()->select('id', 'name')->get();
@@ -91,9 +88,6 @@ class EmployeeController extends Controller
         $leave_types = LeaveType::latest()->select('id', 'leavetype_code', 'leavetype_default')->where('leavetype_status', 1)->get();
         return view('admin.employee.create', compact('Paybanks', 'emp_manager', 'emp_admin', 'rols', 'departments', 'designations', 'paymode', 'outlets', 'passes', 'users', 'roles', 'races', 'religions', 'sexs', 'marital_status', 'clients', 'leave_types', 'emp_team_leader'));
     }
-
-
-
 
     private function sendResetEmail($email)
     {
@@ -224,7 +218,7 @@ class EmployeeController extends Controller
         $departments = Department::orderBy('department_seqno')->where('department_status', '1')->select('id', 'department_code')->get();
         $designations = Designation::orderBy('designation_seqno')->where('designation_status', '1')->select('id', 'designation_code')->get();
         $paymode = paymode::orderBy('paymode_seqno')->where('paymode_status', '1')->get();
-        $outlets = Company::latest()->select('id', 'name')->get();
+        $outlets = Outlet::latest()->select('id', 'outlet_name')->get();
         $passes = passtype::latest()->where('passtype_status', 1)->select('id', 'passtype_code')->get();
         $users = User::latest()->select('id', 'name')->get();
         $roles = Role::latest()->select('id', 'name')->get();

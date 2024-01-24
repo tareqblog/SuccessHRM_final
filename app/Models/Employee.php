@@ -36,7 +36,7 @@ class Employee extends Model
 
     public function outlet()
     {
-        return $this->belongsTo('App\Models\outlet','employee_outlet_id');
+        return $this->belongsTo('App\Models\Outlet','employee_outlet_id');
     }
 
     public function passtype()

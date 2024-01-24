@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\country;
 use App\Models\Nationality;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +27,7 @@ class NationalityController extends Controller
         if (is_null($this->user) || !$this->user->can('nationality.index')) {
             abort(403, 'Unauthorized');
         }
-        $datas = Nationality::latest()->get();
+        $datas = country::latest()->get();
         return view('admin.nationality.index', compact('datas'));
     }
 

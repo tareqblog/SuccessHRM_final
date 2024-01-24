@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bank;
 use App\Models\Giro;
+use App\Models\Paybank;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,7 +29,8 @@ class GiroController extends Controller
             abort(403, 'Unauthorized');
         }
         $datas = Giro::latest()->get();
-        $banks = Bank::latest()->get();
+        // $banks = Bank::latest()->get();
+        $banks = Paybank::latest()->get();
         return view('admin.giro.index', compact('datas', 'banks'));
     }
 

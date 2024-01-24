@@ -20,10 +20,10 @@
                     <div class="card-header">
                         <h4 class="card-title mb-0">Nationality Table</h4>
                         @if (App\Helpers\FileHelper::usr()->can('nationality.create'))
-                        <div class="text-end">
-                            <button type="submit" class="btn btn-sm btn-success " data-bs-toggle="modal"
-                                data-bs-target=".bs-example-modal-lg-create">Create New</a>
-                        </div>
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-sm btn-success " data-bs-toggle="modal"
+                                    data-bs-target=".bs-example-modal-lg-create">Create New</a>
+                            </div>
                         @endif
                     </div>
 
@@ -43,7 +43,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nationality Code</th>
-                                    <th>Seq No</th>
+                                    {{-- <th>Seq No</th> --}}
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -52,25 +52,25 @@
                                 @forelse ($datas as $data)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $data->nationality_code }}</td>
-                                        <td>{{ $data->seq_no }}</td>
-                                        <td>{{ $data->status == 1 ? 'Active' : 'In-Active' }}</td>
+                                        <td>{{ $data->en_nationality }}</td>
+                                        {{-- <td>{{ $data->seq_no }}</td> --}}
+                                        <td>{{ $data->country_status == 1 ? 'Active' : 'In-Active' }}</td>
                                         <td style="display: flex;">
                                             @if (App\Helpers\FileHelper::usr()->can('nationality.update'))
-                                            <button data-id="{{ $data->id }}" data-bs-toggle="modal"
-                                                data-bs-target=".bs-example-modal-lg-edit"
-                                                class="btn btn-sm btn-info edit me-3"><i
-                                                    class="fa-solid fa-pen-to-square"></i></button>
+                                                <button data-id="{{ $data->id }}" data-bs-toggle="modal"
+                                                    data-bs-target=".bs-example-modal-lg-edit"
+                                                    class="btn btn-sm btn-info edit me-3"><i
+                                                        class="fa-solid fa-pen-to-square"></i></button>
                                             @endif
                                             @if (App\Helpers\FileHelper::usr()->can('nationality.destroy'))
-                                            <form id="deleteForm" action="{{ route('nationality.destroy', $data->id) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit"
-                                                    onclick="return confirm('Are you sure you want to delete this item?')"
-                                                    class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                                            </form>
+                                                <form id="deleteForm" action="{{ route('nationality.destroy', $data->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        onclick="return confirm('Are you sure you want to delete this item?')"
+                                                        class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                                                </form>
                                             @endif
                                         </td>
                                     </tr>

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('tel')->nullable();
             $table->string('fax')->nullable();
             $table->string('email')->nullable();
-            $table->integer('nationality_id')->comment('from nationality table');
+            $table->integer('nationality_id')->comment('from country table');
             $table->string('website')->nullable();
             $table->string('gst_no')->nullable();
             $table->string('gst_percent')->nullable();

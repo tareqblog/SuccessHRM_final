@@ -78,12 +78,11 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Outlet <span
                                                             class="text-danger">*</span> </label>
                                                     <div class="col-sm-9">
-                                                        <select name="employee_outlet_id" class="form-control searchBox"
-                                                            required>
+                                                        <select name="employee_outlet_id" class="form-control searchBox">
                                                             <option value="">Select One</option>
                                                             @foreach ($outlets as $outlet)
                                                                 <option value="{{ $outlet->id }}">
-                                                                    {{ $outlet->name }}</option>
+                                                                    {{ $outlet->outlet_name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
