@@ -75,7 +75,7 @@ class EmployeeController extends Controller
         $outlets = Outlet::latest()->select('id', 'outlet_name')->get();
         $passes = passtype::latest()->where('passtype_status', 1)->select('id', 'passtype_code')->get();
         $users = User::latest()->select('id', 'name')->get();
-        $roles = Role::latest()->select('id', 'name')->get();
+        $roles = Role::latest()->select('id', 'name')->where('active_status',0)->get();
         $races = Race::latest()->select('id', 'race_code')->where('race_status', 1)->get();
         $religions = Religion::latest()->select('id', 'religion_code')->where('religion_status', 1)->get();
         $sexs = dbsex::latest()->select('id', 'dbsexes_code')->where('dbsexes_status', 1)->get();
@@ -88,7 +88,7 @@ class EmployeeController extends Controller
         $leave_types = LeaveType::latest()->select('id', 'leavetype_code', 'leavetype_default')->where('leavetype_status', 1)->get();
         return view('admin.employee.create', compact('Paybanks', 'emp_manager', 'emp_admin', 'rols', 'departments', 'designations', 'paymode', 'outlets', 'passes', 'users', 'roles', 'races', 'religions', 'sexs', 'marital_status', 'clients', 'leave_types', 'emp_team_leader'));
     }
-
+ 
     private function sendResetEmail($email)
     {
     //Retrieve the user from the database
@@ -221,7 +221,7 @@ class EmployeeController extends Controller
         $outlets = Outlet::latest()->select('id', 'outlet_name')->get();
         $passes = passtype::latest()->where('passtype_status', 1)->select('id', 'passtype_code')->get();
         $users = User::latest()->select('id', 'name')->get();
-        $roles = Role::latest()->select('id', 'name')->get();
+        $roles = Role::latest()->select('id', 'name')->where('active_status',0)->get();
         $races = Race::latest()->select('id', 'race_code')->where('race_status', 1)->get();
         $religions = Religion::latest()->select('id', 'religion_code')->where('religion_status', 1)->get();
         $sexs = dbsex::latest()->select('id', 'dbsexes_code')->where('dbsexes_status', 1)->get();

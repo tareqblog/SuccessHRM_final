@@ -41,7 +41,7 @@
                                             <select name="countries_id" id="" class="form-control" required>
                                                 <option readonly>Select One</option>
                                                 @foreach ($countries as $countrie)
-                                                    <option value="{{ $countrie->id }}" {{ old('countries_id') ==  $countrie->id ? 'selected' : '' }}>{{ $countrie->en_nationality }} </option>
+                                                    <option value="{{ $countrie->id }}" {{ old('countries_id') ==  $countrie->id ? 'selected' : '' }}>{{ $countrie->en_country_name }} </option>
                                                 @endforeach
                                             </select>
                                         </div>
