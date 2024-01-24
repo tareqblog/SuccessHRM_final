@@ -88,7 +88,7 @@ class EmployeeController extends Controller
         $leave_types = LeaveType::latest()->select('id', 'leavetype_code', 'leavetype_default')->where('leavetype_status', 1)->get();
         return view('admin.employee.create', compact('Paybanks', 'emp_manager', 'emp_admin', 'rols', 'departments', 'designations', 'paymode', 'outlets', 'passes', 'users', 'roles', 'races', 'religions', 'sexs', 'marital_status', 'clients', 'leave_types', 'emp_team_leader'));
     }
- 
+
     private function sendResetEmail($email)
     {
     //Retrieve the user from the database

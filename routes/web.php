@@ -17,6 +17,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AttendenceController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CountryController;
 use App\Http\Controllers\GiroController;
 use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\JobStatusController;
@@ -121,6 +122,7 @@ Route::prefix('ATS')->group(function () {
         '/time-sheet' => TimeSheetController::class,
         '/attendence' => AttendenceController::class,
         '/job-status' => JobStatusController::class,
+        '/countries' => CountryController::class,
     ]);
 
     Route::get('/leave/get/employee/{type}',  [LeaveController::class, 'getEmployees'])->name('leave.get.employees');

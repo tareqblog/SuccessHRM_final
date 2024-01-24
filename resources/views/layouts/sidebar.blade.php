@@ -407,11 +407,10 @@
 
                         </li>
                         @endif --}}
-                        @if ($usr->can('nationality.index'))
-                            <li><a href="{{ route('nationality.index') }}" data-key="nationality">Nationality</a>
-
-                            </li>
-                        @endif
+                        {{-- @if ($usr->can('countries.index')) --}}
+                        <li><a href="{{ route('countries.index') }}" data-key="countries">Nationality</a>
+                        </li>
+                        {{-- @endif --}}
                     </ul>
                 </li>
             @endif
