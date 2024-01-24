@@ -948,7 +948,7 @@
 
                 });
 
-    $('#mySelect').trigger('change');
+                $('#mySelect').trigger('change');
             });
         </script>
     @endsection

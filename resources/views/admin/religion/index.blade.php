@@ -125,7 +125,7 @@ Religion Management
                                         </div>
                                         <div class="row mt-5">
                                             <div class="col-lg-12">
-                                                <a href="#" class="btn btn-sm btn-secondary">Cancel</a>
+                                                <button type="button"  data-bs-dismiss="modal" aria-label="Close" class="btn btn-sm btn-secondary">Cancel</button>
                                                 <button type="submit" class="btn btn-sm btn-info">Submit</button>
                                             </div>
                                         </div>

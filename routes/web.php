@@ -158,6 +158,7 @@ Route::prefix('ATS')->group(function () {
     Route::post('/file-upload/{id}', [ClientController::class, 'fileUpload'])->name('client.file.upload');
     Route::delete('/file-delete/{id}', [ClientController::class, 'fileDelete'])->name('client.file.delete');
     Route::post('/client/followup/{id}', [ClientController::class, 'followUp'])->name('client.followup');
+    Route::post('/client/followup/update/{id}', [ClientController::class, 'updateFollowUp'])->name('client.followup.update');
     Route::delete('/client/followup/{id}', [ClientController::class, 'folowupDelete'])->name('client.followup.delete');
     Route::post('/client/import', [ClientController::class, 'clientImport'])->name('client.import');
     Route::post('/client/department/store', [ClientController::class, 'clientDepartmentStore'])->name('client.department.store');

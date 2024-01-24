@@ -7,8 +7,9 @@ use Illuminate\Support\Facades\Auth;
 
 class FileHelper
 {
-    public static function uploadFile($file, $disk = 'public', $path = 'uploads')
+    public static function uploadFile($file, $folder_name = null, $disk = 'public', $path = 'uploads')
     {
+        $path = $path.'/'.$folder_name;
         $filename = uniqid() . '_' . $file->getClientOriginalName();
         $filePath = $file->storeAs($path, $filename, $disk);
         return $filePath;
