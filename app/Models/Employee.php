@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 class Employee extends Model
 {
     use HasFactory;
@@ -17,71 +18,69 @@ class Employee extends Model
     public static function boot()
     {
         parent::boot();
-        static::created(function ($Employee) {
-           // $Employee->created_by = Auth::user()->id;
-           // $Employee->save();
+        static::created(function ($employee) {
+            $employee->created_by = Auth::user()->id;
+            $employee->save();
         });
 
         // Update field update_by with current user id each time article is updated.
-        static::updating(function ($Employee) {
-          //  $Employee->modify_by = Auth::user()->id;
-           // $Employee->save();
+        static::updating(function ($employee) {
+            $employee->modify_by = Auth::user()->id;
+            // $candidate->save();
         });
     }
 
     public function Department()
     {
-        return $this->belongsTo('App\Models\Department','departments_id');
+        return $this->belongsTo('App\Models\Department', 'departments_id');
     }
 
     public function outlet()
     {
-        return $this->belongsTo('App\Models\Outlet','employee_outlet_id');
+        return $this->belongsTo('App\Models\Outlet', 'employee_outlet_id');
     }
 
     public function passtype()
     {
-        return $this->belongsTo('App\Models\passtype','passtypes_id');
+        return $this->belongsTo('App\Models\passtype', 'passtypes_id');
     }
 
     public function User()
     {
-        return $this->belongsTo('App\Models\User','users_id');
+        return $this->belongsTo('App\Models\User', 'users_id');
     }
 
     public function paymode()
     {
-        return $this->belongsTo('App\Models\paymode','paymodes_id');
+        return $this->belongsTo('App\Models\paymode', 'paymodes_id');
     }
 
     public function Designation(): BelongsTo
     {
-        return $this->belongsTo(Designation::class,'designations_id');
+        return $this->belongsTo(Designation::class, 'designations_id');
     }
 
     public function dbsex()
     {
-        return $this->belongsTo('App\Models\dbsex','dbsexes_id');
+        return $this->belongsTo('App\Models\dbsex', 'dbsexes_id');
     }
 
     public function maritalStatus()
     {
-        return $this->belongsTo('App\Models\maritalStatus','marital_status_id');
+        return $this->belongsTo('App\Models\maritalStatus', 'marital_status_id');
     }
 
     public function Race()
     {
-        return $this->belongsTo('App\Models\Race','races_id');
+        return $this->belongsTo('App\Models\Race', 'races_id');
     }
     public function role_data()
     {
-        return $this->belongsTo('Spatie\Permission\Models\Role','roles_id');
+        return $this->belongsTo('Spatie\Permission\Models\Role', 'roles_id');
     }
 
     public function Religion()
     {
-        return $this->belongsTo('App\Models\Religion','religions_id');
+        return $this->belongsTo('App\Models\Religion', 'religions_id');
     }
-
-
 }
