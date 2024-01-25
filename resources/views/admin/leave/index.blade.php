@@ -25,7 +25,13 @@
                             @csrf
 
                             <div class="row">
-                                <div class="col-sm-12 col-md-4 row">
+                                <div class="col-sm-12 col-md-6 row">
+                                    <label for="one" class="col-sm-5 col-form-label fw-bold">Filter Date</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" name="daterange" value="{{ old('daterange', '2023-12-01 - 2024-01-25') }}" class="form-control" />
+                                    </div>
+                                </div>
+                                {{-- <div class="col-sm-12 col-md-4 row">
                                     <label for="one" class="col-sm-5 col-form-label fw-bold">Filter Start Date</label>
                                     <div class="col-sm-7">
                                         <input type="date" class="form-control" name="leave_datefrom" value="{{ old('leave_datefrom') }}">
@@ -36,8 +42,8 @@
                                     <div class="col-sm-7">
                                         <input type="date" class="form-control" name="leave_dateto" value="{{ old('leave_dateto') }}">
                                     </div>
-                                </div>
-                                <div class="col-sm-12 col-md-4 row">
+                                </div> --}}
+                                <div class="col-sm-12 col-md-6 row">
                                     <label for="one" class="col-sm-5 col-form-label fw-bold">AR Number</label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" name="ar_number" value="{{ old('ar_number') }}">
@@ -127,12 +133,27 @@
     @endsection
 
     @section('scripts')
-        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-            crossorigin="anonymous"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.css" />
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.js"></script>
         <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
         <script>
             $(document).ready(function() {
                 $('#myTable').DataTable();
+            });
+
+            $(function() {
+                $('input[name="daterange"]').daterangepicker({
+                    opens: 'left',
+                    locale: {
+                        format: 'YYYY-MM-DD'
+                    },
+                    endDate: moment().format('YYYY-MM-DD')
+                }, function(start, end, label) {
+                    console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                });
             });
         </script>
     @endsection

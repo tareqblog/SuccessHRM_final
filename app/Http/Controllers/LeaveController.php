@@ -170,10 +170,10 @@ class LeaveController extends Controller
     public function searchLeave(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'leave_datefrom' => 'date',
-            'leave_dateto' => 'date|after_or_equal:leave_datefrom',
+            'daterange' => 'required',
             'ar_number' => 'nullable|numeric',
         ]);
+
 
         if ($validator->fails()) {
             return response()->json([
@@ -182,17 +182,18 @@ class LeaveController extends Controller
                 'errors' => $validator->errors(),
             ], 400);
         }
-        $validator->validated();
+        $validated = $validator->validated();
+
+        $dateRange = $validated['daterange'];
+
+        [$startDate, $endDate] = explode(' - ', $dateRange);
 
         $query = Leave::query();
 
-        if ($request->has('leave_datefrom')) {
-            $query->where('leave_datefrom', '>=', $request->input('leave_datefrom'));
+        if (!empty($startDate) && !empty($endDate)) {
+            $query->whereBetween('leave_datefrom', [$startDate, $endDate]);
         }
 
-        if ($request->has('leave_dateto')) {
-            $query->where('leave_dateto', '<=', $request->input('leave_dateto'));
-        }
 
         if ($request->ar_number != null) {
             $query->where('ar_number', $request->input('ar_number'));

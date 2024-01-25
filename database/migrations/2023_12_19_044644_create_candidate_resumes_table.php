@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('isMain')->default(0)->comment('1=main,0=onlist');
             $table->integer('created_by')->nullable();
             $table->integer('modify_by')->nullable();
+            $table->text('resume_text')->nullable();
             $table->timestamps();
         });
     }

@@ -78,6 +78,7 @@
                                     <form action="{{ route('temporary.data.save') }}" method="POST">
                                         @csrf
                                         <input type="hidden" id="resume_path" name="resume_path" value="">
+                                        <textarea name="resume_text" hidden></textarea>
                                         <div class="row mb-4">
                                             <label for="one" class="col-sm-4 col-form-label">Name</label>
                                             <div class="col-sm-8">
@@ -199,14 +200,15 @@
                                 },
                                 // dataType: 'json',
                                 success: function(result) {
+                                    // console.log(result);
                                     // Update the form fields with the extracted information
+                                    $('textarea[name="resume_text"]').val(result.text);
                                     $('input[name="name"]').val(result.name);
                                     $('input[name="email"]').val(result.email);
                                     $('input[name="phone_no"]').val(result.phone_no);
                                     $('input[name="resume_path"]').val(result.myPath);
                                     const iframe = document.getElementById('pdfViewer');
                                     const pdfUrl = result.myPath;
-
                                     iframe.src = pdfUrl;
                                     iframe.width = "100%";
                                     iframe.height = "600px"; // Set height as required

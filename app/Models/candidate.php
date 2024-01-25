@@ -87,6 +87,7 @@ class candidate extends Model
     {
         return $this->hasMany(CandidateResume::class, 'candidate_id');
     }
+    
     public function remarks(): HasMany
     {
         return $this->hasMany(CandidateRemark::class, 'candidate_id');
