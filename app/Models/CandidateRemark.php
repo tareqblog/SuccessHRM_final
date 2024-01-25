@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
 
 class CandidateRemark extends Model
@@ -34,5 +35,10 @@ class CandidateRemark extends Model
     public function remarksType()
     {
         return $this->belongsTo(remarkstype::class, 'remarkstype_id', 'id');
+    }
+
+    public function candidate(): BelongsTo
+    {
+        return $this->belongsTo(candidate::class, 'candidate_id');
     }
 }
