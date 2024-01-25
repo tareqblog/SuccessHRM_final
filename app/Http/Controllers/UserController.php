@@ -30,7 +30,7 @@ class UserController extends Controller
     public function index(): View
     {
         return view('admin.users.index', [
-            'users' => User::latest('id')->get()
+            'users' => User::latest('id')->where('active_status', 1)->get()
         ]);
     }
 
@@ -41,7 +41,7 @@ class UserController extends Controller
     public function dashboard(): View
     {
         return view('index', [
-            'users' => User::latest('id')->get()
+            'users' => User::latest('id')->where('active_status', 1)->get()
         ]);
     }
 

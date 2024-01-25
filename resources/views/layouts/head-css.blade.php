@@ -24,6 +24,9 @@
       background-color:#fff!important;
 }
 
+.form-control{
+      border-radius:0.25rem!important;
+}
 .nav-tabs.nav-item{
       height: 100%!important;
 }
