@@ -17,9 +17,9 @@ use Mail;
 use App\Models\Employee;
 
 
-use Auth;
 
 use Google2FA;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -202,10 +202,12 @@ class UserController extends Controller
     {
         $user = User::find($user->id);
         if (!is_null($user)) {
-            $user->delete();
+            $user->update([
+                'active_status' => 0
+            ]);
         }
 
-        return back()->with('success', 'User has been deleted !!');
+        return back()->with('success', 'User has been disabled !!');
     }
 
     /**
@@ -225,6 +227,9 @@ class UserController extends Controller
     if(Auth::guard('web')->attempt(['email' => $check['email'], 'password' => $check['password'] ]))
 
     {
+        if (!Auth::user()->active_status == 1) {
+            return back()->with('error', 'Your account is disable please contact with admin.');
+        }
         //$request->session()->flash('login_data', $registration_data);
 
             $user = User::where('email','=',$check['email'])->first();

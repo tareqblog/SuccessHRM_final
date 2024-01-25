@@ -75,13 +75,15 @@
                                         <div class="col-lg-4">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Outlet <span class="text-danger">*</span> </label>
+                                                    <label for="one" class="col-sm-3 col-form-label">Outlet <span
+                                                            class="text-danger">*</span> </label>
                                                     <div class="col-sm-9">
-                                                        <select name="employee_outlet_id" class="form-control searchBox" required>
+                                                        <select name="employee_outlet_id" class="form-control searchBox"
+                                                            required>
                                                             <option value="">Select One</option>
                                                             @foreach ($outlets as $outlet)
                                                                 <option value="{{ $outlet->id }}">
-                                                                    {{ $outlet->name }}</option>
+                                                                    {{ $outlet->outlet_name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -132,8 +134,8 @@
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Birthday</label>
                                                     <div class="col-sm-9">
-                                                        <input type="date" name="employee_birthdate"
-                                                            class="form-control" placeholder="Birthday" required>
+                                                        <input type="date" name="employee_birthdate" class="form-control"
+                                                            placeholder="Birthday" required>
                                                     </div>
                                                 </div>
 
@@ -183,7 +185,8 @@
                                                     <label for="two" class="col-sm-3 col-form-label">User
                                                         Right</label>
                                                     <div class="col-sm-9">
-                                                        <select name="roles_id" class="form-control searchBox" id="mySelect" required>
+                                                        <select name="roles_id" class="form-control searchBox"
+                                                            id="mySelect" required>
                                                             <option value="">Select One</option>
                                                             @foreach ($roles as $role)
                                                                 <option value="{{ $role->id }}">{{ $role->name }}
@@ -196,7 +199,8 @@
                                                     <label for="two" class="col-sm-3 col-form-label">Team
                                                         Leader</label>
                                                     <div class="col-sm-9">
-                                                        <select name="team_leader_users_id" class="form-control searchBox">
+                                                        <select name="team_leader_users_id"
+                                                            class="form-control searchBox">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_team_leader as $leader)
                                                                 <option value="{{ $leader->id }}">
@@ -210,7 +214,8 @@
                                                     <label for="two" class="col-sm-3 col-form-label">Team
                                                         Leader</label>
                                                     <div class="col-sm-9">
-                                                        <select name="team_leader_users_id" class="form-control searchBox">
+                                                        <select name="team_leader_users_id"
+                                                            class="form-control searchBox">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_team_leader as $leader)
                                                                 <option value="{{ $leader->id }}">
@@ -287,6 +292,16 @@
                                                         </select>
                                                     </div>
                                                 </div>
+                                                <input type="checkbox" id="toggleCheckbox" onclick="toggleDiv()">
+                                                <label for="toggleCheckbox">Click to set credential</label>
+
+                                                <div class="form-check" id="role10input" style="display: none;">
+                                                    <input class="form-check-input" type="checkbox" value=""
+                                                        id="flexCheckChecked" checked>
+                                                    <label class="form-check-label" for="flexCheckChecked">
+                                                        Checked checkbox
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -299,27 +314,31 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" id="login_info" style="display: none;">
                                         <h5>Login Information</h5>
 
                                         <div class="col-lg-4">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4 form-group">
-                                                    <label for="two" class="col-sm-4 col-form-label">Login Initialize / ID <span class="text-danger">*</span></label>
+                                                    <label for="two" class="col-sm-4 col-form-label">Login Initialize
+                                                        / ID <span class="text-danger">*</span></label>
                                                     <div class="col-sm-8">
                                                         <input type="email" class="form-control" name="email">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4 form-group">
-                                                    <label for="two" class="col-sm-4 col-form-label">Password<span class="text-danger">*</span></label>
+                                                    <label for="two" class="col-sm-4 col-form-label">Password<span
+                                                            class="text-danger">*</span></label>
                                                     <div class="col-sm-8">
                                                         <input type="password" class="form-control" name="password">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4 form-group">
-                                                    <label for="two" class="col-sm-4 col-form-label">Confirm Password<span class="text-danger">*</span></label>
+                                                    <label for="two" class="col-sm-4 col-form-label">Confirm
+                                                        Password<span class="text-danger">*</span></label>
                                                     <div class="col-sm-8">
-                                                        <input type="password" class="form-control" name="password_confirmation">
+                                                        <input type="password" class="form-control"
+                                                            name="password_confirmation">
                                                     </div>
                                                 </div>
                                             </div>
@@ -553,8 +572,8 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Extention of
                                                         Probation</label>
                                                     <div class="col-sm-9">
-                                                        <select name="employee_extentionprobation" class="form-control searchBox"
-                                                            id="">
+                                                        <select name="employee_extentionprobation"
+                                                            class="form-control searchBox" id="">
                                                             <option value='0'>Select One</option>
                                                             <option value='1'
                                                                 {{ old('employee_extentionprobation') == 1 ? 'selected' : '' }}>
@@ -655,8 +674,8 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Approved level
                                                         1</label>
                                                     <div class="col-sm-9">
-                                                        <select name="claims_aprv1_users_id" class="form-control searchBox"
-                                                            id="">
+                                                        <select name="claims_aprv1_users_id"
+                                                            class="form-control searchBox" id="">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_admin as $data)
                                                                 <option value="{{ $data->id }}"
@@ -685,8 +704,8 @@
                                                     <label for="one" class="col-sm-3 col-form-label">Approved level
                                                         3</label>
                                                     <div class="col-sm-9">
-                                                        <select name="claims_aprv3_users_id" class="form-control searchBox"
-                                                            id="">
+                                                        <select name="claims_aprv3_users_id"
+                                                            class="form-control searchBox" id="">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_admin as $data)
                                                                 <option value="{{ $data->id }}"
@@ -707,7 +726,8 @@
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Pay Mode</label>
                                                     <div class="col-sm-9">
-                                                        <select name="paymodes_id" class="form-control searchBox" id="">
+                                                        <select name="paymodes_id" class="form-control searchBox"
+                                                            id="">
                                                             <option value="">Select One</option>
                                                             <option value="1">Cash</option>
                                                             <option value="2">Cheque</option>
@@ -867,7 +887,6 @@
                 $('#mySelect').change(function() {
                     var selectedValue = $(this).val();
 
-
                     // Payroll end
                     if (selectedValue === '8') {
                         myConsultent();
@@ -909,5 +928,11 @@
 
                 });
             });
+        </script>
+        <script>
+            function toggleDiv() {
+                var div = document.getElementById("login_info");
+                div.style.display = div.style.display === "none" ? "block" : "none";
+            }
         </script>
     @endsection

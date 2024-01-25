@@ -56,7 +56,7 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit"
-                                                    onclick="return confirm('Are you sure you want to delete this item?')"
+                                                    onclick="return confirm('Are you sure? You want to disable this user?')"
                                                     class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
                                             </form>
                                         </td>
