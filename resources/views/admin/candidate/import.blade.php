@@ -50,7 +50,8 @@
                                     <form action="{{ route('delete.uploaded.data') }}" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf
-                                        <ul style="list-style: none; width: 100%; height: 500px;overflow: scroll; background: #f1f1f1;">
+                                        <ul
+                                            style="list-style: none; width: 100%; height: 500px;overflow: scroll; background: #f1f1f1;">
                                             @foreach ($importData as $key => $resume)
                                                 <li class="d-flex">
                                                     @php
@@ -58,8 +59,11 @@
                                                         $originalFilename = $parts[1];
                                                     @endphp
 
-                                                    <input style="margin-bottom: 8px; margin-right: 10px" type="radio" id="selectedFile-{{$key}}" name="selectedFile" value="{{ $resume->resume_path }}">
-                                                    <label for="selectedFile-{{$key}}">{{ $originalFilename }}</label>
+                                                    <input style="margin-bottom: 8px; margin-right: 10px" type="radio"
+                                                        id="selectedFile-{{ $key }}" name="selectedFile"
+                                                        value="{{ $resume->resume_path }}">
+                                                    <label
+                                                        for="selectedFile-{{ $key }}">{{ $originalFilename }}</label>
 
 
                                                 </li>
@@ -127,24 +131,24 @@
                                 @endif
                             </div>
                             <div class="col-lg-5 card-body mt-4">
-                                {{-- <div id="fileViewer"></div> --}}
                                 <iframe id="pdfViewer"></iframe>
-                                <!-- Extracted information will be displayed here -->
                             </div>
                         </div>
                     </div>
                     @if ($temporary_data->isNotEmpty())
                         <div class="col-lg-11 m-auto">
-                                <h4>Temporary Imported Data</h4>
-                                @include('admin.candidate.inc.partial-table', ['items' => $temporary_data])
-                                {{ $temporary_data->links() }}
-                                <div class="text-end mb-5">
-                                    <form action="{{ route('import.candidate.data', ['temporary_data' => json_encode($temporary_data)]) }}" method="POST">
-                                        @csrf
+                            <h4>Temporary Imported Data</h4>
+                            @include('admin.candidate.inc.partial-table', ['items' => $temporary_data])
+                            {{ $temporary_data->links() }}
+                            <div class="text-end mb-5">
+                                <form
+                                    action="{{ route('import.candidate.data', ['temporary_data' => json_encode($temporary_data)]) }}"
+                                    method="POST">
+                                    @csrf
 
-                                        <button type="submit" class="btn btn-success">Proceed to candidate</button>
-                                    </form>
-                                </div>
+                                    <button type="submit" class="btn btn-success">Proceed to candidate</button>
+                                </form>
+                            </div>
                         </div>
                     @endif
                     <div class="col-lg-11 m-auto">
@@ -154,12 +158,15 @@
                                 <div class="col-sm-12 col-md-6">
                                     <h4>History Imported Data</h4>
                                 </div>
-
-                                <div class="col-sm-12 col-md-3">
-                                    <input type="date" class="form-control" name="start_date" id="start_date" placeholder="Start Date" value="{{ $start ?? old('start_date')}}">
-                                </div>
-                                <div class="col-sm-12 col-md-3">
-                                    <input type="date" class="form-control" name="end_date" id="end_date" placeholder="End Date" value="{{ $end ?? old('end_date')}}">
+                                <div class="col-sm-12 col-md-6 row">
+                                    <div class="col-sm-12 col-md-3 text-end">
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        @include('admin.partials.daterang')
+                                    </div>
+                                    <div class="col-sm-12 col-md-3 text-end">
+                                         <button onclick="filterHistoryImport(event)" class="btn btn-info btn-sm py-2" type="submit">Filter Data</button>
+                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -167,25 +174,19 @@
                         {{ $history_data->links() }}
                     </div>
                 </div>
+            @endsection
 
+            @section('scripts')
                 <script src="https://code.jquery.com/jquery-3.6.3.min.js"
                     integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 
                 <script>
-                     $(document).ready(function () {
-                        $('#start_date, #end_date').on('change', function () {
-                            var start_date = $('#start_date').val();
-                            var end_date = $('#end_date').val();
-
-                            if (start_date > end_date) {
-                                alert('Start date cannot be greater than end date');
-                                return false;
-                            }
-                            var newUrl = "{{ route('import.index') }}?start_date=" + start_date + "&end_date=" + end_date;
-                            window.location.href = newUrl;
-
-                        });
-                    });
+                    function filterHistoryImport(event) {
+                        event.preventDefault();
+                        let daterange = document.getElementById('daterangeInput').value;
+                        let newUrl = "{{ route('import.index') }}?daterange=" + encodeURIComponent(daterange);
+                        window.location.href = newUrl;
+                    }
 
                     $(document).ready(function() {
                         $('input[name="selectedFile"]').on('change', function() {
@@ -198,10 +199,7 @@
                                     selectedFile: selectedFile,
                                     _token: '{{ csrf_token() }}'
                                 },
-                                // dataType: 'json',
                                 success: function(result) {
-                                    // console.log(result);
-                                    // Update the form fields with the extracted information
                                     $('textarea[name="resume_text"]').val(result.text);
                                     $('input[name="name"]').val(result.name);
                                     $('input[name="email"]').val(result.email);
@@ -211,12 +209,7 @@
                                     const pdfUrl = result.myPath;
                                     iframe.src = pdfUrl;
                                     iframe.width = "100%";
-                                    iframe.height = "600px"; // Set height as required
-
-                                    // Append the iframe to the div
-                                    // pdfContainer.appendChild(iframe);
-
-                                    // $('#fileViewer').text(result.myPath);
+                                    iframe.height = "600px";
                                 },
                                 error: function(xhr, status, error) {
                                     console.error('Error:', error);
@@ -225,64 +218,4 @@
                         });
                     });
                 </script>
-            @endsection
-            @section('scripts')
-                {{-- <script>
-                    // JavaScript
-                    document.getElementById('selectAll').addEventListener('click', function() {
-                        // Get all radio buttons with the name 'selectedFiles'
-                        var radioButtons = document.querySelectorAll('input[name="selectedFiles"]');
-
-                        // Clear the selection of all radio buttons
-                        radioButtons.forEach(function(radio) {
-                            radio.checked = false;
-                        });
-                    });
-                </script>
-                <script type="text/javascript">
-                    $(document).ready(function() {
-                        $('input[name="selectedFiles[]"]').on('change', function() {
-                            var selectedFiles = $('input[name="selectedFiles[]"]:checked').map(function() {
-                                return $(this).val();
-                            }).get();
-
-                            if (selectedFiles.length > 0) {
-                                $.ajax({
-                                    url: "{{ route('extract.info') }}",
-                                    type: "POST",
-                                    data: {
-                                        selectedFiles: selectedFiles,
-                                        _token: '{{ csrf_token() }}'
-                                    },
-                                    dataType: 'json',
-                                    success: function(result) {
-                                        console.log(result);
-                                        // Update the form fields with the extracted information
-                                        $('input[name="name"]').val(result.name);
-                                        $('input[name="email"]').val(result.email);
-                                        $('input[name="phone_no"]').val(result.phone_no);
-                                        $('input[name="resume_path"]').val(result.myPath);
-                                        const iframe = document.getElementById('pdfViewer');
-                                        const pdfUrl = result.myPath;
-
-                                        iframe.src = pdfUrl;
-                                        iframe.width = "100%";
-                                        iframe.height = "600px"; // Set height as required
-
-                                        // Append the iframe to the div
-                                        // pdfContainer.appendChild(iframe);
-
-                                        // $('#fileViewer').text(result.myPath);
-                                    },
-                                    error: function(xhr, status, error) {
-                                        console.error('Error:', error);
-                                    }
-                                });
-                            } else {
-                                // Handle the case where no file is selected
-                                console.log('No file selected');
-                            }
-                        });
-                    });
-                </script> --}}
             @endsection

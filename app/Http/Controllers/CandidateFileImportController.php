@@ -37,20 +37,14 @@ class CandidateFileImportController extends Controller
      */
     public function index(Request $request)
     {
-
+        // Check user authorization
         if (is_null($this->user) || !$this->user->can('import.index')) {
             abort(403, 'Unauthorized');
         }
 
+        // Validate the request
         $validator = Validator::make($request->all(), [
-            'start_date' => 'nullable|date',
-            'end_date' => [
-                'nullable',
-                'date',
-                Rule::requiredIf(function () use ($request) {
-                    return !is_null($request->input('start_date'));
-                }),
-            ],
+            'daterange' => 'nullable|string'
         ]);
 
         if ($validator->fails()) {
@@ -59,28 +53,36 @@ class CandidateFileImportController extends Controller
                 ->withInput();
         }
 
-        $validate = $validator->validated();
+        // Get validated data
+        $validated = $validator->validated();
 
-        $history_data = TemporaryImportedData::query();
+        // Initialize variables
+        $start = $end = Carbon::now()->toDateString();
 
-        $start = $validate['start_date'] ?? Carbon::now()->toDateString();
-        $end = $validate['end_date'] ?? Carbon::now()->toDateString();
+        // Parse date range if provided
+        if (array_key_exists('daterange', $validated) && !empty($validated['daterange'])) {
+            [$start, $end] = explode(' - ', $validated['daterange']);
+        }
 
-        $importData = ImportCandidateData::where('user_id', Auth::id())->get();
-
-        $temporary_data = TemporaryImportedData::where('created_by', Auth::id())
-                            ->where('status', 0)
-                            ->paginate(10);
-
+        // Apply filters
         $history_data = TemporaryImportedData::where('created_by', Auth::id())
-                            ->where('status', 1)
-                            ->where('created_at', '>=', $start)
-                            ->where('created_at', '<=', $end . ' 23:59:59')
-                            // ->whereBetween('created_at', [$start, $end])
-                            ->paginate(10);
+            ->where('status', 1);
 
+        if ($start && $end) {
+            $history_data->where('created_at', '>=', $start)
+                ->where('created_at', '<=', $end . ' 23:59:59');
+        }
+
+        // Paginate the results and append the date range to pagination links
+        $history_data = $history_data->paginate(10)->appends(['daterange' => $validated['daterange'] ?? null]);
+
+        // Pass other required data to the view
+        $importData = ImportCandidateData::where('user_id', Auth::id())->get();
+        $temporary_data = TemporaryImportedData::where('created_by', Auth::id())
+            ->where('status', 0)
+            ->paginate(10);
         $assaignPerson = Employee::where('employee_status', 1)->get();
-
+      
         return view('admin.candidate.import', compact('importData', 'temporary_data', 'history_data', 'assaignPerson', 'start', 'end'));
     }
 

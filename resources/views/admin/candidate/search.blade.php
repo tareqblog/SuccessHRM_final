@@ -108,7 +108,6 @@ Search Candidate Detail
                             <button type="submit" class="btn btn-warning btn-sm">Save to Profile</button>
                             <button type="submit" class="btn btn-success btn-sm">Save All</button>
                         </div>
-
                     </div>
                 </form>
                 <div class="row">
