@@ -1201,8 +1201,8 @@
                                                             @if ($resume->isMain == 0)
                                                                 <input type="radio" name="isMain"
                                                                     {{ $resume->isMain == 1 ? 'checked' : '' }}
-                                                                    class="isMainRadio"
-                                                                    data-candidate-id="{{ $resume->id }}">
+                                                                    class="isMainRadio" data-resume-id="{{ $resume->id }}"
+                                                                    data-candidate-id="{{ $candidate->id }}">
                                                             @else
                                                                 <input type="radio" name="isMain"
                                                                     {{ $resume->isMain == 1 ? 'checked' : '' }}>
@@ -2207,6 +2207,7 @@
                                 <h5>Create Time Sheet</h5>
                                 <form action="{{ route('candidate.working.hour', $candidate->id) }}" method="POST">
                                     @csrf
+
                                     <div class="row mb-5">
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
@@ -2439,40 +2440,29 @@
         <script language="javascript" type="text/javascript">
             if (window.location.hash) { // Check if url hash is not empty
                 var hash = window.location.hash; // nav-y1
+                console.log(hash);
                 document.querySelector('[href="' + hash + '"]').click();
             }
         </script>
         <script>
-            // Get the radio button element
-            var isMainRadio = document.getElementById('isMainRadio');
-
-            // Add a change event listener
-            isMainRadio.addEventListener('change', function() {
-
-            });
-        </script>
-        <script>
             $(document).ready(function() {
-                // Add a change event listener to all radio buttons with class 'isMainRadio'
                 $('.isMainRadio').on('change', function() {
                     // Get the candidate ID from the data attribute
-                    var currentCandidateId = $(this).data('candidate-id');
+                    var resumeId = $(this).data('resume-id');
+                    var candidateId = $(this).data('candidate-id');
 
-                    // Make an Ajax request to update the isMain status
                     $.ajax({
                         type: 'POST',
-                        url: 'candidate/main/' + currentCandidateId,
+                        url: '/ATS/candidate/resume/update/' + candidateId,
                         data: {
-                            isMain: 1,
-                            _token: '{{ csrf_token() }}' // Set to 1 when the radio button is checked
+                            resumeId: resumeId,
+                            _token: '{{ csrf_token() }}'
                         },
                         success: function(response) {
-                            console.log(response.message);
-                            // You can handle the success response here
+                            console.log(response);
                         },
                         error: function(error) {
                             console.error('Ajax request failed:', error);
-                            // You can handle the error response here
                         }
                     });
                 });

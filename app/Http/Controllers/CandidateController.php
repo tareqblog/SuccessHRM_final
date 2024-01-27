@@ -173,12 +173,21 @@ class CandidateController extends Controller
         }
 
 
-        $filePath = storage_path("app/public/{$candidate->avatar}");
+        $candidate->update([
+            'candidate_status' => 3,
+            'candidate_isDeleted' => 1
+        ]);
 
-        if (file_exists($filePath)) {
-            Storage::delete("public/{$candidate->avatar}");
-        }
-        $candidate->delete();
+        $candidate->user()->update([
+            'active_status' => 3
+        ]);
+
+        // $filePath = storage_path("app/public/{$candidate->avatar}");
+
+        // if (file_exists($filePath)) {
+        //     Storage::delete("public/{$candidate->avatar}");
+        // }
+        // $candidate->delete();
         return back()->with('success', 'Deleted Successfully.');
     }
 
@@ -272,15 +281,24 @@ class CandidateController extends Controller
         return back()->with('success', 'Successfully Deleted.');
     }
 
-    public function resumeMain(Request $request, $id)
+    public function resumeMain(Request $request, candidate $candidate)
     {
-        if (is_null($this->user) || !$this->user->can('candidate.resume.main')) {
-            abort(403, 'Unauthorized');
+        // return $candidate;
+        // if (is_null($this->user) || !$this->user->can('candidate.resume.main')) {
+        //     abort(403, 'Unauthorized');
+        // }
+        $candidate = $candidate->load('resumes');
+        foreach ($candidate->resumes as $resume) {
+            if ($resume->id == $request->resumeId) {
+                $resume->update(['isMain' => 1]);
+            } else {
+                $resume->update(['isMain' => 0]);
+            }
         }
-        CandidateResume::where('id', '!=', $id)->where('isMain', 1)->update(['isMain' => 0]);
-        $candidate = CandidateResume::findOrFail($id);
-        $candidate->update(['isMain' => $request->input('isMain')]);
-        return back()->with('success', "Assaign Main Successfully.");
+        return response()->json(['message' => 'Resumes updated successfully']);
+        // CandidateResume::where('id', '!=', $id)->where('isMain', 1)->update(['isMain' => 0]);
+        // $candidate = CandidateResume::findOrFail($id);
+        // $candidate->update(['isMain' => $request->input('isMain')]);
     }
     public function remark(Request $request, $id)
     {

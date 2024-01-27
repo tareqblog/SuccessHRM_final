@@ -31,18 +31,6 @@
                                         <input type="text" name="daterange" value="{{ old('daterange', '2023-12-01 - 2024-01-25') }}" class="form-control" />
                                     </div>
                                 </div>
-                                {{-- <div class="col-sm-12 col-md-4 row">
-                                    <label for="one" class="col-sm-5 col-form-label fw-bold">Filter Start Date</label>
-                                    <div class="col-sm-7">
-                                        <input type="date" class="form-control" name="leave_datefrom" value="{{ old('leave_datefrom') }}">
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-md-4 row">
-                                    <label for="one" class="col-sm-5 col-form-label fw-bold">Filter End Date</label>
-                                    <div class="col-sm-7">
-                                        <input type="date" class="form-control" name="leave_dateto" value="{{ old('leave_dateto') }}">
-                                    </div>
-                                </div> --}}
                                 <div class="col-sm-12 col-md-6 row">
                                     <label for="one" class="col-sm-5 col-form-label fw-bold">AR Number</label>
                                     <div class="col-sm-7">
@@ -134,7 +122,6 @@
 
     @section('scripts')
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.css" />
-        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.js"></script>

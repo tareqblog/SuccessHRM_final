@@ -140,7 +140,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-lg-6 mb-4">
-                                            <label for="seven" class="col-sm-3 col-form-label">Industry
+                                            <label for="seven" class="col-sm-3 col-form-label">Industry /Job category
                                                 <span class="text-danger">*</span></label>
                                             <div class="col-sm-9">
                                                 <select name="industry_types_id" class="form-control" required>

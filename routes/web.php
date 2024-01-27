@@ -179,7 +179,7 @@ Route::prefix('ATS')->group(function () {
     Route::delete('/candidate/family/{id}', [CandidateController::class, 'familyDelete'])->name('candidate.family.delete');
     Route::post('/candidate/resume/{id}', [CandidateController::class, 'resumeUpload'])->name('candidate.resume');
     Route::delete('/candidate/resume/{id}', [CandidateController::class, 'resumeDelete'])->name('candidate.resume.delete');
-    Route::post('/candidate/main/{id}', [CandidateController::class, 'resumeMain'])->name('candidate.resume.main');
+    Route::post('/candidate/resume/update/{candidate}', [CandidateController::class, 'resumeMain'])->name('candidate.resume.main');
 
     Route::get('/candidate/timesheet-data/{timeSheetId}', [CandidateController::class, 'timeSheetData'])->name('candidate.timesheet.data');
 

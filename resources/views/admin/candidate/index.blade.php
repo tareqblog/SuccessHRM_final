@@ -57,7 +57,9 @@
                                         <td><a href="{{ route('candidate.edit', $data->id) }}"
                                                 class="btn btn-success btn-sm me-3">Assigned</a></td>
                                         <td></td>
-                                        <td>{{ $data->candidate_status == 1 ? 'Active' : 'In-Active' }}</td>
+                                        <td class="text-{{\App\Enums\Status::from($data->candidate_status)->message()}}">{{\App\Enums\Status::from($data->candidate_status)->title()}}
+                                        </td>
+                                        {{-- <td>{{ $data->candidate_status == 1 ? 'Active' : 'In-Active' }}</td> --}}
                                         <td style="display: flex;">
                                             {{-- @if (App\Helpers\FileHelper::usr()->can('candidate.remark')) --}}
                                             <a href="" class="btn btn-info btn-sm me-2"><i class="fab fa-dyalog"></i></a>
