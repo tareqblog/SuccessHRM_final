@@ -55,7 +55,7 @@ class EmployeeController extends Controller
         if (is_null($this->user) || !$this->user->can('employee.index')) {
             abort(403, 'Unauthorized');
         }
-        $datas = Employee::with('role_data', 'Designation')->where('active_status', 1)->latest()->get();
+        $datas = Employee::with('role_data', 'Designation')->where('employee_status', 1)->latest()->get();
 
         return view('admin.employee.index', compact('datas'));
     }
@@ -155,6 +155,7 @@ class EmployeeController extends Controller
                 $user = new User();
                 $user->name = $request->employee_name;
                 $user->email = $request->email;
+                $user->role = $request->passtypes_id;
                 $user->password = Hash::make($request->password);
                 $user->google2fa_secret = $google2fa->generateSecretKey();
                 $user->save();

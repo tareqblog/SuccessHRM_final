@@ -100,6 +100,7 @@ class CandidateRequest extends FormRequest
             'candidate_isBlocked' => 'integer',
             'candidate_isDeleted' => 'integer',
             'children_no' => 'integer|nullable',
+            'team_leader_id' => 'integer|nullable',
             'avatar' => 'nullable|max:2048|mimes:png,jpg,jpeg',
 
         ];

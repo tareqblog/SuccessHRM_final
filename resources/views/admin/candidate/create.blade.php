@@ -172,7 +172,32 @@
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
+                                                @php
+                                                    $user = auth()->user();
+                                                    if ($user) {
+                                                        $roleName = $user->roleName($user->role);
+                                                    } else {
 
+                                                    }
+                                                @endphp
+                                                <div class="row mb-4">
+                                                    <label for="two" class="col-sm-4 col-form-label">Team Leader</label>
+                                                    <div class="col-sm-8">
+                                                        <select class="form-control" name="team_leader_id" required >
+                                                            @if ($roleName == 'Team Leader')
+                                                            <option value="{{$user->employe->id}}" selected @readonly(true)>{{$user->employe->employee_name}}</option>
+                                                            @elseif($roleName == 'Administrator')
+                                                                <option value="">Select One</option>
+                                                                @foreach (\App\Models\Employee::select('id', 'employee_name')->where('roles_id', 11)->get() as $row)
+                                                                    <option value="{{ $row->id }}"
+                                                                        {{ old('team_leader_id') == $row->id ? 'selected' : '' }}>
+                                                                        {{ $row->employee_name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                </div>
                                                 <div class="row mb-4">
                                                     <label for="two" class="col-sm-4 col-form-label">Outlet</label>
                                                     <div class="col-sm-8">

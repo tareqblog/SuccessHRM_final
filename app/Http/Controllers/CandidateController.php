@@ -52,7 +52,14 @@ class CandidateController extends Controller
         if (is_null($this->user) || !$this->user->can('candidate.index')) {
             abort(403, 'Unauthorized');
         }
-        $datas = candidate::latest()->with('Race')->where('candidate_status', '=', 1)->where('candidate_isDeleted', '=', 0)->get();
+
+        $auth = Auth::user()->employe;
+        $datas = candidate::latest()->with('Race');
+        if($auth->roles_id == 11)
+        {
+            $datas->where('team_leader_id', $auth->id);
+        }
+        $datas = $datas->where('candidate_status', '=', 1)->where('candidate_isDeleted', '=', 0)->get();
         return view('admin.candidate.index', compact('datas'));
     }
 

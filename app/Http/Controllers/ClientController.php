@@ -46,7 +46,14 @@ class ClientController extends Controller
         if (is_null($this->user) || !$this->user->can('clients.index')) {
             abort(403, 'Unauthorized');
         }
-        $datas = client::latest()->with('industry_type','Employee')->get();
+
+        $auth = Auth::user()->employe;
+        $datas = client::latest()->with('industry_type', 'Employee');
+        if ($auth->roles_id == 11) {
+            $datas->where('employees_id', $auth->id);
+        }
+
+        $datas = $datas->get();
         return view('admin.client.index', compact('datas'));
     }
 

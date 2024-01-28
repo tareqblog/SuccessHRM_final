@@ -32,7 +32,14 @@ class JobController extends Controller
         if (is_null($this->user) || !$this->user->can('job.index')) {
             abort(403, 'Unauthorized');
         }
-        $datas = job::latest()->get();
+
+        $auth = Auth::user()->employe;
+        $datas = job::query();
+        if ($auth->roles_id == 11) {
+            $datas->where('person_incharge', $auth->id);
+        }
+
+        $datas = $datas->latest()->get();
         return view('admin.job.index', compact('datas'));
     }
 
