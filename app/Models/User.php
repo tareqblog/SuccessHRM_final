@@ -4,12 +4,13 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -102,4 +103,14 @@ class User extends Authenticatable
         );
     }
 
+    public function roleName($roleId)
+    {
+        $role = Role::find($roleId);
+        return $role ? $role->name : null;
+    }
+
+    public function employe(): HasOne
+    {
+        return $this->hasOne(Employee::class, 'users_id');
+    }
 }

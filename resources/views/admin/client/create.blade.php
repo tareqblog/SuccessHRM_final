@@ -7,7 +7,8 @@
 @endsection
 @section('css')
     <!-- choices css -->
-    <link href="{{ URL::asset('build/libs/choices.js/public/assets/styles/choices.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ URL::asset('build/libs/choices.js/public/assets/styles/choices.min.css') }}" rel="stylesheet"
+        type="text/css" />
 @endsection
 @section('body')
 
@@ -20,7 +21,7 @@
                     <div class="card-header">
                         <h4 class="card-title mb-0">Create New Client</h4>
                         <div class="text-end">
-                            <a href="{{route('clients.index')}}" class="btn btn-sm btn-success">Search</a>
+                            <a href="{{ route('clients.index') }}" class="btn btn-sm btn-success">Search</a>
                         </div>
                     </div>
 
@@ -50,7 +51,7 @@
                                                 Code <span class="text-danger">*</span></label>
                                             <div class="col-sm-9">
                                                 <input type="text" name="client_code" class="form-control"
-                                                    placeholder="Client Code" value="{{old('client_code')}}" required>
+                                                    placeholder="Client Code" value="{{ old('client_code') }}" required>
                                             </div>
                                         </div>
                                         <div class="row col-lg-6  mb-4">
@@ -58,19 +59,33 @@
                                                 Name <span class="text-danger">*</span> </label>
                                             <div class="col-sm-9">
                                                 <input type="text" name="client_name" class="form-control"
-                                                    placeholder="Client Name" value="{{old('client_name')}}" required>
+                                                    placeholder="Client Name" value="{{ old('client_name') }}" required>
                                             </div>
                                         </div>
+                                        @php
+                                            $user = auth()->user();
+                                            if ($user) {
+                                                $roleName = $user->roleName($user->role);
+                                            } else {
+                                            }
+                                        @endphp
+
                                         <div class="row col-lg-6  mb-4">
                                             <label for="two" class="col-sm-3 col-form-label">Manager /
                                                 Consultant (In Charge) <span class="text-danger">*</span></label>
                                             <div class="col-sm-9">
                                                 <select name="employees_id" class="form-control" required>
-                                                    <option value="">Select One</option>
-                                                    @foreach ($employees as $employee)
-                                                        <option value="{{ $employee->id }}" {{ old('employees_id') == $employee->id ? 'selected' : '' }}>
-                                                            {{ $employee->employee_name }}</option>
-                                                    @endforeach
+                                                    @if ($roleName == 'Team Leader')
+                                                        <option value="{{ $user->employe->id }}" selected @readonly(true)>
+                                                            {{ $user->employe->employee_name }}</option>
+                                                    @elseif($roleName == 'Aministrator')
+                                                        <option value="">Select One</option>
+                                                        @foreach ($employees as $employee)
+                                                            <option value="{{ $employee->id }}"
+                                                                {{ old('employees_id') == $employee->id ? 'selected' : '' }}>
+                                                                {{ $employee->employee_name }}</option>
+                                                        @endforeach
+                                                    @endif
                                                 </select>
                                             </div>
                                         </div>
@@ -81,7 +96,8 @@
                                                 <select name="payroll_employees_id" class="form-control">
                                                     <option value="">Select One</option>
                                                     @foreach ($employees_payroll as $user)
-                                                        <option value="{{ $user->id }}" {{ old('payroll_employees_id') == $user->id ? 'selected' : '' }}>
+                                                        <option value="{{ $user->id }}"
+                                                            {{ old('payroll_employees_id') == $user->id ? 'selected' : '' }}>
                                                             {{ $user->employee_name }}
                                                         </option>
                                                     @endforeach
@@ -91,7 +107,7 @@
                                         <div class="row col-lg-6  mb-4">
                                             <label for="four" class="col-sm-3 col-form-label">Remark</label>
                                             <div class="col-sm-9">
-                                                <textarea name="client_remarks" rows="2" class="form-control" placeholder="Remark">{{old('client_remarks')}} </textarea>
+                                                <textarea name="client_remarks" rows="2" class="form-control" placeholder="Remark">{{ old('client_remarks') }} </textarea>
                                             </div>
                                         </div>
                                         <div class="row col-lg-6  mb-4">
@@ -99,7 +115,7 @@
                                                 TNC</label>
                                             <div class="col-sm-9">
                                                 <input type="date" name="tnc_renewal_date" class="form-control"
-                                                    placeholder="Renewal Date" value="{{old('tnc_renewal_date')}}">
+                                                    placeholder="Renewal Date" value="{{ old('tnc_renewal_date') }}">
                                             </div>
                                         </div>
                                         <div class="row col-lg-6  mb-4">
@@ -109,7 +125,8 @@
                                                 <select name="industry_types_id" class="form-control" required>
                                                     <option value="">Select One</option>
                                                     @foreach ($job_categories as $category)
-                                                        <option value="{{ $category->id }}" {{ old('industry_types_id') == $category->id ? 'selected' : '' }}>
+                                                        <option value="{{ $category->id }}"
+                                                            {{ old('industry_types_id') == $category->id ? 'selected' : '' }}>
                                                             {{ $category->jobcategory_name }}</option>
                                                     @endforeach
                                                 </select>
@@ -122,7 +139,8 @@
                                                 <select name="tnc_templates_id" class="form-control" required>
                                                     <option value="">Select One</option>
                                                     @foreach ($tncs as $tnc)
-                                                        <option value="{{ $tnc->id }}" {{ old('tnc_templates_id') == $tnc->id ? 'selected' : '' }}>
+                                                        <option value="{{ $tnc->id }}"
+                                                            {{ old('tnc_templates_id') == $tnc->id ? 'selected' : '' }}>
                                                             {{ $tnc->tnc_template_code }}</option>
                                                     @endforeach
                                                 </select>
@@ -135,7 +153,8 @@
                                                 <select name="client_terms_id" class="form-control">
                                                     <option value="">Select One</option>
                                                     @foreach ($client_terms as $term)
-                                                        <option value="{{ $term->id }}" {{ old('client_terms_id') == $term->id ? 'selected' : '' }}>
+                                                        <option value="{{ $term->id }}"
+                                                            {{ old('client_terms_id') == $term->id ? 'selected' : '' }}>
                                                             {{ $term->client_term_code }}</option>
                                                     @endforeach
                                                 </select>
@@ -150,7 +169,8 @@
                                             Person</label>
                                         <div class="col-sm-9">
                                             <input type="text" name="client_attention_person" class="form-control"
-                                                placeholder="Attention Person" value="{{old('client_attention_person')}}">
+                                                placeholder="Attention Person"
+                                                value="{{ old('client_attention_person') }}">
                                         </div>
                                     </div>
                                     <div class="row col-lg-6 mb-4">
@@ -158,7 +178,8 @@
                                             Person <span class="text-danger">*</span></label>
                                         <div class="col-sm-9">
                                             <input type="text" name="client_contact_person" class="form-control"
-                                                placeholder="Contact Person" value="{{old('client_contact_person')}}" required>
+                                                placeholder="Contact Person" value="{{ old('client_contact_person') }}"
+                                                required>
                                         </div>
                                     </div>
                                     <div class="row col-lg-6 mb-4">
@@ -166,14 +187,15 @@
                                             Number <span class="text-danger">*</span></label>
                                         <div class="col-sm-9">
                                             <input type="text" name="client_contact_number" class="form-control"
-                                                placeholder="Contact Number" value="{{old('client_contact_number')}}" required>
+                                                placeholder="Contact Number" value="{{ old('client_contact_number') }}"
+                                                required>
                                         </div>
                                     </div>
                                     <div class="row col-lg-6  mb-4">
                                         <label for="fourteen" class="col-sm-3 col-form-label">Fax</label>
                                         <div class="col-sm-9">
                                             <input type="text" name="client_fax" class="form-control"
-                                                placeholder="Fax" value="{{old('client_fax')}}">
+                                                placeholder="Fax" value="{{ old('client_fax') }}">
                                         </div>
                                     </div>
                                     <div class="row col-lg-6  mb-4">
@@ -181,13 +203,13 @@
                                             Code</label>
                                         <div class="col-sm-9">
                                             <input type="text" name="client_postal_code" class="form-control"
-                                                placeholder="Postal Code" value="{{old('client_postal_code')}}">
+                                                placeholder="Postal Code" value="{{ old('client_postal_code') }}">
                                         </div>
                                     </div>
                                     <div class="row col-lg-6  mb-4">
                                         <label for="sixteen" class="col-sm-3 col-form-label">Street</label>
                                         <div class="col-sm-9">
-                                            <textarea name="client_street" rows="2" class="form-control" placeholder="Address">{{old('client_street')}} </textarea>
+                                            <textarea name="client_street" rows="2" class="form-control" placeholder="Address">{{ old('client_street') }} </textarea>
                                         </div>
                                     </div>
                                     <div class="row col-lg-6  mb-4">
@@ -195,14 +217,15 @@
                                             Designation</label>
                                         <div class="col-sm-9">
                                             <input type="text" name="client_attention_designation"
-                                                class="form-control" placeholder="Attention Designation" value="{{old('client_attention_designation')}}">
+                                                class="form-control" placeholder="Attention Designation"
+                                                value="{{ old('client_attention_designation') }}">
                                         </div>
                                     </div>
                                     <div class="row col-lg-6  mb-4">
                                         <label for="eighteen" class="col-sm-3 col-form-label">Designation</label>
                                         <div class="col-sm-9">
                                             <input type="text" name="client_designation" class="form-control"
-                                                placeholder="Designation" value="{{old('client_designation')}}">
+                                                placeholder="Designation" value="{{ old('client_designation') }}">
                                         </div>
                                     </div>
                                     <div class="row col-lg-6  mb-4">
@@ -210,14 +233,14 @@
                                             Number</label>
                                         <div class="col-sm-9">
                                             <input type="text" name="client_phone" class="form-control"
-                                                placeholder="Phone Number" value="{{old('client_phone')}}">
+                                                placeholder="Phone Number" value="{{ old('client_phone') }}">
                                         </div>
                                     </div>
                                     <div class="row col-lg-6  mb-4">
                                         <label for="twenteen" class="col-sm-3 col-form-label">Email</label>
                                         <div class="col-sm-9">
                                             <input type="email" name="client_email" class="form-control"
-                                                placeholder="Email" value="{{old('client_email')}}">
+                                                placeholder="Email" value="{{ old('client_email') }}">
                                         </div>
                                     </div>
                                     <div class="row col-lg-6  mb-4">
@@ -225,7 +248,7 @@
                                             No</label>
                                         <div class="col-sm-9">
                                             <input type="text" name="client_unit_number" class="form-control"
-                                                placeholder="Unit No" value="{{old('client_unit_number')}}">
+                                                placeholder="Unit No" value="{{ old('client_unit_number') }}">
                                         </div>
                                     </div>
                                     <div class="row col-lg-6  mb-4">
@@ -233,7 +256,7 @@
                                             Site</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" name="client_website"
-                                                placeholder="Web Site" value="{{old('client_website')}}">
+                                                placeholder="Web Site" value="{{ old('client_website') }}">
                                         </div>
                                     </div>
                                 </div>

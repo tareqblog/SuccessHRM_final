@@ -105,14 +105,26 @@
                                             </select>
                                         </div>
                                     </div>
+                                    @php
+                                        $user = auth()->user();
+                                        if ($user) {
+                                            $roleName = $user->roleName($user->role);
+                                        } else {
+                                            $roleName = '';
+                                        }
+                                    @endphp
                                     <div class="row mb-4">
                                         <label for="one" class="col-sm-2 col-form-label">Person In Charge</label>
                                         <div class="col-sm-9">
                                             <select name="person_incharge" class="form-control">
-                                                <option value="">Select One</option>
-                                                @foreach ($users as $user)
-                                                    <option value="{{ $user->id }}">{{ $user->name }} </option>
-                                                @endforeach
+                                                @if ($roleName == 'Team Leader')
+                                                    <option value="{{$user->employe->id}}" selected @readonly(true)>{{$user->employe->employee_name}}</option>
+                                                @elseif($roleName == 'Aministrator')
+                                                    <option value="">Select One</option>
+                                                    @foreach ($users as $user)
+                                                        <option value="{{ $user->id }}">{{ $user->name }} </option>
+                                                    @endforeach
+                                                @endif
                                             </select>
                                         </div>
                                     </div>
