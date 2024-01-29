@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Auth;
 
 class client extends Model
@@ -59,5 +61,15 @@ class client extends Model
     public function latestFollowUp()
     {
         return $this->followUps()->latest()->first();
+    }
+
+    /**
+     * Get the user that owns the client
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function team_leader(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class, 'payroll_employees_id');
     }
 }

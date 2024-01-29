@@ -50,7 +50,7 @@ class ClientController extends Controller
         $auth = Auth::user()->employe;
         $datas = client::latest()->with('industry_type', 'Employee');
         if ($auth->roles_id == 11) {
-            $datas->where('employees_id', $auth->id);
+            $datas->where('payroll_employees_id', $auth->id);
         }
 
         $datas = $datas->get();
@@ -93,7 +93,7 @@ class ClientController extends Controller
      */
     public function show(client $client)
     {
-        //
+        abort(403);
     }
 
     /**
@@ -345,4 +345,5 @@ class ClientController extends Controller
 
         return redirect($url)->with('success', 'Follow up added successfully.');
     }
+
 }

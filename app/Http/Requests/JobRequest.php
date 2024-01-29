@@ -29,7 +29,7 @@ class JobRequest extends FormRequest
             'job_status' => 'nullable|boolean',
             'postal_code' => 'nullable|string',
             'address' => 'nullable|string',
-            'co_owner_id' => 'required|integer',
+            'co_owner_id' => 'nullable|integer',
             'client_id' => 'required|integer',
             'person_incharge' => 'required|integer',
             'job_type_id' => 'nullable|integer',

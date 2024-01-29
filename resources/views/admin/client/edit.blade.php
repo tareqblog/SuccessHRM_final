@@ -96,39 +96,38 @@
                                                     placeholder="Client Name" value="{{ old('client_name',$client->client_name) }}" required>
                                             </div>
                                         </div>
-                                        <div class="row col-lg-6 mb-4">
+                                        <div class="row col-lg-6  mb-4">
                                             <label for="two" class="col-sm-3 col-form-label">Manager /
                                                 Consultant (In Charge) <span class="text-danger">*</span></label>
                                             <div class="col-sm-9">
                                                 <select name="employees_id" class="form-control" required>
-                                                    <option value="">Select One</option>
-                                                    @foreach ($employees as $employee)
-                                                        <option value="{{ $employee->id }}"
-                                                            {{ old('employees_id', $employee->id) == $client->employees_id ? 'selected' : '' }}>
-                                                            {{ $employee->employee_name }}</option>
-                                                    @endforeach
+                                                    <option value="{{ manager()->id }}" selected @readonly(true)>{{ manager()->employee_name }}</option>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="row col-lg-6 mb-4">
+                                        <div class="row col-lg-6  mb-4">
                                             <label for="three" class="col-sm-3 col-form-label">Payroll
                                                 Person In Charge</label>
                                             <div class="col-sm-9">
                                                 <select name="payroll_employees_id" class="form-control">
-                                                    <option value="">Select One</option>
-                                                    @foreach ($employees_payroll as $user)
-                                                        <option value="{{ $user->id }}"
-                                                            {{ old('payroll_employees_id',$user->id) == $client->payroll_employees_id ? 'selected' : 0 }}>
-                                                            {{ $user->employee_name }}
-                                                        </option>
-                                                    @endforeach
+                                                    @if (authRoleName() == 'Team Leader')
+                                                        <option value="{{ Auth::user()->employe->id }}" selected @readonly(true)>{{ Auth::user()->employe->employee_name }}</option>
+                                                    @elseif(authRoleName() == 'Aministrator')
+                                                        <option value="" selected disabled>Select One</option>
+                                                        @foreach (teamLeaders(Auth::user()->employe->id) as $leader)
+                                                            <option value="{{ $leader->id }}"
+                                                                {{ ($client->payroll_employees_id == $leader->id || old('payroll_employees_id') == $leader->id) ? 'selected' : '' }}>
+                                                                {{ $leader->employee_name }}
+                                                            </option>
+                                                        @endforeach
+                                                    @endif
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="row col-lg-6 mb-4">
                                             <label for="four" class="col-sm-3 col-form-label">Remark</label>
                                             <div class="col-sm-9">
-                                                <textarea name="client_remarks" rows="2" class="form-control" placeholder="Remark"> {{ old('client_remarks',$client->client_remarks) }} </textarea>
+                                                <textarea name="client_remarks" rows="2" class="form-control" placeholder="Remark"> {{ old('client_remarks', $client->client_remarks) }} </textarea>
                                             </div>
                                         </div>
                                         <div class="row col-lg-6 mb-4">

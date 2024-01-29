@@ -80,7 +80,7 @@
                                             <textarea name="address" rows="2" class="form-control" placeholder="Street"> {{ old('address') }} </textarea>
                                         </div>
                                     </div>
-                                    <div class="row mb-4">
+                                    {{-- <div class="row mb-4">
                                         <label for="one" class="col-sm-2 col-form-label">Co Owner</label>
                                         <div class="col-sm-9">
                                             <select name="co_owner_id" class="form-control">
@@ -90,14 +90,14 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="row mb-4">
                                         <label for="one" class="col-sm-2 col-form-label">Client</label>
                                         <div class="col-sm-9">
-                                            <select name="client_id" class="form-control">
-                                                <option value="">Select One</option>
+                                            <select id="clientSelect" name="client_id" class="form-control">
+                                                <option selected disabled>Select One</option>
                                                 @foreach ($clients as $client)
                                                     <option value="{{ $client->id }}">{{ $client->client_code }}
                                                     </option>
@@ -105,26 +105,11 @@
                                             </select>
                                         </div>
                                     </div>
-                                    @php
-                                        $user = auth()->user();
-                                        if ($user) {
-                                            $roleName = $user->roleName($user->role);
-                                        } else {
-                                            $roleName = '';
-                                        }
-                                    @endphp
                                     <div class="row mb-4">
                                         <label for="one" class="col-sm-2 col-form-label">Person In Charge</label>
                                         <div class="col-sm-9">
-                                            <select name="person_incharge" class="form-control">
-                                                @if ($roleName == 'Team Leader')
-                                                    <option value="{{$user->employe->id}}" selected @readonly(true)>{{$user->employe->employee_name}}</option>
-                                                @elseif($roleName == 'Aministrator')
-                                                    <option value="">Select One</option>
-                                                    @foreach ($users as $user)
-                                                        <option value="{{ $user->id }}">{{ $user->name }} </option>
-                                                    @endforeach
-                                                @endif
+                                            <select id="leadersContainer" name="person_incharge" class="form-control">
+                                                <option selected disabled>Select One</option>
                                             </select>
                                         </div>
                                     </div>
@@ -216,6 +201,37 @@
     @endsection
 
     @section('scripts')
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#clientSelect').change(function() {
+                var clientId = $(this).val();
+                if (clientId) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/ATS/get/client/leader/' + clientId,
+                        success: function(data) {
+                            $('#leadersContainer').empty();
+                            $.each(data, function(key, value) {
+                                $('#leadersContainer').append($('<option>', {
+                                    value: value.id,
+                                    text: value.employee_name
+                                }));
+                            });
+                        }
+                    });
+                } else {
+                    $('#leadersContainer').empty();
+                    $('#leadersContainer').append($('<option>', {
+                        value: '',
+                        text: 'Select One'
+                    }));
+                }
+            });
+        });
+    </script>
+
         <!-- ckeditor -->
         <script src="{{ URL::asset('build/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
         <script>
@@ -223,7 +239,7 @@
             for (var i = 0; i < allEditors.length; ++i) {
             ClassicEditor.create(allEditors[i]);
             }
-            </script>
+        </script>
         <!-- init js -->
         <script src="{{ URL::asset('build/js/pages/form-editor.init.js') }}"></script>
         <script>

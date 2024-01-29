@@ -172,29 +172,29 @@
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                @php
-                                                    $user = auth()->user();
-                                                    if ($user) {
-                                                        $roleName = $user->roleName($user->role);
-                                                    } else {
-
-                                                    }
-                                                @endphp
                                                 <div class="row mb-4">
                                                     <label for="two" class="col-sm-4 col-form-label">Team Leader</label>
                                                     <div class="col-sm-8">
-                                                        <select class="form-control" name="team_leader_id" required >
-                                                            @if ($roleName == 'Team Leader')
-                                                            <option value="{{$user->employe->id}}" selected @readonly(true)>{{$user->employe->employee_name}}</option>
-                                                            @elseif($roleName == 'Administrator')
-                                                                <option value="">Select One</option>
-                                                                @foreach (\App\Models\Employee::select('id', 'employee_name')->where('roles_id', 11)->get() as $row)
-                                                                    <option value="{{ $row->id }}"
-                                                                        {{ old('team_leader_id') == $row->id ? 'selected' : '' }}>
-                                                                        {{ $row->employee_name }}
+                                                        <select id="teamLeaderSelect" class="form-control" name="team_leader_id" required >
+                                                            @if (authRoleName() == 'Team Leader')
+                                                                <option value="{{ Auth::user()->employe->id }}" selected @readonly(true)>{{ Auth::user()->employe->employee_name }}</option>
+                                                            @elseif(authRoleName() == 'Aministrator')
+                                                                <option value="" selected disabled>Select One</option>
+                                                                @foreach (teamLeaders(Auth::user()->employe->id) as $leader)
+                                                                    <option value="{{ $leader->id }}"
+                                                                        {{ (old('payroll_employees_id') == $leader->id) ? 'selected' : '' }}>
+                                                                        {{ $leader->employee_name }}
                                                                     </option>
                                                                 @endforeach
                                                             @endif
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <label for="two" class="col-sm-4 col-form-label">Consultant</label>
+                                                    <div class="col-sm-8">
+                                                        <select id="consultantSelect" class="form-control" name="consultant_id" required >
+
                                                         </select>
                                                     </div>
                                                 </div>
@@ -1040,4 +1040,33 @@
 
         <script src="{{ asset('build/js/ajax/candidateGenarel.js') }}"></script>
         <script src="{{ asset('build/js/ajax/candidateDeclaration.js') }}"></script>
+
+
+        <script>
+            $(document).ready(function() {
+                $('#teamLeaderSelect').change(function() {
+                    var teamLeaderId = $(this).val();
+                    console.log(teamLeaderId);
+                    if (teamLeaderId) {
+                        $.ajax({
+                            type: 'GET',
+                            url: '/ATS/get/consultant/' + teamLeaderId,
+                            success: function(data) {
+                                console.log(data);
+                                // $('#consultantSelect').empty();
+                                // $.each(data, function(key, value) {
+                                //     $('#consultantSelect').append($('<option>', {
+                                //         value: value.id,
+                                //         text: value.employee_name
+                                //     }));
+                                // });
+                            }
+                        });
+                    } else {
+                        $('#consultantSelect').empty();
+                    }
+                });
+            });
+        </script>
+
     @endsection

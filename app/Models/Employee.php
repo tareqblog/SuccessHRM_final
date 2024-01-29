@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Employee extends Model
 {
@@ -82,5 +83,10 @@ class Employee extends Model
     public function Religion()
     {
         return $this->belongsTo('App\Models\Religion', 'religions_id');
+    }
+
+    public function consultants(): HasMany
+    {
+        return $this->hasMany(Employee::class, 'team_leader_users_id');
     }
 }

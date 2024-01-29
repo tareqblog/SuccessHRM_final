@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\JobRequest;
 use App\Models\client;
+use App\Models\Employee;
 use App\Models\job;
 use App\Models\jobcategory;
 use App\Models\jobtype;
@@ -51,11 +52,20 @@ class JobController extends Controller
         if (is_null($this->user) || !$this->user->can('job.create')) {
             abort(403, 'Unauthorized');
         }
+
+
+        $auth = Auth::user()->employe;
+        $clients = client::query();
+        if ($auth->roles_id == 11) {
+            $clients->where('payroll_employees_id', $auth->id);
+        }
+        $clients = $clients->latest()->get();
+
         $users = User::latest()->select('id', 'name')->get();
+        $employees = Employee::select('id', 'employee_name')->where('roles_id', 11)->get();
         $jobType = jobtype::latest()->select('id', 'jobtype_code')->get();
-        $clients = client::latest()->select('id', 'client_code')->get();
         $jobCategory = jobcategory::latest()->select('id', 'jobcategory_name')->get();
-        return view('admin.job.create', compact('users', 'jobType', 'clients', 'jobCategory'));
+        return view('admin.job.create', compact('users', 'jobType', 'clients', 'jobCategory', 'employees'));
     }
 
     /**
@@ -88,6 +98,7 @@ class JobController extends Controller
         if (is_null($this->user) || !$this->user->can('job.edit')) {
             abort(403, 'Unauthorized');
         }
+
         $users = User::latest()->select('id', 'name')->get();
         $jobType = jobtype::latest()->select('id', 'jobtype_code')->get();
         $clients = client::latest()->select('id', 'client_code')->get();
@@ -103,6 +114,7 @@ class JobController extends Controller
         if (is_null($this->user) || !$this->user->can('job.update')) {
             abort(403, 'Unauthorized');
         }
+        return $request->co_owner_id = manager();
         $job->update($request->except('_token'));
         return redirect()->route('job.index')->with('success', 'Update successfully.');
     }
@@ -117,5 +129,11 @@ class JobController extends Controller
         }
         $job->delete();
         return back()->with('success', 'Delete successfully.');
+    }
+
+    public function getClientLeader(client $client)
+    {
+        $team_leader = $client->team_leader;
+        return response()->json(['team_leader' => $team_leader]);
     }
 }

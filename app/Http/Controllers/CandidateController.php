@@ -25,6 +25,7 @@ use App\Models\CandidateWorkingHour;
 use App\Models\client;
 use App\Models\jobtype;
 use App\Models\country;
+use App\Models\Employee;
 use App\Models\Outlet;
 use App\Models\remarkstype;
 use App\Models\User;
@@ -71,6 +72,8 @@ class CandidateController extends Controller
         if (is_null($this->user) || !$this->user->can('candidate.create')) {
             abort(403, 'Unauthorized');
         }
+
+
         $department_data = Department::orderBy('department_seqno')->where('department_status', '1')->get();
         $designation_data = Designation::orderBy('designation_seqno')->where('designation_status', '1')->get();
         $paymode_data = paymode::orderBy('paymode_seqno')->where('paymode_status', '1')->get();

@@ -94,7 +94,7 @@
                                             <textarea name="address" rows="2" class="form-control" placeholder="Street"> {{ $job->address }} </textarea>
                                         </div>
                                     </div>
-                                    <div class="row mb-4">
+                                    {{-- <div class="row mb-4">
                                         <label for="one" class="col-sm-3 col-form-label">Co Owner</label>
                                         <div class="col-sm-9">
                                             <select name="co_owner_id" class="form-control">
@@ -106,7 +106,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="row mb-4">

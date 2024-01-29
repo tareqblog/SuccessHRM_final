@@ -312,4 +312,10 @@ class EmployeeController extends Controller
         EmployeeSalaryInfo::create($request->except('_token'));
         return back()->with('success', 'Salary Info Added Successfully.');
     }
+
+    public function getConsultant(Employee $employee)
+    {
+        $team_leader = Employee::where('team_leader_users_id', $employee->user->id)->get();
+        return $team_leader;
+    }
 }
