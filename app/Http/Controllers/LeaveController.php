@@ -58,7 +58,7 @@ class LeaveController extends Controller
      */
     public function store(LeaveRequest $request)
     {
-
+        // return $request;
         if (is_null($this->user) || !$this->user->can('leave.store')) {
             abort(403, 'Unauthorized');
         }
@@ -77,7 +77,6 @@ class LeaveController extends Controller
 
             return redirect()->route('leave.index')->with('success', 'Created successfully.');
         } else {
-
             Leave::create($request->except('_token', 'leave_file_path'));
             return redirect()->route('leave.index')->with('success', 'Created successfully.');
         }

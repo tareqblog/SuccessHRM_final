@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Support\Facades\Auth;
 
 class candidate extends Model
@@ -87,9 +89,29 @@ class candidate extends Model
     {
         return $this->hasMany(CandidateResume::class, 'candidate_id');
     }
-    
+
     public function remarks(): HasMany
     {
         return $this->hasMany(CandidateRemark::class, 'candidate_id');
     }
+
+    public function attendences(): HasMany
+    {
+        return $this->hasMany(Attendance::class, 'parent_id',);
+    }
+    public function leaves(): HasMany
+    {
+        return $this->hasMany(Leave::class, 'candidate_id',);
+    }
+
+    public function working_hour(): HasOne
+    {
+        return $this->hasOne(CandidateWorkingHour::class, 'candidate_id');
+    }
+
+    // public function time_sheet(): HasOneThrough
+    // {
+    //     return $this->hasOneThrough(TimeSheet::class, '', CandidateWorkingHour::class, 'candidate_id');
+    // }
+
 }

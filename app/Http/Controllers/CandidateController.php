@@ -361,6 +361,8 @@ class CandidateController extends Controller
         if (is_null($this->user) || !$this->user->can('candidate.working.hour')) {
             abort(403, 'Unauthorized');
         }
+
+        // return $request;
         $request->validate([
             'candidate_id' => 'required|integer',
             'timesheet_id' => 'required|integer',

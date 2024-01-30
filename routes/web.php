@@ -206,4 +206,5 @@ Route::prefix('ATS')->group(function () {
     Route::get('/attendence/print/{attendence}',  [AttendenceController::class, 'attendencePrint'])->name('attendence.print');
     Route::get('/get/client/leader/{client}',  [JobController::class, 'getClientLeader'])->name('get.client.leader');
     Route::get('/get/consultant/{employee}',  [EmployeeController::class, 'getConsultant'])->name('get.consultants');
+    Route::get('/time/sheet/details/{timesheet}',  [TimeSheetController::class, 'timeSheetDetails'])->name('time.sheet.details');
 })->middleware('AdminMiddleware');

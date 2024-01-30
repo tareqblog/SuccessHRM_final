@@ -7,6 +7,7 @@ use App\Http\Requests\TimeSheetRequest;
 use App\Models\TimeSheet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class TimeSheetController extends Controller
 {
@@ -104,42 +105,53 @@ class TimeSheetController extends Controller
      */
     public function update(Request $request, TimeSheet $time_sheet)
     {
+
         if (is_null($this->user) || !$this->user->can('time-sheet.update')) {
             abort(403, 'Unauthorized');
         }
-        // Validate the form data
-        $validatedData = $request->validate([
+
+        $validator = Validator::make($request->all(), [
             'title' => 'required',
             'print' => 'nullable',
             'remark' => 'nullable',
-            // Add other validation rules for time sheet fields
+            'entities' => 'required',
         ]);
 
+        // Check if validation fails
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $validated = $validator->validated();
+        return $validated['entries'] = json_encode($validated['entities']);
+
         // Update the time sheet
-        $time_sheet->update($validatedData);
+        $time_sheet->update($validated);
 
         // Get days
-        $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        // $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-        // Loop through each day to update time sheet entries
-        foreach ($days as $day) {
-            $entryData = [
-                'in_time' => $request->input(strtolower($day) . '_in'),
-                'out_time' => $request->input(strtolower($day) . '_out'),
-                'lunch_time' => $request->input(strtolower($day) . '_lunch'),
-                'isWork' => $request->has(strtolower($day) . '_isWork') ? true : false,
-                'isNextDay' => $request->has(strtolower($day) . '_isNextDay') ? true : false,
-                'ot_rate' => $request->input(strtolower($day) . '_ot_rate'),
-                'minimum' => $request->input(strtolower($day) . '_minimum'),
-                'allowance' => $request->input(strtolower($day) . '_allowance'),
-                // Add other fields as needed
-            ];
+        // // Loop through each day to update time sheet entries
+        // foreach ($days as $day) {
+        //     $entryData = [
+        //         'in_time' => $request->input(strtolower($day) . '_in'),
+        //         'out_time' => $request->input(strtolower($day) . '_out'),
+        //         'lunch_time' => $request->input(strtolower($day) . '_lunch'),
+        //         'isWork' => $request->has(strtolower($day) . '_isWork') ? true : false,
+        //         'isNextDay' => $request->has(strtolower($day) . '_isNextDay') ? true : false,
+        //         'ot_rate' => $request->input(strtolower($day) . '_ot_rate'),
+        //         'minimum' => $request->input(strtolower($day) . '_minimum'),
+        //         'allowance' => $request->input(strtolower($day) . '_allowance'),
+        //         // Add other fields as needed
+        //     ];
 
-            // Update the time sheet entry
-            $time_sheet->entries()
-                ->where('day', $day)
-                ->update($entryData);
-        }
+        //     // Update the time sheet entry
+        //     $time_sheet->entries()
+        //         ->where('day', $day)
+        //         ->update($entryData);
+        // }
 
         // Redirect or return a response
         return redirect()->route('time-sheet.index')->with('success', 'Time Sheet updated successfully!');
@@ -162,5 +174,12 @@ class TimeSheetController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('time-sheet.index')->with('error', 'Error deleting timesheet: ' . $e->getMessage());
         }
+    }
+
+    public function timeSheetDetails(TimeSheet $timesheet)
+    {
+        $timesheet = $timesheet->load('entries');
+        $entries = $timesheet->entries;
+        return response()->json(['entries' => $entries]);
     }
 }

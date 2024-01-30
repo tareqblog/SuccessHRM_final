@@ -10,6 +10,7 @@ use App\Models\CandidateWorkingHour;
 use App\Models\Company;
 use App\Models\Leave;
 use App\Models\LeaveType;
+use App\Models\TimeSheet;
 use App\Models\TimeSheetEntry;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -86,11 +87,13 @@ class AttendenceController extends Controller
         if (is_null($this->user) || !$this->user->can('attendence.create')) {
             abort(403, 'Unauthorized');
         }
+        $currentMonth = Carbon::parse();
+        $daysInMonth = $currentMonth->daysInMonth;
 
         $companies = Company::latest()->get();
         $candidates = candidate::latest()->get();
 
-        return view('admin.attendence.create', compact('companies', 'candidates'));
+        return view('admin.attendence.create', compact('companies', 'candidates', 'daysInMonth'));
     }
 
     /**
@@ -212,7 +215,7 @@ class AttendenceController extends Controller
         //     abort(403, 'Unauthorized');
         // }
 
-        // return $request;
+
         $parent = AttendenceParent::find($id);
 
         $data = $request->group;
@@ -300,51 +303,135 @@ class AttendenceController extends Controller
     public function getMonthData(Request $request)
     {
         // return $request;
-        // dd($request->company_id);
+        $validator = Validator::make($request->all(), [
+            'date' => 'required|date',
+            'candidate_id' => 'required|exists:candidates,id',
+            'company_id' => 'nullable|exists:companies,id',
+            'invoice_no' => 'nullable',
+        ]);
 
-        $companies = Company::latest()->get();
-
-        $candidates = candidate::latest()->get();
-
-        $selectedDate = $request->date;
-
-        $company_outlet_id = 1;
-
-        if ($request->company_id) {
-            $company_name = Company::find($request->company_id)->name;
-            $selectCandidate = $request->company_id . '-' . $request->candidate_id;
-        } else {
-            $company_name = 'No company selected';
-            $selectCandidate = $request->candidate_id;
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
         }
 
+        
 
+        $validated = $validator->validated();
 
-        $currentMonth = Carbon::parse($selectedDate);
-        $candidateTimesheet = candidate::find($request->candidate_id);
+        $candidate = Candidate::select('id', 'candidate_name', 'candidate_outlet_id')
+                                ->with('working_hour', 'leaves')
+                                ->find($validated['candidate_id']);
 
-        $month = $currentMonth->format('F');
-
-        $year = $currentMonth->format('Y');
-
+        $currentMonth = Carbon::parse($validated['date']);
         $daysInMonth = $currentMonth->daysInMonth;
 
+        $timesheet = TimeSheet::find($candidate->working_hour->timesheet_id);
+        $timeSheetData = json_decode($timesheet->entities, true);
 
-        $work_data = CandidateWorkingHour::where('candidate_id', $request->candidate_id)->firstOrFail();
+        $leaves = $candidate->leaves;
 
-        $leaves = Leave::where('candidate_id', $request->candidate_id)->get();
+        $formate = [];
+
+        // Loop through each day in the month
+        for ($day = 1; $day <= $daysInMonth;
+            $day++
+        ) {
+            // Initialize the array for the current day
+            $formate[$day] = [
+                'work' => 0,
+                'date' => $currentMonth->copy()->day($day)->format('m-d-Y'),
+                'next_day' => 0,
+                'day' => $currentMonth->copy()->day($day)->format('l'),
+                'in_time' => null,
+                'out_time' => null,
+                'lunch_hour' => null,
+                'ot_rate' => $timesheet['ot_rate'] ?? 'off',
+                'minimum' => $timesheet['minimum'],
+                'allowance' => $timesheet['allowance'],
+                'isLeave' => 0,
+                'leave_types_id' => null,
+                'leaveRemarks' => null,
+                'leave_attachment' => null,
+                'leave_day' => '',
+                'claim_attachment' => null,
+            ];
+            // return $timeSheetData;
+            // Check for time sheet data
+            foreach ($timeSheetData as $timesheet) {
+                if ($timesheet['day'] === $formate[$day]['day']) {
+                    if($timesheet['in_time'] != null)
+                    {
+                        $formate[$day]['work'] = 1;
+                        $formate[$day]['in_time'] = $timesheet['in_time'];
+                        $formate[$day]['out_time'] = $timesheet['out_time'];
+                        $formate[$day]['lunch_hour'] = $timesheet['lunch_time'];
+                        $formate[$day]['ot_rate'] = $timesheet['ot_rate'] ?? 'off';
+                        $formate[$day]['minimum'] = $timesheet['minimum'];
+                        $formate[$day]['allowance'] = $timesheet['allowance'];
+                    }
+                    break; // Exit the loop if time sheet data is found
+                }
+            }
+
+            // Check for leave data
+            foreach ($leaves as $leave) {
+                $leaveDateFrom = Carbon::parse($leave->leave_datefrom);
+                $leaveDateTo = Carbon::parse($leave->leave_dateto);
+
+                if (Carbon::parse($currentMonth->copy()->day($day))->between($leaveDateFrom, $leaveDateTo)) {
+                    $formate[$day]['work'] = 0;
+                    $formate[$day]['in_time'] = null;
+                    $formate[$day]['out_time'] = null;
+                    $formate[$day]['lunch_hour'] = null;
+                    $formate[$day]['ot_rate'] = $timesheet['ot_rate'] ?? 'off';
+                    $formate[$day]['minimum'] = $timesheet['minimum'];
+                    $formate[$day]['allowance'] = $timesheet['allowance'];
+
+                    $formate[$day]['isLeave'] = true;
+                    $formate[$day]['leave_types_id'] = $leave->leave_types_id;
+                    $formate[$day]['leave_day'] = $leave->leave_duration;
+                    $formate[$day]['leaveRemarks'] = $leave->leave_reason;
+                    $formate[$day]['leave_attachment'] = $leave->leave_file_path;
+                    break;
+                }
+            }
+        }
+
         $leaveTypes = LeaveType::where('leavetype_status', 1)->get();
-
-
-
-        $timesheet_id  = $work_data->timesheet_id;
-
-
-
-        $timeSheetData  = TimeSheetEntry::where('time_sheet_id', $timesheet_id)->get();
-
+        $companies = Company::latest()->get();
+        $candidates = candidate::latest()->get();
         $candidate_id = $request->candidate_id;
+        $selectCandidate = $candidate->candidate_outlet_id . '-' . $candidate_id;
+        $month_year = $validated['date'];
+
+        return view('admin.attendence.create', compact(
+            'daysInMonth',
+            'month_year',
+            'candidate_id',
+            'companies',
+            'candidates',
+            'formate',
+            'leaveTypes',
+            'selectCandidate'
+        ));
+
+
+
+        // return $formate;
+
+        // `date`, `day`, `in_time`, `out_time`, `next_day`, `lunch_hour`, `total_hour_min`, `normal_hour_min`, `ot_hour_min`, `ot_calculation`, `ot_edit`, `work`, `ph`, `ph_pay`, `remark`, `type_of_leave`, `leave_day`, `leave_attachment`, `claim_attachment`, `type_of_reimbursement`, `amount_of_reimbursement`,
+
+        // $work_data = CandidateWorkingHour::where('candidate_id', $request->candidate_id)->firstOrFail();
+
+
+        // $timesheet_id  = $work_data->timesheet_id;
+        // $timeSheetData  = TimeSheetEntry::where('time_sheet_id', $timesheet_id)->get();
+
+        // $candidate_id = $request->candidate_id;
         // $data = [
+        //     'candidate_id' => $candidate_id,
         //     'daysInMonth' => $daysInMonth,
         //     'currentMonth' => $currentMonth,
         //     'candidates' => $candidates,
@@ -359,20 +446,19 @@ class AttendenceController extends Controller
 
         // return $data;
 
-        return view('admin.attendence.create', compact(
-            'candidate_id',
-            'daysInMonth',
-            'daysInMonth',
-            'currentMonth',
-            'candidates',
-            'selectedDate',
-            'selectCandidate',
-            'timeSheetData',
-            'company_outlet_id',
-            'company_name',
-            'leaves',
-            'leaveTypes'
-        ));
+        // return view('admin.attendence.create', compact(
+        //     'candidate_id',
+        //     'daysInMonth',
+        //     'currentMonth',
+        //     'candidates',
+        //     'selectedDate',
+        //     'selectCandidate',
+        //     'timeSheetData',
+        //     'company_outlet_id',
+        //     'company_name',
+        //     'leaves',
+        //     'leaveTypes'
+        // ));
     }
 
     public function attendencePrint(AttendenceParent $attendence)

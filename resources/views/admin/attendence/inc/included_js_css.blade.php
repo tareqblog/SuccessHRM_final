@@ -2,17 +2,25 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
     function allWork(days) {
+        var checkbox = document.getElementById('allCheckB');
+        var emptyDiv = document.getElementById('empty');
+        var haveDataDiv = document.getElementById('haveData');
+
+        if (checkbox.checked) {
+            emptyDiv.style.display = 'none';
+            haveDataDiv.style.display = 'block';
+        } else {
+            emptyDiv.style.display = 'block';
+            haveDataDiv.style.display = 'none';
+        }
+
         for (let day = 1; day <= days; day++) {
             if ($('#allCheckB').is(':checked')) {
                 $('.bg-' + day).addClass('bg-f1f1f1');
                 $('#workCheB-' + day).prop('checked', true).addClass('checked');
-                $('.s-' + day).hide();
-                $('.hi-' + day).show();
             } else if ($('#allCheckB').is(':not(:checked)')) {
                 $('.bg-' + day).removeClass('bg-f1f1f1');
                 $('#workCheB-' + day).prop('checked', false).removeClass('checked');
-                $('.s-' + day).show();
-                $('.hi-' + day).hide();
             }
 
             timeCalculation(day);
@@ -22,13 +30,9 @@
     function work_check(day) {
         if ($('#workCheB-' + day).is(':checked')) {
             $('.bg-' + day).addClass('bg-f1f1f1');
-            $('.s-' + day).hide();
-            $('.hi-' + day).show();
             $('#workCheB-' + day).prop('checked', true).addClass('checked');
         } else if ($('#workCheB-' + day).is(':not(:checked)')) {
             $('.bg-' + day).removeClass('bg-f1f1f1');
-            $('.hi-' + day).hide();
-            $('.s-' + day).show();
             $('#workCheB-' + day).prop('checked', false).removeClass('checked');
         }
         timeCalculation(day);
@@ -36,16 +40,17 @@
 
     function removeFile(day) {
         $('.attendance_leave_file-' + day).val('');
-        $('.remove-label').hide();
+        $('.remove-label-' + day).hide();
     }
 
     function hasFile(day) {
+        console.log(day);
         $('.remove-label-' + day).show();
     }
 
     function removeClaim(day) {
         $('.attendance_claim_file-' + day).val('');
-        $('.remove-claim').hide();
+        $('.remove-claim-' + day).hide();
     }
 
     function hasClaim(day) {
@@ -56,6 +61,7 @@
         let lunch_val = tream($('.lunch_val-' + day).val());
         let inTime = $('.inTime-' + day).val();
         let outTime = $('.outTime-' + day).val();
+        console.log($('.ot-' + day).val());
         let ot = parseTimeString($('.ot-' + day).val());
         const timeDifference = calculateTimeDifference(inTime, outTime);
         const after_leave = leaveDay(day, timeDifference);

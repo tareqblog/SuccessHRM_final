@@ -30,29 +30,31 @@ class AttendanceController extends Controller
         // return $request;
         // try {
         $attP = new AttendenceParent;
-        $attP->candidate_id = $request->group[1]['candidate_id'];
-        $attP->company_id = $request->group[1]['company_id'];
-        $attP->invoice_no = $request->group[1]['invoice_no'] ?? 0;
-        $attP->month_year = $request->group[1]['date'];
+        $attP->candidate_id = $request->candidate_id;
+        $attP->company_id = $request->company_id ?? 0;
+        $attP->invoice_no = $request->invoice_no ?? 0;
+        $attP->month_year = $request->month_year;
         $attP->save();
 
         $data = $request->group;
         foreach ($data as $day => $group) {
             $leave_attachment = isset($request->file('group')[$day]['leave_attachment'])
                                 ? $this->processAttachments($request->file('group')[$day]['leave_attachment'])
-                                : null;
+                                : $group['old_leave_attachment'] ?? '';
 
             $claim_attachment = isset($request->file('group')[$day]['claim_attachment'])
                                 ? $this->processAttachments($request->file('group')[$day]['claim_attachment'])
-                                    : null;
+                                    : $group['old_claim_attachment'];
+            $date = Carbon::createFromFormat('d-m-Y', $group['date']);
+            $formattedDate = $date->format('Y-m-d');
 
             $att = new Attendance();
             $att->parent_id = $attP->id;
-            $att->date = $group['date'];
+            $att->date = $formattedDate;
             $att->day = $group['day'];
             $att->in_time = $group['in_time'];
             $att->out_time = $group['out_time'];
-            $att->next_day = $group['next_day'];
+            $att->next_day = $group['next_day'] ?? 0;
             $att->lunch_hour = $group['lunch_hour'] ? $group['lunch_hour'] : "";
             $att->total_hour_min = $group['total_hour_min'];
             $att->normal_hour_min = $group['normal_hour_min'];
@@ -69,6 +71,7 @@ class AttendanceController extends Controller
             $att->claim_attachment = $claim_attachment;
             $att->type_of_reimbursement = isset($group['type_of_reimbursement']) ? $group['type_of_reimbursement'] : '';
             $att->amount_of_reimbursement = isset($group['amount_of_reimbursement']) ? $group['amount_of_reimbursement'] : 0.00;
+
             $att->save();
         }
         return redirect()->route('attendence.index');

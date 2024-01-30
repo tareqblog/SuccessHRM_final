@@ -193,7 +193,7 @@
                                                 <div class="row mb-4">
                                                     <label for="two" class="col-sm-4 col-form-label">Consultant</label>
                                                     <div class="col-sm-8">
-                                                        <select id="consultantSelect" class="form-control" name="consultant_id" required >
+                                                        <select id="consultantSelect" class="form-control" name="consultant_id" >
 
                                                         </select>
                                                     </div>

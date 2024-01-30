@@ -57,7 +57,7 @@
                                     <div class="row col-lg-6  mb-4">
                                         <label for="eleven" class="col-sm-3 col-form-label">Company</label>
                                         <div class="col-sm-9">
-                                            <input type="text" readonly value="{{$parent->company->name}}" class="form-control">
+                                            <input type="text" readonly value="{{$parent->company}}" class="form-control">
                                         </div>
                                     </div>
                                     <div class="row col-lg-6 mb-4">
@@ -149,8 +149,6 @@
                                                             placeholder="Title">
                                                     </div>
                                                     <div style="flex:0 0 120px;position: sticky;left: 120px;z-index: 20;">
-
-                                                        {{-- @dump($in_time) --}}
                                                         <input type="time" style=" "
                                                             class="form-control hi-{{$day}} inTime-{{$day}}"
                                                             name="group[{{$day}}][in_time]"
@@ -261,31 +259,27 @@
                                                     </div>
                                                     <!--attendance leave file-->
                                                     <div style="flex:0 0 235px;">
-                                                        <input type="file" class="attendance_leave_file-{{$day}}" name="group[{{$day}}][leave_attachment][]" multiple onchange="hasFile({{$day}})">
-                                                        <label class="remove-label remove-label-" onclick="removeFile('{{$day}}')"><i class="fas fa-trash text-danger"></i></label>
+                                                        <input type="hidden" name="group[{{$day}}][old_leave_attachment]" value="{{$attendance->leave_attachment}}">
+                                                        <input type="file" class="attendance_leave_file-{{$day}}" name="group[{{$day}}][leave_attachment]" multiple onchange="hasFile({{$day}})">
+                                                        <label class="remove-label remove-label-{{$day}}" onclick="removeFile('{{$day}}')"><i class="fas fa-trash text-danger"></i></label>
                                                         <div class="hi-{{$day}}">
-                                                            @php $attachments = json_decode($attendance->leave_attachment); @endphp
-                                                            @if ($attachments)
-                                                                @foreach ($attachments as $attachment)
-                                                                    <a href="{{ asset('storage/' . $attachment) }}" target="_blank">
-                                                                        <i class="fas fa-eye"></i>
-                                                                    </a>
-                                                                @endforeach
+                                                            @if ($attendance->leave_attachment != null)
+                                                                <a href="{{ asset('storage/' . $attendance->leave_attachment) }}" target="_blank">
+                                                                    <i class="fas fa-eye"></i>
+                                                                </a>
                                                             @endif
                                                         </div>
                                                     </div>
                                                     {{-- claim_attachment --}}
                                                     <div style="flex:0 0 235px;">
-                                                        <input type="file" class="attendance_claim_file-{{$day}}" name="group[{{$day}}][claim_attachment][]" multiple onchange="hasFile({{$day}})">
-                                                        <label class="remove-label remove-label-" onclick="removeClaim('{{$day}}')"><i class="fas fa-trash text-danger"></i></label>
+                                                        <input type="hidden" name="group[{{ $day }}][old_claim_attachment]" value="{{$attendance['claim_attachment']}}">
+                                                        <input type="file" class="attendance_claim_file-{{$day}}" name="group[{{$day}}][claim_attachment]" multiple onchange="hasClaim({{$day}})">
+                                                        <label class="remove-label remove-claim-{{$day}}" onclick="removeClaim('{{$day}}')"><i class="fas fa-trash text-danger"></i></label>
                                                         <div class="hi-{{$day}}">
-                                                            @php $attachments = json_decode($attendance->claim_attachment); @endphp
-                                                            @if ($attachments)
-                                                                @foreach ($attachments as $attachment)
-                                                                    <a href="{{ asset('storage/' . $attachment) }}" target="_blank">
-                                                                        <i class="fas fa-eye"></i>
-                                                                    </a>
-                                                                @endforeach
+                                                            @if ($attendance->claim_attachment != null)
+                                                                <a href="{{ asset('storage/' . $attendance->claim_attachment) }}" target="_blank">
+                                                                    <i class="fas fa-eye"></i>
+                                                                </a>
                                                             @endif
                                                         </div>
                                                     </div>
@@ -355,7 +349,7 @@
                         </div>
                     </div>
                 </div>
-            </div><!-- end card-body -->
+            </div>
         </div>
     @endsection
 
