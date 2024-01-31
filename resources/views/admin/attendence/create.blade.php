@@ -58,8 +58,8 @@
                                         <div class="row col-lg-6 mb-4">
                                             <label for="thirteen" class="col-sm-3 col-form-label">Select Date</label>
                                             <div class="col-sm-9">
-                                                <input type="date" name="date" id="dateInput" class="form-control"
-                                                    value="{{ isset($selectedDate) ? $selectedDate : Carbon\Carbon::now() }}" required>
+                                                <input type="date" name="date" id="dateInput" class="form-control" value="{{ isset($selectedDate) ? $selectedDate->format('Y-m-d') : Carbon\Carbon::now()->format('Y-m-d') }}" required>
+
                                             </div>
                                         </div>
                                         <div class="row col-lg-6  mb-4">

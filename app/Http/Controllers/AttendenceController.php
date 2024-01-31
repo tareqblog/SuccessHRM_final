@@ -172,41 +172,21 @@ class AttendenceController extends Controller
      */
     public function edit(string $id)
     {
-
-        // $datas = Attendance::where('attendance_parrent_id', $id)->get();
-
         $parent = AttendenceParent::find($id);
+        $candidate_id = $parent->candidate_id;
+        $company_id = $parent->company_id;
         $attendances = Attendance::where('parent_id', $parent->id)->get();
         $leaveTypes = LeaveType::where('leavetype_status', 1)->get();
-        return view('admin.attendence.edit', compact('parent', 'attendances', 'leaveTypes'));
-
-        // $candidate = candidate::where('id', $info->candidate_id)->first();
-        // $company = Company::where('id', $info->company_id)->first();
-        // $candidate_name = $candidate->candidate_name;
-        // $candidate_id = $candidate->id;
-        // $company_name = $company->name;
-        // $company_id = $company->id;
-        // $invoice = $info->invoice_no;
-        // $month = $info->month_year;
-
-        // $leaves = Leave::where('candidate_id', $candidate_id)->get();
-        // $leaveTypes = LeaveType::where('leavetype_status', 1)->get();
-
-
-        // return view(
-        //     'admin.attendence.edit',
-        //     compact(
-        //         'datas',
-        //         'candidate_name',
-        //         'company_name',
-        //         'candidate_id',
-        //         'company_id',
-        //         'invoice',
-        //         'month',
-        //         'leaves',
-        //         'leaveTypes'
-        //     )
-        // );
+        return view(
+            'admin.attendence.edit',
+            compact(
+                'candidate_id',
+                'company_id',
+                'leaveTypes',
+                'parent',
+                'attendances',
+            )
+        );
     }
 
     public function update(Request $request, string $id)
@@ -316,9 +296,24 @@ class AttendenceController extends Controller
                 ->withInput();
         }
 
-        
-
         $validated = $validator->validated();
+        $providedDate = Carbon::parse($validated['date']);
+
+
+        // Extract month and year from the provided date
+        $providedMonth = $providedDate->format('m');
+        $providedYear = $providedDate->format('Y');
+
+        // Query to compare month and year
+        $parent = AttendenceParent::where('candidate_id', $validated['candidate_id'])
+        // ->whereMonth('month_year', $providedMonth)
+        // ->whereYear('month_year', $providedYear)
+        ->first();
+
+        if($parent != null)
+        {
+            return redirect()->route('attendence.edit', $parent->id);
+        }
 
         $candidate = Candidate::select('id', 'candidate_name', 'candidate_outlet_id')
                                 ->with('working_hour', 'leaves')
@@ -331,15 +326,12 @@ class AttendenceController extends Controller
         $timeSheetData = json_decode($timesheet->entities, true);
 
         $leaves = $candidate->leaves;
-
         $formate = [];
 
         // Loop through each day in the month
-        for ($day = 1; $day <= $daysInMonth;
-            $day++
-        ) {
-            // Initialize the array for the current day
+        for ($day = 1; $day <= $daysInMonth; $day++) {
             $formate[$day] = [
+                'ot_edit' => 0,
                 'work' => 0,
                 'date' => $currentMonth->copy()->day($day)->format('m-d-Y'),
                 'next_day' => 0,
@@ -357,8 +349,6 @@ class AttendenceController extends Controller
                 'leave_day' => '',
                 'claim_attachment' => null,
             ];
-            // return $timeSheetData;
-            // Check for time sheet data
             foreach ($timeSheetData as $timesheet) {
                 if ($timesheet['day'] === $formate[$day]['day']) {
                     if($timesheet['in_time'] != null)
@@ -371,7 +361,7 @@ class AttendenceController extends Controller
                         $formate[$day]['minimum'] = $timesheet['minimum'];
                         $formate[$day]['allowance'] = $timesheet['allowance'];
                     }
-                    break; // Exit the loop if time sheet data is found
+                    break;
                 }
             }
 

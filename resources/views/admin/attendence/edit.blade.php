@@ -149,6 +149,7 @@
                                                             placeholder="Title">
                                                     </div>
                                                     <div style="flex:0 0 120px;position: sticky;left: 120px;z-index: 20;">
+                                                        <input type="time" hidden id="oldinTime-{{$day}}" value="{{ $attendance->in_time }}">
                                                         <input type="time" style=" "
                                                             class="form-control hi-{{$day}} inTime-{{$day}}"
                                                             name="group[{{$day}}][in_time]"
@@ -157,6 +158,7 @@
                                                     </div>
                                                     <div
                                                         style="flex:0 0 120px;position: sticky;left: 120px;z-index: 20;">
+                                                         <input type="time" hidden id="oldoutTime-{{$day}}" value="{{ $attendance->out_time }}">
                                                         <input type="time" style=" "
                                                             class="form-control hi-{{$day}}  outTime-{{$day}}"
                                                             name="group[{{$day}}][out_time]"
@@ -205,18 +207,16 @@
                                                     <!--ot hidden-->
                                                     <div style="flex:0 0 120px;">
                                                         <input type="text" style="text-align:center"
-                                                            class="form-control"
+                                                            class="form-control otc-{{$day}}"
                                                             name="group[{{$day}}][ot_calculation]" value="{{$attendance->ot_calculation}}">
                                                     </div>
                                                     <!--edit-->
                                                     <div style="flex:0 0 80px;text-align:center">
-                                                        <input type="checkbox" class="attendance_edit1" data-line="1" value="1" name="group[{{$day}}][ot_edit]" {{$attendance->ot_edit == 1 ? 'checked' : ''}}>
+                                                        <input type="checkbox" id="ot_edit-{{$day}}" class="attendance_edit1" data-line="1" value="1" name="group[{{$day}}][ot_edit]" {{$attendance->ot_edit == 1 ? 'checked' : ''}} onclick="ot_edit({{ $day }})">
                                                     </div>
                                                     <!--work-->
                                                     <div style="flex:0 0 100px;text-align:center">
-                                                            <input type="checkbox" id="workCheB-" {{$attendance->work == 1 ? 'checked' : ''}} class="work attendance_work1" data-line="1" value="1" name="group[{{$day}}][work]" onclick="work_check('')">
-
-
+                                                        <input type="checkbox" id="workCheB-{{$day}}" {{$attendance->work == 1 ? 'checked' : ''}} class="work attendance_work1" data-line="1" value="1" name="group[{{$day}}][work]" onclick="work_check({{ $day }})">
                                                     </div>
                                                     <!--ph-->
                                                     <div style="flex:0 0 50px;text-align:center">
