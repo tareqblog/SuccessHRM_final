@@ -78,7 +78,7 @@
             </div>
             <!--work-->
             <div style="flex:0 0 100px;text-align:center">
-                <input type="checkbox" class="work attendance_work1" id="workCheB-{{$day}}" data-line="1" value="1" name="group[{{ $day }}][work]" onclick="work_check({{ $day }})" {{$attendance['work'] == 1 ? 'checked' : ''}}>
+                <input type="checkbox" class="work attendance_work1" id="workCheB-{{$day}}" data-line="1" value="{{$attendance['work']}}" name="group[{{ $day }}][work]" onclick="work_check({{ $day }})" >
             </div>
             <!--ph-->
             <div style="flex:0 0 50px;text-align:center">

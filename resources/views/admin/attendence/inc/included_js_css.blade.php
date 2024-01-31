@@ -17,14 +17,23 @@
         }
 
         for (let day = 1; day <= days; day++) {
+            let worked = $('#workCheB-' + day).val();
             if ($('#allCheckB').is(':checked')) {
                 $('.bg-' + day).addClass('bg-f1f1f1');
                 $('.totla_time-' + day).val('');
                 $('.normal_time-' + day).val('');
-                $('#workCheB-' + day).prop('checked', true).addClass('checked');
+                if(worked == 1){
+                    $('#workCheB-' + day).prop('checked', true).addClass('checked');
+                } else if(worked == 0) {
+                    $('#workCheB-' + day).prop('checked', false).removeClass('checked');
+                }
             } else if ($('#allCheckB').is(':not(:checked)')) {
                 $('.bg-' + day).removeClass('bg-f1f1f1');
-                $('#workCheB-' + day).prop('checked', false).removeClass('checked');
+                if(worked == 1){
+                    $('#workCheB-' + day).prop('checked', true).addClass('checked');
+                } else if(worked == 0) {
+                    $('#workCheB-' + day).prop('checked', false).removeClass('checked');
+                }
             }
 
             timeCalculation(day);
@@ -34,14 +43,18 @@
     function work_check(day) {
         if ($('#workCheB-' + day).is(':checked')) {
             $('.bg-' + day).addClass('bg-f1f1f1');
-            $('.inTime-' + day).val('');
             $('#workCheB-' + day).prop('checked', true).addClass('checked');
+            let inTime = $('#inTime-' + day).val();
+            let outTime = $('#outTime-' + day).val();
+            $('.inTime-' + day).val(inTime);
+            $('.outTime-' + day).val(outTime);
         } else if ($('#workCheB-' + day).is(':not(:checked)')) {
             $('.bg-' + day).removeClass('bg-f1f1f1');
             $('#workCheB-' + day).prop('checked', false).removeClass('checked');
             $('.inTime-' + day).val('');
+            $('.outTime-' + day).val('');
         }
-        // timeCalculation(day);
+        timeCalculation(day);
     }
 
     function removeFile(day) {
@@ -64,8 +77,8 @@
 
     function timeCalculation(day) {
         let lunch_val = tream($('.lunch_val-' + day).val());
-        let inTime = $('.inTime-' + day).val();
-        let outTime = $('.outTime-' + day).val();
+        let inTime = $('#inTime-' + day).val();
+        let outTime = $('#outTime-' + day).val();
         let ot = parseTimeString($('.ot-' + day).val());
         const timeDifference = calculateTimeDifference(inTime, outTime, day);
         const after_leave = leaveDay(day, timeDifference);
@@ -73,6 +86,11 @@
         const normal_time = sumTimeDifference.hours + ' h ' + sumTimeDifference.minutes + ' m';
 
         let result = subtractTimeDifference(sumTimeDifference, lunch_val);
+        if(result.hours < 0)
+        {
+            result.hours = 0;
+            result.minutes = 0;
+        }
         const total_time = result.hours + ' h ' + result.minutes + ' m';
 
         $('.totla_time-' + day).val(total_time);
@@ -92,6 +110,7 @@
             $('.inTime-' + day).val('');
             $('.outTime-' + day).val('');
             $('.lunch_val-' + day).val('');
+            $('.totla_time-' + day).val(0);
             $('#workCheB-' + day).prop('checked', false);
         } else if (leave_day == 'Half Day AM' || leave_day == 'Half Day PM') {
             if (leave_day === 'Half Day AM') {
@@ -236,11 +255,12 @@
         $('.ot-' + day).val(over);
     }
 
-    function subtractTimeDifference(minuend, subtrahend) {
+    function subtractTimeDifference(minuend, subtrahend)
+    {
         let totalHours = minuend.hours - subtrahend.hours;
         let totalMinutes = minuend.minutes - subtrahend.minutes;
 
-        if (totalHours < 0) {
+        if (totalHours <= 0) {
             totalHours = 0;
         }
         if (totalMinutes < 0) {
