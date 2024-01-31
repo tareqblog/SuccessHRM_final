@@ -1,18 +1,39 @@
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
 <script>
     function allWork(days) {
+        var checkbox = document.getElementById('allCheckB');
+        var emptyDiv = document.getElementById('empty');
+        var haveDataDiv = document.getElementById('haveData');
+
+        if (checkbox.checked) {
+            emptyDiv.style.display = 'none';
+            haveDataDiv.style.display = 'block';
+        } else {
+            emptyDiv.style.display = 'block';
+            haveDataDiv.style.display = 'none';
+        }
+
         for (let day = 1; day <= days; day++) {
+            let worked = $('#workCheB-' + day).val();
             if ($('#allCheckB').is(':checked')) {
                 $('.bg-' + day).addClass('bg-f1f1f1');
-                $('#workCheB-' + day).prop('checked', true).addClass('checked');
-                $('.s-' + day).hide();
-                $('.hi-' + day).show();
+                $('.totla_time-' + day).val('');
+                $('.normal_time-' + day).val('');
+                if(worked == 1){
+                    $('#workCheB-' + day).prop('checked', true).addClass('checked');
+                } else if(worked == 0) {
+                    $('#workCheB-' + day).prop('checked', false).removeClass('checked');
+                }
             } else if ($('#allCheckB').is(':not(:checked)')) {
                 $('.bg-' + day).removeClass('bg-f1f1f1');
-                $('#workCheB-' + day).prop('checked', false).removeClass('checked');
-                $('.s-' + day).show();
-                $('.hi-' + day).hide();
+                if(worked == 1){
+                    $('#workCheB-' + day).prop('checked', true).addClass('checked');
+                } else if(worked == 0) {
+                    $('#workCheB-' + day).prop('checked', false).removeClass('checked');
+                }
             }
 
             timeCalculation(day);
@@ -22,21 +43,23 @@
     function work_check(day) {
         if ($('#workCheB-' + day).is(':checked')) {
             $('.bg-' + day).addClass('bg-f1f1f1');
-            $('.s-' + day).hide();
-            $('.hi-' + day).show();
             $('#workCheB-' + day).prop('checked', true).addClass('checked');
+            let inTime = $('#inTime-' + day).val();
+            let outTime = $('#outTime-' + day).val();
+            $('.inTime-' + day).val(inTime);
+            $('.outTime-' + day).val(outTime);
         } else if ($('#workCheB-' + day).is(':not(:checked)')) {
             $('.bg-' + day).removeClass('bg-f1f1f1');
-            $('.hi-' + day).hide();
-            $('.s-' + day).show();
             $('#workCheB-' + day).prop('checked', false).removeClass('checked');
+            $('.inTime-' + day).val('');
+            $('.outTime-' + day).val('');
         }
         timeCalculation(day);
     }
 
     function removeFile(day) {
         $('.attendance_leave_file-' + day).val('');
-        $('.remove-label').hide();
+        $('.remove-label-' + day).hide();
     }
 
     function hasFile(day) {
@@ -45,7 +68,7 @@
 
     function removeClaim(day) {
         $('.attendance_claim_file-' + day).val('');
-        $('.remove-claim').hide();
+        $('.remove-claim-' + day).hide();
     }
 
     function hasClaim(day) {
@@ -54,15 +77,20 @@
 
     function timeCalculation(day) {
         let lunch_val = tream($('.lunch_val-' + day).val());
-        let inTime = $('.inTime-' + day).val();
-        let outTime = $('.outTime-' + day).val();
+        let inTime = $('#inTime-' + day).val();
+        let outTime = $('#outTime-' + day).val();
         let ot = parseTimeString($('.ot-' + day).val());
-        const timeDifference = calculateTimeDifference(inTime, outTime);
+        const timeDifference = calculateTimeDifference(inTime, outTime, day);
         const after_leave = leaveDay(day, timeDifference);
         const sumTimeDifference = sumTimeDifferences([after_leave, ot]);
         const normal_time = sumTimeDifference.hours + ' h ' + sumTimeDifference.minutes + ' m';
 
         let result = subtractTimeDifference(sumTimeDifference, lunch_val);
+        if(result.hours < 0)
+        {
+            result.hours = 0;
+            result.minutes = 0;
+        }
         const total_time = result.hours + ' h ' + result.minutes + ' m';
 
         $('.totla_time-' + day).val(total_time);
@@ -73,15 +101,31 @@
         let hours = 0;
         let minutes = 0;
         let will_pay = 1;
+        let inTime = $('#oldinTime-' + day).val();
+        let outTime = $('#oldoutTime-' + day).val();
+
         let leave_day = $('.change.leave_days.hi-' + day).val();
         if (leave_day == 'Full Day Leave') {
             will_pay = 0;
+            $('.inTime-' + day).val('');
+            $('.outTime-' + day).val('');
+            $('.lunch_val-' + day).val('');
+            $('.totla_time-' + day).val(0);
+            $('#workCheB-' + day).prop('checked', false);
         } else if (leave_day == 'Half Day AM' || leave_day == 'Half Day PM') {
+            if (leave_day === 'Half Day AM') {
+                let inTimex = calculateHalfTime(inTime, outTime, 'AM');
+                $('.inTime-' + day).val(inTimex);
+                $('.outTime-' + day).val(outTime);
+            } else if (leave_day === 'Half Day PM') {
+                let outTimex = calculateHalfTime(inTime, outTime, 'PM');
+                $('.inTime-' + day).val(inTime);
+                $('.outTime-' + day).val(outTimex);
+            }
             will_pay = 0.5;
         }
 
         const total_min = (hour_min.hours * 60 + hour_min.minutes) * will_pay;
-        // Calculate hours and remaining minutes
         hours = Math.floor(total_min / 60);
         minutes = total_min % 60;
 
@@ -89,6 +133,27 @@
             hours,
             minutes
         };
+    }
+    function calculateHalfTime(startTime, endTime, halfType) {
+        let halfHour = halfType === 'AM' ? 12 : 24; // Determine the half hour
+
+        // Split start and end times
+        let [startHour, startMinute] = startTime.split(':').map(Number);
+        let [endHour, endMinute] = endTime.split(':').map(Number);
+
+        // Calculate the total minutes for the start and end times
+        let totalStartMinutes = startHour * 60 + startMinute;
+        let totalEndMinutes = endHour * 60 + endMinute;
+
+        // Calculate the halfway point in minutes
+        let halfwayMinutes = (totalStartMinutes + totalEndMinutes) / 2;
+
+        // Adjust the hour and minute for the halfway point
+        let halfwayHour = Math.floor(halfwayMinutes / 60) % 24;
+        let halfwayMinute = halfwayMinutes % 60;
+
+        // Format the halfway time
+        return `${halfwayHour}:${halfwayMinute < 10 ? '0' : ''}${halfwayMinute}`;
     }
 
     function parseTimeString(timeString) {
@@ -131,21 +196,46 @@
         };
     }
 
-    function calculateTimeDifference(inTime, outTime) {
+    function calculateTimeDifference(inTime, outTime, day = 0) {
         let hours = 0;
         let minutes = 0;
+
         if (!inTime || !outTime) {
             return { hours, minutes };
         }
-        const [inHours, inMinutes] = inTime.split(':').map(Number);
-        const [outHours, outMinutes] = outTime.split(':').map(Number);
 
-        const totalInMinutes = inHours * 60 + inMinutes;
-        const totalOutMinutes = outHours * 60 + outMinutes;
+        let inMoment = moment(inTime, 'HH:mm');
+        let outMoment = moment(outTime, 'HH:mm');
 
-        const minutesDifference = totalOutMinutes - totalInMinutes;
-        hours = (Math.floor(minutesDifference / 60));
-        minutes = (minutesDifference % 60);
+        if (outMoment.isBefore(inMoment)) {
+            outMoment.add(1, 'day');
+        }
+
+        let minutesDifference = outMoment.diff(inMoment, 'minutes');
+
+        let oldIn = $('#oldinTime-' + day).val();
+        let oldOut = $('#oldoutTime-' + day).val();
+
+        if (!oldIn || !oldOut) {
+            return { hours, minutes };
+        }
+
+        let oldinMoment = moment(oldIn, 'HH:mm');
+        let oldoutMoment = moment(oldOut, 'HH:mm');
+        if (oldoutMoment.isBefore(oldinMoment)) {
+            oldoutMoment.add(1, 'day');
+        }
+
+        const oldMinutesDifference = oldoutMoment.diff(oldinMoment, 'minutes');
+
+        if (minutesDifference > oldMinutesDifference) {
+            let overtime = minutesDifference - oldMinutesDifference;
+            minutesDifference = oldMinutesDifference;
+            ot_calculation(overtime, day);
+        }
+
+        hours = Math.floor(minutesDifference / 60);
+        minutes = minutesDifference % 60;
 
         return {
             hours,
@@ -153,10 +243,26 @@
         };
     }
 
-    function subtractTimeDifference(minuend, subtrahend) {
+    function ot_calculation(minutesD, day)
+    {
+        let hours = 0;
+        let minutes = 0;
+
+        hours = Math.floor(minutesD / 60);
+        minutes = minutesD % 60;
+
+        let over = (hours + 'h '+ minutes + 'm');
+        $('.ot-' + day).val(over);
+    }
+
+    function subtractTimeDifference(minuend, subtrahend)
+    {
         let totalHours = minuend.hours - subtrahend.hours;
         let totalMinutes = minuend.minutes - subtrahend.minutes;
 
+        if (totalHours <= 0) {
+            totalHours = 0;
+        }
         if (totalMinutes < 0) {
             totalHours--;
             totalMinutes += 60;
@@ -167,7 +273,8 @@
         };
     }
 
-    function sumTimeDifferences(timeDifferences) {
+    function sumTimeDifferences(timeDifferences)
+    {
         let totalHours = 0;
         let totalMinutes = 0;
 
@@ -185,6 +292,19 @@
             minutes: totalMinutes
         };
     }
+
+    function ot_edit(day)
+    {
+        let ot_edit = $('#ot_edit-' + day); // Retrieve the checkbox element
+        if (ot_edit.prop('checked')) { // Check if the checkbox is checked
+            $('.ot-' + day).prop('readonly', true);
+            $('.otc-' + day).prop('readonly', true);
+        } else { // If the checkbox is not checked
+            $('.ot-' + day).prop('readonly', false);
+            $('.otc-' + day).prop('readonly', false);
+        }
+    }
+
 </script>
 <style>
     .remove-label,

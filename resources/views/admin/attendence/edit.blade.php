@@ -57,7 +57,7 @@
                                     <div class="row col-lg-6  mb-4">
                                         <label for="eleven" class="col-sm-3 col-form-label">Company</label>
                                         <div class="col-sm-9">
-                                            <input type="text" readonly value="{{$parent->company->name}}" class="form-control">
+                                            <input type="text" readonly value="{{$parent->company}}" class="form-control">
                                         </div>
                                     </div>
                                     <div class="row col-lg-6 mb-4">
@@ -149,8 +149,7 @@
                                                             placeholder="Title">
                                                     </div>
                                                     <div style="flex:0 0 120px;position: sticky;left: 120px;z-index: 20;">
-
-                                                        {{-- @dump($in_time) --}}
+                                                        <input type="time" hidden id="oldinTime-{{$day}}" value="{{ $attendance->in_time }}">
                                                         <input type="time" style=" "
                                                             class="form-control hi-{{$day}} inTime-{{$day}}"
                                                             name="group[{{$day}}][in_time]"
@@ -159,6 +158,7 @@
                                                     </div>
                                                     <div
                                                         style="flex:0 0 120px;position: sticky;left: 120px;z-index: 20;">
+                                                         <input type="time" hidden id="oldoutTime-{{$day}}" value="{{ $attendance->out_time }}">
                                                         <input type="time" style=" "
                                                             class="form-control hi-{{$day}}  outTime-{{$day}}"
                                                             name="group[{{$day}}][out_time]"
@@ -207,18 +207,16 @@
                                                     <!--ot hidden-->
                                                     <div style="flex:0 0 120px;">
                                                         <input type="text" style="text-align:center"
-                                                            class="form-control"
+                                                            class="form-control otc-{{$day}}"
                                                             name="group[{{$day}}][ot_calculation]" value="{{$attendance->ot_calculation}}">
                                                     </div>
                                                     <!--edit-->
                                                     <div style="flex:0 0 80px;text-align:center">
-                                                        <input type="checkbox" class="attendance_edit1" data-line="1" value="1" name="group[{{$day}}][ot_edit]" {{$attendance->ot_edit == 1 ? 'checked' : ''}}>
+                                                        <input type="checkbox" id="ot_edit-{{$day}}" class="attendance_edit1" data-line="1" value="1" name="group[{{$day}}][ot_edit]" {{$attendance->ot_edit == 1 ? 'checked' : ''}} onclick="ot_edit({{ $day }})">
                                                     </div>
                                                     <!--work-->
                                                     <div style="flex:0 0 100px;text-align:center">
-                                                            <input type="checkbox" id="workCheB-" {{$attendance->work == 1 ? 'checked' : ''}} class="work attendance_work1" data-line="1" value="1" name="group[{{$day}}][work]" onclick="work_check('')">
-
-
+                                                        <input type="checkbox" id="workCheB-{{$day}}" {{$attendance->work == 1 ? 'checked' : ''}} class="work attendance_work1" data-line="1" value="1" name="group[{{$day}}][work]" onclick="work_check({{ $day }})">
                                                     </div>
                                                     <!--ph-->
                                                     <div style="flex:0 0 50px;text-align:center">
@@ -261,31 +259,27 @@
                                                     </div>
                                                     <!--attendance leave file-->
                                                     <div style="flex:0 0 235px;">
-                                                        <input type="file" class="attendance_leave_file-{{$day}}" name="group[{{$day}}][leave_attachment][]" multiple onchange="hasFile({{$day}})">
-                                                        <label class="remove-label remove-label-" onclick="removeFile('{{$day}}')"><i class="fas fa-trash text-danger"></i></label>
+                                                        <input type="hidden" name="group[{{$day}}][old_leave_attachment]" value="{{$attendance->leave_attachment}}">
+                                                        <input type="file" class="attendance_leave_file-{{$day}}" name="group[{{$day}}][leave_attachment]" multiple onchange="hasFile({{$day}})">
+                                                        <label class="remove-label remove-label-{{$day}}" onclick="removeFile('{{$day}}')"><i class="fas fa-trash text-danger"></i></label>
                                                         <div class="hi-{{$day}}">
-                                                            @php $attachments = json_decode($attendance->leave_attachment); @endphp
-                                                            @if ($attachments)
-                                                                @foreach ($attachments as $attachment)
-                                                                    <a href="{{ asset('storage/' . $attachment) }}" target="_blank">
-                                                                        <i class="fas fa-eye"></i>
-                                                                    </a>
-                                                                @endforeach
+                                                            @if ($attendance->leave_attachment != null)
+                                                                <a href="{{ asset('storage/' . $attendance->leave_attachment) }}" target="_blank">
+                                                                    <i class="fas fa-eye"></i>
+                                                                </a>
                                                             @endif
                                                         </div>
                                                     </div>
                                                     {{-- claim_attachment --}}
                                                     <div style="flex:0 0 235px;">
-                                                        <input type="file" class="attendance_claim_file-{{$day}}" name="group[{{$day}}][claim_attachment][]" multiple onchange="hasFile({{$day}})">
-                                                        <label class="remove-label remove-label-" onclick="removeClaim('{{$day}}')"><i class="fas fa-trash text-danger"></i></label>
+                                                        <input type="hidden" name="group[{{ $day }}][old_claim_attachment]" value="{{$attendance['claim_attachment']}}">
+                                                        <input type="file" class="attendance_claim_file-{{$day}}" name="group[{{$day}}][claim_attachment]" multiple onchange="hasClaim({{$day}})">
+                                                        <label class="remove-label remove-claim-{{$day}}" onclick="removeClaim('{{$day}}')"><i class="fas fa-trash text-danger"></i></label>
                                                         <div class="hi-{{$day}}">
-                                                            @php $attachments = json_decode($attendance->claim_attachment); @endphp
-                                                            @if ($attachments)
-                                                                @foreach ($attachments as $attachment)
-                                                                    <a href="{{ asset('storage/' . $attachment) }}" target="_blank">
-                                                                        <i class="fas fa-eye"></i>
-                                                                    </a>
-                                                                @endforeach
+                                                            @if ($attendance->claim_attachment != null)
+                                                                <a href="{{ asset('storage/' . $attendance->claim_attachment) }}" target="_blank">
+                                                                    <i class="fas fa-eye"></i>
+                                                                </a>
                                                             @endif
                                                         </div>
                                                     </div>
@@ -355,7 +349,7 @@
                         </div>
                     </div>
                 </div>
-            </div><!-- end card-body -->
+            </div>
         </div>
     @endsection
 

@@ -2212,8 +2212,7 @@
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Time Sheet
-                                                        Type</label>
+                                                    <label for="one" class="col-sm-3 col-form-label">Time Sheet Type</label>
                                                     <input type="hidden" name="candidate_id"
                                                         value="{{ $candidate->id }}">
                                                     <div class="col-sm-9">
@@ -2286,45 +2285,16 @@
                                                 <!-- Add labels for other days as needed -->
                                             </div>
 
-                                            @php
+                                            {{-- @php
                                                 $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-                                            @endphp
+                                            @endphp --}}
 
-                                            @foreach ($days as $day)
-                                                <div class="form-group">
-                                                    <div class="row mt-3">
-                                                        <label for="time_sheet_day"
-                                                            class="col-sm-1 control-label">{{ $day }}</label>
-                                                        <div class="col-sm-3">
-                                                            <input type="time" class="form-control"
-                                                                name="{{ strtolower($day) }}_in" placeholder="Time In"
-                                                                disabled>
-                                                        </div>
-                                                        <div class="col-sm-3">
-                                                            <input type="time" class="form-control"
-                                                                name="{{ strtolower($day) }}_out"
-                                                                placeholder="Time Out" disabled>
-                                                        </div>
-                                                        <div class="col-sm-2">
-                                                            <select class="form-control"
-                                                                name="{{ strtolower($day) }}_lunch" disabled>
-                                                                <option value="30 minutes">30 minutes</option>
-                                                                <option value="45 minutes">45 minutes</option>
-                                                                <option value="1 hour">1 hour</option>
-                                                                <option value="1.5 hour">1.5 hour</option>
-                                                                <option value="2 hour">2 hour</option>
-                                                                <option value="No Lunch">No Lunch</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-sm-1">
-                                                            <label>
-                                                                <input type="checkbox"
-                                                                    name="{{ strtolower($day) }}_isWork" disabled>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endforeach
+                                            <div id="timeSheetEntries">
+
+                                            </div>
+                                            {{-- @foreach ($days as $day) --}}
+
+                                            {{-- @endforeach --}}
                                         </div>
                                     </div>
                                     <div class="row">
@@ -2426,6 +2396,8 @@
                 </div><!-- end card -->
             </div>
         </div>
+
+        {{-- @include('admin.candidate.inc.timesheet') --}}
     @endsection
 
     @section('scripts')
@@ -2445,6 +2417,69 @@
             }
         </script>
         <script>
+            $(document).ready(function(){
+                function loadTimeSheetDetails(timesheetId) {
+                    let html = '';
+
+                    $.ajax({
+                        url: '/ATS/time/sheet/details/' + timesheetId,
+                        method: 'GET',
+                        success: function(response) {
+                            let entries = response.entries;
+                            entries = JSON.parse(entries);
+
+                            Object.values(entries).forEach(entry => {
+                                let isWorkChecked = entry.isWork === "1" ? 'checked' : '';
+                                let inTime = entry.in_time ? entry.in_time.substring(0, 5) : '';
+                                let outTime = entry.out_time ? entry.out_time.substring(0, 5) : '';
+                                let lunch_time = entry.lunch_time;
+
+                                html += `
+                                    <div class="form-group">
+                                        <div class="row mt-3">
+                                            <label for="time_sheet_day" class="col-sm-1 control-label">${entry.day}</label>
+                                            <div class="col-sm-3">
+                                                <input type="time" class="form-control" name="${entry.day.toLowerCase()}_in" placeholder="Time In" value="${inTime}">
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <input type="time" class="form-control" name="${entry.day.toLowerCase()}_out" placeholder="Time Out" value="${outTime}">
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <select class="form-control" name="${entry.day.toLowerCase()}_lunch">
+                                                    <option value="30 minutes" ${lunch_time === '30 minutes' ? 'selected' : ''}>30 minutes</option>
+                                                    <option value="45 minutes" ${lunch_time === '45 minutes' ? 'selected' : ''}>45 minutes</option>
+                                                    <option value="1 hour" ${lunch_time === '1 hour' ? 'selected' : ''}>1 hour</option>
+                                                    <option value="1.5 hour" ${lunch_time === '1.5 hour' ? 'selected' : ''}>1.5 hour</option>
+                                                    <option value="2 hour" ${lunch_time === '2 hour' ? 'selected' : ''}>2 hour</option>
+                                                    <option value="No Lunch" ${lunch_time === 'No Lunch' ? 'selected' : ''}>No Lunch</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <label>
+                                                    <input type="checkbox" name="${entry.day.toLowerCase()}_isWork" ${isWorkChecked}>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            });
+
+                            $('#timeSheetEntries').html(html);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+                }
+
+                loadTimeSheetDetails($('#sheet_type_id').val());
+
+                $('#sheet_type_id').change(function() {
+                    let timesheetId = $(this).val();
+                    loadTimeSheetDetails(timesheetId);
+                });
+            });
+
             $(document).ready(function() {
                 $('.isMainRadio').on('change', function() {
                     // Get the candidate ID from the data attribute
@@ -2469,9 +2504,9 @@
             });
         </script>
         <script src="{{ asset('build/js/ajax/candidateDeclaration.js') }}"></script>
-        <script src="{{ asset('build/js/ajax/candidate/genaral.js') }}"></script>
+        {{-- <script src="{{ asset('build/js/ajax/candidate/genaral.js') }}"></script> --}}
         <script src="{{ asset('build/js/ajax/candidateRemark.js') }}"></script>
         <script src="{{ asset('build/js/ajax/candidatePayroll.js') }}"></script>
         <script src="{{ asset('build/js/ajax/imagePreview.js') }}"></script>
-        <script src="{{ asset('build/js/ajax/candidateTimeSheetGet.js') }}"></script>
+        {{-- <script src="{{ asset('build/js/ajax/candidateTimeSheetGet.js') }}"></script> --}}
     @endsection

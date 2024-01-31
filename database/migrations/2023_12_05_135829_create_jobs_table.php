@@ -20,7 +20,7 @@ return new class extends Migration
             $table->boolean('job_status')->default(1);
             $table->string('postal_code')->nullable();
             $table->string('address')->nullable();
-            $table->integer('co_owner_id')->comment('get id from user table');
+            $table->integer('co_owner_id')->nullable()->comment('get id from user table');
             $table->integer('client_id')->comment('get id from client table');
             $table->integer('person_incharge')->comment('get id from user table');
             $table->integer('job_type_id')->nullable()->comment('get id from job type table');

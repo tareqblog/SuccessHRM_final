@@ -81,14 +81,14 @@
                                     <div class="row mb-4 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Date (From)</label>
                                         <div class="col-sm-9">
-                                            <input type="date" name="leave_datefrom" class="form-control"
+                                            <input id="dateFrom" type="date" name="leave_datefrom" class="form-control"
                                                 placeholder="Date (From)" value="{{ old('leave_datefrom') }}">
                                         </div>
                                     </div>
                                     <div class="row mb-4 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Date (To)</label>
                                         <div class="col-sm-9">
-                                            <input type="date" class="form-control" name="leave_dateto"
+                                            <input type="date" id="dateTo" class="form-control" name="leave_dateto"
                                                 placeholder="Date (To)" value="{{ old('leave_dateto') }}">
                                         </div>
                                     </div>
@@ -96,7 +96,7 @@
                                         <label for="one" class="col-sm-3 col-form-label">Total Days</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" placeholder="Total Days"
-                                                name="leave_total_day" value="{{ old('leave_total_day') }}">
+                                                name="leave_total_day" value="0">
                                         </div>
                                     </div>
                                     <div class="row mb-4 col-lg-6">
@@ -129,6 +129,7 @@
     @endsection
 
     @section('scripts')
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <!-- ckeditor -->
         <script src="{{ URL::asset('build/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
 
@@ -142,6 +143,29 @@
                 copyText.setSelectionRange(0, 99999);
                 navigator.clipboard.writeText(copyText.value);
             }
+
+            $(document).ready(function(){
+                let differenceInDays = 0;
+                function calculateDifference() {
+                    let dateFrom = new Date($('#dateFrom').val());
+                    dateFrom.setHours(0, 0, 0, 0);
+
+                    let dateTo = new Date($('#dateTo').val());
+                    dateTo.setHours(24, 0, 0, 0);
+                    if(!isNaN(dateFrom) && !isNaN(dateTo))
+                    {
+                        let differenceInTime = dateTo.getTime() - dateFrom.getTime();
+                        let differenceInDays = differenceInTime / (1000 * 3600 * 24);
+                        console.log(differenceInDays);
+
+                        $('input[name="leave_total_day"]').val(differenceInDays);
+                    }
+
+                }
+                $('#dateFrom, #dateTo').change(calculateDifference);
+                calculateDifference();
+            });
+
         </script>
 
         <script>

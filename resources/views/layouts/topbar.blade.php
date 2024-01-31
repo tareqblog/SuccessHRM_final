@@ -8,13 +8,13 @@
                         <img src="{{ URL::asset('build/images/logo-dark-sm.png') }}" alt="" height="26">
                     </span>
                     <span class="logo-lg">
-                        <img src="{{ URL::asset('build/images/Success-Logo.png') }}" alt="" height="26">
+                        <img src="{{ URL::asset('build/images/logo-dark-sm.png') }}" alt="" height="26">
                     </span>
                 </a>
 
                 <a href="/admin/" class="logo logo-light">
                     <span class="logo-lg">
-                        <img src="{{ URL::asset('build/images/Success-Logo.png') }}" alt="" height="30">
+                        <img src="{{ URL::asset('build/images/logo-dark-sm.png') }}" alt="" height="30">
                     </span>
                     <span class="logo-sm">
                         <img src="{{ URL::asset('build/images/logo-dark-sm.png') }}" alt="" height="26">

@@ -69,80 +69,80 @@
                             </div>
 
                             @php
-                                $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                                $entities = json_decode($time_sheet->entities);
                             @endphp
 
-                            @foreach ($days as $day)
+                            @foreach ($entities as $entity)
                                 <div class="form-group">
                                     <div class="row mt-3">
                                         <label for="time_sheet_day"
-                                            class="col-sm-1 control-label">{{ $day }}</label>
+                                            class="col-sm-1 control-label">{{ $entity->day }}</label>
+                                            <input type="hidden" name="entities[{{ strtolower($entity->day) }}][day]" value="{{$entity->day}}">
                                         <div class="col-sm-2">
-                                            <input type="time" class="form-control" name="{{ strtolower($day) }}_in"
-                                                value="{{ old(strtolower($day) . '_in',$time_sheet->entries()->where('day', $day)->value('in_time')) }}"
+                                            <input type="time" class="form-control" name="entities[{{ strtolower($entity->day) }}][in_time]" value="{{$entity->in_time}}"
                                                 placeholder="Time In">
                                         </div>
                                         <div class="col-sm-2">
-                                            <input type="time" class="form-control" name="{{ strtolower($day) }}_out"
-                                                value="{{ old(strtolower($day) . '_out',$time_sheet->entries()->where('day', $day)->value('out_time')) }}"
+                                            <input type="time" class="form-control" name="entities[{{ strtolower($entity->day) }}][out_time]"
+                                                value="{{ $entity->out_time }}"
                                                 placeholder="Time Out">
                                         </div>
                                         <!-- Add other input fields for each day as needed -->
                                         <div class="col-sm-1">
-                                            <select class="form-control" name="{{ strtolower($day) }}_lunch">
+                                            <select class="form-control" name="entities[{{ strtolower($entity->day) }}][lunch_time]">
                                                 <!-- Add appropriate options based on your requirements -->
                                                 <option value="30 minutes"
-                                                    {{ old(strtolower($day) . '_lunch',$time_sheet->entries()->where('day', $day)->value('lunch_time')) == '30 minutes'? 'selected': '' }}>
+                                                    {{ $entity->lunch_time == '30 minutes'? 'selected': '' }}>
                                                     30 minutes</option>
                                                 <option value="45 minutes"
-                                                    {{ old(strtolower($day) . '_lunch',$time_sheet->entries()->where('day', $day)->value('lunch_time')) == '45 minutes'? 'selected': '' }}>
+                                                    {{ $entity->lunch_time == '45 minutes'? 'selected': '' }}>
                                                     45 minutes</option>
                                                 <option value="1 hour"
-                                                    {{ old(strtolower($day) . '_lunch',$time_sheet->entries()->where('day', $day)->value('lunch_time')) == '1 hour'? 'selected': '' }}>
+                                                    {{ $entity->lunch_time == '1 hour'? 'selected': '' }}>
                                                     1 hour</option>
                                                 <option value="2 hour"
-                                                    {{ old(strtolower($day) . '_lunch',$time_sheet->entries()->where('day', $day)->value('lunch_time')) == '2 hour'? 'selected': '' }}>
+                                                    {{ $entity->lunch_time == '2 hour'? 'selected': '' }}>
                                                     2 hour</option>
                                                 <option value="No Lunch"
-                                                    {{ old(strtolower($day) . '_lunch',$time_sheet->entries()->where('day', $day)->value('lunch_time')) == 'No Lunch'? 'selected': '' }}>
+                                                    {{ $entity->lunch_time == 'No Lunch'? 'selected': '' }}>
                                                     No Lunch</option>
                                             </select>
                                         </div>
                                         <div class="col-sm-1">
                                             <label>
-                                                <input type="checkbox" name="{{ strtolower($day) }}_isWork"
-                                                    {{ old(strtolower($day) . '_isWork',$time_sheet->entries()->where('day', $day)->value('isWork'))? 'checked': '' }}>
+                                                <input type="checkbox" name="entities[{{ strtolower($entity->day) }}][isWork]"
+                                                    {{ isset($entity->isWork) ? 'checked': '' }}>
                                             </label>
                                         </div>
                                         <div class="col-sm-1">
                                             <label>
-                                                <input type="checkbox" name="{{ strtolower($day) }}_isNextDay"
-                                                    {{ old(strtolower($day) . '_isNextDay',$time_sheet->entries()->where('day', $day)->value('isNextDay'))? 'checked': '' }}>
+                                                <input type="checkbox" name="entities[{{ strtolower($entity->day) }}][ot_rate]"
+                                                    {{ isset($entity->isNextDay) ? 'checked': '' }}>
                                             </label>
                                         </div>
                                         <div class="col-sm-1">
-                                            <select class="form-control" name="{{ strtolower($day) }}_ot_rate">
+                                            <select class="form-control" name="entities[{{ strtolower($entity->day) }}][minimum]">
                                                 <!-- Add appropriate options based on your requirements -->
                                                 <option value="No Rate"
-                                                    {{ old(strtolower($day) . '_ot_rate',$time_sheet->entries()->where('day', $day)->value('ot_rate')) == 'No Rate'? 'selected': '' }}>
+                                                    {{ isset($entity->ot_rate) == 'No Rate'? 'selected': '' }}>
                                                     No Rate</option>
                                                 <option value="1.5"
-                                                    {{ old(strtolower($day) . '_ot_rate',$time_sheet->entries()->where('day', $day)->value('ot_rate')) == '1.5'? 'selected': '' }}>
+                                                    {{ isset($entity->ot_rate) == '1.5'? 'selected': '' }}>
                                                     1.5</option>
                                                 <option value="2"
-                                                    {{ old(strtolower($day) . '_ot_rate',$time_sheet->entries()->where('day', $day)->value('ot_rate')) == '2'? 'selected': '' }}>
+                                                    {{ isset($entity->ot_rate) == '2'? 'selected': '' }}>
                                                     2</option>
                                             </select>
                                         </div>
                                         <div class="col-sm-1 ms-5">
                                             <input type="text" class="form-control"
-                                                name="{{ strtolower($day) }}_minimum"
-                                                value="{{ old(strtolower($day) . '_minimum',$time_sheet->entries()->where('day', $day)->value('minimum')) }}">
+                                                name="entities[{{ strtolower($entity->day) }}][minimum]"
+                                                value="{{$entity->minimum }}">
                                         </div>
                                         <div class="col-sm-1 ms-5">
                                             <input type="text" class="form-control"
-                                                name="{{ strtolower($day) }}_allowance"
-                                                value="{{ old(strtolower($day) . '_allowance',$time_sheet->entries()->where('day', $day)->value('allowance')) }}">
+                                                name="entities[{{ strtolower($entity->day) }}][allowance]"
+                                                value="{{ $entity->allowance }}">
                                         </div>
                                         <!-- Repeat these lines for other fields as needed -->
 

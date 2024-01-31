@@ -62,30 +62,13 @@
                                                     placeholder="Client Name" value="{{ old('client_name') }}" required>
                                             </div>
                                         </div>
-                                        @php
-                                            $user = auth()->user();
-                                            if ($user) {
-                                                $roleName = $user->roleName($user->role);
-                                            } else {
-                                            }
-                                        @endphp
 
                                         <div class="row col-lg-6  mb-4">
                                             <label for="two" class="col-sm-3 col-form-label">Manager /
                                                 Consultant (In Charge) <span class="text-danger">*</span></label>
                                             <div class="col-sm-9">
                                                 <select name="employees_id" class="form-control" required>
-                                                    @if ($roleName == 'Team Leader')
-                                                        <option value="{{ $user->employe->id }}" selected @readonly(true)>
-                                                            {{ $user->employe->employee_name }}</option>
-                                                    @elseif($roleName == 'Aministrator')
-                                                        <option value="">Select One</option>
-                                                        @foreach ($employees as $employee)
-                                                            <option value="{{ $employee->id }}"
-                                                                {{ old('employees_id') == $employee->id ? 'selected' : '' }}>
-                                                                {{ $employee->employee_name }}</option>
-                                                        @endforeach
-                                                    @endif
+                                                    <option value="{{ manager()->id }}" selected @readonly(true)>{{ manager()->employee_name }}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -94,13 +77,17 @@
                                                 Person In Charge</label>
                                             <div class="col-sm-9">
                                                 <select name="payroll_employees_id" class="form-control">
-                                                    <option value="">Select One</option>
-                                                    @foreach ($employees_payroll as $user)
-                                                        <option value="{{ $user->id }}"
-                                                            {{ old('payroll_employees_id') == $user->id ? 'selected' : '' }}>
-                                                            {{ $user->employee_name }}
-                                                        </option>
-                                                    @endforeach
+                                                    @if (authRoleName() == 'Team Leader')
+                                                        <option value="{{ Auth::user()->employe->id }}" selected @readonly(true)>{{ Auth::user()->employe->employee_name }}</option>
+                                                    @elseif(authRoleName() == 'Aministrator')
+                                                        <option value="" selected disabled>Select One</option>
+                                                        @foreach (teamLeaders(Auth::user()->employe->id) as $leader)
+                                                            <option value="{{ $leader->id }}"
+                                                                {{ (old('payroll_employees_id') == $leader->id) ? 'selected' : '' }}>
+                                                                {{ $leader->employee_name }}
+                                                            </option>
+                                                        @endforeach
+                                                    @endif
                                                 </select>
                                             </div>
                                         </div>
