@@ -52,7 +52,6 @@ class ClientController extends Controller
         if ($auth->roles_id == 11) {
             $datas->where('payroll_employees_id', $auth->id);
         }
-
         $datas = $datas->get();
         return view('admin.client.index', compact('datas'));
     }
@@ -68,12 +67,12 @@ class ClientController extends Controller
 
         // $industries = IndustryType::orderBy('industry_seqno')->where('industry_status',1)->get();
         $job_categories = jobcategory::select('id', 'jobcategory_name')->get();
-        $employees = Employee::latest()->where('roles_id','!=','13')->Where('roles_id','!=','14')->where('employee_status', 1)->select('id', 'employee_name')->get();
-        $employees_payroll = Employee::latest()->where('roles_id','=','13')->orWhere('roles_id','=','14')->where('employee_status',1)->select('id', 'employee_name')->get();
+        $employees = Employee::latest()->where('roles_id', '!=', '13')->Where('roles_id', '!=', '14')->where('employee_status', 1)->select('id', 'employee_name')->get();
+        $employees_payroll = Employee::latest()->where('roles_id', '=', '13')->orWhere('roles_id', '=', '14')->where('employee_status', 1)->select('id', 'employee_name')->get();
         $users = User::latest()->select('id', 'name')->get();
-        $tncs = TncTemplate::orderBy('tnc_template_seqno')->where('tnc_template_status',1)->select('id', 'tnc_template_code')->get();
-        $client_terms = clientTerm::orderBy('client_term_seqno')->where('client_term_status',1)->select('id', 'client_term_code')->get();
-        return view('admin.client.create', compact('job_categories', 'employees','employees_payroll', 'users', 'tncs', 'client_terms'));
+        $tncs = TncTemplate::orderBy('tnc_template_seqno')->where('tnc_template_status', 1)->select('id', 'tnc_template_code')->get();
+        $client_terms = clientTerm::orderBy('client_term_seqno')->where('client_term_status', 1)->select('id', 'client_term_code')->get();
+        return view('admin.client.create', compact('job_categories', 'employees', 'employees_payroll', 'users', 'tncs', 'client_terms'));
     }
 
     /**
@@ -106,18 +105,18 @@ class ClientController extends Controller
         }
         $departments = ClientDepartment::where('client_id', $client->id)->latest()->get();
         $job_categories = jobcategory::select('id', 'jobcategory_name')->get();
-        $employees = Employee::latest()->where('roles_id','!=','13')->Where('roles_id','!=','14')->where('employee_status', 1)->select('id', 'employee_name')->get();
-        $employees_payroll = Employee::latest()->where('roles_id','=','13')->orWhere('roles_id','=','14')->where('employee_status', 1)->select('id', 'employee_name')->get();
+        $employees = Employee::latest()->where('roles_id', '!=', '13')->Where('roles_id', '!=', '14')->where('employee_status', 1)->select('id', 'employee_name')->get();
+        $employees_payroll = Employee::latest()->where('roles_id', '=', '13')->orWhere('roles_id', '=', '14')->where('employee_status', 1)->select('id', 'employee_name')->get();
         $users = User::latest()->select('id', 'name')->get();
-        $tncs = TncTemplate::orderBy('tnc_template_seqno')->where('tnc_template_status',1)->select('id', 'tnc_template_code')->get();
-        $client_terms = clientTerm::orderBy('client_term_seqno')->where('client_term_status',1)->select('id', 'client_term_code')->get();
+        $tncs = TncTemplate::orderBy('tnc_template_seqno')->where('tnc_template_status', 1)->select('id', 'tnc_template_code')->get();
+        $client_terms = clientTerm::orderBy('client_term_seqno')->where('client_term_status', 1)->select('id', 'client_term_code')->get();
 
-        $fileTypes = uploadfiletype::where('uploadfiletype_status', 1)->where('uploadfiletype_for',0)->latest()->get();
+        $fileTypes = uploadfiletype::where('uploadfiletype_status', 1)->where('uploadfiletype_for', 0)->latest()->get();
 
         $client_files = ClientUploadFile::where('client_id', $client->id)->get();
-        $client_followup = ClientFollowUp::where('clients_id', $client->id)->orderBy('created_at','DESC')->get();
+        $client_followup = ClientFollowUp::where('clients_id', $client->id)->orderBy('created_at', 'DESC')->get();
 
-        return view('admin.client.edit', compact('departments','client', 'job_categories', 'employees', 'employees_payroll','users', 'tncs', 'client_terms', 'fileTypes', 'client_files','client_followup'));
+        return view('admin.client.edit', compact('departments', 'client', 'job_categories', 'employees', 'employees_payroll', 'users', 'tncs', 'client_terms', 'fileTypes', 'client_files', 'client_followup'));
     }
 
     /**
@@ -205,14 +204,13 @@ class ClientController extends Controller
         ]);
 
         ClientFollowUp::create([
-           'description' => $request->description,
+            'description' => $request->description,
             'clients_id' => $request->clients_id
         ]);
 
         $url = '/ATS/clients/' . $request->clients_id . '/edit#follow_up';
 
         return redirect($url)->with('success', 'Follow up added successfully.');
-
     }
 
     public function folowupDelete($id)
@@ -227,12 +225,14 @@ class ClientController extends Controller
 
         return redirect($url)->with('success', 'Successfully Deleted.');
     }
-    public function clientImport(Request $request)  {
+    public function clientImport(Request $request)
+    {
         Excel::import(new ClientImport, $request->file('client_import_file'));
     }
 
 
-    public function clientDepartmentStore(Request $request) {
+    public function clientDepartmentStore(Request $request)
+    {
         $request->validate([
             'client_id' => 'required|integer',
             'name' => 'string|required',
@@ -250,7 +250,8 @@ class ClientController extends Controller
         return redirect($url)->with('success', 'Successfully Created.');
     }
 
-    public function clientDepartmentDelete($id) {
+    public function clientDepartmentDelete($id)
+    {
         ClientDepartment::find($id)->delete();
 
         $url = '/ATS/clients/' . request()->department_delete . '/edit#department';
@@ -310,7 +311,7 @@ class ClientController extends Controller
 
     public function deleteSupervisor(ClientSupervisor $supervisor)
     {
-        $url = '/ATS/clients/' .$supervisor->client_id. '/edit#supervisor';
+        $url = '/ATS/clients/' . $supervisor->client_id . '/edit#supervisor';
         DB::beginTransaction();
 
         try {
@@ -345,5 +346,4 @@ class ClientController extends Controller
 
         return redirect($url)->with('success', 'Follow up added successfully.');
     }
-
 }

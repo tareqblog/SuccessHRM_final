@@ -18,6 +18,6 @@ class Outlet extends Model
 
     public function nationality()
     {
-        return $this->belongsTo(Country::class, 'countries_id');
+        return $this->belongsTo(country::class, 'countries_id');
     }
 }
