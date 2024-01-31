@@ -51,6 +51,8 @@ class ClientController extends Controller
         $datas = client::latest()->with('industry_type', 'Employee');
         if ($auth->roles_id == 11) {
             $datas->where('payroll_employees_id', $auth->id);
+        } elseif ($auth->roles_id == 4) {
+            $datas->where('employees_id', $auth->id);
         }
         $datas = $datas->get();
         return view('admin.client.index', compact('datas'));
