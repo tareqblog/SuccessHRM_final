@@ -50,7 +50,7 @@
             $('.inTime-' + day).val('');
             $('.outTime-' + day).val('');
         }
-        // timeCalculation(day);
+        timeCalculation(day);
     }
 
     function removeFile(day) {
