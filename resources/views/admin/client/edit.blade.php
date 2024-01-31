@@ -101,7 +101,10 @@
                                                 Consultant (In Charge) <span class="text-danger">*</span></label>
                                             <div class="col-sm-9">
                                                 <select name="employees_id" class="form-control" required>
-                                                    <option value="{{ manager()->id }}" selected @readonly(true)>{{ manager()->employee_name }}</option>
+                                                    @foreach (manager_for_client() as $manager)
+                                                    {{-- <option value="">{{$manager->employee_name}} </option> --}}
+                                                    <option value="{{ $manager->id }}" {{$client->employees_id == $manager->id ? 'selected' : ''}} @readonly(true)>{{ $manager->employee_name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>

@@ -68,7 +68,11 @@
                                                 Consultant (In Charge) <span class="text-danger">*</span></label>
                                             <div class="col-sm-9">
                                                 <select name="employees_id" class="form-control" required>
-                                                    <option value="{{ manager()->id }}" selected @readonly(true)>{{ manager()->employee_name }}</option>
+                                                    <option value="">Select One</option>
+                                                    @foreach (manager_for_client() as $manager)
+                                                        <option value="{{ $manager->id }}"
+                                                            @readonly(true)>{{ $manager->employee_name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -78,12 +82,14 @@
                                             <div class="col-sm-9">
                                                 <select name="payroll_employees_id" class="form-control">
                                                     @if (authRoleName() == 'Team Leader')
-                                                        <option value="{{ Auth::user()->employe->id }}" selected @readonly(true)>{{ Auth::user()->employe->employee_name }}</option>
+                                                        <option value="{{ Auth::user()->employe->id }}" selected
+                                                            @readonly(true)>{{ Auth::user()->employe->employee_name }}
+                                                        </option>
                                                     @elseif(authRoleName() == 'Aministrator')
                                                         <option value="" selected disabled>Select One</option>
                                                         @foreach (teamLeaders(Auth::user()->employe->id) as $leader)
                                                             <option value="{{ $leader->id }}"
-                                                                {{ (old('payroll_employees_id') == $leader->id) ? 'selected' : '' }}>
+                                                                {{ old('payroll_employees_id') == $leader->id ? 'selected' : '' }}>
                                                                 {{ $leader->employee_name }}
                                                             </option>
                                                         @endforeach

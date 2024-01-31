@@ -33,6 +33,16 @@ if (!function_exists('manager'))
         return $manager;
     }
 }
+if (!function_exists('manager_for_client'))
+{
+    function manager_for_client()
+    {
+        $role = Role::select('id')->where('name', 'Manager')->first();
+
+        $manager = Employee::select('id', 'employee_name')->where('roles_id', $role->id)->get();
+        return $manager;
+    }
+}
 
 if (!function_exists('teamLeaders'))
 {
