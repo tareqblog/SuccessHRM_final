@@ -2420,49 +2420,51 @@
             $(document).ready(function(){
                 function loadTimeSheetDetails(timesheetId) {
                     let html = '';
+
                     $.ajax({
                         url: '/ATS/time/sheet/details/' + timesheetId,
                         method: 'GET',
                         success: function(response) {
                             let entries = response.entries;
-                            if (entries.length > 0) {
-                                entries.forEach(entry => {
-                                    let isWorkChecked = entry.isWork === "1" ? 'checked' : '';
-                                    let inTime = entry.in_time ? entry.in_time.substring(0, 5) : '';
-                                    let outTime = entry.out_time ? entry.out_time.substring(0, 5) : '';
-                                    let lunch_time = entry.lunch_time;
-                                    html += `
-                                        <div class="form-group">
-                                            <div class="row mt-3">
-                                                <label for="time_sheet_day" class="col-sm-1 control-label">${entry.day}</label>
-                                                <div class="col-sm-3">
-                                                    <input type="time" class="form-control" name="${entry.day.toLowerCase()}_in" placeholder="Time In" value="${inTime}">
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <input type="time" class="form-control" name="${entry.day.toLowerCase()}_out" placeholder="Time Out" value="${outTime}">
-                                                </div>
-                                                <div class="col-sm-2">
-                                                    <select class="form-control" name="${entry.day.toLowerCase()}_lunch">
-                                                        <option value="30 minutes" ${lunch_time === '30 minutes' ? 'selected' : ''}>30 minutes</option>
-                                                        <option value="45 minutes" ${lunch_time === '45 minutes' ? 'selected' : ''}>45 minutes</option>
-                                                        <option value="1 hour" ${lunch_time === '1 hour' ? 'selected' : ''}>1 hour</option>
-                                                        <option value="1.5 hour" ${lunch_time === '1.5 hour' ? 'selected' : ''}>1.5 hour</option>
-                                                        <option value="2 hour" ${lunch_time === '2 hour' ? 'selected' : ''}>2 hour</option>
-                                                        <option value="No Lunch" ${lunch_time === 'No Lunch' ? 'selected' : ''}>No Lunch</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-sm-1">
-                                                    <label>
-                                                        <input type="checkbox" name="${entry.day.toLowerCase()}_isWork" ${isWorkChecked}>
-                                                    </label>
-                                                </div>
+                            entries = JSON.parse(entries);
+
+                            Object.values(entries).forEach(entry => {
+                                let isWorkChecked = entry.isWork === "1" ? 'checked' : '';
+                                let inTime = entry.in_time ? entry.in_time.substring(0, 5) : '';
+                                let outTime = entry.out_time ? entry.out_time.substring(0, 5) : '';
+                                let lunch_time = entry.lunch_time;
+
+                                html += `
+                                    <div class="form-group">
+                                        <div class="row mt-3">
+                                            <label for="time_sheet_day" class="col-sm-1 control-label">${entry.day}</label>
+                                            <div class="col-sm-3">
+                                                <input type="time" class="form-control" name="${entry.day.toLowerCase()}_in" placeholder="Time In" value="${inTime}">
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <input type="time" class="form-control" name="${entry.day.toLowerCase()}_out" placeholder="Time Out" value="${outTime}">
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <select class="form-control" name="${entry.day.toLowerCase()}_lunch">
+                                                    <option value="30 minutes" ${lunch_time === '30 minutes' ? 'selected' : ''}>30 minutes</option>
+                                                    <option value="45 minutes" ${lunch_time === '45 minutes' ? 'selected' : ''}>45 minutes</option>
+                                                    <option value="1 hour" ${lunch_time === '1 hour' ? 'selected' : ''}>1 hour</option>
+                                                    <option value="1.5 hour" ${lunch_time === '1.5 hour' ? 'selected' : ''}>1.5 hour</option>
+                                                    <option value="2 hour" ${lunch_time === '2 hour' ? 'selected' : ''}>2 hour</option>
+                                                    <option value="No Lunch" ${lunch_time === 'No Lunch' ? 'selected' : ''}>No Lunch</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <label>
+                                                    <input type="checkbox" name="${entry.day.toLowerCase()}_isWork" ${isWorkChecked}>
+                                                </label>
                                             </div>
                                         </div>
-                                    `;
-                                });
+                                    </div>
+                                `;
+                            });
 
-                                $('#timeSheetEntries').html(html); // Use html() to replace existing content
-                            }
+                            $('#timeSheetEntries').html(html);
                         },
                         error: function(xhr, status, error) {
                             console.error(error);

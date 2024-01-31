@@ -306,8 +306,8 @@ class AttendenceController extends Controller
 
         // Query to compare month and year
         $parent = AttendenceParent::where('candidate_id', $validated['candidate_id'])
-        // ->whereMonth('month_year', $providedMonth)
-        // ->whereYear('month_year', $providedYear)
+        ->whereMonth('month_year', $providedMonth)
+        ->whereYear('month_year', $providedYear)
         ->first();
 
         if($parent != null)
