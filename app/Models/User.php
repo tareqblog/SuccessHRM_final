@@ -54,7 +54,8 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function Employee(){
+    public function Employee()
+    {
         return $this->hasMany('App\Models\Employee');
     }
 
@@ -111,6 +112,6 @@ class User extends Authenticatable
 
     public function employe(): HasOne
     {
-        return $this->hasOne(Employee::class, 'users_id');
+        return $this->hasOne(Employee::class, 'user_table_id');
     }
 }

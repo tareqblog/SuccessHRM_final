@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Country;
+use App\Models\country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -11,7 +11,7 @@ class CountryController extends Controller
 
     public function index()
     {
-        $datas = Country::latest()->get();
+        $datas = country::latest()->get();
         return view('admin.country.index', compact('datas'));
     }
 
@@ -39,14 +39,14 @@ class CountryController extends Controller
         }
 
         $validate = $validator->validated();
-        $done = Country::create($validate);
+        $done = country::create($validate);
 
         if (!$done) return redirect()->back()->with('error', 'Something Error!!! Try Again.');
         return redirect()->route('countries.index')->with('success', 'Created successfully.');
 
     }
 
-    public function update(Request $request, Country $country)
+    public function update(Request $request, country $country)
     {
         $validator = $this->validation($request, $country->id);
 

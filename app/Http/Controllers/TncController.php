@@ -139,6 +139,9 @@ class TncController extends Controller
         if (is_null($this->user) || !$this->user->can('tnc.destroy')) {
             abort(403, 'Unauthorized');
         }
+        if ($tnc->tnc_template_isDefault == 1) {
+            return back()->with('error', "You can't delete default template");
+        }
         $filePath = storage_path("app/public/{$tnc->tnc_template_file_path}");
 
         if (file_exists($filePath)) {
