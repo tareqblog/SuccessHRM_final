@@ -44,17 +44,13 @@
         if ($('#workCheB-' + day).is(':checked')) {
             $('.bg-' + day).addClass('bg-f1f1f1');
             $('#workCheB-' + day).prop('checked', true).addClass('checked');
-            let inTime = $('#inTime-' + day).val();
-            let outTime = $('#outTime-' + day).val();
-            $('.inTime-' + day).val(inTime);
-            $('.outTime-' + day).val(outTime);
         } else if ($('#workCheB-' + day).is(':not(:checked)')) {
             $('.bg-' + day).removeClass('bg-f1f1f1');
             $('#workCheB-' + day).prop('checked', false).removeClass('checked');
             $('.inTime-' + day).val('');
             $('.outTime-' + day).val('');
         }
-        timeCalculation(day);
+        // timeCalculation(day);
     }
 
     function removeFile(day) {
@@ -77,8 +73,8 @@
 
     function timeCalculation(day) {
         let lunch_val = tream($('.lunch_val-' + day).val());
-        let inTime = $('#inTime-' + day).val();
-        let outTime = $('#outTime-' + day).val();
+        let inTime = $('.inTime-' + day).val();
+        let outTime = $('.outTime-' + day).val();
         let ot = parseTimeString($('.ot-' + day).val());
         const timeDifference = calculateTimeDifference(inTime, outTime, day);
         const after_leave = leaveDay(day, timeDifference);
