@@ -30,7 +30,6 @@
                                 <tr>
                                     <th>No</th>
                                     <th>ID</th>
-                                    <th>NRIC</th>
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Mobile</th>
@@ -49,7 +48,6 @@
                                             {{ $loop->index + 1 }}
                                         </td>
                                         <td>{{ $data->id }}</td>
-                                        <td>{{ $data->candidate_nric }}</td>
                                         <td>{{ $data->candidate_name }}</td>
                                         <td>{{ $data->candidate_email }}</td>
                                         <td>{{ $data->candidate_mobile }}</td>

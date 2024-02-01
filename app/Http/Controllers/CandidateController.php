@@ -61,6 +61,7 @@ class CandidateController extends Controller
             $datas->where('team_leader_id', $auth->id);
         }
         $datas = $datas->where('candidate_status', '=', 1)->where('candidate_isDeleted', '=', 0)->get();
+        //$candidate_resume = CandidateResume::where('candidate_id', $candidate->id)->latest()->get();
         return view('admin.candidate.index', compact('datas'));
     }
 
@@ -140,7 +141,7 @@ class CandidateController extends Controller
         $payrolls = CandidatePayroll::where('candidate_id', $candidate->id)->latest()->get();
         $families = CandidateFamily::where('candidate_id', $candidate->id)->latest()->get();
         $time = CandidateWorkingHour::where('candidate_id', $candidate->id)->first();
-        $candidate_resume = CandidateResume::where('candidates_id', $candidate->id)->latest()->get();
+        $candidate_resume = CandidateResume::where('candidate_id', $candidate->id)->latest()->get();
         $nationality = country::orderBy('en_country_name')->get();
         $users = User::latest()->get();
         $Paybanks = Paybank::orderBy('Paybank_seqno')->select('id', 'Paybank_code')->where('Paybank_status', 1)->get();

@@ -30,4 +30,12 @@
 .nav-tabs.nav-item{
       height: 100%!important;
 }
+body{
+      -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+
+}
 </style>
