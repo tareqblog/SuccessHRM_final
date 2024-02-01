@@ -24,14 +24,14 @@
                     </div>
                     @include('admin.include.errors')
                     <div class="card-body">
-                        <table class="table table-bordered mb-0">
+                        <table class="table table-bordered mb-0" id="myTable">
                             <thead>
                                 <tr>
                                     <th>No</th>
                                     <th>Name</th>
                                     <th>Status</th>
                                     <th>Action</th>
-                                </tr>
+                                </tr> 
                             </thead>
                             <tbody>
                                 @foreach ($datas as $data)
