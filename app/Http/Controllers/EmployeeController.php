@@ -55,8 +55,8 @@ class EmployeeController extends Controller
         if (is_null($this->user) || !$this->user->can('employee.index')) {
             abort(403, 'Unauthorized');
         }
-        $datas = Employee::with('role_data', 'Designation')->where('employee_status', 1)->latest()->get();
-
+       // $datas = Employee::with('role_data', 'Designation')->where('active_status', 1)->latest()->get();
+       $datas = Employee::with('role_data', 'Designation')->latest()->get();
         return view('admin.employee.index', compact('datas'));
     }
 
@@ -127,8 +127,6 @@ class EmployeeController extends Controller
             abort(403, 'Unauthorized');
         }
 
-
-        dd($request);
         
         $file_path = $request->file('employee_avater');
 

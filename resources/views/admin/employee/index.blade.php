@@ -49,7 +49,7 @@
                                         <td>{{ $data->employee_email }}</td>
                                         <td>{{ $data->employee_mobile }}</td>
                                         <td>{{ $data->employee_code }}</td>
-                                        <td>{{ $data->employee_status == 1 ? 'Active' : 'In-Active' }}</td>
+                                        <td>{{ $data->active_status == 1 ? 'Active' : 'In-Active' }}</td>
                                         <td style="display: flex;">
                                             @if (App\Helpers\FileHelper::usr()->can('employee.edit'))
                                             <a href="{{ route('employee.edit', $data->id) }}"

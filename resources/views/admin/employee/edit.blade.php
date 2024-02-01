@@ -313,6 +313,21 @@
                                                         </select>
                                                     </div>
                                                 </div>
+
+                                                <div class="row mb-4">
+                                                    <label for="two" class="col-sm-3 col-form-label">Change Status</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="active_status" class="form-control">
+                                                            <option value="">Select One</option>
+                                                                <option value="1"
+                                                                    {{ 1 == old('active_status', $employee->active_status) ? 'selected' : '' }}>
+                                                                    Active </option>
+                                                                <option value="0"
+                                                                    {{ 0 == old('active_status', $employee->active_status) ? 'selected' : '' }}>
+                                                                    In-Active </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
