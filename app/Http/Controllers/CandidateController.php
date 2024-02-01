@@ -55,11 +55,16 @@ class CandidateController extends Controller
         }
 
         $auth = Auth::user()->employe;
+        
+
         $datas = candidate::latest()->with('Race');
         if($auth->roles_id == 11)
         {
             $datas->where('team_leader_id', $auth->id);
+        }else{
+            datas->where('team_leader_id', $auth->team_leader_users_id); 
         }
+
         $datas = $datas->where('candidate_status', '=', 1)->where('candidate_isDeleted', '=', 0)->get();
         //$candidate_resume = CandidateResume::where('candidate_id', $candidate->id)->latest()->get();
         return view('admin.candidate.index', compact('datas'));
@@ -103,6 +108,16 @@ class CandidateController extends Controller
         $candidateData = $request->except('_token', 'avatar') + ['avatar' => $uploadedFilePath];
         $candidate = Candidate::create($candidateData);
 
+        $auth = Auth::user()->employe;
+        if($auth->roles_id == 11)
+        {
+            $candidate->update(['team_leader_id' => $auth->id]);
+        }else{
+            if(!empty($auth->team_leader_users_id)){
+            $candidate->update(['team_leader_id' => $auth->team_leader_users_id]);
+            $candidate->update(['consultant_id' => $auth->id]);
+            }
+        }
         $candidate->update(['candidate_code' => 'Cand-' . $candidate->id]);
 
         return redirect()->route('candidate.index')->with('success', 'Created successfully.');

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\Employee;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -18,8 +18,11 @@ class candidate extends Model
     public static function boot()
     {
         parent::boot();
+        
+
         static::created(function ($candidate) {
             $candidate->created_by = Auth::user()->id;
+
             $candidate->save();
         });
 

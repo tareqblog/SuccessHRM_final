@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->integer('co_owner_id')->nullable()->comment('get id from user table');
             $table->integer('client_id')->comment('get id from client table');
-            $table->integer('person_incharge')->comment('get id from user table');
+            $table->integer('person_incharge')->nullable()->comment('get id from user table');
             $table->integer('job_type_id')->nullable()->comment('get id from job type table');
             $table->longText('short_desc')->nullable();
             $table->date('job_added_date')->nullable();
