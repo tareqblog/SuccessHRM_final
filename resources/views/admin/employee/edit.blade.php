@@ -93,7 +93,7 @@
                                                 <div class="row mb-4" id="role7input" style="display: none;">
                                                     <label for="two" class="col-sm-3 col-form-label">Manager</label>
                                                     <div class="col-sm-9">
-                                                        <select name="manager_users_id" class="form-control">
+                                                        <select id="role7manager" class="form-control">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_manager as $user)
                                                                 <option value="{{ $user->id }}"
@@ -107,7 +107,7 @@
                                                 <div class="row mb-4" id="role10input" style="display: none;">
                                                     <label for="two" class="col-sm-3 col-form-label">Manager</label>
                                                     <div class="col-sm-9">
-                                                        <select name="manager_users_id" class="form-control">
+                                                        <select id="role10manager" class="form-control">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_manager as $user)
                                                                 <option value="{{ $user->id }}"
@@ -121,7 +121,7 @@
                                                 <div class="row mb-4" id="role9input" style="display: none;">
                                                     <label for="two" class="col-sm-3 col-form-label">Manager</label>
                                                     <div class="col-sm-9">
-                                                        <select name="manager_users_id" class="form-control">
+                                                        <select id="role9select" class="form-control">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_manager as $user)
                                                                 <option value="{{ $user->id }}"
@@ -212,7 +212,7 @@
                                                     <label for="two" class="col-sm-3 col-form-label">Team
                                                         Leader</label>
                                                     <div class="col-sm-9">
-                                                        <select name="team_leader_users_id" class="form-control">
+                                                        <select id="role7team_leader" class="form-control">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_team_leader as $leader)
                                                                 <option value="{{ $leader->id }}"
@@ -227,7 +227,7 @@
                                                     <label for="two" class="col-sm-3 col-form-label">Team
                                                         Leader</label>
                                                     <div class="col-sm-9">
-                                                        <select name="team_leader_users_id" class="form-control">
+                                                        <select id="role9team_leader"  class="form-control">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_team_leader as $leader)
                                                                 <option value="{{ $leader->id }}"
@@ -931,8 +931,12 @@
                     }
 
                     function myConsultent() {
+                        
                         $('#role7input').show().css('display', 'show');
+                        $('#role7manager').attr('name', 'manager_users_id');
+
                         $('#role7inputanother').show().css('display', 'show');
+                        $('#role7team_leader').attr('name', 'team_leader_users_id');
                     }
 
                     // Consultent
@@ -946,7 +950,9 @@
 
                     function myInternship() {
                         $('#role9input').show().css('display', 'show');
+                        $('#role9select').attr('name', 'manager_users_id')
                         $('#role9inputanother').show().css('display', 'show');
+                        $('#role9team_leader').attr('name', 'team_leader_users_id');
                     }
                     // Internship
                     if (selectedValue === '11') {
@@ -958,6 +964,7 @@
 
                     function myTeamLeader() {
                         $('#role10input').show().css('display', 'show');
+                        $('#role10manager').attr('name', 'manager_users_id');
                     }
                     ///Manager
 
