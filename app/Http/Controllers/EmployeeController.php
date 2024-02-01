@@ -128,7 +128,8 @@ class EmployeeController extends Controller
         }
 
 
-
+        dd($request);
+        
         $file_path = $request->file('employee_avater');
 
         // Check if $file_path is not empty before proceeding
