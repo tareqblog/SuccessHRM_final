@@ -50,11 +50,19 @@ class ClientController extends Controller
         $auth = Auth::user()->employe;
         $datas = client::latest()->with('industry_type', 'Employee');
         if ($auth->roles_id == 11) {
-            $datas->where('payroll_employees_id', $auth->id);
-        } elseif ($auth->roles_id == 4) {
-            $datas->where('employees_id', $auth->id);
+            $datas->where('team_leader_id', $auth->id);
+        } else{
+            if(!empty($auth->team_leader_users_id)){
+                $datas->where('team_leader_id', $auth->team_leader_users_id); 
+            }
         }
+        
+        
+        
         $datas = $datas->get();
+        
+        
+        
         return view('admin.client.index', compact('datas'));
     }
 
@@ -85,7 +93,26 @@ class ClientController extends Controller
         if (is_null($this->user) || !$this->user->can('clients.store')) {
             abort(403, 'Unauthorized');
         }
-        client::create($request->except('_token'));
+        
+        
+        $user = Auth::user()->id;
+        
+        
+        $employee = Employee::where('user_table_id', $user)->first();
+        
+        if($employee->roles_id == 11) {
+            $team_leader_id = $employee->id;
+        } else {
+            $team_leader_id = $employee->team_leader_users_id;
+            $consultent_id = $employee->id;
+        }
+        
+        // dd($team_leader_id.$consultent_id);
+        
+        client::create($request->except('_token') + [
+            'team_leader_id' => $team_leader_id??'',
+            'consultant_id' => $consultent_id??'',
+            ]);
         return redirect()->route('clients.index')->with('success', 'Client added successfully.');
     }
 
@@ -105,6 +132,20 @@ class ClientController extends Controller
         if (is_null($this->user) || !$this->user->can('clients.edit')) {
             abort(403, 'Unauthorized');
         }
+        
+        
+        $auth = Auth::user()->employe;
+        if($auth->roles_id == 11)
+        {
+             $team_leader_id= $auth->id;
+        }else{
+            if(!empty($auth->team_leader_users_id)){
+                $team_leader_id= $auth->team_leader_users_id; 
+            }else{
+                $team_leader_id=null;
+            }
+        }
+          if($client->team_leader_id==$team_leader_id){
         $departments = ClientDepartment::where('client_id', $client->id)->latest()->get();
         $job_categories = jobcategory::select('id', 'jobcategory_name')->get();
         $employees = Employee::latest()->where('roles_id', '!=', '13')->Where('roles_id', '!=', '14')->where('employee_status', 1)->select('id', 'employee_name')->get();
@@ -117,8 +158,13 @@ class ClientController extends Controller
 
         $client_files = ClientUploadFile::where('client_id', $client->id)->get();
         $client_followup = ClientFollowUp::where('clients_id', $client->id)->orderBy('created_at', 'DESC')->get();
+        
+        
 
         return view('admin.client.edit', compact('departments', 'client', 'job_categories', 'employees', 'employees_payroll', 'users', 'tncs', 'client_terms', 'fileTypes', 'client_files', 'client_followup'));
+          } else {
+              return redirect()->back()->with('error','Sorry! You enter invalid Client id');
+          }
     }
 
     /**

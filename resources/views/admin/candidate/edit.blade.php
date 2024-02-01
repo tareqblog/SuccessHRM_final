@@ -1343,7 +1343,7 @@
                                                             <option value="">Select One</option>
                                                             @foreach ($clients as $client)
                                                                 <option value="{{ $client->id }}">
-                                                                    {{ $client->company_name }} </option>
+                                                                    {{ $client->client_name }} </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -1409,7 +1409,7 @@
                                                             <option value="">Select One</option>
                                                             @foreach ($clients as $client)
                                                                 <option value="{{ $client->id }}">
-                                                                    {{ $client->client_name }} </option>
+                                                                    {{$client->client_name}} </option>
                                                             @endforeach
                                                         </select>
                                                     </div>

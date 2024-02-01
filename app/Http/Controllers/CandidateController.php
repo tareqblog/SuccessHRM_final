@@ -141,13 +141,15 @@ class CandidateController extends Controller
         $auth = Auth::user()->employe;
         if($auth->roles_id == 11)
         {
-            $candidate->where('team_leader_id', $auth->id);
+             $team_leader_id= $auth->id;
         }else{
             if(!empty($auth->team_leader_users_id)){
-            $candidate->where('team_leader_id', $auth->team_leader_users_id); 
+                $team_leader_id= $auth->team_leader_users_id; 
+            }else{
+                $team_leader_id=null;
             }
         }
-       
+       if($candidate->team_leader_id==$team_leader_id){
         $fileTypes = uploadfiletype::where('uploadfiletype_status', 1)->where('uploadfiletype_for', 1)->latest()->get();
         $department_data = Department::orderBy('department_seqno')->where('department_status', '1')->get();
         $designation_data = Designation::orderBy('designation_seqno')->where('designation_status', '1')->get();
@@ -161,7 +163,7 @@ class CandidateController extends Controller
         $remarks_type = remarkstype::where('remarkstype_status', 1)->select('id', 'remarkstype_code')->latest()->get();
         $client_remarks = CandidateRemark::where('candidate_id', $candidate->id)->latest()->get();
         $job_types = jobtype::where('jobtype_status', 1)->select('id', 'jobtype_code')->get();
-        $clients = client::where('clients_status', 1)->select('id', 'client_name')->latest()->get();
+        $clients = client::where('clients_status', 1)->latest()->get();
         $payrolls = CandidatePayroll::where('candidate_id', $candidate->id)->latest()->get();
         $families = CandidateFamily::where('candidate_id', $candidate->id)->latest()->get();
         $time = CandidateWorkingHour::where('candidate_id', $candidate->id)->first();
@@ -171,8 +173,10 @@ class CandidateController extends Controller
         $Paybanks = Paybank::orderBy('Paybank_seqno')->select('id', 'Paybank_code')->where('Paybank_status', 1)->get();
         $time_sheet = TimeSheet::latest()->get();
         return view('admin.candidate.edit', compact('Paybanks', 'fileTypes', 'client_files', 'candidate', 'outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data', 'remarks_type', 'client_remarks', 'job_types', 'clients', 'payrolls', 'time', 'families', 'candidate_resume', 'nationality', 'users', 'time_sheet'));
+    }else{
+        return redirect()->back()->with('error','Sorry! You enter invalid Candidate id');
     }
-
+}
     /**
      * Update the specified resource in storage.
      */
