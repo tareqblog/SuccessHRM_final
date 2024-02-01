@@ -55,16 +55,15 @@ class CandidateController extends Controller
         }
 
         $auth = Auth::user()->employe;
-        
-
         $datas = candidate::latest()->with('Race');
         if($auth->roles_id == 11)
         {
             $datas->where('team_leader_id', $auth->id);
         }else{
-            datas->where('team_leader_id', $auth->team_leader_users_id); 
+            if(!empty($auth->team_leader_users_id)){
+            $datas->where('team_leader_id', $auth->team_leader_users_id); 
+            }
         }
-
         $datas = $datas->where('candidate_status', '=', 1)->where('candidate_isDeleted', '=', 0)->get();
         //$candidate_resume = CandidateResume::where('candidate_id', $candidate->id)->latest()->get();
         return view('admin.candidate.index', compact('datas'));
@@ -139,6 +138,16 @@ class CandidateController extends Controller
         if (is_null($this->user) || !$this->user->can('candidate.edit')) {
             abort(403, 'Unauthorized');
         }
+        $auth = Auth::user()->employe;
+        if($auth->roles_id == 11)
+        {
+            $candidate->where('team_leader_id', $auth->id);
+        }else{
+            if(!empty($auth->team_leader_users_id)){
+            $candidate->where('team_leader_id', $auth->team_leader_users_id); 
+            }
+        }
+       
         $fileTypes = uploadfiletype::where('uploadfiletype_status', 1)->where('uploadfiletype_for', 1)->latest()->get();
         $department_data = Department::orderBy('department_seqno')->where('department_status', '1')->get();
         $designation_data = Designation::orderBy('designation_seqno')->where('designation_status', '1')->get();
