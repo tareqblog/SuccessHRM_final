@@ -31,7 +31,7 @@ class JobRequest extends FormRequest
             'address' => 'nullable|string',
             'co_owner_id' => 'nullable|integer',
             'client_id' => 'required|integer',
-            'person_incharge' => 'required|integer',
+            'person_incharge' => 'nullable|integer',
             'job_type_id' => 'nullable|integer',
             'short_desc' => 'nullable|string',
             'job_added_date' => 'nullable|date',

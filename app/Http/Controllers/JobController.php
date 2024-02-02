@@ -69,6 +69,7 @@ class JobController extends Controller
         $employees = Employee::select('id', 'employee_name')->where('roles_id', 11)->get();
         $jobType = jobtype::latest()->select('id', 'jobtype_code')->get();
         $jobCategory = jobcategory::latest()->select('id', 'jobcategory_name')->get();
+  
         return view('admin.job.create', compact('users', 'jobType', 'clients', 'jobCategory', 'employees'));
     }
 
