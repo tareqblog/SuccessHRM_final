@@ -75,10 +75,14 @@
                             </thead>
                             <tbody>
                                 @forelse ($datas as $data)
-                                    <tr>
+                                    <tr> 
                                         <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $data->employee_type?->name }}</td>
+                                        <td>@if ($data->leave_empl_type==1) Employee @else Candidate @endif</td>
+                                        @if ($data->leave_empl_type==1)
                                         <td>{{ $data->employee?->employee_name }}</td>
+                                        @else
+                                        <td>{{ $data->candidate?->candidate_name }}</td>
+                                        @endif
                                         <td>{{ $data->leaveType?->leavetype_code }}</td>
                                         <td>{{ $data->leave_reason }}</td>
                                         <td>{{ $data->leave_datefrom }}</td>

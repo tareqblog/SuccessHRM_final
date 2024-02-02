@@ -110,7 +110,7 @@ class UserController extends Controller
     $data["name"]=$user->name;
     $data["google2fa_secret"]=$user->google2fa_secret;
     try {
-        Mail::send('google2fa.sendcode', compact('user','google2fa_secret'), function($message)use($data) {
+        Mail::send('google2fa.sendcode', compact('user'), function($message)use($data) {
                $message->to($data["email"])
                         ->subject('Set up Google Authenticator for '. $data["name"]);
             });

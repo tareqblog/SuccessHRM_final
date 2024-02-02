@@ -243,5 +243,14 @@
                 $('#leave_empl_type').trigger('change');
 
             });
+
+            $(document).ready(function(){
+            $(document).on('change', '#dateFrom', function(){
+                var value2=$('#dateFrom').val();
+                $('#dateTo').attr('min', value2);
+                $('#dateTo').prop("disabled", false);
+                $('.end').prop("disabled", false);
+            });
+            });
         </script>
     @endsection

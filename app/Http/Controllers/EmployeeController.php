@@ -56,7 +56,7 @@ class EmployeeController extends Controller
             abort(403, 'Unauthorized');
         }
        // $datas = Employee::with('role_data', 'Designation')->where('active_status', 1)->latest()->get();
-       $datas = Employee::with('role_data', 'Designation')->latest()->get();
+       $datas = Employee::with('role_data', 'Designation')->where('active_status',1)->latest()->get();
         return view('admin.employee.index', compact('datas'));
     }
 
@@ -104,7 +104,7 @@ class EmployeeController extends Controller
         $data["name"] = $user->name;
         $data["google2fa_secret"] = $user->google2fa_secret;
         try {
-            Mail::send('google2fa.sendcode', compact('user', 'google2fa_secret'), function ($message) use ($data) {
+            Mail::send('google2fa.sendcode', compact('user'), function ($message) use ($data) {
                 $message->to($data["email"])
                     ->subject('Set up Google Authenticator for ' . $data["name"]);
             });

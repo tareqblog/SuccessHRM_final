@@ -69,16 +69,16 @@
                                             @endif
                                             @if (App\Helpers\FileHelper::usr()->can('candidate.update'))
                                             <a href="{{ route('candidate.edit', $data->id) }}"
-                                                class="btn btn-info btn-sm me-2"><i class="fas fa-pen"></i></a>
+                                                class="btn btn-info btn-sm me-2" title="Edit"><i class="fas fa-pen"></i></a>
                                             @endif
                                             @if (App\Helpers\FileHelper::usr()->can('candidate.destroy'))
                                             <form id="deleteForm" action="{{ route('candidate.destroy', $data->id) }}"
                                                 method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit"
-                                                    onclick="return confirm('Are you sure you want to delete this item?')"
-                                                    class="btn btn-sm btn-danger"> <i class="fas fa fa-trash"></i> </a>
+                                                <button type="submit" title="NOT SUITABLE"
+                                                    onclick="return confirm('By selecting “NOT SUITABLE”, candidate will be deleted. Do you want to proceed?')"
+                                                    class="btn btn-sm btn-danger"> <i class="fas fa fa-x"></i> </a>
                                             </form>
                                             @endif
                                         </td>
