@@ -11,21 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('candidates', function (Blueprint $table) {
+        Schema::table('job_applications', function (Blueprint $table) {
             $table->foreignId('team_leader_id')->nullable()->constrained('employees')->onDelete('restrict');
-            $table->foreignId('consultant_id')->nullable()->constrained('employees')->onDelete('restrict');
-            
+            $table->foreignId('jobcreator_id')->nullable()->constrained('employees')->onDelete('restrict');
+            $table->foreignId('job_ids')->nullable()->constrained('jobs')->onDelete('restrict');
         });
     }
- 
+
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::table('candidates', function (Blueprint $table) {
+        Schema::table('job_applications', function (Blueprint $table) {
             $table->dropColumn('team_leader_id');
-            $table->dropColumn('consultant_id');
+            $table->dropColumn('jobcreator_id');
+            $table->dropColumn('job_ids');
         });
     }
 };

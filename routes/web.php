@@ -50,9 +50,9 @@ use Spatie\Activitylog\Models\Activity;
 */
 
 // Dashbaord Start
-Route::get('/dashboard', function () {
-    return view('admin.dashboard.index');
-})->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('admin.dashboard.index');
+// })->name('dashboard');
 // Dashbaord ends
 
 

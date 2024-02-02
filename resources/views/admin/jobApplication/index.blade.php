@@ -19,7 +19,7 @@
                     <div class="card-header">
                         <h4 class="card-title mb-0">Job Application Table</h4>
                         <div class="text-end">
-                            <a href="{{ route('job.create') }}" class="btn btn-sm btn-success">Create New</a>
+                            <a href="{{ route('job-application.create') }}" class="btn btn-sm btn-success">Create New</a>
                         </div>
                     </div>
                     <div class="card-body">

@@ -429,7 +429,17 @@ class CandidateFileImportController extends Controller
                 'candidate_mobile' => $data['phone_no'],
                 'candidate_joindate' => Carbon::now()->format('Y-m-d'),
             ]);
-
+            $auth = Auth::user()->employe;
+            if($auth->roles_id == 11)
+            {
+                $candidate->update(['team_leader_id' => $auth->id]);
+            }else{
+                if(!empty($auth->team_leader_users_id)){
+                $candidate->update(['team_leader_id' => $auth->team_leader_users_id]);
+                $candidate->update(['consultant_id' => $auth->id]);
+                }
+            }
+            $candidate->update(['candidate_code' => 'Cand-' . $candidate->id]);
             CandidateResume::create([
                 'candidate_id' => $candidate->id,
                 'resume_file_path' => $data['resume_path'],

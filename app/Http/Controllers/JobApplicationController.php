@@ -37,7 +37,7 @@ class JobApplicationController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.jobApplication.create');
     }
 
     /**
@@ -78,6 +78,18 @@ class JobApplicationController extends Controller
             'candidate_email' => $job->email,
             'candidate_mobile' => $job->phone_no,
         ]);
+        $auth = Auth::user()->employe;
+        if($auth->roles_id == 11)
+        {
+            $candidate->update(['team_leader_id' => $auth->id]);
+        }else{
+            if(!empty($auth->team_leader_users_id)){
+            $candidate->update(['team_leader_id' => $auth->team_leader_users_id]);
+            $candidate->update(['consultant_id' => $auth->id]);
+            }
+        }
+        $candidate->update(['candidate_code' => 'Cand-' . $candidate->id]);
+
         $job->update([
             'candidate_id' => $candidate->id
         ]);

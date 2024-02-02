@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\IndustryType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Str;
 class IndustryTypeController extends Controller
 {
     public $user;
