@@ -44,7 +44,7 @@ class JobController extends Controller
             $datas->where('team_leader_id', $auth->team_leader_users_id); 
             }
         }
-        $datas = $datas->latest()->get();
+        $datas = $datas->latest()->where('job_status',1)->get();
         return view('admin.job.index', compact('datas'));
     }
 
@@ -60,10 +60,7 @@ class JobController extends Controller
 
         $auth = Auth::user()->employe;
         $clients = client::query();
-        if ($auth->roles_id == 11) {
-            $clients->where('payroll_employees_id', $auth->id);
-        }
-        $clients = $clients->latest()->get();
+        $clients = $clients->latest()->where('clients_status',1)->get();
 
         $users = User::latest()->select('id', 'name')->get();
         $employees = Employee::select('id', 'employee_name')->where('roles_id', 11)->get();
@@ -84,6 +81,17 @@ class JobController extends Controller
         job::create($request->except('_token') + [
             'job_link' => Str::slug($request->job_title),
         ]);
+
+        $auth = Auth::user()->employe;
+        if($auth->roles_id == 11)
+        {
+            $candidate->update(['team_leader_id' => $auth->id]);
+        }else{
+            if(!empty($auth->team_leader_users_id)){
+            $candidate->update(['team_leader_id' => $auth->team_leader_users_id]);
+            $candidate->update(['consultant_id' => $auth->id]);
+            }
+        }
         return redirect()->route('job.index')->with('success', 'Job created successfully.');
     }
 

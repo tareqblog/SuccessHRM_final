@@ -99,7 +99,7 @@
                                             <select id="clientSelect" name="client_id" class="form-control">
                                                 <option selected disabled>Select One</option>
                                                 @foreach ($clients as $client)
-                                                    <option value="{{ $client->id }}">{{ $client->client_code }}
+                                                    <option value="{{ $client->id }}">{{ $client->client_name }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -109,6 +109,7 @@
                                         <label for="one" class="col-sm-2 col-form-label">Person In Charge</label>
                                         <div class="col-sm-9">
                                             <select id="leadersContainer" name="person_incharge" class="form-control">
+                                            <option value="">Select One</option>
                                                 @foreach ($employees as $row)
                                                     <option value="{{ $row->id }}">{{ $row->employee_name }}
                                                     </option>

@@ -48,7 +48,7 @@
                                         <td>{{ $data->client_name }}</td>
                                         <td>
                                             @if ($data->employees_id)
-                                                {{ $data->Employee->employee_code }}
+                                                {{ $data->Employee->employee_name }}
                                             @endif
                                         </td>
                                         <td>{{ $data->industry_type?->jobcategory_name }}</td>
@@ -56,7 +56,7 @@
 
                                         <td>
                                             @if ($data->payroll_employees_id)
-                                                {{ $data->Employee_Payroll->employee_code }}
+                                                {{ $data->Employee_Payroll->employee_name }}
                                             @endif
                                         </td>
                                         <td>
