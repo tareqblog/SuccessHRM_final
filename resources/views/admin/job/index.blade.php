@@ -53,7 +53,7 @@
                                             {{ $data->job_category->jobcategory_name }}
                                         </td>
                                         <td>
-                                            {{ $data->owner->name }}
+                                            {{ $data->client->client_name }}
                                         </td>
                                         <td>
                                             {{ $data->job_status == 1 ? 'Active' : 'Close' }}
@@ -62,7 +62,7 @@
                                             {{ $data?->job_type?->jobtype_code }}
                                         </td>
                                         <td>
-                                            {{ $data->created_at->format('d-M-Y') }}
+                                            {{ $data->created_at }}
                                         </td>
                                         <td>
                                             {{ App\Helpers\FileHelper::modify_name($data->modify_by) }}

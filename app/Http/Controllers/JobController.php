@@ -36,10 +36,14 @@ class JobController extends Controller
 
         $auth = Auth::user()->employe;
         $datas = job::query();
-        if ($auth->roles_id == 11) {
-            $datas->where('person_incharge', $auth->id);
+        if($auth->roles_id == 11)
+        {
+            $datas->where('team_leader_id', $auth->id);
+        }else{
+            if(!empty($auth->team_leader_users_id)){
+            $datas->where('team_leader_id', $auth->team_leader_users_id); 
+            }
         }
-
         $datas = $datas->latest()->get();
         return view('admin.job.index', compact('datas'));
     }
@@ -114,7 +118,7 @@ class JobController extends Controller
         if (is_null($this->user) || !$this->user->can('job.update')) {
             abort(403, 'Unauthorized');
         }
-        return $request->co_owner_id = manager();
+        //return $request->co_owner_id = manager();
         $job->update($request->except('_token'));
         return redirect()->route('job.index')->with('success', 'Update successfully.');
     }
