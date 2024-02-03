@@ -89,4 +89,28 @@ class Employee extends Model
     {
         return $this->hasMany(Employee::class, 'team_leader_users_id');
     }
+
+    public static function getCandidatesForManager($managerId)
+    {
+        $teamLeader = self::where('manager_users_id', $managerId)->first();
+
+        if ($teamLeader) {
+            $candidatesForManager = candidate::where('team_leader_id', $teamLeader->id)->get();
+            return $candidatesForManager->toArray();
+        }
+
+        return [];
+    }
+    public static function getCandidatesForTeamLeader($teamLeaderId)
+    {
+        $candidatesForTeamLeader = candidate::where('team_leader_id', $teamLeaderId)->get();
+
+        return $candidatesForTeamLeader->toArray();
+    }
+    public static function getCandidatesForConsultent($consultentId)
+    {
+        $candidatesForConsultent = candidate::where('consultant_id', $consultentId)->get();
+
+        return $candidatesForConsultent->toArray();
+    }
 }

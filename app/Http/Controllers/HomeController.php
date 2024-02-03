@@ -52,15 +52,6 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function root()
-    {
-        $auth = Auth::user()->employe;
-        $today = Carbon::today();
-        $datas = JobApplication::latest()->get();
-        //dd($datas);
-        return view('index');
-    }
-
     public function index(Request $request)
     {
         $auth = Auth::user()->employe;

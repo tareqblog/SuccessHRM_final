@@ -38,11 +38,12 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function dashboard(): View
+    public function dashboard()
     {
-        return view('index', [
-            'users' => User::latest('id')->where('active_status', 1)->get()
-        ]);
+        return 'ok';
+        // return view('index', [
+        //     'users' => User::latest('id')->where('active_status', 1)->get()
+        // ]);
     }
 
     /**
@@ -51,17 +52,17 @@ class UserController extends Controller
     public function create(): View
     {
         $roles  = Role::all();
-        $employees=Employee::where('employee_status',1)->where('employee_isDeleted',0)->get();
-        return view('admin.users.create', compact('roles','employees'));
-
+        $employees = Employee::where('employee_status', 1)->where('employee_isDeleted', 0)->get();
+        return view('admin.users.create', compact('roles', 'employees'));
     }
     /**
      * Getting registration email address.
      */
-    public function search(Request $request){
+    public function search(Request $request)
+    {
 
 
-        $data['email'] = Employee::where('employee_name',$request->name)->get("employee_email");
+        $data['email'] = Employee::where('employee_name', $request->name)->get("employee_email");
         return response()->json($data);
     }
     /**
@@ -70,55 +71,54 @@ class UserController extends Controller
     public function storecomplete(Request $request)
     {
 
-        $data=$request->merge(session('registration_data'));
+        $data = $request->merge(session('registration_data'));
 
         return $this->registration($request);
     }
 
-    public function registration(Request $request){
+    public function registration(Request $request)
+    {
 
         // Create New User
         $user = new User();
-         $user->name = $request->name;
-         $user->email = $request->email;
-         $user->password = Hash::make($request->password);
-         $user->google2fa_secret = $request->google2fa_secret;
-         $user->save();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->google2fa_secret = $request->google2fa_secret;
+        $user->save();
 
-         if ($request->roles) {
+        if ($request->roles) {
             $user->assignRole($request->roles);
-         }
+        }
 
-         if ($this->sendResetEmail($request->email)) {
+        if ($this->sendResetEmail($request->email)) {
             return redirect()->back()->with('success', 'A Secrate Code has been sent to registered email address.');
         } else {
-            return redirect()->back()->with('error','A Network Error occurred. Please try again.');
+            return redirect()->back()->with('error', 'A Network Error occurred. Please try again.');
         }
 
         return redirect()->route('users.index')->with('success', 'User has been created !!');
-
     } //End Method
 
     private function sendResetEmail($email)
     {
-    //Retrieve the user from the database
-    $user = DB::table('users')->where('email', $email)->select('name', 'email','google2fa_secret')->first();
-    $google2fa_secret=$user->google2fa_secret;
-    //Generate, the password reset link. The token generated is embedded in the link
-    $data[]=array('users' =>  $user);
-    $data["email"]=$user->email;
-    $data["name"]=$user->name;
-    $data["google2fa_secret"]=$user->google2fa_secret;
-    try {
-        Mail::send('google2fa.sendcode', compact('user'), function($message)use($data) {
-               $message->to($data["email"])
-                        ->subject('Set up Google Authenticator for '. $data["name"]);
+        //Retrieve the user from the database
+        $user = DB::table('users')->where('email', $email)->select('name', 'email', 'google2fa_secret')->first();
+        $google2fa_secret = $user->google2fa_secret;
+        //Generate, the password reset link. The token generated is embedded in the link
+        $data[] = array('users' =>  $user);
+        $data["email"] = $user->email;
+        $data["name"] = $user->name;
+        $data["google2fa_secret"] = $user->google2fa_secret;
+        try {
+            Mail::send('google2fa.sendcode', compact('user'), function ($message) use ($data) {
+                $message->to($data["email"])
+                    ->subject('Set up Google Authenticator for ' . $data["name"]);
             });
-        return true;
-    } catch (\Exception $e) {
-        return false;
-    }
-
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
     public function store(StoreUserRequest $request)
     {
@@ -141,7 +141,6 @@ class UserController extends Controller
             $registration_data['google2fa_secret']
         );
         return view('google2fa.register', ['QR_Image' => $QR_Image, 'secret' => $registration_data['google2fa_secret']]);
-
     }
 
     /**
@@ -218,41 +217,37 @@ class UserController extends Controller
         return view('auth.login');
     }
 
-    public function Login(Request $request){
-
-    //dd($request);   //<-----TO CHECK
-
-    $check = $request->all();
-
-    if(Auth::guard('web')->attempt(['email' => $check['email'], 'password' => $check['password'] ]))
-
+    public function Login(Request $request)
     {
-        if (!Auth::user()->active_status == 1) {
-            return back()->with('error', 'Your account is disable please contact with admin.');
-        }
-        //$request->session()->flash('login_data', $registration_data);
 
-            $user = User::where('email','=',$check['email'])->first();
+        //dd($request);   //<-----TO CHECK
+
+        $check = $request->all();
+
+        if (Auth::guard('web')->attempt(['email' => $check['email'], 'password' => $check['password']])) {
+            if (!Auth::user()->active_status == 1) {
+                return back()->with('error', 'Your account is disable please contact with admin.');
+            }
+            //$request->session()->flash('login_data', $registration_data);
+
+            $user = User::where('email', '=', $check['email'])->first();
 
             $token = $request->get('google2fa');
 
-                    if (Google2FA::verifyKey($user->google2fa_secret, $token)) {
+            if (Google2FA::verifyKey($user->google2fa_secret, $token)) {
 
-                        $request->session()->remove('email');
+                $request->session()->remove('email');
 
-                        auth()->loginUsingId($user->id);
+                auth()->loginUsingId($user->id);
 
-                        return redirect()->route('2fa')->with('success', 'Login Successfully!');
-                    }
+                return redirect()->route('2fa')->with('success', 'Login Successfully!');
+            }
 
-                    return back()->with('error', 'Invalid OTP');
-    }
-    else{
+            return back()->with('error', 'Invalid OTP');
+        } else {
 
-        return back()->with('error', 'Invalid Email or Password.');
-
-    }
-
+            return back()->with('error', 'Invalid Email or Password.');
+        }
     } //End Method
 
 }

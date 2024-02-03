@@ -18,7 +18,9 @@ use App\Http\Controllers\AttendenceController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GiroController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\JobStatusController;
 use App\Http\Controllers\LeaveController;
@@ -74,11 +76,10 @@ Auth::routes(['register' => false, 'login' => false]);
 Route::get('/login', [UserController::class, 'loginform'])->name('login');
 Route::post('/login', [UserController::class, 'login']);
 
+
 Route::middleware(['2fa', 'auth'])->group(function () {
 
-    Route::get('/ATS/dashboard', [UserController::class, 'dashboard'])->name('admin.dashboard');
     Route::any('/ATS/dashboard', function () {
-
         return redirect('/ATS/designation');
     })->name('2fa');
 });
@@ -88,6 +89,7 @@ Route::prefix('ATS')->group(function () {
         return json_encode(activity::all()->last());
     });
 
+    Route::get('/admin', [DashboardController::class, 'index'])->name('admin.dashboard.index');
     // Route::get('/employeefetch',[App\Http\Controllers\Action\FetchEmployeeController::class])->name('employee.fetch');
 
     Route::resources([
@@ -163,6 +165,7 @@ Route::prefix('ATS')->group(function () {
     Route::post('/client/import', [ClientController::class, 'clientImport'])->name('client.import');
     Route::post('/client/department/store', [ClientController::class, 'clientDepartmentStore'])->name('client.department.store');
     Route::delete('/client/department/delete/{id}', [ClientController::class, 'clientDepartmentDelete'])->name('client.department.delete');
+    Route::get('/test', [ClientController::class, 'test']);
 
 
     //Candidate extra part
@@ -184,7 +187,7 @@ Route::prefix('ATS')->group(function () {
     Route::get('/candidate/timesheet-data/{timeSheetId}', [CandidateController::class, 'timeSheetData'])->name('candidate.timesheet.data');
 
 
-    Route::get('{any}',  [App\Http\Controllers\HomeController::class, 'index']);
+    // Route::get('{any}',  [App\Http\Controllers\HomeController::class, 'index']);
 
 
     //  Route::get('/',  [App\Http\Controllers\AdminController::class, 'root'])->name('admin.dashboard');
