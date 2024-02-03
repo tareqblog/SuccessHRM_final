@@ -101,6 +101,30 @@ class Employee extends Model
 
         return [];
     }
+
+    public static function getCandidatesForManagerLatestRemark($managerId)
+    {
+        $teamLeader = self::where('manager_users_id', $managerId)->first();
+
+        if ($teamLeader) {
+            // $candidatesForManager = candidate::where('team_leader_id', $teamLeader->id)->get();
+
+            $candidatesForManager = candidate::where('team_leader_id', $teamLeader->id)
+                ->whereHas('remarks', function ($query) {
+                    $query->where('remarkstype_id', 4);
+                })
+                ->with(['remarks' => function ($query) {
+                    $query->where('remarkstype_id', 4)
+                        ->latest()
+                        ->limit(1);
+                }])
+                ->get();
+
+            return $candidatesForManager->toArray();
+        }
+
+        return [];
+    }
     public static function getCandidatesForTeamLeader($teamLeaderId)
     {
         $candidatesForTeamLeader = candidate::where('team_leader_id', $teamLeaderId)->get();
@@ -112,5 +136,10 @@ class Employee extends Model
         $candidatesForConsultent = candidate::where('consultant_id', $consultentId)->get();
 
         return $candidatesForConsultent->toArray();
+    }
+
+    public function teamleaders(): HasMany
+    {
+        return $this->hasMany(Employee::class, 'foreign_key');
     }
 }

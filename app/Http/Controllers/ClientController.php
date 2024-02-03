@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Status;
 use App\Helpers\FileHelper;
 use App\Http\Requests\ClientRequest;
 use App\Imports\ClientImport;
@@ -39,13 +40,9 @@ class ClientController extends Controller
             return $next($request);
         });
     }
-    /**
-     * Display a listing of the resource.
-     */
 
     public function test()
     {
-
         $auth = Auth::user()->employe;
         $managers = [];
         $candidatesByManager = [];
@@ -53,22 +50,32 @@ class ClientController extends Controller
         $candidatesByConsultent = [];
         $team_leader = [];
         $candidatesByTeam = [];
+        $followUp = [];
+        $activeResume = [];
+
         if ($auth->roles_id == 1) {
             $managers = Employee::where('roles_id', 4)->get();
             foreach ($managers as $manager) {
                 $managerId = $manager->id;
                 $candidatesForManager = Employee::getCandidatesForManager($managerId);
                 $candidatesByManager[$managerId] = $candidatesForManager;
+                $followUp = Employee::getCandidatesForManagerLatestRemark($managerId);
             }
         } elseif ($auth->roles_id == 4) {
-            $team_leader = Employee::where('roles_id', 11)->get();
+            $team_leader = Employee::where('roles_id', 11)->where('manager_users_id', $auth->id)->get();
             foreach ($team_leader as $team) {
                 $teamId = $team->id;
                 $candidatesForTeam = Employee::getCandidatesForTeamLeader($teamId);
                 $candidatesByTeam[$teamId] = $candidatesForTeam;
+                $consultents = Employee::where('roles_id', 8)->where('team_leader_users_id', $teamId)->get();
+                foreach ($consultents as $consultent) {
+                    $consultentId = $consultent->id;
+                    $candidatesForConsultent = Employee::getCandidatesForConsultent($consultentId);
+                    $candidatesByConsultent[$consultentId] = $candidatesForConsultent;
+                }
             }
         } elseif ($auth->roles_id == 11) {
-            $consultents = Employee::where('roles_id', 8)->get();
+            $consultents = Employee::where('roles_id', 8)->where('team_leader_users_id', $auth->id)->get();
             foreach ($consultents as $consultent) {
                 $consultentId = $consultent->id;
                 $candidatesForConsultent = Employee::getCandidatesForConsultent($consultentId);
@@ -76,14 +83,14 @@ class ClientController extends Controller
             }
         }
 
-
         return view('admin.client.test', compact(
             'candidatesByManager',
             'managers',
             'candidatesByTeam',
             'team_leader',
             'candidatesByConsultent',
-            'consultents'
+            'consultents',
+            'followUp',
         ));
     }
 

@@ -88,15 +88,30 @@
                                                         </select>
                                                     </div>
                                                 </div>
+                                                @php
+                                                    $auth = Auth::user()->employe;
+                                                @endphp
                                                 <div class="row mb-4" id="role7input" style="display: none;">
                                                     <label for="two" class="col-sm-3 col-form-label">Manager</label>
                                                     <div class="col-sm-9">
                                                         <select id="role7manager" class="form-control searchBox">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_manager as $user)
+                                                                @if ($auth->roles_id == 4)
+                                                                    <option value="{{ $user->id }}"
+                                                                        {{ $auth->id == $user->id ? 'selected' : 'disabled hidden' }}>
+                                                                        {{ $user->employee_name }}</option>
+                                                                @else
+                                                                    <option value="{{ $user->id }}"
+                                                                        {{ $auth->id == $user->id ? 'selected' : '' }}>
+                                                                        {{ $user->employee_name }}</option>
+                                                                @endif
+                                                            @endforeach
+                                                            {{-- <option value="">Select One</option>
+                                                            @foreach ($emp_manager as $user)
                                                                 <option value="{{ $user->id }}">
                                                                     {{ $user->employee_name }}</option>
-                                                            @endforeach
+                                                            @endforeach --}}
                                                         </select>
                                                     </div>
                                                 </div>
@@ -106,8 +121,15 @@
                                                         <select id="role10manager" class="form-control searchBox">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_manager as $user)
-                                                                <option value="{{ $user->id }}">
-                                                                    {{ $user->employee_name }}</option>
+                                                                @if ($auth->roles_id == 4)
+                                                                    <option value="{{ $user->id }}"
+                                                                        {{ $auth->id == $user->id ? 'selected' : 'disabled hidden' }}>
+                                                                        {{ $user->employee_name }}</option>
+                                                                @else
+                                                                    <option value="{{ $user->id }}"
+                                                                        {{ $auth->id == $user->id ? 'selected' : '' }}>
+                                                                        {{ $user->employee_name }}</option>
+                                                                @endif
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -134,8 +156,8 @@
                                                 <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Birthday</label>
                                                     <div class="col-sm-9">
-                                                        <input type="date" name="employee_birthdate" class="form-control"
-                                                            placeholder="Birthday" required>
+                                                        <input type="date" name="employee_birthdate"
+                                                            class="form-control" placeholder="Birthday" required>
                                                     </div>
                                                 </div>
 
@@ -196,11 +218,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4" id="role7inputanother" style="display: none;">
-                                                    <label for="two" class="col-sm-3 col-form-label">Team
-                                                        Leader</label>
+                                                    <label for="two" class="col-sm-3 col-form-label">Team Leader</label>
                                                     <div class="col-sm-9">
-                                                        <select id="role7team_leader"
-                                                            class="form-control searchBox">
+                                                        <select id="role7team_leader" class="form-control searchBox">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_team_leader as $leader)
                                                                 <option value="{{ $leader->id }}">
@@ -211,11 +231,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4" id="role9inputanother" style="display: none;">
-                                                    <label for="two" class="col-sm-3 col-form-label">Team
-                                                        Leader</label>
+                                                    <label for="two" class="col-sm-3 col-form-label">Team Leader</label>
                                                     <div class="col-sm-9">
-                                                        <select id="role9team_leader"
-                                                            class="form-control searchBox">
+                                                        <select id="role9team_leader" class="form-control searchBox">
                                                             <option value="">Select One</option>
                                                             @foreach ($emp_team_leader as $leader)
                                                                 <option value="{{ $leader->id }}">
@@ -917,7 +935,7 @@
                         $('#role9inputanother').show().css('display', 'show');
                         $('#role9select').attr('name', 'manager_users_id');
                         $('#role9team_leader').attr('name', 'team_leader_users_id');
-                        
+
                     }
                     // Internship
                     if (selectedValue === '11') {
