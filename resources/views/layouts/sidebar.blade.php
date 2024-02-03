@@ -75,14 +75,14 @@
                 $usr = Auth::guard('web')->user();
             @endphp
             <ul class="metismenu list-unstyled" id="side-menu">
-                @if ($usr->can('admin.dashboard'))
+                {{-- @if ($usr->can('admin.dashboard')) --}}
                     <li>
-                        <a href="{{ route('admin.dashboard') }}">
+                        <a href="{{ route('admin.dashboard.index') }}">
                             <i class="fa fa-home icon nav-icon" aria-hidden="true"></i>
                             <span class="menu-item" data-key="dashboard">Dashboard</span>
                         </a>
                     </li>
-                @endif
+                {{-- @endif --}}
                 @if ($usr->can('clients.index'))
                     <li>
                         <a href="#" class="has-arrow" data-toggle="collapse" data-target="#clients">

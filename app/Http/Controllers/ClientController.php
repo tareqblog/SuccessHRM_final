@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\FileHelper;
 use App\Http\Requests\ClientRequest;
 use App\Imports\ClientImport;
+use App\Models\candidate;
 use App\Models\client;
 use App\Models\ClientDepartment;
 use App\Models\ClientFollowUp;
@@ -41,6 +42,51 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    public function test()
+    {
+
+        $auth = Auth::user()->employe;
+        $managers = [];
+        $candidatesByManager = [];
+        $consultents = [];
+        $candidatesByConsultent = [];
+        $team_leader = [];
+        $candidatesByTeam = [];
+        if ($auth->roles_id == 1) {
+            $managers = Employee::where('roles_id', 4)->get();
+            foreach ($managers as $manager) {
+                $managerId = $manager->id;
+                $candidatesForManager = Employee::getCandidatesForManager($managerId);
+                $candidatesByManager[$managerId] = $candidatesForManager;
+            }
+        } elseif ($auth->roles_id == 4) {
+            $team_leader = Employee::where('roles_id', 11)->get();
+            foreach ($team_leader as $team) {
+                $teamId = $team->id;
+                $candidatesForTeam = Employee::getCandidatesForTeamLeader($teamId);
+                $candidatesByTeam[$teamId] = $candidatesForTeam;
+            }
+        } elseif ($auth->roles_id == 11) {
+            $consultents = Employee::where('roles_id', 8)->get();
+            foreach ($consultents as $consultent) {
+                $consultentId = $consultent->id;
+                $candidatesForConsultent = Employee::getCandidatesForConsultent($consultentId);
+                $candidatesByConsultent[$consultentId] = $candidatesForConsultent;
+            }
+        }
+
+
+        return view('admin.client.test', compact(
+            'candidatesByManager',
+            'managers',
+            'candidatesByTeam',
+            'team_leader',
+            'candidatesByConsultent',
+            'consultents'
+        ));
+    }
+
     public function index()
     {
         if (is_null($this->user) || !$this->user->can('clients.index')) {
@@ -51,18 +97,18 @@ class ClientController extends Controller
         $datas = client::latest()->with('industry_type', 'Employee');
         if ($auth->roles_id == 11) {
             $datas->where('team_leader_id', $auth->id);
-        } else{
-            if(!empty($auth->team_leader_users_id)){
-                $datas->where('team_leader_id', $auth->team_leader_users_id); 
+        } else {
+            if (!empty($auth->team_leader_users_id)) {
+                $datas->where('team_leader_id', $auth->team_leader_users_id);
             }
         }
-        
-        
-        
+
+
+
         $datas = $datas->get();
-        
-        
-        
+
+
+
         return view('admin.client.index', compact('datas'));
     }
 
@@ -93,26 +139,26 @@ class ClientController extends Controller
         if (is_null($this->user) || !$this->user->can('clients.store')) {
             abort(403, 'Unauthorized');
         }
-        
-        
+
+
         $user = Auth::user()->id;
-        
-        
+
+
         $employee = Employee::where('user_table_id', $user)->first();
-        
-        if($employee->roles_id == 11) {
+
+        if ($employee->roles_id == 11) {
             $team_leader_id = $employee->id;
         } else {
             $team_leader_id = $employee->team_leader_users_id;
             $consultent_id = $employee->id;
         }
-        
+
         // dd($team_leader_id.$consultent_id);
-        
+
         client::create($request->except('_token') + [
-            'team_leader_id' => $team_leader_id??'',
-            'consultant_id' => $consultent_id??'',
-            ]);
+            'team_leader_id' => $team_leader_id ?? '',
+            'consultant_id' => $consultent_id ?? '',
+        ]);
         return redirect()->route('clients.index')->with('success', 'Client added successfully.');
     }
 
@@ -132,39 +178,38 @@ class ClientController extends Controller
         if (is_null($this->user) || !$this->user->can('clients.edit')) {
             abort(403, 'Unauthorized');
         }
-        
-        
+
+
         $auth = Auth::user()->employe;
-        if($auth->roles_id == 11)
-        {
-             $team_leader_id= $auth->id;
-        }else{
-            if(!empty($auth->team_leader_users_id)){
-                $team_leader_id= $auth->team_leader_users_id; 
-            }else{
-                $team_leader_id=null;
+        if ($auth->roles_id == 11) {
+            $team_leader_id = $auth->id;
+        } else {
+            if (!empty($auth->team_leader_users_id)) {
+                $team_leader_id = $auth->team_leader_users_id;
+            } else {
+                $team_leader_id = null;
             }
         }
-          if($client->team_leader_id==$team_leader_id){
-        $departments = ClientDepartment::where('client_id', $client->id)->latest()->get();
-        $job_categories = jobcategory::select('id', 'jobcategory_name')->get();
-        $employees = Employee::latest()->where('roles_id', '!=', '13')->Where('roles_id', '!=', '14')->where('employee_status', 1)->select('id', 'employee_name')->get();
-        $employees_payroll = Employee::latest()->where('roles_id', '=', '13')->orWhere('roles_id', '=', '14')->where('employee_status', 1)->select('id', 'employee_name')->get();
-        $users = User::latest()->select('id', 'name')->get();
-        $tncs = TncTemplate::orderBy('tnc_template_seqno')->where('tnc_template_status', 1)->select('id', 'tnc_template_code')->get();
-        $client_terms = clientTerm::orderBy('client_term_seqno')->where('client_term_status', 1)->select('id', 'client_term_code')->get();
+        if ($client->team_leader_id == $team_leader_id) {
+            $departments = ClientDepartment::where('client_id', $client->id)->latest()->get();
+            $job_categories = jobcategory::select('id', 'jobcategory_name')->get();
+            $employees = Employee::latest()->where('roles_id', '!=', '13')->Where('roles_id', '!=', '14')->where('employee_status', 1)->select('id', 'employee_name')->get();
+            $employees_payroll = Employee::latest()->where('roles_id', '=', '13')->orWhere('roles_id', '=', '14')->where('employee_status', 1)->select('id', 'employee_name')->get();
+            $users = User::latest()->select('id', 'name')->get();
+            $tncs = TncTemplate::orderBy('tnc_template_seqno')->where('tnc_template_status', 1)->select('id', 'tnc_template_code')->get();
+            $client_terms = clientTerm::orderBy('client_term_seqno')->where('client_term_status', 1)->select('id', 'client_term_code')->get();
 
-        $fileTypes = uploadfiletype::where('uploadfiletype_status', 1)->where('uploadfiletype_for', 0)->latest()->get();
+            $fileTypes = uploadfiletype::where('uploadfiletype_status', 1)->where('uploadfiletype_for', 0)->latest()->get();
 
-        $client_files = ClientUploadFile::where('client_id', $client->id)->get();
-        $client_followup = ClientFollowUp::where('clients_id', $client->id)->orderBy('created_at', 'DESC')->get();
-        
-        
+            $client_files = ClientUploadFile::where('client_id', $client->id)->get();
+            $client_followup = ClientFollowUp::where('clients_id', $client->id)->orderBy('created_at', 'DESC')->get();
 
-        return view('admin.client.edit', compact('departments', 'client', 'job_categories', 'employees', 'employees_payroll', 'users', 'tncs', 'client_terms', 'fileTypes', 'client_files', 'client_followup'));
-          } else {
-              return redirect()->back()->with('error','Sorry! You enter invalid Client id');
-          }
+
+
+            return view('admin.client.edit', compact('departments', 'client', 'job_categories', 'employees', 'employees_payroll', 'users', 'tncs', 'client_terms', 'fileTypes', 'client_files', 'client_followup'));
+        } else {
+            return redirect()->back()->with('error', 'Sorry! You enter invalid Client id');
+        }
     }
 
     /**

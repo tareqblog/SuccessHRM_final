@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\candidate;
 use App\Models\Employee;
 use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
@@ -54,3 +55,5 @@ if (!function_exists('teamLeaders'))
         return $teamLeaders;
     }
 }
+
+

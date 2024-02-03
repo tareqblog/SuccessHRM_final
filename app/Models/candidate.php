@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use App\Models\Employee;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,7 +19,7 @@ class candidate extends Model
     public static function boot()
     {
         parent::boot();
-        
+
 
         static::created(function ($candidate) {
             $candidate->created_by = Auth::user()->id;
@@ -36,56 +37,56 @@ class candidate extends Model
 
     public function Department()
     {
-        return $this->belongsTo('App\Models\Department','departments_id');
+        return $this->belongsTo('App\Models\Department', 'departments_id');
     }
 
     public function outlet()
     {
-        return $this->belongsTo('App\Models\outlet','employee_outlet_id');
+        return $this->belongsTo('App\Models\outlet', 'employee_outlet_id');
     }
 
     public function passtype()
     {
-        return $this->belongsTo('App\Models\passtype','passtypes_id');
+        return $this->belongsTo('App\Models\passtype', 'passtypes_id');
     }
 
     public function User()
     {
-        return $this->belongsTo('App\Models\User','users_id');
+        return $this->belongsTo('App\Models\User', 'users_id');
     }
 
     public function paymode()
     {
-        return $this->belongsTo('App\Models\paymode','paymodes_id');
+        return $this->belongsTo('App\Models\paymode', 'paymodes_id');
     }
 
     public function Designation()
     {
-        return $this->belongsTo(Designation::class,'designations_id');
+        return $this->belongsTo(Designation::class, 'designations_id');
     }
 
     public function dbsex()
     {
-        return $this->belongsTo('App\Models\dbsex','dbsexes_id');
+        return $this->belongsTo('App\Models\dbsex', 'dbsexes_id');
     }
 
     public function maritalStatus()
     {
-        return $this->belongsTo('App\Models\maritalStatus','marital_status_id');
+        return $this->belongsTo('App\Models\maritalStatus', 'marital_status_id');
     }
 
     public function Race()
     {
-        return $this->belongsTo('App\Models\Race','races_id');
+        return $this->belongsTo('App\Models\Race', 'races_id');
     }
     public function role_data()
     {
-        return $this->belongsTo('Spatie\Permission\Models\Role','roles_id');
+        return $this->belongsTo('Spatie\Permission\Models\Role', 'roles_id');
     }
 
     public function Religion()
     {
-        return $this->belongsTo('App\Models\Religion','religions_id');
+        return $this->belongsTo('App\Models\Religion', 'religions_id');
     }
 
     public function resumes(): HasMany
@@ -111,10 +112,9 @@ class candidate extends Model
     {
         return $this->hasOne(CandidateWorkingHour::class, 'candidate_id');
     }
-
-    // public function time_sheet(): HasOneThrough
-    // {
-    //     return $this->hasOneThrough(TimeSheet::class, '', CandidateWorkingHour::class, 'candidate_id');
-    // }
+    public function team_leader(): HasOne
+    {
+        return $this->hasOne(Employee::class, 'team_leader_id');
+    }
 
 }
