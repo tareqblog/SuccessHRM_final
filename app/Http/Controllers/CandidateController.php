@@ -56,12 +56,11 @@ class CandidateController extends Controller
 
         $auth = Auth::user()->employe;
         $datas = candidate::latest()->with('Race');
-        if($auth->roles_id == 11)
-        {
+        if ($auth->roles_id == 11) {
             $datas->where('team_leader_id', $auth->id);
-        }else{
-            if(!empty($auth->team_leader_users_id)){
-            $datas->where('team_leader_id', $auth->team_leader_users_id); 
+        } else {
+            if (!empty($auth->team_leader_users_id)) {
+                $datas->where('team_leader_id', $auth->team_leader_users_id);
             }
         }
         $datas = $datas->where('candidate_status', '=', 1)->where('candidate_isDeleted', '=', 0)->get();
@@ -108,13 +107,12 @@ class CandidateController extends Controller
         $candidate = Candidate::create($candidateData);
 
         $auth = Auth::user()->employe;
-        if($auth->roles_id == 11)
-        {
+        if ($auth->roles_id == 11) {
             $candidate->update(['team_leader_id' => $auth->id]);
-        }else{
-            if(!empty($auth->team_leader_users_id)){
-            $candidate->update(['team_leader_id' => $auth->team_leader_users_id]);
-            $candidate->update(['consultant_id' => $auth->id]);
+        } else {
+            if (!empty($auth->team_leader_users_id)) {
+                $candidate->update(['team_leader_id' => $auth->team_leader_users_id]);
+                $candidate->update(['consultant_id' => $auth->id]);
             }
         }
         $candidate->update(['candidate_code' => 'Cand-' . $candidate->id]);
@@ -139,44 +137,45 @@ class CandidateController extends Controller
             abort(403, 'Unauthorized');
         }
         $auth = Auth::user()->employe;
-        if($auth->roles_id == 11)
-        {
-             $team_leader_id= $auth->id;
-        }else{
-            if(!empty($auth->team_leader_users_id)){
-                $team_leader_id= $auth->team_leader_users_id; 
-            }else{
-                $team_leader_id=null;
+
+        if ($auth->roles_id == 11) {
+            $team_leader_id = $auth->id;
+        } else {
+            if (!empty($auth->team_leader_users_id)) {
+                return $team_leader_id = $auth->team_leader_users_id;
+            } else {
+                $team_leader_id = null;
             }
         }
-       if($candidate->team_leader_id==$team_leader_id){
-        $fileTypes = uploadfiletype::where('uploadfiletype_status', 1)->where('uploadfiletype_for', 1)->latest()->get();
-        $department_data = Department::orderBy('department_seqno')->where('department_status', '1')->get();
-        $designation_data = Designation::orderBy('designation_seqno')->where('designation_status', '1')->get();
-        $paymode_data = paymode::orderBy('paymode_seqno')->where('paymode_status', '1')->get();
-        $race_data = Race::orderBy('race_seqno')->where('race_status', '1')->get();
-        $marital_data = maritalStatus::orderBy('marital_statuses_seqno')->where('marital_statuses_status', '1')->get();
-        $passtype_data = passtype::orderBy('passtype_seqno')->where('passtype_status', '1')->get();
-        $religion_data = religion::orderBy('religion_seqno')->where('religion_status', '1')->get();
-        $outlet_data = Outlet::orderBy('id')->get();
-        $client_files = ClientUploadFile::where('client_id', $candidate->id)->where('file_type_for', 1)->get();
-        $remarks_type = remarkstype::where('remarkstype_status', 1)->select('id', 'remarkstype_code')->latest()->get();
-        $client_remarks = CandidateRemark::where('candidate_id', $candidate->id)->latest()->get();
-        $job_types = jobtype::where('jobtype_status', 1)->select('id', 'jobtype_code')->get();
-        $clients = client::where('clients_status', 1)->latest()->get();
-        $payrolls = CandidatePayroll::where('candidate_id', $candidate->id)->latest()->get();
-        $families = CandidateFamily::where('candidate_id', $candidate->id)->latest()->get();
-        $time = CandidateWorkingHour::where('candidate_id', $candidate->id)->first();
-        $candidate_resume = CandidateResume::where('candidate_id', $candidate->id)->latest()->get();
-        $nationality = country::orderBy('en_country_name')->get();
-        $users = User::latest()->get();
-        $Paybanks = Paybank::orderBy('Paybank_seqno')->select('id', 'Paybank_code')->where('Paybank_status', 1)->get();
-        $time_sheet = TimeSheet::latest()->get();
-        return view('admin.candidate.edit', compact('Paybanks', 'fileTypes', 'client_files', 'candidate', 'outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data', 'remarks_type', 'client_remarks', 'job_types', 'clients', 'payrolls', 'time', 'families', 'candidate_resume', 'nationality', 'users', 'time_sheet'));
-    }else{
-        return redirect()->back()->with('error','Sorry! You enter invalid Candidate id');
+
+        if ($candidate->team_leader_id == $team_leader_id || $auth->roles_id ==1) {
+            $fileTypes = uploadfiletype::where('uploadfiletype_status', 1)->where('uploadfiletype_for', 1)->latest()->get();
+            $department_data = Department::orderBy('department_seqno')->where('department_status', '1')->get();
+            $designation_data = Designation::orderBy('designation_seqno')->where('designation_status', '1')->get();
+            $paymode_data = paymode::orderBy('paymode_seqno')->where('paymode_status', '1')->get();
+            $race_data = Race::orderBy('race_seqno')->where('race_status', '1')->get();
+            $marital_data = maritalStatus::orderBy('marital_statuses_seqno')->where('marital_statuses_status', '1')->get();
+            $passtype_data = passtype::orderBy('passtype_seqno')->where('passtype_status', '1')->get();
+            $religion_data = religion::orderBy('religion_seqno')->where('religion_status', '1')->get();
+            $outlet_data = Outlet::orderBy('id')->get();
+            $client_files = ClientUploadFile::where('client_id', $candidate->id)->where('file_type_for', 1)->get();
+            $remarks_type = remarkstype::where('remarkstype_status', 1)->select('id', 'remarkstype_code')->latest()->get();
+            $client_remarks = CandidateRemark::where('candidate_id', $candidate->id)->latest()->get();
+            $job_types = jobtype::where('jobtype_status', 1)->select('id', 'jobtype_code')->get();
+            $clients = client::where('clients_status', 1)->latest()->get();
+            $payrolls = CandidatePayroll::where('candidate_id', $candidate->id)->latest()->get();
+            $families = CandidateFamily::where('candidate_id', $candidate->id)->latest()->get();
+            $time = CandidateWorkingHour::where('candidate_id', $candidate->id)->first();
+            $candidate_resume = CandidateResume::where('candidate_id', $candidate->id)->latest()->get();
+            $nationality = country::orderBy('en_country_name')->get();
+            $users = User::latest()->get();
+            $Paybanks = Paybank::orderBy('Paybank_seqno')->select('id', 'Paybank_code')->where('Paybank_status', 1)->get();
+            $time_sheet = TimeSheet::latest()->get();
+            return view('admin.candidate.edit', compact('Paybanks', 'fileTypes', 'client_files', 'candidate', 'outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data', 'remarks_type', 'client_remarks', 'job_types', 'clients', 'payrolls', 'time', 'families', 'candidate_resume', 'nationality', 'users', 'time_sheet'));
+        } else {
+            return redirect()->back()->with('error', 'Sorry! You enter invalid Candidate id');
+        }
     }
-}
     /**
      * Update the specified resource in storage.
      */

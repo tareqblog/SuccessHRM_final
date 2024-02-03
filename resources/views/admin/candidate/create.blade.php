@@ -170,19 +170,22 @@
                                                 </div> --}}
                                             </div>
                                         </div>
+                                        @php
+                                            $auth = Auth::user()->employe;
+                                        @endphp
                                         <div class="col-lg-4">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
                                                     <label for="two" class="col-sm-4 col-form-label">Team Leader</label>
                                                     <div class="col-sm-8">
                                                         <select id="teamLeaderSelect" class="form-control" name="team_leader_id" required >
-                                                            @if (authRoleName() == 'Team Leader')
-                                                                <option value="{{ Auth::user()->employe->id }}" selected @readonly(true)>{{ Auth::user()->employe->employee_name }}</option>
-                                                            @elseif(authRoleName() == 'Aministrator')
+                                                            @if ($auth->roles_id == 11)
+                                                                <option value="{{ $auth->id }}" selected @readonly(true)>{{ $auth->employee_name }}</option>
+                                                            @elseif($auth->roles_id == 1 || $auth->roles_id == 4)
                                                                 <option value="" selected disabled>Select One</option>
-                                                                @foreach (teamLeaders(Auth::user()->employe->id) as $leader)
+                                                                @foreach (\App\Models\Employee::where('roles_id', 11)->get() as $leader)
                                                                     <option value="{{ $leader->id }}"
-                                                                        {{ (old('payroll_employees_id') == $leader->id) ? 'selected' : '' }}>
+                                                                        {{ (old('team_leader_id') == $leader->id) ? 'selected' : '' }}>
                                                                         {{ $leader->employee_name }}
                                                                     </option>
                                                                 @endforeach
@@ -1046,20 +1049,18 @@
             $(document).ready(function() {
                 $('#teamLeaderSelect').change(function() {
                     var teamLeaderId = $(this).val();
-                    console.log(teamLeaderId);
                     if (teamLeaderId) {
                         $.ajax({
                             type: 'GET',
                             url: '/ATS/get/consultant/' + teamLeaderId,
                             success: function(data) {
-                                console.log(data);
-                                // $('#consultantSelect').empty();
-                                // $.each(data, function(key, value) {
-                                //     $('#consultantSelect').append($('<option>', {
-                                //         value: value.id,
-                                //         text: value.employee_name
-                                //     }));
-                                // });
+                                $('#consultantSelect').empty();
+                                $.each(data, function(key, value) {
+                                    $('#consultantSelect').append($('<option>', {
+                                        value: value.id,
+                                        text: value.employee_name
+                                    }));
+                                });
                             }
                         });
                     } else {
