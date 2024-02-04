@@ -5,8 +5,46 @@
 @section('page-title')
     Client Management
 @endsection
+@section('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+@endsection
 @section('body')
 
+<style>
+    .fixed-table-container {
+        position: fixed;
+        bottom: 0;
+        width: 78%;
+        background-color: #fff;
+        border-top: 1px solid #ddd;
+        padding: 15px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        height: 250px;
+        overflow:scroll;
+    }
+
+    @keyframes slideInFromBottom {
+        from {
+            transform: translate3d(0, 100%, 0);
+        }
+        to {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+    .modal.bottom .modal-dialog {
+        animation: slideInFromBottom 0.8s ease-out;
+        transform-origin: 50% 100%;
+        height: 400px;
+        margin: 0;
+    }
+
+    .modal.bottom .modal-content {
+        width: 100vw;
+        border-radius: 0;
+    }
+</style>
     <body>
     @endsection
     @section('content')
@@ -189,16 +227,16 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach ($followUp ?? [] as $candidate)
+                                                    {{-- @foreach ($followUp ?? [] as $candidate)
                                                         @dump($candidate)
-                                                        {{-- <tr>
+                                                        <tr>
                                                             <td>{{ $loop->index + 1 }}</td>
                                                             <td>{{ $candidate['candidate_name'] }}</td>
                                                             <td>{{ $candidate['candidate_email'] }}</td>
                                                             <td></td>
                                                             <td></td>
-                                                        </tr> --}}
-                                                    @endforeach
+                                                        </tr>
+                                                    @endforeach --}}
                                                 </tbody>
                                             </table>
                                         </div>
@@ -225,7 +263,9 @@
                                             aria-labelledby="follow_ups-heading" data-bs-parent="#follow_ups"
                                             style="">
                                             <h5 class="bg-success px-4 py-1 text-white">Candidates Detail</h5>
-                                            <p class="bg-info px-4 py-1 text-bold mt-2">Day</p>
+
+                                            @foreach ($followUps ?? [] as $day => $candidates)
+                                            <p class="bg-info px-4 py-1 text-bold mt-2"><strong>Day {{$day >= 6 ? 'Morethen 5' : $day}}</strong></p>
                                             <table class="table table-bordered mb-0" id="myTable">
                                                 <thead>
                                                     <tr>
@@ -240,8 +280,8 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach ($followUp ?? [] as $candidate)
-                                                        <tr>
+                                                    @foreach ($candidates ?? [] as $candidate)
+                                                        <tr style="cursor: pointer" class="accordion-row" id="{{ $candidate['id'] }}"  data-candidate-name="{{ $candidate['candidate_name'] }}" >
                                                             <td>{{ $loop->index + 1 }}</td>
                                                             <td>{{ $candidate['candidate_name'] }}</td>
                                                             <td>{{ $candidate['candidate_mobile'] }}</td>
@@ -254,6 +294,7 @@
                                                     @endforeach
                                                 </tbody>
                                             </table>
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
@@ -291,15 +332,14 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach ($followUp ?? [] as $candidate)
-                                                        @dump($candidate)
-                                                        {{-- <tr>
+                                                    @foreach ($interviews ?? [] as $candidate)
+                                                        <tr style="cursor: pointer" class="accordion-row" id="{{ $candidate['id'] }}"  data-candidate-name="{{ $candidate['candidate_name'] }}" >
                                                             <td>{{ $loop->index + 1 }}</td>
                                                             <td>{{ $candidate['candidate_name'] }}</td>
                                                             <td>{{ $candidate['candidate_email'] }}</td>
                                                             <td></td>
                                                             <td></td>
-                                                        </tr> --}}
+                                                        </tr>
                                                     @endforeach
                                                 </tbody>
                                             </table>
@@ -340,15 +380,14 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach ($followUp ?? [] as $candidate)
-                                                        @dump($candidate)
-                                                        {{-- <tr>
+                                                    @foreach ($blackListed ?? [] as $candidate)
+                                                    <tr style="cursor: pointer" class="accordion-row" id="{{ $candidate['id'] }}"  data-candidate-name="{{ $candidate['candidate_name'] }}" >
                                                             <td>{{ $loop->index + 1 }}</td>
                                                             <td>{{ $candidate['candidate_name'] }}</td>
                                                             <td>{{ $candidate['candidate_email'] }}</td>
                                                             <td></td>
                                                             <td></td>
-                                                        </tr> --}}
+                                                        </tr>
                                                     @endforeach
                                                 </tbody>
                                             </table>
@@ -388,8 +427,8 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach ($followUp ?? [] as $candidate)
-                                                        @dump($candidate)
+                                                    {{-- @foreach ($followUp ?? [] as $candidate)
+                                                        @dump($candidate) --}}
                                                         {{-- <tr>
                                                             <td>{{ $loop->index + 1 }}</td>
                                                             <td>{{ $candidate['candidate_name'] }}</td>
@@ -397,7 +436,7 @@
                                                             <td></td>
                                                             <td></td>
                                                         </tr> --}}
-                                                    @endforeach
+                                                    {{-- @endforeach --}}
                                                 </tbody>
                                             </table>
                                         </div>
@@ -436,15 +475,14 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach ($followUp ?? [] as $candidate)
-                                                        @dump($candidate)
-                                                        {{-- <tr>
+                                                    @foreach ($assignToClients ?? [] as $candidate)
+                                                        <tr>
                                                             <td>{{ $loop->index + 1 }}</td>
                                                             <td>{{ $candidate['candidate_name'] }}</td>
                                                             <td>{{ $candidate['candidate_email'] }}</td>
                                                             <td></td>
                                                             <td></td>
-                                                        </tr> --}}
+                                                        </tr>
                                                     @endforeach
                                                 </tbody>
                                             </table>
@@ -457,4 +495,138 @@
                 </div>
             </div>
         </div>
+
+<div class="fixed-table-container" id="resumeTable" style="display: none">
+    <div class="d-flex bd-highlight">
+        <div class="flex-grow-1 bd-highlight">
+            <h6><span id="cand_name"></span> Remarks</h6>
+        </div>
+        <div class="bd-highlight" style="margin: 0"><h1 onclick="removeRemark()" style="cursor: pointer; margin: 0 0 0;">-</h1></div>
+    </div>
+
+    <table class="table" id="resumeDataTable">
+        <thead>
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">Client</th>
+                <th scope="col">Remark Type</th>
+                <th scope="col">Remarks</th>
+                <th scope="col">Create By</th>
+                <th scope="col">Date</th>
+            </tr>
+        </thead>
+        <tbody id="candidateResume">
+
+        </tbody>
+    </table>
+</div>
+
     @endsection
+    @section('scripts')
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.css" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#candidateTable').DataTable();
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let rows = document.querySelectorAll('.accordion-row');
+            let dataTableInitialized = false;
+
+            rows.forEach(function (row) {
+                row.addEventListener('click', function () {
+                    let candidate_id = this.getAttribute('id');
+
+                    let candidate_name = this.getAttribute('data-candidate-name');
+                    document.getElementById('cand_name').innerHTML = candidate_name;
+
+                    $.ajax({
+                        type: 'GET',
+                        url: '/ATS/get/candidate/remarks/' + candidate_id,
+                        success: function (response) {
+                            let resumeTable = document.getElementById('resumeTable');
+
+                            if (resumeTable.style.display === 'none') {
+                                resumeTable.style.display = 'block';
+                            }
+
+                            var remarkData = response.remarks;
+                            if (dataTableInitialized) {
+                                $('#resumeDataTable').DataTable().destroy();
+                            }
+                            $('#candidateResume').empty();
+                            for (var i = 0; i < remarkData.length; i++) {
+                                let count = 1 + i;
+                                var newRowHtml = '<tr>' +
+                                    '<th scope="row">' + count + '</th>' +
+                                    '<td>' + remarkData[i].candidate_name + '</td>' +
+                                    '<td>' + remarkData[i].remarkstype + '</td>' +
+                                    '<td>' + remarkData[i].remarks + '</td>' +
+                                    '<td>' + remarkData[i].created_by + '</td>' +
+                                    '<td>' + remarkData[i].date + '</td>' +
+                                    '</tr>';
+
+                                $('#candidateResume').append(newRowHtml);
+                            }
+
+                            if (!dataTableInitialized) {
+                                $('#resumeDataTable').DataTable({
+                                    "pageLength": 3
+                                });
+                                dataTableInitialized = true;
+                            } else {
+                                $('#resumeDataTable').DataTable().destroy();
+                                $('#resumeDataTable').DataTable({
+                                    "pageLength": 3
+                                });
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.resumePath').on('click', function() {
+                var filePath = $(this).data('file-path');
+                const iframe = document.getElementById('pdfViewer');
+                var publicUrl = "{{ asset(Storage::url('')) }}" + "/" + filePath;
+                iframe.src = publicUrl;
+                iframe.width = "100%";
+                iframe.height = "600px";
+            });
+        });
+
+        $(function() {
+            $('input[name="daterange"]').daterangepicker({
+                opens: 'left',
+                locale: {
+                    format: 'YYYY-MM-DD'
+                },
+                endDate: moment().format('YYYY-MM-DD')
+            }, function(start, end, label) {
+                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+            });
+        });
+
+        function removeRemark()
+        {
+            let resumeTable = document.getElementById('resumeTable');
+            if (resumeTable.style.display === 'block') {
+                resumeTable.style.display = 'none';
+            }
+            $('#candidateResume').empty();
+        }
+    </script>
+@endsection

@@ -10,6 +10,42 @@ Dashboard
 <body>
     @endsection
     @section('content')
+
+    <style>
+        .fixed-table-container {
+            position: fixed;
+            bottom: 0;
+            width: 78%;
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+            padding: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            height: 250px;
+            overflow:scroll;
+        }
+
+        @keyframes slideInFromBottom {
+            from {
+                transform: translate3d(0, 100%, 0);
+            }
+            to {
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        .modal.bottom .modal-dialog {
+            animation: slideInFromBottom 0.8s ease-out;
+            transform-origin: 50% 100%;
+            height: 400px;
+            margin: 0;
+        }
+
+        .modal.bottom .modal-content {
+            width: 100vw;
+            border-radius: 0;
+        }
+    </style>
     <div class="row">
         <div class="col-xl-6">
             <div class="card">
