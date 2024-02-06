@@ -103,6 +103,49 @@ class Employee extends Model
         return [];
     }
 
+    public static function getCandidatesForManagerActiveResumes($managerId)
+    {
+        $teamLeader = self::where('manager_users_id', $managerId)->first();
+
+        if ($teamLeader) {
+            $candidatesForManager = candidate::where('team_leader_id', $teamLeader->id)
+                // ->whereHas('remarks', function ($query) {
+                //     $query->where('remarkstype_id', 4);
+                // })
+                // ->with(['remarks' => function ($query) {
+                //     $query->where('remarkstype_id', 4)
+                //         ->latest()
+                //         ->limit(1);
+                // }])
+                ->get();
+
+            return $candidatesForManager;
+        }
+
+        return [];
+    }
+    public static function getCandidatesForManagerKIV($managerId)
+    {
+        $teamLeader = self::where('manager_users_id', $managerId)->first();
+
+        if ($teamLeader) {
+            $candidatesForManager = candidate::where('team_leader_id', $teamLeader->id)
+                ->whereHas('remarks', function ($query) {
+                    $query->where('remarkstype_id', 4);
+                })
+                ->with(['remarks' => function ($query) {
+                    $query->where('remarkstype_id', 4)
+                        ->latest()
+                        ->limit(1);
+                }])
+                ->get();
+
+            return $candidatesForManager;
+        }
+
+        return [];
+    }
+
     public static function getCandidatesForManagerLatestRemark($managerId)
     {
         $teamLeader = self::where('manager_users_id', $managerId)->first();

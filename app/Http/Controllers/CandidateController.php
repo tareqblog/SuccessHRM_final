@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Helpers\FileHelper;
 use App\Http\Requests\CandidateRequest;
 use App\Http\Requests\PayrollRequest;
+use App\Models\Calander;
 use App\Models\candidate;
 use App\Models\CandidateFamily;
 use App\Models\CandidatePayroll;
 use App\Models\CandidateRemark;
+use App\Models\CandidateRemarkShortlist;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\Designation;
@@ -148,7 +150,7 @@ class CandidateController extends Controller
             }
         }
 
-        if ($candidate->team_leader_id == $team_leader_id || $auth->roles_id ==1) {
+        if ($candidate->team_leader_id == $team_leader_id || $auth->roles_id == 1) {
             $fileTypes = uploadfiletype::where('uploadfiletype_status', 1)->where('uploadfiletype_for', 1)->latest()->get();
             $department_data = Department::orderBy('department_seqno')->where('department_status', '1')->get();
             $designation_data = Designation::orderBy('designation_seqno')->where('designation_status', '1')->get();
@@ -343,6 +345,44 @@ class CandidateController extends Controller
         if (is_null($this->user) || !$this->user->can('candidate.remark')) {
             abort(403, 'Unauthorized');
         }
+
+        //   "Assign_client_company": null,
+        //   "interview_time": null,
+        //   "interview_company": null,
+        //   "interview_expected_salary": null,
+        //   "interview_position": null,
+        //   "interview_received_job_offer": "pending",
+        //   "shortlistDepartment": "HR",
+        //   "shortlistPlacement": "1",
+        //   "shortlistJobTitle": null,
+        //   "shortlistJobType": null,
+        //   "shortlistProbationPeriod": "1",
+        //   "shortlistContractSigningDate": "2024-02-06",
+        //   "shortlistEmailNoticeDate": "2024-02-06",
+        //   "interviewEmailNoticeDate": null,
+        //   "Assign_to_manager": null,
+        //   "client_ar_no": "0",
+        //   "shortlistSalary": "100",
+        //   "shortlistArNo": null,
+        //   "shortlistHourlyRate": "10",
+        //   "shortlistAdminFee": "2",
+        //   "shortlistStartDate": "2024-03-01",
+        //   "shortlistContractEndDate": null,
+        //   "shortlistReminderPeriod": "1 Week Before",
+        //   "shortlistContractSigningTime": "17:30",
+        //   "shortlistContractEndTime": "2024-04-30",
+        //   "shortlistLastDay": null,
+        //   "shortlistEmailNoticeTime": "17:30",
+        //   "team_leader": null,
+        //   "rc": null,
+        //   "interview_date": null,
+        //   "interview_by": null,
+        //   "inteview_job_offer_salary": null,
+        //   "attendInterview": "pending",
+        //   "available_date": null,
+        //   "interviewEmailNoticeTime": null,
+
+        // return $request;
         $request->validate([
             'candidate_id' => 'required|integer',
             'remarkstype_id' => 'required|integer',
@@ -350,9 +390,66 @@ class CandidateController extends Controller
             'remarks' => 'required',
         ]);
 
-        CandidateRemark::create($request->except('_token') + [
-            'candidate_id' => $id,
+        $candidate_remark = CandidateRemark::create([
+            'candidate_id' => $request->candidate_id,
+            'remarkstype_id' => $request->remarkstype_id,
+            'isNotice' => $request->isNotice,
+            'remarks' => $request->remarks,
+            'email_notice_date' => $request->email_notice_date,
+            'ar_no' => $request->client_ar_no,
+            'assign_to' => $request->Assign_to_manager,
+            'client_company' => $request->client_company,
         ]);
+
+        $list = 0;
+        if ($request->remarkstype_id == 7) {
+            $list = CandidateRemarkShortlist::create([
+                'candidate_remark_id' => $candidate_remark->id,
+                'salary' => $request->shortlistSalary,
+                'depertment' => '',
+                'hourly_rate' => $request->shortlistHourlyRate,
+                'placement_recruitment_fee' => 0,
+                'admin_fee' => $request->shortlistAdminFee,
+                'start_date' => $request->shortlistStartDate,
+                'end_date' => $request->shortlistContractEndTime,
+                'job_title' => $request->shortlistJobTitle,
+                'reminder_period' => $request->shortlistReminderPeriod,
+                'job_type' => $request->shortlistJobType,
+                'contact_signing_time' => $request->shortlistContractSigningTime,
+                'contact_signing_date' => $request->shortlistContractSigningDate,
+                'probition_period' => $request->shortlistProbationPeriod,
+                'last_day' => $request->shortlistLastDay,
+            ]);
+
+            if ($list->end_date != null) {
+                Calander::create([
+                    'candidate_remark_id' => $candidate_remark->id,
+                    'candidate_remark_shortlist_id' => $list->id,
+                    'title' => 'Contract Ending-',
+                    'date' => $list->end_date,
+                    'status' => 4,
+                ]);
+            }
+            if ($list->start_date != null) {
+                Calander::create([
+                    'candidate_remark_id' => $candidate_remark->id,
+                    'candidate_remark_shortlist_id' => $list->id,
+                    'title' => 'Shortlisted -',
+                    'date' => $list->start_date,
+                    'status' => 2,
+                ]);
+            }
+            if ($list->contact_signing_date != null) {
+                Calander::create([
+                    'candidate_remark_id' => $candidate_remark->id,
+                    'candidate_remark_shortlist_id' => $list->id,
+                    'title' => $list->contact_signing_time . ' -Contract Signing -',
+                    'date' => $list->contact_signing_date,
+                    'status' => 3,
+                ]);
+            }
+        }
+
         return redirect()->route('candidate.edit', $id)->with('success', 'Remark added successfully.');
     }
 

@@ -55,6 +55,8 @@ class ClientController extends Controller
         $interviews = [];
         $blackListed = [];
         $assignToClients = [];
+        $kivs = [];
+        $activeResumes = [];
 
         if ($auth->roles_id == 1) {
             $managers = Employee::where('roles_id', 4)->get();
@@ -66,6 +68,8 @@ class ClientController extends Controller
                 $interviews = Employee::getCandidatesForManagerInterviews($managerId);
                 $blackListed = Employee::getCandidatesForManagerblackListed($managerId);
                 $assignToClients = Employee::getCandidatesForManagerassignToClient($managerId);
+                $kivs = Employee::getCandidatesForManagerKIV($managerId);
+                $activeResumes = Employee::getCandidatesForManagerActiveResumes($managerId);
             }
         } elseif ($auth->roles_id == 4) {
             $team_leader = Employee::where('roles_id', 11)->where('manager_users_id', $auth->id)->get();
@@ -100,6 +104,8 @@ class ClientController extends Controller
             'interviews',
             'blackListed',
             'assignToClients',
+            'kivs',
+            'activeResumes',
         ));
     }
 
@@ -119,11 +125,7 @@ class ClientController extends Controller
             }
         }
 
-
-
         $datas = $datas->get();
-
-
 
         return view('admin.client.index', compact('datas'));
     }
