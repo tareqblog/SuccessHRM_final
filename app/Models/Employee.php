@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Employee extends Model
 {
@@ -272,6 +273,11 @@ class Employee extends Model
         $candidatesForConsultent = candidate::where('consultant_id', $consultentId)->get();
 
         return $candidatesForConsultent->toArray();
+    }
+
+    public function manager(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class, 'manager_id');
     }
 
     public function teamleaders(): HasMany

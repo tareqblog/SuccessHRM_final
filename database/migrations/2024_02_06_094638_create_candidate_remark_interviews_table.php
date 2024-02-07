@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('job_offer_salary')->nullable();
             $table->boolean('attend_interview')->nullable();
             $table->date('available_date')->nullable();
-            $table->integer('receive_job_offer')->nullable();
+            $table->string('receive_job_offer')->nullable();
             $table->timestamps();
         });
     }

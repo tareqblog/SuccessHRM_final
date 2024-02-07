@@ -11,6 +11,14 @@
 @endsection
 @section('body')
     <style>
+        .fc-event-time {
+            display: none;
+        }
+
+        .fc-daygrid-event-dot {
+            display: none;
+        }
+
         .fixed-table-container {
             position: fixed;
             bottom: 0;
@@ -53,7 +61,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="row">
-                    @foreach ($managers as $key => $manager)
+                    {{-- @foreach ($managers as $key => $manager)
                         <div class="col-xl-6">
                             <div class="card">
                                 <div class="card-body">
@@ -100,7 +108,7 @@
                                 </div><!-- end card-body -->
                             </div>
                         </div>
-                    @endforeach
+                    @endforeach --}}
                     @foreach ($team_leader as $team)
                         <div class="col-xl-6">
                             <div class="card">
@@ -111,8 +119,7 @@
                                                 <button class="accordion-button fw-medium collapsed" type="button"
                                                     data-bs-toggle="collapse"
                                                     data-bs-target="#flush-collapse{{ $loop->index }}"
-                                                    aria-expanded="false"
-                                                    aria-controls="flush-collapse{{ $loop->index }}">
+                                                    aria-expanded="false" aria-controls="flush-collapse{{ $loop->index }}">
                                                     Team Leader: {{ $team->employee_name }} - Total
                                                     {{ count($candidatesByTeam[$team->id]) }} Resumes
                                                 </button>
@@ -231,21 +238,21 @@
                                                 <tbody>
                                                     @foreach ($activeResumes ?? [] as $candidate)
                                                         <tr style="cursor: pointer" class="accordion-row"
-                                                            id="{{ $candidate['id'] }}"
-                                                            data-candidate-name="{{ $candidate['candidate_name'] }}">
+                                                            id="{{ $candidate['candidate_id'] }}"
+                                                            data-candidate-name="{{ $candidate->candidate['candidate_name'] }}">
                                                             <td>{{ $loop->index + 1 }}</td>
-                                                            <td>{{ $candidate['candidate_name'] }}</td>
-                                                            <td>{{ $candidate['candidate_email'] }}</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
+                                                            <td>{{ $candidate->candidate['candidate_name'] }}</td>
+                                                            <td>{{ $candidate->candidate['candidate_home_phone'] }}</td>
+                                                            <td>{{ $candidate->candidate['candidate_email'] }}</td>
+                                                            <td>{{ $candidate->candidate['manager']['employee_name'] }}
+                                                            <td>{{ $candidate->candidate['team_leader']['consultant'] }} /
+                                                                {{ $candidate->candidate['team_leader']['employee_name'] }}
+                                                            </td>
                                                             <td>
-
-                                                                {{-- @dump($candidate->getMainResumeFilePath()) --}}
                                                                 <button type="button"
                                                                     class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
-                                                                    data-file-path="{{ $candidate->getMainResumeFilePath() }}">d</button>
+                                                                    data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -278,7 +285,7 @@
 
                                             @foreach ($followUps ?? [] as $day => $candidates)
                                                 <p class="bg-info px-4 py-1 text-bold mt-2"><strong>Day
-                                                        {{ $day >= 6 ? 'Morethen 5' : $day }}</strong></p>
+                                                        {{ $day >= 6 ? 'More Then 5 Day' : $day }}</strong></p>
                                                 <table class="table table-bordered mb-0" id="myTable{{ $day }}">
                                                     <thead>
                                                         <tr>
@@ -295,24 +302,27 @@
                                                     <tbody>
                                                         @foreach ($candidates ?? [] as $candidate)
                                                             <tr style="cursor: pointer" class="accordion-row"
-                                                                id="{{ $candidate['id'] }}"
-                                                                data-candidate-name="{{ $candidate['candidate_name'] }}">
+                                                                id="{{ $candidate['candidate_id'] }}"
+                                                                data-candidate-name="{{ $candidate->candidate['candidate_name'] }}">
                                                                 <td>{{ $loop->index + 1 }}</td>
-                                                                <td>{{ $candidate['candidate_name'] }}</td>
-                                                                <td>{{ $candidate['candidate_mobile'] }}</td>
-                                                                <td>{{ $candidate['candidate_email'] }}</td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td>{{ \Carbon\Carbon::parse($candidate['created_at'])->format('d-M-Y') }}
+                                                                <td>{{ $candidate->candidate['candidate_name'] }}</td>
+                                                                <td>{{ $candidate->candidate['candidate_home_phone'] }}
+                                                                </td>
+                                                                <td>{{ $candidate->candidate['candidate_email'] }}</td>
+                                                                <td>{{ $candidate->candidate['manager']['employee_name'] }}
+                                                                <td>{{ $candidate->candidate['team_leader']['consultant'] }}
+                                                                    /
+                                                                    {{ $candidate->candidate['team_leader']['employee_name'] }}
+                                                                </td>
+
+                                                                <td>{{ \Carbon\Carbon::parse($candidate->candidate['created_at'])->format('d-M-Y') }}
                                                                 </td>
                                                                 <td>
-
-                                                                    {{-- @dump($candidate->getMainResumeFilePath()) --}}
                                                                     <button type="button"
                                                                         class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#showResume"
-                                                                        data-file-path="{{ $candidate->getMainResumeFilePath() }}">d</button>
+                                                                        data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -368,10 +378,10 @@
                                                             <td>
 
                                                                 {{-- @dump($candidate->getMainResumeFilePath()) --}}
-                                                                <button type="button"
+                                                                {{-- <button type="button"
                                                                     class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
-                                                                    data-file-path="{{ $candidate->getMainResumeFilePath() }}">d</button>
+                                                                    data-file-path="{{ $candidate->getMainResumeFilePath() }}">D</button> --}}
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -427,10 +437,10 @@
                                                             <td>
 
                                                                 {{-- @dump($candidate->getMainResumeFilePath()) --}}
-                                                                <button type="button"
+                                                                {{-- <button type="button"
                                                                     class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
-                                                                    data-file-path="{{ $candidate->getMainResumeFilePath() }}">d</button>
+                                                                    data-file-path="{{ $candidate->getMainResumeFilePath() }}">D</button> --}}
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -488,11 +498,11 @@
                                                                 <td>
 
                                                                     {{-- @dump($candidate->getMainResumeFilePath()) --}}
-                                                                    <button type="button"
+                                                                    {{-- <button type="button"
                                                                         class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#showResume"
-                                                                        data-file-path="{{ $candidate->getMainResumeFilePath() }}">d</button>
+                                                                        data-file-path="{{ $candidate->getMainResumeFilePath() }}">D</button> --}}
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -547,10 +557,10 @@
                                                             <td>
 
                                                                 {{-- @dump($candidate->getMainResumeFilePath()) --}}
-                                                                <button type="button"
+                                                                {{-- <button type="button"
                                                                     class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
-                                                                    data-file-path="{{ $candidate->getMainResumeFilePath() }}">d</button>
+                                                                    data-file-path="{{ $candidate->getMainResumeFilePath() }}">D</button> --}}
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -594,39 +604,7 @@
         </div>
 
         <div class="row">
-            <div class="col-xl-3">
-                <div class="card card-h-100">
-                    <div class="card-body">
-                        <button class="btn btn-primary w-100" id="btn-new-event"><i class="mdi mdi-plus"></i> Create
-                            New Event</button>
-
-                        <div id="external-events">
-                            <br>
-                            <p class="text-muted">Drag and drop your event or click in the calendar</p>
-                            <div class="external-event fc-event bg-success" data-class="bg-success">
-                                <i class="mdi mdi-checkbox-blank-circle font-size-11 me-2"></i>New Event Planning
-                            </div>
-                            <div class="external-event fc-event bg-info" data-class="bg-info">
-                                <i class="mdi mdi-checkbox-blank-circle font-size-11 me-2"></i>Meeting
-                            </div>
-                            <div class="external-event fc-event bg-warning" data-class="bg-warning">
-                                <i class="mdi mdi-checkbox-blank-circle font-size-11 me-2"></i>Generating Reports
-                            </div>
-                            <div class="external-event fc-event bg-danger" data-class="bg-danger">
-                                <i class="mdi mdi-checkbox-blank-circle font-size-11 me-2"></i>Create New theme
-                            </div>
-                        </div>
-
-                        <div class="row justify-content-center mt-5">
-                            <img src="{{ URL::asset('build/images/calendar-img.png') }}" alt=""
-                                class="img-fluid d-block">
-                        </div>
-
-                    </div>
-                </div>
-            </div> <!-- end col-->
-
-            <div class="col-xl-9">
+            <div class="col-xl-12">
                 <div class="card card-h-100">
                     <div class="card-body">
                         <div id="calendar"></div>
@@ -636,7 +614,7 @@
         </div>
 
         <div style='clear:both'></div>
-
+        {{--
         <!-- Add New Event MODAL -->
         <div class="modal fade" id="event-modal" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
@@ -690,7 +668,7 @@
                 </div> <!-- end modal-content-->
             </div> <!-- end modal dialog-->
         </div>
-        <!-- end modal-->
+        <!-- end modal--> --}}
 
         @include('admin.candidate.inc.resume__modal')
     @endsection
@@ -703,158 +681,39 @@
         <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
         <script src="{{ URL::asset('build/libs/fullcalendar/main.min.js') }}"></script>
         {{-- <script src="{{ URL::asset('build/js/pages/calendar.init.js') }}"></script> --}}
-
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 let defaultEvents = @json($allRemarks);
-                console.log("Candidates:", defaultEvents);
 
-                var addEvent = new bootstrap.Modal(document.getElementById('event-modal'), {
-                    keyboard: false
-                })
-                document.getElementById('event-modal');
-                var modalTitle = document.getElementById('modal-title');
-                var formEvent = document.getElementById('form-event');
-                var selectedEvent = null;
-                var newEventData = null;
-                var forms = document.getElementsByClassName('needs-validation');
-                var selectedEvent = null;
-                var newEventData = null;
-                var eventObject = null;
                 /* initialize the calendar */
+                let calendarEl = document.getElementById('calendar');
 
-                var date = new Date();
-                var d = date.getDate();
-                var m = date.getMonth();
-                var y = date.getFullYear();
-                var Draggable = FullCalendar.Draggable;
-                var externalEventContainerEl = document.getElementById('external-events');
-
-                // init dragable
-                new Draggable(externalEventContainerEl, {
-                    itemSelector: '.external-event',
-                    eventData: function(eventEl) {
-                        return {
-                            title: eventEl.innerText,
-                            start: new Date(),
-                            className: eventEl.getAttribute('data-class')
-                        };
-                    }
-                });
-
-                var draggableEl = document.getElementById('external-events');
-                var calendarEl = document.getElementById('calendar');
-
-                function addNewEvent(info) {
-                    addEvent.show();
-                    formEvent.classList.remove("was-validated");
-                    formEvent.reset();
-                    selectedEvent = null;
-                    modalTitle.innerText = 'Add Event';
-                    newEventData = info;
-                }
-
-                function getInitialView() {
-                    if (window.innerWidth >= 768 && window.innerWidth < 1200) {
-                        return 'timeGridWeek';
-                    } else if (window.innerWidth <= 768) {
-                        return 'listMonth';
-                    } else {
-                        return 'dayGridMonth';
-                    }
-                }
-
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    timeZone: 'local',
-                    editable: false,
-                    initialView: getInitialView(),
+                let calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
                     themeSystem: 'bootstrap',
                     headerToolbar: {
                         left: 'prev,next today',
                         center: 'title',
                         right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
                     },
-                    // responsive
-                    windowResize: function(view) {
-                        var newView = getInitialView();
-                        calendar.changeView(newView);
-                    },
-                    eventDidMount: function(info) {
-                        if (info.event.extendedProps.status === 'done') {
-
-                            // Change background color of row
-                            info.el.style.backgroundColor = 'red';
-
-                            // Change color of dot marker
-                            var dotEl = info.el.getElementsByClassName('fc-event-dot')[0];
-                            if (dotEl) {
-                                dotEl.style.backgroundColor = 'white';
-                            }
+                    events: defaultEvents,
+                    eventClick: function(info) {
+                        if (info.event.extendedProps && info.event.extendedProps.url) {
+                            // Open the URL in a new tab
+                            window.open(info.event.extendedProps.url, '_blank');
                         }
                     },
-                    eventClick: function(info) {
-                        document.getElementById("btn-delete-event").style.display = "block";
-                        addEvent.show();
-                        formEvent.reset();
-                        document.getElementById("event-title").value[0] = "";
-                        selectedEvent = info.event;
-                        document.getElementById("event-title").value = selectedEvent.title;
-                        document.getElementById('event-category').value = selectedEvent.classNames[0];
-                        newEventData = null;
-                        modalTitle.innerText = 'Edit Event';
-                        newEventData = null;
+                    eventMouseEnter: function(info) {
+                        $(info.el).tooltip({
+                            title: info.event.title,
+                            placement: 'top',
+                            trigger: 'hover',
+                            container: 'body'
+                        });
+                        $(info.el).tooltip('show');
                     },
-                    dateClick: function(info) {
-                        document.getElementById("btn-delete-event").style.display = "none";
-                        addNewEvent(info);
-                    },
-                    events: defaultEvents
                 });
                 calendar.render();
-
-                /*Add new event*/
-                // Form to add new event
-
-                formEvent.addEventListener('submit', function(ev) {
-                    ev.preventDefault();
-
-                    var updatedTitle = document.getElementById("event-title").value;
-                    var updatedCategory = document.getElementById('event-category').value;
-
-                    // validation
-                    if (forms[0].checkValidity() === false) {
-                        forms[0].classList.add('was-validated');
-                    } else {
-                        if (selectedEvent) {
-                            selectedEvent.setProp("title", updatedTitle);
-                            selectedEvent.setProp("classNames", [updatedCategory]);
-                        } else {
-                            var newEvent = {
-                                title: updatedTitle,
-                                start: newEventData.date,
-                                allDay: newEventData.allDay,
-                                className: updatedCategory
-                            }
-                            calendar.addEvent(newEvent);
-                        }
-                        addEvent.hide();
-                    }
-                });
-
-                document.getElementById("btn-delete-event").addEventListener("click", function(e) {
-                    if (selectedEvent) {
-                        selectedEvent.remove();
-                        selectedEvent = null;
-                        selectedEvent.hide();
-                    }
-                });
-                document.getElementById("btn-new-event").addEventListener("click", function(e) {
-                    document.getElementById("btn-delete-event").style.display = "none";
-                    addNewEvent({
-                        date: new Date(),
-                        allDay: true
-                    });
-                });
             });
         </script>
         <script>
@@ -901,14 +760,14 @@
                                     resumeTable.style.display = 'block';
                                 }
 
-                                var remarkData = response.remarks;
+                                let remarkData = response.remarks;
                                 if (dataTableInitialized) {
                                     $('#resumeDataTable').DataTable().destroy();
                                 }
                                 $('#candidateResume').empty();
-                                for (var i = 0; i < remarkData.length; i++) {
+                                for (let i = 0; i < remarkData.length; i++) {
                                     let count = 1 + i;
-                                    var newRowHtml = '<tr>' +
+                                    let newRowHtml = '<tr>' +
                                         '<th scope="row">' + count + '</th>' +
                                         '<td>' + remarkData[i].candidate_name + '</td>' +
                                         '<td>' + remarkData[i].remarkstype + '</td>' +
@@ -944,10 +803,9 @@
         <script>
             $(document).ready(function() {
                 $('.resumePath').on('click', function() {
-                    var filePath = $(this).data('file-path');
+                    let filePath = $(this).data('file-path');
                     const iframe = document.getElementById('pdfViewer');
-                    var publicUrl = "{{ asset(Storage::url('')) }}" + "/" + filePath;
-                    console.log(publicUrl);
+                    let publicUrl = "{{ asset(Storage::url('')) }}" + "/" + filePath;
                     iframe.src = publicUrl;
                     iframe.width = "100%";
                     iframe.height = "600px";

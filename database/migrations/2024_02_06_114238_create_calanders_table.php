@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('calanders', function (Blueprint $table) {
             $table->id();
+            $table->integer('manager_id')->nullable();
+            $table->integer('teamleader_id')->nullable();
+            $table->integer('consultant_id')->nullable();
             $table->integer('candidate_remark_id')->nullable();
             $table->integer('candidate_remark_shortlist_id')->nullable();
             $table->string('title');

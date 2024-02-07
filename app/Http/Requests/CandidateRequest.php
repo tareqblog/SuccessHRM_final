@@ -90,7 +90,7 @@ class CandidateRequest extends FormRequest
             'candidate_dec_warning' => 'integer',
             'candidate_dec_warning_details' => 'nullable|string',
             'candidate_dec_applied' => 'integer',
-            'candidate_dec_applied_details' => 'string|nullable',
+            'candidate_dec_applied_dconsultant_idetails' => 'string|nullable',
             'races_id' => 'integer|nullable',
             'religions_id' => 'integer|nullable',
             'dbsexes_id' => 'integer|nullable',
@@ -101,6 +101,8 @@ class CandidateRequest extends FormRequest
             'candidate_isDeleted' => 'integer',
             'children_no' => 'integer|nullable',
             'team_leader_id' => 'integer|nullable',
+            'manager_id' => 'integer|nullable',
+            'consultant_id' => 'integer|nullable',
             'avatar' => 'nullable|max:2048|mimes:png,jpg,jpeg',
 
         ];

@@ -1602,13 +1602,14 @@
                                                             name="shortlistContractSigningTime">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4" id="shortlistContractEndTime">
+                                                <div class="row mb-4" id="shortlistContractEndDate"
+                                                    style="display: none;">
                                                     <label for="one" class="col-sm-3 col-form-label">Contract
                                                         End
                                                         Time <span class="text-danger">*</span></label>
                                                     <div class="col-sm-9">
                                                         <input type="date" class="form-control"
-                                                            name="shortlistContractEndTime">
+                                                            name="shortlistContractEndDate">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4" id="shortlistLastDay" style="display: none;">

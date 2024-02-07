@@ -176,10 +176,28 @@
                                         <div class="col-lg-4">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
+                                                    <label for="two" class="col-sm-4 col-form-label">Manager</label>
+                                                    <div class="col-sm-8">
+                                                        <select id="managerSelect" class="form-control" name="manager_id" required >
+                                                            @if ($auth->roles_id == 4)
+                                                                <option value="{{ $auth->id }}" selected @readonly(true)>{{ $auth->employee_name }}</option>
+                                                            @elseif($auth->roles_id == 1 || $auth->roles_id == 4 || $auth->roles_id == 8)
+                                                                <option value="" selected disabled>Select One</option>
+                                                                @foreach (\App\Models\Employee::where('roles_id', 4)->get() as $manager)
+                                                                    <option value="{{ $manager->id }}" {{ (old('manager_id') == $manager->id) ? 'selected' : (($auth->manager_id == $manager->id) ? 'selected' : '') }}
+>
+                                                                        {{ $manager->employee_name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
                                                     <label for="two" class="col-sm-4 col-form-label">Team Leader</label>
                                                     <div class="col-sm-8">
                                                         <select id="teamLeaderSelect" class="form-control" name="team_leader_id" required >
-                                                            @if ($auth->roles_id == 11)
+                                                            {{-- @if ($auth->roles_id == 11)
                                                                 <option value="{{ $auth->id }}" selected @readonly(true)>{{ $auth->employee_name }}</option>
                                                             @elseif($auth->roles_id == 1 || $auth->roles_id == 4)
                                                                 <option value="" selected disabled>Select One</option>
@@ -189,7 +207,7 @@
                                                                         {{ $leader->employee_name }}
                                                                     </option>
                                                                 @endforeach
-                                                            @endif
+                                                            @endif --}}
                                                         </select>
                                                     </div>
                                                 </div>
@@ -1047,8 +1065,29 @@
 
         <script>
             $(document).ready(function() {
+                $('#managerSelect').change(function() {
+                    let managerId = $(this).val();
+                    if (managerId) {
+                        $.ajax({
+                            type: 'GET',
+                            url: '/ATS/get/teamleader/' + managerId,
+                            success: function(data) {
+                                $('#teamLeaderSelect').empty();
+                                $.each(data, function(key, value) {
+                                    $('#teamLeaderSelect').append($('<option>', {
+                                        value: value.id,
+                                        text: value.employee_name
+                                    }));
+                                });
+                            }
+                        });
+                    } else {
+                        $('#teamLeaderSelect').empty();
+                    }
+                });
+
                 $('#teamLeaderSelect').change(function() {
-                    var teamLeaderId = $(this).val();
+                    let teamLeaderId = $(this).val();
                     if (teamLeaderId) {
                         $.ajax({
                             type: 'GET',
