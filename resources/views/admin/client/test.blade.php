@@ -255,6 +255,7 @@
                                                                     class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
                                                                     data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
+                                                                <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 mb-2 resumePath">X</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -327,6 +328,7 @@
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#showResume"
                                                                         data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
+                                                                    <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 mb-2 resumePath">X</a>
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -390,6 +392,7 @@
                                                                     class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
                                                                     data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
+                                                                <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 mb-2 resumePath">X</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -467,6 +470,7 @@
                                                                     class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
                                                                     data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
+                                                                <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 mb-2 resumePath">X</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -534,6 +538,7 @@
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#showResume"
                                                                         data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
+                                                                    <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 mb-2 resumePath">X</a>
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -599,6 +604,7 @@
                                                                     class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
                                                                     data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
+                                                                <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 mb-2 resumePath">X</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -883,5 +889,14 @@
                     }
                 });
             });
+
+            function changeRemarkBlock(dashboard) {
+                let remarkId = 8;
+                var confirmed = confirm('Are you sure you want to proceed?');
+                if (confirmed) {
+                    window.location.href = '/ATS/change/dashboard/remark/' + dashboard + '/' + remarkId;
+                }
+            }
+
         </script>
     @endsection

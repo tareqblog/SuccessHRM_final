@@ -178,14 +178,17 @@
                                                 <div class="row mb-4">
                                                     <label for="two" class="col-sm-4 col-form-label">Manager</label>
                                                     <div class="col-sm-8">
-                                                        <select id="managerSelect" class="form-control" name="manager_id" required >
+                                                        <select id="managerSelect" class="form-control" name="manager_id"
+                                                            required>
                                                             @if ($auth->roles_id == 4)
-                                                                <option value="{{ $auth->id }}" selected @readonly(true)>{{ $auth->employee_name }}</option>
+                                                                <option value="{{ $auth->id }}" selected
+                                                                    @readonly(true)>{{ $auth->employee_name }}</option>
                                                             @elseif($auth->roles_id == 1 || $auth->roles_id == 4 || $auth->roles_id == 8)
-                                                                <option value="" selected disabled>Select One</option>
+                                                                <option value="" selected disabled>Select One
+                                                                </option>
                                                                 @foreach (\App\Models\Employee::where('roles_id', 4)->get() as $manager)
-                                                                    <option value="{{ $manager->id }}" {{ (old('manager_id') == $manager->id) ? 'selected' : (($auth->manager_id == $manager->id) ? 'selected' : '') }}
->
+                                                                    <option value="{{ $manager->id }}"
+                                                                        {{ old('manager_id') == $manager->id ? 'selected' : ($auth->manager_id == $manager->id ? 'selected' : '') }}>
                                                                         {{ $manager->employee_name }}
                                                                     </option>
                                                                 @endforeach
@@ -194,9 +197,11 @@
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="two" class="col-sm-4 col-form-label">Team Leader</label>
+                                                    <label for="two" class="col-sm-4 col-form-label">Team
+                                                        Leader</label>
                                                     <div class="col-sm-8">
-                                                        <select id="teamLeaderSelect" class="form-control" name="team_leader_id" required >
+                                                        <select id="teamLeaderSelect" class="form-control"
+                                                            name="team_leader_id" required>
                                                             {{-- @if ($auth->roles_id == 11)
                                                                 <option value="{{ $auth->id }}" selected @readonly(true)>{{ $auth->employee_name }}</option>
                                                             @elseif($auth->roles_id == 1 || $auth->roles_id == 4)
@@ -212,9 +217,11 @@
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="two" class="col-sm-4 col-form-label">Consultant</label>
+                                                    <label for="two"
+                                                        class="col-sm-4 col-form-label">Consultant</label>
                                                     <div class="col-sm-8">
-                                                        <select id="consultantSelect" class="form-control" name="consultant_id" >
+                                                        <select id="consultantSelect" class="form-control"
+                                                            name="consultant_id">
 
                                                         </select>
                                                     </div>
@@ -1079,6 +1086,7 @@
                                         text: value.employee_name
                                     }));
                                 });
+                                $('#teamLeaderSelect').trigger('change');
                             }
                         });
                     } else {
@@ -1108,5 +1116,4 @@
                 });
             });
         </script>
-
     @endsection
