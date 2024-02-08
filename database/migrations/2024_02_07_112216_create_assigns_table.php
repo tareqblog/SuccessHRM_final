@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('manager_id')->nullable();
             $table->integer('teamleader_id')->nullable();
             $table->integer('consultent_id')->nullable();
-            $table->integer('followup_id')->default(0)->note('remark ID');
+            $table->integer('remark_id')->default(0)->comment('Previous Flowup Id');
             $table->tinyInteger('status')->default(0);
             $table->integer('insert_by')->nullable();
             $table->integer('update_by')->nullable();

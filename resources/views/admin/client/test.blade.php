@@ -61,7 +61,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="row">
-                    {{-- @foreach ($managers as $key => $manager)
+                    @foreach ($managers as $key => $manager)
                         <div class="col-xl-6">
                             <div class="card">
                                 <div class="card-body">
@@ -108,7 +108,7 @@
                                 </div><!-- end card-body -->
                             </div>
                         </div>
-                    @endforeach --}}
+                    @endforeach
                     @foreach ($team_leader as $team)
                         <div class="col-xl-6">
                             <div class="card">
@@ -119,7 +119,8 @@
                                                 <button class="accordion-button fw-medium collapsed" type="button"
                                                     data-bs-toggle="collapse"
                                                     data-bs-target="#flush-collapse{{ $loop->index }}"
-                                                    aria-expanded="false" aria-controls="flush-collapse{{ $loop->index }}">
+                                                    aria-expanded="false"
+                                                    aria-controls="flush-collapse{{ $loop->index }}">
                                                     Team Leader: {{ $team->employee_name }} - Total
                                                     {{ count($candidatesByTeam[$team->id]) }} Resumes
                                                 </button>
@@ -211,7 +212,6 @@
                             <div class="card-body">
                                 <div class="accordion accordion-active-resume" id="accordionactive-resumeExample">
                                     <div class="accordion-item">
-                                        {{-- {{ $loop->index }} --}}
                                         <h2 class="accordion-header" id="active-resume-heading">
                                             <button class="accordion-button fw-medium collapsed" type="button"
                                                 data-bs-toggle="collapse" data-bs-target="#active-resume-collapse"
@@ -245,10 +245,12 @@
                                                             <td>{{ $candidate->candidate['candidate_home_phone'] }}</td>
                                                             <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                             <td>{{ $candidate->candidate['manager']['employee_name'] }}
+                                                            </td>
                                                             <td>{{ $candidate->candidate['team_leader']['consultant'] }} /
                                                                 {{ $candidate->candidate['team_leader']['employee_name'] }}
                                                             </td>
                                                             <td>
+                                                                @include('admin.dashboard.inc.select')
                                                                 <button type="button"
                                                                     class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
@@ -310,6 +312,7 @@
                                                                 </td>
                                                                 <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                                 <td>{{ $candidate->candidate['manager']['employee_name'] }}
+                                                                </td>
                                                                 <td>{{ $candidate->candidate['team_leader']['consultant'] }}
                                                                     /
                                                                     {{ $candidate->candidate['team_leader']['employee_name'] }}
@@ -318,6 +321,7 @@
                                                                 <td>{{ \Carbon\Carbon::parse($candidate->candidate['created_at'])->format('d-M-Y') }}
                                                                 </td>
                                                                 <td>
+                                                                    @include('admin.dashboard.inc.select')
                                                                     <button type="button"
                                                                         class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                         data-bs-toggle="modal"
@@ -367,21 +371,25 @@
                                                 <tbody>
                                                     @foreach ($interviews ?? [] as $candidate)
                                                         <tr style="cursor: pointer" class="accordion-row"
-                                                            id="{{ $candidate['id'] }}"
-                                                            data-candidate-name="{{ $candidate['candidate_name'] }}">
+                                                            id="{{ $candidate['candidate_id'] }}"
+                                                            data-candidate-name="{{ $candidate->candidate['candidate_name'] }}">
                                                             <td>{{ $loop->index + 1 }}</td>
-                                                            <td>{{ $candidate['candidate_name'] }}</td>
-                                                            <td>{{ $candidate['candidate_email'] }}</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
+                                                            <td>{{ $candidate->candidate['candidate_name'] }}</td>
+                                                            <td>{{ $candidate->candidate['candidate_home_phone'] }}
+                                                            </td>
+                                                            <td>{{ $candidate->candidate['candidate_email'] }}</td>
+                                                            <td>{{ $candidate->candidate['manager']['employee_name'] }}
+                                                            </td>
+                                                            <td>{{ $candidate->candidate['team_leader']['consultant'] }}
+                                                                /
+                                                                {{ $candidate->candidate['team_leader']['employee_name'] }}
+                                                            </td>
                                                             <td>
-
-                                                                {{-- @dump($candidate->getMainResumeFilePath()) --}}
-                                                                {{-- <button type="button"
+                                                                @include('admin.dashboard.inc.select')
+                                                                <button type="button"
                                                                     class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
-                                                                    data-file-path="{{ $candidate->getMainResumeFilePath() }}">D</button> --}}
+                                                                    data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -425,22 +433,40 @@
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($blackListed ?? [] as $candidate)
+                                                        {{-- remark_id --}}
                                                         <tr style="cursor: pointer" class="accordion-row"
-                                                            id="{{ $candidate['id'] }}"
-                                                            data-candidate-name="{{ $candidate['candidate_name'] }}">
-                                                            <td>{{ $loop->index + 1 }}</td>
-                                                            <td>{{ $candidate['candidate_name'] }}</td>
-                                                            <td>{{ $candidate['candidate_email'] }}</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td>
+                                                            id="{{ $candidate['candidate_id'] }}"
+                                                            data-candidate-name="{{ $candidate->candidate['candidate_name'] }}">
+                                                            <td
+                                                                class="{{ $candidate['remark_id'] == 8 ? 'text-danger' : '' }}">
+                                                                {{ $loop->index + 1 }}</td>
+                                                            <td
+                                                                class="{{ $candidate['remark_id'] == 8 ? 'text-danger' : '' }}">
+                                                                {{ $candidate->candidate['candidate_name'] }}</td>
+                                                            <td
+                                                                class="{{ $candidate['remark_id'] == 8 ? 'text-danger' : '' }}">
+                                                                {{ $candidate->candidate['candidate_home_phone'] }}
+                                                            </td>
+                                                            <td
+                                                                class="{{ $candidate['remark_id'] == 8 ? 'text-danger' : '' }}">
+                                                                {{ $candidate->candidate['candidate_email'] }}</td>
+                                                            <td
+                                                                class="{{ $candidate['remark_id'] == 8 ? 'text-danger' : '' }}">
+                                                                {{ $candidate->candidate['manager']['employee_name'] }}
+                                                            <td
+                                                                class="{{ $candidate['remark_id'] == 8 ? 'text-danger' : '' }}">
+                                                                {{ $candidate->candidate['team_leader']['consultant'] }}
+                                                                /
+                                                                {{ $candidate->candidate['team_leader']['employee_name'] }}
+                                                            </td>
+                                                            <td
+                                                                class="{{ $candidate['remark_id'] == 8 ? 'text-danger' : '' }}">
 
-                                                                {{-- @dump($candidate->getMainResumeFilePath()) --}}
-                                                                {{-- <button type="button"
+                                                                @include('admin.dashboard.inc.select')
+                                                                <button type="button"
                                                                     class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
-                                                                    data-file-path="{{ $candidate->getMainResumeFilePath() }}">D</button> --}}
+                                                                    data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -484,25 +510,30 @@
                                                 </thead>
                                                 <tbody>
 
-                                                    @if (isset($kibs))
+                                                    @if (isset($kivs))
                                                         @foreach ($kivs ?? [] as $candidate)
                                                             <tr style="cursor: pointer" class="accordion-row"
-                                                                id="{{ $candidate['id'] }}"
-                                                                data-candidate-name="{{ $candidate['candidate_name'] }}">
+                                                                id="{{ $candidate['candidate_id'] }}"
+                                                                data-candidate-name="{{ $candidate->candidate['candidate_name'] }}">
                                                                 <td>{{ $loop->index + 1 }}</td>
-                                                                <td>{{ $candidate['candidate_name'] }}</td>
-                                                                <td>{{ $candidate['candidate_email'] }}</td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
+                                                                <td>{{ $candidate->candidate['candidate_name'] }}</td>
+                                                                <td>{{ $candidate->candidate['candidate_home_phone'] }}
+                                                                </td>
+                                                                <td>{{ $candidate->candidate['candidate_email'] }}</td>
+                                                                <td>{{ $candidate->candidate['manager']['employee_name'] }}
+                                                                </td>
+                                                                <td>{{ $candidate->candidate['team_leader']['consultant'] }}
+                                                                    /
+                                                                    {{ $candidate->candidate['team_leader']['employee_name'] }}
+                                                                </td>
                                                                 <td>
 
-                                                                    {{-- @dump($candidate->getMainResumeFilePath()) --}}
-                                                                    {{-- <button type="button"
+                                                                    @include('admin.dashboard.inc.select')
+                                                                    <button type="button"
                                                                         class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#showResume"
-                                                                        data-file-path="{{ $candidate->getMainResumeFilePath() }}">D</button> --}}
+                                                                        data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -547,20 +578,27 @@
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($assignToClients ?? [] as $candidate)
-                                                        <tr>
+                                                        <tr style="cursor: pointer" class="accordion-row"
+                                                            id="{{ $candidate['candidate_id'] }}"
+                                                            data-candidate-name="{{ $candidate->candidate['candidate_name'] }}">
                                                             <td>{{ $loop->index + 1 }}</td>
-                                                            <td>{{ $candidate['candidate_name'] }}</td>
-                                                            <td>{{ $candidate['candidate_email'] }}</td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
+                                                            <td>{{ $candidate->candidate['candidate_name'] }}</td>
+                                                            <td>{{ $candidate->candidate['candidate_home_phone'] }}
+                                                            </td>
+                                                            <td>{{ $candidate->candidate['candidate_email'] }}</td>
+                                                            <td>{{ $candidate->candidate['manager']['employee_name'] }}
+                                                            </td>
+                                                            <td>{{ $candidate->candidate['team_leader']['consultant'] }}
+                                                                /
+                                                                {{ $candidate->candidate['team_leader']['employee_name'] }}
+                                                            </td>
                                                             <td>
 
-                                                                {{-- @dump($candidate->getMainResumeFilePath()) --}}
-                                                                {{-- <button type="button"
+                                                                @include('admin.dashboard.inc.select')
+                                                                <button type="button"
                                                                     class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
-                                                                    data-file-path="{{ $candidate->getMainResumeFilePath() }}">D</button> --}}
+                                                                    data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -683,7 +721,7 @@
         {{-- <script src="{{ URL::asset('build/js/pages/calendar.init.js') }}"></script> --}}
         <script>
             document.addEventListener("DOMContentLoaded", function() {
-                let defaultEvents = @json($allRemarks);
+                let defaultEvents = @json($calander_datas);
 
                 /* initialize the calendar */
                 let calendarEl = document.getElementById('calendar');
@@ -832,5 +870,18 @@
                 }
                 $('#candidateResume').empty();
             }
+
+            $(document).ready(function() {
+                $('select.form-select').change(function() {
+                    var dashboardId = $(this).attr('id').split('_')[1];
+                    var remarkId = $(this).val();
+                    var confirmed = confirm('Are you sure you want to change?');
+
+                    if (confirmed) {
+                        var redirectUrl = '/ATS/change/dashboard/remark/' + dashboardId + '/' + remarkId;
+                        window.location.href = redirectUrl;
+                    }
+                });
+            });
         </script>
     @endsection

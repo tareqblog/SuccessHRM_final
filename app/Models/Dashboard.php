@@ -16,4 +16,24 @@ class Dashboard extends Model
     {
         return $this->belongsTo(candidate::class, 'candidate_id');
     }
+
+    public function manager(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class, 'manager_id');
+    }
+
+    public function teamleader(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class, 'teamleader_id');
+    }
+
+    public function consultent(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class, 'consultent_id');
+    }
+
+    public function remark(): BelongsTo
+    {
+        return $this->belongsTo(remarkstype::class, 'remark_id');
+    }
 }

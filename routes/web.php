@@ -211,4 +211,6 @@ Route::prefix('ATS')->group(function () {
     Route::get('/get/consultant/{employee}',  [EmployeeController::class, 'getConsultant'])->name('get.consultants');
     Route::get('/get/teamleader/{employee}',  [EmployeeController::class, 'getTeamleader'])->name('get.teamleader');
     Route::get('/time/sheet/details/{timesheet}',  [TimeSheetController::class, 'timeSheetDetails'])->name('time.sheet.details');
+
+    Route::get('/change/dashboard/remark/{dashboard}/{id}', [DashboardController::class, 'change_dashboard_remark'])->name('change.dashboard.remark');
 })->middleware('AdminMiddleware');

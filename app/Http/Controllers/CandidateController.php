@@ -369,9 +369,10 @@ class CandidateController extends Controller
             'isNotice' => 'required|boolean',
             'remarks' => 'required',
         ]);
-
+        $candidate = candidate::find($id);
+        $dashboard = Dashboard::where('candidate_id', $request->candidate_id)->first();
         $candidate_remark = CandidateRemark::create([
-            'candidate_id' => $request->candidate_id,
+            'candidate_id' => $candidate->id,
             'remarkstype_id' => $request->remarkstype_id,
             'isNotice' => $request->isNotice,
             'remarks' => $request->remarks,
@@ -381,7 +382,12 @@ class CandidateController extends Controller
             'client_company' => $request->client_company,
         ]);
 
-        $candidate = candidate::find($id);
+        $dashboard_data = [];
+        $assign_dashboard_remark_id = assign_dashboard_remark_id($request->remarkstype_id, $request->remarks);
+        $dashboard_data['remark_id'] = $assign_dashboard_remark_id;
+        if ($request->remarkstype_id == 4) {
+            $dashboard_data['follow_day'] = ++$dashboard->follow_day;
+        }
 
         $calander = [
             'manager_id' => $candidate->manager_id,
@@ -450,6 +456,17 @@ class CandidateController extends Controller
             $calander['status'] = 1;
             Calander::create($calander);
         }
+
+        $dashboard->update($dashboard_data);
+
+        Assign::create([
+            'candidate_id' => $candidate->id,
+            'manager_id' => $candidate->manager_id,
+            'teamleader_id' => $candidate->team_leader_id,
+            'consultent_id' => $candidate->consultant_id,
+            'insert_by' => Auth::user()->id,
+            'remark_id' => $assign_dashboard_remark_id
+        ]);
 
         return redirect()->route('candidate.edit', [$id, '#remark'])->with('success', 'Remark added successfully.');
     }

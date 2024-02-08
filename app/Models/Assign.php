@@ -16,4 +16,9 @@ class Assign extends Model
     {
         return $this->belongsTo(candidate::class);
     }
+
+    public function remark(): BelongsTo
+    {
+        return $this->belongsTo(remarkstype::class, 'remark_id');
+    }
 }
