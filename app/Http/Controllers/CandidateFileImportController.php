@@ -82,7 +82,7 @@ class CandidateFileImportController extends Controller
             ->where('status', 0)
             ->paginate(10);
         $assaignPerson = Employee::where('employee_status', 1)->get();
-      
+
         return view('admin.candidate.import', compact('importData', 'temporary_data', 'history_data', 'assaignPerson', 'start', 'end'));
     }
 

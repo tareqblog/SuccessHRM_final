@@ -1201,7 +1201,8 @@
                                                             @if ($resume->isMain == 0)
                                                                 <input type="radio" name="isMain"
                                                                     {{ $resume->isMain == 1 ? 'checked' : '' }}
-                                                                    class="isMainRadio" data-resume-id="{{ $resume->id }}"
+                                                                    class="isMainRadio"
+                                                                    data-resume-id="{{ $resume->id }}"
                                                                     data-candidate-id="{{ $candidate->id }}">
                                                             @else
                                                                 <input type="radio" name="isMain"
@@ -1409,7 +1410,7 @@
                                                             <option value="">Select One</option>
                                                             @foreach ($clients as $client)
                                                                 <option value="{{ $client->id }}">
-                                                                    {{$client->client_name}} </option>
+                                                                    {{ $client->client_name }} </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -1574,15 +1575,6 @@
                                                             name="shortlistStartDate">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4" id="shortlistContractEndDate"
-                                                    style="display: none;">
-                                                    <label for="one" class="col-sm-3 col-form-label">Contract End
-                                                        Date <span class="text-danger"></span></label>
-                                                    <div class="col-sm-9">
-                                                        <input type="date" class="form-control"
-                                                            name="shortlistContractEndDate">
-                                                    </div>
-                                                </div>
                                                 <div class="row mb-4" id="shortlistReminderPeriod"
                                                     style="display: none;">
                                                     <label for="one" class="col-sm-3 col-form-label">Reminder
@@ -1608,6 +1600,16 @@
                                                     <div class="col-sm-9">
                                                         <input type="time" class="form-control"
                                                             name="shortlistContractSigningTime">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" id="shortlistContractEndDate"
+                                                    style="display: none;">
+                                                    <label for="one" class="col-sm-3 col-form-label">Contract
+                                                        End
+                                                        Time <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="date" class="form-control"
+                                                            name="shortlistContractEndDate">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4" id="shortlistLastDay" style="display: none;">
@@ -2212,7 +2214,8 @@
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Time Sheet Type</label>
+                                                    <label for="one" class="col-sm-3 col-form-label">Time Sheet
+                                                        Type</label>
                                                     <input type="hidden" name="candidate_id"
                                                         value="{{ $candidate->id }}">
                                                     <div class="col-sm-9">
@@ -2305,8 +2308,8 @@
                                 </form>
                             </div>
                         </div>
-                    </div><!-- end card-body -->
-
+                    </div>
+                    <!-- end card-body -->
                     <!--  Create modal example -->
                     <div class="modal fade bs-example-modal-lg-create" tabindex="-1" role="dialog"
                         aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -2410,14 +2413,14 @@
         <script src="{{ URL::asset('build/js/pages/form-editor.init.js') }}"></script>
 
         <script language="javascript" type="text/javascript">
-            if (window.location.hash) { // Check if url hash is not empty
-                var hash = window.location.hash; // nav-y1
+            if (window.location.hash) {
+                var hash = window.location.hash;
                 console.log(hash);
                 document.querySelector('[href="' + hash + '"]').click();
             }
         </script>
         <script>
-            $(document).ready(function(){
+            $(document).ready(function() {
                 function loadTimeSheetDetails(timesheetId) {
                     let html = '';
 

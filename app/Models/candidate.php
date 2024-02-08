@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Employee;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
@@ -94,6 +95,12 @@ class candidate extends Model
         return $this->hasMany(CandidateResume::class, 'candidate_id');
     }
 
+    public function getMainResumeFilePath()
+    {
+        $mainResume = $this->resumes->where('isMain', 1)->first();
+        return $mainResume ? $mainResume->resume_file_path : null;
+    }
+
     public function remarks(): HasMany
     {
         return $this->hasMany(CandidateRemark::class, 'candidate_id');
@@ -112,9 +119,19 @@ class candidate extends Model
     {
         return $this->hasOne(CandidateWorkingHour::class, 'candidate_id');
     }
-    public function team_leader(): HasOne
+
+    public function team_leader(): BelongsTo
     {
-        return $this->hasOne(Employee::class, 'team_leader_id');
+        return $this->BelongsTo(Employee::class, 'team_leader_id');
     }
 
+    public function consultant(): BelongsTo
+    {
+        return $this->BelongsTo(Employee::class, 'consultant_id');
+    }
+
+    public function manager(): BelongsTo
+    {
+        return $this->BelongsTo(Employee::class, 'manager_id');
+    }
 }

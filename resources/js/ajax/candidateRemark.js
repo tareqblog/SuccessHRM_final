@@ -1,5 +1,6 @@
 $(document).ready(function () {
     $('#remark_type').change(function () {
+
         var selectedValue = $(this).val();
         // AssignToManager Start
         if (selectedValue === '1') {
@@ -70,6 +71,7 @@ $(document).ready(function () {
             $('#shortlistJobType').show().css('display', 'show');
             $('#shortlistProbationPeriod').show().css('display', 'show');
             $('#shortlistContractSigningDate').show().css('display', 'show');
+            $('#shortlistContractEndDate').show().css('display', 'show');
             $('#shortlistEmailNoticeDate').show().css('display', 'show');
             $('#shortlistSalary').show().css('display', 'show');
             $('#shortlistArNo').show().css('display', 'show');

@@ -312,9 +312,14 @@ class EmployeeController extends Controller
         return back()->with('success', 'Salary Info Added Successfully.');
     }
 
+    public function getTeamleader(Employee $employee)
+    {
+        $team_leaders = Employee::where('manager_users_id', $employee->id)->where('roles_id', 11)->get();
+        return $team_leaders;
+    }
     public function getConsultant(Employee $employee)
     {
-        $team_leader = Employee::where('team_leader_users_id', $employee->id)->get();
-        return $team_leader;
+        $consultants = Employee::where('team_leader_users_id', $employee->id)->where('roles_id', 8)->get();
+        return $consultants;
     }
 }

@@ -5,10 +5,14 @@ namespace App\Http\Controllers;
 use App\Helpers\FileHelper;
 use App\Http\Requests\CandidateRequest;
 use App\Http\Requests\PayrollRequest;
+use App\Models\Assign;
+use App\Models\Calander;
 use App\Models\candidate;
 use App\Models\CandidateFamily;
 use App\Models\CandidatePayroll;
 use App\Models\CandidateRemark;
+use App\Models\CandidateRemarkInterview;
+use App\Models\CandidateRemarkShortlist;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\Designation;
@@ -25,12 +29,14 @@ use App\Models\CandidateWorkingHour;
 use App\Models\client;
 use App\Models\jobtype;
 use App\Models\country;
+use App\Models\Dashboard;
 use App\Models\Employee;
 use App\Models\Outlet;
 use App\Models\remarkstype;
 use App\Models\User;
 use App\Models\Paybank;
 use App\Models\TimeSheet;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class CandidateController extends Controller
@@ -96,6 +102,7 @@ class CandidateController extends Controller
      */
     public function store(CandidateRequest $request)
     {
+
         if (is_null($this->user) || !$this->user->can('candidate.store')) {
             abort(403, 'Unauthorized');
         }
@@ -116,6 +123,17 @@ class CandidateController extends Controller
             }
         }
         $candidate->update(['candidate_code' => 'Cand-' . $candidate->id]);
+
+        $datas = [
+            'candidate_id' => $candidate->id,
+            'manager_id' => $candidate->manager_id,
+            'teamleader_id' => $candidate->team_leader_id,
+            'consultent_id' => $candidate->consultant_id,
+            'insert_by' => Auth::user()->id,
+        ];
+
+        Dashboard::create($datas);
+        Assign::create($datas);
 
         return redirect()->route('candidate.index')->with('success', 'Created successfully.');
     }
@@ -148,7 +166,7 @@ class CandidateController extends Controller
             }
         }
 
-        if ($candidate->team_leader_id == $team_leader_id || $auth->roles_id ==1) {
+        if ($candidate->team_leader_id == $team_leader_id || $auth->roles_id == 1) {
             $fileTypes = uploadfiletype::where('uploadfiletype_status', 1)->where('uploadfiletype_for', 1)->latest()->get();
             $department_data = Department::orderBy('department_seqno')->where('department_status', '1')->get();
             $designation_data = Designation::orderBy('designation_seqno')->where('designation_status', '1')->get();
@@ -343,17 +361,114 @@ class CandidateController extends Controller
         if (is_null($this->user) || !$this->user->can('candidate.remark')) {
             abort(403, 'Unauthorized');
         }
+
+        // return $request;
         $request->validate([
             'candidate_id' => 'required|integer',
             'remarkstype_id' => 'required|integer',
             'isNotice' => 'required|boolean',
             'remarks' => 'required',
         ]);
-
-        CandidateRemark::create($request->except('_token') + [
-            'candidate_id' => $id,
+        $candidate = candidate::find($id);
+        $dashboard = Dashboard::where('candidate_id', $request->candidate_id)->first();
+        $candidate_remark = CandidateRemark::create([
+            'candidate_id' => $candidate->id,
+            'remarkstype_id' => $request->remarkstype_id,
+            'isNotice' => $request->isNotice,
+            'remarks' => $request->remarks,
+            'email_notice_date' => $request->email_notice_date,
+            'ar_no' => $request->client_ar_no,
+            'assign_to' => $request->Assign_to_manager,
+            'client_company' => $request->client_company,
         ]);
-        return redirect()->route('candidate.edit', $id)->with('success', 'Remark added successfully.');
+
+        $dashboard_data = [];
+        $assign_dashboard_remark_id = assign_dashboard_remark_id($request->remarkstype_id, $request->remarks);
+        $dashboard_data['remark_id'] = $assign_dashboard_remark_id;
+        if ($request->remarkstype_id == 4) {
+            $dashboard_data['follow_day'] = ++$dashboard->follow_day;
+        }
+
+        $calander = [
+            'manager_id' => $candidate->manager_id,
+            'teamleader_id' => $candidate->team_leader_id,
+            'consultant_id' => $candidate->consultant_id,
+            'candidate_remark_id' => $candidate_remark->id,
+        ];
+
+        if ($request->remarkstype_id == 7) {
+            $list = CandidateRemarkShortlist::create([
+                'candidate_remark_id' => $candidate_remark->id,
+                'salary' => $request->shortlistSalary,
+                'depertment' => $request->shortlistDepartment,
+                'hourly_rate' => $request->shortlistHourlyRate,
+                'placement_recruitment_fee' => $request->shortlistPlacement,
+                'admin_fee' => $request->shortlistAdminFee,
+                'start_date' => $request->shortlistStartDate,
+                'end_date' => $request->shortlistContractEndDate,
+                'job_title' => $request->shortlistJobTitle,
+                'reminder_period' => $request->shortlistReminderPeriod,
+                'job_type' => $request->shortlistJobType,
+                'contact_signing_time' => $request->shortlistContractSigningTime,
+                'contact_signing_date' => $request->shortlistContractSigningDate,
+                'probition_period' => $request->shortlistProbationPeriod,
+                'last_day' => $request->shortlistLastDay,
+            ]);
+
+            $calander['candidate_remark_shortlist_id'] = $list->id;
+            if ($list->end_date != null) {
+                $calander['title'] = 'Contract Ending -';
+                $calander['date'] = $list->end_date;
+                $calander['status'] = 4;
+                Calander::create($calander);
+            }
+            if ($list->start_date != null) {
+                $calander['title'] = 'Shortlisted -';
+                $calander['date'] = $list->start_date;
+                $calander['status'] = 2;
+                Calander::create($calander);
+            }
+            if ($list->contact_signing_date != null) {
+                $calander['title'] = Carbon::parse($list->contact_signing_time)->format('h:i A') . ' -Contract Signing -';
+                $calander['date'] = $list->contact_signing_date;
+                $calander['status'] = 3;
+                Calander::create($calander);
+            }
+        }
+
+        if ($request->remarkstype_id == 5) {
+            $list = CandidateRemarkInterview::create([
+                'candidate_remark_id' => $candidate_remark->id,
+                'interview_date' => $request->interview_date,
+                'interview_time' => $request->interview_time,
+                'interview_by' => $request->interview_by,
+                'interview_position' => $request->interview_position,
+                'interview_company' => $request->interview_company,
+                'expected_salary' => $request->interview_expected_salary,
+                'job_offer_salary' => $request->inteview_job_offer_salary,
+                'available_date' => $request->available_date,
+                'receive_job_offer' => $request->interview_received_job_offer,
+            ]);
+
+            $calander['candidate_remark_shortlist_id'] = $list->id;
+            $calander['title'] = Carbon::parse($list->interview_time)->format('h:i A') . ' - Interview -';
+            $calander['date'] = $list->interview_date;
+            $calander['status'] = 1;
+            Calander::create($calander);
+        }
+
+        $dashboard->update($dashboard_data);
+
+        Assign::create([
+            'candidate_id' => $candidate->id,
+            'manager_id' => $candidate->manager_id,
+            'teamleader_id' => $candidate->team_leader_id,
+            'consultent_id' => $candidate->consultant_id,
+            'insert_by' => Auth::user()->id,
+            'remark_id' => $assign_dashboard_remark_id
+        ]);
+
+        return redirect()->route('candidate.edit', [$id, '#remark'])->with('success', 'Remark added successfully.');
     }
 
 

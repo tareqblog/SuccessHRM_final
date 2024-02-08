@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use App\Models\Designation;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Employee extends Model
 {
@@ -102,13 +104,32 @@ class Employee extends Model
         return [];
     }
 
-    public static function getCandidatesForManagerLatestRemark($managerId)
+    public static function getCandidatesForManagerActiveResumes($managerId)
     {
         $teamLeader = self::where('manager_users_id', $managerId)->first();
 
         if ($teamLeader) {
-            // $candidatesForManager = candidate::where('team_leader_id', $teamLeader->id)->get();
+            $candidatesForManager = candidate::where('team_leader_id', $teamLeader->id)
+                // ->whereHas('remarks', function ($query) {
+                //     $query->where('remarkstype_id', 4);
+                // })
+                // ->with(['remarks' => function ($query) {
+                //     $query->where('remarkstype_id', 4)
+                //         ->latest()
+                //         ->limit(1);
+                // }])
+                ->get();
 
+            return $candidatesForManager;
+        }
+
+        return [];
+    }
+    public static function getCandidatesForManagerKIV($managerId)
+    {
+        $teamLeader = self::where('manager_users_id', $managerId)->first();
+
+        if ($teamLeader) {
             $candidatesForManager = candidate::where('team_leader_id', $teamLeader->id)
                 ->whereHas('remarks', function ($query) {
                     $query->where('remarkstype_id', 4);
@@ -120,11 +141,127 @@ class Employee extends Model
                 }])
                 ->get();
 
-            return $candidatesForManager->toArray();
+            return $candidatesForManager;
         }
 
         return [];
     }
+
+    public static function getCandidatesForManagerLatestRemark($managerId)
+    {
+        $teamLeader = self::where('manager_users_id', $managerId)->first();
+
+        if ($teamLeader) {
+            $candidatesForManager = candidate::where('team_leader_id', $teamLeader->id)
+                ->whereHas('remarks', function ($query) {
+                    $query->where('remarkstype_id', 4);
+                })
+                ->with(['remarks' => function ($query) {
+                    $query->where('remarkstype_id', 4)
+                        ->latest()
+                        ->limit(1);
+                }])
+                ->get();
+
+            $currentDate = Carbon::now();
+
+            $candidatesGrouped = [
+                '1' => [],
+                '2' => [],
+                '3' => [],
+                '4' => [],
+                '5' => [],
+                '6' => []
+            ];
+
+            foreach ($candidatesForManager as $candidate) {
+                $latestRemark = $candidate->remarks->first();
+                $daysDifference = $currentDate->diffInDays(Carbon::parse($latestRemark->created_at));
+
+                if ($daysDifference === 0) {
+                    $candidatesGrouped['1'][] = $candidate;
+                } elseif ($daysDifference === 1) {
+                    $candidatesGrouped['2'][] = $candidate;
+                } elseif ($daysDifference === 2) {
+                    $candidatesGrouped['3'][] = $candidate;
+                } elseif ($daysDifference === 3) {
+                    $candidatesGrouped['4'][] = $candidate;
+                } elseif ($daysDifference === 4) {
+                    $candidatesGrouped['5'][] = $candidate;
+                } else {
+                    $candidatesGrouped['more_than_five_days'][] = $candidate;
+                }
+            }
+
+            return $candidatesGrouped;
+        }
+
+        return [];
+    }
+    public static function getCandidatesForManagerInterviews($managerId)
+    {
+        $teamLeader = self::where('manager_users_id', $managerId)->first();
+
+        if ($teamLeader) {
+            $candidatesForManager = candidate::where('team_leader_id', $teamLeader->id)
+                ->whereHas('remarks', function ($query) {
+                    $query->where('remarkstype_id', 5);
+                })
+                ->with(['remarks' => function ($query) {
+                    $query->where('remarkstype_id', 5)
+                        ->latest()
+                        ->limit(1);
+                }])
+                ->get();
+
+            return $candidatesForManager;
+        }
+
+        return [];
+    }
+    public static function getCandidatesForManagerblackListed($managerId)
+    {
+        $teamLeader = self::where('manager_users_id', $managerId)->first();
+
+        if ($teamLeader) {
+            $candidatesForManager = candidate::where('team_leader_id', $teamLeader->id)
+                ->whereHas('remarks', function ($query) {
+                    $query->where('remarkstype_id', 11);
+                })
+                ->with(['remarks' => function ($query) {
+                    $query->where('remarkstype_id', 11)
+                        ->latest()
+                        ->limit(1);
+                }])
+                ->get();
+
+            return $candidatesForManager;
+        }
+
+        return [];
+    }
+    public static function getCandidatesForManagerassignToClient($managerId)
+    {
+        $teamLeader = self::where('manager_users_id', $managerId)->first();
+
+        if ($teamLeader) {
+            $candidatesForManager = candidate::where('team_leader_id', $teamLeader->id)
+                ->whereHas('remarks', function ($query) {
+                    $query->where('remarkstype_id', 6);
+                })
+                ->with(['remarks' => function ($query) {
+                    $query->where('remarkstype_id', 6)
+                        ->latest()
+                        ->limit(1);
+                }])
+                ->get();
+
+            return $candidatesForManager;
+        }
+
+        return [];
+    }
+
     public static function getCandidatesForTeamLeader($teamLeaderId)
     {
         $candidatesForTeamLeader = candidate::where('team_leader_id', $teamLeaderId)->get();
@@ -136,6 +273,11 @@ class Employee extends Model
         $candidatesForConsultent = candidate::where('consultant_id', $consultentId)->get();
 
         return $candidatesForConsultent->toArray();
+    }
+
+    public function manager(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class, 'manager_id');
     }
 
     public function teamleaders(): HasMany

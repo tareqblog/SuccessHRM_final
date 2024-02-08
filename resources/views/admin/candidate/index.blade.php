@@ -20,7 +20,7 @@
                         <h4 class="card-title mb-0">Candidate Table</h4>
                         <div class="text-end">
                             @if (App\Helpers\FileHelper::usr()->can('candidate.create'))
-                            <a href="{{ route('candidate.create') }}" class="btn btn-sm btn-success">Create New</a>
+                                <a href="{{ route('candidate.create') }}" class="btn btn-sm btn-success">Create New</a>
                             @endif
                         </div>
                     </div>
@@ -37,12 +37,12 @@
                                     <th>Job Assign</th>
                                     <th>Group</th>
                                     <th>Status</th>
-                                    <th></th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse ($datas as $data)
-                                {{-- @dump($data) --}}
+                                    {{-- @dump($data) --}}
                                     <tr>
                                         <td>
                                             {{ $loop->index + 1 }}
@@ -54,32 +54,37 @@
                                         <td>{{ $data->updated_at }}</td>
                                         <td><a href="{{ route('candidate.edit', $data->id) }}"
                                                 class="btn btn-success btn-sm me-3">Assigned</a></td>
-                                        <td></td>
-                                        <td class="text-{{\App\Enums\Status::from($data->candidate_status)->message()}}">{{\App\Enums\Status::from($data->candidate_status)->title()}}
+                                        <td>
+                                            {{candidate_group($data->id)}}
+                                        </td>
+                                        <td class="text-{{ \App\Enums\Status::from($data->candidate_status)->message() }}">
+                                            {{ \App\Enums\Status::from($data->candidate_status)->title() }}
                                         </td>
                                         {{-- <td>{{ $data->candidate_status == 1 ? 'Active' : 'In-Active' }}</td> --}}
                                         <td style="display: flex;">
                                             {{-- @if (App\Helpers\FileHelper::usr()->can('candidate.remark')) --}}
-                                            <a href="" class="btn btn-info btn-sm me-2"><i class="fab fa-dyalog"></i></a>
+                                            <a href="" class="btn btn-info btn-sm me-2"><i
+                                                    class="fab fa-dyalog"></i></a>
                                             <a href="" class="btn btn-secondary btn-sm me-2">Resume</a>
                                             {{-- @endif --}}
                                             @if (App\Helpers\FileHelper::usr()->can('candidate.remark'))
-                                            <a href="{{ route('candidate.edit', $data->id) }}#remark"
-                                                class="btn btn-warning btn-sm me-2">Remarks</a>
+                                                <a href="{{ route('candidate.edit', $data->id) }}#remark"
+                                                    class="btn btn-warning btn-sm me-2">Remarks</a>
                                             @endif
                                             @if (App\Helpers\FileHelper::usr()->can('candidate.update'))
-                                            <a href="{{ route('candidate.edit', $data->id) }}"
-                                                class="btn btn-info btn-sm me-2" title="Edit"><i class="fas fa-pen"></i></a>
+                                                <a href="{{ route('candidate.edit', $data->id) }}"
+                                                    class="btn btn-info btn-sm me-2" title="Edit"><i
+                                                        class="fas fa-pen"></i></a>
                                             @endif
                                             @if (App\Helpers\FileHelper::usr()->can('candidate.destroy'))
-                                            <form id="deleteForm" action="{{ route('candidate.destroy', $data->id) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" title="NOT SUITABLE"
-                                                    onclick="return confirm('By selecting “NOT SUITABLE”, candidate will be deleted. Do you want to proceed?')"
-                                                    class="btn btn-sm btn-danger"> <i class="fas fa fa-x"></i> </a>
-                                            </form>
+                                                <form id="deleteForm" action="{{ route('candidate.destroy', $data->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" title="NOT SUITABLE"
+                                                        onclick="return confirm('By selecting “NOT SUITABLE”, candidate will be deleted. Do you want to proceed?')"
+                                                        class="btn btn-sm btn-danger"> <i class="fas fa fa-x"></i> </a>
+                                                </form>
                                             @endif
                                         </td>
                                     </tr>
@@ -110,4 +115,3 @@
             });
         </script>
     @endsection
-

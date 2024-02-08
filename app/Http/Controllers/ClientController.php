@@ -50,8 +50,13 @@ class ClientController extends Controller
         $candidatesByConsultent = [];
         $team_leader = [];
         $candidatesByTeam = [];
-        $followUp = [];
+        $followUps = [];
         $activeResume = [];
+        $interviews = [];
+        $blackListed = [];
+        $assignToClients = [];
+        $kivs = [];
+        $activeResumes = [];
 
         if ($auth->roles_id == 1) {
             $managers = Employee::where('roles_id', 4)->get();
@@ -59,7 +64,12 @@ class ClientController extends Controller
                 $managerId = $manager->id;
                 $candidatesForManager = Employee::getCandidatesForManager($managerId);
                 $candidatesByManager[$managerId] = $candidatesForManager;
-                $followUp = Employee::getCandidatesForManagerLatestRemark($managerId);
+                $followUps = Employee::getCandidatesForManagerLatestRemark($managerId);
+                $interviews = Employee::getCandidatesForManagerInterviews($managerId);
+                $blackListed = Employee::getCandidatesForManagerblackListed($managerId);
+                $assignToClients = Employee::getCandidatesForManagerassignToClient($managerId);
+                $kivs = Employee::getCandidatesForManagerKIV($managerId);
+                $activeResumes = Employee::getCandidatesForManagerActiveResumes($managerId);
             }
         } elseif ($auth->roles_id == 4) {
             $team_leader = Employee::where('roles_id', 11)->where('manager_users_id', $auth->id)->get();
@@ -90,7 +100,12 @@ class ClientController extends Controller
             'team_leader',
             'candidatesByConsultent',
             'consultents',
-            'followUp',
+            'followUps',
+            'interviews',
+            'blackListed',
+            'assignToClients',
+            'kivs',
+            'activeResumes',
         ));
     }
 
@@ -110,11 +125,7 @@ class ClientController extends Controller
             }
         }
 
-
-
         $datas = $datas->get();
-
-
 
         return view('admin.client.index', compact('datas'));
     }
