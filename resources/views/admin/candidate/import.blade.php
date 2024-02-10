@@ -107,7 +107,7 @@
                                         <div class="row mb-4">
                                             <label for="one" class="col-sm-4 col-form-label">Gender</label>
                                             <div class="col-sm-8">
-                                                <select name="gender" class="form-control" id="gender">
+                                                <select name="gender" required class="form-control" id="gender">
                                                     <option value="">Select One</option>
                                                     <option value="Male">Male</option>
                                                     <option value="Female">Female</option>
@@ -117,7 +117,7 @@
                                         <div class="row mb-4">
                                             <label for="one" class="col-sm-4 col-form-label">Assaign To</label>
                                             <div class="col-sm-8">
-                                                <select name="assaign_to" class="form-control">
+                                                <select name="assaign_to" required class="form-control">
                                                     <option value="">Select One</option>
                                                     @foreach ($assaignPerson as $assaign)
                                                         <option value="{{ $assaign->id }}">{{ $assaign->employee_name }}
@@ -165,7 +165,8 @@
                                         @include('admin.partials.daterang')
                                     </div>
                                     <div class="col-sm-12 col-md-3 text-end">
-                                         <button onclick="filterHistoryImport(event)" class="btn btn-info btn-sm py-2" type="submit">Filter Data</button>
+                                        <button onclick="filterHistoryImport(event)" class="btn btn-info btn-sm py-2"
+                                            type="submit">Filter Data</button>
                                     </div>
                                 </div>
                             </div>
@@ -200,11 +201,31 @@
                                     _token: '{{ csrf_token() }}'
                                 },
                                 success: function(result) {
-                                    $('textarea[name="resume_text"]').val(result.text);
-                                    $('input[name="name"]').val(result.name);
-                                    $('input[name="email"]').val(result.email);
-                                    $('input[name="phone_no"]').val(result.phone_no);
+
+                                    // Clear all input values
+                                    $('input[name="name"]').val('');
+                                    $('input[name="email"]').val('');
+                                    $('input[name="phone_no"]').val('');
+                                    $('input[name="resume_path"]').val('');
+                                    $('textarea[name="resume_text"]').val('');
+                                    console.log(result);
+
+                                    // Iterate over each field in the result object
+                                    for (const field in result) {
+                                        if (result[field].includes("not found")) {
+                                            // If the field value contains "not found", set placeholder
+                                            $(`input[name="${field}"], textarea[name="${field}"]`).attr(
+                                                'placeholder', result[field]);
+                                        } else {
+                                            // Otherwise, set the field value
+                                            $(`input[name="${field}"], textarea[name="${field}"]`).val(
+                                                result[field]);
+                                        }
+                                    }
+
+                                    // Set resume path separately
                                     $('input[name="resume_path"]').val(result.myPath);
+
                                     const iframe = document.getElementById('pdfViewer');
                                     const pdfUrl = result.myPath;
                                     iframe.src = pdfUrl;

@@ -208,7 +208,7 @@ class ClientController extends Controller
                 $team_leader_id = null;
             }
         }
-        if ($client->team_leader_id == $team_leader_id) {
+        if ($client->team_leader_id == $team_leader_id || $auth->roles_id == 1) {
             $departments = ClientDepartment::where('client_id', $client->id)->latest()->get();
             $job_categories = jobcategory::select('id', 'jobcategory_name')->get();
             $employees = Employee::latest()->where('roles_id', '!=', '13')->Where('roles_id', '!=', '14')->where('employee_status', 1)->select('id', 'employee_name')->get();

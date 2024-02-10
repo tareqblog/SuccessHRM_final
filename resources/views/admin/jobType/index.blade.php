@@ -74,16 +74,12 @@
                                         </td>
                                     </tr>
                                 @empty
-                                    {{-- empty data --}}
                                     <tr>
                                         <td class="text-center text-warning" colspan="5">
                                             No data found!
                                         </td>
                                     </tr>
-                                    {{-- empty data --}}
                                 @endforelse
-
-
                             </tbody>
                         </table>
                     </div>

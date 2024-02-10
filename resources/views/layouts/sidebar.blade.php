@@ -76,12 +76,12 @@
             @endphp
             <ul class="metismenu list-unstyled" id="side-menu">
                 {{-- @if ($usr->can('admin.dashboard')) --}}
-                    <li>
-                        <a href="{{ route('admin.dashboard.index') }}">
-                            <i class="fa fa-home icon nav-icon" aria-hidden="true"></i>
-                            <span class="menu-item" data-key="dashboard">Dashboard</span>
-                        </a>
-                    </li>
+                <li>
+                    <a href="{{ route('admin.dashboard.index') }}">
+                        <i class="fa fa-home icon nav-icon" aria-hidden="true"></i>
+                        <span class="menu-item" data-key="dashboard">Dashboard</span>
+                    </a>
+                </li>
                 {{-- @endif --}}
                 @if ($usr->can('clients.index'))
                     <li>
@@ -111,10 +111,11 @@
                                 <li><a href="{{ route('client-term.index') }}" data-key="client-terms">Client Terms</a>
                                 </li>
                             @endif
-                            @if ($usr->can('industry-type.index'))
+                            <li><a href="{{ route('job-category.index') }}" data-key="industry-type">Industry Type</a></li>
+                            {{-- @if ($usr->can('industry-type.index'))
                                 <li><a href="{{ route('industry-type.index') }}" data-key="industry-type">Industry
                                         Type</a></li>
-                            @endif
+                            @endif --}}
                         </ul>
                     </li>
                 @endif
@@ -257,9 +258,9 @@
 
                             </li>
                         @endif
-                        <li><a href="{{ route('job-status.index') }}" data-key="job-status">Job Status</a>
+                        {{-- <li><a href="{{ route('job-status.index') }}" data-key="job-status">Job Status</a>
 
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
             @endif

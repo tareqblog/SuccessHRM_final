@@ -170,7 +170,7 @@ Route::prefix('ATS')->group(function () {
 
     //Candidate extra part
     Route::post('/candidate/file-upload/{id}', [CandidateController::class, 'fileUpload'])->name('candidate.file.upload');
-    Route::delete('/candidate/file-delete/{id}', [CandidateController::class, 'fileDelete'])->name('candidate.file.delete');
+    Route::delete('/candidate/file-delete/{id}/{candidate}', [CandidateController::class, 'fileDelete'])->name('candidate.file.delete');
     Route::post('/candidate/followup/{id}', [CandidateController::class, 'followUp'])->name('candidate.followup');
     Route::delete('/candidate/followup/{id}', [CandidateController::class, 'folowupDelete'])->name('candidate.followup.delete');
     Route::post('/candidate/remark/{id}', [CandidateController::class, 'remark'])->name('candidate.remark');
@@ -181,7 +181,7 @@ Route::prefix('ATS')->group(function () {
     Route::post('/candidate/family/{id}', [CandidateController::class, 'family'])->name('candidate.family');
     Route::delete('/candidate/family/{id}', [CandidateController::class, 'familyDelete'])->name('candidate.family.delete');
     Route::post('/candidate/resume/{id}', [CandidateController::class, 'resumeUpload'])->name('candidate.resume');
-    Route::delete('/candidate/resume/{id}', [CandidateController::class, 'resumeDelete'])->name('candidate.resume.delete');
+    Route::delete('/candidate/resume/{id}/{candidate}', [CandidateController::class, 'resumeDelete'])->name('candidate.resume.delete');
     Route::post('/candidate/resume/update/{candidate}', [CandidateController::class, 'resumeMain'])->name('candidate.resume.main');
 
     Route::get('/candidate/timesheet-data/{timeSheetId}', [CandidateController::class, 'timeSheetData'])->name('candidate.timesheet.data');

@@ -354,8 +354,6 @@
                                                     @endif
                                                     <input type="file" name="avatar" id="avatar-input"
                                                         class="form-control" accept="images">
-
-
                                                 </div>
                                             </div>
                                         </div>
@@ -1223,7 +1221,7 @@
                                                                 class="btn btn-info btn-sm me-3" download>Donwload</a>
                                                             @if (App\Helpers\FileHelper::usr()->can('candidate.resume.delete'))
                                                                 <form
-                                                                    action="{{ route('candidate.resume.delete', $resume->id) }}"
+                                                                    action="{{ route('candidate.resume.delete', [$resume->id, $resume->candidate_id]) }}"
                                                                     method="POST">
                                                                     @csrf
                                                                     @method('DELETE')
@@ -1281,14 +1279,20 @@
                                                             @endif
                                                         </td>
                                                         <td>{{ $file->file_type->uploadfiletype_code }}</td>
-                                                        <td>{{ $file->file_path }}</td>
+                                                        <?php
+                                                        $path = $file->file_path;
+                                                        $parts = explode('/', $path);
+                                                        $filename = end($parts);
+                                                        $filenameParts = explode('_', $filename);
+                                                        $cleanedFilename = end($filenameParts);
+                                                        ?>
+                                                        <td>{{ $cleanedFilename }}</td>
                                                         <td>{{ $file->created_at }}</td>
                                                         <td style="display: flex;">
                                                             <a href="{{ asset('storage') }}/{{ $file->file_path }}"
                                                                 class="btn btn-info btn-sm me-3" download>Donwload</a>
                                                             @if (App\Helpers\FileHelper::usr()->can('candidate.file.delete'))
-                                                                <form
-                                                                    action="{{ route('candidate.file.delete', $file->id) }}"
+                                                                <form action="{{ route('candidate.file.delete', ['id' => $file->id, 'candidate' => $file->client_id]) }}"
                                                                     method="POST">
                                                                     @csrf
                                                                     @method('DELETE')
