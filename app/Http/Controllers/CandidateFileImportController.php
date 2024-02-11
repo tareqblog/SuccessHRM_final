@@ -504,7 +504,6 @@ class CandidateFileImportController extends Controller
                 return response('Error reading PDF: ' . $e->getMessage(), 500);
             }
         } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'xls || xlsx') {
-
         } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'doc') {
         }
 
@@ -519,10 +518,14 @@ class CandidateFileImportController extends Controller
         foreach ($remarks as $key => $remark) {
             $data[] = [
                 'candidate_name' => $remark->candidate->candidate_name,
+                'assign_to' => $remark->assign_to,
                 'remarkstype' => $remark->remarksType->remarkstype_code,
                 'remarks' => $remark->remarks,
+                'client' => $remark->client_company,
                 'created_by' => $remark->Assign->name,
                 'date' => Carbon::parse($remark->created_at)->format('H:i:s d-M-Y'),
+                'create_time' => Carbon::parse($remark->created_at)->format('H:i:s'),
+                'create_date' => Carbon::parse($remark->created_at)->format('d-M-Y'),
             ];
         }
 

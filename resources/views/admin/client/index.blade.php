@@ -8,7 +8,6 @@
 
 @section('css')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
 @endsection
 @section('body')
 
@@ -33,19 +32,12 @@
                         </div>
                     </div>
                     <div class="card-body p-3">
-                        <table class="table table-bordered mb-0 bg-light" id="clientTable" style="width:100%">
+                        <table class="table table-bordered mb-0 bg-light" id="myTable">
                             <thead>
                                 <tr>
                                     <th>No</th>
                                     <th>Client Name</th>
                                     <th>Account Holder</th>
-                                    <th>Industry</th>
-                                    <th>Industry</th>
-                                    <th>Industry</th>
-                                    <th>Industry</th>
-                                    <th>Industry</th>
-                                    <th>Industry</th>
-                                    <th>Industry</th>
                                     <th>Industry</th>
                                     <th>Status</th>
                                     <th>Payroll PIC</th>
@@ -65,41 +57,6 @@
                                         <td>{{ $data->industry_type?->jobcategory_name }}</td>
                                         <td>{{ $data->clients_status == 1 ? 'Active' : 'In-Active' }}</td>
 
-                                        <td>
-                                            @if ($data->payroll_employees_id)
-                                                {{ $data->Employee_Payroll->employee_name }}
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if ($data->payroll_employees_id)
-                                                {{ $data->Employee_Payroll->employee_name }}
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if ($data->payroll_employees_id)
-                                                {{ $data->Employee_Payroll->employee_name }}
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if ($data->payroll_employees_id)
-                                                {{ $data->Employee_Payroll->employee_name }}
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if ($data->payroll_employees_id)
-                                                {{ $data->Employee_Payroll->employee_name }}
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if ($data->payroll_employees_id)
-                                                {{ $data->Employee_Payroll->employee_name }}
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if ($data->payroll_employees_id)
-                                                {{ $data->Employee_Payroll->employee_name }}
-                                            @endif
-                                        </td>
                                         <td>
                                             @if ($data->payroll_employees_id)
                                                 {{ $data->Employee_Payroll->employee_name }}
@@ -220,12 +177,12 @@
     @endsection
 
     @section('scripts')
-        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-            crossorigin="anonymous"></script>
-        <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
         <script>
             $(document).ready(function() {
-                $('#clientTable').DataTable({
+                $('#myTable').DataTable({
                     responsive: true
                 });
             });
