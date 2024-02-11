@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
 
 class ClientFollowUp extends Model
@@ -11,7 +12,7 @@ class ClientFollowUp extends Model
     use HasFactory;
 
     protected $guarded = ['_token'];
-    protected $fillable = ['description','clients_id','Create_by','Modify_by'];
+    protected $fillable = ['description', 'clients_id', 'Create_by', 'Modify_by'];
 
     public static function boot()
     {
@@ -25,5 +26,10 @@ class ClientFollowUp extends Model
         static::updating(function ($ClientFollowUp) {
             $ClientFollowUp->modify_by = Auth::user()->id;
         });
+    }
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(client::class, 'clients_id');
     }
 }

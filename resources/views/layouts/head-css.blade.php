@@ -39,3 +39,5 @@ body{
 
 }
 </style>
+
+<link rel="stylesheet" href="{{asset('custom/custom.css')}}">

@@ -8,6 +8,7 @@
 
 @section('css')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
 @endsection
 @section('body')
 
@@ -18,27 +19,37 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Client Table</h4>
-                        @if (App\Helpers\FileHelper::usr()->can('clients.create'))
-                            <div class="text-end">
-                                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
-                                    data-bs-target=".bs-example-modal-lg-create">Import</button>
-                                <a href="{{ route('clients.create') }}" class="btn btn-sm btn-success">Create New</a>
+                        <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">
+                                <h6 class="card-title mb-0">Client Table</h6>
                             </div>
-                        @endif
+                            <div class="p-2 bd-highlight">
+                                @if (App\Helpers\FileHelper::usr()->can('clients.create'))
+                                    <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                        data-bs-target=".bs-example-modal-lg-create">Import</button>
+                                    <a href="{{ route('clients.create') }}" class="btn btn-sm btn-success">Create New</a>
+                                @endif
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <table class="table table-bordered mb-0 bg-light" id="myTable">
+                    <div class="card-body p-3">
+                        <table class="table table-bordered mb-0 bg-light" id="clientTable" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>No</th>
                                     <th>Client Name</th>
                                     <th>Account Holder</th>
                                     <th>Industry</th>
+                                    <th>Industry</th>
+                                    <th>Industry</th>
+                                    <th>Industry</th>
+                                    <th>Industry</th>
+                                    <th>Industry</th>
+                                    <th>Industry</th>
+                                    <th>Industry</th>
                                     <th>Status</th>
                                     <th>Payroll PIC</th>
-                                    <th>Remark</th>
-                                    <th class="text-end ">Action</th>
+                                    <th class="text-end">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -60,20 +71,61 @@
                                             @endif
                                         </td>
                                         <td>
+                                            @if ($data->payroll_employees_id)
+                                                {{ $data->Employee_Payroll->employee_name }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($data->payroll_employees_id)
+                                                {{ $data->Employee_Payroll->employee_name }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($data->payroll_employees_id)
+                                                {{ $data->Employee_Payroll->employee_name }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($data->payroll_employees_id)
+                                                {{ $data->Employee_Payroll->employee_name }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($data->payroll_employees_id)
+                                                {{ $data->Employee_Payroll->employee_name }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($data->payroll_employees_id)
+                                                {{ $data->Employee_Payroll->employee_name }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($data->payroll_employees_id)
+                                                {{ $data->Employee_Payroll->employee_name }}
+                                            @endif
+                                        </td>
+                                        {{-- <td>
                                             @if ($data->latestFollowUp()?->description)
                                                 <u>{{ $data->latestFollowUp()->created_at }}</u><br />
                                                 {!! $data->latestFollowUp()->description !!}
                                             @endif
-                                        </td>
+                                        </td> --}}
                                         <td style="display: flex;">
-                                            @if (App\Helpers\FileHelper::usr()->can('client.file.upload'))
+                                            {{-- @if (App\Helpers\FileHelper::usr()->can('client.file.upload'))
                                                 <a href="{{ route('clients.edit', $data->id) }}#upload_file"
                                                     class="btn btn-secondary btn-sm me-1">Upload File</a>
-                                            @endif
+                                            @endif --}}
 
                                             @if (App\Helpers\FileHelper::usr()->can('client.followup'))
                                                 <a href="{{ route('clients.edit', $data->id) }}#follow_up"
-                                                    class="btn btn-warning btn-sm me-1">Follow Up</a>
+                                                    class="btn btn-warning btn-sm me-1" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Add Remark"><i class="fas fa-plus"></i>
+                                                    <i class="fas fa-registered"></i></a>
+                                                <a onclick="getRemark({{ $data->id }})"
+                                                    class="btn btn-success btn-sm me-1" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Show Remarks"><i
+                                                        class="fas fa-registered"></i></a>
                                             @endif
 
                                             @if (App\Helpers\FileHelper::usr()->can('clients.edit'))
@@ -106,6 +158,23 @@
 
                             </tbody>
                         </table>
+                        <div class="mt-3" style="height: 60vh; border: 1px solid black">
+                            <div id="clientResume" class="p-3" style="display: none; height: 100%; overflow: auto;">
+                                <table class="table table-bordered mb-0 bg-light" id="remarkTable">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Create By</th>
+                                            <th>Description</th>
+                                            <th>Create Time</th>
+                                            <th>Create Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tableContent">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
 
                         <!--  Create modal example -->
                         <div class="modal fade bs-example-modal-lg-create" tabindex="-1" role="dialog"
@@ -156,7 +225,56 @@
         <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
         <script>
             $(document).ready(function() {
-                $('#myTable').DataTable();
+                $('#clientTable').DataTable({
+                    responsive: true
+                });
             });
+
+            function getRemark(clientId) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/ATS/get/client/remarks/' + clientId,
+                    success: function(response) {
+                        console.log(response);
+                        let clientResume = document.getElementById('clientResume');
+
+                        if (clientResume.style.display === 'none') {
+                            clientResume.style.display = 'block';
+                        }
+
+                        // Destroy DataTable if already initialized
+                        if ($.fn.DataTable.isDataTable('#remarkTable')) {
+                            $('#remarkTable').DataTable().destroy();
+                        }
+
+                        // Empty the table content before adding new rows
+                        $('#tableContent').empty();
+
+                        let remarkData = response.remarks;
+
+                        for (let i = 0; i < remarkData.length; i++) {
+                            let count = 1 + i;
+                            let newRowHtml = '<tr>' +
+                                '<th scope="row">' + count + '</th>' +
+                                '<td>' + remarkData[i].created_by + '</td>' +
+                                '<td>' + remarkData[i].description + '</td>' +
+                                '<td>' + remarkData[i].create_time + '</td>' +
+                                '<td>' + remarkData[i].create_date + '</td>' +
+                                '</tr>';
+
+                            $('#tableContent').append(newRowHtml);
+                        }
+
+                        // Reinitialize DataTable
+                        $('#remarkTable').DataTable({
+                            "pageLength": 5
+                        });
+
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            }
         </script>
     @endsection

@@ -1,0 +1,13 @@
+.card-header {
+    padding: 0 0;
+}
+.card-body {
+    padding: 0 0;
+}
+
+table.dataTable tbody td {
+    padding: .3rem;
+}
+.table>:not(caption)>*>* {
+    padding: 0.2rem;
+}
