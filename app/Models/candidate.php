@@ -95,6 +95,13 @@ class candidate extends Model
         return $this->hasMany(CandidateResume::class, 'candidate_id');
     }
 
+    public function activeResume()
+    {
+        return 'okk';
+        // $mainResume = $this->resumes->where('isMain', 1)->first();
+        // return $mainResume ? $mainResume->resume_file_path : null;
+    }
+
     public function getMainResumeFilePath()
     {
         $mainResume = $this->resumes->where('isMain', 1)->first();

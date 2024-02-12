@@ -68,10 +68,14 @@
                                         {{-- <td>{{ $data->candidate_status == 1 ? 'Active' : 'In-Active' }}</td> --}}
                                         <td style="display: flex;">
                                             {{-- @if (App\Helpers\FileHelper::usr()->can('candidate.remark')) --}}
-                                            <a href="" class="btn btn-info btn-sm me-2"><i
-                                                    class="fab fa-dyalog"></i></a>
+                                            @if($data->getMainResumeFilePath() != null)
+                                            <button type="button"
+                                                class="btn btn-info btn-sm me-2 mb-2 resumePath"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#showResume"
+                                                data-file-path="{{ $data->getMainResumeFilePath() }}">D</button>
                                             <a href="" class="btn btn-secondary btn-sm me-2">Resume</a>
-                                            {{-- @endif --}}
+                                            @endif
                                             @if (App\Helpers\FileHelper::usr()->can('candidate.remark'))
                                                 <a onclick="getRemark({{ $data->id }})"
                                                     class="btn btn-warning btn-sm me-2">Remarks</a>
@@ -129,6 +133,7 @@
                 </div>
             </div>
         </div>
+        @include('admin.candidate.inc.resume__modal')
     @endsection
 
     @section('scripts')
@@ -140,14 +145,26 @@
                 $('#myTable').DataTable({
                     responsive: true
                 });
+
+                 $(document).ready(function() {
+                    $('.resumePath').on('click', function() {
+                        let filePath = $(this).data('file-path');
+                        const iframe = document.getElementById('pdfViewer');
+                        let publicUrl = "{{ asset(Storage::url('')) }}" + "/" + filePath;
+                        iframe.src = publicUrl;
+                        iframe.width = "100%";
+                        iframe.height = "600px";
+                    });
+                });
             });
 
             function getRemark(candidateId) {
+
+                console.log(candidateId);
                 $.ajax({
                     type: 'GET',
                     url: '/ATS/get/candidate/remarks/' + candidateId,
                     success: function(response) {
-                        console.log(response);
                         let candidateResume = document.getElementById('candidateResume');
 
                         if (candidateResume.style.display === 'none') {

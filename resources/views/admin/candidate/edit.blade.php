@@ -125,6 +125,7 @@
                                             @php
                                                 $auth = Auth::user()->employe;
                                             @endphp
+                                            @if ($auth->roles_id == 1)
                                             <div class="row col-md-6 col-lg-6 mb-1">
                                                 <label for="managerSelect"
                                                     class="col-sm-5 col-form-label fw-bold">Manager</label>
@@ -146,6 +147,8 @@
                                                     </select>
                                                 </div>
                                             </div>
+                                            @endif
+                                            @if ($auth->roles_id == 1 || $auth->roles_id == 4)
                                             <div class="row col-md-6 col-lg-6 mb-1">
                                                 <label for="teamLeaderSelect" class="col-sm-5 col-form-label fw-bold">Team
                                                     Leader</label>
@@ -156,6 +159,8 @@
                                                     </select>
                                                 </div>
                                             </div>
+                                            @endif
+                                            @if ($auth->roles_id == 1 || $auth->roles_id == 4 || $auth->roles_id == 11)
                                             <div class="row col-md-6 col-lg-6 mb-1">
                                                 <label for="consultantSelect"
                                                     class="col-sm-5 col-form-label fw-bold">Consultant</label>
@@ -166,6 +171,7 @@
                                                     </select>
                                                 </div>
                                             </div>
+                                            @endif
                                             <div class="row col-md-6 col-lg-6 mb-1">
                                                 <label for="candidate_name"
                                                     class="col-sm-5 col-form-label fw-bold">Candidate Name</label>
@@ -2518,6 +2524,9 @@
         </script>
         <script>
             $(document).ready(function() {
+                let auth_role = '{{ $auth->roles_id }}';
+                let auth = '{{ $auth->id }}';
+
                 $('#managerSelect').change(function() {
                     let managerId = $(this).val();
                     if (managerId) {
@@ -2583,7 +2592,63 @@
                         $('#consultantSelect').empty();
                     }
                 });
-                $('#managerSelect').trigger('change');
+
+                if(auth_role == 4) {
+                    // $('#managerSelect').trigger('change');
+                    $.ajax({
+                        type: 'GET',
+                        url: '/ATS/get/teamleader/' + auth,
+                        success: function(data) {
+
+                            $('#teamLeaderSelect').empty();
+                                var candidateTeamLeaderId = '{{ $candidate->team_leader_id }}';
+                                let option = $('<option>', {
+                                        value: '',
+                                        text: 'Choose One',
+                                    });
+                                $('#teamLeaderSelect').append(option);
+
+                                $.each(data, function(key, value) {
+                                    var option = $('<option>', {
+                                        value: value.id,
+                                        text: value.employee_name
+                                    });
+                                    if (value.id == candidateTeamLeaderId) {
+                                        option.prop('selected', true);
+                                    }
+                                    $('#teamLeaderSelect').append(option);
+                                });
+
+                                $('#teamLeaderSelect').trigger('change');
+                        }
+                    });
+                } else if(auth_role == 11) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/ATS/get/consultant/' + auth,
+                        success: function(data) {
+
+                            $('#consultantSelect').empty();
+                            let consultant_id = '{{ $candidate->consultant_id }}';
+
+                            let option = $('<option>', {
+                                    value: '',
+                                    text: 'Choose One',
+                                });
+                            $('#consultantSelect').append(option);
+                            $.each(data, function(key, value) {
+                                option = $('<option>', {
+                                    value: value.id,
+                                    text: value.employee_name
+                                });
+                                if (value.id == consultant_id) {
+                                    option.prop('selected', true);
+                                }
+                                $('#consultantSelect').append(option);
+                            });
+                        }
+                    });
+                }
             });
         </script>
         <script src="{{ asset('build/js/ajax/candidateDeclaration.js') }}"></script>

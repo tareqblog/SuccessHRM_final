@@ -205,6 +205,17 @@ class CandidateController extends Controller
         if (is_null($this->user) || !$this->user->can('candidate.update')) {
             abort(403, 'Unauthorized');
         }
+        $auth = Auth::user()->employe;
+
+        if ($auth->roles_id == 11) {
+            $request['manager_id'] = $auth->manager_users_id;
+            $request['team_leader_id'] = $auth->id;
+        } elseif ($auth->roles_id == 8) {
+            $request['manager_id'] = $auth->manager_users_id;
+            $request['team_leader_id'] = $auth->team_leader_users_id;
+            $request['consultant_id'] = $auth->id;
+        }
+
         if ($request->hasFile('avatar')) {
             // Delete the old file
             Storage::delete("public/{$candidate->avatar}");
@@ -312,6 +323,7 @@ class CandidateController extends Controller
         ]);
 
         $file_path = $request->file('resume_file_path');
+        $url = '/ATS/candidate/' . $id . '/edit#upload_resume';
 
 
         // Check if $file_path is not empty before proceeding
@@ -323,9 +335,9 @@ class CandidateController extends Controller
                 'resume_name' => $request->resume_name,
                 'resume_file_path' => $uploadedFilePath,
             ]);
-            return redirect()->route('candidate.edit', [$id, '#upload_resume'])->with('success', 'Created successfully.');
+            return redirect($url)->with('success', 'Created Successfully.');
         } else {
-            return redirect()->route('candidate.edit', [$id, '#upload_resume'])->with('error', 'Please select a file.');
+            return redirect($url)->with('error', 'Please select a file.');
         }
     }
     public function resumeDelete($id, candidate $candidate)
