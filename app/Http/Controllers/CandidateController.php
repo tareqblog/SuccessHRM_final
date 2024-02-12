@@ -62,15 +62,15 @@ class CandidateController extends Controller
 
         $auth = Auth::user()->employe;
         $datas = candidate::latest()->with('Race');
-        if ($auth->roles_id == 11) {
+        if ($auth->roles_id == 4) {
+            $datas->where('manager_id', $auth->id);
+        } elseif ($auth->roles_id == 11) {
             $datas->where('team_leader_id', $auth->id);
-        } else {
-            if (!empty($auth->team_leader_users_id)) {
-                $datas->where('team_leader_id', $auth->team_leader_users_id);
-            }
+        } elseif ($auth->roles_id == 8) {
+                $datas->where('consultant_id', $auth->id);
         }
         $datas = $datas->where('candidate_status', '=', 1)->where('candidate_isDeleted', '=', 0)->get();
-        //$candidate_resume = CandidateResume::where('candidate_id', $candidate->id)->latest()->get();
+
         return view('admin.candidate.index', compact('datas'));
     }
 
@@ -111,17 +111,20 @@ class CandidateController extends Controller
         $uploadedFilePath = $file_path ? FileHelper::uploadFile($file_path) : null;
 
         $candidateData = $request->except('_token', 'avatar') + ['avatar' => $uploadedFilePath];
-        $candidate = Candidate::create($candidateData);
+
 
         $auth = Auth::user()->employe;
+
         if ($auth->roles_id == 11) {
-            $candidate->update(['team_leader_id' => $auth->id]);
-        } else {
-            if (!empty($auth->team_leader_users_id)) {
-                $candidate->update(['team_leader_id' => $auth->team_leader_users_id]);
-                $candidate->update(['consultant_id' => $auth->id]);
-            }
+            $candidateData['manager_id'] = $auth->manager_users_id;
+            $candidateData['team_leader_id'] = $auth->id;
+        } elseif($auth->roles_id == 8) {
+            $candidateData['manager_id'] = $auth->manager_users_id;
+            $candidateData['team_leader_id'] = $auth->team_leader_users_id;
+            $candidateData['consultant_id'] = $auth->id;
         }
+
+        $candidate = Candidate::create($candidateData);
         $candidate->update(['candidate_code' => 'Cand-' . $candidate->id]);
 
         $datas = [
