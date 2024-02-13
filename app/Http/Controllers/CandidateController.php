@@ -260,6 +260,7 @@ class CandidateController extends Controller
 
         $file_path = $request->file('file_path');
 
+        $url = '/ATS/candidate/' . $id . '/edit#upload_file';
         // Check if $file_path is not empty before proceeding
         if ($file_path) {
             $uploadedFilePath = FileHelper::uploadFile($file_path);
@@ -271,12 +272,13 @@ class CandidateController extends Controller
                 'file_type_for' => $request->file_type_for
             ]);
 
-            return back()->with('success', 'Created successfully.');
+            return redirect($url)->with('success', 'Created successfully.');
         } else {
-            return back()->with('error', 'Please select a file.');
+            return redirect($url)->with('error', 'Please select a file.');
         }
     }
-    public function fileDelete($id)
+
+    public function fileDelete($id, candidate $candidate)
     {
         if (is_null($this->user) || !$this->user->can('candidate.file.delete')) {
             abort(403, 'Unauthorized');
@@ -289,7 +291,9 @@ class CandidateController extends Controller
             Storage::delete("public/{$file_path_name}");
         }
         ClientUploadFile::where('id', $id)->delete();
-        return back()->with('success', 'Successfully Deleted.');
+
+        $url = '/ATS/candidate/' . $candidate->id . '/edit#upload_file';
+        return redirect($url)->with('success', 'Successfully Deleted.');
     }
 
 
@@ -306,6 +310,7 @@ class CandidateController extends Controller
 
         $file_path = $request->file('resume_file_path');
 
+
         // Check if $file_path is not empty before proceeding
         if ($file_path) {
             $uploadedFilePath = FileHelper::uploadFile($file_path);
@@ -315,13 +320,12 @@ class CandidateController extends Controller
                 'resume_name' => $request->resume_name,
                 'resume_file_path' => $uploadedFilePath,
             ]);
-
-            return back()->with('success', 'Created successfully.');
+            return redirect()->route('candidate.edit', [$id, '#upload_resume'])->with('success', 'Created successfully.');
         } else {
-            return back()->with('error', 'Please select a file.');
+            return redirect()->route('candidate.edit', [$id, '#upload_resume'])->with('error', 'Please select a file.');
         }
     }
-    public function resumeDelete($id)
+    public function resumeDelete($id, candidate $candidate)
     {
         if (is_null($this->user) || !$this->user->can('candidate.resume.delete')) {
             abort(403, 'Unauthorized');
@@ -333,8 +337,9 @@ class CandidateController extends Controller
         if (file_exists($filePath)) {
             Storage::delete("public/{$file_path_name}");
         }
-        CandidateResume::where('id', $id)->delete();
-        return back()->with('success', 'Successfully Deleted.');
+        CandidateResume::where('id', $candidate->id)->delete();
+
+        return redirect()->route('candidate.edit', [$candidate->id, '#upload_resume'])->with('success', 'successfully Deleted.');
     }
 
     public function resumeMain(Request $request, candidate $candidate)
@@ -486,7 +491,8 @@ class CandidateController extends Controller
             abort(403, 'Unauthorized');
         }
         CandidatePayroll::create($request->except('_token'));
-        return back()->with('success', 'Payroll added successfully.');
+
+        return redirect()->route('candidate.edit', [$request->candidate_id, '#payroll'])->with('success', 'Payroll added successfully.');
     }
 
 
@@ -495,8 +501,11 @@ class CandidateController extends Controller
         if (is_null($this->user) || !$this->user->can('candidate.payroll.delete')) {
             abort(403, 'Unauthorized');
         }
-        CandidatePayroll::find($id)->delete();
-        return back()->with('success', 'Deleted Successfully.');
+        $candidate = CandidatePayroll::find($id);
+        $candidate_id = $candidate;
+        $candidate->delete();
+
+        return redirect()->route('candidate.edit', [$candidate_id, '#payroll'])->with('success', 'Deleted Successfully.');
     }
 
     public function workingHour(Request $request, $id)
@@ -520,7 +529,7 @@ class CandidateController extends Controller
             $candidate->update($request->except('_token'));
         }
 
-        return back()->with('success', 'Working hour successfully updated.');
+        return redirect()->route('candidate.edit', [$id, '#working_hour'])->with('success', 'Working hour successfully updated.');
     }
     public function family(Request $request, $id)
     {
@@ -536,15 +545,19 @@ class CandidateController extends Controller
             'contact_no' => 'string|required',
         ]);
         CandidateFamily::create($request->except('_token'));
-        return back()->with('success', 'Family member added successfully.');
+
+        return redirect()->route('candidate.edit', [$request->candidate_id, '#family'])->with('success', 'Family member added successfully.');
     }
     public function familyDelete($id)
     {
         if (is_null($this->user) || !$this->user->can('candidate.family.delete')) {
             abort(403, 'Unauthorized');
         }
-        CandidateFamily::find($id)->delete();
-        return back()->with('success', 'Family member removed successfully.');
+        $candidate = CandidateFamily::find($id);
+        $candidate_id = $candidate->id;
+        $candidate->delete();
+
+        return redirect()->route('candidate.edit', [$candidate_id, '#family'])->with('success', 'Family member removed successfully.');
     }
 
     public function timeSheetData($sheetTypeId)

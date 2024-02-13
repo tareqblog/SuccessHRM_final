@@ -6,7 +6,9 @@
     Candidate Management
 @endsection
 @section('css')
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" /> --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
 @endsection
 @section('body')
 
@@ -17,14 +19,18 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Candidate Table</h4>
-                        <div class="text-end">
-                            @if (App\Helpers\FileHelper::usr()->can('candidate.create'))
-                                <a href="{{ route('candidate.create') }}" class="btn btn-sm btn-success">Create New</a>
-                            @endif
+                        <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">
+                                <h6 class="card-title mb-0">Candidate Table</h6>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                @if (App\Helpers\FileHelper::usr()->can('candidate.create'))
+                                    <a href="{{ route('candidate.create') }}" class="btn btn-sm btn-success">Create New</a>
+                                @endif
+                            </div>
                         </div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-2">
                         <table class="table table-bordered mb-0" id="myTable">
                             <thead>
                                 <tr>
@@ -42,7 +48,6 @@
                             </thead>
                             <tbody>
                                 @forelse ($datas as $data)
-                                    {{-- @dump($data) --}}
                                     <tr>
                                         <td>
                                             {{ $loop->index + 1 }}
@@ -55,7 +60,7 @@
                                         <td><a href="{{ route('candidate.edit', $data->id) }}"
                                                 class="btn btn-success btn-sm me-3">Assigned</a></td>
                                         <td>
-                                            {{candidate_group($data->id)}}
+                                            {{ candidate_group($data->id) }}
                                         </td>
                                         <td class="text-{{ \App\Enums\Status::from($data->candidate_status)->message() }}">
                                             {{ \App\Enums\Status::from($data->candidate_status)->title() }}
@@ -68,7 +73,7 @@
                                             <a href="" class="btn btn-secondary btn-sm me-2">Resume</a>
                                             {{-- @endif --}}
                                             @if (App\Helpers\FileHelper::usr()->can('candidate.remark'))
-                                                <a href="{{ route('candidate.edit', $data->id) }}#remark"
+                                                <a onclick="getRemark({{ $data->id }})"
                                                     class="btn btn-warning btn-sm me-2">Remarks</a>
                                             @endif
                                             @if (App\Helpers\FileHelper::usr()->can('candidate.update'))
@@ -98,20 +103,93 @@
                                 @endforelse
                             </tbody>
                         </table>
+
+                        <div class="mt-3" style="height: 60vh; border: 1px solid black">
+                            <div id="candidateResume" class="p-3" style="display: none; height: 100%; overflow: auto;">
+                                <table class="table table-bordered mb-0 bg-light" id="remarkTable">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Assign</th>
+                                            <th>Client</th>
+                                            <th>Remark Type</th>
+                                            <th>Received Offer</th>
+                                            <th>Comments</th>
+                                            <th>Create By</th>
+                                            <th>Create Time</th>
+                                            <th>Create Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tableContent">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     @endsection
 
-
     @section('scripts')
-        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-            crossorigin="anonymous"></script>
-        <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
         <script>
             $(document).ready(function() {
-                $('#myTable').DataTable();
+                $('#myTable').DataTable({
+                    responsive: true
+                });
             });
+
+            function getRemark(candidateId) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/ATS/get/candidate/remarks/' + candidateId,
+                    success: function(response) {
+                        console.log(response);
+                        let candidateResume = document.getElementById('candidateResume');
+
+                        if (candidateResume.style.display === 'none') {
+                            candidateResume.style.display = 'block';
+                        }
+
+                        // Destroy DataTable if already initialized
+                        if ($.fn.DataTable.isDataTable('#remarkTable')) {
+                            $('#remarkTable').DataTable().destroy();
+                        }
+
+                        // Empty the table content before adding new rows
+                        $('#tableContent').empty();
+
+                        let remarkData = response.remarks;
+
+                        for (let i = 0; i < remarkData.length; i++) {
+                            let count = 1 + i;
+                            let newRowHtml = '<tr>' +
+                                '<th scope="row">' + count + '</th>' +
+                                '<td>' + remarkData[i].assign_to + '</td>' +
+                                '<td>' + remarkData[i].client + '</td>' +
+                                '<td>' + remarkData[i].remarkstype + '</td>' +
+                                '<td>' + remarkData[i].remarks + '</td>' +
+                                '<td>' + remarkData[i].created_by + '</td>' +
+                                '<td>' + remarkData[i].create_time + '</td>' +
+                                '<td>' + remarkData[i].create_date + '</td>' +
+                                '</tr>';
+
+                            $('#tableContent').append(newRowHtml);
+                        }
+
+                        // Reinitialize DataTable
+                        $('#remarkTable').DataTable({
+                            "pageLength": 5
+                        });
+
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            }
         </script>
     @endsection

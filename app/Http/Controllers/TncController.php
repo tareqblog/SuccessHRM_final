@@ -55,11 +55,12 @@ class TncController extends Controller
             'tnc_template_seqno' => 'nullable|integer',
         ]);
 
-        $file_path = $request->file('tnc_template_file_path');
+        // $file_path = $request->file('tnc_template_file_path');
 
         // Check if $file_path is not empty before proceeding
-        if ($file_path) {
-            $uploadedFilePath = FileHelper::uploadFile($file_path);
+        if ($request->hasFile('tnc_template_file_path')) {
+            // if ($file_path) {
+            $uploadedFilePath = FileHelper::uploadFile($request->file('tnc_template_file_path'), 'tnc');
 
             TncTemplate::create($request->except('_token', 'tnc_template_file_path') + [
                 'tnc_template_file_path' => $uploadedFilePath,
@@ -108,7 +109,7 @@ class TncController extends Controller
         if ($request->hasFile('tnc_template_file_path')) {
             Storage::delete("public/{$tnc->tnc_template_file_path}");
 
-            $uploadedFilePath = FileHelper::uploadFile($request->file('tnc_template_file_path'));
+            $uploadedFilePath = FileHelper::uploadFile($request->file('tnc_template_file_path'), 'tnc');
 
             if ($request->tnc_template_isDefault == 1) {
                 TncTemplate::where('tnc_template_isDefault', 1)->update(['tnc_template_isDefault' => 0]);

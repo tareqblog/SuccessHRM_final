@@ -276,7 +276,7 @@ class CandidateFileImportController extends Controller
     {
         if ($request->has('selectedFile')) {
             $file = $request->selectedFile;
-           $filePath = public_path(Storage::url($file));
+            $filePath = public_path(Storage::url($file));
 
             if (pathinfo($file, PATHINFO_EXTENSION) === 'docx') {
             } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'pdf') {
@@ -284,8 +284,8 @@ class CandidateFileImportController extends Controller
                     $parser = new Parser();
                     $pdf = $parser->parseFile($filePath);
 
-                    $text = $pdf->getText();
-                    if (preg_match('/^[A-Z][A-Z. ]+$/m', $text, $matches)) {
+                    $resume_text = $pdf->getText();
+                    if (preg_match('/^[A-Z][A-Z. ]+$/m', $resume_text, $matches)) {
                         $name = trim($matches[0]);
                     } else {
                         $name = "Name not found";
@@ -295,19 +295,19 @@ class CandidateFileImportController extends Controller
                         abort(403, 'Unauthorized');
                     }
                     // Extract email
-                    if (preg_match('/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/', $text, $matches)) {
+                    if (preg_match('/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/', $resume_text, $matches)) {
                         $email = trim($matches[0]);
                     } else {
                         $email = "Email not found";
                     }
 
-                    if (preg_match('/\b(male|female)\b/i', $text, $matches)) {
+                    if (preg_match('/\b(male|female)\b/i', $resume_text, $matches)) {
                         $gender = ucfirst(strtolower($matches[0]));
                     } else {
                         $gender  = "Gender not found!";
                     }
                     // Extract phone number
-                    if (preg_match('/\+?[0-9]{6,}/', $text, $matches)) {
+                    if (preg_match('/\+?[0-9]{6,}/', $resume_text, $matches)) {
                         $phone_no = trim($matches[0]);
                     } else {
                         $phone_no = "Phone number not found";
@@ -324,8 +324,7 @@ class CandidateFileImportController extends Controller
             }
 
             $myPath = asset('storage/' . $file);
-            return response()->json(compact('text', 'name', 'email', 'phone_no', 'myPath', 'gender'));
-
+            return response()->json(compact('resume_text', 'name', 'email', 'phone_no', 'myPath', 'gender'));
         }
     }
 
@@ -355,7 +354,6 @@ class CandidateFileImportController extends Controller
     public function temporaryDataSave(Request $request)
     {
 
-
         // if (is_null($this->user) || !$this->user->can('temporary.data.save')) {
         //     abort(403, 'Unauthorized');
         // }
@@ -364,19 +362,22 @@ class CandidateFileImportController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone_no' => 'required|string|max:20',
+            'gender' => 'required|string|max:200',
+            'assaign_to' => 'required|numeric|exists:employees,id',
             'resume_path' => 'required|string|max:255',
             'resume_text' => 'nullable|string',
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()
-            ->withErrors($validator)
-            ->withInput();
+                ->withErrors($validator)
+                ->withInput();
         }
+
         $validatedData = $validator->validated();
 
         $fullPath = $request->resume_path;
-        $baseUrl = url('/storage').'/';
+        $baseUrl = url('/storage') . '/';
         $relativePath = str_replace($baseUrl, '', $fullPath);
         $validatedData['resume_path'] = $relativePath;
         $data = ImportCandidateData::where('resume_path', $relativePath)->first();
@@ -430,13 +431,12 @@ class CandidateFileImportController extends Controller
                 'candidate_joindate' => Carbon::now()->format('Y-m-d'),
             ]);
             $auth = Auth::user()->employe;
-            if($auth->roles_id == 11)
-            {
+            if ($auth->roles_id == 11) {
                 $candidate->update(['team_leader_id' => $auth->id]);
-            }else{
-                if(!empty($auth->team_leader_users_id)){
-                $candidate->update(['team_leader_id' => $auth->team_leader_users_id]);
-                $candidate->update(['consultant_id' => $auth->id]);
+            } else {
+                if (!empty($auth->team_leader_users_id)) {
+                    $candidate->update(['team_leader_id' => $auth->team_leader_users_id]);
+                    $candidate->update(['consultant_id' => $auth->id]);
                 }
             }
             $candidate->update(['candidate_code' => 'Cand-' . $candidate->id]);
@@ -447,7 +447,7 @@ class CandidateFileImportController extends Controller
             ]);
 
             TemporaryImportedData::find($data['id'])
-                                    ->update(['candidate_id' => $candidate->id,'status' => 1]);
+                ->update(['candidate_id' => $candidate->id, 'status' => 1]);
         }
 
         return back()->with('success', 'Candidate uploaded successfully.');
@@ -465,15 +465,15 @@ class CandidateFileImportController extends Controller
 
         [$startDate, $endDate] = explode(' - ', $dateRange);
         $candidates = candidate::with(['resumes'])
-                        ->whereBetween('candidate_joindate', [$startDate, $endDate])
-                        ->where(function ($query) use ($keyword) {
-                            $query->whereHas('remarks', function ($remarksQuery) use ($keyword) {
-                                $remarksQuery->where('remarks', 'like', "%$keyword%");
-                            })
-                                ->orWhereHas('resumes', function ($resumesQuery) use ($keyword) {
-                                    $resumesQuery->where('isMain', 1)->where('resume_text', 'like', "%$keyword%");
-                                });
-                        })->get();
+            ->whereBetween('candidate_joindate', [$startDate, $endDate])
+            ->where(function ($query) use ($keyword) {
+                $query->whereHas('remarks', function ($remarksQuery) use ($keyword) {
+                    $remarksQuery->where('remarks', 'like', "%$keyword%");
+                })
+                    ->orWhereHas('resumes', function ($resumesQuery) use ($keyword) {
+                        $resumesQuery->where('isMain', 1)->where('resume_text', 'like', "%$keyword%");
+                    });
+            })->get();
 
         $data = [];
         foreach ($candidates as $key => $candidate) {
@@ -504,11 +504,7 @@ class CandidateFileImportController extends Controller
                 return response('Error reading PDF: ' . $e->getMessage(), 500);
             }
         } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'xls || xlsx') {
-            // Extract information from PDF files
-            // Use libraries like TCPDF, FPDI, or others to read PDF contents
         } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'doc') {
-            // Extract information from PDF files
-            // Use libraries like TCPDF, FPDI, or others to read PDF contents
         }
 
         return $text;
@@ -522,10 +518,14 @@ class CandidateFileImportController extends Controller
         foreach ($remarks as $key => $remark) {
             $data[] = [
                 'candidate_name' => $remark->candidate->candidate_name,
+                'assign_to' => $remark->assign_to,
                 'remarkstype' => $remark->remarksType->remarkstype_code,
                 'remarks' => $remark->remarks,
+                'client' => $remark->client_company,
                 'created_by' => $remark->Assign->name,
                 'date' => Carbon::parse($remark->created_at)->format('H:i:s d-M-Y'),
+                'create_time' => Carbon::parse($remark->created_at)->format('H:i:s'),
+                'create_date' => Carbon::parse($remark->created_at)->format('d-M-Y'),
             ];
         }
 

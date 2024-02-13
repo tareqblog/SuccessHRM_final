@@ -13,7 +13,7 @@
     <link rel="shortcut icon" href="{{ URL::asset('build/images/favicon.ico') }}">
     <script src="https://kit.fontawesome.com/6cc5870d50.js" crossorigin="anonymous"></script>
 
-<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
     <!-- include head css -->
     @include('layouts.head-css')
     <!--link rel="stylesheet" href="{{asset('build/css/style.css')}}"-->

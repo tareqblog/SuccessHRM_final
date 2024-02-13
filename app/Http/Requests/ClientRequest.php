@@ -19,6 +19,7 @@ class ClientRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+    
     public function rules(): array
     {
         return [
@@ -45,6 +46,9 @@ class ClientRequest extends FormRequest
             'client_terms_id' => 'nullable|integer',
             'client_remarks' => 'nullable|string',
             'clients_seqno' => 'nullable|integer',
+            'choices-single-no-sorting' => 'nullable',
+            'client_designation' => 'nullable',
+            'client_website' => 'nullable',
         ];
     }
 }

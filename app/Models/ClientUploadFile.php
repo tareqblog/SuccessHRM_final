@@ -25,4 +25,5 @@ class ClientUploadFile extends Model
     {
         return $this->belongsTo(uploadfiletype::class, 'file_type_id');
     }
+    
 }

@@ -19,6 +19,7 @@ use App\Models\jobcategory;
 use App\Models\TncTemplate;
 use App\Models\uploadfiletype;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -139,14 +140,15 @@ class ClientController extends Controller
             abort(403, 'Unauthorized');
         }
 
-        // $industries = IndustryType::orderBy('industry_seqno')->where('industry_status',1)->get();
-        $job_categories = jobcategory::select('id', 'jobcategory_name')->get();
-        $employees = Employee::latest()->where('roles_id', '!=', '13')->Where('roles_id', '!=', '14')->where('employee_status', 1)->select('id', 'employee_name')->get();
-        $employees_payroll = Employee::latest()->where('roles_id', '=', '13')->orWhere('roles_id', '=', '14')->where('employee_status', 1)->select('id', 'employee_name')->get();
-        $users = User::latest()->select('id', 'name')->get();
-        $tncs = TncTemplate::orderBy('tnc_template_seqno')->where('tnc_template_status', 1)->select('id', 'tnc_template_code')->get();
-        $client_terms = clientTerm::orderBy('client_term_seqno')->where('client_term_status', 1)->select('id', 'client_term_code')->get();
-        return view('admin.client.create', compact('job_categories', 'employees', 'employees_payroll', 'users', 'tncs', 'client_terms'));
+        $data = [];
+
+        $data['incharges'] = Employee::select('id', 'employee_name')->latest()->whereIn('roles_id', [4, 8, 11, 12])->get();
+        $data['payrolls'] = Employee::select('id', 'employee_name')->latest()->where('roles_id', 7)->get();
+        $data['tncs'] = TncTemplate::orderBy('tnc_template_seqno')->where('tnc_template_status', 1)->select('id', 'tnc_template_code')->get();
+        $data['client_terms'] = clientTerm::orderBy('client_term_seqno')->where('client_term_status', 1)->select('id', 'client_term_code')->get();
+        $data['job_categories'] = jobcategory::select('id', 'jobcategory_name')->get();
+
+        return view('admin.client.create', compact('data'));
     }
 
     /**
@@ -158,25 +160,8 @@ class ClientController extends Controller
             abort(403, 'Unauthorized');
         }
 
+        client::create($request->except('_token'));
 
-        $user = Auth::user()->id;
-
-
-        $employee = Employee::where('user_table_id', $user)->first();
-
-        if ($employee->roles_id == 11) {
-            $team_leader_id = $employee->id;
-        } else {
-            $team_leader_id = $employee->team_leader_users_id;
-            $consultent_id = $employee->id;
-        }
-
-        // dd($team_leader_id.$consultent_id);
-
-        client::create($request->except('_token') + [
-            'team_leader_id' => $team_leader_id ?? '',
-            'consultant_id' => $consultent_id ?? '',
-        ]);
         return redirect()->route('clients.index')->with('success', 'Client added successfully.');
     }
 
@@ -197,7 +182,6 @@ class ClientController extends Controller
             abort(403, 'Unauthorized');
         }
 
-
         $auth = Auth::user()->employe;
         if ($auth->roles_id == 11) {
             $team_leader_id = $auth->id;
@@ -208,23 +192,24 @@ class ClientController extends Controller
                 $team_leader_id = null;
             }
         }
-        if ($client->team_leader_id == $team_leader_id) {
-            $departments = ClientDepartment::where('client_id', $client->id)->latest()->get();
-            $job_categories = jobcategory::select('id', 'jobcategory_name')->get();
-            $employees = Employee::latest()->where('roles_id', '!=', '13')->Where('roles_id', '!=', '14')->where('employee_status', 1)->select('id', 'employee_name')->get();
-            $employees_payroll = Employee::latest()->where('roles_id', '=', '13')->orWhere('roles_id', '=', '14')->where('employee_status', 1)->select('id', 'employee_name')->get();
-            $users = User::latest()->select('id', 'name')->get();
-            $tncs = TncTemplate::orderBy('tnc_template_seqno')->where('tnc_template_status', 1)->select('id', 'tnc_template_code')->get();
-            $client_terms = clientTerm::orderBy('client_term_seqno')->where('client_term_status', 1)->select('id', 'client_term_code')->get();
+        if ($client->team_leader_id == $team_leader_id || $auth->roles_id == 1) {
+            $data = [];
 
-            $fileTypes = uploadfiletype::where('uploadfiletype_status', 1)->where('uploadfiletype_for', 0)->latest()->get();
+            $data['incharges'] = Employee::select('id', 'employee_name')->latest()->whereIn('roles_id', [4, 8, 11, 12])->get();
+            $data['payrolls'] = Employee::select('id', 'employee_name')->latest()->where('roles_id', 7)->get();
+            $data['tncs'] = TncTemplate::orderBy('tnc_template_seqno')->where('tnc_template_status', 1)->select('id', 'tnc_template_code')->get();
+            $data['client_terms'] = clientTerm::orderBy('client_term_seqno')->where('client_term_status', 1)->select('id', 'client_term_code')->get();
+            $data['job_categories'] = jobcategory::select('id', 'jobcategory_name')->get();
 
-            $client_files = ClientUploadFile::where('client_id', $client->id)->get();
-            $client_followup = ClientFollowUp::where('clients_id', $client->id)->orderBy('created_at', 'DESC')->get();
+            $data['departments'] = ClientDepartment::where('client_id', $client->id)->latest()->get();
 
 
+            $data['fileTypes'] = uploadfiletype::where('uploadfiletype_status', 1)->where('uploadfiletype_for', 0)->latest()->get();
 
-            return view('admin.client.edit', compact('departments', 'client', 'job_categories', 'employees', 'employees_payroll', 'users', 'tncs', 'client_terms', 'fileTypes', 'client_files', 'client_followup'));
+            $data['client_files'] = ClientUploadFile::where('client_id', $client->id)->get();
+            $data['client_followup'] = ClientFollowUp::where('clients_id', $client->id)->orderBy('created_at', 'DESC')->get();
+
+            return view('admin.client.edit', compact('data', 'client'));
         } else {
             return redirect()->back()->with('error', 'Sorry! You enter invalid Client id');
         }
@@ -456,5 +441,20 @@ class ClientController extends Controller
         $url = '/ATS/clients/' . $request->clients_id . '/edit#follow_up';
 
         return redirect($url)->with('success', 'Follow up added successfully.');
+    }
+
+    public function getClientRemark(client $client)
+    {
+        $remarks = [];
+        foreach ($client->followUps as $key => $remark) {
+            $remarkData = [
+                'created_by' => $remark->client->client_name,
+                'description' => $remark->description,
+                'create_time' => Carbon::parse($remark->created_at)->format('h:i a'),
+                'create_date' => Carbon::parse($remark->created_at)->format('j M Y')
+            ];
+            $remarks[] = $remarkData;
+        }
+        return response()->json(['remarks' => $remarks]);
     }
 }

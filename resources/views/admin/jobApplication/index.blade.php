@@ -44,19 +44,23 @@
                                         <td>{{ $data->email }}</td>
                                         <td style="display: flex;">
                                             @if ($data->candidate_id == null)
-                                            <form action="{{ route('job-application.update', $data->id) }}" method="POST">
-                                                @csrf
-                                                @method('PATCH')
-                                                <button type="submit" class="btn btn-success btn-sm me-3">Genarate to New Candidate</button>
-                                            </form>
+                                                <form action="{{ route('job-application.update', $data->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="btn btn-success btn-sm me-3">Genarate to
+                                                        New Candidate</button>
+                                                </form>
                                             @else
-                                            <a href="{{route('candidate.edit', $data->candidate_id)}}" class="btn btn-info btn-sm">View Profile</a>
+                                                @if ($data->candidate->candidate_isDeleted == 0)
+                                                    <a href="{{ route('candidate.edit', $data->candidate_id) }}" class="btn btn-info btn-sm">View Profile</a>
+                                                @endif
                                             @endif
 
                                         </td>
                                     </tr>
                                 @empty
-
+                                    {{-- candidate_isDeleted --}}
                                     <tr>
                                         <td colspan="50" class="text-center text-warning">
                                             No Data found!
