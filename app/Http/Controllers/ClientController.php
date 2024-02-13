@@ -116,13 +116,17 @@ class ClientController extends Controller
             abort(403, 'Unauthorized');
         }
 
-        $auth = Auth::user()->employe;
         $datas = client::latest()->with('industry_type', 'Employee');
 
+        $auth = Auth::user()->employe;
         if ($auth->roles_id == 7) {
             $datas->where('payroll_employees_id', $auth->id);
-        } elseif($auth->roles_id == 8 || $auth->roles_id == 11 || $auth->roles_id == 4) {
-            $datas->where('employees_id', $auth->id);
+        } elseif($auth->roles_id == 8) {
+            $datas->where('consultant_id', $auth->id);
+        } elseif($auth->roles_id == 11) {
+            $datas->where('team_leader_id', $auth->id);
+        } elseif($auth->roles_id == 4) {
+            $datas->where('manager_id', $auth->id);
         }
 
         $datas = $datas->get();
@@ -159,6 +163,11 @@ class ClientController extends Controller
             abort(403, 'Unauthorized');
         }
 
+        $team = get_team($request['employees_id']);
+        $request['manager_id'] = $team['manager_id'];
+        $request['team_leader_id'] = $team['team_leader_id'];
+        $request['consultant_id'] = $team['consultant_id'];
+
         client::create($request->except('_token'));
 
         return redirect()->route('clients.index')->with('success', 'Client added successfully.');
@@ -182,6 +191,9 @@ class ClientController extends Controller
         }
 
         $auth = Auth::user()->employe;
+
+        $auth = Auth::user()->employe;
+
         if ($auth->roles_id == 11) {
             $team_leader_id = $auth->id;
         } else {
@@ -199,10 +211,7 @@ class ClientController extends Controller
             $data['tncs'] = TncTemplate::orderBy('tnc_template_seqno')->where('tnc_template_status', 1)->select('id', 'tnc_template_code')->get();
             $data['client_terms'] = clientTerm::orderBy('client_term_seqno')->where('client_term_status', 1)->select('id', 'client_term_code')->get();
             $data['job_categories'] = jobcategory::select('id', 'jobcategory_name')->get();
-
             $data['departments'] = ClientDepartment::where('client_id', $client->id)->latest()->get();
-
-
             $data['fileTypes'] = uploadfiletype::where('uploadfiletype_status', 1)->where('uploadfiletype_for', 0)->latest()->get();
 
             $data['client_files'] = ClientUploadFile::where('client_id', $client->id)->get();
@@ -222,6 +231,10 @@ class ClientController extends Controller
         if (is_null($this->user) || !$this->user->can('clients.update')) {
             abort(403, 'Unauthorized');
         }
+        $team = get_team($request['employees_id']);
+        $request['manager_id'] = $team['manager_id'];
+        $request['team_leader_id'] = $team['team_leader_id'];
+        $request['consultant_id'] = $team['consultant_id'];
         $client->update($request->except('_token'));
 
         return redirect()->route('clients.index')->with('success', 'Client updated successfully.');

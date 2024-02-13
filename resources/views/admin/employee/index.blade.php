@@ -19,11 +19,15 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Employee Table</h4>
-                        <div class="text-end">
-                            @if (App\Helpers\FileHelper::usr()->can('employee.create'))
-                            <a href="{{ route('employee.create') }}" class="btn btn-sm btn-success">Create New</a>
-                            @endif
+                        <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">
+                                <h6 class="card-title mb-0">Employee Table</h6>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                @if (App\Helpers\FileHelper::usr()->can('employee.create'))
+                                    <a href="{{ route('employee.create') }}" class="btn btn-sm btn-success">Create New</a>
+                                @endif
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
@@ -61,7 +65,7 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"
-                                                        onclick="return confirm('Are you sure you want to disable this employee?')"
+                                                        onclick="return confirm('Are you sure you want to disable this employee?')" {{Auth::user()->employe->roles_id == 1 ? 'disabled' : ''}}
                                                         class="btn btn-sm btn-danger"><i class="fas fa fa-trash"></i></a>
                                                 </form>
                                                 @endif

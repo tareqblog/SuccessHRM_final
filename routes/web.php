@@ -19,6 +19,7 @@ use App\Http\Controllers\BankController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FrontendJobController;
 use App\Http\Controllers\GiroController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobApplicationController;
@@ -207,7 +208,7 @@ Route::prefix('ATS')->group(function () {
     Route::post('/search/leave',  [LeaveController::class, 'searchLeave'])->name('search.leave');
     Route::get('/search/cancle/{leave}',  [LeaveController::class, 'cancle'])->name('leave.cancle');
     Route::get('/attendence/print/{attendence}',  [AttendenceController::class, 'attendencePrint'])->name('attendence.print');
-    Route::get('/get/client/leader/{client}',  [JobController::class, 'getClientLeader'])->name('get.client.leader');
+    Route::get('/get/client/team/{client}',  [JobController::class, 'getClientLeader'])->name('get.client.leader');
     Route::get('/get/client/remarks/{client}',  [ClientController::class, 'getClientRemark'])->name('get.client.remark');
     Route::get('/get/consultant/{employee}',  [EmployeeController::class, 'getConsultant'])->name('get.consultants');
     Route::get('/get/teamleader/{employee}',  [EmployeeController::class, 'getTeamleader'])->name('get.teamleader');
@@ -215,3 +216,8 @@ Route::prefix('ATS')->group(function () {
 
     Route::get('/change/dashboard/remark/{dashboard}/{id}', [DashboardController::class, 'change_dashboard_remark'])->name('change.dashboard.remark');
 })->middleware('AdminMiddleware');
+
+
+Route::get('/job/lists',  [FrontendJobController::class, 'index'])->name('job.lists');
+Route::get('/job/list/{job}',  [FrontendJobController::class, 'job_details'])->name('job.details');
+Route::post('/job/apply',  [FrontendJobController::class, 'apply'])->name('job.apply');

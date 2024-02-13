@@ -56,37 +56,42 @@ if (!function_exists('candidate_group')) {
 }
 
 if (!function_exists('assign_dashboard_remark_id')) {
-    function assign_dashboard_remark_id($id, $remark)
+    function assign_dashboard_remark_id($id)
     {
-        $remark_id = 0;
-
-        if ($id == 4) {
-            $remark_id = 6;
+        $data = [];
+        $data['follow_day'] = 0;
+        if($id == 1 || $id == 2 || $id == 3 || $id == 6 || $id == 9 || $id == 10 || $id == 11 || $id == 12) {
+            $data['remark_id'] = 0;
+        } elseif ($id == 4) {
+            $data['remark_id'] = 6;
         } elseif ($id == 5) {
-            $remark_id = 4;
-        } elseif ($id == 6) {
-            $remark_id = 5;
+            $data['remark_id'] = 4;
+        } elseif ($id == 7) {
+            $data['remark_id'] = 5;
         }
 
-        $keep_in_view = 'keep in view';
-        $not_suitable = 'not suitable';
-        $blacklist = 'blacklist';
-        $faj = 'found a job';
-
-        if (Str::contains(strtolower($remark), strtolower($keep_in_view))) {
-            $remark_id = 7;
+        return $data;
+    }
+}
+if (!function_exists('get_team')) {
+    function get_team($emp_id)
+    {
+        $emp = Employee::find($emp_id);
+        $data = [];
+        $data['manager_id'] =  null;
+        $data['team_leader_id'] =  null;
+        $data['consultant_id'] =  null;
+        if($emp->roles_id == 4){
+            $data['manager_id'] = $emp->id;
+        } elseif($emp->roles_id == 11) {
+            $data['manager_id'] =  $emp->manager_users_id;
+            $data['team_leader_id'] =  $emp->id;
+        } elseif($emp->roles_id == 8) {
+            $data['manager_id'] =  $emp->manager_users_id;
+            $data['team_leader_id'] =  $emp->team_leader_users_id;
+            $data['consultant_id'] =  $emp->id;
         }
 
-        if (Str::contains(strtolower($remark), strtolower($not_suitable))) {
-            $remark_id = 3;
-        }
-        if (Str::contains(strtolower($remark), strtolower($blacklist))) {
-            $remark_id = 8;
-        }
-        if (Str::contains(strtolower($remark), strtolower($faj))) {
-            $remark_id = 2;
-        }
-
-        return $remark_id;
+        return $data;
     }
 }

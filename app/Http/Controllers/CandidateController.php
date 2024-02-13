@@ -189,7 +189,7 @@ class CandidateController extends Controller
             $time = CandidateWorkingHour::where('candidate_id', $candidate->id)->first();
             $candidate_resume = CandidateResume::where('candidate_id', $candidate->id)->latest()->get();
             $nationality = country::orderBy('en_country_name')->get();
-            $users = User::latest()->get();
+            $users = Employee::where('roles_id', 4)->where('id', '!=', $auth->id)->latest()->get();
             $Paybanks = Paybank::orderBy('Paybank_seqno')->select('id', 'Paybank_code')->where('Paybank_status', 1)->get();
             $time_sheet = TimeSheet::latest()->get();
             return view('admin.candidate.edit', compact('Paybanks', 'fileTypes', 'client_files', 'candidate', 'outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data', 'remarks_type', 'client_remarks', 'job_types', 'clients', 'payrolls', 'time', 'families', 'candidate_resume', 'nationality', 'users', 'time_sheet'));
@@ -403,8 +403,9 @@ class CandidateController extends Controller
         ]);
 
         $dashboard_data = [];
-        $assign_dashboard_remark_id = assign_dashboard_remark_id($request->remarkstype_id, $request->remarks);
-        $dashboard_data['remark_id'] = $assign_dashboard_remark_id;
+        $assign_dashboard_remark = assign_dashboard_remark_id($request->remarkstype_id);
+        $dashboard_data['remark_id'] = $assign_dashboard_remark['remark_id'];
+        $dashboard_data['follow_day'] = $assign_dashboard_remark['follow_day'];
         if ($request->remarkstype_id == 4) {
             $dashboard_data['follow_day'] = ++$dashboard->follow_day;
         }
@@ -481,11 +482,11 @@ class CandidateController extends Controller
 
         Assign::create([
             'candidate_id' => $candidate->id,
-            'manager_id' => $candidate->manager_id,
+            'manager_id' => $request->Assign_to_manager ?? $candidate->manager_id,
             'teamleader_id' => $candidate->team_leader_id,
             'consultent_id' => $candidate->consultant_id,
             'insert_by' => Auth::user()->id,
-            'remark_id' => $assign_dashboard_remark_id
+            'remark_id' => $assign_dashboard_remark['remark_id']
         ]);
 
         return redirect()->route('candidate.edit', [$id, '#remark'])->with('success', 'Remark added successfully.');
