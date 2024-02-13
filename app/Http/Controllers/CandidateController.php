@@ -62,15 +62,15 @@ class CandidateController extends Controller
 
         $auth = Auth::user()->employe;
         $datas = candidate::latest()->with('Race');
-        if ($auth->roles_id == 11) {
+        if ($auth->roles_id == 4) {
+            $datas->where('manager_id', $auth->id);
+        } elseif ($auth->roles_id == 11) {
             $datas->where('team_leader_id', $auth->id);
-        } else {
-            if (!empty($auth->team_leader_users_id)) {
-                $datas->where('team_leader_id', $auth->team_leader_users_id);
-            }
+        } elseif ($auth->roles_id == 8) {
+                $datas->where('consultant_id', $auth->id);
         }
         $datas = $datas->where('candidate_status', '=', 1)->where('candidate_isDeleted', '=', 0)->get();
-        //$candidate_resume = CandidateResume::where('candidate_id', $candidate->id)->latest()->get();
+
         return view('admin.candidate.index', compact('datas'));
     }
 
@@ -111,17 +111,20 @@ class CandidateController extends Controller
         $uploadedFilePath = $file_path ? FileHelper::uploadFile($file_path) : null;
 
         $candidateData = $request->except('_token', 'avatar') + ['avatar' => $uploadedFilePath];
-        $candidate = Candidate::create($candidateData);
+
 
         $auth = Auth::user()->employe;
+
         if ($auth->roles_id == 11) {
-            $candidate->update(['team_leader_id' => $auth->id]);
-        } else {
-            if (!empty($auth->team_leader_users_id)) {
-                $candidate->update(['team_leader_id' => $auth->team_leader_users_id]);
-                $candidate->update(['consultant_id' => $auth->id]);
-            }
+            $candidateData['manager_id'] = $auth->manager_users_id;
+            $candidateData['team_leader_id'] = $auth->id;
+        } elseif($auth->roles_id == 8) {
+            $candidateData['manager_id'] = $auth->manager_users_id;
+            $candidateData['team_leader_id'] = $auth->team_leader_users_id;
+            $candidateData['consultant_id'] = $auth->id;
         }
+
+        $candidate = Candidate::create($candidateData);
         $candidate->update(['candidate_code' => 'Cand-' . $candidate->id]);
 
         $datas = [
@@ -202,6 +205,17 @@ class CandidateController extends Controller
         if (is_null($this->user) || !$this->user->can('candidate.update')) {
             abort(403, 'Unauthorized');
         }
+        $auth = Auth::user()->employe;
+
+        if ($auth->roles_id == 11) {
+            $request['manager_id'] = $auth->manager_users_id;
+            $request['team_leader_id'] = $auth->id;
+        } elseif ($auth->roles_id == 8) {
+            $request['manager_id'] = $auth->manager_users_id;
+            $request['team_leader_id'] = $auth->team_leader_users_id;
+            $request['consultant_id'] = $auth->id;
+        }
+
         if ($request->hasFile('avatar')) {
             // Delete the old file
             Storage::delete("public/{$candidate->avatar}");
@@ -309,6 +323,7 @@ class CandidateController extends Controller
         ]);
 
         $file_path = $request->file('resume_file_path');
+        $url = '/ATS/candidate/' . $id . '/edit#upload_resume';
 
 
         // Check if $file_path is not empty before proceeding
@@ -320,9 +335,9 @@ class CandidateController extends Controller
                 'resume_name' => $request->resume_name,
                 'resume_file_path' => $uploadedFilePath,
             ]);
-            return redirect()->route('candidate.edit', [$id, '#upload_resume'])->with('success', 'Created successfully.');
+            return redirect($url)->with('success', 'Created Successfully.');
         } else {
-            return redirect()->route('candidate.edit', [$id, '#upload_resume'])->with('error', 'Please select a file.');
+            return redirect($url)->with('error', 'Please select a file.');
         }
     }
     public function resumeDelete($id, candidate $candidate)

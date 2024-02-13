@@ -31,7 +31,7 @@
                             </div>
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body p-3">
                             <!-- Nav tabs -->
                             <div class="row">
                                 <div class="col-lg-1">
@@ -46,7 +46,7 @@
                                 </div>
                             </div>
                             @include('admin.include.errors')
-                            <div class="tab-content p-3 text-muted">
+                            <div class="tab-content text-muted">
                                 <div class="tab-pane active mb-4" id="General" role="tabpanel">
                                     <div class="row">
                                         <div class="row col-lg-6 mb-1">
@@ -255,14 +255,15 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-9">
-                            <div>
-                                <a href="{{ route('clients.index') }}" class="btn btn-sm btn-secondary w-md">Cancel</a>
-                                <button type="submit" class="btn btn-sm btn-info w-md">Submit</button>
-                                <a href="#" class="btn btn-sm btn-primary w-md">Print TNC SRC</a>
-                                <a href="#" class="btn btn-sm btn-primary w-md">Print TNC SHRC</a>
+                        <div class="row mb-2 ms-1">
+                            <div class="col-sm-9">
+                                <div>
+                                    <a href="{{ route('clients.index') }}"
+                                        class="btn btn-sm btn-secondary w-md">Cancel</a>
+                                    <button type="submit" class="btn btn-sm btn-info w-md">Submit</button>
+                                    <a href="#" class="btn btn-sm btn-primary w-md">Print TNC SRC</a>
+                                    <a href="#" class="btn btn-sm btn-primary w-md">Print TNC SHRC</a>
+                                </div>
                             </div>
                         </div>
                     </div>

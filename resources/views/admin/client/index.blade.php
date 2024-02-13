@@ -192,7 +192,6 @@
                     type: 'GET',
                     url: '/ATS/get/client/remarks/' + clientId,
                     success: function(response) {
-                        console.log(response);
                         let clientResume = document.getElementById('clientResume');
 
                         if (clientResume.style.display === 'none') {

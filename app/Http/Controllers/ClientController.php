@@ -118,12 +118,11 @@ class ClientController extends Controller
 
         $auth = Auth::user()->employe;
         $datas = client::latest()->with('industry_type', 'Employee');
-        if ($auth->roles_id == 11) {
-            $datas->where('team_leader_id', $auth->id);
-        } else {
-            if (!empty($auth->team_leader_users_id)) {
-                $datas->where('team_leader_id', $auth->team_leader_users_id);
-            }
+
+        if ($auth->roles_id == 7) {
+            $datas->where('payroll_employees_id', $auth->id);
+        } elseif($auth->roles_id == 8 || $auth->roles_id == 11 || $auth->roles_id == 4) {
+            $datas->where('employees_id', $auth->id);
         }
 
         $datas = $datas->get();

@@ -251,10 +251,12 @@
                                                             </td>
                                                             <td>
                                                                 @include('admin.dashboard.inc.select')
+                                                                @if($candidate->candidate->getMainResumeFilePath() != null)
                                                                 <button type="button"
                                                                     class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
                                                                     data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
+                                                                @endif
                                                                 <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 mb-2 resumePath">X</a>
                                                             </td>
                                                         </tr>
@@ -323,11 +325,13 @@
                                                                 </td>
                                                                 <td>
                                                                     @include('admin.dashboard.inc.select')
-                                                                    <button type="button"
-                                                                        class="btn btn-info btn-sm me-2 mb-2 resumePath"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#showResume"
-                                                                        data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
+                                                                    @if($candidate->candidate->getMainResumeFilePath() != null)
+                                                                        <button type="button"
+                                                                            class="btn btn-info btn-sm me-2 mb-2 resumePath"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#showResume"
+                                                                            data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
+                                                                    @endif
                                                                     <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 mb-2 resumePath">X</a>
                                                                 </td>
                                                             </tr>
@@ -388,10 +392,12 @@
                                                             </td>
                                                             <td>
                                                                 @include('admin.dashboard.inc.select')
+                                                                @if($candidate->candidate->getMainResumeFilePath() != null)
                                                                 <button type="button"
                                                                     class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
                                                                     data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
+                                                                @endif
                                                                 <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 mb-2 resumePath">X</a>
                                                             </td>
                                                         </tr>
@@ -466,10 +472,12 @@
                                                                 class="{{ $candidate['remark_id'] == 8 ? 'text-danger' : '' }}">
 
                                                                 @include('admin.dashboard.inc.select')
+                                                                @if($candidate->candidate->getMainResumeFilePath() != null)
                                                                 <button type="button"
                                                                     class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
                                                                     data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
+                                                                @endif
                                                                 <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 mb-2 resumePath">X</a>
                                                             </td>
                                                         </tr>
@@ -533,11 +541,13 @@
                                                                 <td>
 
                                                                     @include('admin.dashboard.inc.select')
+                                                                    @if($candidate->candidate->getMainResumeFilePath() != null)
                                                                     <button type="button"
                                                                         class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#showResume"
                                                                         data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
+                                                                    @endif
                                                                     <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 mb-2 resumePath">X</a>
                                                                 </td>
                                                             </tr>
@@ -600,10 +610,12 @@
                                                             <td>
 
                                                                 @include('admin.dashboard.inc.select')
+                                                                @if($candidate->candidate->getMainResumeFilePath() != null)
                                                                 <button type="button"
                                                                     class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
                                                                     data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
+                                                                @endif
                                                                 <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 mb-2 resumePath">X</a>
                                                             </td>
                                                         </tr>
@@ -798,6 +810,7 @@
                             type: 'GET',
                             url: '/ATS/get/candidate/remarks/' + candidate_id,
                             success: function(response) {
+                                console.log(response);
                                 let resumeTable = document.getElementById('resumeTable');
 
                                 if (resumeTable.style.display === 'none') {

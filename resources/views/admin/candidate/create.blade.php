@@ -5,6 +5,9 @@
 @section('page-title')
     Candidate Create
 @endsection
+@section('css')
+    @include('admin.include.select2')
+@endsection
 @section('body')
 
     <body>
@@ -14,9 +17,13 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Create New Candidate</h4>
-                        <div class="text-end">
-                            <a href="{{ route('candidate.index') }}" class="btn btn-sm btn-success">Search</a>
+                        <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">
+                                <h6 class="card-title mb-0">Create New Candidate</h6>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                <a href="{{ route('candidate.index') }}" class="btn btn-sm btn-success">Search</a>
+                            </div>
                         </div>
                     </div>
                     @include('admin.include.errors')
@@ -69,297 +76,250 @@
                             <div class="tab-content p-3 text-muted">
                                 <div class="tab-pane active" id="General_info" role="tabpanel">
                                     <div class="row">
-                                        <div class="col-lg-4">
-                                            <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-4 col-form-label">Candidate
-                                                        Code</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text" name="candidate_code" class="form-control"
-                                                            placeholder="Candidate code" disabled
-                                                            value="--System Generate--">
-                                                    </div>
+                                        <div class="col-lg-9 row">
+                                            <div class="row col-md-6 col-lg-6 mb-1">
+                                                <label for="candidate_code"
+                                                    class="col-sm-5 col-form-label fw-bold">Candidate Code</label>
+                                                <div class="col-sm-7">
+                                                    <input type="text" id="candidate_code" name="candidate_code"
+                                                        class="form-control" placeholder="Candidate code" disabled
+                                                        value="--System Generate--">
                                                 </div>
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-4 col-form-label">Candidate
-                                                        Name</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text" name="candidate_name" class="form-control"
-                                                            placeholder="Candidate name" required>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-4 col-form-label">Date of
-                                                        Birth</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="date" name="candidate_birthdate"
-                                                            class="form-control" placeholder="Date of Birth">
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="two" class="col-sm-4 col-form-label">Race</label>
-                                                    <div class="col-sm-8">
-                                                        <select name="races_id" class="form-control">
-                                                            <option value="">Select One</option>
-                                                            @foreach ($race_data as $row)
-                                                                <option value="{{ $row->id }}"
-                                                                    {{ old('races_id') == $row->id ? 'selected' : '' }}>
-                                                                    {{ old('races_id') . $row->race_code }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="two"
-                                                        class="col-sm-4 col-form-label">Nationality</label>
-                                                    <div class="col-sm-8">
-                                                        <select name="nationality_id" class="form-control"
-                                                            id="mySelect">
-                                                            <option value="">Select One</option>
-                                                            @foreach ($nationality as $nation)
-                                                                <option value="{{ $nation->id }}"
-                                                                    {{ old('nationality_id') == $nation->id ? 'selected' : '' }}>
-                                                                    {{ old('nationality_id') . $nation->en_nationality }}
+                                            </div>
+                                            @php
+                                                $auth = Auth::user()->employe;
+                                            @endphp
+
+                                            @if ($auth->roles_id == 1)
+                                            <div class="row col-md-6 col-lg-6 mb-1">
+                                                <label for="managerSelect"
+                                                    class="col-sm-5 col-form-label fw-bold">Manager</label>
+                                                <div class="col-sm-7">
+                                                    <select name="manager_id" id="managerSelect"
+                                                        class="form-control single-select-field">
+                                                        @if ($auth->roles_id == 4)
+                                                            <option value="{{ $auth->id }}" selected @readonly(true)>
+                                                                {{ $auth->employee_name }}</option>
+                                                        @elseif($auth->roles_id == 1 || $auth->roles_id == 4 || $auth->roles_id == 8)
+                                                            <option value="" selected disabled>Select One
+                                                            </option>
+                                                            @foreach (\App\Models\Employee::where('roles_id', 4)->get() as $manager)
+                                                                <option value="{{ $manager->id }}"
+                                                                    {{ old('manager_id') == $manager->id ? 'selected' : ($auth->manager_id == $manager->id ? 'selected' : '') }}>
+                                                                    {{ $manager->employee_name }}
                                                                 </option>
                                                             @endforeach
-                                                        </select>
-                                                    </div>
+                                                        @endif
+                                                    </select>
                                                 </div>
-                                                <div class="row mb-4" id="myNationality" style="display: none;">
-                                                    <label for="two" class="col-sm-4 col-form-label">Date of
-                                                        issue</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="date" name="nationality_date_of_issue"
-                                                            class="form-control">
-                                                    </div>
+                                            </div>
+                                            @endif
+                                            @if ($auth->roles_id == 1 || $auth->roles_id == 4)
+                                            <div class="row col-md-6 col-lg-6 mb-1">
+                                                <label for="teamLeaderSelect" class="col-sm-5 col-form-label fw-bold">Team
+                                                    Leader</label>
+                                                <div class="col-sm-7">
+                                                    <select name="team_leader_id" id="teamLeaderSelect"
+                                                        class="form-control single-select-field">
+                                                        <option value="" selected disabled>Select One</option>
+                                                    </select>
                                                 </div>
-                                                <div class="row mb-4">
-                                                    <label for="three" class="col-sm-4 col-form-label">Mobile</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text" class="form-control"
-                                                            name="candidate_mobile" placeholder="Mobile" required>
-                                                    </div>
+                                            </div>
+                                            @endif
+                                            @if ($auth->roles_id == 1 || $auth->roles_id == 4 || $auth->roles_id == 11)
+                                            <div class="row col-md-6 col-lg-6 mb-1">
+                                                <label for="consultantSelect"
+                                                    class="col-sm-5 col-form-label fw-bold">Consultant</label>
+                                                <div class="col-sm-7">
+                                                    <select id="consultantSelect" class="form-control single-select-field"
+                                                        name="consultant_id">
+                                                        <option value="" selected disabled>Select One </option>
+                                                    </select>
                                                 </div>
-                                                <div class="row mb-4">
-                                                    <label for="three" class="col-sm-4 col-form-label">Home Tel</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text" class="form-control"
-                                                            name="candidate_home_phone" placeholder="Home Tel">
-                                                    </div>
+                                            </div>
+                                            @endif
+                                            <div class="row col-md-6 col-lg-6 mb-1">
+                                                <label for="candidate_name"
+                                                    class="col-sm-5 col-form-label fw-bold">Candidate Name</label>
+                                                <div class="col-sm-7">
+                                                    <input type="text" id="candidate_name" name="candidate_name"
+                                                        class="form-control" placeholder="Candidate name" required>
                                                 </div>
-                                                <div class="row mb-4">
-                                                    <label for="two" class="col-sm-4 col-form-label">Type Of
-                                                        Pass</label>
-                                                    <div class="col-sm-8">
-                                                        <select name="passtypes_id" class="form-control">
-                                                            <option value="">Select One</option>
-                                                            @foreach ($passtype_data as $row)
-                                                                <option value="{{ $row->id }}"
-                                                                    {{ old('passtype_id') == $row->id ? 'selected' : '' }}>
-                                                                    {{ $row->passtype_code }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
+                                            </div>
+                                            <div class="row col-md-6 col-lg-6 mb-1">
+                                                <label for="candidate_nric"
+                                                    class="col-sm-5 col-form-label fw-bold">NRIC/FIN
+                                                    No.</label>
+                                                <div class="col-sm-7">
+                                                    <input type="text" name="candidate_nric" id="candidate_nric"
+                                                        class="form-control" placeholder="NRIC/FIN No.">
                                                 </div>
-                                                {{-- <div class="row mb-4">
-                                                    <label for="three" class="col-sm-4 col-form-label">Height</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text" class="form-control"
-                                                            name="candidate_height" placeholder="Height">
-                                                    </div>
-                                                </div> --}}
+                                            </div>
+                                            <div class="row col-md-6 col-lg-6 mb-1">
+                                                <label for="candidate_birthdate"
+                                                    class="col-sm-5 col-form-label fw-bold">Date of Birth</label>
+                                                <div class="col-sm-7">
+                                                    <input type="date" id="candidate_birthdate"
+                                                        name="candidate_birthdate" class="form-control"
+                                                        placeholder="Date of Birth">
+                                                </div>
+                                            </div>
+                                            <div class="row col-md-6 col-lg-6 mb-1">
+                                                <label for="dbsexes_id"
+                                                    class="col-sm-5 col-form-label fw-bold">Gender</label>
+                                                <div class="col-sm-7">
+                                                    <select name="dbsexes_id" id="dbsexes_id"
+                                                        class="form-control single-select-field">
+                                                        <option value="">Select One</option>
+                                                        <option value="1">Male</option>
+                                                        <option value="2">Female</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row col-md-6 col-lg-6 mb-1">
+                                                <label for="races_id" class="col-sm-5 col-form-label fw-bold">Race</label>
+                                                <div class="col-sm-7">
+                                                    <select id="races_id" name="races_id"
+                                                        class="form-control single-select-field">
+                                                        <option selected disabled>Select One</option>
+                                                        @foreach ($race_data as $row)
+                                                            <option value="{{ $row->id }}"
+                                                                {{ old('races_id') == $row->id ? 'selected' : '' }}>
+                                                                {{ old('races_id') . $row->race_code }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row col-md-6 col-lg-6 mb-1">
+                                                <label for="religions_id"
+                                                    class="col-sm-5 col-form-label fw-bold">Religion</label>
+                                                <div class="col-sm-7">
+                                                    <select name="religions_id" id="religions_id"
+                                                        class="form-control single-select-field">
+                                                        <option value="">Select One</option>
+                                                        @foreach ($religion_data as $row)
+                                                            <option value="{{ $row->id }}"
+                                                                {{ old('religions_id') == $row->id ? 'selected' : '' }}>
+                                                                {{ $row->religion_code }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row col-md-6 col-lg-6 mb-1">
+                                                <label for="mySelect"
+                                                    class="col-sm-5 col-form-label fw-bold">Nationality</label>
+                                                <div class="col-sm-7">
+                                                    <select name="nationality_id" class="form-control single-select-field"
+                                                        id="mySelect">
+                                                        <option value="">Select One</option>
+                                                        @foreach ($nationality as $nation)
+                                                            <option value="{{ $nation->id }}"
+                                                                {{ old('nationality_id') == $nation->id ? 'selected' : '' }}>
+                                                                {{ old('nationality_id') . $nation->en_nationality }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row col-md-6 col-lg-6 mb-1">
+                                                <label for="marital_statuses_id"
+                                                    class="col-sm-5 col-form-label fw-bold">Marital Status</label>
+                                                <div class="col-sm-7">
+                                                    <select name="marital_statuses_id" id="marital_statuses_id"
+                                                        class="form-control single-select-field">
+                                                        <option value="">Select One</option>
+                                                        @foreach ($marital_data as $row)
+                                                            <option value="{{ $row->id }}"
+                                                                {{ old('marital_statuses_id') == $row->id ? 'selected' : '' }}>
+                                                                {{ $row->marital_statuses_code }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row col-md-6 col-lg-6 mb-1" id="myNationality"
+                                                style="display: none;">
+                                                <label for="nationality_date_of_issue"
+                                                    class="col-sm-5 col-form-label fw-bold">Date of issue</label>
+                                                <div class="col-sm-7">
+                                                    <input id="nationality_date_of_issue" type="date"
+                                                        name="nationality_date_of_issue" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="row col-md-6 col-lg-6 mb-1">
+                                                <label for="candidate_mobile"
+                                                    class="col-sm-5 col-form-label fw-bold">Mobile</label>
+                                                <div class="col-sm-7">
+                                                    <input type="text" class="form-control" name="candidate_mobile"
+                                                        placeholder="Mobile" required>
+                                                </div>
+                                            </div>
+                                            <div class="row col-md-6 col-lg-6 mb-1">
+                                                <label for="candidate_home_phone"
+                                                    class="col-sm-5 col-form-label fw-bold">Home Tel</label>
+                                                <div class="col-sm-7">
+                                                    <input type="text" class="form-control" id="candidate_home_phone"
+                                                        name="candidate_home_phone" placeholder="Home Tel">
+                                                </div>
+                                            </div>
+                                            <div class="row col-md-6 col-lg-6 mb-1">
+                                                <label for="candidate_email"
+                                                    class="col-sm-5 col-form-label fw-bold">Email</label>
+                                                <div class="col-sm-7">
+                                                    <input type="email" name="candidate_email" id="candidate_email"
+                                                        class="form-control" placeholder="Email">
+                                                </div>
+                                            </div>
+                                            <div class="row col-md-6 col-lg-6 mb-1">
+                                                <label for="passtypes_id" class="col-sm-5 col-form-label fw-bold">Type Of
+                                                    Pass</label>
+                                                <div class="col-sm-7">
+                                                    <select id="passtypes_id" name="passtypes_id"
+                                                        class="form-control single-select-field">
+                                                        <option value="">Select One</option>
+                                                        @foreach ($passtype_data as $row)
+                                                            <option value="{{ $row->id }}"
+                                                                {{ old('passtype_id') == $row->id ? 'selected' : '' }}>
+                                                                {{ $row->passtype_code }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row col-md-6 col-lg-6 mb-1">
+                                                <label for="candidate_outlet_id"
+                                                    class="col-sm-5 col-form-label fw-bold">Outlet</label>
+                                                <div class="col-sm-7">
+                                                    <select class="form-control single-select-field"
+                                                        id="candidate_outlet_id" name="candidate_outlet_id" required>
+                                                        <option value="">Select One</option>
+                                                        @foreach ($outlet_data as $row)
+                                                            <option value="{{ $row->id }}"
+                                                                {{ old('candidate_outlet_id') == $row->id ? 'selected' : '' }}>
+                                                                {{ $row->outlet_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row col-md-6 col-lg-6 mb-1">
+                                                <label for="candidate_isBlocked"
+                                                    class="col-sm-5 col-form-label fw-bold">Black List</label>
+                                                <div class="col-sm-7">
+                                                    <select name="candidate_isBlocked" id="candidate_isBlocked"
+                                                        class="form-control single-select-field">
+                                                        <option value="">Select One</option>
+                                                        <option value="1"
+                                                            {{ old('candidate_isBlocked') == 1 ? 'selected' : '' }}>Yes
+                                                        </option>
+                                                        <option value="0"
+                                                            {{ old('candidate_isBlocked') == 0 ? 'selected' : '' }}>No
+                                                        </option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
-                                        @php
-                                            $auth = Auth::user()->employe;
-                                        @endphp
-                                        <div class="col-lg-4">
-                                            <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
-                                                    <label for="two" class="col-sm-4 col-form-label">Manager</label>
-                                                    <div class="col-sm-8">
-                                                        <select id="managerSelect" class="form-control" name="manager_id"
-                                                            required>
-                                                            @if ($auth->roles_id == 4)
-                                                                <option value="{{ $auth->id }}" selected
-                                                                    @readonly(true)>{{ $auth->employee_name }}</option>
-                                                            @elseif($auth->roles_id == 1 || $auth->roles_id == 4 || $auth->roles_id == 8)
-                                                                <option value="" selected disabled>Select One
-                                                                </option>
-                                                                @foreach (\App\Models\Employee::where('roles_id', 4)->get() as $manager)
-                                                                    <option value="{{ $manager->id }}"
-                                                                        {{ old('manager_id') == $manager->id ? 'selected' : ($auth->manager_id == $manager->id ? 'selected' : '') }}>
-                                                                        {{ $manager->employee_name }}
-                                                                    </option>
-                                                                @endforeach
-                                                            @endif
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="two" class="col-sm-4 col-form-label">Team
-                                                        Leader</label>
-                                                    <div class="col-sm-8">
-                                                        <select id="teamLeaderSelect" class="form-control"
-                                                            name="team_leader_id" required>
-                                                            {{-- @if ($auth->roles_id == 11)
-                                                                <option value="{{ $auth->id }}" selected @readonly(true)>{{ $auth->employee_name }}</option>
-                                                            @elseif($auth->roles_id == 1 || $auth->roles_id == 4)
-                                                                <option value="" selected disabled>Select One</option>
-                                                                @foreach (\App\Models\Employee::where('roles_id', 11)->get() as $leader)
-                                                                    <option value="{{ $leader->id }}"
-                                                                        {{ (old('team_leader_id') == $leader->id) ? 'selected' : '' }}>
-                                                                        {{ $leader->employee_name }}
-                                                                    </option>
-                                                                @endforeach
-                                                            @endif --}}
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="two"
-                                                        class="col-sm-4 col-form-label">Consultant</label>
-                                                    <div class="col-sm-8">
-                                                        <select id="consultantSelect" class="form-control"
-                                                            name="consultant_id">
-
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="two" class="col-sm-4 col-form-label">Outlet</label>
-                                                    <div class="col-sm-8">
-                                                        <select class="form-control" name="candidate_outlet_id" required>
-                                                            <option value="">Select One</option>
-                                                            @foreach ($outlet_data as $row)
-                                                                <option value="{{ $row->id }}"
-                                                                    {{ old('candidate_outlet_id') == $row->id ? 'selected' : '' }}>
-                                                                    {{ $row->outlet_name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-4 col-form-label">NRIC/FIN
-                                                        No.</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text" name="candidate_nric" class="form-control"
-                                                            placeholder="NRIC/FIN No.">
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-4 col-form-label">Gender</label>
-                                                    <div class="col-sm-8">
-                                                        <select name="dbsexes_id" class="form-control">
-                                                            <option value="">Select One</option>
-                                                            <option value="1">Male</option>
-                                                            <option value="2">Female</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="two" class="col-sm-4 col-form-label">Religion</label>
-                                                    <div class="col-sm-8">
-                                                        <select name="religions_id" class="form-control">
-                                                            <option value="">Select One</option>
-                                                            @foreach ($religion_data as $row)
-                                                                <option value="{{ $row->id }}"
-                                                                    {{ old('religions_id') == $row->id ? 'selected' : '' }}>
-                                                                    {{ $row->religion_code }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="two" class="col-sm-4 col-form-label">Marital
-                                                        Status</label>
-                                                    <div class="col-sm-8">
-                                                        <select name="marital_statuses_id" class="form-control">
-                                                            <option value="">Select One</option>
-                                                            @foreach ($marital_data as $row)
-                                                                <option value="{{ $row->id }}"
-                                                                    {{ old('marital_statuses_id') == $row->id ? 'selected' : '' }}>
-                                                                    {{ $row->marital_statuses_code }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                {{-- <div class="row mb-4">
-                                                    <label for="four" class="col-sm-4 col-form-label">Numbers of
-                                                        Children</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text" name="children_no" class="form-control"
-                                                            placeholder="Numbers of Children">
-                                                    </div>
-                                                </div> --}}
-                                                <div class="row mb-4">
-                                                    <label for="four" class="col-sm-4 col-form-label">Email</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="email" name="candidate_email" class="form-control"
-                                                            placeholder="Email">
-                                                    </div>
-                                                </div>
-                                                {{-- <div class="row mb-4">
-                                                    <label for="four" class="col-sm-4 col-form-label">Weight</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text" name="candidate_weight"
-                                                            class="form-control" placeholder="Weight">
-                                                    </div>
-                                                </div> --}}
-                                                <div class="row mb-4">
-                                                    <label for="four" class="col-sm-4 col-form-label">Black
-                                                        List</label>
-                                                    <div class="col-sm-8">
-
-                                                        <select name="candidate_isBlocked" class="form-control">
-                                                            <option value="">Select One</option>
-                                                            <option value="1"
-                                                                {{ old('candidate_isBlocked') == 1 ? 'selected' : '' }}>Yes
-                                                            </option>
-                                                            <option value="0"
-                                                                {{ old('candidate_isBlocked') == 0 ? 'selected' : '' }}>No
-                                                            </option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <!-- sample modal content -->
-                                                {{-- <div id="myModal" class="modal fade" tabindex="-1"
-                                                aria-labelledby="myModalLabel" aria-hidden="true" data-bs-scroll="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="myModalLabel">Reason of Black
-                                                                list</h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <form action="">
-                                                                <label for="reason_of_blacklist">Reason Of
-                                                                    Blacklist</label>
-                                                                <textarea name="reason_of_blacklist"
-                                                                    class="form-control mb-2" rows="4"
-                                                                    placeholder="Reason of Blacklist"></textarea>
-                                                                <button type="submit"
-                                                                    class="btn btn-sm btn-info">Submit</button>
-                                                            </form>
-                                                        </div>
-                                                    </div><!-- /.modal-content -->
-                                                </div><!-- /.modal-dialog -->
-                                            </div><!-- /.modal --> --}}
-
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
-
-                                            <div class="row mb-4">
-                                                {{-- <label for="one" class="col-sm-4 col-form-label">User Right</label> --}}
-                                                <div class="col-sm-8">
-                                                    <img src="{{ URL::asset('build/images/avatar.png') }}" alt="avatar"
-                                                        class="mb-2">
-                                                    <input type="file" name="avatar" class="form-control">
-                                                </div>
-                                            </div>
+                                        <div class="col-lg-3">
+                                            <img src="{{ URL::asset('build/images/avatar.png') }}" alt="avatar"
+                                                class="mb-2 img-fluid img-thumbnail">
+                                            <input type="file" name="avatar" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -1068,10 +1028,13 @@
 
         <script src="{{ asset('build/js/ajax/candidateGenarel.js') }}"></script>
         <script src="{{ asset('build/js/ajax/candidateDeclaration.js') }}"></script>
-
+        @include('admin.include.select2js')
 
         <script>
             $(document).ready(function() {
+                let auth_role = '{{ $auth->roles_id }}';
+                let auth = '{{ $auth->id }}';
+
                 $('#managerSelect').change(function() {
                     let managerId = $(this).val();
                     if (managerId) {
@@ -1114,6 +1077,37 @@
                         $('#consultantSelect').empty();
                     }
                 });
+
+                if(auth_role == 4) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/ATS/get/teamleader/' + auth,
+                        success: function(data) {
+                            $('#teamLeaderSelect').empty();
+                            $.each(data, function(key, value) {
+                                $('#teamLeaderSelect').append($('<option>', {
+                                    value: value.id,
+                                    text: value.employee_name
+                                }));
+                            });
+                            $('#teamLeaderSelect').trigger('change');
+                        }
+                    });
+                } else if(auth_role == 11) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/ATS/get/consultant/' + auth,
+                        success: function(data) {
+                            $('#consultantSelect').empty();
+                            $.each(data, function(key, value) {
+                                $('#consultantSelect').append($('<option>', {
+                                    value: value.id,
+                                    text: value.employee_name
+                                }));
+                            });
+                        }
+                    });
+                }
             });
         </script>
     @endsection
