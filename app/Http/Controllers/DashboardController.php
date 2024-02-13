@@ -7,15 +7,10 @@ use App\Models\Calander;
 use App\Models\Dashboard;
 use App\Models\Employee;
 use Carbon\Carbon;
-use Flasher\Laravel\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-
-    private function followUp()
-    {
-    }
 
     public function index()
     {
@@ -160,7 +155,12 @@ class DashboardController extends Controller
 
     public function change_dashboard_remark(Dashboard $dashboard, $id)
     {
-        $dashboard = $dashboard->update(['remark_id' => $id]);
+        $follow_day = 0;
+        if($id == 6)
+        {
+            $follow_day = ++$dashboard->follow_day;
+        }
+        $dashboard = $dashboard->update(['remark_id' => $id, 'follow_day' => $follow_day]);
 
         if (!$dashboard) {
             return redirect()->back()->with('error', 'Something Is Wrong!! Try Again.');

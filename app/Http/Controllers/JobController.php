@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\JobRequest;
 use App\Models\client;
+use App\Models\ClientFollowUp;
 use App\Models\Employee;
 use App\Models\job;
 use App\Models\jobcategory;
@@ -41,7 +42,7 @@ class JobController extends Controller
             $datas->where('team_leader_id', $auth->id);
         }else{
             if(!empty($auth->team_leader_users_id)){
-            $datas->where('team_leader_id', $auth->team_leader_users_id); 
+            $datas->where('team_leader_id', $auth->team_leader_users_id);
             }
         }
         $datas = $datas->latest()->where('job_status',1)->get();
@@ -66,7 +67,7 @@ class JobController extends Controller
         $employees = Employee::select('id', 'employee_name')->where('roles_id', 11)->get();
         $jobType = jobtype::latest()->select('id', 'jobtype_code')->get();
         $jobCategory = jobcategory::latest()->select('id', 'jobcategory_name')->get();
-  
+
         return view('admin.job.create', compact('users', 'jobType', 'clients', 'jobCategory', 'employees'));
     }
 
@@ -78,20 +79,24 @@ class JobController extends Controller
         if (is_null($this->user) || !$this->user->can('job.store')) {
             abort(403, 'Unauthorized');
         }
+
+        $team = get_team($request['person_incharge']);
+        $request['manager_id'] = $team['manager_id'];
+        $request['team_leader_id'] = $team['team_leader_id'];
+        $request['consultant_id'] = $team['consultant_id'];
+
         job::create($request->except('_token') + [
             'job_link' => Str::slug($request->job_title),
         ]);
 
         $auth = Auth::user()->employe;
-        if($auth->roles_id == 11)
-        {
-            $candidate->update(['team_leader_id' => $auth->id]);
-        }else{
-            if(!empty($auth->team_leader_users_id)){
-            $candidate->update(['team_leader_id' => $auth->team_leader_users_id]);
-            $candidate->update(['consultant_id' => $auth->id]);
-            }
-        }
+        ClientFollowUp::create([
+            'clients_id' => $request->client_id,
+            'description' => 'New Job Opening',
+            'created_by' => $auth->id,
+            'modify_by' => $auth->id,
+        ]);
+
         return redirect()->route('job.index')->with('success', 'Job created successfully.');
     }
 
@@ -146,7 +151,12 @@ class JobController extends Controller
 
     public function getClientLeader(client $client)
     {
-        $team_leader = $client->team_leader;
+        $manager_id = $client->manager_id;
+        $team_leader_id = $client->team_leader_id;
+        $consultant_id = $client->consultant_id;
+        $employeeIds = [$manager_id, $team_leader_id, $consultant_id];
+
+        $team_leader = Employee::whereIn('id', $employeeIds)->get();
         return response()->json(['team_leader' => $team_leader]);
     }
 }

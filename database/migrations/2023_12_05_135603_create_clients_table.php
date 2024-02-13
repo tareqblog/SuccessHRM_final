@@ -45,6 +45,9 @@ return new class extends Migration
             $table->integer('clients_status')->default(1);
             $table->integer('created_by')->nullable();
             $table->integer('modify_by')->nullable();
+            $table->foreignId('manager_id')->nullable()->constrained('employees')->onDelete('restrict');
+            $table->foreignId('team_leader_id')->nullable()->constrained('employees')->onDelete('restrict');
+            $table->foreignId('consultant_id')->nullable()->constrained('employees')->onDelete('restrict');
             $table->timestamps();
         });
     }

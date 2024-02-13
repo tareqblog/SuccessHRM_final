@@ -101,7 +101,7 @@
                                                             <option value="{{ $auth->id }}" selected @readonly(true)>
                                                                 {{ $auth->employee_name }}</option>
                                                         @elseif($auth->roles_id == 1 || $auth->roles_id == 4 || $auth->roles_id == 8)
-                                                            <option value="" selected disabled>Select One
+                                                            <option selected disabled>Select One
                                                             </option>
                                                             @foreach (\App\Models\Employee::where('roles_id', 4)->get() as $manager)
                                                                 <option value="{{ $manager->id }}"

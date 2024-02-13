@@ -17,12 +17,16 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Job Summary Table</h4>
-                        @if (App\Helpers\FileHelper::usr()->can('job.create'))
-                        <div class="text-end">
-                            <a href="{{ route('job.create') }}" class="btn btn-sm btn-success">Create New</a>
+                        <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">
+                                <h6 class="card-title mb-0">Job Summary Table</h6>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                @if (App\Helpers\FileHelper::usr()->can('job.create'))
+                                    <a href="{{ route('job.create') }}" class="btn btn-sm btn-success">Create New</a>
+                                @endif
+                            </div>
                         </div>
-                        @endif
                     </div>
                     <div class="card-body">
                         <table class="table table-bordered mb-0" id="myTable">

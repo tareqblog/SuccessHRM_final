@@ -17,9 +17,13 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Job Application Table</h4>
-                        <div class="text-end">
-                            <a href="{{ route('job-application.create') }}" class="btn btn-sm btn-success">Create New</a>
+                        <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">
+                                <h6 class="card-title mb-0">Job Application Table</h6>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                <a href="{{ route('job-application.create') }}" class="btn btn-sm btn-success">Create New</a>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
@@ -30,11 +34,11 @@
                                     <th>Name</th>
                                     <th>Phone No</th>
                                     <th>Email</th>
-                                    <th>Action</th>
+                                    <th class="text-end">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($datas as $data)
+                                @forelse ($applications as $data)
                                     <tr>
                                         <td>
                                             {{ $loop->index + 1 }}
@@ -42,7 +46,7 @@
                                         <td>{{ $data->name }}</td>
                                         <td>{{ $data->phone_no }}</td>
                                         <td>{{ $data->email }}</td>
-                                        <td style="display: flex;">
+                                        <td style="display: flex;" class="d-flex flex-row-reverse">
                                             @if ($data->candidate_id == null)
                                                 <form action="{{ route('job-application.update', $data->id) }}"
                                                     method="POST">
