@@ -424,21 +424,18 @@ class CandidateFileImportController extends Controller
         $temporaryData = json_decode($request->input('temporary_data'), true);
 
         foreach ($temporaryData['data'] as $data) {
+            $auth = Auth::user()->employe;
+            $team = get_team($auth->id);
             $candidate = candidate::create([
                 'candidate_name' => $data['name'],
                 'candidate_email' => $data['email'],
                 'candidate_mobile' => $data['phone_no'],
                 'candidate_joindate' => Carbon::now()->format('Y-m-d'),
+                'manager_id' => $team['manager_id'],
+                'team_leader_id' => $team['team_leader_id'],
+                'consultant_id' => $team['consultant_id'],
             ]);
-            $auth = Auth::user()->employe;
-            if ($auth->roles_id == 11) {
-                $candidate->update(['team_leader_id' => $auth->id]);
-            } else {
-                if (!empty($auth->team_leader_users_id)) {
-                    $candidate->update(['team_leader_id' => $auth->team_leader_users_id]);
-                    $candidate->update(['consultant_id' => $auth->id]);
-                }
-            }
+
             $candidate->update(['candidate_code' => 'Cand-' . $candidate->id]);
             CandidateResume::create([
                 'candidate_id' => $candidate->id,
