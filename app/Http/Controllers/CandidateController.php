@@ -163,7 +163,7 @@ class CandidateController extends Controller
             $team_leader_id = $auth->id;
         } else {
             if (!empty($auth->team_leader_users_id)) {
-                return $team_leader_id = $auth->team_leader_users_id;
+                $team_leader_id = $auth->team_leader_users_id;
             } else {
                 $team_leader_id = null;
             }
