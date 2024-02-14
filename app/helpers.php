@@ -68,6 +68,8 @@ if (!function_exists('assign_dashboard_remark_id')) {
             $data['remark_id'] = 4;
         } elseif ($id == 6) {
             $data['remark_id'] = 5;
+        } elseif ($id == 7) {
+            $data['remark_id'] = 99;
         }
 
         return $data;

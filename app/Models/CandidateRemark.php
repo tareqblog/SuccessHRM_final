@@ -41,4 +41,14 @@ class CandidateRemark extends Model
     {
         return $this->belongsTo(candidate::class, 'candidate_id');
     }
+
+    /**
+     * Get the outlet that owns the CandidateRemark
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function outlet(): BelongsTo
+    {
+        return $this->belongsTo(Outlet::class, 'client_company', 'id');
+    }
 }

@@ -1372,10 +1372,9 @@
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1" id="AssignToClient" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Client
-                                                    Company</label>
+                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Client </label>
                                                 <div class="col-sm-9">
-                                                    <select name="Assign_client_company"
+                                                    <select name="assign_client_id"
                                                         class="form-control single-select-field">
                                                         <option value="">Select One</option>
                                                         @foreach ($clients as $client)
@@ -1400,9 +1399,9 @@
                                                     <select name="interview_company" id=""
                                                         class="form-control single-select-field">
                                                         <option value="">Select One</option>
-                                                        @foreach ($clients as $client)
-                                                            <option value="{{ $client->id }}">
-                                                                {{ $client->client_name }} </option>
+                                                        @foreach ($outlet_data as $outlet)
+                                                            <option value="{{ $outlet->id }}">
+                                                                {{ $outlet->outlet_name }} </option>
                                                         @endforeach
                                                     </select>
 
@@ -1445,9 +1444,9 @@
                                                     <select name="client_company"
                                                         class="form-control single-select-field">
                                                         <option value="">Select One</option>
-                                                        @foreach ($clients as $client)
-                                                            <option value="{{ $client->id }}">
-                                                                {{ $client->client_name }} </option>
+                                                        @foreach ($outlet_data as $outlet)
+                                                            <option value="{{ $outlet->id }}">
+                                                                {{ $outlet->outlet_name }} </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -1543,7 +1542,7 @@
                                                 <label for="one"
                                                     class="col-sm-3 col-form-label fw-bold">Notice</label>
                                                 <div class="col-sm-9">
-                                                    <select name="isNotice" class="form-control single-select-field">
+                                                    <select name="isNotice" class="form-control single-select-field" required>
                                                         <option value="">Select One</option>
                                                         <option value="1">Yes</option>
                                                         <option value="0">No</option>
@@ -1877,9 +1876,9 @@
                                                         <select name="client_company"
                                                             class="form-control single-select-field">
                                                             <option value="">Select One</option>
-                                                            @foreach ($clients as $client)
-                                                                <option value="{{ $client->id }}">
-                                                                    {{ $client->client_name }} </option>
+                                                            @foreach ($outlet_data as $outlet)
+                                                                <option value="{{ $outlet->id }}">
+                                                                    {{ $outlet->outlet_name }} </option>
                                                             @endforeach
                                                         </select>
                                                     </div>

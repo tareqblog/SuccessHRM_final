@@ -406,7 +406,7 @@ class CandidateController extends Controller
         $request->validate([
             'candidate_id' => 'required|integer',
             'remarkstype_id' => 'required|integer',
-            'isNotice' => 'required|boolean',
+            'isNotice' => 'nullable|boolean',
             'remarks' => 'required',
         ]);
 
@@ -414,10 +414,11 @@ class CandidateController extends Controller
         $candidate = candidate::find($id);
         $dashboard = Dashboard::where('candidate_id', $request->candidate_id)->first();
 
-        try {
+        // try {
             // Begin a transaction
+            // DB::beginTransaction();
+
             $auth = Auth::user()->employe;
-            DB::beginTransaction();
             $candidate_remark = CandidateRemark::create([
                 'candidate_id' => $candidate->id,
                 'remarkstype_id' => $request->remarkstype_id,
@@ -431,6 +432,7 @@ class CandidateController extends Controller
             ]);
 
             $dashboard_data = [];
+
             $assign_dashboard_remark = assign_dashboard_remark_id($request->remarkstype_id);
             $dashboard_data['remark_id'] = $assign_dashboard_remark['remark_id'];
             $dashboard_data['follow_day'] = $assign_dashboard_remark['follow_day'];
@@ -447,7 +449,7 @@ class CandidateController extends Controller
 
             if ($request->remarkstype_id == 5) {
                 AssignClient::create([
-                    'client_id' => $request->Assign_client_company,
+                    'client_id' => $request->assign_client_id,
                     'candidate_remark_id' => $candidate_remark->id,
                 ]);
             }
@@ -482,19 +484,19 @@ class CandidateController extends Controller
 
                 $calander['candidate_remark_shortlist_id'] = $list->id;
                 if ($list->end_date != null) {
-                    $calander['title'] = 'Contract Ending -'. $candidate->consultant->employee_name;
+                    $calander['title'] = 'Contract Ending -'. $candidate->consultant->employee_name . '-' . $candidate_remark->outlet->outlet_name;
                     $calander['date'] = $list->end_date;
                     $calander['status'] = 4;
                     Calander::create($calander);
                 }
                 if ($list->start_date != null) {
-                    $calander['title'] = 'Shortlisted -' . $candidate->consultant->employee_name;
+                    $calander['title'] = 'Shortlisted -' . $candidate->consultant-> employee_name . '-' . $candidate_remark->outlet->outlet_name;
                     $calander['date'] = $list->start_date;
                     $calander['status'] = 2;
                     Calander::create($calander);
                 }
                 if ($list->contact_signing_date != null) {
-                    $calander['title'] = Carbon::parse($list->contact_signing_time)->format('h:i A') . ' -Contract Signing -'. $candidate->consultant->employee_name;
+                    $calander['title'] = Carbon::parse($list->contact_signing_time)->format('h:i A') . ' -Contract Signing -'. $candidate->consultant-> employee_name . '-' . $candidate_remark->outlet->outlet_name;
                     $calander['date'] = $list->contact_signing_date;
                     $calander['status'] = 3;
                     Calander::create($calander);
@@ -516,7 +518,7 @@ class CandidateController extends Controller
                 ]);
 
                 $calander['candidate_remark_shortlist_id'] = $list->id;
-                $calander['title'] = Carbon::parse($list->interview_time)->format('h:i A') . ' - Interview -';
+                $calander['title'] = Carbon::parse($list->interview_time)->format('h:i A') . ' - Interview -' . $candidate->consultant->employee_name . '-' . $list->company->outlet_name;
                 $calander['date'] = $list->interview_date;
                 $calander['status'] = 1;
                 Calander::create($calander);
@@ -533,12 +535,12 @@ class CandidateController extends Controller
                 'remark_id' => $assign_dashboard_remark['remark_id']
             ]);
 
-            DB::commit();
+        //     DB::commit();
             return redirect()->route('candidate.edit', [$id, '#remark'])->with('success', 'Remark added successfully.');
-        } catch (\Exception $e) {
-            DB::rollback();
-            return back()->with('error', $e->getMessage());
-        }
+        // } catch (\Exception $e) {
+        //     DB::rollback();
+        //     return back()->with('error', $e->getMessage());
+        // }
     }
 
 
