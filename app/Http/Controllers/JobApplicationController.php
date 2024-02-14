@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\FileHelper;
+use App\Models\Assign;
 use App\Models\candidate;
+use App\Models\CandidateRemark;
 use App\Models\ClientFollowUp;
+use App\Models\Dashboard;
 use App\Models\job;
 use App\Models\JobApplication;
 use Illuminate\Http\Request;
@@ -102,6 +105,24 @@ class JobApplicationController extends Controller
         $jobapplication->update([
             'candidate_id' => $candidate->id
         ]);
+
+        $datas = [
+            'candidate_id' => $candidate->id,
+            'manager_id' => $candidate->manager_id,
+            'teamleader_id' => $candidate->team_leader_id,
+            'consultent_id' => $candidate->consultant_id,
+            'insert_by' => Auth::user()->id,
+        ];
+
+        CandidateRemark::create([
+            'candidate_id' => $candidate->id,
+            'remarkstype_id' => 1,
+            'isNotice' => 0,
+            'remarks' => 'Candidate generated from Job Applicant',
+        ]);
+
+        Dashboard::create($datas);
+        Assign::create($datas);
 
         return back()->with('success', 'Candidate genarate successfully.');
     }

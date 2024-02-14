@@ -1402,7 +1402,7 @@
                                                         <option value="">Select One</option>
                                                         @foreach ($clients as $client)
                                                             <option value="{{ $client->id }}">
-                                                                {{ $client->company_name }} </option>
+                                                                {{ $client->client_name }} </option>
                                                         @endforeach
                                                     </select>
 
@@ -1722,7 +1722,7 @@
                                                         class="form-control">
                                                 </div>
                                             </div>
-                                            <div class="row mb-1" id="attendInterview" style="display: none;">
+                                            <div class="row col-md-6 col-lg-6 mb-1" id="attendInterview" style="display: none;">
                                                 <label for="one" class="col-sm-3 col-form-label fw-bold">Attend
                                                     Interview</label>
                                                 <div class="col-sm-9">
@@ -1788,9 +1788,8 @@
                                                         <td>{{ $remark->created_at->format('d-M-y') }}
                                                         </td>
                                                         <td style="display: flex;">
-                                                            <a href="#" class="btn btn-info btn-sm me-3"
-                                                                download>Edit</a>
-                                                            @if (App\Helpers\FileHelper::usr()->can('candidate.remark.delete'))
+                                                            <a href="#" class="btn btn-info btn-sm me-3 {{ Auth::user()->id == $remark->created_by ? '' : 'disabled' }}">Edit</a>
+                                                            {{-- @if (App\Helpers\FileHelper::usr()->can('candidate.remark.delete'))
                                                                 <form
                                                                     action="{{ route('candidate.remark.delete', $remark->id) }}"
                                                                     method="POST">
@@ -1800,7 +1799,7 @@
                                                                         onclick="return confirm('Are you sure you want to delete this item?')"
                                                                         type="submit">Delete</button>
                                                                 </form>
-                                                            @endif
+                                                            @endif --}}
                                                         </td>
                                                     </tr>
                                                 @empty

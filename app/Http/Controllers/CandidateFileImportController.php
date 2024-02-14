@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\FileHelper;
+use App\Models\Assign;
 use App\Models\candidate;
 use App\Models\CandidateFileImport;
+use App\Models\CandidateRemark;
 use App\Models\CandidateResume;
+use App\Models\Dashboard;
 use App\Models\Employee;
 use App\Models\ImportCandidateData;
 use App\Models\TemporaryImportedData;
@@ -81,7 +84,7 @@ class CandidateFileImportController extends Controller
         $temporary_data = TemporaryImportedData::where('created_by', Auth::id())
             ->where('status', 0)
             ->paginate(10);
-        $assaignPerson = Employee::where('employee_status', 1)->get();
+        $assaignPerson = Employee::where('employee_status', 1)->where('roles_id', 8)->get();
 
         return view('admin.candidate.import', compact('importData', 'temporary_data', 'history_data', 'assaignPerson', 'start', 'end'));
     }
@@ -422,32 +425,56 @@ class CandidateFileImportController extends Controller
         // }
 
         $temporaryData = json_decode($request->input('temporary_data'), true);
+        DB::beginTransaction();
 
-        foreach ($temporaryData['data'] as $data) {
-            $auth = Auth::user()->employe;
-            $team = get_team($auth->id);
-            $candidate = candidate::create([
-                'candidate_name' => $data['name'],
-                'candidate_email' => $data['email'],
-                'candidate_mobile' => $data['phone_no'],
-                'candidate_joindate' => Carbon::now()->format('Y-m-d'),
-                'manager_id' => $team['manager_id'],
-                'team_leader_id' => $team['team_leader_id'],
-                'consultant_id' => $team['consultant_id'],
-            ]);
+        try {
+            foreach ($temporaryData['data'] as $data) {
+                $team = get_team($data['assaign_to']);
+                $candidate = candidate::create([
+                    'candidate_name' => $data['name'],
+                    'candidate_email' => $data['email'],
+                    'candidate_mobile' => $data['phone_no'],
+                    'candidate_joindate' => Carbon::now()->format('Y-m-d'),
+                    'manager_id' => $team['manager_id'],
+                    'team_leader_id' => $team['team_leader_id'],
+                    'consultant_id' => $team['consultant_id'],
+                ]);
 
-            $candidate->update(['candidate_code' => 'Cand-' . $candidate->id]);
-            CandidateResume::create([
-                'candidate_id' => $candidate->id,
-                'resume_file_path' => $data['resume_path'],
-                'resume_text' => $data['resume_text']
-            ]);
+                CandidateRemark::create([
+                    'candidate_id' => $candidate->id,
+                    'remarkstype_id' => 11,
+                    'isNotice' => 0,
+                    'remarks' => 'Candidate generate from Import',
+                ]);
 
-            TemporaryImportedData::find($data['id'])
-                ->update(['candidate_id' => $candidate->id, 'status' => 1]);
+                $datas = [
+                    'candidate_id' => $candidate->id,
+                    'manager_id' => $candidate->manager_id,
+                    'teamleader_id' => $candidate->team_leader_id,
+                    'consultent_id' => $candidate->consultant_id,
+                    'insert_by' => Auth::user()->id,
+                ];
+
+                Dashboard::create($datas);
+                Assign::create($datas);
+
+                $candidate->update(['candidate_code' => 'Cand-' . $candidate->id]);
+                CandidateResume::create([
+                    'candidate_id' => $candidate->id,
+                    'resume_file_path' => $data['resume_path'],
+                    'resume_text' => $data['resume_text']
+                ]);
+
+                TemporaryImportedData::find($data['id'])
+                    ->update(['candidate_id' => $candidate->id, 'status' => 1]);
+            }
+            DB::commit();
+            return back()->with('success', 'Candidate uploaded successfully.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return back()->with('error', $e->getMessage());
         }
 
-        return back()->with('success', 'Candidate uploaded successfully.');
     }
 
     public function candidateSearch()
@@ -514,11 +541,11 @@ class CandidateFileImportController extends Controller
         $data = [];
         foreach ($remarks as $key => $remark) {
             $data[] = [
-                'candidate_name' => $remark->candidate->candidate_name,
-                'assign_to' => $remark->assign_to,
-                'remarkstype' => $remark->remarksType->remarkstype_code,
+                'candidate_name' => $remark->candidate->candidate_name ?? '',
+                'assign_to' => $remark->assign_to ?? '',
+                'remarkstype' => $remark->remarksType->remarkstype_code ?? '',
                 'remarks' => $remark->remarks,
-                'client' => $remark->client_company,
+                'client' => $remark->client_company ?? '',
                 'created_by' => $remark->Assign->name,
                 'date' => Carbon::parse($remark->created_at)->format('H:i:s d-M-Y'),
                 'create_time' => Carbon::parse($remark->created_at)->format('H:i:s'),

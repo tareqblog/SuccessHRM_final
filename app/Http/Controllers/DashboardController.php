@@ -28,7 +28,7 @@ class DashboardController extends Controller
         $interviews = Dashboard::with('candidate')->where('status', 0)->where('remark_id', 4);
         $assignToClients = Dashboard::with('candidate')->where('status', 0)->where('remark_id', 5);
         $kivs = Dashboard::with('candidate')->where('status', 0)->where('remark_id', 7);
-        $blackListed = Dashboard::with('candidate')->where('status', 0)->whereIn('remark_id', [2, 3, 8]);;
+        $blackListed = Dashboard::with('candidate')->where('status', 0)->whereIn('remark_id', [2, 3, 8, 10]);;
         // Initialize arrays to store groups
         $followUps[1] = [];
         $followUps[2] = [];
@@ -116,7 +116,7 @@ class DashboardController extends Controller
             }
         }
 
-        $c_datas = $calander_datas->get();
+        $c_datas = $calander_datas->latest()->get();
         $calander_datas = [];
         foreach ($c_datas as $key => $remark) {
             $calander_datas[] = [
@@ -131,11 +131,11 @@ class DashboardController extends Controller
             ];
         }
 
-        $interviews = $interviews->get();
-        $assignToClients = $assignToClients->get();
-        $kivs = $kivs->get();
-        $activeResumes = $activeResumes->get();
-        $blackListed = $blackListed->get();
+        $interviews = $interviews->latest()->get();
+        $assignToClients = $assignToClients->latest()->get();
+        $kivs = $kivs->latest()->get();
+        $activeResumes = $activeResumes->latest()->get();
+        $blackListed = $blackListed->latest()->get();
         return view('admin.client.test', compact(
             'candidatesByManager',
             'calander_datas',

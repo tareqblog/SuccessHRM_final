@@ -40,7 +40,7 @@
                                     <th>Email</th>
                                     <th>Mobile</th>
                                     <th>Last Update Date</th>
-                                    <th>Job Assign</th>
+                                    <th>Assign</th>
                                     <th>Group</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -57,8 +57,13 @@
                                         <td>{{ $data->candidate_email }}</td>
                                         <td>{{ $data->candidate_mobile }}</td>
                                         <td>{{ $data->updated_at }}</td>
-                                        <td><a href="{{ route('candidate.edit', $data->id) }}"
-                                                class="btn btn-success btn-sm me-3">Assigned</a></td>
+                                        <td>
+                                            @if($data->manager_id != null)
+                                                <a href="#" class="btn btn-success bg-info btn-sm me-3">Unassigned</a>
+                                            @else
+                                                <a href="{{ route('candidate.edit', $data->id) }}" class="btn btn-success btn-sm me-3">Assigned</a>
+                                            @endif
+                                        </td>
                                         <td>
                                             {{ candidate_group($data->id) }}
                                         </td>
@@ -66,7 +71,7 @@
                                             {{ \App\Enums\Status::from($data->candidate_status)->title() }}
                                         </td>
                                         {{-- <td>{{ $data->candidate_status == 1 ? 'Active' : 'In-Active' }}</td> --}}
-                                        <td style="display: flex;">
+                                        <td class="d-flex flex-row">
                                             {{-- @if (App\Helpers\FileHelper::usr()->can('candidate.remark')) --}}
                                             @if($data->getMainResumeFilePath() != null)
                                             <button type="button"
@@ -159,8 +164,51 @@
             });
 
             function getRemark(candidateId) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/ATS/get/candidate/remarks/' + candidateId,
+                    success: function(response) {
+                        let clientResume = document.getElementById('clientResume');
 
-                console.log(candidateId);
+                        if (clientResume.style.display === 'none') {
+                            clientResume.style.display = 'block';
+                        }
+
+                        // Destroy DataTable if already initialized
+                        if ($.fn.DataTable.isDataTable('#remarkTable')) {
+                            $('#remarkTable').DataTable().destroy();
+                        }
+
+                        // Empty the table content before adding new rows
+                        $('#tableContent').empty();
+
+                        let remarkData = response.remarks;
+
+                        for (let i = 0; i < remarkData.length; i++) {
+                            let count = 1 + i;
+                            let newRowHtml = '<tr>' +
+                                '<th scope="row">' + count + '</th>' +
+                                '<td>' + remarkData[i].created_by + '</td>' +
+                                '<td>' + remarkData[i].description + '</td>' +
+                                '<td>' + remarkData[i].create_time + '</td>' +
+                                '<td>' + remarkData[i].create_date + '</td>' +
+                                '</tr>';
+
+                            $('#tableContent').append(newRowHtml);
+                        }
+
+                        // Reinitialize DataTable
+                        $('#remarkTable').DataTable({
+                            "pageLength": 5
+                        });
+
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            }
+            function getRemark(candidateId) {
                 $.ajax({
                     type: 'GET',
                     url: '/ATS/get/candidate/remarks/' + candidateId,

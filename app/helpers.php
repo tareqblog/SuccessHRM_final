@@ -60,13 +60,13 @@ if (!function_exists('assign_dashboard_remark_id')) {
     {
         $data = [];
         $data['follow_day'] = 0;
-        if($id == 1 || $id == 2 || $id == 3 || $id == 6 || $id == 9 || $id == 10 || $id == 11 || $id == 12) {
+        if($id == 1 || $id == 2 || $id == 3 || $id == 9 || $id == 10 || $id == 11 || $id == 12) {
             $data['remark_id'] = 0;
         } elseif ($id == 4) {
             $data['remark_id'] = 6;
         } elseif ($id == 5) {
             $data['remark_id'] = 4;
-        } elseif ($id == 7) {
+        } elseif ($id == 6) {
             $data['remark_id'] = 5;
         }
 
