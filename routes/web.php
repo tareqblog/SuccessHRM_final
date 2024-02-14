@@ -80,7 +80,7 @@ Route::post('/login', [UserController::class, 'login']);
 
 Route::middleware(['2fa', 'auth'])->group(function () {
 
-    Route::any('/ATS/dashboard', function () {
+    Route::any('/ATS/admin', function () {
         return redirect('/ATS/designation');
     })->name('2fa');
 });

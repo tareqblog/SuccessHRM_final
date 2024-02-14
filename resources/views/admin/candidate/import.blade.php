@@ -24,7 +24,7 @@
                 @endif
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Import Applicant Table</h4>
+                        <h4 class="card-title ms-3 mt-2">Import Applicant Table</h4>
                     </div>
                     <div class="card-body">
                         @if (App\Helpers\FileHelper::usr()->can('upload.files'))
@@ -64,8 +64,6 @@
                                                         value="{{ $resume->resume_path }}">
                                                     <label
                                                         for="selectedFile-{{ $key }}">{{ $originalFilename }}</label>
-
-
                                                 </li>
                                             @endforeach
                                         </ul>
@@ -126,7 +124,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <button type="submit" id="" class="btn btn-info">Add to list</button>
+                                        <button type="submit" id="" class="btn btn-info btn-sm">Add to list</button>
                                     </form>
                                 @endif
                             </div>
@@ -136,7 +134,7 @@
                         </div>
                     </div>
                     @if ($temporary_data->isNotEmpty())
-                        <div class="col-lg-11 m-auto">
+                        <div class="col-lg-12 px-2">
                             <h4>Temporary Imported Data</h4>
                             @include('admin.candidate.inc.partial-table', ['items' => $temporary_data])
                             {{ $temporary_data->links() }}
@@ -146,12 +144,12 @@
                                     method="POST">
                                     @csrf
 
-                                    <button type="submit" class="btn btn-success">Proceed to candidate</button>
+                                    <button type="submit" class="btn btn-success btn-sm">Proceed to candidate</button>
                                 </form>
                             </div>
                         </div>
                     @endif
-                    <div class="col-lg-11 m-auto">
+                    <div class="col-lg-12 px-2">
                         <form method="GET" action="{{ route('import.index') }}" id="attendanceFilter">
                             @csrf
                             <div class="row mb-2">
@@ -165,8 +163,7 @@
                                         @include('admin.partials.daterang')
                                     </div>
                                     <div class="col-sm-12 col-md-3 text-end">
-                                        <button onclick="filterHistoryImport(event)" class="btn btn-info btn-sm py-2"
-                                            type="submit">Filter Data</button>
+                                        <button onclick="filterHistoryImport(event)" class="btn btn-info btn-sm py-2" type="submit">Filter Data</button>
                                     </div>
                                 </div>
                             </div>
