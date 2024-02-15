@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Auth;
 
 class CandidateRemark extends Model
@@ -50,5 +52,20 @@ class CandidateRemark extends Model
     public function outlet(): BelongsTo
     {
         return $this->belongsTo(Outlet::class, 'client_company', 'id');
+    }
+
+    /**
+     * Get the user associated with the CandidateRemark
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function interview(): HasOne
+    {
+        return $this->hasOne(CandidateRemarkInterview::class, 'candidate_remark_id');
+    }
+
+    public function shortlist(): HasOne
+    {
+        return $this->hasOne(CandidateRemarkShortlist::class, 'candidate_remark_id');
     }
 }

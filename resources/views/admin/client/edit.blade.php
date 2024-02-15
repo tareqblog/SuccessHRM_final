@@ -5,6 +5,7 @@
 @section('css')
     <!-- quill css -->
     <link href="{{ URL::asset('build/libs/quill/quill.core.css') }}" rel="stylesheet" type="text/css" />
+        @include('admin.include.select2')
 @endsection
 @section('page-title')
     Client Edit
@@ -97,7 +98,7 @@
                                                 Name <span class="text-danger">*</span> </label>
                                             <div class="col-sm-7">
                                                 <input type="text" name="client_name" class="form-control"
-                                                    placeholder="Client Name" value="{{ $client->client_name }}" required>
+                                                    placeholder="Client Name" value="{{ old('client_name') || $client->client_name }}" required>
                                             </div>
                                         </div>
 
@@ -105,7 +106,7 @@
                                             <label for="two" class="col-sm-5 col-form-label fw-bold">Manager /
                                                 Consultant (In Charge) <span class="text-danger">*</span></label>
                                             <div class="col-sm-7">
-                                                <select name="employees_id" class="form-control" required data-trigger>
+                                                <select name="employees_id" class="form-control single-select-field" required>
                                                     <option disabled selected>Select One</option>
                                                     @foreach ($data['incharges'] as $incharge)
                                                         <option value="{{ $incharge->id }}"
@@ -120,7 +121,7 @@
                                             <label for="three" class="col-sm-5 col-form-label fw-bold">Payroll
                                                 Person In Charge</label>
                                             <div class="col-sm-7">
-                                                <select name="payroll_employees_id" class="form-control" data-trigger>
+                                                <select name="payroll_employees_id" class="form-control single-select-field">
                                                     <option selected disabled>Select One</option>
                                                     @foreach ($data['payrolls'] as $payroll)
                                                         <option value="{{ $payroll->id }}"
@@ -150,7 +151,7 @@
                                                 category
                                                 <span class="text-danger">*</span></label>
                                             <div class="col-sm-7">
-                                                <select name="industry_types_id" class="form-control" required
+                                                <select name="industry_types_id" class="form-control single-select-field" required
                                                     data-trigger>
                                                     <option disabled selected>Select One</option>
                                                     @foreach ($data['job_categories'] as $category)
@@ -166,7 +167,7 @@
                                             <label for="nine" class="col-sm-5 col-form-label fw-bold">TNC Template
                                                 <span class="text-danger">*</span></label>
                                             <div class="col-sm-7">
-                                                <select name="tnc_templates_id" class="form-control" required
+                                                <select name="tnc_templates_id" class="form-control single-select-field" required
                                                     data-trigger>
                                                     <option disabled selected>Select One</option>
                                                     @foreach ($data['tncs'] as $tnc)
@@ -181,7 +182,7 @@
                                             <label for="client_terms_id" class="col-sm-5 col-form-label fw-bold">Terms
                                             </label>
                                             <div class="col-sm-7">
-                                                <select name="client_terms_id" class="form-control" data-trigger
+                                                <select name="client_terms_id" class="form-control single-select-field"
                                                     id="client_terms_id" placeholder="">
                                                     <option disabled selected>Select One</option>
                                                     @foreach ($data['client_terms'] as $term)
@@ -325,8 +326,7 @@
                                                         <label for="twente_four" class="col-sm-3 col-form-label">File
                                                             Type</label>
                                                         <div class="col-sm-9">
-                                                            <select name="file_type_id" id=""
-                                                                class="form-control">
+                                                            <select name="file_type_id" id="" class="form-control single-select-field">
                                                                 @foreach ($data['fileTypes'] as $file)
                                                                     <option value="{{ old('file_type_id', $file->id) }}">
                                                                         {{ $file->uploadfiletype_code }}</option>
@@ -591,7 +591,7 @@
                                                     <label for="twente_four"
                                                         class="col-sm-3 col-form-label">Department</label>
                                                     <div class="col-sm-9">
-                                                        <select name="department" class="form-control" required>
+                                                        <select name="department" class="form-control single-select-field" required>
                                                             <option value="">Select One</option>
                                                             @foreach ($data['departments'] as $department)
                                                                 <option value="{{ $department->id }}">
@@ -712,6 +712,10 @@
 
 
     @section('scripts')
+
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
+        @include('admin.include.select2js')
         <!-- ckeditor -->
         <script src="{{ URL::asset('build/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
 
@@ -725,24 +729,21 @@
                 console.log(formAction);
                 $('#follow_upeditClient').html('');
                 $('#follow_upeditClient').html('<div class="col-lg-12">\
-                                                                                <h5>Edit Follow Up</h5>\
-                                                                                <form action="' + formAction +
-                    '" method="POST">\
-                                                                                    @csrf\
-                                                                                    <div class="row mb-4">\
-                                                                                        <label for="twente_four" class="col-sm-2 col-form-label">Description</label>\
-                                                                                        <div class="col-sm-8">\
-                                                                                            <input type="hidden" name="clients_id" value="' +
-                    clients_id + '">\
-                                                                                            <div id="ckeditor-container-' +
-                    id + '"></div>\
-                                                                                            <input type="hidden" name="description">\
-                                                                                        </div>\
-                                                                                        <div class="col-sm-2"></div>\
-                                                                                    </div>\
-                                                                                    <button type="submit" class="btn btn-sm btn-info mt-2">Update</button>\
-                                                                                </form>\
-                                                                            </div>');
+                                                <h5>Edit Follow Up</h5>\
+                                                    <form action="' + formAction +'" method="POST">\
+                                                         @csrf\
+                                                        <div class="row mb-4">\
+                                                            <label for="twente_four" class="col-sm-2 col-form-label">Description</label>\
+                                                            <div class="col-sm-8">\
+                                                                <input type="hidden" name="clients_id" value="' + clients_id + '">\
+                                                                <div id="ckeditor-container-' + id + '"></div>\
+                                                                <input type="hidden" name="description">\
+                                                            </div>\
+                                                            <div class="col-sm-2"></div>\
+                                                        </div>\
+                                                        <button type="submit" class="btn btn-sm btn-info mt-2">Update</button>\
+                                                   </form>\
+                                                /div>');
 
                 // Dynamically initialize CKEditor for the added textarea
                 ClassicEditor

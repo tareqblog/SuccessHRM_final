@@ -40,6 +40,7 @@ use App\Models\TimeSheet;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class CandidateController extends Controller
 {
@@ -403,20 +404,32 @@ class CandidateController extends Controller
             abort(403, 'Unauthorized');
         }
 
-        $request->validate([
+        $url = '/ATS/candidate/' . $id . '/edit#remark';
+
+        $validator = Validator::make($request->all(), [
             'candidate_id' => 'required|integer',
             'remarkstype_id' => 'required|integer',
-            'isNotice' => 'nullable|boolean',
+            'isNotice' => 'required|boolean',
             'remarks' => 'required',
         ]);
 
+        if ($validator->fails()) {
+            return redirect($url)
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $validator->validated();
 
         $candidate = candidate::find($id);
+
+        if(!$candidate) return redirect($url)->with('error', 'Candidate Not Found!!');
+
         $dashboard = Dashboard::where('candidate_id', $request->candidate_id)->first();
 
-        // try {
+        try {
             // Begin a transaction
-            // DB::beginTransaction();
+            DB::beginTransaction();
 
             $auth = Auth::user()->employe;
             $candidate_remark = CandidateRemark::create([
@@ -424,7 +437,6 @@ class CandidateController extends Controller
                 'remarkstype_id' => $request->remarkstype_id,
                 'isNotice' => $request->isNotice,
                 'remarks' => $request->remarks,
-                'email_notice_date' => $request->email_notice_date,
                 'ar_no' => $request->client_ar_no,
                 'assign_to' => $request->Assign_to_manager,
                 'client_company' => $request->client_company,
@@ -480,6 +492,8 @@ class CandidateController extends Controller
                     'contact_signing_date' => $request->shortlistContractSigningDate,
                     'probition_period' => $request->shortlistProbationPeriod,
                     'last_day' => $request->shortlistLastDay,
+                    'email_notice_time' => $request->shortlistEmailNoticeTime,
+                    'email_notice_date' => $request->shortlistEmailNoticeDate,
                 ]);
 
                 $calander['candidate_remark_shortlist_id'] = $list->id;
@@ -515,6 +529,8 @@ class CandidateController extends Controller
                     'job_offer_salary' => $request->inteview_job_offer_salary,
                     'available_date' => $request->available_date,
                     'receive_job_offer' => $request->interview_received_job_offer,
+                    'email_notice_date' => $request->interviewEmailNoticeDate,
+                    'attend_interview' => $request->attendInterview,
                 ]);
 
                 $calander['candidate_remark_shortlist_id'] = $list->id;
@@ -535,12 +551,12 @@ class CandidateController extends Controller
                 'remark_id' => $assign_dashboard_remark['remark_id']
             ]);
 
-        //     DB::commit();
-            return redirect()->route('candidate.edit', [$id, '#remark'])->with('success', 'Remark added successfully.');
-        // } catch (\Exception $e) {
-        //     DB::rollback();
-        //     return back()->with('error', $e->getMessage());
-        // }
+            DB::commit();
+            return redirect($url)->with('success', 'Remark added successfully.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect($url)->with('error', $e->getMessage());
+        }
     }
 
 
@@ -649,5 +665,151 @@ class CandidateController extends Controller
         ];
 
         return response()->json($data);
+    }
+
+    public function candidates_edit_remark(candidate $candidate, CandidateRemark $remark)
+    {
+        if (is_null($this->user) || !$this->user->can('candidate.edit')) {
+            abort(403, 'Unauthorized');
+        }
+        $auth = Auth::user()->employe;
+
+        $fileTypes = uploadfiletype::where('uploadfiletype_status', 1)->where('uploadfiletype_for', 1)->latest()->get();
+        $department_data = Department::orderBy('department_seqno')->where('department_status', '1')->get();
+        $designation_data = Designation::orderBy('designation_seqno')->where('designation_status', '1')->get();
+        $paymode_data = paymode::orderBy('paymode_seqno')->where('paymode_status', '1')->get();
+        $race_data = Race::orderBy('race_seqno')->where('race_status', '1')->get();
+        $marital_data = maritalStatus::orderBy('marital_statuses_seqno')->where('marital_statuses_status', '1')->get();
+        $passtype_data = passtype::orderBy('passtype_seqno')->where('passtype_status', '1')->get();
+        $religion_data = religion::orderBy('religion_seqno')->where('religion_status', '1')->get();
+        $outlet_data = Outlet::orderBy('id')->get();
+        $client_files = ClientUploadFile::where('client_id', $candidate->id)->where('file_type_for', 1)->get();
+        $remarks_type = remarkstype::where('remarkstype_status', 1)->select('id', 'remarkstype_code')->latest()->get();
+        $client_remarks = CandidateRemark::where('candidate_id', $candidate->id)->latest()->get();
+        $job_types = jobtype::where('jobtype_status', 1)->select('id', 'jobtype_code')->get();
+        $clients = client::where('clients_status', 1)->latest()->get();
+        $payrolls = CandidatePayroll::where('candidate_id', $candidate->id)->latest()->get();
+        $families = CandidateFamily::where('candidate_id', $candidate->id)->latest()->get();
+        $time = CandidateWorkingHour::where('candidate_id', $candidate->id)->first();
+        $candidate_resume = CandidateResume::where('candidate_id', $candidate->id)->latest()->get();
+        $nationality = country::orderBy('en_country_name')->get();
+        $users = Employee::where('roles_id', 4)->where('id', '!=', $auth->id)->latest()->get();
+        $Paybanks = Paybank::orderBy('Paybank_seqno')->select('id', 'Paybank_code')->where('Paybank_status', 1)->get();
+        $time_sheet = TimeSheet::latest()->get();
+
+        return view('admin.candidate.remarkedit', compact('Paybanks', 'fileTypes', 'client_files', 'candidate', 'outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data', 'remarks_type', 'client_remarks', 'job_types', 'clients', 'payrolls', 'time', 'families', 'candidate_resume', 'nationality', 'users', 'time_sheet', 'remark'));
+    }
+
+    public function candidate_remark_update(Request $request, CandidateRemark $remark)
+    {
+        $url = '/ATS/candidate/' . $remark->candidate_id . '/edit#remark';
+
+        $auth = Auth::user()->employe;
+        $validator = Validator::make($request->all(), [
+            'remarks' => 'string|required',
+            'ar_no' => 'string|nullable',
+            'assign_to' => 'numeric|nullable',
+            'client_company' => 'numeric|nullable',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect($url)
+            ->withErrors($validator)
+            ->withInput();
+        }
+
+        $validated = $validator->validated();
+        $validated['modify_by'] = $auth->id;
+
+        $candidate = candidate::find($remark->candidate_id);
+
+        if (!$candidate) return redirect($url)->with('error', 'Candidate Not Found!!');
+
+        $dashboard = Dashboard::where('candidate_id', $request->candidate_id)->first();
+
+        try {
+            DB::beginTransaction();
+
+            $candidate_remark = $remark->update($validated);
+
+            if ($remark->remarkstype_id == 7) {
+                $shortlist = CandidateRemarkShortlist::find($request->shortlist_id);
+
+                $data =[
+                    'salary' => $request->shortlistSalary,
+                    'depertment' => $request->shortlistDepartment,
+                    'hourly_rate' => $request->shortlistHourlyRate,
+                    'placement_recruitment_fee' => $request->shortlistPlacement,
+                    'admin_fee' => $request->shortlistAdminFee,
+                    'start_date' => $request->shortlistStartDate,
+                    'end_date' => $request->shortlistContractEndDate,
+                    'job_title' => $request->shortlistJobTitle,
+                    'reminder_period' => $request->shortlistReminderPeriod,
+                    'job_type' => $request->shortlistJobType,
+                    'contact_signing_time' => $request->shortlistContractSigningTime,
+                    'contact_signing_date' => $request->shortlistContractSigningDate,
+                    'probition_period' => $request->shortlistProbationPeriod,
+                    'last_day' => $request->shortlistLastDay,
+                    'email_notice_time' => $request->shortlistEmailNoticeTime,
+                    'email_notice_date' => $request->shortlistEmailNoticeDate,
+                ];
+
+                $shortlist->update($data);
+                Calander::where('candidate_remark_shortlist_id', $shortlist->id)->delete();
+
+                $calander = [];
+                $calander['candidate_remark_shortlist_id'] = $shortlist->id;
+                if ($shortlist->end_date != null) {
+                    $calander['title'] = 'Contract Ending -' . $candidate->consultant->employee_name . '-' . $remark->outlet->outlet_name;
+                    $calander['date'] = $shortlist->end_date;
+                    $calander['status'] = 4;
+                    Calander::create($calander);
+                }
+                if ($shortlist->start_date != null) {
+                    $calander['title'] = 'Shortlisted -' . $candidate->consultant->employee_name . '-' . $remark->outlet->outlet_name;
+                    $calander['date'] = $shortlist->start_date;
+                    $calander['status'] = 2;
+                    Calander::create($calander);
+                }
+                if ($shortlist->contact_signing_date != null) {
+                    $calander['title'] = Carbon::parse($shortlist->contact_signing_time)->format('h:i A') . ' -Contract Signing -' . $candidate->consultant->employee_name . '-' . $remark->outlet->outlet_name;
+                    $calander['date'] = $shortlist->contact_signing_date;
+                    $calander['status'] = 3;
+                    Calander::create($calander);
+                }
+            }
+
+            if ($remark->remarkstype_id == 5) {
+                $interview = CandidateRemarkInterview::find($request->interview_id);
+                $data = [
+                    'interview_date' => $request->interview_date,
+                    'interview_time' => $request->interview_time,
+                    'interview_by' => $request->interview_by,
+                    'interview_position' => $request->interview_position,
+                    'interview_company' => $request->interview_company,
+                    'expected_salary' => $request->interview_expected_salary,
+                    'job_offer_salary' => $request->inteview_job_offer_salary,
+                    'available_date' => $request->available_date,
+                    'receive_job_offer' => $request->interview_received_job_offer,
+                    'email_notice_time' => $request->interviewEmailNoticeTime,
+                    'email_notice_date' => $request->interviewEmailNoticeDate,
+                    'attend_interview' => $request->attendInterview,
+                ];
+
+                $interview->update($data);
+
+                $interview = CandidateRemarkInterview::find($request->interview_id);
+                $calander_up['title'] = Carbon::parse($interview->interview_time)->format('h:i A') . ' - Interview -' . $candidate->consultant->employee_name . '-' . $interview->company->outlet_name;
+                $calander_up['date'] = $interview->interview_date;
+                $calander = Calander::where('candidate_remark_shortlist_id', $interview->id)->first();
+                $calander->update($calander_up);
+            }
+
+            DB::commit();
+            return redirect($url)->with('success', 'Remark added successfully.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect($url)->with('error', $e->getMessage());
+        }
     }
 }

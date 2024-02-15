@@ -6,9 +6,8 @@
     Client Create
 @endsection
 @section('css')
-    <!-- choices css -->
-    <link href="{{ URL::asset('build/libs/choices.js/public/assets/styles/choices.min.css') }}" rel="stylesheet"
-        type="text/css" />
+    <link href="{{ URL::asset('build/libs/choices.js/public/assets/styles/choices.min.css') }}" rel="stylesheet" type="text/css" />
+    @include('admin.include.select2')
 @endsection
 @section('body')
 
@@ -70,7 +69,7 @@
                                             <label for="two" class="col-sm-5 col-form-label fw-bold">Manager /
                                                 Consultant (In Charge) <span class="text-danger">*</span></label>
                                             <div class="col-sm-7">
-                                                <select name="employees_id" class="form-control" required data-trigger>
+                                                <select name="employees_id" class="form-control single-select-field" required>
                                                     <option disabled selected>Select One</option>
                                                     @foreach ($data['incharges'] as $incharge)
                                                         <option value="{{ $incharge->id }}" @readonly(true)>
@@ -83,7 +82,7 @@
                                             <label for="three" class="col-sm-5 col-form-label fw-bold">Payroll
                                                 Person In Charge</label>
                                             <div class="col-sm-7">
-                                                <select name="payroll_employees_id" class="form-control" data-trigger>
+                                                <select name="payroll_employees_id" class="form-control single-select-field">
                                                     <option selected disabled>Select One</option>
                                                     @foreach ($data['payrolls'] as $payroll)
                                                         <option value="{{ $payroll->id }}"
@@ -113,7 +112,7 @@
                                                 category
                                                 <span class="text-danger">*</span></label>
                                             <div class="col-sm-7">
-                                                <select name="industry_types_id" class="form-control" required data-trigger>
+                                                <select name="industry_types_id" class="form-control single-select-field" required>
                                                     <option disabled selected>Select One</option>
                                                     @foreach ($data['job_categories'] as $category)
                                                         <option value="{{ $category->id }}"
@@ -128,7 +127,7 @@
                                             <label for="nine" class="col-sm-5 col-form-label fw-bold">TNC Template
                                                 <span class="text-danger">*</span></label>
                                             <div class="col-sm-7">
-                                                <select name="tnc_templates_id" class="form-control" required data-trigger>
+                                                <select name="tnc_templates_id" class="form-control single-select-field" required>
                                                     <option disabled selected>Select One</option>
                                                     @foreach ($data['tncs'] as $tnc)
                                                         <option value="{{ $tnc->id }}"
@@ -142,7 +141,7 @@
                                             <label for="client_terms_id" class="col-sm-5 col-form-label fw-bold">Terms
                                             </label>
                                             <div class="col-sm-7">
-                                                <select name="client_terms_id" class="form-control" data-trigger
+                                                <select name="client_terms_id" class="form-control single-select-field"
                                                     id="client_terms_id" placeholder="">
                                                     <option disabled selected>Select One</option>
                                                     @foreach ($data['client_terms'] as $term)
@@ -275,8 +274,9 @@
     @endsection
 
     @section('scripts')
-        <!-- choices js -->
-        <script src="{{ URL::asset('build/libs/choices.js/public/assets/scripts/choices.min.js') }}"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
+        @include('admin.include.select2js')
         <!-- init js -->
         <script src="{{ URL::asset('build/js/pages/form-advanced.init.js') }}"></script>
     @endsection
