@@ -51,12 +51,20 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-
         if (is_null($this->user) || !$this->user->can('employee.index')) {
             abort(403, 'Unauthorized');
         }
-        // $datas = Employee::with('role_data', 'Designation')->where('active_status', 1)->latest()->get();
-        $datas = Employee::with('role_data', 'Designation')->where('active_status', 1)->latest()->get();
+
+        $auth = Auth::user()->employe;
+        $datas = Employee::with('role_data', 'Designation')->where('active_status', 1)->latest();
+        if ($auth->roles_id == 4) {
+            $datas->where('manager_users_id', $auth->id);
+        } elseif ($auth->roles_id == 11) {
+            $datas->where('team_leader_users_id', $auth->id);
+        }
+
+        $datas = $datas->get();
+
         return view('admin.employee.index', compact('datas'));
     }
 
@@ -83,14 +91,14 @@ class EmployeeController extends Controller
         $clients = client::latest()->select('id', 'client_code')->where('clients_status', 1)->get();
         $Paybanks = Paybank::orderBy('Paybank_seqno')->select('id', 'Paybank_code')->where('Paybank_status', 1)->get();
         $emp_admin = Employee::select('id', 'employee_name')->where('roles_id', 1)->get();
+        $managers = Employee::select('id', 'employee_name')->where('roles_id', 4)->get();
 
-        $emp_manager = Employee::select('id', 'employee_name')->where('roles_id', 4)->get();
-        // dd($emp_manager);
 
         $emp_team_leader = Employee::select('id', 'employee_name')->where('roles_id', 11)->get();
 
         $leave_types = LeaveType::latest()->select('id', 'leavetype_code', 'leavetype_default')->where('leavetype_status', 1)->get();
-        return view('admin.employee.create', compact('Paybanks', 'emp_manager', 'emp_admin', 'rols', 'departments', 'designations', 'paymode', 'outlets', 'passes', 'users', 'roles', 'races', 'religions', 'sexs', 'marital_status', 'clients', 'leave_types', 'emp_team_leader'));
+
+        return view('admin.employee.create', compact('Paybanks', 'managers', 'emp_admin', 'rols', 'departments', 'designations', 'paymode', 'outlets', 'passes', 'users', 'roles', 'races', 'religions', 'sexs', 'marital_status', 'clients', 'leave_types', 'emp_team_leader'));
     }
 
     private function sendResetEmail($email)
@@ -114,19 +122,22 @@ class EmployeeController extends Controller
         }
     }
 
-
-
-
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreEmployeeRequest $request)
     {
-
         if (is_null($this->user) || !$this->user->can('employee.store')) {
             abort(403, 'Unauthorized');
         }
 
+        if($this->user->employe->roles_id == 4)
+        {
+            $request['manager_users_id'] = $this->user->employe->id;
+        } elseif ($this->user->employe->roles_id == 11) {
+            $request['team_leader_users_id'] = $this->user->employe->id;
+            $request['team_leader_users_id'] = $this->user->employe->manager_users_id;
+        }
 
         $file_path = $request->file('employee_avater');
 
@@ -138,15 +149,12 @@ class EmployeeController extends Controller
                 'employee_avater' => $uploadedFilePath,
             ]);
 
-
-
             if ($request->email) {
                 $request->validate([
                     'email' => 'required',
                     'password' => 'required|min:8',
                     'password_confirmation' => 'required|min:8',
                 ]);
-
 
                 $google2fa = app('pragmarx.google2fa');
 
@@ -168,7 +176,6 @@ class EmployeeController extends Controller
                     ]);
                 }
             }
-
 
             return redirect()->route('employee.index')->with('success', 'Created successfully.');
         } else {
@@ -237,6 +244,7 @@ class EmployeeController extends Controller
         $marital_status = maritalStatus::latest()->select('id', 'marital_statuses_code')->where('marital_statuses_status', 1)->get();
         $clients = client::latest()->select('id', 'client_code')->where('clients_status', 1)->get();
         $Paybanks = Paybank::orderBy('Paybank_seqno')->select('id', 'Paybank_code')->where('Paybank_status', 1)->get();
+        $managers = Employee::select('id', 'employee_name')->where('roles_id', 4)->get();
 
         $emp_manager = Employee::select('id', 'employee_name')->where('roles_id', 4)->get();
 
@@ -244,7 +252,7 @@ class EmployeeController extends Controller
 
         $emp_admin = Employee::select('id', 'employee_name')->where('roles_id', 1)->get();
         $leave_types = LeaveType::latest()->select('id', 'leavetype_code', 'leavetype_default')->where('leavetype_status', 1)->get();
-        return view('admin.employee.edit', compact('Paybanks', 'emp_manager', 'emp_admin', 'employee', 'rols', 'departments', 'designations', 'paymode', 'outlets', 'passes', 'users', 'roles', 'races', 'religions', 'sexs', 'marital_status', 'clients', 'emp_team_leader', 'leave_types'));
+        return view('admin.employee.edit', compact('Paybanks', 'managers', 'emp_manager', 'emp_admin', 'employee', 'rols', 'departments', 'designations', 'paymode', 'outlets', 'passes', 'users', 'roles', 'races', 'religions', 'sexs', 'marital_status', 'clients', 'emp_team_leader', 'leave_types'));
     }
 
     /**
@@ -255,7 +263,14 @@ class EmployeeController extends Controller
         if (is_null($this->user) || !$this->user->can('employee.update')) {
             abort(403, 'Unauthorized');
         }
-        // dd($request);
+        
+        if ($this->user->employe->roles_id == 4) {
+            $request['manager_users_id'] = $this->user->employe->id;
+        } elseif ($this->user->employe->roles_id == 11) {
+            $request['team_leader_users_id'] = $this->user->employe->id;
+            $request['team_leader_users_id'] = $this->user->employe->manager_users_id;
+        }
+
         if ($request->hasFile('employee_avater')) {
             // Delete the old file
             Storage::delete("public/{$employee->employee_avater}");

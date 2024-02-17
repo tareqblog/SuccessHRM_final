@@ -29,7 +29,7 @@
                             url: '/ATS/get/teamleader/' + managerId,
                             success: function(data) {
                                 $('#teamLeaderSelect').empty();
-                                var candidateTeamLeaderId = '{{ $candidate->team_leader_id }}';
+                                let candidateTeamLeaderId = '{{ $candidate->team_leader_id }}';
                                 let option = $('<option>', {
                                     value: '',
                                     text: 'Choose One',
