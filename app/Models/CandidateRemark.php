@@ -68,4 +68,9 @@ class CandidateRemark extends Model
     {
         return $this->hasOne(CandidateRemarkShortlist::class, 'candidate_remark_id');
     }
+
+    public function assign_client(): HasOne
+    {
+        return $this->HasOne(AssignClient::class, 'candidate_remark_id', 'id');
+    }
 }

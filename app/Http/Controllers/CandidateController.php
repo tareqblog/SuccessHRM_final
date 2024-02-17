@@ -405,7 +405,6 @@ class CandidateController extends Controller
         }
 
         $url = '/ATS/candidate/' . $id . '/edit#remark';
-
         $validator = Validator::make($request->all(), [
             'candidate_id' => 'required|integer',
             'remarkstype_id' => 'required|integer',
@@ -458,8 +457,7 @@ class CandidateController extends Controller
                 'consultant_id' => $candidate->consultant_id,
                 'candidate_remark_id' => $candidate_remark->id,
             ];
-
-            if ($request->remarkstype_id == 5) {
+            if ($request->remarkstype_id == 6) {
                 AssignClient::create([
                     'client_id' => $request->assign_client_id,
                     'candidate_remark_id' => $candidate_remark->id,

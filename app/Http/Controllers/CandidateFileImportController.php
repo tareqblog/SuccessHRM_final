@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\FileHelper;
 use App\Models\Assign;
+use App\Models\AssignClient;
 use App\Models\candidate;
 use App\Models\CandidateFileImport;
 use App\Models\CandidateRemark;
@@ -536,16 +537,16 @@ class CandidateFileImportController extends Controller
 
     public function getCandidateRemark(candidate $candidate)
     {
-        $remarks = $candidate->remarks;
+       $remarks = $candidate->remarks;
 
-        $data = [];
-        foreach ($remarks as $key => $remark) {
+       $data = [];
+        foreach ($remarks as $remark) {
             $data[] = [
                 'candidate_name' => $remark->candidate->candidate_name ?? '',
-                'assign_to' => $remark->assign_to ?? '',
+                'assign_to' => $remark->Assign->name ?? '',
                 'remarkstype' => $remark->remarksType->remarkstype_code ?? '',
                 'remarks' => $remark->remarks,
-                'client' => $remark->client_company ?? '',
+                'client' => $remark->assign_client->client->client_name ?? '',
                 'created_by' => $remark->Assign->name,
                 'date' => Carbon::parse($remark->created_at)->format('H:i:s d-M-Y'),
                 'create_time' => Carbon::parse($remark->created_at)->format('H:i:s'),

@@ -63,6 +63,7 @@ $(document).ready(function () {
         }
         //AssignToRC end
         // AssignToClient Start
+
         if (selectedValue === '7') {
             $('#shortlistClientCompany').show().css('display', 'show');
             $('#shortlistDepartment').show().css('display', 'show');
@@ -71,7 +72,7 @@ $(document).ready(function () {
             $('#shortlistJobType').show().css('display', 'show');
             $('#shortlistProbationPeriod').show().css('display', 'show');
             $('#shortlistContractSigningDate').show().css('display', 'show');
-            $('#shortlistContractEndDate').show().css('display', 'show');
+            $('#testone').show().css('display', 'show');
             $('#shortlistEmailNoticeDate').show().css('display', 'show');
             $('#shortlistSalary').show().css('display', 'show');
             $('#shortlistArNo').show().css('display', 'show');
@@ -96,7 +97,7 @@ $(document).ready(function () {
             $('#shortlistHourlyRate').hide().css('display', 'none');
             $('#shortlistAdminFee').hide().css('display', 'none');
             $('#shortlistStartDate').hide().css('display', 'none');
-            $('#shortlistContractEndDate').hide().css('display', 'none');
+            $('#testone').hide().css('display', 'none');
             $('#shortlistReminderPeriod').hide().css('display', 'none');
             $('#shortlistContractSigningTime').hide().css('display', 'none');
             $('#shortlistLastDay').hide().css('display', 'none');

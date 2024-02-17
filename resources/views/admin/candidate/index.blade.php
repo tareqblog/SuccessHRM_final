@@ -113,23 +113,22 @@
 
                         <div class="mt-3" style="height: 60vh; border: 1px solid black">
                             <div id="candidateResume" class="p-3" style="display: none; height: 100%; overflow: auto;">
-                                <table class="table table-bordered mb-0 bg-light" id="remarkTable">
+                                <table id="candidateRemarkTable" class="display">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
-                                            <th>Assign</th>
+                                            <th>Count</th>
+                                            <th>Assign To</th>
                                             <th>Client</th>
-                                            <th>Remark Type</th>
-                                            <th>Received Offer</th>
-                                            <th>Comments</th>
-                                            <th>Create By</th>
+                                            <th>Remarks Type</th>
+                                            <th>Remarks</th>
+                                            <th>Created By</th>
                                             <th>Create Time</th>
                                             <th>Create Date</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="tableContent">
-                                    </tbody>
+                                    <tbody></tbody>
                                 </table>
+
                             </div>
                         </div>
                     </div>
@@ -140,6 +139,7 @@
     @endsection
 
     @section('scripts')
+
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
@@ -149,15 +149,13 @@
                     responsive: true
                 });
 
-                 $(document).ready(function() {
-                    $('.resumePath').on('click', function() {
-                        let filePath = $(this).data('file-path');
-                        const iframe = document.getElementById('pdfViewer');
-                        let publicUrl = "{{ asset(Storage::url('')) }}" + "/" + filePath;
-                        iframe.src = publicUrl;
-                        iframe.width = "100%";
-                        iframe.height = "600px";
-                    });
+                $('.resumePath').on('click', function() {
+                    let filePath = $(this).data('file-path');
+                    const iframe = document.getElementById('pdfViewer');
+                    let publicUrl = "{{ asset(Storage::url('')) }}" + "/" + filePath;
+                    iframe.src = publicUrl;
+                    iframe.width = "100%";
+                    iframe.height = "600px";
                 });
             });
 
@@ -166,93 +164,48 @@
                     type: 'GET',
                     url: '/ATS/get/candidate/remarks/' + candidateId,
                     success: function(response) {
-                        let clientResume = document.getElementById('clientResume');
-
-                        if (clientResume.style.display === 'none') {
-                            clientResume.style.display = 'block';
-                        }
-
-                        // Destroy DataTable if already initialized
-                        if ($.fn.DataTable.isDataTable('#remarkTable')) {
-                            $('#remarkTable').DataTable().destroy();
-                        }
-
-                        // Empty the table content before adding new rows
-                        $('#tableContent').empty();
-
                         let remarkData = response.remarks;
-
-                        for (let i = 0; i < remarkData.length; i++) {
-                            let count = 1 + i;
-                            let newRowHtml = '<tr>' +
-                                '<th scope="row">' + count + '</th>' +
-                                '<td>' + remarkData[i].created_by + '</td>' +
-                                '<td>' + remarkData[i].description + '</td>' +
-                                '<td>' + remarkData[i].create_time + '</td>' +
-                                '<td>' + remarkData[i].create_date + '</td>' +
-                                '</tr>';
-
-                            $('#tableContent').append(newRowHtml);
-                        }
-
-                        // Reinitialize DataTable
-                        $('#remarkTable').DataTable({
-                            "pageLength": 5
-                        });
-
-                    },
-                    error: function(error) {
-                        console.log(error);
-                    }
-                });
-            }
-            function getRemark(candidateId) {
-                $.ajax({
-                    type: 'GET',
-                    url: '/ATS/get/candidate/remarks/' + candidateId,
-                    success: function(response) {
                         let candidateResume = document.getElementById('candidateResume');
 
                         if (candidateResume.style.display === 'none') {
                             candidateResume.style.display = 'block';
                         }
-
                         // Destroy DataTable if already initialized
-                        if ($.fn.DataTable.isDataTable('#remarkTable')) {
-                            $('#remarkTable').DataTable().destroy();
+                        if ($.fn.DataTable.isDataTable('#candidateRemarkTable')) {
+                            $('#candidateRemarkTable').DataTable().destroy();
                         }
 
-                        // Empty the table content before adding new rows
-                        $('#tableContent').empty();
+                        // Clear existing rows
+                        $('#candidateRemarkTable').find('tbody').empty();
 
-                        let remarkData = response.remarks;
-
+                        // Populate table with data
                         for (let i = 0; i < remarkData.length; i++) {
                             let count = 1 + i;
                             let newRowHtml = '<tr>' +
-                                '<th scope="row">' + count + '</th>' +
-                                '<td>' + remarkData[i].assign_to + '</td>' +
-                                '<td>' + remarkData[i].client + '</td>' +
-                                '<td>' + remarkData[i].remarkstype + '</td>' +
-                                '<td>' + remarkData[i].remarks + '</td>' +
-                                '<td>' + remarkData[i].created_by + '</td>' +
-                                '<td>' + remarkData[i].create_time + '</td>' +
-                                '<td>' + remarkData[i].create_date + '</td>' +
+                                    '<th scope="row">' + count + '</th>' +
+                                    '<td>' + remarkData[i].assign_to + '</td>' +
+                                    '<td>' + remarkData[i].client + '</td>' +
+                                    '<td>' + remarkData[i].remarkstype + '</td>' +
+                                    '<td>' + remarkData[i].remarks + '</td>' +
+                                    '<td>' + remarkData[i].created_by + '</td>' +
+                                    '<td>' + remarkData[i].create_time + '</td>' +
+                                    '<td>' + remarkData[i].create_date + '</td>' +
                                 '</tr>';
 
-                            $('#tableContent').append(newRowHtml);
+                            $('#candidateRemarkTable').append(newRowHtml);
                         }
 
-                        // Reinitialize DataTable
-                        $('#remarkTable').DataTable({
+                        // Initialize DataTable
+                        $('#candidateRemarkTable').DataTable({
                             "pageLength": 5
                         });
-
                     },
                     error: function(error) {
                         console.log(error);
                     }
                 });
+
+
             }
         </script>
     @endsection

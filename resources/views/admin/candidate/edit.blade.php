@@ -1373,7 +1373,7 @@
                                                 <div class="col-sm-9">
                                                     <select name="assign_client_id"
                                                         class="form-control single-select-field">
-                                                        <option value="">Select One</option>
+                                                        <option selected disabled>Select One</option>
                                                         @foreach ($clients as $client)
                                                             <option value="{{ $client->id }}">
                                                                 {{ $client->client_name }} </option>
@@ -1640,16 +1640,29 @@
                                                         name="shortlistContractSigningTime">
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistContractEndDate"
-                                                style="display: none;">
+                                            {{-- <div class="row col-md-6 col-lg-6 mb-1">
                                                 <label for="one" class="col-sm-3 col-form-label fw-bold">Contract
-                                                    End
+                                                    Signing
                                                     Time <span class="text-danger">*</span></label>
+                                                <div class="col-sm-9">
+                                                    <input type="time" class="form-control"
+                                                        name="shortlistContractEndDate">
+                                                </div>
+                                            </div> --}}
+                                            <div class="row col-md-6 col-lg-6 mb-1" id="testone" style="display: none;">
+                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Contract End Date <span class="text-danger">*</span></label>
+                                                <div class="col-sm-9">
+                                                    <input type="date" class="form-control"
+                                                        name="testone">
+                                                </div>
+                                            </div>
+                                            {{-- <div class="row col-md-6 col-lg-6 mb-1" id="shortlistContractEndDate" style="display: none;">
+                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Contract End Date <span class="text-danger">*</span></label>
                                                 <div class="col-sm-9">
                                                     <input type="date" class="form-control"
                                                         name="shortlistContractEndDate">
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             <div class="row col-md-6 col-lg-6 mb-1" id="shortlistLastDay" style="display: none;">
                                                 <label for="one" class="col-sm-3 col-form-label fw-bold">Last
                                                     Day</label>
@@ -2455,7 +2468,6 @@
         <script language="javascript" type="text/javascript">
             if (window.location.hash) {
                 var hash = window.location.hash;
-                console.log(hash);
                 document.querySelector('[href="' + hash + '"]').click();
             }
         </script>

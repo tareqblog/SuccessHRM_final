@@ -1366,14 +1366,14 @@
                                                     </select>
                                                 </div>
                                             </div>
+                                            {{-- @dump($remark->assign_client->client->id) --}}
                                             <div class="row col-md-6 col-lg-6 mb-1" id="AssignToClient" style="display: none;">
                                                 <label for="one" class="col-sm-3 col-form-label fw-bold">Client </label>
                                                 <div class="col-sm-9">
                                                     <select name="assign_client_id"
-                                                        class="form-control single-select-field">
-                                                        <option value="">Select One</option>
+                                                        class="form-control single-select-field" disabled>
                                                         @foreach ($clients as $client)
-                                                            <option value="{{ $client->id }}" >
+                                                            <option value="{{ $client->id }}" {{ old('assign_client_id', $remark->assign_client->client->id) == $client->id ? 'selected' : '' }} >
                                                                 {{ $client->client_name }} </option>
                                                         @endforeach
                                                     </select>
