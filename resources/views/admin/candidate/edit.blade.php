@@ -169,7 +169,7 @@
                                                     <div class="col-sm-7">
                                                         <select id="consultantSelect"
                                                             class="form-control single-select-field" name="consultant_id">
-                                                            <option value="" selected disabled>Select One </option>
+                                                            <option selected disabled>Select One </option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -2250,8 +2250,7 @@
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Time Sheet
-                                                        Type</label>
+                                                    <label for="one" class="col-sm-3 col-form-label">Time Sheet Type</label>
                                                     <input type="hidden" name="candidate_id"
                                                         value="{{ $candidate->id }}">
                                                     <div class="col-sm-9">
@@ -2468,7 +2467,7 @@
                             entries = JSON.parse(entries);
 
                             Object.values(entries).forEach(entry => {
-                                let isWorkChecked = entry.isWork === "1" ? 'checked' : '';
+                                let isWorkChecked = entry.isWork === "on" ? 'checked' : '';
                                 let inTime = entry.in_time ? entry.in_time.substring(0, 5) : '';
                                 let outTime = entry.out_time ? entry.out_time.substring(0, 5) : '';
                                 let lunch_time = entry.lunch_time;

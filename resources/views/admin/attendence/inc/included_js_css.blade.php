@@ -71,12 +71,20 @@
         $('.remove-claim-' + day).show();
     }
 
+    function next_day(day)
+    {
+        // console.log(day);
+    }
+
     function timeCalculation(day) {
         let lunch_val = tream($('.lunch_val-' + day).val());
         let inTime = $('.inTime-' + day).val();
+        console.log(inTime);
         let outTime = $('.outTime-' + day).val();
+        console.log(outTime);
         let ot = parseTimeString($('.ot-' + day).val());
         const timeDifference = calculateTimeDifference(inTime, outTime, day);
+        console.log(timeCalculation);
         const after_leave = leaveDay(day, timeDifference);
         const sumTimeDifference = sumTimeDifferences([after_leave, ot]);
         const normal_time = sumTimeDifference.hours + ' h ' + sumTimeDifference.minutes + ' m';
@@ -195,6 +203,7 @@
     function calculateTimeDifference(inTime, outTime, day = 0) {
         let hours = 0;
         let minutes = 0;
+        let overtime = 0;
 
         if (!inTime || !outTime) {
             return { hours, minutes };
@@ -204,7 +213,11 @@
         let outMoment = moment(outTime, 'HH:mm');
 
         if (outMoment.isBefore(inMoment)) {
-            outMoment.add(1, 'day');
+            var hourDifference = outMoment.diff(inMoment, 'hours');
+            if (hourDifference <= 24) {
+                // outMoment = inMoment.clone().add(24, 'hours');
+                outMoment.add(1, 'day');
+            }
         }
 
         let minutesDifference = outMoment.diff(inMoment, 'minutes');
@@ -218,14 +231,17 @@
 
         let oldinMoment = moment(oldIn, 'HH:mm');
         let oldoutMoment = moment(oldOut, 'HH:mm');
+
         if (oldoutMoment.isBefore(oldinMoment)) {
             oldoutMoment.add(1, 'day');
         }
 
         const oldMinutesDifference = oldoutMoment.diff(oldinMoment, 'minutes');
+        // console.log(oldMinutesDifference);
+        // console.log(minutesDifference);
 
         if (minutesDifference > oldMinutesDifference) {
-            let overtime = minutesDifference - oldMinutesDifference;
+            overtime = minutesDifference - oldMinutesDifference;
             minutesDifference = oldMinutesDifference;
             ot_calculation(overtime, day);
         }

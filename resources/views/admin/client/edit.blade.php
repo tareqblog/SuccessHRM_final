@@ -97,14 +97,12 @@
                                             <label for="one" class="col-sm-5 col-form-label fw-bold">Client
                                                 Name <span class="text-danger">*</span> </label>
                                             <div class="col-sm-7">
-                                                <input type="text" name="client_name" class="form-control"
-                                                    placeholder="Client Name" value="{{ old('client_name') || $client->client_name }}" required>
+                                                <input type="text" name="client_name" class="form-control" value="{{ old('client_name', $client->client_name) }}" required>
                                             </div>
                                         </div>
 
                                         <div class="row col-lg-6 mb-1">
-                                            <label for="two" class="col-sm-5 col-form-label fw-bold">Manager /
-                                                Consultant (In Charge) <span class="text-danger">*</span></label>
+                                            <label for="two" class="col-sm-5 col-form-label fw-bold">Manager / Consultant (In Charge) <span class="text-danger">*</span></label>
                                             <div class="col-sm-7">
                                                 <select name="employees_id" class="form-control single-select-field" required>
                                                     <option disabled selected>Select One</option>
@@ -133,12 +131,6 @@
                                             </div>
                                         </div>
                                         <div class="row col-lg-6 mb-1">
-                                            <label for="four" class="col-sm-5 col-form-label fw-bold">Remark</label>
-                                            <div class="col-sm-7">
-                                                <textarea name="client_remarks" rows="2" class="form-control" placeholder="Remark">{{ $client->client_remarks }} </textarea>
-                                            </div>
-                                        </div>
-                                        <div class="row col-lg-6 mb-1">
                                             <label for="six" class="col-sm-5 col-form-label fw-bold">Renewal
                                                 TNC</label>
                                             <div class="col-sm-7">
@@ -162,7 +154,6 @@
                                                 </select>
                                             </div>
                                         </div>
-
                                         <div class="row col-lg-6 mb-1">
                                             <label for="nine" class="col-sm-5 col-form-label fw-bold">TNC Template
                                                 <span class="text-danger">*</span></label>
@@ -191,6 +182,12 @@
                                                             {{ $term->client_term_code }}</option>
                                                     @endforeach
                                                 </select>
+                                            </div>
+                                        </div>
+                                        <div class="row col-lg-6 mb-1">
+                                            <label for="four" class="col-sm-5 col-form-label fw-bold">Remark</label>
+                                            <div class="col-sm-7">
+                                                <textarea name="client_remarks" rows="2" class="form-control" placeholder="Remark">{{ $client->client_remarks }} </textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -239,26 +236,18 @@
                                             </div>
                                         </div>
                                         <div class="row col-lg-6  mb-1">
-                                            <label for="sixteen" class="col-sm-5 col-form-label fw-bold">Street</label>
-                                            <div class="col-sm-7">
-                                                <textarea name="client_street" rows="2" class="form-control" placeholder="Address">{{ $client->client_street }} </textarea>
-                                            </div>
-                                        </div>
-                                        <div class="row col-lg-6  mb-1">
                                             <label for="seventeen" class="col-sm-5 col-form-label fw-bold">Attention
                                                 Designation</label>
                                             <div class="col-sm-7">
                                                 <input type="text" name="client_attention_designation"
-                                                    class="form-control" placeholder="Attention Designation"
-                                                    value="{{ $client->client_attention_designation }}">
+                                                    class="form-control" value="{{ $client->client_attention_designation }}">
                                             </div>
                                         </div>
                                         <div class="row col-lg-6  mb-1">
                                             <label for="eighteen"
                                                 class="col-sm-5 col-form-label fw-bold">Designation</label>
                                             <div class="col-sm-7">
-                                                <input type="text" name="client_designation" class="form-control"
-                                                    placeholder="Designation" value="{{ $client->client_designation }}">
+                                                <input type="text" name="client_designation" class="form-control" value="{{ $client->client_designation }}">
                                             </div>
                                         </div>
                                         <div class="row col-lg-6  mb-1">
@@ -292,13 +281,19 @@
                                                     placeholder="Web Site" value="{{ $client->client_website }}">
                                             </div>
                                         </div>
+                                        <div class="row col-lg-6  mb-1">
+                                            <label for="sixteen" class="col-sm-5 col-form-label fw-bold">Street</label>
+                                            <div class="col-sm-7">
+                                                <textarea name="client_street" rows="2" class="form-control" placeholder="Address">{{ $client->client_street }} </textarea>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-9">
                                             <div>
                                                 <a href="#" class="btn btn-sm btn-secondary w-md">Cancel</a>
                                                 <button type="submit" class="btn btn-sm btn-info w-md">Submit</button>
-                                                <a href="#" class="btn btn-sm btn-primary w-md">Print TNC SRC</a>
+                                                <a href="{{ route('client.tnctemplate.download', $client->id) }}" target="__blank"  class="btn btn-sm btn-primary w-md">Print TNC SRC</a>
                                                 <a href="#" class="btn btn-sm btn-primary w-md">Print TNC SHRC</a>
                                             </div>
                                         </div>

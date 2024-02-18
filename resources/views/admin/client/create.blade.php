@@ -94,12 +94,6 @@
                                             </div>
                                         </div>
                                         <div class="row col-lg-6 mb-1">
-                                            <label for="four" class="col-sm-5 col-form-label fw-bold">Remark</label>
-                                            <div class="col-sm-7">
-                                                <textarea name="client_remarks" rows="2" class="form-control" placeholder="Remark">{{ old('client_remarks') }} </textarea>
-                                            </div>
-                                        </div>
-                                        <div class="row col-lg-6 mb-1">
                                             <label for="six" class="col-sm-5 col-form-label fw-bold">Renewal
                                                 TNC</label>
                                             <div class="col-sm-7">
@@ -152,6 +146,12 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        <div class="row col-lg-6 mb-1">
+                                            <label for="four" class="col-sm-5 col-form-label fw-bold">Remark</label>
+                                            <div class="col-sm-7">
+                                                <textarea name="client_remarks" rows="2" class="form-control" placeholder="Remark">{{ old('client_remarks') }} </textarea>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -199,12 +199,6 @@
                                         </div>
                                     </div>
                                     <div class="row col-lg-6  mb-1">
-                                        <label for="sixteen" class="col-sm-5 col-form-label fw-bold">Street</label>
-                                        <div class="col-sm-7">
-                                            <textarea name="client_street" rows="2" class="form-control" placeholder="Address">{{ old('client_street') }} </textarea>
-                                        </div>
-                                    </div>
-                                    <div class="row col-lg-6  mb-1">
                                         <label for="seventeen" class="col-sm-5 col-form-label fw-bold">Attention
                                             Designation</label>
                                         <div class="col-sm-7">
@@ -249,6 +243,12 @@
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control" name="client_website"
                                                 placeholder="Web Site" value="{{ old('client_website') }}">
+                                        </div>
+                                    </div>
+                                    <div class="row col-lg-6  mb-1">
+                                        <label for="sixteen" class="col-sm-5 col-form-label fw-bold">Street</label>
+                                        <div class="col-sm-7">
+                                            <textarea name="client_street" rows="2" class="form-control" placeholder="Address">{{ old('client_street') }} </textarea>
                                         </div>
                                     </div>
                                 </div>

@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
 // use Maatwebsite\Excel\Excel;
 use Excel;
+use setasign\Fpdi\Fpdi;
 
 class ClientController extends Controller
 {
@@ -468,5 +469,63 @@ class ClientController extends Controller
             $remarks[] = $remarkData;
         }
         return response()->json(['remarks' => $remarks]);
+    }
+
+    public function client_tnctemplate_download(client $client)
+    {
+        $file_path = public_path('/storage/'.$client->tnc_template->tnc_template_file_path);
+        $file_name = basename($file_path);
+        $output_directory = public_path('/storage/tnc/convert/');
+        $output_file_path = $output_directory . $file_name;
+        if (!is_dir($output_directory)) {
+            mkdir($output_directory, 0777, true);
+        }
+
+        $this->file_convert($file_path, $output_file_path);
+
+        return response()->file($output_file_path);
+    }
+
+    private function file_convert($file_path, $output_file_path)
+    {
+        $fpdi = new Fpdi();
+        $count = $fpdi->setSourceFile($file_path);
+        for ($i = 1; $i <= $count; $i++) {
+            $template = $fpdi->importPage($i);
+            $size = $fpdi->getTemplateSize($template);
+
+            $fpdi->AddPage($size['orientation'], array($size['width'], $size['height']));
+            $fpdi->useTemplate($template);
+
+            $left = 10;
+            $top = 10;
+            $width = (int)$size['width'];
+            $textLinesWithStyles = $this->text();
+            foreach ($textLinesWithStyles as $textWithStyle) {
+                $top = $top + 5;
+
+                list($text, $font, $style, $size, $color) = $textWithStyle;
+                $fpdi->SetFont($font, $style, $size);
+                $fpdi->SetTextColor($color[0], $color[1], $color[2]);
+                $textWidth = $fpdi->GetStringWidth($text);
+
+                $x = ($width - $textWidth) / 2;
+                $fpdi->Text($x, $top, $text);
+            }
+        }
+
+        return $fpdi->Output($output_file_path, 'F');
+    }
+
+    private function text()
+    {
+        return [
+            ["SUCCESS RESOURCE CENTRE PTE LTD", "Arial", "B", 15, [39, 191, 49]],
+            ["3 Shenton Way, #19-01 Shenton House, Singapore 068805", "Arial", "", 10, [16, 16, 16]],
+            ["Tel: 63373183 Fax: 63370329 / 63370425", "Arial", "", 10, [16, 16, 16]],
+            ["Email: jansen@successhrc.com.sg", "Arial", "", 10, [16, 16, 16]],
+            ["Registration Number:", "Arial", "", 10, [16, 16, 16]],
+            ["EA License Number: 04C3201", "Arial", "", 10, [16, 16, 16]]
+        ];
     }
 }

@@ -63,13 +63,13 @@ class client extends Model
         return $this->followUps()->latest()->first();
     }
 
-    /**
-     * Get the user that owns the client
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function team_leader(): BelongsTo
     {
         return $this->belongsTo(Employee::class, 'payroll_employees_id');
+    }
+
+    public function tnc_template(): BelongsTo
+    {
+        return $this->belongsTo(TncTemplate::class, 'tnc_templates_id');
     }
 }

@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
-                <script>document.write(new Date().getFullYear())</script> © Success HR.
+                <span id="currentYear"></span> © Success HR.
             </div>
             <div class="col-sm-6">
                 <div class="text-sm-end d-none d-sm-block">
@@ -12,3 +12,9 @@
         </div>
     </div>
 </footer>
+
+<script>
+    let currentYear = new Date().getFullYear();
+    let yearSpan = document.getElementById("currentYear");
+    yearSpan.textContent = currentYear;
+</script>

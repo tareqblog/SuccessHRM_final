@@ -6,9 +6,7 @@
     Attendence
 @endsection
 @section('css')
-    <!-- choices css -->
-    <link href="{{ URL::asset('build/libs/choices.js/public/assets/styles/choices.min.css') }}" rel="stylesheet"
-        type="text/css" />
+
 @endsection
 @section('body')
 
@@ -67,7 +65,7 @@
                                             <div class="col-sm-9">
                                                 <input type="hidden" id="candidateId" name="candidate_id">
                                                 <select id="candidateDropdown" class="form-control">
-                                                    <option value="">Select One</option>
+                                                    <option selected disabled>Select One</option>
                                                     @foreach ($candidates as $candidate)
                                                         <option
                                                             value="{{ $candidate->candidate_outlet_id }}-{{ $candidate->id }}"
@@ -81,7 +79,7 @@
                                             <label for="eleven" class="col-sm-3 col-form-label">Company</label>
                                             <div class="col-sm-9">
                                                 <select name="company_id" id="companyDropdown" class="form-control">
-                                                    <option value="">Select One</option>
+                                                    <option selected disabled>Select One</option>
                                                     @foreach ($companies as $company)
                                                         <option  value="{{ $company->id }}"> {{ $company->name }} </option>
                                                     @endforeach
@@ -91,8 +89,7 @@
                                         <div class="row col-lg-6 mb-4">
                                             <label for="thirteen" class="col-sm-3 col-form-label">Invoice Number</label>
                                             <div class="col-sm-9">
-                                                <input type="text" name="invoice_no" class="form-control invoice"
-                                                    placeholder="Invoice no">
+                                                <input type="text" name="invoice_no" class="form-control invoice" placeholder="Invoice no">
                                             </div>
                                         </div>
                                     </div>
@@ -116,53 +113,30 @@
                                             <input type="hidden" name="candidate_id" value="{{$candidate_id ?? ''}}">
                                             <input type="hidden" name="month_year" value="{{$month_year ?? ''}}">
                                             <div class="form-group" style="max-width: 100%; overflow: auto;">
-                                                <div style="display:flex">
-                                                    <label class="control-label">Date</label>
-                                                    <label class="control-label" style="margin-left: 90px">Day</label>
-                                                    <label class="control-label" style="margin-left: 100px;">Time
-                                                        In</label>
-                                                    <label class="control-label" style="margin-left:90px;">Time
-                                                        Out</label>
-                                                    <label class="control-label" style="margin-left: 90px;">Next
-                                                        Day</label>
-                                                    <label class="control-label" style="margin-left: 20px;">Lunch
-                                                        Hour</label>
-                                                    <label class="control-label" style="margin-left: 80px;">Total
-                                                        Hour /
-                                                        Minute</label>
-                                                    <label class="control-label" style="margin-left: 80px;">Normal Hour /
-                                                        Minute</label>
-                                                    <label class="control-label" style="margin-left: 70px;">OT
-                                                        Hour / Minute</label>
-                                                    <label class="control-label" style="margin-left: 65px;">OT
-                                                        Calculation</label>
-                                                    <label class="control-label" style="margin-left: 60px;">OT
-                                                        Edit</label>
-                                                    <label style="margin-left: 70px;" class="control-label">
-                                                        <input type="checkbox" id="allCheckB" name="work_checkbox" class="work_checkbox_parent" onclick="allWork({{ $daysInMonth ?? '' }})">
-                                                        Work
-                                                    </label>
-                                                    {{-- <label style="margin-left: 70px;" class="control-label"><input
-                                                            type="checkbox" id="allCheckB" name="work_checkbox"
-                                                            class="work_checkbox_parent" onclick="allWork({{$daysInMonth ?? ''}})">
-                                                        Work</label> --}}
-                                                    <label class="control-label" style="margin-left: 30px;">PH</label>
-                                                    <label class="control-label" style="margin-left: 40px;">PH
-                                                        Pay</label>
-                                                    <label class="control-label"
-                                                        style="margin-left: 20px;">Remarks</label>
-                                                    <label class="control-label" style="margin-left: 100px;">Type of
-                                                        Leave</label>
-                                                    <label class="control-label" style="margin-left: 70px;">Leave
-                                                        Days</label>
-                                                    <label class="control-label" style="margin-left: 80px;">Leave
-                                                        Attachment</label>
-                                                    <label class="control-label" style="margin-left: 220px;">Claim
-                                                        Attachment</label>
-                                                    <label class="control-label" style="margin-left: 220px;">Type of
-                                                        Reimbursement</label>
-                                                    <label class="control-label" style="margin-left: 100px;">Amount of
-                                                        Reimbursement</label>
+                                                <div class="d-flex justify-content-start">
+                                                    <div><label class="control-label fw-bold text-center" style="width: 120px">Date</label></div>
+                                                    <div><label class="control-label fw-bold text-center" style="width: 120px">Day</label></div>
+                                                    <div><label class="control-label fw-bold text-center" style="width: 125px">Time In</label></div>
+                                                    <div><label class="control-label fw-bold text-center" style="width: 126px">Time Out</label></div>
+                                                    <div><label class="control-label fw-bold text-center" style="width: 60px">Next Day</label></div>
+                                                    <div><label class="control-label fw-bold text-center" style="width: 110px">Lunch Hour</label></div>
+                                                    <div><label class="control-label fw-bold text-center" style="width: 120px">Total Hour / Minute</label></div>
+                                                    <div><label class="control-label fw-bold text-center" style="width: 120px">Normal Hour / Minute</label></div>
+                                                    <div><label class="control-label fw-bold text-center" style="width: 120px">OT Hour / Minute</label></div>
+                                                    <div><label class="control-label fw-bold text-center" style="width: 120px">OT Calculation</label></div>
+                                                    <div><label class="control-label fw-bold text-center" style="width: 80px">OT Edit</label></div>
+                                                    <div><label class="control-label fw-bold text-center" style="width: 100px">
+                                                        <input type="checkbox" id="allCheckB" name="work_checkbox" class="work_checkbox_parent" onclick="allWork({{ $daysInMonth ?? '' }})"> Work </label>
+                                                    </div>
+                                                    <div><label class="control-label fw-bold text-center" style="width: 50px">PH</label></div>
+                                                    <div><label class="control-label fw-bold text-center" style="width: 50px">PH Pay</label></div>
+                                                    <div><label class="control-label fw-bold text-center" style="width: 150px">Remarks</label></div>
+                                                    <div><label class="control-label fw-bold text-center" style="width: 120px">Type of Leave</label></div>
+                                                    <div><label class="control-label fw-bold text-center" style="width: 120px">Leave Days</label></div>
+                                                    <div><label class="control-label fw-bold text-center" style="width: 280px">Leave Attachment</label></div>
+                                                    <div><label class="control-label fw-bold text-center" style="width: 280px">Claim Attachment</label></div>
+                                                    <div><label class="control-label fw-bold text-center" style="width: 200px">Type of Reimbursement</label></div>
+                                                    <div><label class="control-label fw-bold text-center" style="width: 150px">Amount of Reimbursement</label></div>
                                                 </div>
 
                                                 <div id="empty" class="empty">
@@ -209,10 +183,6 @@
     @endsection
 
     @section('scripts')
-        <!-- choices js -->
-        <script src="{{ URL::asset('build/libs/choices.js/public/assets/scripts/choices.min.js') }}"></script>
-        <!-- init js -->
-        <script src="{{ URL::asset('build/js/pages/form-advanced.init.js') }}"></script>
 
         <script>
             $(document).ready(function() {
@@ -220,15 +190,14 @@
                 // Listen for changes in the candidate dropdown
 
                 $('#candidateDropdown').change(function() {
-                    var selectedCandidateId = $(this).val();
+                    let selectedCandidateId = $(this).val();
                     $.ajax({
                         type: 'GET',
                         url: '/ATS/get/candidate/company/' + selectedCandidateId,
                         success: function(response) {
+                            console.log(response);
                             updateCompanyDropdown(response);
-
                             submitForm();
-
                         },
                         error: function(error) {
                             $('#companyDropdown').empty();
@@ -243,9 +212,9 @@
                 function updateCompanyDropdown(response) {
                     $('#companyDropdown').empty();
 
-                    if (response.company && response.candidateId) {
-                        $('#companyDropdown').append('<option value="' + response.company.id + '">' + response.company
-                            .name + '</option>');
+                    if (response.candidateId) {
+                        // $('#companyDropdown').append('<option value="' + response.company.id + '">' + response.company
+                        //     .name + '</option>');
                         $('#candidateId').val(response.candidateId);
                     } else {
                         $('#companyDropdown').append(
