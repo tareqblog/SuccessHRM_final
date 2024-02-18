@@ -1640,29 +1640,13 @@
                                                         name="shortlistContractSigningTime">
                                                 </div>
                                             </div>
-                                            {{-- <div class="row col-md-6 col-lg-6 mb-1">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Contract
-                                                    Signing
-                                                    Time <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="time" class="form-control"
-                                                        name="shortlistContractEndDate">
-                                                </div>
-                                            </div> --}}
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="testone" style="display: none;">
+                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistCoEndDate">
                                                 <label for="one" class="col-sm-3 col-form-label fw-bold">Contract End Date <span class="text-danger">*</span></label>
                                                 <div class="col-sm-9">
                                                     <input type="date" class="form-control"
-                                                        name="testone">
+                                                        name="shortlistContractEndDate">
                                                 </div>
                                             </div>
-                                            {{-- <div class="row col-md-6 col-lg-6 mb-1" id="shortlistContractEndDate" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Contract End Date <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control"
-                                                        name="shortlistContractEndDate">
-                                                </div>
-                                            </div> --}}
                                             <div class="row col-md-6 col-lg-6 mb-1" id="shortlistLastDay" style="display: none;">
                                                 <label for="one" class="col-sm-3 col-form-label fw-bold">Last
                                                     Day</label>

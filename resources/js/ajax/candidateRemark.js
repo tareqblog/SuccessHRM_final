@@ -72,7 +72,6 @@ $(document).ready(function () {
             $('#shortlistJobType').show().css('display', 'show');
             $('#shortlistProbationPeriod').show().css('display', 'show');
             $('#shortlistContractSigningDate').show().css('display', 'show');
-            $('#testone').show().css('display', 'show');
             $('#shortlistEmailNoticeDate').show().css('display', 'show');
             $('#shortlistSalary').show().css('display', 'show');
             $('#shortlistArNo').show().css('display', 'show');
@@ -83,6 +82,7 @@ $(document).ready(function () {
             $('#shortlistContractSigningTime').show().css('display', 'show');
             $('#shortlistLastDay').show().css('display', 'show');
             $('#shortlistEmailNoticeTime').show().css('display', 'show');
+            $('#shortlistCoEndDate').show().css('display', 'show');
         } else {
             $('#shortlistClientCompany').hide().css('display', 'none');
             $('#shortlistDepartment').hide().css('display', 'none');
@@ -102,6 +102,7 @@ $(document).ready(function () {
             $('#shortlistContractSigningTime').hide().css('display', 'none');
             $('#shortlistLastDay').hide().css('display', 'none');
             $('#shortlistEmailNoticeTime').hide().css('display', 'none');
+            $('#shortlistCoEndDate').hide().css('display', 'none');
         }
         //AssignToClient end
 
