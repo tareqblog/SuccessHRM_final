@@ -502,13 +502,13 @@ class CandidateController extends Controller
                     Calander::create($calander);
                 }
                 if ($list->start_date != null) {
-                    $calander['title'] = 'Shortlisted -' . $candidate->consultant-> employee_name . '-' . $candidate_remark->outlet->outlet_name;
+                    $calander['title'] = 'Shortlisted -' . $candidate->consultant->employee_name . '-' . $candidate_remark->outlet->outlet_name;
                     $calander['date'] = $list->start_date;
                     $calander['status'] = 2;
                     Calander::create($calander);
                 }
                 if ($list->contact_signing_date != null) {
-                    $calander['title'] = Carbon::parse($list->contact_signing_time)->format('h:i A') . ' -Contract Signing -'. $candidate->consultant-> employee_name . '-' . $candidate_remark->outlet->outlet_name;
+                    $calander['title'] = Carbon::parse($list->contact_signing_time)->format('h:i A') . ' -Contract Signing -'. $candidate->consultant->employee_name . '-' . $candidate_remark->outlet->outlet_name;
                     $calander['date'] = $list->contact_signing_date;
                     $calander['status'] = 3;
                     Calander::create($calander);

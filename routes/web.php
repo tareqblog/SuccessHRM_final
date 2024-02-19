@@ -156,8 +156,6 @@ Route::prefix('ATS')->group(function () {
     Route::post('salary/info/post', [EmployeeController::class, 'salaryInfoPost'])->name('employee.salary.info.post');
     // Employee extra route ends
 
-
-
     Route::post('/file-upload/{id}', [ClientController::class, 'fileUpload'])->name('client.file.upload');
     Route::delete('/file-delete/{id}', [ClientController::class, 'fileDelete'])->name('client.file.delete');
     Route::post('/client/followup/{id}', [ClientController::class, 'followUp'])->name('client.followup');

@@ -2,9 +2,6 @@
 @section('title')
     Attendence
 @endsection
-@section('page-title')
-    Attendence
-@endsection
 @section('css')
 
 @endsection
@@ -29,7 +26,13 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Attendence</h4>
+                        <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">
+                                <h6 class="card-title mb-0">Attendence</h6>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                            </div>
+                        </div>
                     </div>
 
                     <div class="card-body" style="overflow-x: hidden;">
@@ -57,7 +60,6 @@
                                             <label for="thirteen" class="col-sm-3 col-form-label">Select Date</label>
                                             <div class="col-sm-9">
                                                 <input type="date" name="date" id="dateInput" class="form-control" value="{{ isset($selectedDate) ? $selectedDate->format('Y-m-d') : Carbon\Carbon::now()->format('Y-m-d') }}" required>
-
                                             </div>
                                         </div>
                                         <div class="row col-lg-6  mb-4">

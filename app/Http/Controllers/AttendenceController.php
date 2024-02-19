@@ -8,17 +8,15 @@ use App\Models\Attendance;
 use App\Models\candidate;
 use App\Models\CandidateWorkingHour;
 use App\Models\Company;
-use App\Models\Leave;
 use App\Models\LeaveType;
 use App\Models\TimeSheet;
 use App\Models\TimeSheetEntry;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Psy\CodeCleaner\ReturnTypePass;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class AttendenceController extends Controller
 {
@@ -176,17 +174,22 @@ class AttendenceController extends Controller
         $candidate_id = $parent->candidate_id;
         $company_id = $parent->company_id;
         $attendances = Attendance::where('parent_id', $parent->id)->get();
+        $daysInMonth = $attendances->count();
         $leaveTypes = LeaveType::where('leavetype_status', 1)->get();
-        return view(
-            'admin.attendence.edit',
-            compact(
-                'candidate_id',
-                'company_id',
-                'leaveTypes',
-                'parent',
-                'attendances',
-            )
-        );
+        $month_year = $parent['month_year'];
+        $companies = Company::latest()->get();
+        $candidates = candidate::latest()->get();
+
+        return view('admin.attendence.edit', compact(
+            'daysInMonth',
+            'month_year',
+            'candidate_id',
+            'companies',
+            'candidates',
+            'attendances',
+            'leaveTypes',
+            'parent',
+        ));
     }
 
     public function update(Request $request, string $id)
@@ -195,21 +198,21 @@ class AttendenceController extends Controller
         //     abort(403, 'Unauthorized');
         // }
 
-
         $parent = AttendenceParent::find($id);
 
         $data = $request->group;
         foreach ($data as $group) {
+            $date = Carbon::parse($group['date']);
+            $formattedDate = $date->format('Y-m-d');
             $attendance = Attendance::where('parent_id', $parent->id)
-                ->where('date', $group['date'])
+                ->where('date', $formattedDate)
                 ->first();
-            $attendance->parent_id = $parent->id;
-            $attendance->date = $group['date'];
+
             $attendance->day = $group['day'];
             $attendance->in_time = $group['in_time'];
             $attendance->out_time = $group['out_time'];
             $attendance->next_day = $group['next_day'] ?? 0;
-            $attendance->lunch_hour = $group['lunch_hour'] ? $group['lunch_hour'] : "";
+            $attendance->lunch_hour = $group['lunch_hour'] ? $group['lunch_hour'] : 0;
             $attendance->total_hour_min = $group['total_hour_min'];
             $attendance->normal_hour_min = $group['normal_hour_min'];
             $attendance->ot_hour_min = $group['ot_hour_min'];
@@ -219,8 +222,8 @@ class AttendenceController extends Controller
             $attendance->ph = $group['ph'] ?? 0;
             $attendance->ph_pay = $group['ph_pay'] ?? 0;
             $attendance->remark = $group['remark'];
-            $attendance->type_of_leave = $group['type_of_leave'];
-            $attendance->leave_day = $group['leave_day'];
+            $attendance->type_of_leave = $group['type_of_leave'] ?? 0;
+            $attendance->leave_day = $group['leave_day'] ?? 0;
             if (isset($group['leave_attachment'])) {
                 $attendance->leave_attachment =  FileHelper::uploadFile($group['leave_attachment']);
             }
@@ -334,7 +337,7 @@ class AttendenceController extends Controller
             $formate[$day] = [
                 'ot_edit' => 0,
                 'work' => 0,
-                'date' => $currentMonth->copy()->day($day)->format('m-d-Y'),
+                'date' => $currentMonth->copy()->day($day)->format('d-m-Y'),
                 'next_day' => 0,
                 'day' => $currentMonth->copy()->day($day)->format('l'),
                 'in_time' => null,
@@ -354,9 +357,21 @@ class AttendenceController extends Controller
                 if ($timesheet['day'] === $formate[$day]['day']) {
                     if($timesheet['in_time'] != null)
                     {
+                        $lunch_time = convert_lunch_to_minutes($timesheet['lunch_time']);
+
+                        $in_time = Carbon::createFromFormat("H:i", $timesheet['in_time']);
+                        $out_time = Carbon::createFromFormat("H:i", $timesheet['out_time']);
+                        $minuteDiff = $in_time->diffInMinutes($out_time);
+                        $minuteDiff -= $lunch_time;
+                        $hourDiff = floor($minuteDiff / 60);
+                        $minuteDiff %= 60;
+                        $timedifference = $hourDiff . ' h ' . $minuteDiff . ' m';
+
                         $formate[$day]['work'] = 1;
                         $formate[$day]['in_time'] = $timesheet['in_time'];
                         $formate[$day]['out_time'] = $timesheet['out_time'];
+                        $formate[$day]['total_hour_min'] = $timedifference;
+                        $formate[$day]['normal_hour_min'] = $timedifference;
                         $formate[$day]['lunch_hour'] = $timesheet['lunch_time'];
                         $formate[$day]['ot_rate'] = $timesheet['ot_rate'] ?? 'off';
                         $formate[$day]['minimum'] = $timesheet['minimum'];
@@ -397,16 +412,77 @@ class AttendenceController extends Controller
         $selectCandidate = $candidate->candidate_outlet_id . '-' . $candidate_id;
         $month_year = $validated['date'];
 
-        return view('admin.attendence.create', compact(
-            'daysInMonth',
-            'month_year',
-            'candidate_id',
-            'companies',
-            'candidates',
-            'formate',
-            'leaveTypes',
-            'selectCandidate'
-        ));
+        // return $formate;
+        DB::beginTransaction();
+
+        try {
+            $attP = new AttendenceParent;
+            $attP->candidate_id = $request->candidate_id;
+            $attP->company_id = $request->company_id ?? 0;
+            $attP->invoice_no = $request->invoice_no ?? 0;
+            $attP->month_year = $validated['date'];
+            $attP->save();
+            foreach ($formate as $day => $group) {
+                $date = Carbon::createFromFormat('d-m-Y', $group['date']);
+                $formattedDate = $date->format('Y-m-d');
+
+                $att = new Attendance();
+                $att->parent_id = $attP->id;
+                $att->date = $formattedDate;
+                $att->day = $group['day'];
+                $att->in_time = $group['in_time'];
+                $att->out_time = $group['out_time'];
+                $att->next_day = $group['next_day'] ?? 0;
+                $att->lunch_hour = $group['lunch_hour'] ? $group['lunch_hour'] : "";
+                $att->total_hour_min = $group['total_hour_min'] ?? 0;
+                $att->normal_hour_min = $group['normal_hour_min'] ?? 0;
+                $att->ot_hour_min = $group['ot_hour_min'] ?? 0;
+                $att->ot_calculation = $group['ot_calculation'] ?? 0;
+                $att->ot_edit = $group['ot_edit'] ?? 0;
+                $att->work = $group['work'];
+                $att->ph = $group['ph'] ?? 0;
+                $att->ph_pay = $group['ph_pay'] ?? 0;
+                $att->remark = $group['remark'] ?? null;
+                $att->type_of_leave = $group['type_of_leave'] ?? null;
+                $att->leave_day = $group['leave_day'];
+                $att->type_of_reimbursement = isset($group['type_of_reimbursement']) ? $group['type_of_reimbursement'] : '';
+                $att->amount_of_reimbursement = isset($group['amount_of_reimbursement']) ? $group['amount_of_reimbursement'] : 0.00;
+
+                $att->save();
+            }
+
+            $parent = $attP;
+            $candidate_id = $parent->candidate_id;
+            $company_id = $parent->company_id;
+            $attendances = Attendance::where('parent_id', $parent->id)->get();
+            $leaveTypes = LeaveType::where('leavetype_status', 1)->get();
+            DB::commit();
+
+            return view('admin.attendence.edit', compact(
+                'daysInMonth',
+                'month_year',
+                'candidate_id',
+                'companies',
+                'candidates',
+                'attendances',
+                'leaveTypes',
+                'parent',
+                'selectCandidate'
+            ));
+            // return view(
+            //     'admin.attendence.edit',
+            //     compact(
+            //         'candidate_id',
+            //         'company_id',
+            //         'leaveTypes',
+            //         'parent',
+            //         'attendances',
+            //     )
+            // );
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
 
 
 

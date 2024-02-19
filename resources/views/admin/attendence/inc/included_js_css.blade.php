@@ -4,305 +4,94 @@
 
 <script>
     function allWork(days) {
-        var checkbox = document.getElementById('allCheckB');
-        var emptyDiv = document.getElementById('empty');
-        var haveDataDiv = document.getElementById('haveData');
-
-        if (checkbox.checked) {
-            emptyDiv.style.display = 'none';
-            haveDataDiv.style.display = 'block';
-        } else {
-            emptyDiv.style.display = 'block';
-            haveDataDiv.style.display = 'none';
-        }
-
-        for (let day = 1; day <= days; day++) {
+        for (let day = 0; day <= days; day++) {
             let worked = $('#workCheB-' + day).val();
             if ($('#allCheckB').is(':checked')) {
-                $('.bg-' + day).addClass('bg-f1f1f1');
-                $('.totla_time-' + day).val('');
-                $('.normal_time-' + day).val('');
                 if(worked == 1){
                     $('#workCheB-' + day).prop('checked', true).addClass('checked');
                 } else if(worked == 0) {
                     $('#workCheB-' + day).prop('checked', false).removeClass('checked');
                 }
             } else if ($('#allCheckB').is(':not(:checked)')) {
-                $('.bg-' + day).removeClass('bg-f1f1f1');
-                if(worked == 1){
-                    $('#workCheB-' + day).prop('checked', true).addClass('checked');
-                } else if(worked == 0) {
+                if(worked == 1) {
                     $('#workCheB-' + day).prop('checked', false).removeClass('checked');
                 }
             }
-
-            timeCalculation(day);
         }
     }
 
-    function work_check(day) {
+    function work_check(day)
+    {
+        let worked = $('#workCheB-' + day).val();
         if ($('#workCheB-' + day).is(':checked')) {
-            $('.bg-' + day).addClass('bg-f1f1f1');
             $('#workCheB-' + day).prop('checked', true).addClass('checked');
         } else if ($('#workCheB-' + day).is(':not(:checked)')) {
-            $('.bg-' + day).removeClass('bg-f1f1f1');
             $('#workCheB-' + day).prop('checked', false).removeClass('checked');
-            $('.inTime-' + day).val('');
-            $('.outTime-' + day).val('');
         }
-        timeCalculation(day);
     }
 
-    function removeFile(day) {
-        $('.attendance_leave_file-' + day).val('');
-        $('.remove-label-' + day).hide();
-    }
-
-    function hasFile(day) {
-        $('.remove-label-' + day).show();
-    }
-
-    function removeClaim(day) {
-        $('.attendance_claim_file-' + day).val('');
-        $('.remove-claim-' + day).hide();
-    }
-
-    function hasClaim(day) {
-        $('.remove-claim-' + day).show();
-    }
-
-    function next_day(day)
+    function timeCalculation(day)
     {
-        // console.log(day);
-    }
+        let lunch_val = convert_lunch_to_minutes($('.lunch_val-' + day).val());
 
-    function timeCalculation(day) {
-        let lunch_val = tream($('.lunch_val-' + day).val());
-        let inTime = $('.inTime-' + day).val();
-        console.log(inTime);
-        let outTime = $('.outTime-' + day).val();
-        console.log(outTime);
-        let ot = parseTimeString($('.ot-' + day).val());
-        const timeDifference = calculateTimeDifference(inTime, outTime, day);
-        console.log(timeCalculation);
-        const after_leave = leaveDay(day, timeDifference);
-        const sumTimeDifference = sumTimeDifferences([after_leave, ot]);
-        const normal_time = sumTimeDifference.hours + ' h ' + sumTimeDifference.minutes + ' m';
-
-        let result = subtractTimeDifference(sumTimeDifference, lunch_val);
-        if(result.hours < 0)
-        {
-            result.hours = 0;
-            result.minutes = 0;
-        }
-        const total_time = result.hours + ' h ' + result.minutes + ' m';
-
-        $('.totla_time-' + day).val(total_time);
-        $('.normal_time-' + day).val(normal_time);
-    }
-
-    function leaveDay(day, hour_min) {
-        let hours = 0;
-        let minutes = 0;
-        let will_pay = 1;
-        let inTime = $('#oldinTime-' + day).val();
-        let outTime = $('#oldoutTime-' + day).val();
-
-        let leave_day = $('.change.leave_days.hi-' + day).val();
-        if (leave_day == 'Full Day Leave') {
-            will_pay = 0;
-            $('.inTime-' + day).val('');
-            $('.outTime-' + day).val('');
-            $('.lunch_val-' + day).val('');
-            $('.totla_time-' + day).val(0);
-            $('#workCheB-' + day).prop('checked', false);
-        } else if (leave_day == 'Half Day AM' || leave_day == 'Half Day PM') {
-            if (leave_day === 'Half Day AM') {
-                let inTimex = calculateHalfTime(inTime, outTime, 'AM');
-                $('.inTime-' + day).val(inTimex);
-                $('.outTime-' + day).val(outTime);
-            } else if (leave_day === 'Half Day PM') {
-                let outTimex = calculateHalfTime(inTime, outTime, 'PM');
-                $('.inTime-' + day).val(inTime);
-                $('.outTime-' + day).val(outTimex);
-            }
-            will_pay = 0.5;
-        }
-
-        const total_min = (hour_min.hours * 60 + hour_min.minutes) * will_pay;
-        hours = Math.floor(total_min / 60);
-        minutes = total_min % 60;
-
-        return {
-            hours,
-            minutes
-        };
-    }
-    function calculateHalfTime(startTime, endTime, halfType) {
-        let halfHour = halfType === 'AM' ? 12 : 24; // Determine the half hour
-
-        // Split start and end times
-        let [startHour, startMinute] = startTime.split(':').map(Number);
-        let [endHour, endMinute] = endTime.split(':').map(Number);
-
-        // Calculate the total minutes for the start and end times
-        let totalStartMinutes = startHour * 60 + startMinute;
-        let totalEndMinutes = endHour * 60 + endMinute;
-
-        // Calculate the halfway point in minutes
-        let halfwayMinutes = (totalStartMinutes + totalEndMinutes) / 2;
-
-        // Adjust the hour and minute for the halfway point
-        let halfwayHour = Math.floor(halfwayMinutes / 60) % 24;
-        let halfwayMinute = halfwayMinutes % 60;
-
-        // Format the halfway time
-        return `${halfwayHour}:${halfwayMinute < 10 ? '0' : ''}${halfwayMinute}`;
-    }
-
-    function parseTimeString(timeString) {
-        const regex = /(\d+)\s*h\s*(\d+)\s*m/;
-        const match = timeString.match(regex);
-
-        let hours = 0;
-        let minutes = 0;
-
-        if (match) {
-            hours = parseInt(match[1], 10);
-            minutes = parseInt(match[2], 10);
-        }
-
-        return {
-            hours,
-            minutes
-        };
-    }
-
-    function tream(value) {
-        let totalMinutes = 0;
-        if (value === '30 minutes') {
-            totalMinutes = 30;
-        } else if (value === '45 minutes') {
-            totalMinutes = 45;
-        } else if (value === '1 hour') {
-            totalMinutes = 60;
-        } else if (value === '1.5 hour') {
-            totalMinutes = 90;
-        } else if (value === '2 hour') {
-            totalMinutes = 120;
-        }
-
-        const hours = Math.floor(totalMinutes / 60);
-        const minutes = totalMinutes % 60;
-        return {
-            hours,
-            minutes
-        };
-    }
-
-    function calculateTimeDifference(inTime, outTime, day = 0) {
-        let hours = 0;
-        let minutes = 0;
-        let overtime = 0;
-
-        if (!inTime || !outTime) {
-            return { hours, minutes };
-        }
-
-        let inMoment = moment(inTime, 'HH:mm');
-        let outMoment = moment(outTime, 'HH:mm');
+        let inMoment = moment($('.inTime-' + day).val(), 'HH:mm');
+        let outMoment = moment($('.outTime-' + day).val(), 'HH:mm');
 
         if (outMoment.isBefore(inMoment)) {
-            var hourDifference = outMoment.diff(inMoment, 'hours');
-            if (hourDifference <= 24) {
-                // outMoment = inMoment.clone().add(24, 'hours');
-                outMoment.add(1, 'day');
-            }
+            outMoment.add(1, 'day');
         }
 
         let minutesDifference = outMoment.diff(inMoment, 'minutes');
+        minutesDifference -= lunch_val;
 
-        let oldIn = $('#oldinTime-' + day).val();
-        let oldOut = $('#oldoutTime-' + day).val();
+        minutesDifference %= (24 * 60);
 
-        if (!oldIn || !oldOut) {
-            return { hours, minutes };
+        let oldinTime = moment($('#oldinTime-' + day).val(), 'HH:mm');
+        let oldoutTime = moment($('#oldoutTime-' + day).val(), 'HH:mm');
+
+        if (oldoutTime.isBefore(oldinTime)) {
+            oldoutTime.add(1, 'day');
         }
 
-        let oldinMoment = moment(oldIn, 'HH:mm');
-        let oldoutMoment = moment(oldOut, 'HH:mm');
+        let oldminutesDifference = oldoutTime.diff(oldinTime, 'minutes');
+        oldminutesDifference -= lunch_val;
+        oldminutesDifference %= (24 * 60);
 
-        if (oldoutMoment.isBefore(oldinMoment)) {
-            oldoutMoment.add(1, 'day');
-        }
+        const over_time = Math.max(0, minutesDifference - oldminutesDifference);
 
-        const oldMinutesDifference = oldoutMoment.diff(oldinMoment, 'minutes');
-        // console.log(oldMinutesDifference);
-        // console.log(minutesDifference);
+        total_time(minutesDifference, day);
+        over_time_calculation(over_time, day);
 
-        if (minutesDifference > oldMinutesDifference) {
-            overtime = minutesDifference - oldMinutesDifference;
-            minutesDifference = oldMinutesDifference;
-            ot_calculation(overtime, day);
-        }
-
-        hours = Math.floor(minutesDifference / 60);
-        minutes = minutesDifference % 60;
-
-        return {
-            hours,
-            minutes
-        };
     }
 
-    function ot_calculation(minutesD, day)
+    function over_time_calculation(over_time, day)
     {
         let hours = 0;
         let minutes = 0;
 
-        hours = Math.floor(minutesD / 60);
-        minutes = minutesD % 60;
+        if(over_time)
+        {
+            hours = Math.floor(over_time / 60);
+            minutes = over_time % 60;
+        }
 
-        let over = (hours + 'h '+ minutes + 'm');
-        $('.ot-' + day).val(over);
+        let ot = hours + ' h ' + minutes + ' m';
+        $('.ot-' + day).val(ot);
     }
 
-    function subtractTimeDifference(minuend, subtrahend)
+    function total_time(minutesDifference, day)
     {
-        let totalHours = minuend.hours - subtrahend.hours;
-        let totalMinutes = minuend.minutes - subtrahend.minutes;
+        let hours = 0;
+        let minutes = 0;
 
-        if (totalHours <= 0) {
-            totalHours = 0;
-        }
-        if (totalMinutes < 0) {
-            totalHours--;
-            totalMinutes += 60;
-        }
-        return {
-            hours: totalHours,
-            minutes: totalMinutes
-        };
-    }
-
-    function sumTimeDifferences(timeDifferences)
-    {
-        let totalHours = 0;
-        let totalMinutes = 0;
-
-        for (const timeDiff of timeDifferences) {
-            totalHours += timeDiff.hours;
-            totalMinutes += timeDiff.minutes;
+        if(minutesDifference)
+        {
+            hours = Math.floor(minutesDifference / 60);
+            minutes = minutesDifference % 60;
         }
 
-        // Adjust total minutes if it exceeds 60
-        totalHours += Math.floor(totalMinutes / 60);
-        totalMinutes %= 60;
-
-        return {
-            hours: totalHours,
-            minutes: totalMinutes
-        };
+        let totla_time = hours + ' h ' + minutes + ' m';
+        $('.totla_time-' + day).val(totla_time);
     }
 
     function ot_edit(day)
@@ -314,6 +103,65 @@
         } else { // If the checkbox is not checked
             $('.ot-' + day).prop('readonly', false);
             $('.otc-' + day).prop('readonly', false);
+        }
+    }
+
+    function removeFile(day)
+    {
+        $('.attendance_leave_file-' + day).val('');
+        $('.remove-label-' + day).hide();
+    }
+
+    function hasFile(day)
+    {
+        $('.remove-label-' + day).show();
+    }
+
+    function removeClaim(day)
+    {
+        $('.attendance_claim_file-' + day).val('');
+        $('.remove-claim-' + day).hide();
+    }
+
+    function hasClaim(day)
+    {
+        $('.remove-claim-' + day).show();
+    }
+
+    function convert_lunch_to_minutes($lunchHour)
+    {
+        switch ($lunchHour) {
+            case '30 minutes':
+                return 30;
+            case '45 minutes':
+                return 45;
+            case '1 hour':
+                return 60;
+            case '1.5 hour':
+                return 90;
+            case '2 hour':
+                return 120;
+            case 'No Lunch':
+                return 0;
+            default:
+                return 0;
+        }
+    }
+
+
+    function leaveDay(day)
+    {
+        let will_pay = 0;
+        let leave_day = $('.change.leave_days.hi-' + day).val();
+
+        if (leave_day == 'Full Day Leave') {
+            will_pay = 0;
+            $('#workCheB-' + day).prop('checked', false);
+        } else if (leave_day == 'Half Day AM' || leave_day == 'Half Day PM') {
+            if (leave_day === 'Half Day AM') {
+            } else if (leave_day === 'Half Day PM') {
+            }
+            will_pay = 0.5;
         }
     }
 

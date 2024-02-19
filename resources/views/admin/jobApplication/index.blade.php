@@ -2,9 +2,7 @@
 @section('title')
     Job Application
 @endsection
-@section('page-title')
-    Job Application
-@endsection
+
 @section('css')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
 @endsection
@@ -22,7 +20,7 @@
                                 <h6 class="card-title mb-0">Job Application Table</h6>
                             </div>
                             <div class="p-2 bd-highlight">
-                                <a href="{{ route('job-application.create') }}" class="btn btn-sm btn-success">Create New</a>
+                                <a href="{{ route('job.lists') }}" class="btn btn-sm btn-success">Create New</a>
                             </div>
                         </div>
                     </div>
