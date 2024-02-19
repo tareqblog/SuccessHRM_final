@@ -97,9 +97,8 @@ class candidate extends Model
 
     public function activeResume()
     {
-        return 'okk';
-        // $mainResume = $this->resumes->where('isMain', 1)->first();
-        // return $mainResume ? $mainResume->resume_file_path : null;
+        $mainResume = $this->resumes->where('isMain', 1)->first();
+        return $mainResume ? $mainResume->resume_file_path : null;
     }
 
     public function getMainResumeFilePath()

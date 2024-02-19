@@ -5,6 +5,9 @@
 @section('page-title')
     Show Import Data
 @endsection
+@section('css')
+    @include('admin.include.select2')
+@endsection
 @section('body')
 
     <body>
@@ -105,17 +108,21 @@
                                         <div class="row mb-4">
                                             <label for="one" class="col-sm-4 col-form-label">Gender</label>
                                             <div class="col-sm-8">
-                                                <select name="gender" required class="form-control" id="gender">
+                                                <select name="gender" required class="form-control single-select-field" id="gender">
                                                     <option value="">Select One</option>
                                                     <option value="Male">Male</option>
                                                     <option value="Female">Female</option>
                                                 </select>
                                             </div>
                                         </div>
+                                        @php
+                                            $auth = Auth::user()->employe;
+                                        @endphp
+                                        @if($auth->roles_id != 8)
                                         <div class="row mb-4">
                                             <label for="one" class="col-sm-4 col-form-label">Assaign To</label>
                                             <div class="col-sm-8">
-                                                <select name="assaign_to" required class="form-control">
+                                                <select name="assaign_to" required class="form-control single-select-field">
                                                     <option value="">Select One</option>
                                                     @foreach ($assaignPerson as $assaign)
                                                         <option value="{{ $assaign->id }}">{{ $assaign->employee_name }}
@@ -124,6 +131,9 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        @else
+                                            <input type="hidden" name="assaign_to" value="{{ $auth->id }}">
+                                        @endif
                                         <button type="submit" id="" class="btn btn-info btn-sm">Add to list</button>
                                     </form>
                                 @endif
@@ -177,7 +187,7 @@
             @section('scripts')
                 <script src="https://code.jquery.com/jquery-3.6.3.min.js"
                     integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-
+                @include('admin.include.select2js')
                 <script>
                     function filterHistoryImport(event) {
                         event.preventDefault();

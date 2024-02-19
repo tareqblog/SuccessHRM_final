@@ -40,7 +40,7 @@
         overflow-x: hidden;
 
     }
-    
+
     label,
     td,
     th,

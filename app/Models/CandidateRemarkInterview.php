@@ -16,4 +16,14 @@ class CandidateRemarkInterview extends Model
     {
         return $this->belongsTo(User::class, 'candidate_remark_id');
     }
+
+    /**
+     * Get the company that owns the CandidateRemarkInterview
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Outlet::class, 'interview_company', 'id');
+    }
 }

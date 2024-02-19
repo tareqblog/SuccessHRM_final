@@ -68,7 +68,7 @@
                                                 {!! $data->latestFollowUp()->description !!}
                                             @endif
                                         </td> --}}
-                                        <td style="display: flex;">
+                                        <td class="d-flex flex-row">
                                             {{-- @if (App\Helpers\FileHelper::usr()->can('client.file.upload'))
                                                 <a href="{{ route('clients.edit', $data->id) }}#upload_file"
                                                     class="btn btn-secondary btn-sm me-1">Upload File</a>

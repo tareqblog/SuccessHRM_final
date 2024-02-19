@@ -13,7 +13,11 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title mb-0">Create Time Sheet</h4>
+                    <div class="d-flex bd-highlight">
+                        <div class="p-2 flex-grow-1 bd-highlight">
+                            <h6 class="card-title mb-0">Create Time Sheet</h6>
+                        </div>
+                    </div>
                 </div>
                 @include('admin.include.errors')
                 <div class="card-body">

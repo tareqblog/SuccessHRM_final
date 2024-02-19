@@ -169,7 +169,7 @@
                                                     <div class="col-sm-7">
                                                         <select id="consultantSelect"
                                                             class="form-control single-select-field" name="consultant_id">
-                                                            <option value="" selected disabled>Select One </option>
+                                                            <option selected disabled>Select One </option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -239,8 +239,7 @@
                                                     <select name="religions_id" id="religions_id"
                                                         class="form-control single-select-field">
                                                         @foreach ($religion_data as $row)
-                                                            <option value="{{ $row->id }}"
-                                                                {{ $candidate->religions_id == $row->id ? 'selected' : '' }}>
+                                                            <option value="{{ $row->id }}" {{ old('religions_id') == $row->id || $candidate->religions_id == $row->id ? 'selected' : '' }}>
                                                                 {{ $row->religion_code }}</option>
                                                         @endforeach
                                                     </select>
@@ -255,7 +254,7 @@
                                                         <option value="">Select One</option>
                                                         @foreach ($nationality as $nation)
                                                             <option value="{{ $nation->id }}"
-                                                                {{ old('nationality_id') == $nation->id ? 'selected' : '' }}>
+                                                                {{ old('nationality_id') == $nation->id || $candidate->nationality_id == $nation->id ? 'selected' : '' }}>
                                                                 {{ old('nationality_id') . $nation->en_nationality }}
                                                             </option>
                                                         @endforeach
@@ -283,7 +282,7 @@
                                                     class="col-sm-5 col-form-label fw-bold">Date of issue</label>
                                                 <div class="col-sm-7">
                                                     <input id="nationality_date_of_issue" type="date"
-                                                        name="nationality_date_of_issue" class="form-control">
+                                                        name="nationality_date_of_issue" class="form-control" value="{{$candidate->nationality_date_of_issue}}">
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
@@ -291,7 +290,7 @@
                                                     class="col-sm-5 col-form-label fw-bold">Mobile</label>
                                                 <div class="col-sm-7">
                                                     <input type="text" class="form-control" name="candidate_mobile"
-                                                        placeholder="Mobile" required>
+                                                        value="{{$candidate->candidate_mobile}}" required>
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
@@ -299,7 +298,7 @@
                                                     class="col-sm-5 col-form-label fw-bold">Home Tel</label>
                                                 <div class="col-sm-7">
                                                     <input type="text" class="form-control" id="candidate_home_phone"
-                                                        name="candidate_home_phone" placeholder="Home Tel">
+                                                        name="candidate_home_phone" value="{{$candidate->candidate_home_phone}}">
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
@@ -318,8 +317,7 @@
                                                         class="form-control single-select-field">
                                                         <option value="">Select One</option>
                                                         @foreach ($passtype_data as $row)
-                                                            <option value="{{ $row->id }}"
-                                                                {{ old('passtype_id') == $row->id ? 'selected' : '' }}>
+                                                            <option value="{{ $row->id }}" {{ $row->id == old('passtypes_id', $candidate->passtypes_id) ? 'selected' : '' }}>
                                                                 {{ $row->passtype_code }}</option>
                                                         @endforeach
                                                     </select>
@@ -333,8 +331,7 @@
                                                         id="candidate_outlet_id" name="candidate_outlet_id" required>
                                                         <option value="">Select One</option>
                                                         @foreach ($outlet_data as $row)
-                                                            <option value="{{ $row->id }}"
-                                                                {{ old('candidate_outlet_id') == $row->id ? 'selected' : '' }}>
+                                                            <option value="{{ $row->id }}" {{ $row->id == old('candidate_outlet_id', $candidate->candidate_outlet_id) ? 'selected' : '' }}>
                                                                 {{ $row->outlet_name }}</option>
                                                         @endforeach
                                                     </select>
@@ -1336,8 +1333,8 @@
                                         <div class="row">
 
                                             <h5>Create Remarks</h5>
-                                            <p>Name: {{ $candidate->candidate_name }}</p>
-                                            <p>NRIC: {{ $candidate->candidate_nric }}</p>
+                                            <p class="mb-0"><strong>Name:</strong> {{ $candidate->candidate_name }}</p>
+                                            <p><strong>NRIC:</strong> {{ $candidate->candidate_nric }}</p>
 
                                             <div class="row col-md-6 col-lg-6 mb-1">
                                                 <input type="hidden" value="{{ $candidate->id }}" name="candidate_id">
@@ -1347,37 +1344,36 @@
                                                         id="remark_type">
                                                         <option selected disabled>Select One</option>
                                                         @if ($auth->roles_id == 1)
-                                                            <option value="1">Assign To Manager</option>
+                                                            <option value="1" {{ old('remarkstype_id') == 1 ? 'selected' : '' }}>Assign To Manager</option>
                                                         @endif
                                                         @if ($auth->roles_id == 8)
-                                                            <option value="11">Assign To Own</option>
+                                                            <option value="11" {{ old('remarkstype_id') == 11 ? 'selected' : '' }}>Assign To Own</option>
                                                         @endif
                                                         @if ($auth->roles_id == 4 || $auth->roles_id == 11)
-                                                        <option value="3">Assign To RC</option>
+                                                        <option value="3" {{ old('remarkstype_id') == 3 ? 'selected' : '' }}>Assign To RC</option>
                                                         @endif
                                                         @if ($auth->roles_id == 4)
-                                                            <option value="2">Assign To Team Leader</option>
+                                                            <option value="2" {{ old('remarkstype_id') == 2 ? 'selected' : '' }}>Assign To Team Leader</option>
                                                         @endif
                                                         @if ($auth->roles_id == 8 || $auth->roles_id == 11 || $auth->roles_id == 4)
-                                                        <option value="9">Reassign</option>
+                                                        <option value="9" {{ old('remarkstype_id') == 9 ? 'selected' : '' }}>Reassign</option>
                                                         @endif
                                                         @if ($auth->roles_id == 1 || $auth->roles_id == 4)
-                                                        <option value="12">Share to Other Managers (Admin / Manager use only)</option>
+                                                        <option value="12" {{ old('remarkstype_id') == 12 ? 'selected' : '' }}>Share to Other Managers (Admin / Manager use only)</option>
                                                         @endif
-                                                        <option value="4">Candidate Follow Up</option>
-                                                        <option value="5">Assign Interview</option>
-                                                        <option value="6">Assign To Client</option>
-                                                        <option value="7">Shortlisted</option>
+                                                        <option value="4" {{ old('remarkstype_id') == 4 ? 'selected' : '' }}>Candidate Follow Up</option>
+                                                        <option value="5" {{ old('remarkstype_id') == 5 ? 'selected' : '' }}>Assign Interview</option>
+                                                        <option value="6" {{ old('remarkstype_id') == 6 ? 'selected' : '' }}>Assign To Client</option>
+                                                        <option value="7" {{ old('remarkstype_id') == 7 ? 'selected' : '' }}>Shortlisted</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1" id="AssignToClient" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Client
-                                                    Company</label>
+                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Client </label>
                                                 <div class="col-sm-9">
-                                                    <select name="Assign_client_company"
+                                                    <select name="assign_client_id"
                                                         class="form-control single-select-field">
-                                                        <option value="">Select One</option>
+                                                        <option selected disabled>Select One</option>
                                                         @foreach ($clients as $client)
                                                             <option value="{{ $client->id }}">
                                                                 {{ $client->client_name }} </option>
@@ -1400,9 +1396,9 @@
                                                     <select name="interview_company" id=""
                                                         class="form-control single-select-field">
                                                         <option value="">Select One</option>
-                                                        @foreach ($clients as $client)
-                                                            <option value="{{ $client->id }}">
-                                                                {{ $client->company_name }} </option>
+                                                        @foreach ($outlet_data as $outlet)
+                                                            <option value="{{ $outlet->id }}">
+                                                                {{ $outlet->outlet_name }} </option>
                                                         @endforeach
                                                     </select>
 
@@ -1445,9 +1441,9 @@
                                                     <select name="client_company"
                                                         class="form-control single-select-field">
                                                         <option value="">Select One</option>
-                                                        @foreach ($clients as $client)
-                                                            <option value="{{ $client->id }}">
-                                                                {{ $client->client_name }} </option>
+                                                        @foreach ($outlet_data as $outlet)
+                                                            <option value="{{ $outlet->id }}">
+                                                                {{ $outlet->outlet_name }} </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -1543,10 +1539,10 @@
                                                 <label for="one"
                                                     class="col-sm-3 col-form-label fw-bold">Notice</label>
                                                 <div class="col-sm-9">
-                                                    <select name="isNotice" class="form-control single-select-field">
-                                                        <option value="">Select One</option>
-                                                        <option value="1">Yes</option>
-                                                        <option value="0">No</option>
+                                                    <select name="isNotice" class="form-control single-select-field" required>
+                                                        <option selected disabled>Select One</option>
+                                                        <option value="1" {{ old('isNotice') == 1 ? 'selected' : '' }}>Yes</option>
+                                                        <option value="0" {{ old('isNotice') == 0 ? 'selected' : '' }}>No</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -1556,9 +1552,9 @@
                                                 <div class="col-sm-9">
                                                     <select name="Assign_to_manager"
                                                         class="form-control single-select-field">
-                                                        <option value="">Select One</option>
+                                                        <option selected disabled>Select One</option>
                                                         @foreach ($users as $user)
-                                                            <option value="{{ $user->id }}">
+                                                            <option value="{{ $user->id }}" {{ old('Assign_to_manager') == $user->id || $candidate->Assign_to_manager == $user->id ? 'selected' : '' }}>
                                                                 {{ $user->employee_name }}
                                                             </option>
                                                         @endforeach
@@ -1580,7 +1576,7 @@
                                                 <label for="one" class="col-sm-3 col-form-label fw-bold">Salary
                                                     <span class="text-danger">*</span></label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" name="shortlistSalary">
+                                                    <input type="text" class="form-control" name="shortlistSalary" value="{{ old('shortlistSalary') || $candidate->shortlistSalary }}">
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1" id="shortlistArNo" style="display: none;">
@@ -1644,11 +1640,8 @@
                                                         name="shortlistContractSigningTime">
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistContractEndDate"
-                                                style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Contract
-                                                    End
-                                                    Time <span class="text-danger">*</span></label>
+                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistCoEndDate">
+                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Contract End Date <span class="text-danger">*</span></label>
                                                 <div class="col-sm-9">
                                                     <input type="date" class="form-control"
                                                         name="shortlistContractEndDate">
@@ -1722,7 +1715,7 @@
                                                         class="form-control">
                                                 </div>
                                             </div>
-                                            <div class="row mb-1" id="attendInterview" style="display: none;">
+                                            <div class="row col-md-6 col-lg-6 mb-1" id="attendInterview" style="display: none;">
                                                 <label for="one" class="col-sm-3 col-form-label fw-bold">Attend
                                                     Interview</label>
                                                 <div class="col-sm-9">
@@ -1788,9 +1781,8 @@
                                                         <td>{{ $remark->created_at->format('d-M-y') }}
                                                         </td>
                                                         <td style="display: flex;">
-                                                            <a href="#" class="btn btn-info btn-sm me-3"
-                                                                download>Edit</a>
-                                                            @if (App\Helpers\FileHelper::usr()->can('candidate.remark.delete'))
+                                                            <a href="{{ route('candidates.edit.remark', ['candidate' => $candidate->id, 'remark' => $remark->id]) }}" class="btn btn-info btn-sm me-3 {{ Auth::user()->id == $remark->created_by ? '' : 'disabled' }}">Edit</a>
+                                                            {{-- @if (App\Helpers\FileHelper::usr()->can('candidate.remark.delete'))
                                                                 <form
                                                                     action="{{ route('candidate.remark.delete', $remark->id) }}"
                                                                     method="POST">
@@ -1800,7 +1792,7 @@
                                                                         onclick="return confirm('Are you sure you want to delete this item?')"
                                                                         type="submit">Delete</button>
                                                                 </form>
-                                                            @endif
+                                                            @endif --}}
                                                         </td>
                                                     </tr>
                                                 @empty
@@ -1878,9 +1870,9 @@
                                                         <select name="client_company"
                                                             class="form-control single-select-field">
                                                             <option value="">Select One</option>
-                                                            @foreach ($clients as $client)
-                                                                <option value="{{ $client->id }}">
-                                                                    {{ $client->client_name }} </option>
+                                                            @foreach ($outlet_data as $outlet)
+                                                                <option value="{{ $outlet->id }}">
+                                                                    {{ $outlet->outlet_name }} </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -2258,8 +2250,7 @@
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
-                                                    <label for="one" class="col-sm-3 col-form-label">Time Sheet
-                                                        Type</label>
+                                                    <label for="one" class="col-sm-3 col-form-label">Time Sheet Type</label>
                                                     <input type="hidden" name="candidate_id"
                                                         value="{{ $candidate->id }}">
                                                     <div class="col-sm-9">
@@ -2460,7 +2451,6 @@
         <script language="javascript" type="text/javascript">
             if (window.location.hash) {
                 var hash = window.location.hash;
-                console.log(hash);
                 document.querySelector('[href="' + hash + '"]').click();
             }
         </script>
@@ -2477,7 +2467,7 @@
                             entries = JSON.parse(entries);
 
                             Object.values(entries).forEach(entry => {
-                                let isWorkChecked = entry.isWork === "1" ? 'checked' : '';
+                                let isWorkChecked = entry.isWork === "on" ? 'checked' : '';
                                 let inTime = entry.in_time ? entry.in_time.substring(0, 5) : '';
                                 let outTime = entry.out_time ? entry.out_time.substring(0, 5) : '';
                                 let lunch_time = entry.lunch_time;
@@ -2551,135 +2541,7 @@
                 });
             });
         </script>
-        <script>
-            $(document).ready(function() {
-                let auth_role = '{{ $auth->roles_id }}';
-                let auth = '{{ $auth->id }}';
-
-                $('#managerSelect').change(function() {
-                    let managerId = $(this).val();
-                    if (managerId) {
-                        $.ajax({
-                            type: 'GET',
-                            url: '/ATS/get/teamleader/' + managerId,
-                            success: function(data) {
-                                $('#teamLeaderSelect').empty();
-                                var candidateTeamLeaderId = '{{ $candidate->team_leader_id }}';
-                                let option = $('<option>', {
-                                    value: '',
-                                    text: 'Choose One',
-                                });
-                                $('#teamLeaderSelect').append(option);
-
-                                $.each(data, function(key, value) {
-                                    var option = $('<option>', {
-                                        value: value.id,
-                                        text: value.employee_name
-                                    });
-                                    if (value.id == candidateTeamLeaderId) {
-                                        option.prop('selected', true);
-                                    }
-                                    $('#teamLeaderSelect').append(option);
-                                });
-
-                                $('#teamLeaderSelect').trigger('change');
-                            }
-                        });
-                    } else {
-                        $('#teamLeaderSelect').empty();
-                    }
-                });
-
-                $('#teamLeaderSelect').change(function() {
-                    let teamLeaderId = $(this).val();
-                    if (teamLeaderId) {
-                        $.ajax({
-                            type: 'GET',
-                            url: '/ATS/get/consultant/' + teamLeaderId,
-                            success: function(data) {
-                                $('#consultantSelect').empty();
-                                let consultant_id = '{{ $candidate->consultant_id }}';
-
-                                let option = $('<option>', {
-                                    value: '',
-                                    text: 'Choose One',
-                                });
-                                $('#consultantSelect').append(option);
-                                $.each(data, function(key, value) {
-                                    option = $('<option>', {
-                                        value: value.id,
-                                        text: value.employee_name
-                                    });
-                                    if (value.id == consultant_id) {
-                                        option.prop('selected', true);
-                                    }
-                                    $('#consultantSelect').append(option);
-                                });
-                            }
-                        });
-                    } else {
-                        $('#consultantSelect').empty();
-                    }
-                });
-
-                if (auth_role == 4) {
-                    // $('#managerSelect').trigger('change');
-                    $.ajax({
-                        type: 'GET',
-                        url: '/ATS/get/teamleader/' + auth,
-                        success: function(data) {
-
-                            $('#teamLeaderSelect').empty();
-                            var candidateTeamLeaderId = '{{ $candidate->team_leader_id }}';
-                            let option = $('<option>', {
-                                value: '',
-                                text: 'Choose One',
-                            });
-                            $('#teamLeaderSelect').append(option);
-
-                            $.each(data, function(key, value) {
-                                var option = $('<option>', {
-                                    value: value.id,
-                                    text: value.employee_name
-                                });
-                                if (value.id == candidateTeamLeaderId) {
-                                    option.prop('selected', true);
-                                }
-                                $('#teamLeaderSelect').append(option);
-                            });
-
-                            $('#teamLeaderSelect').trigger('change');
-                        }
-                    });
-                } else if (auth_role == 11) {
-                    $.ajax({
-                        type: 'GET',
-                        url: '/ATS/get/consultant/' + auth,
-                        success: function(data) {
-
-                            $('#consultantSelect').empty();
-                            let consultant_id = '{{ $candidate->consultant_id }}';
-
-                            let option = $('<option>', {
-                                value: '',
-                                text: 'Choose One',
-                            });
-                            $('#consultantSelect').append(option);
-                            $.each(data, function(key, value) {
-                                option = $('<option>', {
-                                    value: value.id,
-                                    text: value.employee_name
-                                });
-                                if (value.id == consultant_id) {
-                                    option.prop('selected', true);
-                                }
-                                $('#consultantSelect').append(option);
-                            });
-                        }
-                    });
-                }
-            });
-        </script>
+        @include('admin.candidate.inc.teamjs');
         <script src="{{ asset('build/js/ajax/candidateDeclaration.js') }}"></script>
         {{-- <script src="{{ asset('build/js/ajax/candidate/genaral.js') }}"></script> --}}
         <script src="{{ asset('build/js/ajax/candidateRemark.js') }}"></script>

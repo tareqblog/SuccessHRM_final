@@ -269,13 +269,14 @@ class AttendenceController extends Controller
             $companyId = $id[0];
             $candidateId = $id[1];
 
-            $data = Company::where('id', $companyId)->first();
+            return response()->json(['candidateId' => $candidateId]);
+            // return $data = Company::where('id', $companyId)->first();
 
-            if ($data) {
-                return response()->json(['company' => $data, 'candidateId' => $candidateId]);
-            } else {
-                return response()->json(['error' => 'Company not found'], 404);
-            }
+            // if ($data) {
+                // return response()->json(['company' => $data, 'candidateId' => $candidateId]);
+            // } else {
+            //     return response()->json(['error' => 'Company not found'], 404);
+            // }
         } else {
             return response()->json(['error' => 'Invalid data format'], 400);
         }

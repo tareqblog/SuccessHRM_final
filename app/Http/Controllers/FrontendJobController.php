@@ -11,7 +11,7 @@ class FrontendJobController extends Controller
 {
     public function index()
     {
-        return $jobs = job::get();
+        $jobs = job::get();
         return view('job.index', compact('jobs'));
     }
 

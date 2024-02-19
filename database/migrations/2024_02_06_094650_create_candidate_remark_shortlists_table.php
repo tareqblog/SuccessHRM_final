@@ -28,6 +28,8 @@ return new class extends Migration
             $table->date('contact_signing_date')->nullable();
             $table->integer('probition_period')->nullable();
             $table->date('last_day')->nullable();
+            $table->date('email_notice_date')->nullable();
+            $table->time('email_notice_time')->nullable();
             $table->timestamps();
         });
     }

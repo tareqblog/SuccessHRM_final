@@ -18,12 +18,15 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">TNC Template Table</h4>
-                        <div class="text-end">
-                            @if (App\Helpers\FileHelper::usr()->can('tnc.create'))
-                            <button data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
-                                class="btn btn-sm btn-success">Create New</button>
-                            @endif
+                        <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">
+                                <h6 class="card-title mb-0">TNC Template Table</h6>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                @if (App\Helpers\FileHelper::usr()->can('tnc.create'))
+                                    <button data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create" class="btn btn-sm btn-success">Create New</button>
+                                @endif
+                            </div>
                         </div>
                     </div>
 
@@ -111,36 +114,33 @@
                                     <form action="{{ route('tnc.store') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <div class="row p-3">
-                                            <div class="col-lg-12 row">
-                                                <div class="row mb-4 col-lg-6">
-                                                    <label for="one" class="col-sm-4 col-form-label">TNC Code</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text" name="tnc_template_code" class="form-control"
-                                                            placeholder="Title" value="{{ old('tnc_template_code') }}">
-                                                    </div>
+                                            <div class="row mb-1 col-lg-6">
+                                                <label for="one" class="col-sm-5 col-form-label fw-bold">TNC Code</label>
+                                                <div class="col-sm-7">
+                                                    <input type="text" name="tnc_template_code" class="form-control"
+                                                        placeholder="Title" value="{{ old('tnc_template_code') }}">
                                                 </div>
-                                                <div class="row mb-4 col-lg-6">
-                                                    <label for="one" class="col-sm-4 col-form-label">TNC
-                                                        Description</label>
-                                                    <div class="col-sm-8">
-                                                        <textarea name="tnc_template_desc" rows="2" class="form-control" placeholder="Description"> {{ old('tnc_template_desc') }} </textarea>
-                                                    </div>
+                                            </div>
+                                            <div class="row mb-1 col-lg-6">
+                                                <label for="one" class="col-sm-5 col-form-label fw-bold">List Order</label>
+                                                <div class="col-sm-7">
+                                                    <input type="text" name="tnc_template_seqno" class="form-control"
+                                                        placeholder="List Order" value="{{ old('tnc_template_seqno') }}">
                                                 </div>
-                                                <div class="row mb-4 col-lg-6">
-                                                    <label for="one" class="col-sm-4 col-form-label">List Order</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text" name="tnc_template_seqno" class="form-control"
-                                                            placeholder="List Order" value="{{ old('tnc_template_seqno') }}">
-                                                    </div>
+                                            </div>
+                                            <div class="row mb-1 col-lg-6">
+                                                <label for="one" class="col-sm-5 col-form-label fw-bold">TNC
+                                                    Description</label>
+                                                <div class="col-sm-7">
+                                                    <textarea name="tnc_template_desc" rows="2" class="form-control" placeholder="Description"> {{ old('tnc_template_desc') }} </textarea>
                                                 </div>
-
-                                                <div class="row mb-4 col-lg-6">
-                                                    <label for="one" class="col-sm-4 col-form-label">Upload Template
-                                                        File</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="file" name="tnc_template_file_path"
-                                                            class="form-control">
-                                                    </div>
+                                            </div>
+                                            <div class="row mb-1 col-lg-6">
+                                                <label for="one" class="col-sm-5 col-form-label fw-bold">Upload Template
+                                                    File</label>
+                                                <div class="col-sm-7">
+                                                    <input type="file" name="tnc_template_file_path"
+                                                        class="form-control">
                                                     <div class="col-sm-12 text-end">
                                                         <small>**PDF file only </small>
                                                     </div>

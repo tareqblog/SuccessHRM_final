@@ -6,9 +6,7 @@
     Candidate Management
 @endsection
 @section('css')
-    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" /> --}}
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
 @endsection
 @section('body')
 
@@ -40,7 +38,7 @@
                                     <th>Email</th>
                                     <th>Mobile</th>
                                     <th>Last Update Date</th>
-                                    <th>Job Assign</th>
+                                    <th>Assign</th>
                                     <th>Group</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -57,8 +55,13 @@
                                         <td>{{ $data->candidate_email }}</td>
                                         <td>{{ $data->candidate_mobile }}</td>
                                         <td>{{ $data->updated_at }}</td>
-                                        <td><a href="{{ route('candidate.edit', $data->id) }}"
-                                                class="btn btn-success btn-sm me-3">Assigned</a></td>
+                                        <td>
+                                            @if($data->manager_id != null)
+                                                <a href="#" class="btn btn-success bg-info btn-sm me-3">Unassigned</a>
+                                            @else
+                                                <a href="{{ route('candidate.edit', $data->id) }}" class="btn btn-success btn-sm me-3">Assigned</a>
+                                            @endif
+                                        </td>
                                         <td>
                                             {{ candidate_group($data->id) }}
                                         </td>
@@ -66,7 +69,7 @@
                                             {{ \App\Enums\Status::from($data->candidate_status)->title() }}
                                         </td>
                                         {{-- <td>{{ $data->candidate_status == 1 ? 'Active' : 'In-Active' }}</td> --}}
-                                        <td style="display: flex;">
+                                        <td class="d-flex flex-row">
                                             {{-- @if (App\Helpers\FileHelper::usr()->can('candidate.remark')) --}}
                                             @if($data->getMainResumeFilePath() != null)
                                             <button type="button"
@@ -110,23 +113,22 @@
 
                         <div class="mt-3" style="height: 60vh; border: 1px solid black">
                             <div id="candidateResume" class="p-3" style="display: none; height: 100%; overflow: auto;">
-                                <table class="table table-bordered mb-0 bg-light" id="remarkTable">
+                                <table id="candidateRemarkTable" class="display">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
-                                            <th>Assign</th>
+                                            <th>Count</th>
+                                            <th>Assign To</th>
                                             <th>Client</th>
-                                            <th>Remark Type</th>
-                                            <th>Received Offer</th>
-                                            <th>Comments</th>
-                                            <th>Create By</th>
+                                            <th>Remarks Type</th>
+                                            <th>Remarks</th>
+                                            <th>Created By</th>
                                             <th>Create Time</th>
                                             <th>Create Date</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="tableContent">
-                                    </tbody>
+                                    <tbody></tbody>
                                 </table>
+
                             </div>
                         </div>
                     </div>
@@ -137,6 +139,7 @@
     @endsection
 
     @section('scripts')
+
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
@@ -146,67 +149,63 @@
                     responsive: true
                 });
 
-                 $(document).ready(function() {
-                    $('.resumePath').on('click', function() {
-                        let filePath = $(this).data('file-path');
-                        const iframe = document.getElementById('pdfViewer');
-                        let publicUrl = "{{ asset(Storage::url('')) }}" + "/" + filePath;
-                        iframe.src = publicUrl;
-                        iframe.width = "100%";
-                        iframe.height = "600px";
-                    });
+                $('.resumePath').on('click', function() {
+                    let filePath = $(this).data('file-path');
+                    const iframe = document.getElementById('pdfViewer');
+                    let publicUrl = "{{ asset(Storage::url('')) }}" + "/" + filePath;
+                    iframe.src = publicUrl;
+                    iframe.width = "100%";
+                    iframe.height = "600px";
                 });
             });
 
             function getRemark(candidateId) {
-
-                console.log(candidateId);
                 $.ajax({
                     type: 'GET',
                     url: '/ATS/get/candidate/remarks/' + candidateId,
                     success: function(response) {
+                        let remarkData = response.remarks;
                         let candidateResume = document.getElementById('candidateResume');
 
                         if (candidateResume.style.display === 'none') {
                             candidateResume.style.display = 'block';
                         }
-
                         // Destroy DataTable if already initialized
-                        if ($.fn.DataTable.isDataTable('#remarkTable')) {
-                            $('#remarkTable').DataTable().destroy();
+                        if ($.fn.DataTable.isDataTable('#candidateRemarkTable')) {
+                            $('#candidateRemarkTable').DataTable().destroy();
                         }
 
-                        // Empty the table content before adding new rows
-                        $('#tableContent').empty();
+                        // Clear existing rows
+                        $('#candidateRemarkTable').find('tbody').empty();
 
-                        let remarkData = response.remarks;
-
+                        // Populate table with data
                         for (let i = 0; i < remarkData.length; i++) {
                             let count = 1 + i;
                             let newRowHtml = '<tr>' +
-                                '<th scope="row">' + count + '</th>' +
-                                '<td>' + remarkData[i].assign_to + '</td>' +
-                                '<td>' + remarkData[i].client + '</td>' +
-                                '<td>' + remarkData[i].remarkstype + '</td>' +
-                                '<td>' + remarkData[i].remarks + '</td>' +
-                                '<td>' + remarkData[i].created_by + '</td>' +
-                                '<td>' + remarkData[i].create_time + '</td>' +
-                                '<td>' + remarkData[i].create_date + '</td>' +
+                                    '<th scope="row">' + count + '</th>' +
+                                    '<td>' + remarkData[i].assign_to + '</td>' +
+                                    '<td>' + remarkData[i].client + '</td>' +
+                                    '<td>' + remarkData[i].remarkstype + '</td>' +
+                                    '<td>' + remarkData[i].remarks + '</td>' +
+                                    '<td>' + remarkData[i].created_by + '</td>' +
+                                    '<td>' + remarkData[i].create_time + '</td>' +
+                                    '<td>' + remarkData[i].create_date + '</td>' +
                                 '</tr>';
 
-                            $('#tableContent').append(newRowHtml);
+                            $('#candidateRemarkTable').append(newRowHtml);
                         }
 
-                        // Reinitialize DataTable
-                        $('#remarkTable').DataTable({
+                        // Initialize DataTable
+                        $('#candidateRemarkTable').DataTable({
                             "pageLength": 5
                         });
-
                     },
                     error: function(error) {
                         console.log(error);
                     }
                 });
+
+
             }
         </script>
     @endsection

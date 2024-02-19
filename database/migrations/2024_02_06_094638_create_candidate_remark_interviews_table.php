@@ -21,9 +21,10 @@ return new class extends Migration
             $table->string('interview_company')->nullable();
             $table->string('expected_salary')->nullable();
             $table->string('job_offer_salary')->nullable();
-            $table->boolean('attend_interview')->nullable();
+            $table->string('attend_interview')->nullable();
             $table->date('available_date')->nullable();
             $table->string('receive_job_offer')->nullable();
+            $table->date('email_notice_date')->nullable();
             $table->timestamps();
         });
     }

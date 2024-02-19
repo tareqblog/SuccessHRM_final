@@ -1025,10 +1025,11 @@
     @section('scripts')
         <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
             crossorigin="anonymous"></script>
+        @include('admin.include.select2js')
 
         <script src="{{ asset('build/js/ajax/candidateGenarel.js') }}"></script>
         <script src="{{ asset('build/js/ajax/candidateDeclaration.js') }}"></script>
-        @include('admin.include.select2js')
+
 
         <script>
             $(document).ready(function() {
@@ -1043,11 +1044,18 @@
                             url: '/ATS/get/teamleader/' + managerId,
                             success: function(data) {
                                 $('#teamLeaderSelect').empty();
+
+                                let option = $('<option>', {
+                                    value: '',
+                                    text: 'Choose One',
+                                });
+                                $('#teamLeaderSelect').append(option);
                                 $.each(data, function(key, value) {
-                                    $('#teamLeaderSelect').append($('<option>', {
+                                    option = $('<option>', {
                                         value: value.id,
                                         text: value.employee_name
-                                    }));
+                                    });
+                                    $('#teamLeaderSelect').append(option);
                                 });
                                 $('#teamLeaderSelect').trigger('change');
                             }
@@ -1065,11 +1073,17 @@
                             url: '/ATS/get/consultant/' + teamLeaderId,
                             success: function(data) {
                                 $('#consultantSelect').empty();
+                                let option = $('<option>', {
+                                    value: '',
+                                    text: 'Choose One',
+                                });
+                                $('#consultantSelect').append(option);
                                 $.each(data, function(key, value) {
-                                    $('#consultantSelect').append($('<option>', {
+                                    option = $('<option>', {
                                         value: value.id,
                                         text: value.employee_name
-                                    }));
+                                    });
+                                    $('#consultantSelect').append(option);
                                 });
                             }
                         });
@@ -1084,11 +1098,18 @@
                         url: '/ATS/get/teamleader/' + auth,
                         success: function(data) {
                             $('#teamLeaderSelect').empty();
+
+                            let option = $('<option>', {
+                                value: '',
+                                text: 'Choose One',
+                            });
+                            $('#teamLeaderSelect').append(option);
                             $.each(data, function(key, value) {
-                                $('#teamLeaderSelect').append($('<option>', {
+                                option = $('<option>', {
                                     value: value.id,
                                     text: value.employee_name
-                                }));
+                                });
+                                $('#teamLeaderSelect').append(option);
                             });
                             $('#teamLeaderSelect').trigger('change');
                         }
@@ -1100,10 +1121,18 @@
                         success: function(data) {
                             $('#consultantSelect').empty();
                             $.each(data, function(key, value) {
-                                $('#consultantSelect').append($('<option>', {
-                                    value: value.id,
-                                    text: value.employee_name
-                                }));
+                                let option = $('<option>', {
+                                    value: '',
+                                    text: 'Choose One',
+                                });
+                                $('#consultantSelect').append(option);
+                                $.each(data, function(key, value) {
+                                    option = $('<option>', {
+                                        value: value.id,
+                                        text: value.employee_name
+                                    });
+                                    $('#consultantSelect').append(option);
+                                });
                             });
                         }
                     });
