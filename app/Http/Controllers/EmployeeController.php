@@ -263,7 +263,7 @@ class EmployeeController extends Controller
         if (is_null($this->user) || !$this->user->can('employee.update')) {
             abort(403, 'Unauthorized');
         }
-        
+
         if ($this->user->employe->roles_id == 4) {
             $request['manager_users_id'] = $this->user->employe->id;
         } elseif ($this->user->employe->roles_id == 11) {
@@ -276,7 +276,7 @@ class EmployeeController extends Controller
             Storage::delete("public/{$employee->employee_avater}");
 
             // Upload the new file
-            $uploadedFilePath = FileHelper::uploadFile($request->file('employee_avater'));
+            $uploadedFilePath = FileHelper::uploadFile($request->file('employee_avater'), 'employee');
 
             // Update the database record
             $employee->update($request->except('_token', 'employee_avater') + [
