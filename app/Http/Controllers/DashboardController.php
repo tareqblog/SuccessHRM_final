@@ -91,7 +91,7 @@ class DashboardController extends Controller
                 }
             }
         } elseif ($auth->roles_id == 11) {
-            $calander_datas = $calander_datas->where('team_leader_id', $auth->id);
+            $calander_datas = $calander_datas->where('teamleader_id', $auth->id);
             $activeResumes = $activeResumes->where('teamleader_id', $auth->id);
             $interviews = $interviews->where('consultent_id', $auth->id);
             $assignToClients = $assignToClients->where('consultent_id', $auth->id);
