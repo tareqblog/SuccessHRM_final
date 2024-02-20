@@ -40,7 +40,7 @@
                                     <th>Last Update Date</th>
                                     <th>Assign</th>
                                     <th>Group</th>
-                                    <th>Status</th>
+                                    {{-- <th>Status</th> --}}
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -65,12 +65,10 @@
                                         <td>
                                             {{ candidate_group($data->id) }}
                                         </td>
-                                        <td class="text-{{ \App\Enums\Status::from($data->candidate_status)->message() }}">
+                                        {{-- <td class="text-{{ \App\Enums\Status::from($data->candidate_status)->message() }}">
                                             {{ \App\Enums\Status::from($data->candidate_status)->title() }}
-                                        </td>
-                                        {{-- <td>{{ $data->candidate_status == 1 ? 'Active' : 'In-Active' }}</td> --}}
+                                        </td> --}}
                                         <td class="d-flex flex-row">
-                                            {{-- @if (App\Helpers\FileHelper::usr()->can('candidate.remark')) --}}
                                             @if($data->getMainResumeFilePath() != null)
                                             <button type="button"
                                                 class="btn btn-info btn-sm me-2 mb-2 resumePath"
@@ -103,7 +101,7 @@
                                 @empty
 
                                     <tr>
-                                        <td colspan="50" class="text-center text-warning">
+                                        <td colspan="10" class="text-center text-warning">
                                             No Data found!
                                         </td>
                                     </tr>

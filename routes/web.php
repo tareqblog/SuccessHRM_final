@@ -216,6 +216,7 @@ Route::prefix('ATS')->group(function () {
     Route::get('/candidates/edit/remark/{candidate}/{remark}', [CandidateController::class, 'candidates_edit_remark'])->name('candidates.edit.remark');
     Route::post('/candidate/remark/update/{remark}', [CandidateController::class, 'candidate_remark_update'])->name('candidate.remark.update');
     Route::get('/client/tnctemplate/download/{client}', [ClientController::class, 'client_tnctemplate_download'])->name('client.tnctemplate.download');
+    Route::get('/get/attendence/{parent}', [AttendanceController::class, 'get_attendence'])->name('get.attendence');
 })->middleware('AdminMiddleware');
 
 

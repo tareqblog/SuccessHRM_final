@@ -2,11 +2,14 @@
 @section('title')
     Attendence
 @endsection
+@section('css')
+@include('admin.include.select2')
+@endsection
 @section('body')
     <body>
     @endsection
-        @include('admin.attendence.inc.included_js_css')
     @section('content')
+        @include('admin.attendence.inc.included_js_css')
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -38,32 +41,35 @@
                         <!-- Tab panes -->
                         <div class="tab-content p-3 text-muted">
                             <div class="tab-pane active" id="General" role="tabpanel">
+                            <form action="{{ route('get.month.attendence.data') }}" method="POST" id="attendenceForm">
+                                    @csrf
                                 <div class="row">
-                                    <div class="row col-lg-6 mb-4">
+                                    <div class="row col-lg-6 mb-1">
                                         <label for="thirteen" class="col-sm-3 col-form-label">Select Date</label>
                                         <div class="col-sm-9">
                                             <input type="date" name="date" id="dateInput" class="form-control" value="{{ isset($selectedDate) ? $selectedDate->format('Y-m-d') : Carbon\Carbon::now()->format('Y-m-d') }}" required>
                                         </div>
                                     </div>
-                                    <div class="row col-lg-6  mb-4">
+
+                                    <div class="row col-lg-6  mb-1">
                                         <label for="eleven" class="col-sm-3 col-form-label">Candidate</label>
                                         <div class="col-sm-9">
                                             <input type="hidden" id="candidateId" name="candidate_id">
-                                            <select id="candidateDropdown" class="form-control">
+                                            <select id="candidateDropdown" class="form-control single-select-field">
                                                 <option selected disabled>Select One</option>
                                                 @foreach ($candidates as $candidate)
                                                     <option
                                                         value="{{ $candidate->candidate_outlet_id }}-{{ $candidate->id }}"
-                                                        {{ isset($selectCandidate) ? ($candidate->candidate_outlet_id . '-' . $candidate->id == $selectCandidate ? 'selected' : '') : '' }}>
+                                                        {{ $candidate->id == $candidate_id ? 'selected' : '' }}>
                                                         {{ $candidate->candidate_name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="row col-lg-6  mb-4">
+                                    <div class="row col-lg-6  mb-1">
                                         <label for="eleven" class="col-sm-3 col-form-label">Company</label>
                                         <div class="col-sm-9">
-                                            <select name="company_id" id="companyDropdown" class="form-control">
+                                            <select name="company_id" id="companyDropdown" class="form-control single-select-field">
                                                 <option selected disabled>Select One</option>
                                                 @foreach ($companies as $company)
                                                     <option  value="{{ $company->id }}"> {{ $company->name }} </option>
@@ -71,13 +77,14 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="row col-lg-6 mb-4">
+                                    <div class="row col-lg-6 mb-1">
                                         <label for="thirteen" class="col-sm-3 col-form-label">Invoice Number</label>
                                         <div class="col-sm-9">
                                             <input type="text" name="invoice_no" class="form-control invoice" placeholder="Invoice no">
                                         </div>
                                     </div>
                                 </div>
+                            </form>
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <p style="color:red">
@@ -112,15 +119,15 @@
                                                     <div><label class="control-label fw-bold text-center" style="width: 50px">PH</label></div>
                                                     <div><label class="control-label fw-bold text-center" style="width: 50px">PH Pay</label></div>
                                                     <div><label class="control-label fw-bold text-center" style="width: 150px">Remarks</label></div>
-                                                    <div><label class="control-label fw-bold text-center" style="width: 120px">Type of Leave</label></div>
-                                                    <div><label class="control-label fw-bold text-center" style="width: 120px">Leave Days</label></div>
+                                                    <div><label class="control-label fw-bold text-center" style="width: 220px">Type of Leave</label></div>
+                                                    <div><label class="control-label fw-bold text-center" style="width: 220px">Leave Days</label></div>
                                                     <div><label class="control-label fw-bold text-center" style="width: 280px">Leave Attachment</label></div>
                                                     <div><label class="control-label fw-bold text-center" style="width: 280px">Claim Attachment</label></div>
-                                                    <div><label class="control-label fw-bold text-center" style="width: 200px">Type of Reimbursement</label></div>
+                                                    <div><label class="control-label fw-bold text-center" style="width: 280px">Type of Reimbursement</label></div>
                                                     <div><label class="control-label fw-bold text-center" style="width: 150px">Amount of Reimbursement</label></div>
                                                 </div>
 
-                                                <div id="haveData">
+                                                <div id="haveData" data-route="{{ route('get.attendence', $parent->id) }}">
                                                     @include('admin.attendence.inc.haveData')
                                                 </div>
                                             </div>
@@ -144,20 +151,21 @@
     @endsection
 
     @section('scripts')
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
+        @include('admin.include.select2js')
         <script>
             $(document).ready(function() {
 
-                // Listen for changes in the candidate dropdown
                 $('#candidateDropdown').change(function() {
-                    var selectedCandidateId = $(this).val();
+                    let selectedCandidateId = $(this).val();
                     $.ajax({
                         type: 'GET',
                         url: '/ATS/get/candidate/company/' + selectedCandidateId,
                         success: function(response) {
+                            console.log(response);
                             updateCompanyDropdown(response);
-
                             submitForm();
-
                         },
                         error: function(error) {
                             $('#companyDropdown').empty();
@@ -172,9 +180,9 @@
                 function updateCompanyDropdown(response) {
                     $('#companyDropdown').empty();
 
-                    if (response.company && response.candidateId) {
-                        $('#companyDropdown').append('<option value="' + response.company.id + '">' + response.company
-                            .name + '</option>');
+                    if (response.candidateId) {
+                        // $('#companyDropdown').append('<option value="' + response.company.id + '">' + response.company
+                        //     .name + '</option>');
                         $('#candidateId').val(response.candidateId);
                     } else {
                         $('#companyDropdown').append(
@@ -182,7 +190,7 @@
                     }
                 }
 
-                $(".invoice").on('keyup', function() {
+                $(".invoice").on('keyup',function(){
                     var inp = $(this).val();
                     $("#invoice").val(inp);
                 });
