@@ -284,6 +284,7 @@ class AttendenceController extends Controller
             return response()->json(['error' => 'Invalid data format'], 400);
         }
     }
+
     public function getMonthData(Request $request)
     {
         // return $request;
@@ -451,34 +452,9 @@ class AttendenceController extends Controller
                 $att->save();
             }
 
-            $parent = $attP;
-            $candidate_id = $parent->candidate_id;
-            $company_id = $parent->company_id;
-            $attendances = Attendance::where('parent_id', $parent->id)->get();
-            $leaveTypes = LeaveType::where('leavetype_status', 1)->get();
             DB::commit();
+            return redirect()->route('attendence.edit', $attP->id);
 
-            return view('admin.attendence.edit', compact(
-                'daysInMonth',
-                'month_year',
-                'candidate_id',
-                'companies',
-                'candidates',
-                'attendances',
-                'leaveTypes',
-                'parent',
-                'selectCandidate'
-            ));
-            // return view(
-            //     'admin.attendence.edit',
-            //     compact(
-            //         'candidate_id',
-            //         'company_id',
-            //         'leaveTypes',
-            //         'parent',
-            //         'attendances',
-            //     )
-            // );
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['error' => $e->getMessage()], 500);

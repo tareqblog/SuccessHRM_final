@@ -83,4 +83,11 @@ class AttendanceController extends Controller
         //      return redirect()->route('attendence.create')->with('error', 'Failed to add attendance. Please try again.');
         //  }
     }
+
+    public function get_attendence(AttendenceParent $parent)
+    {
+        $attendances = Attendance::where('parent_id', $parent->id)->get();
+
+        return $attendances;
+    }
 }
