@@ -26,9 +26,9 @@ class CandidatePayroll extends Model
         });
     }
 
-    public function company()
+    public function outlet()
     {
-        return $this->belongsTo(client::class, 'client_company');
+        return $this->belongsTo(Outlet::class, 'client_company');
     }
 
     public function created_by()

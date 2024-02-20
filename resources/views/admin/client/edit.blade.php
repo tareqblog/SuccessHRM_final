@@ -724,11 +724,11 @@
                 console.log(formAction);
                 $('#follow_upeditClient').html('');
                 $('#follow_upeditClient').html('<div class="col-lg-12">\
-                                                <h5>Edit Follow Up</h5>\
+                                                    <h5>Edit Follow Up</h5>\
                                                     <form action="' + formAction +'" method="POST">\
                                                          @csrf\
                                                         <div class="row mb-4">\
-                                                            <label for="twente_four" class="col-sm-2 col-form-label">Description</label>\
+                                                            <label for="twente_four" class="col-sm-2 col-form-label fw-bold">Description</label>\
                                                             <div class="col-sm-8">\
                                                                 <input type="hidden" name="clients_id" value="' + clients_id + '">\
                                                                 <div id="ckeditor-container-' + id + '"></div>\
@@ -738,7 +738,7 @@
                                                         </div>\
                                                         <button type="submit" class="btn btn-sm btn-info mt-2">Update</button>\
                                                    </form>\
-                                                /div>');
+                                                </div>');
 
                 // Dynamically initialize CKEditor for the added textarea
                 ClassicEditor

@@ -2194,7 +2194,7 @@
                                                     <tr>
                                                         <td>{{ $loop->index + 1 }} </td>
                                                         <td>{{ $payroll->salary }} </td>
-                                                        <td>{{ $payroll->company->client_name }} </td>
+                                                        <td>{{ $payroll->outlet?->outlet_name }} </td>
                                                         <td>{{ $payroll->payroll_remark }} </td>
                                                         <td>{{ $payroll->created_at->format('H:i:s') }}
                                                         </td>
