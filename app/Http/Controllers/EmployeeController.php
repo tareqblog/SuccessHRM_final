@@ -136,7 +136,7 @@ class EmployeeController extends Controller
             $request['manager_users_id'] = $this->user->employe->id;
         } elseif ($this->user->employe->roles_id == 11) {
             $request['team_leader_users_id'] = $this->user->employe->id;
-            $request['team_leader_users_id'] = $this->user->employe->manager_users_id;
+            $request['manager_users_id'] = $this->user->employe->manager_users_id;
         }
 
         $file_path = $request->file('employee_avater');
@@ -268,7 +268,7 @@ class EmployeeController extends Controller
             $request['manager_users_id'] = $this->user->employe->id;
         } elseif ($this->user->employe->roles_id == 11) {
             $request['team_leader_users_id'] = $this->user->employe->id;
-            $request['team_leader_users_id'] = $this->user->employe->manager_users_id;
+            $request['manager_users_id'] = $this->user->employe->manager_users_id;
         }
 
         if ($request->hasFile('employee_avater')) {
