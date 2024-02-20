@@ -395,7 +395,6 @@
 
     $(document).ready(function() {
         var days = '{{$daysInMonth}}';
-        console.log(days);
         for (let day = 0; day <= days; day++) {
             all_empty(day);
             leave_filds(day);

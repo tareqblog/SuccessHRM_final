@@ -41,6 +41,8 @@
                         <!-- Tab panes -->
                         <div class="tab-content p-3 text-muted">
                             <div class="tab-pane active" id="General" role="tabpanel">
+                            <form action="{{ route('get.month.attendence.data') }}" method="POST" id="attendenceForm">
+                                    @csrf
                                 <div class="row">
                                     <div class="row col-lg-6 mb-1">
                                         <label for="thirteen" class="col-sm-3 col-form-label">Select Date</label>
@@ -48,6 +50,7 @@
                                             <input type="date" name="date" id="dateInput" class="form-control" value="{{ isset($selectedDate) ? $selectedDate->format('Y-m-d') : Carbon\Carbon::now()->format('Y-m-d') }}" required>
                                         </div>
                                     </div>
+
                                     <div class="row col-lg-6  mb-1">
                                         <label for="eleven" class="col-sm-3 col-form-label">Candidate</label>
                                         <div class="col-sm-9">
@@ -57,7 +60,7 @@
                                                 @foreach ($candidates as $candidate)
                                                     <option
                                                         value="{{ $candidate->candidate_outlet_id }}-{{ $candidate->id }}"
-                                                        {{ isset($selectCandidate) ? ($candidate->candidate_outlet_id . '-' . $candidate->id == $selectCandidate ? 'selected' : '') : '' }}>
+                                                        {{ $candidate->id == $candidate_id ? 'selected' : '' }}>
                                                         {{ $candidate->candidate_name }}</option>
                                                 @endforeach
                                             </select>
@@ -81,6 +84,7 @@
                                         </div>
                                     </div>
                                 </div>
+                            </form>
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <p style="color:red">
@@ -153,17 +157,15 @@
         <script>
             $(document).ready(function() {
 
-                // Listen for changes in the candidate dropdown
                 $('#candidateDropdown').change(function() {
-                    var selectedCandidateId = $(this).val();
+                    let selectedCandidateId = $(this).val();
                     $.ajax({
                         type: 'GET',
                         url: '/ATS/get/candidate/company/' + selectedCandidateId,
                         success: function(response) {
+                            console.log(response);
                             updateCompanyDropdown(response);
-
                             submitForm();
-
                         },
                         error: function(error) {
                             $('#companyDropdown').empty();
@@ -178,9 +180,9 @@
                 function updateCompanyDropdown(response) {
                     $('#companyDropdown').empty();
 
-                    if (response.company && response.candidateId) {
-                        $('#companyDropdown').append('<option value="' + response.company.id + '">' + response.company
-                            .name + '</option>');
+                    if (response.candidateId) {
+                        // $('#companyDropdown').append('<option value="' + response.company.id + '">' + response.company
+                        //     .name + '</option>');
                         $('#candidateId').val(response.candidateId);
                     } else {
                         $('#companyDropdown').append(
@@ -188,7 +190,7 @@
                     }
                 }
 
-                $(".invoice").on('keyup', function() {
+                $(".invoice").on('keyup',function(){
                     var inp = $(this).val();
                     $("#invoice").val(inp);
                 });
