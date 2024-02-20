@@ -841,10 +841,12 @@
                         myTeamLeader();
                     } else {
                         $('#role10input').hide().css('display', 'none');
+                        $('#role10manager').show().css('display', 'none');
                     }
 
                     function myTeamLeader() {
                         $('#role10input').show().css('display', 'show');
+                        $('#role10manager').show().css('display', 'show');
                         $('#role10manager').attr('name', 'manager_users_id');
                     }
                 });
