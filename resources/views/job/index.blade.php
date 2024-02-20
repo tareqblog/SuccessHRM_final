@@ -10,7 +10,7 @@
   </head>
   <body>
 
-    <div class="container">
+    <div class="container mt-5">
 
         <table class="table">
             <thead>
@@ -24,9 +24,9 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($jobs as $job)
+                @foreach ($jobs as $key => $job)
                 <tr>
-                    <th scope="row">1</th>
+                    <th scope="row">{{++$key}}</th>
                     <td>{{ $job->job_title}}</td>
                     <td>{{ $job->job_category->jobcategory_name}}</td>
                     <td>{{ $job->job_salary }}</td>

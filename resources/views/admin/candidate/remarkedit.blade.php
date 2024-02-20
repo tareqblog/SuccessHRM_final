@@ -1373,7 +1373,7 @@
                                                     <select name="assign_client_id"
                                                         class="form-control single-select-field" disabled>
                                                         @foreach ($clients as $client)
-                                                            <option value="{{ $client->id }}" {{ old('assign_client_id', $remark->assign_client->client->id) == $client->id ? 'selected' : '' }} >
+                                                            <option value="{{ $client->id }}" {{ old('assign_client_id', $remark->assign_client?->client->id) == $client->id ? 'selected' : '' }} >
                                                                 {{ $client->client_name }} </option>
                                                         @endforeach
                                                     </select>

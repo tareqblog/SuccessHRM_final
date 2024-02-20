@@ -96,4 +96,27 @@ if (!function_exists('get_team')) {
 
         return $data;
     }
+
+    if (!function_exists('convert_lunch_to_minutes')) {
+        function convert_lunch_to_minutes($lunchHour)
+        {
+            switch ($lunchHour) {
+                case '30 minutes':
+                    return 30;
+                case '45 minutes':
+                    return 45;
+                case '1 hour':
+                    return 60;
+                case '1.5 hour':
+                    return 90;
+                case '2 hour':
+                    return 120;
+                case 'No Lunch':
+                    return 0;
+                default:
+                    return 0;
+            }
+        }
+    }
+
 }

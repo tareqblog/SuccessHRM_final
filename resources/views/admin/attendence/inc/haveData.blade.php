@@ -1,32 +1,33 @@
-@if (isset($formate))
-    @foreach ($formate as $day => $attendance)
+
+<style>
+    .bg-f1f1f1
+    {
+        background-color: #f1f1f1;
+    }
+</style>
+@if (isset($attendances))
+    @foreach ($attendances as $day => $attendance)
+    {{-- @dump($attendance) --}}
         <div style="display:flex">
             <div style="flex:0 0 120px;position: sticky;left: 0;z-index: 20;">
-                <input type="text" class="form-control bg-{{ $day }}" readonly placeholder="Date" readonly=""
-                    name="group[{{ $day }}][date]" placeholder="Date" value="{{ $attendance['date'] }}">
+                <input type="text" class="form-control {{$attendance->work == 1 ? 'bg-f1f1f1' : ''}}" readonly name="group[{{ $day }}][date]" value="{{ Carbon\Carbon::parse($attendance['date'])->format('d-M-Y') }}">
             </div>
             <div style="flex:0 0 120px;position: sticky;left: 120px;z-index: 20;">
-                <input type="text" class="form-control bg-{{ $day }}" readonly=""
-                    name="group[{{ $day }}][day]" value="{{ $attendance['day'] }}" placeholder="Title">
+                <input type="text" class="form-control {{$attendance->work == 1 ? 'bg-f1f1f1' : ''}}" readonly name="group[{{ $day }}][day]" value="{{ $attendance['day'] }}">
             </div>
             <div style="flex:0 0 120px;position: sticky;left: 120px;z-index: 20;">
                 <input type="time" hidden id="oldinTime-{{$day}}" value="{{ $attendance['in_time'] }}">
-                <input type="time" style=" "
-                    class="form-control hi-{{ $day }} inTime-{{ $day }}"
-                    name="group[{{ $day }}][in_time]" value="{{ $attendance['in_time'] }}" placeholder="time"
-                    onchange="timeCalculation({{ $day }})">
+                <input type="time" class="form-control hi-{{ $day }} inTime-{{ $day }}"
+                    name="group[{{ $day }}][in_time]" value="{{ $attendance['in_time'] }}" onchange="timeCalculation({{ $day }})">
             </div>
             <div style="flex:0 0 120px;position: sticky;left: 120px;z-index: 20;">
                 <input type="time" hidden id="oldoutTime-{{$day}}" value="{{ $attendance['out_time'] }}">
-                <input type="time" style=" "
-                    class="form-control hi-{{ $day }}  outTime-{{ $day }}"
-                    name="group[{{ $day }}][out_time]" value="{{ $attendance['out_time'] }}"
-                    placeholder="time" onchange="timeCalculation({{ $day }})">
+                <input type="time" class="form-control hi-{{ $day }}  outTime-{{ $day }}"
+                    name="group[{{ $day }}][out_time]" value="{{ $attendance['out_time'] }}" onchange="timeCalculation({{ $day }})">
             </div>
             <!--next-->
             <div style="flex:0 0 50px;text-align:center">
-                <input type="checkbox" class="attendance_next_day1 change" onclick="next_day({{$day}})" data-line="1" value="1"
-                    {{ $attendance['next_day'] == 1 ? 'checked' : '' }} name="group[{{ $day }}][next_day]">
+                <input type="checkbox" class="attendance_next_day1 change" onclick="next_day({{$day}})" data-line="1" value="1" name="group[{{ $day }}][next_day]">
             </div>
             <!--lunch-->
             <div style="flex:0 0 120px;">
@@ -52,29 +53,28 @@
             <div style="flex:0 0 120px;">
                 <input type="text" style="text-align:center;  "
                     class="form-control week_1 hi-{{ $day }} totla_time-{{ $day }}" data-week="1"
-                    readonly="" name="group[{{ $day }}][total_hour_min]" data-content="-1 h "
-                    value="0">
+                    readonly name="group[{{ $day }}][total_hour_min]"
+                    value="{{ $attendance['total_hour_min']}}">
             </div>
             <!--normal-->
             <div style="flex:0 0 120px;">
-                <input type="text" style="text-align:center;  "
+                <input type="text" style="text-align:center;"
                     class="form-control hi-{{ $day }} normal_time-{{ $day }}"
-                    name="group[{{ $day }}][normal_hour_min]" value="0">
+                    name="group[{{ $day }}][normal_hour_min]" value="{{ $attendance['normal_hour_min']}}">
             </div>
             <!--ot-->
             <div style="flex:0 0 120px;">
                 <input type="text" style="text-align:center" name="group[{{ $day }}][ot_hour_min]"
-                    class="form-control ot-{{ $day }}" data-week="1" value="0">
+                    class="form-control ot-{{ $day }}" data-week="1" value="{{ $attendance['ot_hour_min']}}">
             </div>
             <!--ot hidden-->
             <div style="flex:0 0 120px;">
                 <input type="text" style="text-align:center" class="form-control otc-{{$day}}"
-                    name="group[{{ $day }}][ot_calculation]" value="0">
+                    name="group[{{ $day }}][ot_calculation]" value="{{ $attendance['ot_calculation']}}">
             </div>
             <!--edit-->
             <div style="flex:0 0 80px;text-align:center">
-                <input type="checkbox" class="attendance_edit1" id="ot_edit-{{$day}}" data-line="1" value="1"
-                    name="group[{{ $day }}][ot_edit]" onclick="ot_edit({{ $day }})" {{$attendance['ot_edit'] == 1 ? 'checked' : ''}}>
+                <input type="checkbox" class="attendance_edit1" id="ot_edit-{{$day}}" data-line="1" value="{{$attendance['ot_edit'] }}" name="group[{{ $day }}][ot_edit]" onclick="ot_edit({{ $day }})">
             </div>
             <!--work-->
             <div style="flex:0 0 100px;text-align:center">
@@ -82,50 +82,43 @@
             </div>
             <!--ph-->
             <div style="flex:0 0 50px;text-align:center">
-                <input type="checkbox" class="work attendance_ph1" data-line="1" value="1"
-                    name="group[{{ $day }}][ph]">
+                <input type="checkbox" class="work attendance_ph1" data-line="1"
+                    name="group[{{ $day }}][ph]" value="{{$attendance['ph'] }}">
             </div>
             <!--ph pay-->
             <div style="flex:0 0 50px;text-align:center">
-                <input type="checkbox" class="work attendance_ph_pay1" data-line="1" value="1"
+                <input type="checkbox" class="work attendance_ph_pay1" data-line="1" value="{{$attendance['ph_pay'] }}"
                     name="group[{{ $day }}][ph_pay]">
             </div>
             <!--remark-->
             <div style="flex:0 0 150px;">
                 <textarea class="form-control hi-{{ $day }}" rows="1" name="group[{{ $day }}][remark]"
-                    placeholder="Remarks"></textarea>
+                    value="{{ $attendance['remark'] }}"></textarea>
             </div>
             <div style="flex:0 0 120px;">
                 <select class="form-control change leave_type hi-{{ $day }}" data-line="1"
                     name="group[{{ $day }}][type_of_leave]" style="width:100%;  ;">
-                    <option value="">Select One</option>
+                    <option selected disabled>Select One</option>
                     @foreach ($leaveTypes as $type)
-                        <option value="{{ $type->id }}" {{ $type->id == $attendance['leave_types_id'] }}>
-                            {{ $type->leavetype_code }}</option>
+                        <option value="{{ $type->id }}" {{ $type->id == $attendance['type_of_leave'] ? 'selected' : '' }}>{{ $type->leavetype_code }}</option>
                     @endforeach
                 </select>
             </div>
             <!--attendance leave day-->
             <div style="flex:0 0 120px;">
                 <select class="form-control change leave_days hi-{{ $day }}"
-                    onchange="timeCalculation({{ $day }})" data-line="1"
+                    onchange="leaveDay({{ $day }})" data-line="1"
                     name="group[{{ $day }}][leave_day]" style="width:100%;  ">
-                    <option value="0">Select One</option>
-                    <option value="Full Day Leave"
-                        {{ $attendance['leave_day'] == 'Full Day Leave' ? 'selected' : '' }}>
-                        Full Day Leave</option>
-                    <option value="Half Day AM"{{ $attendance['leave_day'] == 'Half Day AM' ? 'selected' : '' }}>
-                        Half Day AM</option>
-                    <option value="Half Day PM"{{ $attendance['leave_day'] == 'Half Day PM' ? 'selected' : '' }}>
-                        Half Day PM</option>
+                    <option selected disabled>Select One</option>
+                    <option value="Full Day Leave" {{ $attendance['leave_day'] == 'Full Day Leave' ? 'selected' : '' }}>Full Day Leave</option>
+                    <option value="Half Day AM"{{ $attendance['leave_day'] == 'Half Day AM' ? 'selected' : '' }}> Half Day AM</option>
+                    <option value="Half Day PM"{{ $attendance['leave_day'] == 'Half Day PM' ? 'selected' : '' }}> Half Day PM</option>
                 </select>
             </div>
             <!--attendance leave file-->
             <div style="flex:0 0 235px;">
                 <input type="hidden" name="group[{{ $day }}][old_leave_attachment]" value="{{$attendance['leave_attachment']}}">
-                <input type="file" class="attendance_leave_file-{{ $day }}"
-                    name="group[{{ $day }}][leave_attachment]"
-                    value="{{ $attendance['leave_attachment'] }}" onchange="hasFile({{ $day }})">
+                <input type="file" class="attendance_leave_file-{{ $day }}" name="group[{{ $day }}][leave_attachment]" value="{{ $attendance['leave_attachment'] }}" onchange="hasFile({{ $day }})">
                 <label class="remove-label remove-label-{{$day}}" onclick="removeFile('{{ $day }}')"><i
                         class="fas fa-trash text-danger"></i></label>
                 <div class="hi-{{ $day }}">
@@ -175,7 +168,7 @@
             </div>
             <!--reimbursement amount-->
             <div style="flex:0 0 150px;">
-                <input type="text" style="text-align:center" class="form-control" value="" data-week="1"
+                <input type="text" style="text-align:center" class="form-control" value="{{$attendance->amount_of_reimbursement}}" data-week="1"
                     name="group[{{ $day }}][amount_of_reimbursement]">
             </div>
         </div>
