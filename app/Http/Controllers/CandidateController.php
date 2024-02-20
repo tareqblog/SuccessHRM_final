@@ -191,7 +191,7 @@ class CandidateController extends Controller
             }
         }
 
-        if ($candidate->team_leader_id == $team_leader_id || $auth->roles_id == 1) {
+        if ($candidate->team_leader_id == $team_leader_id || $auth->roles_id == 1 || $auth->roles_id == 4) {
             $fileTypes = uploadfiletype::where('uploadfiletype_status', 1)->where('uploadfiletype_for', 1)->latest()->get();
             $department_data = Department::orderBy('department_seqno')->where('department_status', '1')->get();
             $designation_data = Designation::orderBy('designation_seqno')->where('designation_status', '1')->get();

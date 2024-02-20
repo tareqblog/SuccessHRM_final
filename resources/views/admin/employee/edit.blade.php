@@ -255,7 +255,7 @@
                                         <div class="col-lg-3">
                                             <div class="row mb-4">
                                                 <div class="col-sm-7">
-                                                    <img height="215px" width="215px" src="{{ URL::asset('/storage/'.$employee->employee_avater) }}" alt="avatar"
+                                                    <img height="215px" width="215px" src="{{ $employee->employee_avater != null ? URL::asset('/storage/'.$employee->employee_avater) : URL::asset('build/images/avatar.png') }}" alt="avatar"
                                                         class="mb-2">
                                                     <input type="file" name="employee_avater" class="form-control">
                                                 </div>
