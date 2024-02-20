@@ -327,11 +327,11 @@ class AttendenceController extends Controller
         $currentMonth = Carbon::parse($validated['date']);
         $daysInMonth = $currentMonth->daysInMonth;
 
-        if($candidate->working_hour->timesheet_id != null)
+        if($candidate->working_hour?->timesheet_id != null)
         {
             $timesheet = TimeSheet::find($candidate->working_hour->timesheet_id);
         } else {
-            return redirect()->back()->with('success', 'Timesheet Not found');
+            return redirect()->back()->with('error', 'Timesheet Not found');
         }
 
         $timeSheetData = json_decode($timesheet->entities, true);
