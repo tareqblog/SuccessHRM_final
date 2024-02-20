@@ -169,7 +169,15 @@ class ClientController extends Controller
         $request['team_leader_id'] = $team['team_leader_id'];
         $request['consultant_id'] = $team['consultant_id'];
 
-        client::create($request->except('_token'));
+        $client = client::create($request->except('_token'));
+
+        $auth = Auth::user()->employe;
+        ClientFollowUp::create([
+            'clients_id' => $client->id,
+            'description' => 'New Job Opening',
+            'created_by' => $auth->id,
+            'modify_by' => $auth->id,
+        ]);
 
         return redirect()->route('clients.index')->with('success', 'Client added successfully.');
     }
