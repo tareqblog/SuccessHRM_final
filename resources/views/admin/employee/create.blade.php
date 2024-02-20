@@ -804,49 +804,76 @@
                 $('#mySelect').change(function() {
                     var selectedValue = $(this).val();
 
-                    // Payroll end
                     if (selectedValue === '8') {
-                        myConsultent();
+                        manager();
+                        teamleader();
+                    } else if (selectedValue === '12') {
+                        manager();
+                        teamleader();
+                    } else if (selectedValue === '11') {
+                        manager();
+                        $('#role7inputanother').hide();
                     } else {
-                        $('#role7input').hide().css('display', 'none');
-                        $('#role7inputanother').hide().css('display', 'none');
+                        $('#role7input').hide();
+                        $('#role7inputanother').hide();
                     }
 
-                    function myConsultent() {
-                        $('#role7input').show().css('display', 'show');
-                        $('#role7manager').attr('name', 'manager_users_id');
-
-                        $('#role7inputanother').show().css('display', 'show');
+                    function teamleader() {
+                        $('#role7inputanother').show();
                         $('#role7team_leader').attr('name', 'team_leader_users_id');
                     }
 
-                    // Consultent
-
-                    if (selectedValue === '12') {
-                        myInternship();
-                    } else {
-                        $('#role9input').hide().css('display', 'none');
-                        $('#role9inputanother').hide().css('display', 'none');
+                    function manager() {
+                        $('#role7input').show();
+                        $('#role7manager').attr('name', 'manager_users_id');
                     }
 
-                    function myInternship() {
-                        $('#role9input').show().css('display', 'show');
-                        $('#role9inputanother').show().css('display', 'show');
-                        $('#role9select').attr('name', 'manager_users_id');
-                        $('#role9team_leader').attr('name', 'team_leader_users_id');
 
-                    }
-                    // Internship
-                    if (selectedValue === '11') {
-                        myTeamLeader();
-                    } else {
-                        $('#role10input').hide().css('display', 'none');
-                    }
+                    // var selectedValue = $(this).val();
 
-                    function myTeamLeader() {
-                        $('#role10input').show().css('display', 'show');
-                        $('#role10manager').attr('name', 'manager_users_id');
-                    }
+                    // // Payroll end
+                    // if (selectedValue === '8') {
+                    //     myConsultent();
+                    // } else {
+                    //     $('#role7input').hide().css('display', 'none');
+                    //     $('#role7inputanother').hide().css('display', 'none');
+                    // }
+
+                    // function myConsultent() {
+                    //     $('#role7input').show().css('display', 'show');
+                    //     $('#role7manager').attr('name', 'manager_users_id');
+
+                    //     $('#role7inputanother').show().css('display', 'show');
+                    //     $('#role7team_leader').attr('name', 'team_leader_users_id');
+                    // }
+
+                    // // Consultent
+
+                    // if (selectedValue === '12') {
+                    //     myInternship();
+                    // } else {
+                    //     $('#role9input').hide().css('display', 'none');
+                    //     $('#role9inputanother').hide().css('display', 'none');
+                    // }
+
+                    // function myInternship() {
+                    //     $('#role9input').show().css('display', 'show');
+                    //     $('#role9inputanother').show().css('display', 'show');
+                    //     $('#role9select').attr('name', 'manager_users_id');
+                    //     $('#role9team_leader').attr('name', 'team_leader_users_id');
+
+                    // }
+                    // // Internship
+                    // if (selectedValue === '11') {
+                    //     myTeamLeader();
+                    // } else {
+                    //     $('#role10input').hide().css('display', 'none');
+                    // }
+
+                    // function myTeamLeader() {
+                    //     $('#role10input').show().css('display', 'show');
+                    //     $('#role10manager').attr('name', 'manager_users_id');
+                    // }
                 });
             });
 

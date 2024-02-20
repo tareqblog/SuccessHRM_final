@@ -5,6 +5,9 @@
 @section('page-title')
     Employee Edit
 @endsection
+@section('css')
+    @include('admin.include.select2')
+@endsection
 @section('body')
 
     <body>
@@ -252,7 +255,7 @@
                                         <div class="col-lg-3">
                                             <div class="row mb-4">
                                                 <div class="col-sm-7">
-                                                    <img src="{{ URL::asset('build/images/avatar.png') }}" alt="avatar"
+                                                    <img height="215px" width="215px" src="{{ URL::asset('/storage/'.$employee->employee_avater) }}" alt="avatar"
                                                         class="mb-2">
                                                     <input type="file" name="employee_avater" class="form-control">
                                                 </div>
@@ -770,10 +773,35 @@
     @section('scripts')
         <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
             crossorigin="anonymous"></script>
+        @include('admin.include.select2js')
         <script>
             $(document).ready(function() {
                 $('#mySelect').change(function() {
                     var selectedValue = $(this).val();
+
+                    if (selectedValue === '8') {
+                        manager();
+                        teamleader();
+                    } else if (selectedValue === '12') {
+                        manager();
+                        teamleader();
+                    } else if (selectedValue === '11') {
+                        manager();
+                        $('#role7inputanother').hide();
+                    } else {
+                        $('#role7input').hide();
+                        $('#role7inputanother').hide();
+                    }
+
+                    function teamleader() {
+                        $('#role7inputanother').show();
+                        $('#role7team_leader').attr('name', 'team_leader_users_id');
+                    }
+
+                    function manager() {
+                        $('#role7input').show();
+                        $('#role7manager').attr('name', 'manager_users_id');
+                    }
 
                     // if (selectedValue === '4') {
                     //     myPayroll();
@@ -787,49 +815,49 @@
                     // }
 
                     // Payroll end
-                    if (selectedValue === '8') {
-                        myConsultent();
-                    } else {
-                        $('#role7input').hide().css('display', 'none');
-                        $('#role7inputanother').hide().css('display', 'none');
-                    }
+                    // if (selectedValue === '8') {
+                    //     myConsultent();
+                    // } else {
+                    //     $('#role7input').hide().css('display', 'none');
+                    //     $('#role7inputanother').hide().css('display', 'none');
+                    // }
 
-                    function myConsultent() {
+                    // function myConsultent() {
 
-                        $('#role7input').show().css('display', 'show');
-                        $('#role7manager').attr('name', 'manager_users_id');
+                    //     $('#role7input').show().css('display', 'show');
+                    //     $('#role7manager').attr('name', 'manager_users_id');
 
-                        $('#role7inputanother').show().css('display', 'show');
-                        $('#role7team_leader').attr('name', 'team_leader_users_id');
-                    }
+                    //     $('#role7inputanother').show().css('display', 'show');
+                    //     $('#role7team_leader').attr('name', 'team_leader_users_id');
+                    // }
 
-                    // Consultent
+                    // // Consultent
 
-                    if (selectedValue === '12') {
-                        myInternship();
-                    } else {
-                        $('#role9input').hide().css('display', 'none');
-                        $('#role9inputanother').hide().css('display', 'none');
-                    }
+                    // if (selectedValue === '12') {
+                    //     myInternship();
+                    // } else {
+                    //     $('#role9input').hide().css('display', 'none');
+                    //     $('#role9inputanother').hide().css('display', 'none');
+                    // }
 
-                    function myInternship() {
-                        $('#role9input').show().css('display', 'show');
-                        $('#role9select').attr('name', 'manager_users_id')
-                        $('#role9inputanother').show().css('display', 'show');
-                        $('#role9team_leader').attr('name', 'team_leader_users_id');
-                    }
-                    // Internship
-                    if (selectedValue === '11') {
-                        myTeamLeader();
-                    } else {
-                        $('#role10input').hide().css('display', 'none');
-                    }
+                    // function myInternship() {
+                    //     $('#role9input').show().css('display', 'show');
+                    //     $('#role9select').attr('name', 'manager_users_id')
+                    //     $('#role9inputanother').show().css('display', 'show');
+                    //     $('#role9team_leader').attr('name', 'team_leader_users_id');
+                    // }
+                    // // Internship
+                    // if (selectedValue === '11') {
+                    //     myTeamLeader();
+                    // } else {
+                    //     $('#role10input').hide().css('display', 'none');
+                    // }
 
 
-                    function myTeamLeader() {
-                        $('#role10input').show().css('display', 'show');
-                        $('#role10manager').attr('name', 'manager_users_id');
-                    }
+                    // function myTeamLeader() {
+                    //     $('#role10input').show().css('display', 'show');
+                    //     $('#role10manager').attr('name', 'manager_users_id');
+                    // }
                     ///Manager
 
                 });
