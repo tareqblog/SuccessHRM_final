@@ -22,7 +22,7 @@ class CandidateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'candidate_outlet_id' => 'required|integer',
+            'candidate_outlet_id' => 'nullable|integer',
             'candidate_code' => 'nullable|string',
             'candidate_name' => 'nullable|string',
             'candidate_home_phone' => 'nullable|string',

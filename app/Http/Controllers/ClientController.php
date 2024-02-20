@@ -174,7 +174,7 @@ class ClientController extends Controller
         $auth = Auth::user()->employe;
         ClientFollowUp::create([
             'clients_id' => $client->id,
-            'description' => 'New Job Opening',
+            'description' => 'Client create',
             'created_by' => $auth->id,
             'modify_by' => $auth->id,
         ]);
