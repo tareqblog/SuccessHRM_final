@@ -14,9 +14,9 @@ class JobRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'job_title' => 'required',
+            'job_title' => 'required|string',
             'job_category_id' => 'required|integer',
-            'job_salary' => 'nullable|string',
+            'job_salary' => 'nullable|numeric',
             'remark' => 'nullable|string',
             'job_status' => 'nullable|boolean',
             'postal_code' => 'nullable|string',
@@ -29,7 +29,7 @@ class JobRequest extends FormRequest
             'job_added_date' => 'nullable|date',
             'display_address' => 'nullable|string',
             'job_link' => 'nullable|string',
-            'description' => 'nullable',
+            'description' => 'nullable|string',
             'meta_title' => 'nullable|string',
             'meta_tag' => 'nullable|string',
             'meta_description' => 'nullable|string',

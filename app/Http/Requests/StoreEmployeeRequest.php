@@ -87,7 +87,7 @@ class StoreEmployeeRequest extends FormRequest
             'employee_status' => 'integer',
             'employee_isDeleted' => 'integer',
             'employee_avater' => 'nullable',
-            'employee_fw_levy_amount' => 'nullable',
+            'employee_fw_levy_amount' => 'nullable|numeric',
         ];
     }
 }

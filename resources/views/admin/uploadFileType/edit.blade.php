@@ -3,7 +3,7 @@
     @method('PATCH')
     <div class="row">
         <div class="col-lg-6">
-            <div class="row mb-4">
+            <div class="row mb-1">
                 <label for="one" class="col-sm-4 col-form-label">File Type
                     Code</label>
                 <div class="col-sm-8">
@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="col-lg-6">
-            <div class="row mb-4">
+            <div class="row mb-1">
                 <label for="one" class="col-sm-3 col-form-label">File Type Status</label>
                 <div class="col-sm-9">
                     <select name="uploadfiletype_status" class="form-control">

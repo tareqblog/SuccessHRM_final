@@ -2316,14 +2316,14 @@
                                         <input type="hidden" name="file_type_for" value="1"
                                             class="form-control">
                                         <div class="mt-5 mt-lg-4 mt-xl-0">
-                                            <div class="row mb-4">
+                                            <div class="row mb-1">
                                                 <label for="file_path" class="col-sm-3 col-form-label">Upload
                                                     File</label>
                                                 <div class="col-sm-9">
                                                     <input type="file" name="file_path" class="form-control">
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
+                                            <div class="row mb-1">
                                                 <label for="twente_four" class="col-sm-3 col-form-label">File
                                                     Type</label>
                                                 <div class="col-sm-9">

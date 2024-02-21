@@ -18,13 +18,16 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Nationality Table</h4>
-                        @if (App\Helpers\FileHelper::usr()->can('nationality.create'))
-                            <div class="text-end">
-                                <button type="submit" class="btn btn-sm btn-success " data-bs-toggle="modal"
-                                    data-bs-target=".bs-example-modal-lg-create">Create New</a>
+                        <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">
+                                <h6 class="card-title mb-0">Nationality</h6>
                             </div>
-                        @endif
+                            <div class="p-2 bd-highlight">
+                                @if (App\Helpers\FileHelper::usr()->can('nationality.create'))
+                                    <button type="submit" class="btn btn-sm btn-success " data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create">Create New</a>
+                                @endif
+                            </div>
+                        </div>
                     </div>
 
                     @if ($errors->any())

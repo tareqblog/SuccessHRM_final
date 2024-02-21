@@ -49,7 +49,7 @@
                                 <div class="tab-pane active mb-4" id="General" role="tabpanel">
                                     <div class="row">
                                         <div class="row col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">Client
+                                            <label for="one" class="col-sm-5 col-form-label">Client
                                                 Code <span class="text-danger">*</span></label>
                                             <div class="col-sm-7">
                                                 <input type="text" name="client_code" class="form-control"
@@ -57,7 +57,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">Client
+                                            <label for="one" class="col-sm-5 col-form-label">Client
                                                 Name <span class="text-danger">*</span> </label>
                                             <div class="col-sm-7">
                                                 <input type="text" name="client_name" class="form-control"
@@ -66,7 +66,7 @@
                                         </div>
 
                                         <div class="row col-lg-6 mb-1">
-                                            <label for="two" class="col-sm-5 col-form-label fw-bold">Manager /
+                                            <label for="two" class="col-sm-5 col-form-label">Manager /
                                                 Consultant (In Charge) <span class="text-danger">*</span></label>
                                             <div class="col-sm-7">
                                                 <select name="employees_id" class="form-control single-select-field" required>
@@ -79,7 +79,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-lg-6 mb-1">
-                                            <label for="three" class="col-sm-5 col-form-label fw-bold">Payroll
+                                            <label for="three" class="col-sm-5 col-form-label">Payroll
                                                 Person In Charge</label>
                                             <div class="col-sm-7">
                                                 <select name="payroll_employees_id" class="form-control single-select-field">
@@ -94,7 +94,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-lg-6 mb-1">
-                                            <label for="six" class="col-sm-5 col-form-label fw-bold">Renewal
+                                            <label for="six" class="col-sm-5 col-form-label">Renewal
                                                 TNC</label>
                                             <div class="col-sm-7">
                                                 <input type="date" name="tnc_renewal_date" class="form-control"
@@ -102,7 +102,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-lg-6 mb-1">
-                                            <label for="seven" class="col-sm-5 col-form-label fw-bold">Industry /Job
+                                            <label for="seven" class="col-sm-5 col-form-label">Industry /Job
                                                 category
                                                 <span class="text-danger">*</span></label>
                                             <div class="col-sm-7">
@@ -118,7 +118,7 @@
                                         </div>
 
                                         <div class="row col-lg-6 mb-1">
-                                            <label for="nine" class="col-sm-5 col-form-label fw-bold">TNC Template
+                                            <label for="nine" class="col-sm-5 col-form-label">TNC Template
                                                 <span class="text-danger">*</span></label>
                                             <div class="col-sm-7">
                                                 <select name="tnc_templates_id" class="form-control single-select-field" required>
@@ -132,7 +132,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-lg-6 mb-1">
-                                            <label for="client_terms_id" class="col-sm-5 col-form-label fw-bold">Terms
+                                            <label for="client_terms_id" class="col-sm-5 col-form-label">Terms
                                             </label>
                                             <div class="col-sm-7">
                                                 <select name="client_terms_id" class="form-control single-select-field"
@@ -147,7 +147,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-lg-6 mb-1">
-                                            <label for="four" class="col-sm-5 col-form-label fw-bold">Remark</label>
+                                            <label for="four" class="col-sm-5 col-form-label">Remark</label>
                                             <div class="col-sm-7">
                                                 <textarea name="client_remarks" rows="2" class="form-control" placeholder="Remark">{{ old('client_remarks') }} </textarea>
                                             </div>
@@ -157,7 +157,7 @@
                                 <div class="row">
                                     <h5>Address Information</h5>
                                     <div class="row col-lg-6  mb-1">
-                                        <label for="eleven" class="col-sm-5 col-form-label fw-bold">Attention
+                                        <label for="eleven" class="col-sm-5 col-form-label">Attention
                                             Person</label>
                                         <div class="col-sm-7">
                                             <input type="text" name="client_attention_person" class="form-control"
@@ -166,7 +166,7 @@
                                         </div>
                                     </div>
                                     <div class="row col-lg-6 mb-1">
-                                        <label for="twelve" class="col-sm-5 col-form-label fw-bold">Contact
+                                        <label for="twelve" class="col-sm-5 col-form-label">Contact
                                             Person <span class="text-danger">*</span></label>
                                         <div class="col-sm-7">
                                             <input type="text" name="client_contact_person" class="form-control"
@@ -175,7 +175,7 @@
                                         </div>
                                     </div>
                                     <div class="row col-lg-6 mb-1">
-                                        <label for="thirteen" class="col-sm-5 col-form-label fw-bold">Contact
+                                        <label for="thirteen" class="col-sm-5 col-form-label">Contact
                                             Number <span class="text-danger">*</span></label>
                                         <div class="col-sm-7">
                                             <input type="text" name="client_contact_number" class="form-control"
@@ -184,14 +184,14 @@
                                         </div>
                                     </div>
                                     <div class="row col-lg-6  mb-1">
-                                        <label for="fourteen" class="col-sm-5 col-form-label fw-bold">Fax</label>
+                                        <label for="fourteen" class="col-sm-5 col-form-label">Fax</label>
                                         <div class="col-sm-7">
                                             <input type="text" name="client_fax" class="form-control"
                                                 placeholder="Fax" value="{{ old('client_fax') }}">
                                         </div>
                                     </div>
                                     <div class="row col-lg-6  mb-1">
-                                        <label for="fifteen" class="col-sm-5 col-form-label fw-bold">Postal
+                                        <label for="fifteen" class="col-sm-5 col-form-label">Postal
                                             Code</label>
                                         <div class="col-sm-7">
                                             <input type="text" name="client_postal_code" class="form-control"
@@ -199,7 +199,7 @@
                                         </div>
                                     </div>
                                     <div class="row col-lg-6  mb-1">
-                                        <label for="seventeen" class="col-sm-5 col-form-label fw-bold">Attention
+                                        <label for="seventeen" class="col-sm-5 col-form-label">Attention
                                             Designation</label>
                                         <div class="col-sm-7">
                                             <input type="text" name="client_attention_designation"
@@ -208,14 +208,14 @@
                                         </div>
                                     </div>
                                     <div class="row col-lg-6  mb-1">
-                                        <label for="eighteen" class="col-sm-5 col-form-label fw-bold">Designation</label>
+                                        <label for="eighteen" class="col-sm-5 col-form-label">Designation</label>
                                         <div class="col-sm-7">
                                             <input type="text" name="client_designation" class="form-control"
                                                 placeholder="Designation" value="{{ old('client_designation') }}">
                                         </div>
                                     </div>
                                     <div class="row col-lg-6  mb-1">
-                                        <label for="nineteen" class="col-sm-5 col-form-label fw-bold">Phone
+                                        <label for="nineteen" class="col-sm-5 col-form-label">Phone
                                             Number</label>
                                         <div class="col-sm-7">
                                             <input type="text" name="client_phone" class="form-control"
@@ -223,14 +223,14 @@
                                         </div>
                                     </div>
                                     <div class="row col-lg-6  mb-1">
-                                        <label for="twenteen" class="col-sm-5 col-form-label fw-bold">Email</label>
+                                        <label for="twenteen" class="col-sm-5 col-form-label">Email</label>
                                         <div class="col-sm-7">
                                             <input type="email" name="client_email" class="form-control"
                                                 placeholder="Email" value="{{ old('client_email') }}">
                                         </div>
                                     </div>
                                     <div class="row col-lg-6  mb-1">
-                                        <label for="twente_one" class="col-sm-5 col-form-label fw-bold">Unit
+                                        <label for="twente_one" class="col-sm-5 col-form-label">Unit
                                             No</label>
                                         <div class="col-sm-7">
                                             <input type="text" name="client_unit_number" class="form-control"
@@ -238,7 +238,7 @@
                                         </div>
                                     </div>
                                     <div class="row col-lg-6  mb-1">
-                                        <label for="twente_two" class="col-sm-5 col-form-label fw-bold">Web
+                                        <label for="twente_two" class="col-sm-5 col-form-label">Web
                                             Site</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control" name="client_website"
@@ -246,7 +246,7 @@
                                         </div>
                                     </div>
                                     <div class="row col-lg-6  mb-1">
-                                        <label for="sixteen" class="col-sm-5 col-form-label fw-bold">Street</label>
+                                        <label for="sixteen" class="col-sm-5 col-form-label">Street</label>
                                         <div class="col-sm-7">
                                             <textarea name="client_street" rows="2" class="form-control" placeholder="Address">{{ old('client_street') }} </textarea>
                                         </div>

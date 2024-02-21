@@ -19,7 +19,7 @@
                     <div class="card-header">
                         <div class="d-flex bd-highlight">
                             <div class="p-2 flex-grow-1 bd-highlight">
-                                <h6 class="card-title mb-0">Job Summary Table</h6>
+                                {{-- <h6 class="card-title mb-0">Job Summary Table</h6> --}}
                             </div>
                             <div class="p-2 bd-highlight">
                                 @if (App\Helpers\FileHelper::usr()->can('job.create'))

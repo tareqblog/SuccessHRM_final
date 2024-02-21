@@ -54,7 +54,14 @@ Search Candidate Detail
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0">Search Table</h4>
+                <div class="d-flex bd-highlight">
+                    <div class="p-2 flex-grow-1 bd-highlight">
+                        <h6 class="card-title mb-0">Search Table</h6>
+                    </div>
+                    <div class="p-2 bd-highlight">
+
+                    </div>
+                </div>
             </div>
             @if ($errors->any())
                 <div class="alert alert-danger">

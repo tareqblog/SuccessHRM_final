@@ -309,7 +309,7 @@
                                                 @csrf
                                                 <input type="hidden" value="0" name="file_type_for">
                                                 <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                    <div class="row mb-4">
+                                                    <div class="row mb-1">
                                                         <label for="file_path" class="col-sm-3 col-form-label">Upload
                                                             File</label>
                                                         <div class="col-sm-9">
@@ -317,7 +317,7 @@
                                                                 value="{{ old('file_path') }}">
                                                         </div>
                                                     </div>
-                                                    <div class="row mb-4">
+                                                    <div class="row mb-1">
                                                         <label for="twente_four" class="col-sm-3 col-form-label">File
                                                             Type</label>
                                                         <div class="col-sm-9">
@@ -477,9 +477,9 @@
                                         <form action="{{ route('client.department.store') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="client_id" value="{{ $client->id }}">
-                                            <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
-                                                    <div class="col-lg-6 d-flex">
+
+                                                <div class="row mb-1">
+                                                    <div class="row col-12 mb-1">
                                                         <label for="twente_four"
                                                             class="col-sm-3 col-form-label">Department Name</label>
                                                         <div class="col-sm-9">
@@ -487,9 +487,7 @@
                                                                 placeholder="Department name">
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <div class="col-lg-6 d-flex">
+                                                    <div class="row col-12 mb-1">
                                                         <label for="twente_four"
                                                             class="col-sm-3 col-form-label">Remarks</label>
                                                         <div class="col-sm-9">
@@ -498,7 +496,7 @@
                                                     </div>
                                                 </div>
                                                 <button type="submit" class="btn btn-sm btn-info">Save</button>
-                                            </div>
+
                                         </form>
                                     </div>
                                     <div class="col-lg-12 mt-2">
@@ -546,7 +544,7 @@
                                             @csrf
 
                                             <div class="row">
-                                                <div class="col-sm-12 col-md-6 d-flex mt-3">
+                                                <div class="col-sm-12 col-md-6 d-flex mb-1">
                                                     <label for="twente_four" class="col-sm-3 col-form-label">Name <strong
                                                             class="text-danger">*</strong></label>
                                                     <div class="col-sm-9">
@@ -554,7 +552,7 @@
                                                             placeholder="Name">
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-12 col-md-6 d-flex mt-3">
+                                                <div class="col-sm-12 col-md-6 d-flex mb-1">
                                                     <label for="twente_four" class="col-sm-3 col-form-label">Mobile
                                                         <strong class="text-danger">*</strong></label>
                                                     <div class="col-sm-9">
@@ -562,7 +560,7 @@
                                                             placeholder="Mobile">
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-12 col-md-6 d-flex mt-3">
+                                                <div class="col-sm-12 col-md-6 d-flex mb-1">
                                                     <label for="twente_four" class="col-sm-3 col-form-label">Email <strong
                                                             class="text-danger">*</strong></label>
                                                     <div class="col-sm-9">
@@ -570,7 +568,7 @@
                                                             placeholder="Email">
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-12 col-md-6 d-flex mt-3">
+                                                <div class="col-sm-12 col-md-6 d-flex mb-1">
                                                     <label for="twente_four"
                                                         class="col-sm-3 col-form-label">Department</label>
                                                     <div class="col-sm-9">
@@ -583,7 +581,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-12 col-md-6 d-flex mt-3">
+                                                <div class="col-sm-12 col-md-6 d-flex mb-1">
                                                     <label for="twente_four" class="col-sm-3 col-form-label">Direct Number
                                                         (DID)</label>
                                                     <div class="col-sm-9">
@@ -591,17 +589,17 @@
                                                             placeholder="Direct Number (DID)">
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-12 col-md-6 d-flex mt-3">
+                                                <div class="col-sm-12 col-md-6 d-flex mb-1">
 
                                                 </div>
-                                                <div class="col-sm-12 col-md-6 d-flex mt-3">
+                                                <div class="col-sm-12 col-md-6 d-flex mb-1">
                                                     <label for="twente_four"
                                                         class="col-sm-3 col-form-label">Remark</label>
                                                     <div class="col-sm-9">
                                                         <textarea name="remark" cols="30" rows="2" placeholder="remark" class="form-control"></textarea>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-12 col-md-6 d-flex mt-3">
+                                                <div class="col-sm-12 col-md-6 d-flex mb-1">
                                                     <label for="twente_four"
                                                         class="col-sm-3 col-form-label">Defination</label>
                                                     <div class="col-sm-9">
@@ -611,7 +609,7 @@
                                             </div>
                                             <h4 class="mt-3">Login Information</h4>
                                             <div class="row">
-                                                <div class="col-sm-12 col-md-8 d-flex mt-3">
+                                                <div class="col-sm-12 col-md-8 d-flex mt-1">
                                                     <label for="twente_four" class="col-sm-3 col-form-label">Login ID
                                                         <strong class="text-danger">*</strong></label>
                                                     <div class="col-sm-9">
@@ -619,7 +617,7 @@
                                                             placeholder="Login Email" required>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-12 col-md-8 d-flex mt-3">
+                                                <div class="col-sm-12 col-md-8 d-flex mt-1">
                                                     <label for="twente_four" class="col-sm-3 col-form-label">Password
                                                         <strong class="text-danger">*</strong></label>
                                                     <div class="col-sm-9">
@@ -627,7 +625,7 @@
                                                             placeholder="Password" required>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-12 col-md-8 d-flex mt-3">
+                                                <div class="col-sm-12 col-md-8 d-flex mt-1">
                                                     <label for="twente_four" class="col-sm-3 col-form-label">Confirm
                                                         Password <strong class="text-danger">*</strong></label>
                                                     <div class="col-sm-9">
