@@ -10,7 +10,7 @@
         </tr>
     </thead>
     <tbody>
-        @forelse ($items as $data)
+        @foreach ($items as $data)
             <tr>
                 <td>{{ $loop->index + 1 }}</td>
                 <td>{{ $data->name }}</td>
@@ -28,12 +28,6 @@
                     @endif
                 </td>
             </tr>
-        @empty
-            <tr>
-                <td colspan="6">
-                    <p class="text-center text-danger">No data found</p>
-                </td>
-            </tr>
-        @endforelse
+        @endforeach
     </tbody>
 </table>

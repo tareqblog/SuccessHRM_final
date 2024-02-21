@@ -57,7 +57,7 @@
                         @endif
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered mb-0" id="myTable">
+                        <table class="table table-bordered mb-0" id="leaveTable">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -74,8 +74,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($datas as $data)
-                                    <tr> 
+                                @foreach ($datas as $data)
+                                    <tr>
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>@if ($data->leave_empl_type==1) Employee @else Candidate @endif</td>
                                         @if ($data->leave_empl_type==1)
@@ -108,14 +108,7 @@
                                             @endif
                                         </td>
                                     </tr>
-                                @empty
-
-                                    <tr>
-                                        <td colspan="50" class="text-center text-warning">
-                                            No Data found!
-                                        </td>
-                                    </tr>
-                                @endforelse
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -132,7 +125,7 @@
         <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
         <script>
             $(document).ready(function() {
-                $('#myTable').DataTable();
+                $('#leaveTable').DataTable();
             });
 
             $(function() {

@@ -49,7 +49,7 @@ Client Terms Management
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($datas as $data)
+                                @foreach($datas as $data)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ $data->client_term_code }}</td>
@@ -70,11 +70,7 @@ Client Terms Management
                                             </form>
                                         </td>
                                     </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="50" class="text-center text-warning">No data found!</td>
-                                    </tr>
-                                @endforelse
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

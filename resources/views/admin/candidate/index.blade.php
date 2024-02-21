@@ -40,12 +40,11 @@
                                     <th>Last Update Date</th>
                                     <th>Assign</th>
                                     <th>Group</th>
-                                    {{-- <th>Status</th> --}}
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($datas as $data)
+                                @foreach ($datas as $data)
                                     <tr>
                                         <td>
                                             {{ $loop->index + 1 }}
@@ -98,14 +97,7 @@
                                             @endif
                                         </td>
                                     </tr>
-                                @empty
-
-                                    <tr>
-                                        <td colspan="10" class="text-center text-warning">
-                                            No Data found!
-                                        </td>
-                                    </tr>
-                                @endforelse
+                                @endforeach
                             </tbody>
                         </table>
 

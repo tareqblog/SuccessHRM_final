@@ -52,7 +52,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($datas as $data)
+                                @foreach ($datas as $data)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ $data->title }}</td>
@@ -75,17 +75,7 @@
                                             @endif
                                         </td>
                                     </tr>
-                                @empty
-                                    {{-- empty data --}}
-                                    <tr>
-                                        <td class="text-center text-warning" colspan="5">
-                                            No data found!
-                                        </td>
-                                    </tr>
-                                    {{-- empty data --}}
-                                @endforelse
-
-
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

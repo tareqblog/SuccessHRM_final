@@ -45,7 +45,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($datas as $data)
+                                @foreach ($datas as $data)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ $data->client_name }}</td>
@@ -102,15 +102,7 @@
                                             @endif
                                         </td>
                                     </tr>
-                                @empty
-                                    {{-- empty data --}}
-                                    <tr>
-                                        <td class="text-center text-warning" colspan="5">
-                                            No data found!
-                                        </td>
-                                    </tr>
-                                    {{-- empty data --}}
-                                @endforelse
+                                @endforeach
 
 
                             </tbody>
@@ -139,12 +131,13 @@
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="myLargeModalLabel">Import Candidate</h5>
+                                        <h5 class="modal-title" id="myLargeModalLabel">Import Client</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="{{ route('client.import') }}" method="POST">
+                                        {{-- {{ route('client.import') }} --}}
+                                        <form action="#" method="POST">
                                             @csrf
                                             <div class="row">
                                                 <div class="col-lg-12">

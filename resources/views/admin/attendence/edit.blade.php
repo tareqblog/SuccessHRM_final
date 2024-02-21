@@ -47,7 +47,7 @@
                                     <div class="row col-lg-6 mb-1">
                                         <label for="thirteen" class="col-sm-3 col-form-label">Select Date</label>
                                         <div class="col-sm-9">
-                                            <input type="date" name="date" id="dateInput" class="form-control" value="{{ isset($selectedDate) ? $selectedDate->format('Y-m-d') : Carbon\Carbon::now()->format('Y-m-d') }}" required>
+                                            <input type="date" name="date" id="dateInput" class="form-control" value="{{ isset($month_year) ? date('Y-m-d', strtotime($month_year)) : Carbon\Carbon::now()->format('Y-m-d') }}" required>
                                         </div>
                                     </div>
 
@@ -135,7 +135,7 @@
                                                 <div class="col-sm-9">
                                                     <div>
                                                         <a href="{{ route('clients.index') }}" class="btn btn-sm btn-secondary w-md">Cancel</a>
-                                                        <button type="submit" class="btn btn-sm btn-info w-md">Submit</button>
+                                                        <button type="submit" {{$parent != null ? '' : 'disabled'}} class="btn btn-sm btn-info w-md">Submit</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -156,6 +156,9 @@
         @include('admin.include.select2js')
         <script>
             $(document).ready(function() {
+                $('#dateInput').change(function() {
+                    $('#candidateDropdown').trigger('change');
+                });
 
                 $('#candidateDropdown').change(function() {
                     let selectedCandidateId = $(this).val();
@@ -163,7 +166,6 @@
                         type: 'GET',
                         url: '/ATS/get/candidate/company/' + selectedCandidateId,
                         success: function(response) {
-                            console.log(response);
                             updateCompanyDropdown(response);
                             submitForm();
                         },
@@ -198,7 +200,6 @@
                 function submitForm() {
                     $('#attendenceForm').submit();
                 }
-
             });
         </script>
     @endsection

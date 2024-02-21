@@ -51,9 +51,9 @@ class DepartmentController extends Controller
             abort(403, 'Unauthorized');
         }
         $request->validate([
-            'department_code' => 'required|unique:departments',
-            'department_desc' => 'required',
-            'department_seqno' => 'nullable',
+            'department_code' => 'required|string|unique:departments',
+            'department_desc' => 'required|string',
+            'department_seqno' => 'nullable|numeric',
         ]);
 
         Department::create($request->except('_token'));
@@ -89,8 +89,8 @@ class DepartmentController extends Controller
         }
         $request->validate([
             'department_code' => "required|unique:departments,department_code,". "$department->id'",
-            'department_desc' => 'required',
-            'department_seqno' => 'nullable',
+            'department_desc' => 'required|string',
+            'department_seqno' => 'nullable|numeric',
             'department_status' => 'required',
         ]);
 

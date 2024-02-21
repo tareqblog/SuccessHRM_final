@@ -769,7 +769,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @forelse($families as $family)
+                                                @foreach($families as $family)
                                                     <tr>
                                                         <td>{{ $loop->index + 1 }} </td>
                                                         <td>{{ $family->name }} </td>
@@ -793,12 +793,7 @@
                                                             @endif
                                                         </td>
                                                     </tr>
-                                                @empty
-                                                    <tr>
-                                                        <td class="text-center text-warning" colspan="50">No data found!
-                                                        </td>
-                                                    </tr>
-                                                @endforelse
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -1201,7 +1196,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @forelse($candidate_resume as $resume)
+                                                @foreach($candidate_resume as $resume)
                                                     <tr>
                                                         <td>
                                                             {{ $loop->index + 1 }}
@@ -1243,11 +1238,7 @@
                                                             @endif
                                                         </td>
                                                     </tr>
-                                                @empty
-                                                    <tr class="text-center">
-                                                        <td colspan="50">No data found !</td>
-                                                    </tr>
-                                                @endforelse
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -1279,7 +1270,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @forelse($client_files as $file)
+                                                @foreach($client_files as $file)
                                                     <tr>
                                                         <td>{{ $loop->index + 1 }}</td>
                                                         <td>
@@ -1315,11 +1306,7 @@
                                                             @endif
                                                         </td>
                                                     </tr>
-                                                @empty
-                                                    <tr class="text-center">
-                                                        <td colspan="50">No data found !</td>
-                                                    </tr>
-                                                @endforelse
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -1759,7 +1746,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @forelse($client_remarks as $remark)
+                                                @foreach($client_remarks as $remark)
                                                     <tr>
                                                         <td>{{ $loop->index + 1 }}</td>
                                                         <td>{{ $remark->Assign->name }}</td>
@@ -1785,11 +1772,7 @@
                                                             @endif --}}
                                                         </td>
                                                     </tr>
-                                                @empty
-                                                    <tr class="text-center">
-                                                        <td colspan="50">No data found !</td>
-                                                    </tr>
-                                                @endforelse
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -2179,7 +2162,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @forelse($payrolls as $payroll)
+                                                @foreach($payrolls as $payroll)
                                                     <tr>
                                                         <td>{{ $loop->index + 1 }} </td>
                                                         <td>{{ $payroll->salary }} </td>
@@ -2203,28 +2186,8 @@
                                                             @endif
                                                         </td>
                                                     </tr>
-                                                @empty
-                                                    <tr>
-                                                        <td colspan="50" class="text-warning text-center">
-                                                            No data found!
-                                                        </td>
-                                                    </tr>
-                                                @endforelse
-                                                <tr>
-                                                </tr>
+                                                @endforeach
                                             </tbody>
-                                            {{-- <tfoot>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Salary</th>
-                                                    <th>Company</th>
-                                                    <th>Comments</th>
-                                                    <th>Created By</th>
-                                                    <th>Create Time</th>
-                                                    <th>Create Date</th>
-                                                    <th></th>
-                                                </tr>
-                                            </tfoot> --}}
                                         </table>
                                     </div>
                                 </div>

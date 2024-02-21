@@ -347,7 +347,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @forelse ($data['client_files'] as $file)
+                                                @foreach($data['client_files'] as $file)
                                                     <tr>
                                                         <td>{{ $loop->index + 1 }}</td>
                                                         <td>
@@ -387,11 +387,7 @@
                                                             @endif
                                                         </td>
                                                     </tr>
-                                                @empty
-                                                    <tr class="text-center">
-                                                        <td colspan="50">No data found !</td>
-                                                    </tr>
-                                                @endforelse
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -432,7 +428,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @forelse ($data['client_followup'] as $file)
+                                                @foreach ($data['client_followup'] as $file)
                                                     <tr>
                                                         <td>{{ $loop->index + 1 }}</td>
                                                         <td>
@@ -466,11 +462,7 @@
                                                             @endif
                                                         </td>
                                                     </tr>
-                                                @empty
-                                                    <tr class="text-center">
-                                                        <td colspan="50">No data found !</td>
-                                                    </tr>
-                                                @endforelse
+                                                @endforeach
                                             </tbody>
 
                                         </table>
@@ -520,7 +512,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @forelse ($data['departments'] as $department)
+                                                @foreach ($data['departments'] as $department)
                                                     <tr>
                                                         <td>{{ $loop->index + 1 }}</td>
                                                         <td>{{ $department->name }}</td>
@@ -539,11 +531,7 @@
                                                             </form>
                                                         </td>
                                                     </tr>
-                                                @empty
-                                                    <tr class="text-center">
-                                                        <td colspan="50">No data found !</td>
-                                                    </tr>
-                                                @endforelse
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -664,7 +652,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @forelse ($client->supervisors as $supervisor)
+                                                @foreach ($client->supervisors as $supervisor)
                                                     <tr>
                                                         <td>{{ $loop->index + 1 }}</td>
                                                         <td>{{ $supervisor->name }}</td>
@@ -687,11 +675,7 @@
 
                                                         </td>
                                                     </tr>
-                                                @empty
-                                                    <tr class="text-center">
-                                                        <td colspan="50">No data found !</td>
-                                                    </tr>
-                                                @endforelse
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>

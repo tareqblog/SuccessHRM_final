@@ -66,7 +66,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($datas as $data)
+                                @foreach ($datas as $data)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ $data->candidate?->candidate_name }}</td>
@@ -86,14 +86,7 @@
                                                 class="btn btn-success btn-sm me-2">Attachments</a>
                                         </td>
                                     </tr>
-                                @empty
-
-                                    <tr>
-                                        <td colspan="50" class="text-center text-warning">
-                                            No Data found!
-                                        </td>
-                                    </tr>
-                                @endforelse
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
