@@ -90,4 +90,9 @@ class AttendanceController extends Controller
 
         return $attendances;
     }
+
+    public function get_single_attendence(Attendance $attendance)
+    {
+        return $attendance;
+    }
 }

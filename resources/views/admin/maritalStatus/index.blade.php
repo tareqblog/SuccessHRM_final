@@ -49,7 +49,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($datas as $data)
+                                @foreach($datas as $data)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ $data->marital_statuses_code }}</td>
@@ -72,11 +72,7 @@
                                             @endif
                                         </td>
                                     </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="50" class="text-center text-warning">No data found!</td>
-                                    </tr>
-                                @endforelse
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

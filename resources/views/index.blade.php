@@ -58,7 +58,6 @@
                                                                     <td></td>
                                                                 </tr>
                                                             @endforeach
-
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -105,7 +104,6 @@
                                                                 <td>{{ $candidate['candidate_name'] }}</td>
                                                             </tr>
                                                         @endforeach
-
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -153,7 +151,6 @@
                                                             <td>{{ $candidate['candidate_name'] }}</td>
                                                         </tr>
                                                     @endforeach
-
                                                 </tbody>
                                             </table>
                                         </div>

@@ -159,14 +159,10 @@
                                             <div class="row mt-5">
                                                 <div class="col-sm-9">
                                                     <div>
-                                                        <a href="{{ route('clients.index') }}"
+                                                        <a href="#"
                                                             class="btn btn-sm btn-secondary w-md">Cancel</a>
                                                         <button type="submit"
-                                                            class="btn btn-sm btn-info w-md">Submit</button>
-                                                        <a href="#" class="btn btn-sm btn-primary w-md">Print TNC
-                                                            SRC</a>
-                                                        <a href="#" class="btn btn-sm btn-primary w-md">Print TNC
-                                                            SHRC</a>
+                                                            class="btn btn-sm btn-info w-md" disabled>Submit</button>
                                                     </div>
                                                 </div>
                                             </div>

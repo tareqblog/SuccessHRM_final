@@ -3,13 +3,13 @@
     @method('PATCH')
     <div class="row">
         <div class="col-lg-6">
-            <div class="row mb-4">
+            <div class="row mb-1">
                 <label for="one" class="col-sm-3 col-form-label">Type Code</label>
                 <div class="col-sm-9">
                     <input type="text" name="jobtype_code" class="form-control" placeholder="Name" value="{{$job_type->jobtype_code}}">
                 </div>
             </div>
-            <div class="row mb-4">
+            <div class="row mb-1">
                 <label for="one" class="col-sm-3 col-form-label">Description</label>
                 <div class="col-sm-9">
                     <textarea name="jobtype_desc" rows="4" class="form-control"> {{$job_type->jobtype_desc}} </textarea>
@@ -17,14 +17,14 @@
             </div>
         </div>
         <div class="col-lg-6">
-            <div class="row mb-4">
+            <div class="row mb-1">
                 <label for="one" class="col-sm-3 col-form-label">Seq
                     No</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control" name="jobtype_seqno" placeholder="Seq No" value="{{$job_type->jobtype_seqno}}">
                 </div>
             </div>
-            <div class="row mb-4">
+            <div class="row mb-1">
                 <label for="one" class="col-sm-3 col-form-label">Seq
                     No</label>
                 <div class="col-sm-9">

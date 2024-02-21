@@ -125,7 +125,7 @@ Search Candidate Detail
                             </thead>
                             <tbody>
                                 @if (isset($data))
-                                    @foreach ($data as $key => $item)
+                                    @foreach($data as $key => $item)
                                         <tr style="cursor: pointer" class="accordion-row" id="row_{{ $item['candidate_id'] }}"  data-candidate-name="{{ $item['candidate_name'] }}" >
                                             <th>{{ ++$key }}</th>
                                             <th>{{ $item['candidate_name'] }}</th>
@@ -135,7 +135,6 @@ Search Candidate Detail
                                                 <p style="height:200px; overflow:scroll">{{ $item['resume_text'] }}</p>
                                             </td>
                                             <th>
-
                                                 {{-- @if (App\Helpers\FileHelper::usr()->can('candidate.update')) --}}
                                                 <button type="button" class="btn btn-info btn-sm me-2 mb-2 resumePath" data-bs-toggle="modal" data-bs-target="#showResume" data-file-path="{{$item['resume_file_path']}}">
                                                     D

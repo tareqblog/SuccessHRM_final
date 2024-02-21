@@ -3,27 +3,30 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
 <script>
-
     function allWork(days) {
-        for (let day = 0; day <= days; day++) {
-            let worked = $('#workCheB-' + day).val();
-
-            if ($('#allCheckB').is(':checked')) {
+        if ($('#allCheckB').is(':checked')) {
+            for (let day = 0; day <= days; day++) {
+                let worked = $('#workCheB-' + day).val();
                 if(worked == 1){
                     $('#workCheB-' + day).prop('checked', true).addClass('checked');
                 } else if(worked == 0) {
                     $('#workCheB-' + day).prop('checked', false).removeClass('checked');
                 }
+            }
 
-            } else if ($('#allCheckB').is(':not(:checked)')) {
+            $('#haveData').empty();
+            reloadData();
+
+        } else if ($('#allCheckB').is(':not(:checked)')) {
+            for (let day = 0; day <= days; day++) {
+                let worked = $('#workCheB-' + day).val();
                 if(worked == 1) {
                     $('#workCheB-' + day).prop('checked', false).removeClass('checked');
                 }
+                all_empty(day);
+                leave_filds(day);
             }
         }
-
-        $('#haveData').empty();
-        reloadData();
     }
 
     function reloadData()
@@ -34,15 +37,10 @@
                 url: route,
                 method: 'GET',
                 success: function(response) {
-                    console.log(response);
-                    // $('#haveData').load();
-                    // console.log('Attendance data reloaded successfully');
                     let leaveTypes = {!! json_encode($leaveTypes) !!};
                     $.each(response, function(index, attendance) {
-
-                        console.log(attendance.work);
                         let html = `
-                            <div style="display:flex">
+                            <div style="display:flex" id="single_attendance-${index}">
                                 <div style="flex:0 0 120px;position: sticky;left: 0;z-index: 20;">
                                     <input type="text" class="form-control ${attendance.work == 1 ? 'bg-f1f1f1' : ''}" readonly name="group[${index}][date]" value="${attendance.date}">
                                 </div>
@@ -60,7 +58,7 @@
                                         name="group[${index}][out_time]" value="${attendance.out_time}" onchange="timeCalculation(${index})">
                                 </div>
                                 <div style="flex:0 0 50px;text-align:center">
-                                    <input type="checkbox" class="attendance_next_day1 change" onclick="next_day(${index})" data-line="1" value="1" name="group[${index}][next_day]">
+                                    <input type="checkbox" class="attendance_next_day1 change next_day-${index}" onclick="next_day(${index})" data-line="1" value="1" name="group[${index}][next_day]" ${attendance.next_day == 1 ? 'checked' : ''}>
                                 </div>
                                 <div style="flex:0 0 120px;">
                                     <select class="form-control single-select-field change lunch_val-${index}"
@@ -87,45 +85,38 @@
                                         readonly name="group[${index}][total_hour_min]"
                                         value="${attendance.total_hour_min}">
                                 </div>
-                                <!--normal-->
                                 <div style="flex:0 0 120px;">
                                     <input type="text" style="text-align:center;"
                                         class="form-control normal_time-${index}"
                                         name="group[${index}][normal_hour_min]" value="${attendance.normal_hour_min}">
                                 </div>
-                                <!--ot-->
                                 <div style="flex:0 0 120px;">
                                     <input type="text" style="text-align:center" name="group[${index}][ot_hour_min]"
                                         class="form-control ot-${index}" data-week="1" value="${attendance.ot_hour_min}">
                                 </div>
-                                <!--ot hidden-->
                                 <div style="flex:0 0 120px;">
                                     <input type="text" style="text-align:center" class="form-control otc-${index}"
                                         name="group[${index}][ot_calculation]" value="${attendance.ot_calculation}">
                                 </div>
-                                <!--edit-->
                                 <div style="flex:0 0 80px;text-align:center">
-                                    <input type="checkbox" class="attendance_edit1" id="ot_edit-${index}" data-line="1" value="${attendance.ot_edit}" name="group[${index}][ot_edit]" onclick="ot_edit(${index})">
+                                    <input type="checkbox" class="attendance_edit1" id="ot_edit-${index}" data-line="1" value="1" name="group[${index}][ot_edit]" onclick="ot_edit(${index})"  ${attendance.ot_edit == 1 ? 'checked' : ''}>
                                 </div>
-                                <!--work-->
                                 <div style="flex:0 0 100px;text-align:center">
-                                    <input type="checkbox" class="work attendance_work1" id="workCheB-${index}" data-line="1" value="${attendance.work}" name="group[${index}][work]" onclick="work_check(${index})" ${attendance.work == 1 ? 'checked' : ''}>
+                                    <input type="checkbox" class="work attendance_work1" id="workCheB-${index}" data-line="1" value="${attendance.work}" name="group[${index}][work]" onclick="work_check(${attendance.id}, ${index})" ${attendance.work == 1 ? 'checked' : ''}>
                                 </div>
                                 <div style="flex:0 0 50px;text-align:center">
-                                    <input type="checkbox" class="work attendance_ph1 ph-${index}" data-line="1" name="group[${index}][ph]" value="${attendance.ph}" ${attendance.ph == 1 ? 'checked' : ''}>
+                                    <input type="checkbox" class="work attendance_ph1 ph-${index}" data-line="1" name="group[${index}][ph]" value="1" ${attendance.ph == 1 ? 'checked' : ''}>
                                 </div>
-                                <!--ph pay-->
                                 <div style="flex:0 0 50px;text-align:center">
-                                    <input type="checkbox" class="work attendance_ph_pay1 ph_pay-${index}" data-line="1" value="${attendance.ph_pay}" name="group[${index}][ph_pay]" ${attendance.ph_pay == 1 ? 'checked' : ''}>
+                                    <input type="checkbox" class="work attendance_ph_pay1 ph_pay-${index}" data-line="1" value="1" name="group[${index}][ph_pay]" ${attendance.ph_pay == 1 ? 'checked' : ''}>
                                 </div>
-                                <!--remark-->
                                 <div style="flex:0 0 150px;">
                                     <textarea class="form-control remark-${index}" rows="1" name="group[${index}][remark]">${attendance.remark ? attendance.remark : ''}</textarea>
                                 </div>
                                 <div style="flex:0 0 220px;">
                                     <select class="form-control single-select-field change leave_type  type_of_leave-${index}" data-line="1"
                                         name="group[${index}][type_of_leave]" style="width:100%;  ;">
-                                        <option selected disabled>Select One</option>`;
+                                        <option value="">Select One</option>`;
                                         $.each(leaveTypes, function(i, type) {
                                             html += `<option style="width: 120px" value="${type.id}" ${type.id == attendance.type_of_leave ? 'selected' : ''}>${type.leavetype_code}</option>`;
                                         });
@@ -133,33 +124,37 @@
                                     </select>
                                 </div>
                                 <div style="flex:0 0 220px;">
-                                    <select class="form-control single-select-field change leave_days-${index}"
+                                    <select class="form-control single-select-field change leave_day-${index}"
                                         onchange="leaveDay(${index})" data-line="1"
                                         name="group[${index}][leave_day]" style="width:100%;  ">
-                                        <option selected disabled>Select One</option>
+                                        <option value="">Select One</option>
                                         <option value="Full Day Leave" ${attendance.leave_day == 'Full Day Leave' ? 'selected' : ''} >Full Day Leave</option>
                                         <option value="Half Day AM" ${attendance.leave_day == 'Half Day AM' ? 'selected' : ''} >Half Day AM</option>
                                         <option value="Half Day PM" ${attendance.leave_day == 'Half Day PM' ? 'selected' : ''} >Half Day PM</option>
                                     </select>
                                 </div>
-                                <div style="flex:0 0 280px;">
-                                    <input type="hidden" name="group[${index}][old_leave_attachment]" value="${attendance.leave_attachment}">
-                                    <input type="file" class="attendance_leave_file-${index}" name="group[${index}][leave_attachment]" value="${attendance.leave_attachment}" onchange="hasFile(${index})">
-                                    <label class="remove-label remove-label-${index}" onclick="removeFile('${index}')"><i class="fas fa-trash text-danger"></i></label>
-                                    <div class="leave_attachment-${index}">
+                                <div style="flex:0 0 280px;" class="d-flex">
+                                    <div class="flex-grow-1" style="width: 200px;">
+                                        <input type="hidden" name="group[${index}][old_leave_attachment]" value="${attendance.leave_attachment}">
+                                        <input type="file" class="attendance_leave_file-${index}" name="group[${index}][leave_attachment]" value="${attendance.leave_attachment}" onchange="displayFilename(${index}, this)">
+                                    </div>
+                                    <div class="leave_attachment-${index} pe-3">
+                                        <label class="remove-label remove-label-${index}" onclick="removeFile('${index}')"><i class="fas fa-trash text-danger"></i></label>
                                         ${attendance.leave_attachment ? `<a href="${attendance.leave_attachment}" target="_blank"><i class="fas fa-eye"></i></a>` : ''}
                                     </div>
                                 </div>
-                                <div style="flex:0 0 280px;">
-                                    <input type="hidden" name="group[${index}][old_claim_attachment]" value="${attendance.claim_attachment}">
-                                    <input type="file" class="attendance_claim_file-${index}" name="group[${index}][claim_attachment]" onchange="hasClaim(${index})">
-                                    <label class="remove-label remove-claim-${index}" onclick="removeClaim('${index}')"><i class="fas fa-trash text-danger"></i></label>
-                                    <div class="claim_attachment-${index}">
+                                <div style="flex:0 0 280px;" class="d-flex">
+                                    <div class="flex-grow-1" style="width: 200px;">
+                                        <input type="hidden" name="group[${index}][old_claim_attachment]" value="${attendance.claim_attachment}">
+                                        <input type="file" class="attendance_claim_file-${index}" name="group[${index}][claim_attachment]" onchange="hasClaim(${index})">
+                                    </div>
+                                    <div class="claim_attachment-${index} pe-3">
+                                        <label class="remove-label remove-claim-${index}" onclick="removeClaim('${index}')"><i class="fas fa-trash text-danger"></i></label>
                                         ${attendance.claim_attachment ? `<a href="${attendance.claim_attachment}" target="_blank"><i class="fas fa-eye"></i></a>` : ''}
                                     </div>
                                 </div>
                                 <div style="flex:0 0 280px;">
-                                    <select class="form-control single-select-field change attendance_reimbursement"
+                                    <select class="form-control single-select-field change attendance_reimbursement-${index}"
                                         data-line="1" name="group[${index}][type_of_reimbursement]"
                                         style="width:100%" tabindex="-1" aria-hidden="true">
                                         <option value="">Choose One</option>
@@ -170,14 +165,12 @@
                                     </select>
                                 </div>
                                 <div style="flex:0 0 150px;">
-                                    <input type="text" style="text-align:center" class="form-control" value="${attendance.amount_of_reimbursement}" data-week="1"
+                                    <input type="text" style="text-align:center" class="form-control amount_of_reimbursement-${index}" value="${attendance.amount_of_reimbursement}" data-week="1"
                                         name="group[${index}][amount_of_reimbursement]">
                                 </div>
 
                             </div>
                         `;
-
-                        // Append the generated HTML to #haveData
                         $('#haveData').append(html);
                     });
                 },
@@ -188,13 +181,23 @@
         @endif
     }
 
-    function work_check(day)
+    function work_check(attendence_id, day)
     {
-        let worked = $('#workCheB-' + day).val();
         if ($('#workCheB-' + day).is(':checked')) {
-            $('#workCheB-' + day).prop('checked', true).addClass('checked');
+            let url = '/ATS/get/single/attendence/' + attendence_id;
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response) {
+                    all_show(response, day);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error loading attendance data:', xhr.status);
+                }
+            });
         } else if ($('#workCheB-' + day).is(':not(:checked)')) {
-            $('#workCheB-' + day).prop('checked', false).removeClass('checked');
+            all_empty(day);
+            leave_filds(day);
         }
     }
 
@@ -316,13 +319,12 @@
         }
     }
 
-
     function leaveDay(day)
     {
         let inTime = $('#oldinTime-' + day).val();
         let outTime = $('#oldoutTime-' + day).val();
         let will_pay = 0;
-        let leave_day = $('.change.leave_days-' + day).val();
+        let leave_day = $('.change.leave_day-' + day).val();
 
         if (leave_day == 'Full Day Leave') {
             will_pay = 0;
@@ -368,30 +370,61 @@
         return `${halfwayHour}:${halfwayMinute < 10 ? '0' : ''}${halfwayMinute}`;
     }
 
+    function all_show(response, day)
+    {
+        $('.inTime-' + day).val(response.in_time);
+        $('.outTime-' + day).val(response.out_time);
+        $('.next_day-' + day).prop('checked', response.next_day == 1).toggleClass('checked', response.next_day == 1);
+        $('.totla_time-' + day).val(response.total_hour_min);
+        $('.normal_time-' + day).val(response.normal_hour_min);
+        $('.ot-' + day).val(response.ot_hour_min);
+        $('.otc-' + day).val(response.ot_calculation);
+        $('.remark-' + day).val(response.remark);
+        $('.amount_of_reimbursement-' + day).val(response.amount_of_reimbursement);
+        $('#ot_edit-' + day).prop('checked', response.ot_edit == 1).toggleClass('checked', response.ot_edit == 1);
+        $('.ph-' + day).prop('checked', response.ph == 1).toggleClass('checked', response.ph == 1);
+        $('.ph_pay-' + day).prop('checked', response.ph_pay == 1).toggleClass('checked', response.ph_pay == 1);
+        $('.lunch_val-' + day).val(response.lunch_hour);
+        $('.type_of_leave-' + day).val(response.type_of_leave);
+        $('.leave_day-' + day).val(response.leave_day);
+        $('.attendance_reimbursement-' + day).val(response.type_of_reimbursement);
+        $('.leave_attachment-' + day).show();
+        $('.claim_attachment-' + day).show();
+    }
     function leave_filds(day)
     {
         $('.remark-' + day).val('');
         $('.type_of_leave-' + day).val('');
-        $('.leave_days-' + day).val('');
-        $('.leave_attachment-' + day).val('');
-        $('.claim_attachment-' + day).val('');
+        $('.leave_day-' + day).val('');
+        $('.leave_attachment-' + day).hide();
+        $('.attendance_leave_file-' + day).val('');
+        $('.claim_attachment-' + day).hide();
+        $('.attendance_claim_file-' + day).val('');
+        $('.amount_of_reimbursement-' + day).val(0.00);
+        $('.attendance_reimbursement-' + day).val('');
     }
+
     function all_empty(day)
     {
         $('.inTime-' + day).val('');
         $('.outTime-' + day).val('');
-        $('.next_day-' + day).val('');
+        $('.next_day-' + day).prop('checked', false).removeClass('checked');
         $('.lunch_val-' + day).val('');
-        $('.totla_time-' + day).val('');
-        $('.normal_time-' + day).val('');
-        $('.ot-' + day).val('');
-        $('.otc-' + day).val('');
-        $('#ot_edit-' + day).val('');
+        $('.totla_time-' + day).val(0);
+        $('.lunch_val-' + day).val('');
+        $('.normal_time-' + day).val(0);
+        $('.ot-' + day).val(0);
+        $('.otc-' + day).val(0);
+        $('#ot_edit-' + day).prop('checked', false).removeClass('checked');
         $('#workCheB-' + day).val('');
-        $('.ph-' + day).val('');
-        $('.ph_pay-' + day).val('');
+        $('.ph-' + day).prop('checked', false).removeClass('checked');
+        $('.ph_pay-' + day).prop('checked', false).removeClass('checked');
     }
 
+    function next_day()
+    {
+
+    }
 
     $(document).ready(function() {
         var days = '{{$daysInMonth}}';

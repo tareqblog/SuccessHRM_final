@@ -17,13 +17,15 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Department Table</h4>
-                        <div class="text-end">
-                            @if (App\Helpers\FileHelper::usr()->can('department.create'))
-                            <button data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
-                                class="btn btn-sm btn-success">Create
-                                New</button>
-                            @endif
+                        <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">
+                                <h6 class="card-title mb-0">Department Table</h6>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                 @if (App\Helpers\FileHelper::usr()->can('department.create'))
+                                    <button data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create" class="btn btn-sm btn-success">Create New</button>
+                                @endif
+                            </div>
                         </div>
                     </div>
 
@@ -49,7 +51,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($datas as $data)
+                                @foreach($datas as $data)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ $data->department_code }}</td>
@@ -74,11 +76,7 @@
                                             @endif
                                         </td>
                                     </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="50" class="text-center text-warning">No data found!</td>
-                                    </tr>
-                                @endforelse
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -99,26 +97,24 @@
                                         @csrf
                                         <div class="row">
                                             <div class="col-lg-12">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">Department
                                                         Code</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" class="form-control" name="department_code"
-                                                            placeholder="Department Code">
+                                                        <input type="text" class="form-control" name="department_code" placeholder="Department Code">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
+                                                    <label for="one" class="col-sm-4 col-form-label">List Order</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control" name="department_seqno" placeholder="List Order">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-1">
                                                     <label for="one"
                                                         class="col-sm-4 col-form-label">Description</label>
                                                     <div class="col-sm-8">
                                                         <textarea name="department_desc" rows="2" class="form-control" placeholder="Description"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <label for="one" class="col-sm-4 col-form-label">List Order</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text" class="form-control" name="department_seqno"
-                                                            placeholder="List Order">
                                                     </div>
                                                 </div>
                                             </div>

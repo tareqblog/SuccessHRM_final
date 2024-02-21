@@ -45,8 +45,10 @@ class JobApplicationController extends Controller
         } elseif ($auth->roles_id == 4) {
             $jobs->where('manager_id', $auth->id);
         }
+
         $jobs = $jobs->get()->pluck('id');
         $applications = JobApplication::whereIn('job_ids', $jobs)->get();
+
         return view('admin.jobApplication.index', compact('applications'));
     }
 

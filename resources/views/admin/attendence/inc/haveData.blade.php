@@ -34,18 +34,12 @@
                     data-line="1" onchange="timeCalculation({{ $day }})"
                     name="group[{{ $day }}][lunch_hour]" data-content="" style="width:100%;  ">
                     <option value="">Select One</option>
-                    <option value="30 minutes" {{ $attendance['lunch_hour'] == '30 minutes' ? 'selected' : '' }}>30
-                        minutes</option>
-                    <option value="45 minutes" {{ $attendance['lunch_hour'] == '45 minutes' ? 'selected' : '' }}>45
-                        minutes</option>
-                    <option value="1 hour" {{ $attendance['lunch_hour'] == '1 hour' ? 'selected' : '' }}>1 hour
-                    </option>
-                    <option value="No Lunch" {{ $attendance['lunch_hour'] == 'No Lunch' ? 'selected' : '' }}>No Lunch
-                    </option>
-                    <option value="1.5 hour" {{ $attendance['lunch_hour'] == '1.5 hour' ? 'selected' : '' }}>1.5 hour
-                    </option>
-                    <option value="2 hour" {{ $attendance['lunch_hour'] == '2 hour' ? 'selected' : '' }}>2 hour
-                    </option>
+                    <option value="30 minutes">30 minutes</option>
+                    <option value="45 minutes">45 minutes</option>
+                    <option value="1 hour">1 hour</option>
+                    <option value="No Lunch">No Lunch</option>
+                    <option value="1.5 hour">1.5 hour</option>
+                    <option value="2 hour">2 hour</option>
                 </select>
             </div>
             <!--total-->
@@ -114,12 +108,14 @@
                 </select>
             </div>
             <!--attendance leave file-->
-            <div style="flex:0 0 280px;">
-                <input type="hidden" name="group[{{ $day }}][old_leave_attachment]" value="{{$attendance['leave_attachment']}}">
-                <input type="file" class="attendance_leave_file-{{ $day }}" name="group[{{ $day }}][leave_attachment]" value="{{ $attendance['leave_attachment'] }}" onchange="hasFile({{ $day }})">
-                <label class="remove-label remove-label-{{$day}}" onclick="removeFile('{{ $day }}')"><i
-                        class="fas fa-trash text-danger"></i></label>
-                <div class="leave_attachment-{{ $day }}">
+            <div style="flex:0 0 280px;" class="d-flex">
+                <div class="flex-grow-1" style="width: 200px;">
+                    <input type="hidden" name="group[{{ $day }}][old_leave_attachment]" value="{{$attendance['leave_attachment']}}">
+                    <input type="file" class="attendance_leave_file-{{ $day }}" name="group[{{ $day }}][leave_attachment]" value="{{ $attendance['leave_attachment'] }}" onchange="hasFile({{ $day }})">
+                    <label class="remove-label remove-label-{{$day}}" onclick="removeFile('{{ $day }}')"><i
+                            class="fas fa-trash text-danger"></i></label>
+                </div>
+                <div class="leave_attachment-{{ $day }} pe-3">
                     @if ($attendance['leave_attachment'])
                         <a href="{{ asset('storage/' . $attendance['leave_attachment']) }}" target="_blank">
                             <i class="fas fa-eye"></i>
@@ -127,13 +123,15 @@
                     @endif
                 </div>
             </div>
-            <div style="flex:0 0 280px;">
-                <input type="hidden" name="group[{{ $day }}][old_claim_attachment]" value="{{$attendance['claim_attachment']}}">
-                <input type="file" class="attendance_claim_file-{{ $day }}"
-                    name="group[{{ $day }}][claim_attachment]" onchange="hasClaim({{ $day }})">
-                <label class="remove-label remove-claim-{{$day}}" onclick="removeClaim('{{ $day }}')"><i
-                        class="fas fa-trash text-danger"></i></label>
-                <div class="claim_attachment-{{ $day }}">
+            <div style="flex:0 0 280px;" class="d-flex">
+                <div class="flex-grow-1" style="width: 200px;">
+                    <input type="hidden" name="group[{{ $day }}][old_claim_attachment]" value="{{$attendance['claim_attachment']}}">
+                    <input type="file" class="attendance_claim_file-{{ $day }}"
+                        name="group[{{ $day }}][claim_attachment]" onchange="hasClaim({{ $day }})">
+                    <label class="remove-label remove-claim-{{$day}}" onclick="removeClaim('{{ $day }}')"><i
+                            class="fas fa-trash text-danger"></i></label>
+                </div>
+                <div class="claim_attachment-{{ $day }} pe-3">
                     @if ($attendance['claim_attachment'])
                         <a href="{{ asset('storage/' . $attendance['claim_attachment']) }}" target="_blank">
                             <i class="fas fa-eye"></i>

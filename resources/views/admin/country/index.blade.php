@@ -50,7 +50,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($datas as $data)
+                                @foreach ($datas as $data)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ $data->en_country_name }}</td>
@@ -77,13 +77,7 @@
                                         </td>
                                     </tr>
                                     @include('admin.country.edit')
-                                @empty
-                                    <tr>
-                                        <td class="text-center text-warning" colspan="5">
-                                            No data found!
-                                        </td>
-                                    </tr>
-                                @endforelse
+                                @endforeach
 
 
                             </tbody>
