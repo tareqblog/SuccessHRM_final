@@ -51,12 +51,12 @@ class LeaveTypeController extends Controller
         }
         $request->validate([
             'leavetype_code' => 'required|unique:leave_types',
-            'leavetype_block' => 'nullable',
-            'leavetype_desc' => 'nullable',
-            'leavetype_default' => 'nullable',
-            'leavetype_bringover' => 'nullable',
-            'leavetype_custom_field' => 'nullable',
-            'industry_seqno' => 'nullable',
+            'leavetype_block' => 'nullable|numeric',
+            'leavetype_desc' => 'nullable|string',
+            'leavetype_default' => 'nullable|numeric',
+            'leavetype_bringover' => 'nullable|numeric',
+            'leavetype_custom_field' => 'nullable|numeric',
+            'industry_seqno' => 'nullable|numeric',
         ]);
 
         LeaveType::create($request->except('_token'));
@@ -89,12 +89,12 @@ class LeaveTypeController extends Controller
         }
         $request->validate([
             'leavetype_code' => "required|unique:leave_types,leavetype_code,". "$leave_type->id'",
-            'leavetype_block' => 'nullable',
-            'leavetype_desc' => 'nullable',
-            'leavetype_default' => 'nullable',
-            'leavetype_bringover' => 'nullable',
-            'leavetype_custom_field' => 'nullable',
-            'industry_seqno' => 'nullable',
+            'leavetype_block' => 'nullable|numeric',
+            'leavetype_desc' => 'nullable|string',
+            'leavetype_default' => 'nullable|numeric',
+            'leavetype_bringover' => 'nullable|numeric',
+            'leavetype_custom_field' => 'nullable|numeric',
+            'industry_seqno' => 'nullable|numeric',
         ]);
 
         $leave_type->update($request->except('_token'));

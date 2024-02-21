@@ -50,9 +50,9 @@ class DesignationController extends Controller
             abort(403, 'Unauthorized');
         }
         $request->validate([
-            'designation_code' => 'required|unique:designations',
-            'designation_desc' => 'required',
-            'designation_seqno' => 'nullable',
+            'designation_code' => 'required|string|unique:designations',
+            'designation_desc' => 'required|string',
+            'designation_seqno' => 'nullable|numeric',
         ]);
 
         designation::create($request->except('_token'));
@@ -86,9 +86,9 @@ class DesignationController extends Controller
             abort(403, 'Unauthorized');
         }
         $request->validate([
-            'designation_code' => "required|unique:designations,designation_code,". "$designation->id'",
-            'designation_desc' => 'required',
-            'designation_seqno' => 'nullable',
+            'designation_code' => "required|string|unique:designations,designation_code,". "$designation->id'",
+            'designation_desc' => 'required|string',
+            'designation_seqno' => 'nullable|numeric',
             'designation_status' => 'required',
         ]);
 

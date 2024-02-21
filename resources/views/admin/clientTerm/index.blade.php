@@ -18,12 +18,16 @@ Client Terms Management
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Client Terms Table</h4>
-                        <div class="text-end">
-                            @if (App\Helpers\FileHelper::usr()->can('client-term.create'))
-                            <button data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
-                                class="btn btn-sm btn-success">Create New</button>
-                            @endif
+                        <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">
+                                <h6 class="card-title mb-0">Client Terms Table</h6>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                @if (App\Helpers\FileHelper::usr()->can('client-term.create'))
+                                <button data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
+                                    class="btn btn-sm btn-success">Create New</button>
+                                @endif
+                            </div>
                         </div>
                     </div>
 
@@ -91,28 +95,25 @@ Client Terms Management
                                     <form action="{{ route('client-term.store') }}" method="POST">
                                         @csrf
                                         <div class="row">
-                                            <div class="col-lg-12 row">
-                                                <div class="row mb-4 col-lg-6">
-                                                    <label for="one" class="col-sm-4 col-form-label">Terms Code</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text" name="client_term_code" class="form-control"
-                                                            placeholder="Title" value="{{ old('client_term_code') }}">
-                                                    </div>
+                                            <div class="row mb-1 col-lg-6">
+                                                <label for="one" class="col-sm-4 col-form-label">Terms Code</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" name="client_term_code" class="form-control"
+                                                        placeholder="Title" value="{{ old('client_term_code') }}">
                                                 </div>
-                                                <div class="row mb-4 col-lg-6">
-                                                    <label for="one" class="col-sm-4 col-form-label">List Order</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text" name="client_term_seqno" class="form-control"
-                                                            placeholder="List Order" value="{{ old('client_term_seqno') }}">
-                                                    </div>
+                                            </div>
+                                            <div class="row mb-1 col-lg-6">
+                                                <label for="one" class="col-sm-4 col-form-label">List Order</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" name="client_term_seqno" class="form-control"
+                                                        placeholder="List Order" value="{{ old('client_term_seqno') }}">
                                                 </div>
-                                                <div class="row mb-4 col-lg-12">
-                                                    <label for="one" class="col-sm-2 col-form-label">Terms Description</label>
-                                                    <div class="col-sm-6">
-                                                        <textarea name="client_term_desc" rows="2" class="form-control" placeholder="Descriptin"></textarea>
-                                                    </div>
+                                            </div>
+                                            <div class="row mb-1 col-lg-6">
+                                                <label for="one" class="col-sm-4 col-form-label">Terms Description</label>
+                                                <div class="col-sm-8">
+                                                    <textarea name="client_term_desc" rows="2" class="form-control" placeholder="Descriptin"></textarea>
                                                 </div>
-
                                             </div>
                                         </div>
                                         <div class="row mt-5">

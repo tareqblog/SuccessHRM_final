@@ -17,13 +17,17 @@ Leave Type Management
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title mb-0">Leave Type Table</h4>
-                    @if (App\Helpers\FileHelper::usr()->can('leave-type.create'))
-                    <div class="text-end">
-                        <button data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
-                            class="btn btn-sm btn-info">Create New</button>
+                    <div class="d-flex bd-highlight">
+                        <div class="p-2 flex-grow-1 bd-highlight">
+                            <h6 class="card-title mb-0">Leave Type Table</h6>
+                        </div>
+                        <div class="p-2 bd-highlight">
+                            @if (App\Helpers\FileHelper::usr()->can('leave-type.create'))
+                                <button data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
+                                    class="btn btn-sm btn-info">Create New</button>
+                            @endif
+                        </div>
                     </div>
-                    @endif
                 </div>
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -94,7 +98,7 @@ Leave Type Management
                                     @csrf
                                     <div class="row p-2">
                                         <div class="col-lg-6">
-                                            <div class="row mb-4">
+                                            <div class="row mb-1">
                                                 <label for="one" class="col-sm-4 col-form-label">Leave Type
                                                     Code</label>
                                                 <div class="col-sm-8">
@@ -102,7 +106,7 @@ Leave Type Management
                                                         placeholder="Leave Type Code">
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
+                                            <div class="row mb-1">
                                                 <label for="one" class="col-sm-4 col-form-label">Default Leave
                                                     Days</label>
                                                 <div class="col-sm-8">
@@ -110,7 +114,7 @@ Leave Type Management
                                                         placeholder="Default Leave Days">
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
+                                            <div class="row mb-1">
                                                 <label for="one" class="col-sm-4 col-form-label">List Order</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" class="form-control" name="leavetype_seqno"
@@ -119,7 +123,7 @@ Leave Type Management
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
-                                            <div class="row mb-4">
+                                            <div class="row mb-1">
                                                 <label for="one" class="col-sm-4 col-form-label">Block
                                                     Candidate</label>
                                                 <div class="col-sm-8">
@@ -130,7 +134,7 @@ Leave Type Management
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="row mb-4">
+                                            <div class="row mb-1">
                                                 <label for="one" class="col-sm-4 col-form-label">Description</label>
                                                 <div class="col-sm-8">
                                                     <textarea name="leavetype_desc" rows="2" placeholder="Description"
@@ -186,9 +190,9 @@ Leave Type Management
         $('body').on('click', '.edit', function () {
             var id = $(this).data('id'); //i or 2 categoryid
             $.get("leave-type/" + id + "/edit",
-                function (data) {
-                    $('#editSection').html(data);
-                })
+            function (data) {
+                $('#editSection').html(data);
+            })
         });
     </script>
     @endsection
