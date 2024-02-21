@@ -601,7 +601,7 @@
                                                             <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                             <td>{{ $candidate->candidate['manager']['employee_name'] }}
                                                             </td>
-                                                            <td>{{ $candidate->candidate->consultant?->employee_name ?? $candidate->candidate->team_leader->employee_name }}
+                                                            <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader->employee_name }}
                                                             </td>
                                                             <td class="d-flex flex-row">
                                                                 @if ($auth->roles_id == 4)
