@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\FileHelper;
 use App\Models\Assign;
 use App\Models\candidate;
 use App\Models\CandidateRemark;
-use App\Models\ClientFollowUp;
+use App\Models\CandidateResume;
 use App\Models\Dashboard;
 use App\Models\job;
 use App\Models\JobApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class JobApplicationController extends Controller
 {
@@ -47,7 +48,7 @@ class JobApplicationController extends Controller
         }
 
         $jobs = $jobs->get()->pluck('id');
-        $applications = JobApplication::whereIn('job_ids', $jobs)->get();
+        $applications = JobApplication::whereIn('job_ids', $jobs)->latest()->get();
 
         return view('admin.jobApplication.index', compact('applications'));
     }
@@ -92,41 +93,69 @@ class JobApplicationController extends Controller
         if (is_null($this->user) || !$this->user->can('job-application.update')) {
             abort(403, 'Unauthorized');
         }
+
         $jobapplication = JobApplication::find($id);
+        try {
+            DB::beginTransaction();
 
-        $candidate = candidate::create([
-            'candidate_name' => $jobapplication->name,
-            'candidate_email' => $jobapplication->email,
-            'candidate_mobile' => $jobapplication->phone_no,
-            'manager_id' => $jobapplication->job->manager_id,
-            'team_leader_id' => $jobapplication->job->team_leader_id,
-            'consultant_id' => $jobapplication->job->consultant_id,
-        ]);
-        $candidate->update(['candidate_code' => 'Cand-' . $candidate->id]);
+            $candidate = candidate::create([
+                'candidate_name' => $jobapplication->name,
+                'candidate_email' => $jobapplication->email,
+                'candidate_mobile' => $jobapplication->phone_no,
+                'manager_id' => $jobapplication->job->manager_id,
+                'team_leader_id' => $jobapplication->job->team_leader_id,
+                'consultant_id' => $jobapplication->job->consultant_id,
+            ]);
 
-        $jobapplication->update([
-            'candidate_id' => $candidate->id
-        ]);
+            $candidate->update(['candidate_code' => 'Cand-' . $candidate->id]);
 
-        $datas = [
-            'candidate_id' => $candidate->id,
-            'manager_id' => $candidate->manager_id,
-            'teamleader_id' => $candidate->team_leader_id,
-            'consultent_id' => $candidate->consultant_id,
-            'insert_by' => Auth::user()->id,
-        ];
+            $jobapplication->update([
+                'candidate_id' => $candidate->id
+            ]);
 
-        CandidateRemark::create([
-            'candidate_id' => $candidate->id,
-            'remarkstype_id' => 1,
-            'isNotice' => 0,
-            'remarks' => 'Candidate generated from Job Applicant',
-        ]);
+            $datas = [
+                'candidate_id' => $candidate->id,
+                'manager_id' => $candidate->manager_id,
+                'teamleader_id' => $candidate->team_leader_id,
+                'consultent_id' => $candidate->consultant_id,
+                'insert_by' => Auth::user()->id,
+            ];
 
-        Dashboard::create($datas);
-        Assign::create($datas);
+            $oldFilePath = public_path('/storage/' . $jobapplication->resume);
+            $newFolderPath = public_path('storage/uploads/candidate');
 
-        return back()->with('success', 'Candidate genarate successfully.');
+            // Ensure the destination directory exists
+            File::makeDirectory($newFolderPath, 0755, true, true);
+
+            // Copy the file to the destination directory
+            $newFilePath = $newFolderPath . '/' . basename($oldFilePath);
+            File::copy($oldFilePath, $newFilePath);
+
+
+            $resume_text = generate_text($jobapplication->resume);
+
+            CandidateResume::create([
+                'candidate_id' => $candidate->id,
+                'resume_file_path' => $jobapplication->resume,
+                'resume_text' => $resume_text
+            ]);
+
+            CandidateRemark::create([
+                'candidate_id' => $candidate->id,
+                'remarkstype_id' => 1,
+                'isNotice' => 0,
+                'remarks' => 'Candidate generated from Job Applicant',
+            ]);
+
+            Dashboard::create($datas);
+            Assign::create($datas);
+
+            DB::commit();
+            return back()->with('success', 'Candidate genarate successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**

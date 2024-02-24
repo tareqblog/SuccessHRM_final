@@ -203,7 +203,7 @@ class CandidateFileImportController extends Controller
                         'resume_path' => 'uploads' . $beforeDocx . '.pdf',
                     ]);
                     $delete_path = 'app/public/uploads' . $beforeDocx . '.docx';
-                    unlink(storage_path($delete_path));
+                    // unlink(storage_path($delete_path));
                 } elseif ($file->getClientOriginalExtension() == 'doc') {
                     $filename = $file->getClientOriginalName();
                     $path = FileHelper::uploadFile($file);
@@ -229,7 +229,7 @@ class CandidateFileImportController extends Controller
                         'resume_path' => 'uploads' . $beforeDocx . '.pdf',
                     ]);
                     $delete_path = 'app/public/uploads' . $beforeDocx . '.doc';
-                    unlink(storage_path($delete_path));
+                    // unlink(storage_path($delete_path));
                 } elseif ($file->getClientOriginalExtension() == 'xlsx') {
                     $filename = $file->getClientOriginalName();
                     $path = FileHelper::uploadFile($file);
@@ -385,8 +385,9 @@ class CandidateFileImportController extends Controller
         $validatedData['resume_path'] = $relativePath;
         $data = ImportCandidateData::where('resume_path', $relativePath)->first();
 
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
+
             TemporaryImportedData::create($validatedData);
             ImportCandidateData::find($data->id)->delete();
 
@@ -488,16 +489,26 @@ class CandidateFileImportController extends Controller
         $dateRange = $request->input('daterange');
 
         [$startDate, $endDate] = explode(' - ', $dateRange);
-        $candidates = candidate::with(['resumes'])
-            ->whereBetween('candidate_joindate', [$startDate, $endDate])
-            ->where(function ($query) use ($keyword) {
-                $query->whereHas('remarks', function ($remarksQuery) use ($keyword) {
-                    $remarksQuery->where('remarks', 'like', "%$keyword%");
-                })
-                    ->orWhereHas('resumes', function ($resumesQuery) use ($keyword) {
-                        $resumesQuery->where('isMain', 1)->where('resume_text', 'like', "%$keyword%");
-                    });
-            })->get();
+        $candidates =
+        $candidates =
+        $candidates = Candidate::with(['resumes'])
+                            ->where(function ($query) use ($startDate, $endDate, $keyword) {
+                                $query->whereBetween('candidate_joindate', [$startDate, $endDate])
+                                    ->orWhere('candidate_name', 'like', '%' . $keyword . '%')
+                                    ->orWhere('candidate_email', 'like', '%' . $keyword . '%')
+                                    ->orWhere('candidate_mobile', 'like', '%' . $keyword . '%')
+                                    ->orWhere(function ($query) use ($keyword) {
+                                        $query->whereHas('remarks', function ($remarksQuery) use ($keyword) {
+                                            $remarksQuery->where('remarks', 'like', "%$keyword%");
+                                        })
+                                            ->orWhereHas('resumes', function ($resumesQuery) use ($keyword) {
+                                                $resumesQuery->where('isMain', 1)->where('resume_text', 'like', "%$keyword%");
+                                            });
+                                    });
+                            })->get();
+
+
+
 
         $data = [];
         foreach ($candidates as $key => $candidate) {
@@ -514,25 +525,6 @@ class CandidateFileImportController extends Controller
         return view('admin.candidate.search', compact('data'));
     }
 
-    private function file_to_text($file, $filePath)
-    {
-        $text = '';
-        if (pathinfo($file, PATHINFO_EXTENSION) === 'docx') {
-        } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'pdf') {
-            try {
-                $parser = new Parser();
-                $pdf = $parser->parseFile($filePath);
-
-                $text = $pdf->getText();
-            } catch (\Exception $e) {
-                return response('Error reading PDF: ' . $e->getMessage(), 500);
-            }
-        } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'xls || xlsx') {
-        } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'doc') {
-        }
-
-        return $text;
-    }
 
     public function getCandidateRemark(candidate $candidate)
     {

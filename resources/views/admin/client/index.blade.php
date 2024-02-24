@@ -10,9 +10,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
 @endsection
 @section('body')
-
     <body>
-    @endsection
+@endsection
     @section('content')
         <div class="row">
             <div class="col-lg-12">
@@ -137,7 +136,7 @@
                                     </div>
                                     <div class="modal-body">
                                         {{-- {{ route('client.import') }} --}}
-                                        <form action="#" method="POST">
+                                        <form action="{{ route('client.import') }}" method="POST">
                                             @csrf
                                             <div class="row">
                                                 <div class="col-lg-12">
@@ -160,9 +159,9 @@
                                             </div>
                                         </form>
                                     </div>
-                                </div><!-- /.modal-content -->
-                            </div><!-- /.modal-dialog -->
-                        </div><!-- /.modal -->
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

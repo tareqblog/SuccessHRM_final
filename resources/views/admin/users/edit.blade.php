@@ -31,11 +31,12 @@
                                 </div>
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label for="email">User Email</label>
-                                    <input type="text" class="form-control" id="email" name="email" placeholder="Enter Email" value="{{ $user->email }}">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" value="{{ $user->email }}">
                                 </div>
-                            </div>
-
-                            <div class="form-row">
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label for="email">Google Authenticator</label>
+                                    <input type="text" class="form-control" id="google2fa_secret" name="google2fa_secret" placeholder="Enter Email" value="{{ $user->google2fa_secret }}">
+                                </div>
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label for="password">Password</label>
                                     <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
