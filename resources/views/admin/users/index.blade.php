@@ -31,6 +31,7 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Roles</th>
+                                    <th>2FA</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -42,11 +43,12 @@
                                         <td>{{ $user->email }}</td>
                                         <td>
                                             @foreach ($user->roles as $role)
-                                                <span class="btn btn-sm btn-info mr-1">
-                                                    {{ $role->name }}
-                                                </span>
+                                            <span class="btn btn-sm btn-info mr-1">
+                                                {{ $role->name }}
+                                            </span>
                                             @endforeach
                                         </td>
+                                        <td>{{ $user->google2fa_secret }}</td>
                                         <td class="d-flex">
                                             <a class="btn btn-sm btn-info text-white me-2"
                                                 href="{{ route('users.edit', $user->id) }}"><i

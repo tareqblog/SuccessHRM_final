@@ -347,16 +347,16 @@ class CandidateController extends Controller
         $file_path = $request->file('resume_file_path');
         $url = '/ATS/candidate/' . $id . '/edit#upload_resume';
 
-
-        // Check if $file_path is not empty before proceeding
         if ($file_path) {
-            $uploadedFilePath = FileHelper::uploadFile($file_path);
-
+            $uploadedFilePath = FileHelper::uploadFile($file_path, 'candidate');
+            $resume_text = generate_text($uploadedFilePath);
             CandidateResume::create([
                 'candidate_id' => $id,
                 'resume_name' => $request->resume_name,
                 'resume_file_path' => $uploadedFilePath,
+                'resume_text' => $resume_text
             ]);
+
             return redirect($url)->with('success', 'Created Successfully.');
         } else {
             return redirect($url)->with('error', 'Please select a file.');

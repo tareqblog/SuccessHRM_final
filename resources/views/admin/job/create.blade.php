@@ -198,9 +198,8 @@
                         type: 'GET',
                         url: '/ATS/get/client/team/' + clientId,
                         success: function(data) {
-                            console.log(data.team_leader);
                             $('#leadersContainer').empty();
-                            $.each(data.team_leader, function(key, value) {
+                            $.each(data.team, function(key, value) {
                                 $('#leadersContainer').append($('<option>', {
                                     value: value.id,
                                     text: value.employee_name

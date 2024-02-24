@@ -3,6 +3,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
 <script>
+    let total_hours = 0;
     function allWork(days) {
         if ($('#allCheckB').is(':checked')) {
             for (let day = 0; day <= days; day++) {
@@ -40,12 +41,13 @@
                     let leaveTypes = {!! json_encode($leaveTypes) !!};
                     $.each(response, function(index, attendance) {
                         let html = `
+                            ${attendance.day === 'Monday' ? '<strong class=" py-2 d-flex justify-content-center">Total Hour (Week): <span class="hour_week"> 0 hours</span> </strong>' : ''}
                             <div style="display:flex" id="single_attendance-${index}">
                                 <div style="flex:0 0 120px;position: sticky;left: 0;z-index: 20;">
                                     <input type="text" class="form-control ${attendance.work == 1 ? 'bg-f1f1f1' : ''}" readonly name="group[${index}][date]" value="${attendance.date}">
                                 </div>
                                 <div style="flex:0 0 120px;position: sticky;left: 120px;z-index: 20;">
-                                    <input type="text" class="form-control ${attendance.work == 1 ? 'bg-f1f1f1' : ''}" readonly name="group[${index}][day]" value="${attendance.day}">
+                                    <input type="text" class="form-control day-${attendance.index} ${attendance.work == 1 ? 'bg-f1f1f1' : ''} day-${index}" readonly name="group[${index}][day]" value="${attendance.day}">
                                 </div>
                                 <div style="flex:0 0 120px;position: sticky;left: 120px;z-index: 20;">
                                     <input type="time" hidden id="oldinTime-${index}" value="${attendance.in_time}">
@@ -54,7 +56,7 @@
                                 </div>
                                 <div style="flex:0 0 120px;position: sticky;left: 120px;z-index: 20;">
                                     <input type="time" hidden id="oldoutTime-${index}" value="${attendance.out_time}">
-                                    <input type="time" class="form-control  outTime-${index}"
+                                    <input type="time" class="form-control outTime-${index}"
                                         name="group[${index}][out_time]" value="${attendance.out_time}" onchange="timeCalculation(${index})">
                                 </div>
                                 <div style="flex:0 0 50px;text-align:center">
@@ -173,12 +175,60 @@
                         `;
                         $('#haveData').append(html);
                     });
+                    let count = response.length;
+                    check_total_week(count);
                 },
                 error: function(xhr, status, error) {
                     console.error('Error loading attendance data:', xhr.status);
                 }
             });
         @endif
+    }
+
+    function check_total_week(numberOfDays)
+    {
+        let total_hours = 0;
+        let check = numberOfDays - 1;
+
+        for (let day = 0; day < numberOfDays; day++) {
+            let nameofday = $('.day-' + day).val();
+            let lunch_val = convert_lunch_to_minutes($('.lunch_val-' + day).val());
+
+            let inMoment = moment($('.inTime-' + day).val(), 'HH:mm');
+            let outMoment = moment($('.outTime-' + day).val(), 'HH:mm');
+
+            if (outMoment.isBefore(inMoment)) {
+                outMoment.add(1, 'day');
+            }
+
+            let minutesDifference = outMoment.diff(inMoment, 'minutes');
+            minutesDifference -= lunch_val;
+
+            if (isNaN(minutesDifference)) {
+                minutesDifference = 0;
+            }
+
+
+            minutesDifference %= (24 * 60);
+            total_hours += minutesDifference;
+            // console.log(minutesDifference);
+            // console.log(total_hours);
+
+            if (nameofday == 'Sunday' || day == check) {
+                console.log(total_hours);
+                let hours = 0;
+                let minutes = 0;
+
+                if (total_hours >= 0) {
+                    hours = Math.floor(total_hours / 60);
+                    minutes = total_hours % 60;
+                }
+
+                let total_time = hours + ' h ' + minutes + ' m';
+                $('.hour_week').text(total_time);
+                total_hours = 0;
+            }
+        }
     }
 
     function work_check(attendence_id, day)
@@ -232,7 +282,7 @@
 
         total_time(minutesDifference, day);
         over_time_calculation(over_time, day);
-
+        return minutesDifference;
     }
 
     function over_time_calculation(over_time, day)
@@ -263,6 +313,8 @@
 
         let totla_time = hours + ' h ' + minutes + ' m';
         $('.totla_time-' + day).val(totla_time);
+        $('.hour_week').val(totla_time);
+
     }
 
     function ot_edit(day)
@@ -391,6 +443,7 @@
         $('.leave_attachment-' + day).show();
         $('.claim_attachment-' + day).show();
     }
+
     function leave_filds(day)
     {
         $('.remark-' + day).val('');
@@ -426,12 +479,29 @@
 
     }
 
-    $(document).ready(function() {
+    $(document).ready(function()
+    {
         var days = '{{$daysInMonth}}';
         for (let day = 0; day <= days; day++) {
             all_empty(day);
             leave_filds(day);
         }
+
+        // let timeString = "8 h 30 m";
+
+        // let [hours, minutes] = timeString.split(" ").filter(part => part !== "h" && part !== "m");
+
+        // // Convert hours and minutes to integers
+        // let totalMinutes = parseInt(hours) * 60 + parseInt(minutes);
+
+        // // Calculate total hours and remaining minutes
+        // let totalHours = Math.floor(totalMinutes / 60);
+        // let remainingMinutes = totalMinutes % 60;
+
+        // let hour_week = totalHours + ' hour ' + remainingMinutes + ' minutes';
+        // console.log(hour_week);
+
+        // $('.hour_week').text(hour_week);
     });
 
 </script>

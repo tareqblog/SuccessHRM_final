@@ -342,11 +342,11 @@ class ClientController extends Controller
 
         return redirect($url)->with('success', 'Successfully Deleted.');
     }
+
     public function clientImport(Request $request)
     {
         Excel::import(new ClientImport, $request->file('client_import_file'));
     }
-
 
     public function clientDepartmentStore(Request $request)
     {
@@ -399,6 +399,8 @@ class ClientController extends Controller
         DB::beginTransaction();
 
         try {
+            DB::beginTransaction();
+            
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->log_email,

@@ -152,11 +152,12 @@ class JobController extends Controller
     public function getClientLeader(client $client)
     {
         $manager_id = $client->manager_id;
-        $team_leader_id = $client->team_leader_id;
-        $consultant_id = $client->consultant_id;
-        $employeeIds = [$manager_id, $team_leader_id, $consultant_id];
+        $manager = Employee::select('id', 'employee_name')->where('id', $manager_id)->first();
+        $team = Employee::select('id', 'employee_name')->where('manager_users_id', $manager_id)->get();
+        if ($manager) {
+            $team->prepend($manager);
+        }
 
-        $team_leader = Employee::whereIn('id', $employeeIds)->get();
-        return response()->json(['team_leader' => $team_leader]);
+        return response()->json(['team' => $team]);
     }
 }

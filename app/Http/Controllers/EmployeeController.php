@@ -127,6 +127,7 @@ class EmployeeController extends Controller
      */
     public function store(StoreEmployeeRequest $request)
     {
+
         if (is_null($this->user) || !$this->user->can('employee.store')) {
             abort(403, 'Unauthorized');
         }
@@ -166,7 +167,7 @@ class EmployeeController extends Controller
                 $user->password = Hash::make($request->password);
                 $user->google2fa_secret = $google2fa->generateSecretKey();
                 $user->save();
-
+                $this->sendResetEmail($user->email);
 
                 $role = Role::where('id', $request->roles_id)->first()->name;
                 if ($request->roles_id) {
@@ -189,7 +190,6 @@ class EmployeeController extends Controller
                     'password_confirmation' => 'required|min:8',
                 ]);
 
-
                 $google2fa = app('pragmarx.google2fa');
 
                 // Create New User
@@ -199,7 +199,7 @@ class EmployeeController extends Controller
                 $user->password = Hash::make($request->password);
                 $user->google2fa_secret = $google2fa->generateSecretKey();
                 $user->save();
-
+                $this->sendResetEmail($user->email);
 
                 $role = Role::where('id', $request->roles_id)->first()->name;
                 if ($request->roles_id) {
@@ -252,6 +252,7 @@ class EmployeeController extends Controller
 
         $emp_admin = Employee::select('id', 'employee_name')->where('roles_id', 1)->get();
         $leave_types = LeaveType::latest()->select('id', 'leavetype_code', 'leavetype_default')->where('leavetype_status', 1)->get();
+
         return view('admin.employee.edit', compact('Paybanks', 'managers', 'emp_manager', 'emp_admin', 'employee', 'rols', 'departments', 'designations', 'paymode', 'outlets', 'passes', 'users', 'roles', 'races', 'religions', 'sexs', 'marital_status', 'clients', 'emp_team_leader', 'leave_types'));
     }
 
@@ -288,9 +289,6 @@ class EmployeeController extends Controller
         return redirect()->route('employee.index')->with('success', 'Updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Employee $employee)
     {
 
@@ -302,6 +300,7 @@ class EmployeeController extends Controller
         // if (file_exists($filePath)) {
         //     Storage::delete("public/{$employee->employee_avater}");
         // }
+
         $employee->update([
             'active_status' => 0
         ]);

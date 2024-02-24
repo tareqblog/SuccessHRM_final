@@ -4,6 +4,7 @@ use App\Models\Dashboard;
 use App\Models\Employee;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Str;
+use Smalot\PdfParser\Parser;
 
 if (!function_exists('authRoleName')) {
     function authRoleName()
@@ -95,6 +96,31 @@ if (!function_exists('get_team')) {
         }
 
         return $data;
+    }
+
+    if (!function_exists('generate_text')) {
+        function generate_text($file)
+        {
+            $resume_text = '';
+            $file = $file;
+            $filePath = public_path('/storage/'.$file);
+            if (pathinfo($file, PATHINFO_EXTENSION) === 'docx') {
+            } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'pdf') {
+                try {
+                    $parser = new Parser();
+                    $pdf = $parser->parseFile($filePath);
+
+                    $resume_text = $pdf->getText();
+
+                } catch (\Exception $e) {
+                    return response('Error reading PDF: ' . $e->getMessage(), 500);
+                }
+            } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'xls || xlsx') {
+            } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'doc') {
+            }
+
+            return $resume_text;
+        }
     }
 
     if (!function_exists('convert_lunch_to_minutes')) {

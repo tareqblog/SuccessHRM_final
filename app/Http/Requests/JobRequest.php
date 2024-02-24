@@ -33,6 +33,7 @@ class JobRequest extends FormRequest
             'meta_title' => 'nullable|string',
             'meta_tag' => 'nullable|string',
             'meta_description' => 'nullable|string',
+            'unit_no' => 'nullable|numeric'
         ];
     }
 }

@@ -23,14 +23,14 @@ class FrontendJobController extends Controller
     public function apply(Request $request)
     {
         $file_path = $request->file('cv');
-        $cv = $file_path ? FileHelper::uploadFile($file_path) : null;
+        $cv = $file_path ? FileHelper::uploadFile($file_path, 'application') : null;
         JobApplication::create([
             'job_ids' => $request->job_id,
             'name' => $request->name,
             'phone_no' => $request->mobile,
             'email' => $request->email,
             'remark' => $request->remark,
-            'cv' => $cv
+            'resume' => $cv
         ]);
 
         return back();
