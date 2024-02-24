@@ -40,6 +40,7 @@
                     @endif
                     <div class="card-body">
                         {{-- Here place table --}}
+                        <div class="admin-dashboard-table">
                         <table class="table table-bordered" id="myTable">
                             <thead>
                                 <tr>
@@ -79,6 +80,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        </div>
                     </div>
 
                     <!--  Create modal example -->

@@ -29,6 +29,7 @@
                         </div>
                     </div>
                     <div class="card-body p-2">
+                        <div class="admin-dashboard-table">
                         <table class="table table-bordered mb-0" id="myTable">
                             <thead>
                                 <tr>
@@ -100,6 +101,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        </div>
 
                         <div class="mt-3" style="height: 60vh; border: 1px solid black">
                             <div id="candidateResume" class="p-3" style="display: none; height: 100%; overflow: auto;">

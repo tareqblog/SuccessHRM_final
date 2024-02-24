@@ -83,7 +83,8 @@
                                             <div id="flush-collapse{{ $loop->index }}" class="accordion-collapse collapse"
                                                 aria-labelledby="flush-heading{{ $loop->index }}"
                                                 data-bs-parent="#accordionFlushExample" style="">
-                                                <table class="table table-bordered mb-0 myTable">
+                                                <div class="admin-dashboard-table">
+                                                <table class="table table-bordered mb-0 myTable over ">
                                                     <thead>
                                                         <tr>
                                                             <th>No</th>
@@ -106,6 +107,7 @@
 
                                                     </tbody>
                                                 </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div><!-- end accordion -->
@@ -132,6 +134,7 @@
                                             <div id="flush-collapse{{ $loop->index }}" class="accordion-collapse collapse"
                                                 aria-labelledby="flush-heading{{ $loop->index }}"
                                                 data-bs-parent="#accordionFlushExample" style="">
+                                                <div class="admin-dashboard-table">
                                                 <table class="table table-bordered mb-0 myTable" id="9">
                                                     <thead>
                                                         <tr>
@@ -155,6 +158,7 @@
 
                                                     </tbody>
                                                 </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div><!-- end accordion -->
@@ -181,6 +185,7 @@
                                             <div id="flush-collapse{{ $loop->index }}" class="accordion-collapse collapse"
                                                 aria-labelledby="flush-heading{{ $loop->index }}"
                                                 data-bs-parent="#accordionFlushExample" style="">
+                                                <div class="admin-dashboard-table">
                                                 <table class="table table-bordered mb-0 myTable" id="myTable8">
                                                     <thead>
                                                         <tr>
@@ -204,6 +209,7 @@
 
                                                     </tbody>
                                                 </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div><!-- end accordion -->
@@ -223,11 +229,12 @@
                                                 Active Resume
                                             </button>
                                         </h2>
-                                        <div id="active-resume-collapse" class="accordion-collapse collapse"
+                                        <div id="active-resume-collapse" class="accordion-collapse collapse px-2"
                                             aria-labelledby="active-resume-heading"
                                             data-bs-parent="#accordionactive-resumeExample" style="">
                                             <h5 class="bg-success px-4 py-1 text-white">Candidates Detail</h5>
-                                            <table class="table table-bordered mb-0" id="myTable7">
+                                            <div class="admin-dashboard-table">
+                                            <table class="table table-bordered mb-0 " id="myTable7">
                                                 <thead>
                                                     <tr>
                                                         <th>No</th>
@@ -250,7 +257,7 @@
                                                             <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                             <td>{{ $candidate->candidate['manager']['employee_name'] }}
                                                             </td>
-                                                            <td>{{ $candidate->candidate->consultant?->employee_name ?? $candidate->candidate->team_leader->employee_name }}
+                                                            <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
                                                             </td>
                                                             <td class="d-flex flex-row">
                                                                 @if ($auth->roles_id == 4)
@@ -268,6 +275,7 @@
                                                     @endforeach
                                                 </tbody>
                                             </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -288,7 +296,7 @@
                                             </button>
                                         </h2>
 
-                                        <div id="follow_ups-collapse" class="accordion-collapse collapse"
+                                        <div id="follow_ups-collapse" class="accordion-collapse collapse px-2"
                                             aria-labelledby="follow_ups-heading" data-bs-parent="#follow_ups"
                                             style="">
                                             <h5 class="bg-success px-4 py-1 text-white">Candidates Detail</h5>
@@ -296,6 +304,7 @@
                                             @foreach ($followUps ?? [] as $day => $candidates)
                                                 <p class="bg-info px-4 py-1 text-bold mt-2"><strong>Day
                                                         {{ $day >= 6 ? 'More Then 5 Day' : $day }}</strong></p>
+                                                <div class="admin-dashboard-table">
                                                 <table class="table table-bordered mb-0" id="myTable{{ $day }}">
                                                     <thead>
                                                         <tr>
@@ -321,7 +330,7 @@
                                                                 <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                                 <td>{{ $candidate->candidate['manager']['employee_name'] }}
                                                                 </td>
-                                                                <td>{{ $candidate->candidate->consultant?->employee_name ?? $candidate->candidate->team_leader->employee_name }}
+                                                                <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
                                                                 </td>
                                                                 <td>{{ \Carbon\Carbon::parse($candidate->candidate['created_at'])->format('d-M-Y') }}
                                                                 </td>
@@ -342,6 +351,7 @@
                                                         @endforeach
                                                     </tbody>
                                                 </table>
+                                                </div>
                                             @endforeach
                                         </div>
                                     </div>
@@ -362,10 +372,11 @@
                                             </button>
                                         </h2>
 
-                                        <div id="Interview-collapse" class="accordion-collapse collapse"
+                                        <div id="Interview-collapse" class="accordion-collapse collapse px-2"
                                             aria-labelledby="Interview-heading" data-bs-parent="#Interview"
                                             style="">
                                             <h5 class="bg-success px-4 py-1 text-white">Candidates Detail</h5>
+                                            <div class="admin-dashboard-table">
                                             <table class="table table-bordered mb-0" id="myTable10">
                                                 <thead>
                                                     <tr>
@@ -390,7 +401,7 @@
                                                             <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                             <td>{{ $candidate->candidate['manager']['employee_name'] }}
                                                             </td>
-                                                            <td>{{ $candidate->candidate->consultant?->employee_name ?? $candidate->candidate->team_leader->employee_name }}
+                                                            <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
                                                             </td>
                                                             <td class="d-flex flex-row">
                                                                 @if ($auth->roles_id == 4)
@@ -408,6 +419,7 @@
                                                     @endforeach
                                                 </tbody>
                                             </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -428,10 +440,11 @@
                                             </button>
                                         </h2>
 
-                                        <div id="blacklist-collapse" class="accordion-collapse collapse"
+                                        <div id="blacklist-collapse" class="accordion-collapse collapse px-2"
                                             aria-labelledby="blacklist-heading" data-bs-parent="#blacklist"
                                             style="">
                                             <h5 class="bg-success px-4 py-1 text-white">Candidates Detail</h5>
+                                            <div class="admin-dashboard-table">
                                             <table class="table table-bordered mb-0" id="myTable11">
                                                 <thead>
                                                     <tr>
@@ -466,8 +479,8 @@
                                                             <td
                                                                 class="{{ $candidate['remark_id'] == 8 ? 'text-danger' : '' }}">
                                                                 {{ $candidate->candidate['manager']['employee_name'] }}
-
-                                                            <td>{{ $candidate->candidate->consultant?->employee_name ?? $candidate->candidate->team_leader->employee_name }}
+                                                            </td>
+                                                            <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
                                                             </td>
                                                             <td class="d-flex flex-row {{ $candidate['remark_id'] == 8 ? 'text-danger' : '' }}">
                                                                 @if ($auth->roles_id == 4)
@@ -485,6 +498,7 @@
                                                     @endforeach
                                                 </tbody>
                                             </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -505,9 +519,10 @@
                                             </button>
                                         </h2>
 
-                                        <div id="kiv-collapse" class="accordion-collapse collapse"
+                                        <div id="kiv-collapse" class="accordion-collapse collapse px-2"
                                             aria-labelledby="kiv-heading" data-bs-parent="#kiv" style="">
                                             <h5 class="bg-success px-4 py-1 text-white">Candidates Detail</h5>
+                                            <div class="admin-dashboard-table">
                                             <table class="table table-bordered mb-0" id="myTable12">
                                                 <thead>
                                                     <tr>
@@ -534,13 +549,13 @@
                                                                 <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                                 <td>{{ $candidate->candidate['manager']['employee_name'] }}
                                                                 </td>
-                                                                <td>{{ $candidate->candidate->consultant?->employee_name ?? $candidate->candidate->team_leader->employee_name }}
+                                                                <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
                                                                 </td>
                                                                 <td class="d-flex flex-row">
                                                                     @if ($auth->roles_id == 4)
                                                                         @include('admin.dashboard.inc.select')
                                                                     @endif
-                                                                    @if($candidate->candidate->getMainResumeFilePath() != null)
+                                                                    @if($candidate->candidate?->getMainResumeFilePath() != null)
                                                                     <button type="button"
                                                                         class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                         data-bs-toggle="modal"
@@ -554,6 +569,7 @@
                                                     @endif
                                                 </tbody>
                                             </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -574,9 +590,10 @@
                                             </button>
                                         </h2>
 
-                                        <div id="total-candidate-collapse" class="accordion-collapse collapse"
+                                        <div id="total-candidate-collapse" class="accordion-collapse collapse px-2"
                                             aria-labelledby="total-candidate-heading" data-bs-parent="#total-candidate"
                                             style="">
+                                            <div class="admin-dashboard-table">
                                             <table class="table table-bordered mb-0" id="myTable13">
                                                 <thead>
                                                     <tr>
@@ -601,13 +618,13 @@
                                                             <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                             <td>{{ $candidate->candidate['manager']['employee_name'] }}
                                                             </td>
-                                                            <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader->employee_name }}
+                                                            <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
                                                             </td>
                                                             <td class="d-flex flex-row">
                                                                 @if ($auth->roles_id == 4)
                                                                     @include('admin.dashboard.inc.select')
                                                                 @endif
-                                                                @if($candidate->candidate->getMainResumeFilePath() != null)
+                                                                @if($candidate->candidate?->getMainResumeFilePath() != null)
                                                                 <button type="button"
                                                                     class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
@@ -619,6 +636,7 @@
                                                     @endforeach
                                                 </tbody>
                                             </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -638,7 +656,7 @@
                                                 New Candidate Assigned to You
                                             </button>
                                         </h2>
-                                        <div id="active-resume-collapse" class="accordion-collapse collapse"
+                                        <div id="active-resume-collapse" class="accordion-collapse collapse px-2"
                                             aria-labelledby="active-resume-heading"
                                             data-bs-parent="#accordionactive-resumeExample" style="">
                                             <h5 class="bg-success px-4 py-1 text-white">Candidates Detail</h5>
@@ -665,7 +683,7 @@
                                                             <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                             <td>{{ $candidate->candidate['manager']['employee_name'] }}
                                                             </td>
-                                                            <td>{{ $candidate->candidate->consultant?->employee_name ?? $candidate->candidate->team_leader->employee_name }}
+                                                            <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
                                                             </td>
                                                             <td class="d-flex flex-row">
                                                                 @include('admin.dashboard.inc.select')

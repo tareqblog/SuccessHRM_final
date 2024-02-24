@@ -76,7 +76,7 @@
                             <div class="tab-content p-3 text-muted">
                                 <div class="tab-pane active" id="General_info" role="tabpanel">
                                     <div class="row">
-                                        <div class="col-lg-9 row">
+                                        <div class="col-xl-9 row">
                                             <div class="row col-md-6 col-lg-6 mb-1">
                                                 <label for="candidate_code"
                                                     class="col-sm-5 col-form-label fw-bold">Candidate Code</label>
@@ -316,7 +316,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3">
+                                        <div class="col-xl-3">
                                             <img src="{{ URL::asset('build/images/avatar.png') }}" alt="avatar"
                                                 class="mb-2 img-fluid img-thumbnail">
                                             <input type="file" name="avatar" class="form-control">

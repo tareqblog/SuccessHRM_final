@@ -68,7 +68,7 @@
                             </ul>
                         @endif
                     </li>
-                    </li>
+                    <!-- </li> -->
                 @endforeach
             </ul> --}}
             @php
@@ -418,6 +418,7 @@
             </ul>
         </div>
         <!-- Sidebar -->
+
     </div>
 </div>
 <!-- Left Sidebar End -->

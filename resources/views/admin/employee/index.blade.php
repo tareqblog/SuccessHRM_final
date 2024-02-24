@@ -31,49 +31,51 @@
                         </div>
                     </div>
                     <div class="card-body">
-                    <table class="table table-bordered mb-0 mt-0 bg-light" id="myTable">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Name</th>
-                                    <th>User Role</th>
-                                    <th>Email</th>
-                                    <th>Mobile</th>
-                                    <th>Initialize</th>
-                                    <th>Status</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($datas as $data)
+                        <div class="admin-dashboard-table">
+                            <table class="table table-bordered mb-0 mt-0 bg-light" id="myTable">
+                                <thead>
                                     <tr>
-                                        <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $data->employee_name }}</td>
-                                        <td>{{ $data->role_data?->name }}</td>
-                                        <td>{{ $data->employee_email }}</td>
-                                        <td>{{ $data->employee_phone }}</td>
-                                        <td>{{ $data->employee_code }}</td>
-                                        <td>{{ $data->active_status == 1 ? 'Active' : 'In-Active' }}</td>
-                                        <td style="display: flex;">
-                                            @if (App\Helpers\FileHelper::usr()->can('employee.edit'))
-                                            <a href="{{ route('employee.edit', $data->id) }}"
-                                                class="btn btn-info btn-sm me-3"><i class="fas fa-pen"></i></a>
-                                            @endif
-                                                @if (App\Helpers\FileHelper::usr()->can('employee.destroy'))
-                                                <form id="deleteForm" action="{{ route('employee.destroy', $data->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        onclick="return confirm('Are you sure you want to disable this employee?')" {{Auth::user()->employe->roles_id == 1 ? 'disabled' : ''}}
-                                                        class="btn btn-sm btn-danger"><i class="fas fa fa-trash"></i></a>
-                                                </form>
-                                                @endif
-                                        </td>
+                                        <th>No</th>
+                                        <th>Name</th>
+                                        <th>User Role</th>
+                                        <th>Email</th>
+                                        <th>Mobile</th>
+                                        <th>Initialize</th>
+                                        <th>Status</th>
+                                        <th></th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($datas as $data)
+                                        <tr>
+                                            <td>{{ $loop->index + 1 }}</td>
+                                            <td>{{ $data->employee_name }}</td>
+                                            <td>{{ $data->role_data?->name }}</td>
+                                            <td>{{ $data->employee_email }}</td>
+                                            <td>{{ $data->employee_phone }}</td>
+                                            <td>{{ $data->employee_code }}</td>
+                                            <td>{{ $data->active_status == 1 ? 'Active' : 'In-Active' }}</td>
+                                            <td style="display: flex;">
+                                                @if (App\Helpers\FileHelper::usr()->can('employee.edit'))
+                                                <a href="{{ route('employee.edit', $data->id) }}"
+                                                    class="btn btn-info btn-sm me-3"><i class="fas fa-pen"></i></a>
+                                                @endif
+                                                    @if (App\Helpers\FileHelper::usr()->can('employee.destroy'))
+                                                    <form id="deleteForm" action="{{ route('employee.destroy', $data->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            onclick="return confirm('Are you sure you want to disable this employee?')" {{Auth::user()->employe->roles_id == 1 ? 'disabled' : ''}}
+                                                            class="btn btn-sm btn-danger"><i class="fas fa fa-trash"></i></a>
+                                                    </form>
+                                                    @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

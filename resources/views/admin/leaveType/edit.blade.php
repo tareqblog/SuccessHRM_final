@@ -50,7 +50,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-2">
             <div class="col-lg-12">
                 <a href="{{route('leave-type.index')}}" class="btn btn-sm btn-secondary">Cancel</a>
                 <button type="submit" class="btn btn-sm btn-info">Submit</button>

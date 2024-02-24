@@ -17,53 +17,59 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Remark Type Table</h4>
-                        <div class="text-end">
-                            @if (App\Helpers\FileHelper::usr()->can('remarks-type.create'))
+                    <div class="d-flex bd-highlight">
+                        <div class="p-2 flex-grow-1 bd-highlight">
+                            <h6 class="card-title mb-0">Remark Type Table</h6>
+                        </div>
+                        <div class="p-2 bd-highlight">
+                        @if (App\Helpers\FileHelper::usr()->can('remarks-type.create'))
                             <button data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
                                 class="btn btn-sm btn-info">Create New</button>
                             @endif
                         </div>
                     </div>
+                    </div>
                     @include('admin.include.errors')
                     <div class="card-body">
-                        <table class="table table-bordered mb-0" id="myTable">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Name</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr> 
-                            </thead>
-                            <tbody>
-                                @foreach ($datas as $data)
+                        <div class="admin-dashboard-table">
+                            <table class="table table-bordered mb-0" id="myTable">
+                                <thead>
                                     <tr>
-                                        <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $data->remarkstype_code }}</td>
-                                        <td>{{ $data->remarkstype_status == 1 ? 'Active' : 'In-Active' }}</td>
-                                        <td style="display: flex;">
-                                            @if (App\Helpers\FileHelper::usr()->can('remarks-type.update'))
-                                            <button data-id="{{ $data->id }}" data-bs-toggle="modal"
-                                                data-bs-target=".bs-example-modal-lg-edit"
-                                                class="btn btn-sm btn-info edit me-3"><i
-                                                    class="fa-solid fa-pen-to-square"></i></button>
-                                            @endif
-                                            @if (App\Helpers\FileHelper::usr()->can('remarks-type.destroy'))
-                                            <form id="deleteForm" action="{{ route('remarks-type.destroy', $data->id) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit"
-                                                    onclick="return confirm('Are you sure you want to delete this item?')"
-                                                    class="btn btn-sm btn-danger"><i class="fa fa-trash "></i></a>
-                                            </form>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                        <th>No</th>
+                                        <th>Name</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr> 
+                                </thead>
+                                <tbody>
+                                    @foreach ($datas as $data)
+                                        <tr>
+                                            <td>{{ $loop->index + 1 }}</td>
+                                            <td>{{ $data->remarkstype_code }}</td>
+                                            <td>{{ $data->remarkstype_status == 1 ? 'Active' : 'In-Active' }}</td>
+                                            <td style="display: flex;">
+                                                @if (App\Helpers\FileHelper::usr()->can('remarks-type.update'))
+                                                <button data-id="{{ $data->id }}" data-bs-toggle="modal"
+                                                    data-bs-target=".bs-example-modal-lg-edit"
+                                                    class="btn btn-sm btn-info edit me-3"><i
+                                                        class="fa-solid fa-pen-to-square"></i></button>
+                                                @endif
+                                                @if (App\Helpers\FileHelper::usr()->can('remarks-type.destroy'))
+                                                <form id="deleteForm" action="{{ route('remarks-type.destroy', $data->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        onclick="return confirm('Are you sure you want to delete this item?')"
+                                                        class="btn btn-sm btn-danger"><i class="fa fa-trash "></i></a>
+                                                </form>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <!--  Create modal example -->
@@ -82,7 +88,7 @@
                                         @csrf
                                         <div class="row">
                                             <div class="col-lg-6">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Remarks Type
                                                         Code</label>
                                                     <div class="col-sm-9">
@@ -90,7 +96,7 @@
                                                             placeholder="Title" value="{{ old('remarkstype_code') }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Remarks Type
                                                         Description</label>
                                                     <div class="col-sm-9">
@@ -100,7 +106,7 @@
                                             </div>
                                             <div class="col-lg-6">
 
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Seq No</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="remarkstype_seqno" class="form-control"
@@ -109,7 +115,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row mt-5">
+                                        <div class="row mt-1">
                                             <div class="col-lg-12">
                                                 <button type="button" data-bs-dismiss="modal" aria-label="Close"
                                                     class="btn btn-sm btn-secondary">Cancel</button>

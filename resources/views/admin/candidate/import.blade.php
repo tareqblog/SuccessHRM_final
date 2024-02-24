@@ -34,7 +34,7 @@
                             <div class="col-lg-12">
                                 <form action="{{ route('upload.files') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
-                                    <div class="row mb-4">
+                                    <div class="row mb-1">
                                         <label for="one" class="col-sm-12 col-form-label">Upload Resume (max 10
                                             file)<br />
                                             <small>(Please use PDF, MicrosoftWord.docx orxlsx file)</small></label>
@@ -48,7 +48,7 @@
                             </div>
                         @endif
                         <div class="row">
-                            <div class="col-lg-3 card-body mt-4">
+                            <div class="col-lg-3 card-body mt-1">
                                 @if (isset($importData) && count($importData) > 0)
                                     <form action="{{ route('delete.uploaded.data') }}" method="POST"
                                         enctype="multipart/form-data">
@@ -77,35 +77,35 @@
                                 @endif
                             </div>
 
-                            <div class="col-lg-4 card-body mt-4">
+                            <div class="col-lg-4 card-body mt-1">
                                 @if (isset($importData) && count($importData) > 0)
                                     <h2>Extracted Information:</h2>
                                     <form action="{{ route('temporary.data.save') }}" method="POST">
                                         @csrf
                                         <input type="hidden" id="resume_path" name="resume_path" value="">
                                         <textarea name="resume_text" hidden></textarea>
-                                        <div class="row mb-4">
+                                        <div class="row mb-1">
                                             <label for="one" class="col-sm-4 col-form-label">Name</label>
                                             <div class="col-sm-8">
                                                 <input type="text" id="name" name="name" class="form-control"
                                                     value="" placeholder="Name" required>
                                             </div>
                                         </div>
-                                        <div class="row mb-4">
+                                        <div class="row mb-1">
                                             <label for="one" class="col-sm-4 col-form-label">Email</label>
                                             <div class="col-sm-8">
                                                 <input type="text" id="email" name="email" class="form-control"
                                                     value="" placeholder="Email" required>
                                             </div>
                                         </div>
-                                        <div class="row mb-4">
+                                        <div class="row mb-1">
                                             <label for="one" class="col-sm-4 col-form-label">Phone No</label>
                                             <div class="col-sm-8">
                                                 <input type="text" id="phone_no" name="phone_no" class="form-control"
                                                     value="" placeholder="Phone no" required>
                                             </div>
                                         </div>
-                                        <div class="row mb-4">
+                                        <div class="row mb-1">
                                             <label for="one" class="col-sm-4 col-form-label">Gender</label>
                                             <div class="col-sm-8">
                                                 <select name="gender" required class="form-control single-select-field" id="gender">
@@ -119,7 +119,7 @@
                                             $auth = Auth::user()->employe;
                                         @endphp
                                         @if($auth->roles_id != 8)
-                                        <div class="row mb-4">
+                                        <div class="row mb-1">
                                             <label for="one" class="col-sm-4 col-form-label">Assaign To</label>
                                             <div class="col-sm-8">
                                                 <select name="assaign_to" required class="form-control single-select-field">
