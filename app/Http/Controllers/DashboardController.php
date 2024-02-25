@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Enums\CalanderStatus;
 use App\Models\Calander;
+use App\Models\CandidateRemark;
 use App\Models\Dashboard;
 use App\Models\Employee;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 
 class DashboardController extends Controller
 {
@@ -93,9 +95,9 @@ class DashboardController extends Controller
         } elseif ($auth->roles_id == 11) {
             $calander_datas = $calander_datas->where('teamleader_id', $auth->id);
             $activeResumes = $activeResumes->where('teamleader_id', $auth->id);
-            $interviews = $interviews->where('consultent_id', $auth->id);
-            $assignToClients = $assignToClients->where('consultent_id', $auth->id);
-            $kivs = $kivs->where('consultent_id', $auth->id);
+            $interviews = $interviews->where('teamleader_id', $auth->id);
+            $assignToClients = $assignToClients->where('teamleader_id', $auth->id);
+            $kivs = $kivs->where('teamleader_id', $auth->id);
             $consultents = Employee::where('roles_id', 8)->where('team_leader_users_id', $auth->id)->get();
             foreach ($consultents as $consultent) {
                 $consultentId = $consultent->id;
@@ -103,7 +105,7 @@ class DashboardController extends Controller
                 $candidatesByConsultent[$consultentId] = $candidatesForConsultent;
             }
         } elseif ($auth->roles_id == 8) {
-            $calander_datas = $calander_datas->where('consultant_id', $auth->id);
+            $calander_datas = $calander_datas->where('consultent_id', $auth->id);
             $activeResumes = $activeResumes->where('consultent_id', $auth->id);
             $interviews = $interviews->where('consultent_id', $auth->id);
             $assignToClients = $assignToClients->where('consultent_id', $auth->id);
@@ -119,6 +121,9 @@ class DashboardController extends Controller
         $c_datas = $calander_datas->latest()->get();
         $calander_datas = [];
         foreach ($c_datas as $key => $remark) {
+            // return $remark;
+            $car = CandidateRemark::find($remark->candidate_remark_id);
+
             $calander_datas[] = [
                 'id' => $remark->id,
                 'candidate_remark_id' => $remark->candidate_remark_id,
@@ -126,7 +131,7 @@ class DashboardController extends Controller
                 'title' => $remark->title,
                 'date' => Carbon::parse($remark->date)->format('Y-m-d'),
                 'allDay' => false,
-                'url' => 'https://www.google.com.bd',
+                'url' => URL::to('ATS/candidates/edit/remark/'.$car->candidate_id.'/'.$remark->candidate_remark_id),
                 'className' => 'bg-' . CalanderStatus::from($remark->status)->message(), // status
             ];
         }

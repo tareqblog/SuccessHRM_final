@@ -410,6 +410,7 @@ class CandidateController extends Controller
     }
     public function remark(Request $request, $id)
     {
+        // return $request;
         if (is_null($this->user) || !$this->user->can('candidate.remark')) {
             abort(403, 'Unauthorized');
         }
@@ -420,6 +421,7 @@ class CandidateController extends Controller
             'remarkstype_id' => 'required|integer',
             'isNotice' => 'required|boolean',
             'remarks' => 'required',
+            'shortlistPlacement' => 'nullable|numeric',
         ]);
 
         if ($validator->fails()) {
