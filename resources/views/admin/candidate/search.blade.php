@@ -78,13 +78,13 @@ Search Candidate Detail
 
                     <div class="row">
                         <div class="col-lg-6">
-                            <div class="row mb-4">
+                            <div class="row mb-1">
                                 <label for="one" class="col-sm-3 col-form-label">Keyword</label>
                                 <div class="col-sm-8">
                                     <input type="text" name="keyword" class="form-control" placeholder="Keyword">
                                 </div>
                             </div>
-                            <div class="row mb-4">
+                            <div class="row mb-1">
                                 <label for="one" class="col-sm-3 col-form-label">Grouping</label>
                                 <div class="col-sm-8">
                                     <select name="" id="" class="form-control">
@@ -95,13 +95,13 @@ Search Candidate Detail
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="row mb-4">
+                            <div class="row mb-1">
                                 <label for="one" class="col-sm-3 col-form-label">Date Range</label>
                                 <div class="col-sm-8">
                                      <input type="text" name="daterange" value="{{ old('daterange', '2023-12-01 - 2024-01-25') }}" class="form-control" />
                                 </div>
                             </div>
-                            <div class="row mb-4">
+                            <div class="row mb-1">
                                 <label for="one" class="col-sm-3 col-form-label">Existing Folder</label>
                                 <div class="col-sm-8">
                                     <select name="" id="" class="form-control">
@@ -110,7 +110,7 @@ Search Candidate Detail
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12 mb-5 text-center">
+                        <div class="col-lg-12 mb-5 mt-2 text-center">
                             <button type="submit" class="btn btn-info btn-sm">Search</button>
                             <button type="submit" class="btn btn-warning btn-sm">Save to Profile</button>
                             <button type="submit" class="btn btn-success btn-sm">Save All</button>
@@ -119,6 +119,7 @@ Search Candidate Detail
                 </form>
                 <div class="row">
                     <div class="col-lg-12 mt-2">
+                        <div class="admin-dashboard-table">
                         <table class="table table-bordered mb-0"  id="candidateTable">
                             <thead>
                                 <tr>
@@ -167,6 +168,7 @@ Search Candidate Detail
                                 </tr>
                             </tfoot>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>

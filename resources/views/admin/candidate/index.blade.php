@@ -29,6 +29,7 @@
                         </div>
                     </div>
                     <div class="card-body p-2">
+                        <div class="admin-dashboard-table">
                         <table class="table table-bordered mb-0" id="myTable">
                             <thead>
                                 <tr>
@@ -70,7 +71,7 @@
                                         <td class="d-flex flex-row">
                                             @if($data->getMainResumeFilePath() != null)
                                             <button type="button"
-                                                class="btn btn-info btn-sm me-2 mb-2 resumePath"
+                                                class="btn btn-info btn-sm me-2 resumePath"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#showResume"
                                                 data-file-path="{{ $data->getMainResumeFilePath() }}">D</button>
@@ -82,7 +83,7 @@
                                             @endif
                                             @if (App\Helpers\FileHelper::usr()->can('candidate.update'))
                                                 <a href="{{ route('candidate.edit', $data->id) }}"
-                                                    class="btn btn-info btn-sm me-2" title="Edit"><i
+                                                    class="btn btn-info btn-sm me-2" title="Edit"><i    
                                                         class="fas fa-pen"></i></a>
                                             @endif
                                             @if (App\Helpers\FileHelper::usr()->can('candidate.destroy'))
@@ -100,6 +101,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        </div>
 
                         <div class="mt-3" style="height: 60vh; border: 1px solid black">
                             <div id="candidateResume" class="p-3" style="display: none; height: 100%; overflow: auto;">

@@ -41,43 +41,45 @@
                     @endif
                     <div class="card-body">
 
-                        <table class="table table-bordered mb-0" id="myTable">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Title</th>
-                                    <th>Print Title</th>
-                                    <th>Remark</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($datas as $data)
+                        <div class="admin-dashboard-table">
+                            <table class="table table-bordered mb-0" id="myTable">
+                                <thead>
                                     <tr>
-                                        <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $data->title }}</td>
-                                        <td>{{ $data->print }}</td>
-                                        <td>{{ $data->remark }}</td>
-                                        <td style="display: flex;">
-                                            @if (App\Helpers\FileHelper::usr()->can('time-sheet.edit'))
-                                            <a href="{{ route('time-sheet.edit', $data->id) }}"
-                                                class="btn btn-info btn-sm me-2"><i class="fa fa-pen"></i> </a>
-                                            @endif
-                                            @if (App\Helpers\FileHelper::usr()->can('time-sheet.destroy'))
-                                            <form id="deleteForm" action="{{ route('time-sheet.destroy', $data->id) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit"
-                                                    onclick="return confirm('Are you sure you want to delete this item?')"
-                                                    class="btn btn-sm btn-danger">Delete</a>
-                                            </form>
-                                            @endif
-                                        </td>
+                                        <th style="padding-right: 20px !important">No</th>
+                                        <th style="padding-right: 100px !important">Title</th>
+                                        <th style="padding-right: 100px !important">Print Title</th>
+                                        <th style="padding-right: 100px !important">Remark</th>
+                                        <th style="padding-right: 70px !important">Action</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($datas as $data)
+                                        <tr>
+                                            <td>{{ $loop->index + 1 }}</td>
+                                            <td>{{ $data->title }}</td>
+                                            <td>{{ $data->print }}</td>
+                                            <td>{{ $data->remark }}</td>
+                                            <td style="display: flex;">
+                                                @if (App\Helpers\FileHelper::usr()->can('time-sheet.edit'))
+                                                <a href="{{ route('time-sheet.edit', $data->id) }}"
+                                                    class="btn btn-info btn-sm me-2"><i class="fa fa-pen"></i> </a>
+                                                @endif
+                                                @if (App\Helpers\FileHelper::usr()->can('time-sheet.destroy'))
+                                                <form id="deleteForm" action="{{ route('time-sheet.destroy', $data->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        onclick="return confirm('Are you sure you want to delete this item?')"
+                                                        class="btn btn-sm btn-danger">Delete</a>
+                                                </form>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

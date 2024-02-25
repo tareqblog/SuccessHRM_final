@@ -17,17 +17,22 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Industry Type Table</h4>
-                        <div class="text-end">
-                            @if (App\Helpers\FileHelper::usr()->can('industry-type.create'))
-                            <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
-                                data-bs-target=".bs-example-modal-lg-create">Create New</button>
-                            @endif
+                        <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">
+                                <h6 class="card-title mb-0">Industry Type Tabl</h6>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                @if (App\Helpers\FileHelper::usr()->can('industry-type.create'))
+                                <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
+                                    data-bs-target=".bs-example-modal-lg-create">Create New</button>
+                                @endif
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
                         @include('admin.include.errors')
 
+                        <div class="admin-dashboard-table">
                         <table class="table table-bordered mb-0" id="myTable">
                             <thead>
                                 <tr>
@@ -63,6 +68,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        </div>
                     </div>
 
                     <!--  Create modal example -->
@@ -81,7 +87,7 @@
                                         @csrf
                                         <div class="row p-4">
                                             <div class="col-lg-12 row">
-                                                <div class="row mb-4 col-lg-6">
+                                                <div class="row mb-1 col-lg-6">
                                                     <label for="one" class="col-sm-4 col-form-label">Industy
                                                         Code</label>
                                                     <div class="col-sm-8">
@@ -89,14 +95,14 @@
                                                             placeholder="Title" value="{{ old('industry_code') }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6">
+                                                <div class="row mb-1 col-lg-6">
                                                     <label for="one" class="col-sm-4 col-form-label">Industry
                                                         Description</label>
                                                     <div class="col-sm-8">
                                                         <textarea name="industry_desc" rows="2" class="form-control" placeholder="Descriptin"></textarea>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6">
+                                                <div class="row mb-1 col-lg-6">
                                                     <label for="one" class="col-sm-4 col-form-label">List Order</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="industry_seqno" class="form-control"

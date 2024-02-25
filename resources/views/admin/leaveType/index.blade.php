@@ -40,47 +40,49 @@ Leave Type Management
                 @endif
                 <div class="card-body">
                     {{-- Here place table --}}
-                    <table class="table table-bordered" id="myTable">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Leave Type</th>
-                                <th>Description</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($datas as $data)
+                    <div class="admin-dashboard-table">
+                        <table class="table table-bordered" id="myTable">
+                            <thead>
                                 <tr>
-                                    <td>{{ $loop->index + 1 }}</td>
-                                    <td>{{ $data->leavetype_code }}</td>
-                                    <td>{{ $data->leavetype_desc }}</td>
-                                    <td>{{ $data->leavetype_status == 1 ? 'Active' : 'Inactive' }}
-                                    </td>
-                                    <td class="d-flex">
-                                        @if (App\Helpers\FileHelper::usr()->can('leave-type.update'))
-                                        <button data-id="{{ $data->id }}" data-bs-toggle="modal"
-                                            data-bs-target=".bs-example-modal-lg-edit"
-                                            class="btn btn-sm btn-info edit me-3"><i
-                                                class="fa-solid fa-pen-to-square"></i></button>
-                                        @endif
-                                        @if (App\Helpers\FileHelper::usr()->can('leave-type.destroy'))
-                                        <form
-                                            action="{{ route('leave-type.destroy', $data->id) }}"
-                                            method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger"
-                                                onclick="return confirm('Are you sure you want to delete this item?')"><i
-                                                    class="fa-solid fa-trash"></i></button>
-                                        </form>
-                                        @endif
-                                    </td>
+                                    <th style="padding-right: 20px !important">No.</th>
+                                    <th style="padding-right: 120px !important">Leave Type</th>
+                                    <th style="padding-right: 100px !important">Description</th>
+                                    <th style="padding-right: 30px !important">Status</th>
+                                    <th style="padding-right: 60px !important">Action</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach($datas as $data)
+                                    <tr>
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $data->leavetype_code }}</td>
+                                        <td>{{ $data->leavetype_desc }}</td>
+                                        <td>{{ $data->leavetype_status == 1 ? 'Active' : 'Inactive' }}
+                                        </td>
+                                        <td class="d-flex">
+                                            @if (App\Helpers\FileHelper::usr()->can('leave-type.update'))
+                                            <button data-id="{{ $data->id }}" data-bs-toggle="modal"
+                                                data-bs-target=".bs-example-modal-lg-edit"
+                                                class="btn btn-sm btn-info edit me-3"><i
+                                                    class="fa-solid fa-pen-to-square"></i></button>
+                                            @endif
+                                            @if (App\Helpers\FileHelper::usr()->can('leave-type.destroy'))
+                                            <form
+                                                action="{{ route('leave-type.destroy', $data->id) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger"
+                                                    onclick="return confirm('Are you sure you want to delete this item?')"><i
+                                                        class="fa-solid fa-trash"></i></button>
+                                            </form>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <!--  Create modal example -->

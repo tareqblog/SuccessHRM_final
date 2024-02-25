@@ -388,8 +388,8 @@
                                     <div class="row">
                                         <h5>Address Information</h5>
                                         <div class="col-lg-6">
-                                            <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                            <div class="mt-3 mt-lg-4 mt-xl-0">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Postal Code
                                                         1</label>
                                                     <div class="col-sm-9">
@@ -398,7 +398,7 @@
                                                             value="{{ $candidate->candidate_postal_code }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Unit No
                                                         1</label>
                                                     <div class="col-sm-9">
@@ -407,7 +407,7 @@
                                                             value="{{ $candidate->candidate_unit_number }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="four" class="col-sm-3 col-form-label">Address
                                                         1</label>
                                                     <div class="col-sm-9">
@@ -417,8 +417,8 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
-                                            <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                            <div class="mt-1 mt-lg-4 mt-xl-0">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Postal Code
                                                         2</label>
                                                     <div class="col-sm-9">
@@ -427,7 +427,7 @@
                                                             value="{{ $candidate->candidate_postal_code2 }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row">
                                                     <label for="one" class="col-sm-3 col-form-label">Unit No
                                                         2</label>
                                                     <div class="col-sm-9">
@@ -436,7 +436,7 @@
                                                             value="{{ $candidate->candidate_unit_number2 }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row">
                                                     <label for="four" class="col-sm-3 col-form-label">Address
                                                         2</label>
                                                     <div class="col-sm-9">
@@ -446,11 +446,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row mt-3">
                                         <h5>Emergency Contact Address Information</h5>
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Contact
                                                         Person</label>
                                                     <div class="col-sm-9">
@@ -459,7 +459,7 @@
                                                             value="{{ $candidate->candidate_emr_contact }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Phone 1</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="candidate_emr_phone1"
@@ -467,7 +467,7 @@
                                                             value="{{ $candidate->candidate_emr_phone1 }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="four" class="col-sm-3 col-form-label">Address</label>
                                                     <div class="col-sm-9">
                                                         <textarea name="candidate_emr_address" rows="2" class="form-control" placeholder="Address"> {{ $candidate->candidate_emr_address }} </textarea>
@@ -477,7 +477,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one"
                                                         class="col-sm-3 col-form-label">Relationship</label>
                                                     <div class="col-sm-9">
@@ -486,7 +486,7 @@
                                                             value="{{ $candidate->candidate_emr_relation }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Phone 2</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="candidate_emr_phone2"
@@ -494,7 +494,7 @@
                                                             value="{{ $candidate->candidate_emr_phone2 }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="four" class="col-sm-3 col-form-label">Remarks</label>
                                                     <div class="col-sm-9">
                                                         <textarea name="candidate_emr_remarks" rows="2" class="form-control" placeholder="Remarks"> {{ $candidate->candidate_emr_remarks }} </textarea>
@@ -503,7 +503,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row mt-3">
                                         <div class="col-sm-9 ms-3 mb-3">
                                             <div>
                                                 <a href="{{ route('candidate.index') }}"
@@ -523,7 +523,7 @@
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Pay Mode</label>
                                                     <div class="col-sm-9">
                                                         <select name="paymodes_id"
@@ -539,7 +539,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">GIRO Account
                                                         Name</label>
                                                     <div class="col-sm-9">
@@ -552,7 +552,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">GIRO Bank
                                                         Code</label>
                                                     <div class="col-sm-9">
@@ -568,7 +568,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">GIRO Account
                                                         No</label>
                                                     <div class="col-sm-9">
@@ -580,7 +580,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row mt-3">
                                         <div class="col-sm-9 ms-3 mb-3">
                                             <div>
                                                 <a href="{{ route('candidate.index') }}"
@@ -601,7 +601,7 @@
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">N-Levels</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" class="form-control"
@@ -609,7 +609,7 @@
                                                             value="{{ $candidate->candidate_n_level }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">O-Levels</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="candidate_o_level"
@@ -617,7 +617,7 @@
                                                             value="{{ $candidate->candidate_o_level }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">A-Levels</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="candidate_a_level"
@@ -629,7 +629,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Diploma</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="candidate_diploma"
@@ -637,7 +637,7 @@
                                                             value="{{ $candidate->candidate_diploma }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Degree</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="candidate_degree"
@@ -645,7 +645,7 @@
                                                             value="{{ $candidate->candidate_degree }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Other</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="candidate_other" class="form-control"
@@ -660,7 +660,7 @@
                                         <p>Please state languages and proficiency level, e.g. excellent, good, fair, poor
                                         </p>
                                         <div class="col-lg-6">
-                                            <div class="row mb-4">
+                                            <div class="row mb-1">
                                                 <label for="one" class="col-sm-3 col-form-label">Written</label>
                                                 <div class="col-sm-9">
                                                     <input type="text" name="candidate_written" class="form-control"
@@ -670,7 +670,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
-                                            <div class="row mb-4">
+                                            <div class="row mb-1">
                                                 <label for="one" class="col-sm-3 col-form-label">Spoken</label>
                                                 <div class="col-sm-9">
                                                     <input type="text" name="candidate_spocken" class="form-control"
@@ -680,7 +680,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row mt-3">
                                         <div class="col-sm-9 ms-3 mb-3">
                                             <div>
                                                 <a href="{{ route('candidate.index') }}"
@@ -702,14 +702,14 @@
                                             <div class="col-lg-6">
                                                 <input type="hidden" value="{{ $candidate->id }}" name="candidate_id">
                                                 <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                    <div class="row mb-4">
+                                                    <div class="row mb-1">
                                                         <label for="one" class="col-sm-3 col-form-label">Name</label>
                                                         <div class="col-sm-9">
                                                             <input type="text" name="name" class="form-control"
                                                                 placeholder="Name">
                                                         </div>
                                                     </div>
-                                                    <div class="row mb-4">
+                                                    <div class="row mb-1">
                                                         <label for="one"
                                                             class="col-sm-3 col-form-label">Relationship</label>
                                                         <div class="col-sm-9">
@@ -717,7 +717,7 @@
                                                                 class="form-control" placeholder="Relationship">
                                                         </div>
                                                     </div>
-                                                    <div class="row mb-4">
+                                                    <div class="row mb-1">
                                                         <label for="one" class="col-sm-3 col-form-label">Contact
                                                             No</label>
                                                         <div class="col-sm-9">
@@ -729,14 +729,14 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                    <div class="row mb-4">
+                                                    <div class="row mb-1">
                                                         <label for="one" class="col-sm-3 col-form-label">Age</label>
                                                         <div class="col-sm-9">
                                                             <input type="text" name="age" class="form-control"
                                                                 placeholder="Age">
                                                         </div>
                                                     </div>
-                                                    <div class="row mb-4">
+                                                    <div class="row mb-1">
                                                         <label for="one"
                                                             class="col-sm-3 col-form-label">Occupation</label>
                                                         <div class="col-sm-9">
@@ -809,7 +809,7 @@
                                     <div class="row mb-5">
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Name</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="candidate_referee_name1"
@@ -817,7 +817,7 @@
                                                             value="{{ $candidate->candidate_referee_name1 }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Years
                                                         Known</label>
                                                     <div class="col-sm-9">
@@ -830,7 +830,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one"
                                                         class="col-sm-3 col-form-label">Occupation</label>
                                                     <div class="col-sm-9">
@@ -839,7 +839,7 @@
                                                             value="{{ $candidate->candidate_referee_occupation1 }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">Contact No /
                                                         Email
                                                         Address</label>
@@ -855,7 +855,7 @@
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Name</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" class="form-control"
@@ -863,7 +863,7 @@
                                                             value="{{ $candidate->candidate_referee_name2 }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Years
                                                         Known</label>
                                                     <div class="col-sm-9">
@@ -876,7 +876,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one"
                                                         class="col-sm-3 col-form-label">Occupation</label>
                                                     <div class="col-sm-9">
@@ -885,7 +885,7 @@
                                                             value="{{ $candidate->candidate_referee_occupation2 }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">Contact No /
                                                         Email
                                                         Address</label>
@@ -898,8 +898,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-sm-9 ms-3 mb-3">
+                                    <div class="row mt-3">
+                                        <div class="col-sm-9 ms-3 mb-2">
                                             <div>
                                                 <a href="{{ route('candidate.index') }}"
                                                     class="btn btn-sm btn-secondary w-md">Back</a>
@@ -1184,6 +1184,7 @@
                                         </div>
                                     @endif
                                     <div class="col-lg-12 mt-2">
+                                        <div class="admin-dashboard-table">
                                         <table class="table table-bordered mb-0">
                                             <thead>
                                                 <tr>
@@ -1246,6 +1247,7 @@
                                                 @endforeach
                                             </tbody>
                                         </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1263,6 +1265,7 @@
                                         </div>
                                     @endif
                                     <div class="col-lg-12 mt-2">
+                                        <div class="admin-dashboard-table">
                                         <table class="table table-bordered mb-0">
                                             <thead>
                                                 <tr>
@@ -1314,6 +1317,7 @@
                                                 @endforeach
                                             </tbody>
                                         </table>
+                                        </div>
                                     </div>
                                     <hr class="mt-3">
                                 </div>
@@ -1744,10 +1748,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row col-12 my-2">
-                                            <label for="one" class="col-2 col-form-label fw-bold">Remark</label>
-                                            <div class="col-10 pe-5">
-                                                <textarea name="remarks" id="ckeditor-classic" class="form-control"></textarea>
+                                        <div class="remarkWrap">
+                                            <label for="one" class=" newRemark col-form-label fw-bold">Remark</label>
+                                            <div class="remarktextarea">
+                                                <textarea name="remarks" id="ckeditor-classic" style="width: 100%; "></textarea>
                                             </div>
                                         </div>
                                         <button type="submit" class="btn btn-sm btn-info">Save</button>
@@ -1755,6 +1759,7 @@
                                 @endif
                                 <div class="row">
                                     <div class="col-lg-12 mt-2">
+                                        <div class="admin-dashboard-table">
                                         <table class="table table-bordered mb-0">
                                             <thead>
                                                 <tr>
@@ -1798,6 +1803,7 @@
                                                 @endforeach
                                             </tbody>
                                         </table>
+                                        </div>
                                     </div>
                                     <hr class="mt-3">
                                 </div>
@@ -1808,7 +1814,7 @@
                                     <h5>Create Payroll</h5>
                                     <form action="{{ route('candidate.payroll', $candidate->id) }}" method="POST">
                                         @csrf
-                                        <div class="row mb-5">
+                                        <div class="row mb-2">
                                             <div class="col-lg-12">
                                                 <label for="one" class="col-form-label"><b>Name :
                                                         {{ $candidate->candidate_name }}</b></label>
@@ -1816,8 +1822,8 @@
                                                 <label for="one" class="col-form-label"><b>NRIC:
                                                         {{ $candidate->candidate_nric }}</b></label>
                                             </div>
-                                            <div class="col-lg-12 mt-5 mt-lg-4 mt-xl-0 row">
-                                                <div class="row mb-4 col-lg-6">
+                                            <div class="col-lg-12 mt-2 mt-lg-4 mt-xl-0 row">
+                                                <div class="row mb-1 col-lg-6">
                                                     <input type="hidden" name="candidate_id"
                                                         value="{{ $candidate->id }}">
                                                     <label for="one" class="col-sm-3 col-form-label">Job Type <span
@@ -1834,7 +1840,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="recruitmentFee">
+                                                <div class="row mb-1 col-lg-6" id="recruitmentFee">
                                                     <label for="one" class="col-sm-3 col-form-label">Placement /
                                                         Recruitment Fee</label>
                                                     <div class="col-sm-9">
@@ -1843,7 +1849,7 @@
                                                             placeholder="Placement / Recruitment Fee">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="adminFeeMonthly">
+                                                <div class="row mb-1 col-lg-6" id="adminFeeMonthly">
                                                     <label for="one" class="col-sm-3 col-form-label">Admin Fee
                                                         (Monthly)</label>
                                                     <div class="col-sm-9">
@@ -1851,7 +1857,7 @@
                                                             class="form-control" placeholder="Admin Fee">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="adminFeeDaily">
+                                                <div class="row mb-1 col-lg-6" id="adminFeeDaily">
                                                     <label for="one" class="col-sm-3 col-form-label">Admin Fee
                                                         (Daily)</label>
                                                     <div class="col-sm-9">
@@ -1859,7 +1865,7 @@
                                                             class="form-control" placeholder="Admin Fee (Daily)">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="clientCompany">
+                                                <div class="row mb-1 col-lg-6" id="clientCompany">
                                                     <label for="one" class="col-sm-3 col-form-label">Client
                                                         Company<span class="text-danger">*</span></label>
                                                     <div class="col-sm-9">
@@ -1873,7 +1879,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="arNo">
+                                                <div class="row mb-1 col-lg-6" id="arNo">
                                                     <label for="one" class="col-sm-3 col-form-label">AR No.</label>
                                                     <div class="col-sm-9">
                                                         <select name="ar_no" id=""
@@ -1882,7 +1888,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="invoiceRate">
+                                                <div class="row mb-1 col-lg-6" id="invoiceRate">
                                                     <label for="one" class="col-sm-3 col-form-label">Invoice
                                                         Rate</label>
                                                     <div class="col-sm-9">
@@ -1890,14 +1896,14 @@
                                                             placeholder="Invoice Rate">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="salary">
+                                                <div class="row mb-1 col-lg-6" id="salary">
                                                     <label for="one" class="col-sm-3 col-form-label">Salary</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="salary" class="form-control"
                                                             placeholder="Salary">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="dailyRate">
+                                                <div class="row mb-1 col-lg-6" id="dailyRate">
                                                     <label for="one" class="col-sm-3 col-form-label">Daily
                                                         Rate</label>
                                                     <div class="col-sm-9">
@@ -1906,7 +1912,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="row mb-4 col-lg-6" id="dailyRateNightShift">
+                                                <div class="row mb-1 col-lg-6" id="dailyRateNightShift">
                                                     <label for="one" class="col-sm-3 col-form-label">Daily Rate
                                                         (Night
                                                         Shift)</label>
@@ -1915,7 +1921,7 @@
                                                             class="form-control" placeholder="Daily Rate (Night Shift)">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="jobTitle">
+                                                <div class="row mb-1 col-lg-6" id="jobTitle">
                                                     <label for="one" class="col-sm-3 col-form-label">Job
                                                         Title <span class="text-danger">*</span></label>
                                                     <div class="col-sm-9">
@@ -1923,7 +1929,7 @@
                                                             placeholder="Job Title">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="programme">
+                                                <div class="row mb-1 col-lg-6" id="programme">
                                                     <label for="one"
                                                         class="col-sm-3 col-form-label">Programme</label>
                                                     <div class="col-sm-9">
@@ -1931,7 +1937,7 @@
                                                             placeholder="Programme">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="department">
+                                                <div class="row mb-1 col-lg-6" id="department">
                                                     <label for="one"
                                                         class="col-sm-3 col-form-label">Department</label>
                                                     <div class="col-sm-9">
@@ -1939,7 +1945,7 @@
                                                             placeholder="Department">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="hourlyRate">
+                                                <div class="row mb-1 col-lg-6" id="hourlyRate">
                                                     <label for="one" class="col-sm-3 col-form-label">Hourly
                                                         Rate</label>
                                                     <div class="col-sm-9">
@@ -1947,7 +1953,7 @@
                                                             placeholder="Hourly Rate">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="wica">
+                                                <div class="row mb-1 col-lg-6" id="wica">
                                                     <label for="one" class="col-sm-3 col-form-label">WICA</label>
                                                     <div class="col-sm-9">
                                                         <select name="wica" id=""
@@ -1960,7 +1966,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="insuranceFee">
+                                                <div class="row mb-1 col-lg-6" id="insuranceFee">
                                                     <label for="one" class="col-sm-3 col-form-label">Insurance
                                                         Fee</label>
                                                     <div class="col-sm-9">
@@ -1968,7 +1974,7 @@
                                                             class="form-control" placeholder="Insurance Fee">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="university">
+                                                <div class="row mb-1 col-lg-6" id="university">
                                                     <label for="one"
                                                         class="col-sm-3 col-form-label">University</label>
                                                     <div class="col-sm-9">
@@ -1976,7 +1982,7 @@
                                                             placeholder="University">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="teamLead">
+                                                <div class="row mb-1 col-lg-6" id="teamLead">
                                                     <label for="one" class="col-sm-3 col-form-label">Team
                                                         Lead</label>
                                                     <div class="col-sm-9">
@@ -1984,7 +1990,7 @@
                                                             placeholder="Team Lead">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="costCenter">
+                                                <div class="row mb-1 col-lg-6" id="costCenter">
                                                     <label for="one" class="col-sm-3 col-form-label">Cost
                                                         Centre</label>
                                                     <div class="col-sm-9">
@@ -1992,7 +1998,7 @@
                                                             placeholder="Cost Centre">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="allowance">
+                                                <div class="row mb-1 col-lg-6" id="allowance">
                                                     <label for="one"
                                                         class="col-sm-3 col-form-label">Allowance</label>
                                                     <div class="col-sm-9">
@@ -2000,7 +2006,7 @@
                                                             placeholder="Allowance">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="workingHour">
+                                                <div class="row mb-1 col-lg-6" id="workingHour">
                                                     <label for="one" class="col-sm-3 col-form-label">Working
                                                         Hour</label>
                                                     <div class="col-sm-9">
@@ -2008,7 +2014,7 @@
                                                             placeholder="Working Hour">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="probationPeriod">
+                                                <div class="row mb-1 col-lg-6" id="probationPeriod">
                                                     <label for="one" class="col-sm-3 col-form-label">Probation
                                                         Period</label>
                                                     <div class="col-sm-9">
@@ -2025,7 +2031,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="startDate">
+                                                <div class="row mb-1 col-lg-6" id="startDate">
                                                     <label for="one" class="col-sm-3 col-form-label">Start
                                                         Date <span class="text-danger">*</span></label>
                                                     <div class="col-sm-9">
@@ -2033,7 +2039,7 @@
                                                             placeholder="Start Date">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="endDate">
+                                                <div class="row mb-1 col-lg-6" id="endDate">
                                                     <label for="one" class="col-sm-3 col-form-label">End
                                                         Date</label>
                                                     <div class="col-sm-9">
@@ -2041,7 +2047,7 @@
                                                             placeholder="End Date">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="salesPeriod">
+                                                <div class="row mb-1 col-lg-6" id="salesPeriod">
                                                     <label for="one" class="col-sm-3 col-form-label">Sales
                                                         Period</label>
                                                     <div class="col-sm-9">
@@ -2049,7 +2055,7 @@
                                                             placeholder="Sales Period">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="guaranteePeriod">
+                                                <div class="row mb-1 col-lg-6" id="guaranteePeriod">
                                                     <label for="one" class="col-sm-3 col-form-label">Guarantee
                                                         Period</label>
                                                     <div class="col-sm-9">
@@ -2057,7 +2063,7 @@
                                                             class="form-control" placeholder="Guarantee Period">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="invoiceNo">
+                                                <div class="row mb-1 col-lg-6" id="invoiceNo">
                                                     <label for="one" class="col-sm-3 col-form-label">Invoice
                                                         No.</label>
                                                     <div class="col-sm-9">
@@ -2065,14 +2071,14 @@
                                                             placeholder="Invoice No.">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="poNo">
+                                                <div class="row mb-1 col-lg-6" id="poNo">
                                                     <label for="one" class="col-sm-3 col-form-label">PO No</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="po_no" class="form-control"
                                                             placeholder="PO No">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="charge">
+                                                <div class="row mb-1 col-lg-6" id="charge">
                                                     <label for="one" class="col-sm-3 col-form-label">Charge
                                                         (%)</label>
                                                     <div class="col-sm-9">
@@ -2080,7 +2086,7 @@
                                                             placeholder="Charge (%)">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="contributeCpf">
+                                                <div class="row mb-1 col-lg-6" id="contributeCpf">
                                                     <label for="one" class="col-sm-3 col-form-label">Contribute
                                                         CPF</label>
                                                     <div class="col-sm-9">
@@ -2091,7 +2097,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="closeBy1">
+                                                <div class="row mb-1 col-lg-6" id="closeBy1">
                                                     <label for="one" class="col-sm-3 col-form-label">Closed By
                                                         1</label>
                                                     <div class="col-sm-9">
@@ -2101,7 +2107,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="closeRate1">
+                                                <div class="row mb-1 col-lg-6" id="closeRate1">
                                                     <label for="one" class="col-sm-3 col-form-label">Closed Rate
                                                         1</label>
                                                     <div class="col-sm-9">
@@ -2109,7 +2115,7 @@
                                                             placeholder="Closed Rate 1">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="closeBy2">
+                                                <div class="row mb-1 col-lg-6" id="closeBy2">
                                                     <label for="one" class="col-sm-3 col-form-label">Closed By
                                                         2</label>
                                                     <div class="col-sm-9">
@@ -2119,7 +2125,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="closeRate2">
+                                                <div class="row mb-1 col-lg-6" id="closeRate2">
                                                     <label for="one" class="col-sm-3 col-form-label">Closed Rate
                                                         2</label>
                                                     <div class="col-sm-9">
@@ -2127,7 +2133,7 @@
                                                             placeholder="Closed Rate 2">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="closeBy3">
+                                                <div class="row mb-1 col-lg-6" id="closeBy3">
                                                     <label for="one" class="col-sm-3 col-form-label">Closed By
                                                         3</label>
                                                     <div class="col-sm-9">
@@ -2137,7 +2143,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="closeRate3">
+                                                <div class="row mb-1 col-lg-6" id="closeRate3">
                                                     <label for="one" class="col-sm-3 col-form-label">Closed Rate
                                                         3</label>
                                                     <div class="col-sm-9">
@@ -2145,7 +2151,7 @@
                                                             placeholder="Closed Rate 3">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="cutOff">
+                                                <div class="row mb-1 col-lg-6" id="cutOff">
                                                     <label for="one" class="col-sm-3 col-form-label">Cut
                                                         off</label>
                                                     <div class="col-sm-9">
@@ -2157,7 +2163,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4 col-lg-6" id="payrollRemark">
+                                                <div class="row mb-1 col-lg-6" id="payrollRemark">
                                                     <label for="one" class="col-sm-3 col-form-label">Payroll
                                                         Remarks</label>
                                                     <div class="col-sm-9">
@@ -2222,10 +2228,10 @@
                                 <form action="{{ route('candidate.working.hour', $candidate->id) }}" method="POST">
                                     @csrf
 
-                                    <div class="row mb-5">
+                                    <div class="row mb-3">
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Time Sheet Type</label>
                                                     <input type="hidden" name="candidate_id"
                                                         value="{{ $candidate->id }}">
@@ -2241,7 +2247,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Schedule
                                                         Type</label>
                                                     <div class="col-sm-9">
@@ -2257,7 +2263,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Schedule
                                                         Day</label>
                                                     <div class="col-sm-9">
@@ -2272,10 +2278,10 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one"
                                                         class="col-sm-3 col-form-label">Remarks</label>
-                                                    <div class="col-sm-9">
+                                                    <div class=" col-sm-9">
                                                         <textarea name="remarks" rows="2" class="form-control" placeholder="Remarks"> {{ $time?->remarks }} </textarea>
                                                     </div>
                                                 </div>
@@ -2284,7 +2290,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <h5 class="mb-5">Days Setting</h5>
+                                            <h5 class="mb-2">Days Setting</h5>
                                             <div class="form-group">
                                                 <label style="width: 9%;" for="package_day"
                                                     class="col-sm-1 control-label">Day</label>

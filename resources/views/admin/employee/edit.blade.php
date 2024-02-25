@@ -85,7 +85,7 @@
                                     <div class="row">
                                         <div class="col-lg-9 row">
                                             <div class="row col-md-6 col-lg-6 mb-1">
-                                                <label for="one" class="col-sm-5 col-form-label fw-bold">Outlet <span class="text-danger">*</span> </label>
+                                                <label for="one" class="col-sm-5 col-form-label ">Outlet <span class="text-danger">*</span> </label>
                                                 <div class="col-sm-7">
                                                     <select name="employee_outlet_id" class="form-control searchBox single-select-field"
                                                         required>
@@ -98,7 +98,7 @@
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1 form-group required">
-                                                <label for="two" class="col-sm-5 col-form-label fw-bold">User Right</label>
+                                                <label for="two" class="col-sm-5 col-form-label ">User Right</label>
                                                 <div class="col-sm-7">
                                                     <select name="roles_id" class="form-control searchBox single-select-field"
                                                         id="mySelect" required>
@@ -116,7 +116,7 @@
                                             @endphp
                                             @if($auth->roles_id == 1)
                                             <div class="row col-md-6 col-lg-6 mb-1" id="role7input" style="display: none;">
-                                                <label for="two" class="col-sm-5 col-form-label fw-bold">Manager</label>
+                                                <label for="two" class="col-sm-5 col-form-label ">Manager</label>
                                                 <div class="col-sm-7">
                                                     <select id="role7manager" class="form-control searchBox single-select-field" name="manager_users_id">
                                                         <option selected disabled>Select One</option>
@@ -137,7 +137,7 @@
                                             @endif
                                             @if($auth->roles_id == 1 || $auth->roles_id == 4)
                                             <div class="row col-md-6 col-lg-6 mb-1" id="role7inputanother" style="display: none;">
-                                                <label for="role7team_leader" class="col-sm-5 col-form-label fw-bold">Team Leader</label>
+                                                <label for="role7team_leader" class="col-sm-5 col-form-label ">Team Leader</label>
                                                 <div class="col-sm-7">
                                                     <select id="role7team_leader" class="form-control searchBox single-select-field" name="team_leader_users_id">
 
@@ -146,39 +146,39 @@
                                             </div>
                                             @endif
                                             <div class="row col-md-6 col-lg-6 mb-1 form-group required">
-                                                <label for="employee_name" class="col-sm-5 col-form-label fw-bold">Name <span
+                                                <label for="employee_name" class="col-sm-5 col-form-label ">Name <span
                                                         class="text-danger">*</span></label>
                                                 <div class="col-sm-7">
                                                     <input type="text" name="employee_name" class="form-control" value="{{ old('employee_name', $employee->employee_name) }}" required>
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
-                                                <label for="employee_code" class="col-sm-5 col-form-label fw-bold">Initial</label>
+                                                <label for="employee_code" class="col-sm-5 col-form-label ">Initial</label>
                                                 <div class="col-sm-7">
                                                     <input type="text" name="employee_code" class="form-control" value="{{ old('employee_code', $employee->employee_code) }}">
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
-                                                <label for="employee_birthdate" class="col-sm-5 col-form-label fw-bold">Birthday</label>
+                                                <label for="employee_birthdate" class="col-sm-5 col-form-label ">Birthday</label>
                                                 <div class="col-sm-7">
                                                     <input type="date" name="employee_birthdate"
                                                         class="form-control" value="{{ old('employee_birthdate', $employee->employee_birthdate) }}" required>
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
-                                                <label for="employee_email" class="col-sm-5 col-form-label fw-bold">Email Address</label>
+                                                <label for="employee_email" class="col-sm-5 col-form-label ">Email Address</label>
                                                 <div class="col-sm-7">
                                                     <input type="text" name="employee_email" class="form-control" value="{{ old('employee_email', $employee->employee_email) }}" >
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
-                                                <label for="employee_phone" class="col-sm-5 col-form-label fw-bold">Phone No</label>
+                                                <label for="employee_phone" class="col-sm-5 col-form-label ">Phone No</label>
                                                 <div class="col-sm-7">
                                                     <input type="text" name="employee_phone" class="form-control" value="{{ old('employee_phone', $employee->employee_phone) }}">
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
-                                                <label for="two" class="col-sm-5 col-form-label fw-bold">Pass Type</label>
+                                                <label for="two" class="col-sm-5 col-form-label ">Pass Type</label>
                                                 <div class="col-sm-7">
                                                     <select name="passtypes_id" class="form-control searchBox single-select-field">
                                                         <option >Select One</option>
@@ -190,20 +190,20 @@
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
-                                                <label for="one" class="col-sm-5 col-form-label fw-bold">NRIC</label>
+                                                <label for="one" class="col-sm-5 col-form-label ">NRIC</label>
                                                 <div class="col-sm-7">
                                                     <input type="text" name="employee_nric" class="form-control" value="{{ old('employee_nric', $employee->employee_nric) }}">
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1 form-group required" id="role4input"
                                                 style="display: none;">
-                                                <label for="one" class="col-sm-5 col-form-label fw-bold">SHRC/SRC<span class="text-danger">*</span></label>
+                                                <label for="one" class="col-sm-5 col-form-label ">SHRC/SRC<span class="text-danger">*</span></label>
                                                 <div class="col-sm-7">
                                                     <input id type="text" name="employee_shrc" class="form-control" value="{{ old('employee_shrc', $employee->employee_shrc) }}">
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1 form-group required">
-                                                <label for="two" class="col-sm-5 col-form-label fw-bold">Sex</label>
+                                                <label for="two" class="col-sm-5 col-form-label ">Sex</label>
                                                 <div class="col-sm-7">
                                                     <select name="dbsexes_id" class="form-control searchBox single-select-field">
                                                         <option>Select One</option>
@@ -215,7 +215,7 @@
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
-                                                <label for="two" class="col-sm-5 col-form-label fw-bold">Marital
+                                                <label for="two" class="col-sm-5 col-form-label ">Marital
                                                     Status</label>
                                                 <div class="col-sm-7">
                                                     <select name="marital_statuses_id" class="form-control searchBox single-select-field">
@@ -228,7 +228,7 @@
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
-                                                <label for="two" class="col-sm-5 col-form-label fw-bold">Religion</label>
+                                                <label for="two" class="col-sm-5 col-form-label ">Religion</label>
                                                 <div class="col-sm-7">
                                                     <select name="religions_id" class="form-control searchBox single-select-field">
                                                         <option value="">Select One</option>
@@ -240,7 +240,7 @@
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
-                                                <label for="two" class="col-sm-5 col-form-label fw-bold">Race</label>
+                                                <label for="two" class="col-sm-5 col-form-label ">Race</label>
                                                 <div class="col-sm-7">
                                                     <select name="races_id" class="form-control searchBox single-select-field">
                                                         <option>Select One</option>
@@ -267,7 +267,7 @@
                                     <div class="row">
                                         <h5>Address Information</h5>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">Postal Code
+                                            <label for="one" class="col-sm-5 col-form-label ">Postal Code
                                                 1</label>
                                             <div class="col-sm-7">
                                                 <input type="text" name="employee_postal_code"
@@ -276,7 +276,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">Unit No
+                                            <label for="one" class="col-sm-5 col-form-label ">Unit No
                                                 1</label>
                                             <div class="col-sm-7">
                                                 <input type="text" name="employee_unit_number"
@@ -285,7 +285,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">Postal Code
+                                            <label for="one" class="col-sm-5 col-form-label ">Postal Code
                                                 2</label>
                                             <div class="col-sm-7">
                                                 <input type="text" name="employee_postal_code2"
@@ -294,7 +294,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">Unit No
+                                            <label for="one" class="col-sm-5 col-form-label ">Unit No
                                                 2</label>
                                             <div class="col-sm-7">
                                                 <input type="text" name="employee_unit_number2"
@@ -303,14 +303,14 @@
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="four" class="col-sm-5 col-form-label fw-bold">Address
+                                            <label for="four" class="col-sm-5 col-form-label ">Address
                                                 1</label>
                                             <div class="col-sm-7">
                                                 <textarea name="employee_street" rows="2" class="form-control" placeholder="Address"> {{ $employee->employee_street }} </textarea>
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="four" class="col-sm-5 col-form-label fw-bold">Address
+                                            <label for="four" class="col-sm-5 col-form-label ">Address
                                                 2</label>
                                             <div class="col-sm-7">
                                                 <textarea name="employee_street2" rows="2" class="form-control" placeholder="Address"> {{ old('employee_street2', $employee->employee_street2) }} </textarea>
@@ -320,7 +320,7 @@
                                     <div class="row mt-3">
                                         <h5>Emergency Contact Address Information</h5>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">Contact
+                                            <label for="one" class="col-sm-5 col-form-label ">Contact
                                                 Person</label>
                                             <div class="col-sm-7">
                                                 <input type="text" name="employee_emr_contact"
@@ -330,7 +330,7 @@
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
                                             <label for="one"
-                                                class="col-sm-5 col-form-label fw-bold">Relationship</label>
+                                                class="col-sm-5 col-form-label ">Relationship</label>
                                             <div class="col-sm-7">
                                                 <input type="text" name="employee_emr_relation"
                                                     class="form-control" placeholder="Relationship"
@@ -338,7 +338,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">Phone 1</label>
+                                            <label for="one" class="col-sm-5 col-form-label ">Phone 1</label>
                                             <div class="col-sm-7">
                                                 <input type="text" name="employee_emr_phone1"
                                                     class="form-control" placeholder="Phone 1"
@@ -346,7 +346,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">Phone 2</label>
+                                            <label for="one" class="col-sm-5 col-form-label ">Phone 2</label>
                                             <div class="col-sm-7">
                                                 <input type="text" name="employee_emr_phone2"
                                                     class="form-control" placeholder="Phone 2"
@@ -354,13 +354,13 @@
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="four" class="col-sm-5 col-form-label fw-bold">Address</label>
+                                            <label for="four" class="col-sm-5 col-form-label ">Address</label>
                                             <div class="col-sm-7">
                                                 <textarea name="employee_emr_address" rows="2" class="form-control" placeholder="Address"> {{ old('employee_emr_address', $employee->employee_emr_address) }} </textarea>
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="four" class="col-sm-5 col-form-label fw-bold">Remarks</label>
+                                            <label for="four" class="col-sm-5 col-form-label ">Remarks</label>
                                             <div class="col-sm-7">
                                                 <textarea name="employee_emr_remarks" rows="2" class="form-control" placeholder="Remarks"> {{ old('employee_emr_remarks', $employee->employee_emr_remarks) }} </textarea>
                                             </div>
@@ -372,7 +372,7 @@
                                         <h5>Job Information</h5>
                                         <div class="row col-md-6 col-lg-6 mb-1">
                                             <label for="one"
-                                                class="col-sm-5 col-form-label fw-bold">Department</label>
+                                                class="col-sm-5 col-form-label ">Department</label>
                                             <div class="col-sm-7">
                                                 <select name="departments_id" class="form-control single-select-field">
                                                     <option value="">Select One</option>
@@ -385,7 +385,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">Work time
+                                            <label for="one" class="col-sm-5 col-form-label ">Work time
                                                 (Start)</label>
                                             <div class="col-sm-7">
                                                 <input type="time" name="employee_work_time_start"
@@ -394,7 +394,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="four" class="col-sm-5 col-form-label fw-bold">Join
+                                            <label for="four" class="col-sm-5 col-form-label ">Join
                                                 Date</label>
                                             <div class="col-sm-7">
                                                 <input type="date" name="employee_joindate"
@@ -403,7 +403,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="four" class="col-sm-5 col-form-label fw-bold">Confirmation
+                                            <label for="four" class="col-sm-5 col-form-label ">Confirmation
                                                 Date</label>
                                             <div class="col-sm-7">
                                                 <input type="date" name="employee_confirmationdate"
@@ -412,7 +412,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="four" class="col-sm-5 col-form-label fw-bold">PR Date</label>
+                                            <label for="four" class="col-sm-5 col-form-label ">PR Date</label>
                                             <div class="col-sm-7">
                                                 <input type="date" name="employee_prdate" class="form-control"
                                                     placeholder="PR Date"
@@ -421,7 +421,7 @@
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
                                             <label for="one"
-                                                class="col-sm-5 col-form-label fw-bold">Designation</label>
+                                                class="col-sm-5 col-form-label ">Designation</label>
                                             <div class="col-sm-7">
                                                 <select name="designations_id" class="form-control single-select-field">
                                                     <option selected disabled>Select One</option>
@@ -434,7 +434,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">Work time
+                                            <label for="one" class="col-sm-5 col-form-label ">Work time
                                                 (End)</label>
                                             <div class="col-sm-7">
                                                 <input type="time" name="employee_work_time_end"
@@ -443,7 +443,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">Probation
+                                            <label for="one" class="col-sm-5 col-form-label ">Probation
                                                 Period</label>
                                             <div class="col-sm-7">
                                                 <select name="employee_probation" class="form-control single-select-field">
@@ -471,7 +471,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">Extention of
+                                            <label for="one" class="col-sm-5 col-form-label ">Extention of
                                                 Probation</label>
                                             <div class="col-sm-7">
                                                 <select  name="employee_extentionprobation"  class="form-control single-select-field">
@@ -498,7 +498,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">Termination /
+                                            <label for="one" class="col-sm-5 col-form-label ">Termination /
                                                 Resignation Date</label>
                                             <div class="col-sm-7">
                                                 <input type="date" name="employee_resigndate"
@@ -508,7 +508,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">Terminate
+                                            <label for="one" class="col-sm-5 col-form-label ">Terminate
                                                 Reason</label>
                                             <div class="col-sm-7">
                                                 <textarea name="employee_resignreason" rows="2" placeholder="Terminate Reason" class="form-control"> {{ old('employee_resignreason', $employee->employee_resignreason) }} </textarea>
@@ -520,7 +520,7 @@
                                         <div class="col-lg-6">
                                             <h6><u>Leave</u></h6>
                                             <div class="row mb-1">
-                                                <label for="one" class="col-sm-5 col-form-label fw-bold">Approved level
+                                                <label for="one" class="col-sm-5 col-form-label ">Approved level
                                                     1</label>
                                                 <div class="col-sm-7">
                                                     <select name="leave_aprv1_users_id" class="form-control single-select-field"
@@ -535,7 +535,7 @@
                                                 </div>
                                             </div>
                                             <div class="row mb-1">
-                                                <label for="one" class="col-sm-5 col-form-label fw-bold">Approved level
+                                                <label for="one" class="col-sm-5 col-form-label ">Approved level
                                                     2</label>
                                                 <div class="col-sm-7">
                                                     <select name="leave_aprv2_users_id" class="form-control single-select-field"
@@ -549,7 +549,7 @@
                                                 </div>
                                             </div>
                                             <div class="row mb-1">
-                                                <label for="one" class="col-sm-5 col-form-label fw-bold">Approved level
+                                                <label for="one" class="col-sm-5 col-form-label ">Approved level
                                                     3</label>
                                                 <div class="col-sm-7">
                                                     <select name="leave_aprv3_users_id" class="form-control single-select-field"
@@ -566,7 +566,7 @@
                                         <div class="col-lg-6">
                                             <h6><u>Claims</u></h6>
                                             <div class="row mb-1">
-                                                <label for="one" class="col-sm-5 col-form-label fw-bold">Approved level
+                                                <label for="one" class="col-sm-5 col-form-label ">Approved level
                                                     1</label>
                                                 <div class="col-sm-7">
                                                     <select name="claims_aprv1_users_id" class="form-control single-select-field">
@@ -579,7 +579,7 @@
                                                 </div>
                                             </div>
                                             <div class="row mb-1">
-                                                <label for="one" class="col-sm-5 col-form-label fw-bold">Approved level
+                                                <label for="one" class="col-sm-5 col-form-label ">Approved level
                                                     2</label>
                                                 <div class="col-sm-7">
                                                     <select name="claims_aprv2_usersid" class="form-control single-select-field"
@@ -593,7 +593,7 @@
                                                 </div>
                                             </div>
                                             <div class="row mb-1">
-                                                <label for="one" class="col-sm-5 col-form-label fw-bold">Approved level
+                                                <label for="one" class="col-sm-5 col-form-label ">Approved level
                                                     3</label>
                                                 <div class="col-sm-7">
                                                     <select name="claims_aprv3_users_id" class="form-control single-select-field"
@@ -612,7 +612,7 @@
                                 <div class="tab-pane" id="bank_info" role="tabpanel">
                                     <div class="row">
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">Pay Mode</label>
+                                            <label for="one" class="col-sm-5 col-form-label ">Pay Mode</label>
                                             <div class="col-sm-7">
                                                 <select name="paymodes_id" class="form-control single-select-field">
                                                     <option value="">Select One</option>
@@ -628,7 +628,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">GIRO Account
+                                            <label for="one" class="col-sm-5 col-form-label ">GIRO Account
                                                 Name</label>
                                             <div class="col-sm-7">
                                                 <input type="text" name="employee_bank_acc_title"
@@ -637,7 +637,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">GIRO Bank
+                                            <label for="one" class="col-sm-5 col-form-label ">GIRO Bank
                                                 Code</label>
                                             <div class="col-sm-7">
                                                 <select name="employee_bank" class="form-control single-select-field">
@@ -653,7 +653,7 @@
 
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">GIRO Account
+                                            <label for="one" class="col-sm-5 col-form-label ">GIRO Account
                                                 No</label>
                                             <div class="col-sm-7">
                                                 <input type="text" name="employee_bank_acc_no"
@@ -667,7 +667,7 @@
                                     <div class="row">
                                         <h5>Work Permit Information</h5>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">Work Permit
+                                            <label for="one" class="col-sm-5 col-form-label ">Work Permit
                                                 Number</label>
                                             <div class="col-sm-7">
                                                 <input type="text" name="employee_fw_permit_number"
@@ -676,7 +676,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">Application
+                                            <label for="one" class="col-sm-5 col-form-label ">Application
                                                 Date</label>
                                             <div class="col-sm-7">
                                                 <input type="date" name="employee_fw_application_date"
@@ -685,7 +685,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">Renewal
+                                            <label for="one" class="col-sm-5 col-form-label ">Renewal
                                                 Date</label>
                                             <div class="col-sm-7">
                                                 <input type="date" name="employee_fw_renewal_date"
@@ -694,7 +694,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">Date of
+                                            <label for="one" class="col-sm-5 col-form-label ">Date of
                                                 Arrival</label>
                                             <div class="col-sm-7">
                                                 <input type="date" name="employee_fw_arrival_date"
@@ -703,7 +703,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">Issue
+                                            <label for="one" class="col-sm-5 col-form-label ">Issue
                                                 Date</label>
                                             <div class="col-sm-7">
                                                 <input type="date" name="employee_fw_issue_date"
@@ -712,7 +712,7 @@
                                             </div>
                                         </div>
                                         <div class="row col-md-6 col-lg-6 mb-1">
-                                            <label for="one" class="col-sm-5 col-form-label fw-bold">Levy
+                                            <label for="one" class="col-sm-5 col-form-label ">Levy
                                                 Amount</label>
                                             <div class="col-sm-7">
                                                 <input type="text" name="employee_fw_levy_amount"
@@ -724,19 +724,19 @@
                                 </div>
                                 <div class="tab-pane" id="leave" role="tabpanel">
                                     <div class="form-group mb-2">
-                                        <label for="emplleave_leavetype" class="col-sm-2 control-label fw-bold">Leave
+                                        <label for="emplleave_leavetype" class="col-sm-2 control-label ">Leave
                                             Title</label>
-                                        <label for="emplleave_leavetype" class="col-sm-1 control-label fw-bold">Hide</label>
-                                        <label for="emplleave_leavetype" class="col-sm-3 control-label fw-bold">Balance
+                                        <label for="emplleave_leavetype" class="col-sm-1 control-label ">Hide</label>
+                                        <label for="emplleave_leavetype" class="col-sm-3 control-label ">Balance
                                             (2023)</label>
-                                        <label for="emplleave_leavetype" class="col-sm-3 control-label fw-bold">Entitled
+                                        <label for="emplleave_leavetype" class="col-sm-3 control-label ">Entitled
                                             (2023)</label>
                                     </div>
                                     @foreach ($leave_types as $leave)
                                         <div class="form-group mb-2">
                                             <div class="row">
                                                 <label for="emplleave_leavetype"
-                                                    class="col-sm-2 control-label fw-bold">{{ $leave->leavetype_code }}</label>
+                                                    class="col-sm-2 control-label ">{{ $leave->leavetype_code }}</label>
                                                 <div class="col-sm-1">
                                                     <input type="checkbox" value="1" name="medical_reimbursement">
                                                 </div>

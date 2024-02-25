@@ -43,6 +43,7 @@ Client Terms Management
                     <div class="card-body">
                         {{-- Here place table --}}
 
+                        <div class="admin-dashboard-table">
                         <table class="table table-bordered" id="myTable">
                             <thead>
                                 <tr>
@@ -77,6 +78,7 @@ Client Terms Management
                                 @endforeach
                             </tbody>
                         </table>
+                        </div>
                     </div>
 
 

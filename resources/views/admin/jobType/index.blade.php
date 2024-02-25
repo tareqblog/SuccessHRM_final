@@ -41,14 +41,15 @@
                     @endif
                     <div class="card-body">
 
+                        <div class="admin-dashboard-table">
                         <table class="table table-bordered mb-0" id="myTable">
                             <thead>
                                 <tr>
-                                    <th>No</th>
-                                    <th>Type</th>
-                                    <th>Seq No</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    <th style="padding-right: 20px !important">No</th>
+                                    <th style="padding-right: 130px !important">Type</th>
+                                    <th style="padding-right: 30px !important">Seq No</th>
+                                    <th style="padding-right: 20px !important">Status</th>
+                                    <th style="padding-right: 60px !important">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -79,6 +80,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        </div>
                     </div>
 
                     <!--  Create modal example -->
@@ -96,14 +98,14 @@
                                         @csrf
                                         <div class="row">
                                             <div class="col-lg-6">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Type Code</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="jobtype_code" class="form-control"
                                                             placeholder="Name">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one"
                                                         class="col-sm-3 col-form-label">Description</label>
                                                     <div class="col-sm-9">
@@ -112,7 +114,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Seq
                                                         No</label>
                                                     <div class="col-sm-9">
@@ -123,7 +125,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-lg-12">
+                                            <div class="col-lg-12 mt-2">
                                                 <button type="button" class="btn btn-sm btn-secondary"
                                                     data-bs-dismiss="modal" aria-label="Close">Cancel</button>
                                                 <button type="submit" class="btn btn-sm btn-info">Submit</button>

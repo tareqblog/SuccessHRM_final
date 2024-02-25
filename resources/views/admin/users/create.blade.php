@@ -14,9 +14,13 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Create User</h4>
-                        <div class="text-end">
+                        <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">
+                                <h6 class="card-title mb-0">Create User</h6>
+                            </div>
+                            <div class="p-2 bd-highlight">
                             <a href="{{ route('users.index') }}" class="btn btn-sm btn-success">Search</a>
+                            </div>
                         </div>
                     </div>
                     @include('admin.include.errors')
@@ -39,7 +43,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-row row mt-4">
+                            <div class="form-row row mt-1">
                                 <div class="form-group col-md-6 col-sm-6">
                                     <label for="password">Password</label>
                                     <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
@@ -50,7 +54,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-row row mt-4">
+                            <div class="form-row row mt-1">
                                 <div class="form-group col-md-6 col-sm-6">
                                     <label for="password">Assign Roles</label>
                                     <select name="roles[]" id="roles" class="form-control">

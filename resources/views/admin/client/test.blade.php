@@ -53,13 +53,6 @@
             width: 100vw;
             border-radius: 0;
         }
-
-        .form-select {
-            font-size: 0.8rem;
-            line-height: 1;
-            padding: 0 0.8rem;
-            margin: 0;
-        }
     </style>
 
     <body>
@@ -90,12 +83,14 @@
                                             <div id="flush-collapse{{ $loop->index }}" class="accordion-collapse collapse"
                                                 aria-labelledby="flush-heading{{ $loop->index }}"
                                                 data-bs-parent="#accordionFlushExample" style="">
-                                                <table class="table table-bordered mb-0 myTable">
+                                                <div class="admin-dashboard-table">
+                                                <table class="table table-bordered mb-0 myTable over ">
                                                     <thead>
                                                         <tr>
                                                             <th>No</th>
                                                             <th>Candidate Name</th>
                                                             <th>Candidate Email</th>
+                                                            <th>Resume</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
@@ -105,29 +100,14 @@
                                                                 <td>{{ $loop->index + 1 }}</td>
                                                                 <td>{{ $candidate['candidate_name'] }}</td>
                                                                 <td>{{ $candidate['candidate_email'] }}</td>
-                                                                <td>
-                                                                    @php
-                                                                        $main = \App\Models\CandidateResume::where('isMain', 1)->first();
-                                                                        if($main != null)
-                                                                        {
-                                                                            $resume_file_path = $main->resume_file_path;
-                                                                        } else{
-                                                                            $resume_file_path = null;
-                                                                        }
-                                                                    @endphp
-                                                                    {{-- @if($resume_file_path != null) --}}
-                                                                    <a class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate['id'].'/edit#remark') }}">R</a>
-                                                                    <button type="button"
-                                                                        class="btn btn-info me-2 resumePath btn-sm"
-                                                                        data-bs-toggle="modal" data-bs-target="#showResume"
-                                                                        data-file-path="{{$resume_file_path }}" {{ $resume_file_path != null ? '' : 'disabled' }}>D</button>
-                                                                    {{-- @endif --}}
-                                                                </td>
+                                                                <td></td>
+                                                                <td></td>
                                                             </tr>
                                                         @endforeach
 
                                                     </tbody>
                                                 </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div><!-- end accordion -->
@@ -154,12 +134,14 @@
                                             <div id="flush-collapse{{ $loop->index }}" class="accordion-collapse collapse"
                                                 aria-labelledby="flush-heading{{ $loop->index }}"
                                                 data-bs-parent="#accordionFlushExample" style="">
+                                                <div class="admin-dashboard-table">
                                                 <table class="table table-bordered mb-0 myTable" id="9">
                                                     <thead>
                                                         <tr>
                                                             <th>No</th>
                                                             <th>Candidate Name</th>
                                                             <th>Candidate Email</th>
+                                                            <th>Candidate Resume</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
@@ -169,29 +151,14 @@
                                                                 <td>{{ $loop->index + 1 }}</td>
                                                                 <td>{{ $candidate['candidate_name'] }}</td>
                                                                 <td>{{ $candidate['candidate_email'] }}</td>
-                                                                <td>
-                                                                    @php
-                                                                        $main = \App\Models\CandidateResume::where('isMain', 1)->first();
-                                                                        if($main != null)
-                                                                        {
-                                                                            $resume_file_path = $main->resume_file_path;
-                                                                        } else{
-                                                                            $resume_file_path = null;
-                                                                        }
-                                                                    @endphp
-                                                                    {{-- @if($resume_file_path != null) --}}
-                                                                    <a class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate['id'].'/edit#remark') }}">R</a>
-                                                                    <button type="button"
-                                                                        class="btn btn-info me-2 resumePath btn-sm"
-                                                                        data-bs-toggle="modal" data-bs-target="#showResume"
-                                                                        data-file-path="{{$resume_file_path }}" {{ $resume_file_path != null ? '' : 'disabled' }}>D</button>
-                                                                    {{-- @endif --}}
-                                                                </td>
+                                                                <td></td>
+                                                                <td></td>
                                                             </tr>
                                                         @endforeach
 
                                                     </tbody>
                                                 </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div><!-- end accordion -->
@@ -218,12 +185,14 @@
                                             <div id="flush-collapse{{ $loop->index }}" class="accordion-collapse collapse"
                                                 aria-labelledby="flush-heading{{ $loop->index }}"
                                                 data-bs-parent="#accordionFlushExample" style="">
+                                                <div class="admin-dashboard-table">
                                                 <table class="table table-bordered mb-0 myTable" id="myTable8">
                                                     <thead>
                                                         <tr>
                                                             <th>No</th>
                                                             <th>Candidate Name</th>
                                                             <th>Candidate Email</th>
+                                                            <th>Candidate Resume</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
@@ -233,29 +202,14 @@
                                                                 <td>{{ $loop->index + 1 }}</td>
                                                                 <td>{{ $candidate['candidate_name'] }}</td>
                                                                 <td>{{ $candidate['candidate_email'] }}</td>
-                                                                <td>
-                                                                    @php
-                                                                        $main = \App\Models\CandidateResume::where('isMain', 1)->first();
-                                                                        if($main != null)
-                                                                        {
-                                                                            $resume_file_path = $main->resume_file_path;
-                                                                        } else{
-                                                                            $resume_file_path = null;
-                                                                        }
-                                                                    @endphp
-                                                                    {{-- @if($resume_file_path != null) --}}
-                                                                    <a class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate['id'].'/edit#remark') }}">R</a>
-                                                                    <button type="button"
-                                                                        class="btn btn-info me-2 resumePath btn-sm"
-                                                                        data-bs-toggle="modal" data-bs-target="#showResume"
-                                                                        data-file-path="{{$resume_file_path }}" {{ $resume_file_path != null ? '' : 'disabled' }}>D</button>
-                                                                    {{-- @endif --}}
-                                                                </td>
+                                                                <td></td>
+                                                                <td></td>
                                                             </tr>
                                                         @endforeach
 
                                                     </tbody>
                                                 </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div><!-- end accordion -->
@@ -275,11 +229,12 @@
                                                 Active Resume
                                             </button>
                                         </h2>
-                                        <div id="active-resume-collapse" class="accordion-collapse collapse"
+                                        <div id="active-resume-collapse" class="accordion-collapse collapse px-2"
                                             aria-labelledby="active-resume-heading"
                                             data-bs-parent="#accordionactive-resumeExample" style="">
                                             <h5 class="bg-success px-4 py-1 text-white">Candidates Detail</h5>
-                                            <table class="table table-bordered mb-0" id="myTable7">
+                                            <div class="admin-dashboard-table">
+                                            <table class="table table-bordered mb-0 " id="myTable7">
                                                 <thead>
                                                     <tr>
                                                         <th>No</th>
@@ -302,25 +257,25 @@
                                                             <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                             <td>{{ $candidate->candidate['manager']['employee_name'] }}
                                                             </td>
-                                                            <td>{{ $candidate->candidate?->consultant?->employee_code ?? $candidate->candidate?->team_leader?->employee_code }}
+                                                            <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
                                                             </td>
                                                             <td class="d-flex flex-row">
                                                                 @if ($auth->roles_id == 4)
                                                                     @include('admin.dashboard.inc.select')
                                                                 @endif
-                                                                <a class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}">R</a>
                                                                 @if($candidate->candidate->getMainResumeFilePath() != null)
                                                                 <button type="button"
-                                                                    class="btn btn-info me-2 resumePath  btn-sm"
+                                                                    class="btn btn-info me-2 resumePath"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
                                                                     data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
                                                                 @endif
-                                                                <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 resumePath">X</a>
+                                                                <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger me-2 resumePath">X</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
                                             </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -341,7 +296,7 @@
                                             </button>
                                         </h2>
 
-                                        <div id="follow_ups-collapse" class="accordion-collapse collapse"
+                                        <div id="follow_ups-collapse" class="accordion-collapse collapse px-2"
                                             aria-labelledby="follow_ups-heading" data-bs-parent="#follow_ups"
                                             style="">
                                             <h5 class="bg-success px-4 py-1 text-white">Candidates Detail</h5>
@@ -349,6 +304,7 @@
                                             @foreach ($followUps ?? [] as $day => $candidates)
                                                 <p class="bg-info px-4 py-1 text-bold mt-2"><strong>Day
                                                         {{ $day >= 6 ? 'More Then 5 Day' : $day }}</strong></p>
+                                                <div class="admin-dashboard-table">
                                                 <table class="table table-bordered mb-0" id="myTable{{ $day }}">
                                                     <thead>
                                                         <tr>
@@ -374,7 +330,7 @@
                                                                 <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                                 <td>{{ $candidate->candidate['manager']['employee_name'] }}
                                                                 </td>
-                                                                <td>{{ $candidate->candidate?->consultant?->employee_code ?? $candidate->candidate?->team_leader?->employee_code }}
+                                                                <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
                                                                 </td>
                                                                 <td>{{ \Carbon\Carbon::parse($candidate->candidate['created_at'])->format('d-M-Y') }}
                                                                 </td>
@@ -382,20 +338,20 @@
                                                                     @if ($auth->roles_id == 4)
                                                                         @include('admin.dashboard.inc.select')
                                                                     @endif
-                                                                    <a class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}">R</a>
                                                                     @if($candidate->candidate->getMainResumeFilePath() != null)
                                                                         <button type="button"
-                                                                            class="btn btn-info btn-sm me-2 mb-2 resumePath  btn-sm"
+                                                                            class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                             data-bs-toggle="modal"
                                                                             data-bs-target="#showResume"
                                                                             data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
                                                                     @endif
-                                                                    <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 mb-2 resumePath  btn-sm">X</a>
+                                                                    <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 mb-2 resumePath">X</a>
                                                                 </td>
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
                                                 </table>
+                                                </div>
                                             @endforeach
                                         </div>
                                     </div>
@@ -416,10 +372,11 @@
                                             </button>
                                         </h2>
 
-                                        <div id="Interview-collapse" class="accordion-collapse collapse"
+                                        <div id="Interview-collapse" class="accordion-collapse collapse px-2"
                                             aria-labelledby="Interview-heading" data-bs-parent="#Interview"
                                             style="">
                                             <h5 class="bg-success px-4 py-1 text-white">Candidates Detail</h5>
+                                            <div class="admin-dashboard-table">
                                             <table class="table table-bordered mb-0" id="myTable10">
                                                 <thead>
                                                     <tr>
@@ -444,25 +401,25 @@
                                                             <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                             <td>{{ $candidate->candidate['manager']['employee_name'] }}
                                                             </td>
-                                                            <td>{{ $candidate->candidate?->consultant?->employee_code ?? $candidate->candidate?->team_leader?->employee_code }}
+                                                            <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
                                                             </td>
                                                             <td class="d-flex flex-row">
                                                                 @if ($auth->roles_id == 4)
                                                                     @include('admin.dashboard.inc.select')
                                                                 @endif
-                                                                <a class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}">R</a>
                                                                 @if($candidate->candidate->getMainResumeFilePath() != null)
                                                                 <button type="button"
-                                                                    class="btn btn-info btn-sm me-2 mb-2 resumePath btn-sm"
+                                                                    class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
                                                                     data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
                                                                 @endif
-                                                                <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 mb-2 resumePath btn-sm">X</a>
+                                                                <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 mb-2 resumePath">X</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
                                             </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -483,10 +440,11 @@
                                             </button>
                                         </h2>
 
-                                        <div id="blacklist-collapse" class="accordion-collapse collapse"
+                                        <div id="blacklist-collapse" class="accordion-collapse collapse px-2"
                                             aria-labelledby="blacklist-heading" data-bs-parent="#blacklist"
                                             style="">
                                             <h5 class="bg-success px-4 py-1 text-white">Candidates Detail</h5>
+                                            <div class="admin-dashboard-table">
                                             <table class="table table-bordered mb-0" id="myTable11">
                                                 <thead>
                                                     <tr>
@@ -522,25 +480,25 @@
                                                                 class="{{ $candidate['remark_id'] == 8 ? 'text-danger' : '' }}">
                                                                 {{ $candidate->candidate['manager']['employee_name'] }}
                                                             </td>
-                                                            <td>{{ $candidate->candidate?->consultant?->employee_code ?? $candidate->candidate?->team_leader?->employee_code }}
+                                                            <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
                                                             </td>
                                                             <td class="d-flex flex-row {{ $candidate['remark_id'] == 8 ? 'text-danger' : '' }}">
                                                                 @if ($auth->roles_id == 4)
                                                                     @include('admin.dashboard.inc.select')
                                                                 @endif
-                                                                <a class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}">R</a>
                                                                 @if($candidate->candidate->getMainResumeFilePath() != null)
                                                                 <button type="button"
-                                                                    class="btn btn-info me-2 mb-2 resumePath btn-sm"
+                                                                    class="btn btn-info btn-sm me-2 mb-2 resumePath"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
                                                                     data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
                                                                 @endif
-                                                                <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger me-2 mb-2 resumePath btn-sm">X</a>
+                                                                <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 mb-2 resumePath">X</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
                                             </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -561,9 +519,10 @@
                                             </button>
                                         </h2>
 
-                                        <div id="kiv-collapse" class="accordion-collapse collapse"
+                                        <div id="kiv-collapse" class="accordion-collapse collapse px-2"
                                             aria-labelledby="kiv-heading" data-bs-parent="#kiv" style="">
                                             <h5 class="bg-success px-4 py-1 text-white">Candidates Detail</h5>
+                                            <div class="admin-dashboard-table">
                                             <table class="table table-bordered mb-0" id="myTable12">
                                                 <thead>
                                                     <tr>
@@ -590,13 +549,12 @@
                                                                 <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                                 <td>{{ $candidate->candidate['manager']['employee_name'] }}
                                                                 </td>
-                                                                <td>{{ $candidate->candidate?->consultant?->employee_code ?? $candidate->candidate?->team_leader?->employee_code }}
+                                                                <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
                                                                 </td>
                                                                 <td class="d-flex flex-row">
                                                                     @if ($auth->roles_id == 4)
                                                                         @include('admin.dashboard.inc.select')
                                                                     @endif
-                                                                    <a class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}">R</a>
                                                                     @if($candidate->candidate?->getMainResumeFilePath() != null)
                                                                     <button type="button"
                                                                         class="btn btn-info btn-sm me-2 mb-2 resumePath"
@@ -611,6 +569,7 @@
                                                     @endif
                                                 </tbody>
                                             </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -631,9 +590,10 @@
                                             </button>
                                         </h2>
 
-                                        <div id="total-candidate-collapse" class="accordion-collapse collapse"
+                                        <div id="total-candidate-collapse" class="accordion-collapse collapse px-2"
                                             aria-labelledby="total-candidate-heading" data-bs-parent="#total-candidate"
                                             style="">
+                                            <div class="admin-dashboard-table">
                                             <table class="table table-bordered mb-0" id="myTable13">
                                                 <thead>
                                                     <tr>
@@ -658,13 +618,12 @@
                                                             <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                             <td>{{ $candidate->candidate['manager']['employee_name'] }}
                                                             </td>
-                                                            <td>{{ $candidate->candidate?->consultant?->employee_code ?? $candidate->candidate?->team_leader?->employee_code }}
+                                                            <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
                                                             </td>
                                                             <td class="d-flex flex-row">
                                                                 @if ($auth->roles_id == 4)
                                                                     @include('admin.dashboard.inc.select')
                                                                 @endif
-                                                                <a class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}">R</a>
                                                                 @if($candidate->candidate?->getMainResumeFilePath() != null)
                                                                 <button type="button"
                                                                     class="btn btn-info btn-sm me-2 mb-2 resumePath"
@@ -677,6 +636,7 @@
                                                     @endforeach
                                                 </tbody>
                                             </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -696,7 +656,7 @@
                                                 New Candidate Assigned to You
                                             </button>
                                         </h2>
-                                        <div id="active-resume-collapse" class="accordion-collapse collapse"
+                                        <div id="active-resume-collapse" class="accordion-collapse collapse px-2"
                                             aria-labelledby="active-resume-heading"
                                             data-bs-parent="#accordionactive-resumeExample" style="">
                                             <h5 class="bg-success px-4 py-1 text-white">Candidates Detail</h5>
@@ -723,18 +683,17 @@
                                                             <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                             <td>{{ $candidate->candidate['manager']['employee_name'] }}
                                                             </td>
-                                                            <td>{{ $candidate->candidate?->consultant?->employee_code ?? $candidate->candidate?->team_leader?->employee_code }}
+                                                            <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
                                                             </td>
                                                             <td class="d-flex flex-row">
                                                                 @include('admin.dashboard.inc.select')
                                                                 @if($candidate->candidate->getMainResumeFilePath() != null)
-                                                                <a class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}">R</a>
                                                                 <button type="button"
-                                                                    class="btn btn-info me-2 resumePath btn-sm"
+                                                                    class="btn btn-info me-2 resumePath"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
                                                                     data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
                                                                 @endif
-                                                                <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 resumePath">X</a>
+                                                                <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger me-2 resumePath">X</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach
