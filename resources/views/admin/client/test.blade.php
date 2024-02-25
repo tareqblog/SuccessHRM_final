@@ -96,7 +96,6 @@
                                                             <th>No</th>
                                                             <th>Candidate Name</th>
                                                             <th>Candidate Email</th>
-                                                            <th>Resume</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
@@ -106,8 +105,24 @@
                                                                 <td>{{ $loop->index + 1 }}</td>
                                                                 <td>{{ $candidate['candidate_name'] }}</td>
                                                                 <td>{{ $candidate['candidate_email'] }}</td>
-                                                                <td></td>
-                                                                <td></td>
+                                                                <td>
+                                                                    @php
+                                                                        $main = \App\Models\CandidateResume::where('isMain', 1)->first();
+                                                                        if($main->resume_file_path)
+                                                                        {
+                                                                            $resume_file_path = $main->resume_file_path;
+                                                                        } else{
+                                                                            $resume_file_path = null;
+                                                                        }
+                                                                    @endphp
+                                                                    @if($resume_file_path != null)
+                                                                    <a class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate['id'].'/edit#remark') }}">R</a>
+                                                                    <button type="button"
+                                                                        class="btn btn-info me-2 resumePath btn-sm"
+                                                                        data-bs-toggle="modal" data-bs-target="#showResume"
+                                                                        data-file-path="{{$resume_file_path }}">D</button>
+                                                                    @endif
+                                                                </td>
                                                             </tr>
                                                         @endforeach
 
@@ -145,7 +160,6 @@
                                                             <th>No</th>
                                                             <th>Candidate Name</th>
                                                             <th>Candidate Email</th>
-                                                            <th>Candidate Resume</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
@@ -155,8 +169,24 @@
                                                                 <td>{{ $loop->index + 1 }}</td>
                                                                 <td>{{ $candidate['candidate_name'] }}</td>
                                                                 <td>{{ $candidate['candidate_email'] }}</td>
-                                                                <td></td>
-                                                                <td></td>
+                                                                <td>
+                                                                    @php
+                                                                        $main = \App\Models\CandidateResume::where('isMain', 1)->first();
+                                                                        if($main->resume_file_path)
+                                                                        {
+                                                                            $resume_file_path = $main->resume_file_path;
+                                                                        } else{
+                                                                            $resume_file_path = null;
+                                                                        }
+                                                                    @endphp
+                                                                    @if($resume_file_path != null)
+                                                                    <a class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate['id'].'/edit#remark') }}">R</a>
+                                                                    <button type="button"
+                                                                        class="btn btn-info me-2 resumePath btn-sm"
+                                                                        data-bs-toggle="modal" data-bs-target="#showResume"
+                                                                        data-file-path="{{$resume_file_path }}">D</button>
+                                                                    @endif
+                                                                </td>
                                                             </tr>
                                                         @endforeach
 
@@ -194,7 +224,6 @@
                                                             <th>No</th>
                                                             <th>Candidate Name</th>
                                                             <th>Candidate Email</th>
-                                                            <th>Candidate Resume</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
@@ -204,8 +233,24 @@
                                                                 <td>{{ $loop->index + 1 }}</td>
                                                                 <td>{{ $candidate['candidate_name'] }}</td>
                                                                 <td>{{ $candidate['candidate_email'] }}</td>
-                                                                <td></td>
-                                                                <td></td>
+                                                                <td>
+                                                                    @php
+                                                                        $main = \App\Models\CandidateResume::where('isMain', 1)->first();
+                                                                        if($main->resume_file_path)
+                                                                        {
+                                                                            $resume_file_path = $main->resume_file_path;
+                                                                        } else{
+                                                                            $resume_file_path = null;
+                                                                        }
+                                                                    @endphp
+                                                                    @if($resume_file_path != null)
+                                                                    <a class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate['id'].'/edit#remark') }}">R</a>
+                                                                    <button type="button"
+                                                                        class="btn btn-info me-2 resumePath btn-sm"
+                                                                        data-bs-toggle="modal" data-bs-target="#showResume"
+                                                                        data-file-path="{{$resume_file_path }}">D</button>
+                                                                    @endif
+                                                                </td>
                                                             </tr>
                                                         @endforeach
 
@@ -619,7 +664,7 @@
                                                                 @if ($auth->roles_id == 4)
                                                                     @include('admin.dashboard.inc.select')
                                                                 @endif
-
+                                                                <a class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}">R</a>
                                                                 @if($candidate->candidate?->getMainResumeFilePath() != null)
                                                                 <button type="button"
                                                                     class="btn btn-info btn-sm me-2 mb-2 resumePath"
@@ -683,6 +728,7 @@
                                                             <td class="d-flex flex-row">
                                                                 @include('admin.dashboard.inc.select')
                                                                 @if($candidate->candidate->getMainResumeFilePath() != null)
+                                                                <a class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}">R</a>
                                                                 <button type="button"
                                                                     class="btn btn-info me-2 resumePath btn-sm"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"

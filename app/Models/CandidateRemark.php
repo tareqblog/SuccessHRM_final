@@ -49,9 +49,9 @@ class CandidateRemark extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function outlet(): BelongsTo
+    public function client(): BelongsTo
     {
-        return $this->belongsTo(Outlet::class, 'client_company', 'id');
+        return $this->belongsTo(client::class, 'client_company', 'id');
     }
 
     /**
