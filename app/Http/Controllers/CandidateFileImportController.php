@@ -562,4 +562,20 @@ class CandidateFileImportController extends Controller
 
         return response()->json(['teamleader' => $teamleader]);
     }
+
+    public function getCandidateRc()
+    {
+        $auth = Auth::user()->employe;
+        $rc = Employee::select('id', 'employee_name');
+
+        if ($auth->roles_id == 4) {
+            $rc = $rc->where('manager_users_id', $auth->id);
+        } elseif($auth->roles_id == 11) {
+            $rc = $rc->where('team_leader_users_id', $auth->id);
+        }
+
+        $rc = $rc->whereIn('roles_id', [7, 10, 12,13,14])->get();
+
+        return response()->json(['rc' => $rc]);
+    }
 }

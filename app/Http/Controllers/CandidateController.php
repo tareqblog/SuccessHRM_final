@@ -7,6 +7,7 @@ use App\Http\Requests\CandidateRequest;
 use App\Http\Requests\PayrollRequest;
 use App\Models\Assign;
 use App\Models\AssignClient;
+use App\Models\AssignToRc;
 use App\Models\Calander;
 use App\Models\candidate;
 use App\Models\CandidateFamily;
@@ -408,7 +409,6 @@ class CandidateController extends Controller
     }
     public function remark(Request $request, $id)
     {
-        // return $request;
         if (is_null($this->user) || !$this->user->can('candidate.remark')) {
             abort(403, 'Unauthorized');
         }
@@ -523,6 +523,13 @@ class CandidateController extends Controller
                 $dashboard_data['consultant_id'] = $team['consultant_id'];
             }
 
+            if($request->remarkstype_id == 3)
+            {
+                AssignToRc::create([
+                    'candidate_id' => $request->candidate_id,
+                    'rc_id' => $request->rc_id,
+                ]);
+            }
             if ($request->remarkstype_id == 9) {
                 $team = get_team($request->Assign_to_manager);
                 $request->Assign_to_manager = $team['manager_id'];
