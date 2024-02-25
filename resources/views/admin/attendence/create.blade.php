@@ -56,13 +56,13 @@
                                 <form action="{{ route('get.month.attendence.data') }}" method="POST" id="attendenceForm">
                                     @csrf
                                     <div class="row">
-                                        <div class="row col-lg-6 mb-1">
+                                        <div class="row col-lg-6 mb-4">
                                             <label for="thirteen" class="col-sm-3 col-form-label">Select Date</label>
                                             <div class="col-sm-9">
                                                 <input type="date" name="date" id="dateInput" class="form-control" value="{{ isset($selectedDate) ? $selectedDate->format('Y-m-d') : Carbon\Carbon::now()->format('Y-m-d') }}" required>
                                             </div>
                                         </div>
-                                        <div class="row col-lg-6  mb-1">
+                                        <div class="row col-lg-6  mb-4">
                                             <label for="eleven" class="col-sm-3 col-form-label">Candidate</label>
                                             <div class="col-sm-9">
                                                 <input type="hidden" id="candidateId" name="candidate_id">
@@ -77,7 +77,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="row col-lg-6  mb-1">
+                                        <div class="row col-lg-6  mb-4">
                                             <label for="eleven" class="col-sm-3 col-form-label">Company</label>
                                             <div class="col-sm-9">
                                                 <select name="company_id" id="companyDropdown" class="form-control">
@@ -88,7 +88,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="row col-lg-6 mb-1">
+                                        <div class="row col-lg-6 mb-4">
                                             <label for="thirteen" class="col-sm-3 col-form-label">Invoice Number</label>
                                             <div class="col-sm-9">
                                                 <input type="text" name="invoice_no" class="form-control invoice" placeholder="Invoice no">
@@ -97,7 +97,7 @@
                                     </div>
                                 </form>
                                 <div class="row">
-                                    <div class="col-sm-12 mt-3">
+                                    <div class="col-sm-12">
 
                                         <p style="color:red">
                                             Reminders:<br>

@@ -42,8 +42,7 @@
                     <div class="card-body">
                         {{-- Here place table --}}
 
-                        <div class="admin-dashboard-table">
-                        <table class="table table-bordered " id="myTable">
+                        <table class="table table-bordered" id="myTable">
                             <thead>
                                 <tr>
                                     <th>No.</th>
@@ -93,7 +92,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        </div>
                     </div>
 
 
@@ -145,7 +143,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row mt-3">
+                                        <div class="row mt-5">
                                             <div class="col-lg-12">
                                                 <button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn btn-sm btn-secondary">Cancel</button>
                                                 <button type="submit" class="btn btn-sm btn-info">Submit</button>

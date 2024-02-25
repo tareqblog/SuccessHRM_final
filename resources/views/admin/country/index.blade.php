@@ -40,50 +40,51 @@
                         </div>
                     @endif
                     <div class="card-body">
-                        <div class="admin-dashboard-table">
-                            <table class="table table-bordered mb-0" id="nationalityDataTable">
-                                <thead>
+
+                        <table class="table table-bordered mb-0" id="nationalityDataTable">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Name</th>
+                                    <th>Nationality</th>
+                                    <th>Alpha_2_Code</th>
+                                    <th>Alpha_3_Code</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($datas as $data)
                                     <tr>
-                                        <th>No</th>
-                                        <th>Name</th>
-                                        <th>Nationality</th>
-                                        <th>Alpha_2_Code</th>
-                                        <th>Alpha_3_Code</th>
-                                        <th>Action</th>
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $data->en_country_name }}</td>
+                                        <td>{{ $data->en_nationality }}</td>
+                                        <td>{{ $data->alpha_2_code }}</td>
+                                        <td>{{ $data->alpha_3_code }}</td>
+                                        <td style="display: flex;">
+                                            @if (App\Helpers\FileHelper::usr()->can('nationality.update'))
+                                                <button data-bs-toggle="modal"
+                                                    data-bs-target=".bs-example-modal-lg-edit-{{$data->id}}"
+                                                    class="btn btn-sm btn-info edit me-3"><i
+                                                        class="fa-solid fa-pen-to-square"></i></button>
+                                            @endif
+                                            {{-- @if (App\Helpers\FileHelper::usr()->can('nationality.destroy'))
+                                                <form id="deleteForm" action="{{ route('nationality.destroy', $data->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        onclick="return confirm('Are you sure you want to delete this item?')"
+                                                        class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                                                </form>
+                                            @endif --}}
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($datas as $data)
-                                        <tr>
-                                            <td>{{ $loop->index + 1 }}</td>
-                                            <td>{{ $data->en_country_name }}</td>
-                                            <td>{{ $data->en_nationality }}</td>
-                                            <td>{{ $data->alpha_2_code }}</td>
-                                            <td>{{ $data->alpha_3_code }}</td>
-                                            <td style="display: flex;">
-                                                @if (App\Helpers\FileHelper::usr()->can('nationality.update'))
-                                                    <button data-bs-toggle="modal"
-                                                        data-bs-target=".bs-example-modal-lg-edit-{{$data->id}}"
-                                                        class="btn btn-sm btn-info edit me-3"><i
-                                                            class="fa-solid fa-pen-to-square"></i></button>
-                                                @endif
-                                                {{-- @if (App\Helpers\FileHelper::usr()->can('nationality.destroy'))
-                                                    <form id="deleteForm" action="{{ route('nationality.destroy', $data->id) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit"
-                                                            onclick="return confirm('Are you sure you want to delete this item?')"
-                                                            class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-                                                    </form>
-                                                @endif --}}
-                                            </td>
-                                        </tr>
-                                        @include('admin.country.edit')
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                    @include('admin.country.edit')
+                                @endforeach
+
+
+                            </tbody>
+                        </table>
                     </div>
 
                     <!--  Create modal example -->
@@ -101,7 +102,7 @@
                                         @csrf
                                         <div class="row">
                                             <div class="col-lg-6">
-                                                <div class="row mb-1">
+                                                <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Name</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="en_country_name" class="form-control"
@@ -110,7 +111,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
-                                                <div class="row mb-1">
+                                                <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Nationality
                                                         Code</label>
                                                     <div class="col-sm-9">
@@ -120,7 +121,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
-                                                <div class="row mb-1">
+                                                <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Nationality</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="en_nationality" class="form-control"
@@ -129,7 +130,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
-                                                <div class="row mb-1">
+                                                <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Alpha 2 Code</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="alpha_2_code" class="form-control"
@@ -138,7 +139,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
-                                                <div class="row mb-1">
+                                                <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Alpha 3 Code</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="alpha_3_code" class="form-control"
@@ -148,7 +149,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-lg-12 mt-3">
+                                            <div class="col-lg-12">
                                                 <button type="button" class="btn btn-sm btn-secondary"
                                                     data-bs-dismiss="modal" aria-label="Close">Cancel</button>
                                                 <button type="submit" class="btn btn-sm btn-info">Create</button>
@@ -175,7 +176,7 @@
             });
         </script>
 
-        <script>
+        {{-- <script>
             //edit modal show and after submit
             $('body').on('click', '.edit', function() {
                 var id = $(this).data('id'); //i or 2 categoryid
@@ -185,5 +186,5 @@
                         $('#editSection').html(data);
                     })
             });
-        </script> 
+        </script> --}}
     @endsection

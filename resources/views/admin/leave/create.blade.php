@@ -18,13 +18,9 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <div class="d-flex bd-highlight">
-                            <div class="p-2 flex-grow-1 bd-highlight">
-                                <h6 class="card-title mb-0">Create Leave</h6>
-                            </div>
-                            <div class="p-2 bd-highlight">
-                                <a href="{{ route('leave.index') }}" class="btn btn-sm btn-success">Search</a>
-                            </div>
+                        <h4 class="card-title mb-0">Create Leave</h4>
+                        <div class="text-end">
+                            <a href="{{ route('leave.index') }}" class="btn btn-sm btn-success">Search</a>
                         </div>
                     </div>
                     <div class="card-body p-5">
@@ -32,7 +28,7 @@
                             @csrf
                             <div class="row">
                                 <div class="col-lg-12 row">
-                                    <div class="row mb-1 col-lg-6">
+                                    <div class="row mb-4 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Group</label>
                                         <div class="col-sm-9">
                                             <select name="leave_empl_type" id="leave_empl_type" class="form-control">
@@ -42,7 +38,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="row mb-1 col-lg-6">
+                                    <div class="row mb-4 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Employee Name</label>
                                         <div class="col-sm-9">
                                             <select name="employees_id" id="employees_id" class="form-control">
@@ -55,7 +51,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="row mb-1 col-lg-6">
+                                    <div class="row mb-4 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Type of Leave</label>
                                         <div class="col-sm-9">
                                             <select name="leave_types_id" class="form-control">
@@ -67,7 +63,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="row mb-1 col-lg-6">
+                                    <div class="row mb-4 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Leave Duration</label>
                                         <div class="col-sm-9">
                                             <select name="leave_duration" class="form-control">
@@ -82,28 +78,28 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="row mb-1 col-lg-6">
+                                    <div class="row mb-4 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Date (From)</label>
                                         <div class="col-sm-9">
                                             <input id="dateFrom" type="date" name="leave_datefrom" class="form-control"
                                                 placeholder="Date (From)" value="{{ old('leave_datefrom') }}">
                                         </div>
                                     </div>
-                                    <div class="row mb-1 col-lg-6">
+                                    <div class="row mb-4 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Date (To)</label>
                                         <div class="col-sm-9">
                                             <input type="date" id="dateTo" class="form-control" name="leave_dateto"
                                                 placeholder="Date (To)" value="{{ old('leave_dateto') }}">
                                         </div>
                                     </div>
-                                    <div class="row mb-1 col-lg-6">
+                                    <div class="row mb-4 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Total Days</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" placeholder="Total Days"
                                                 name="leave_total_day" value="0">
                                         </div>
                                     </div>
-                                    <div class="row mb-1 col-lg-6">
+                                    <div class="row mb-4 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Upload File</label>
                                         <div class="col-sm-9">
                                             <input type="file" class="form-control" placeholder="Upload File"
@@ -111,7 +107,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="row mb-1 col-lg-6">
+                                    <div class="row mb-4 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Remarks</label>
                                         <div class="col-sm-9">
                                             <textarea rows="2" name="leave_reason" class="form-control" placeholder="Remarks"> {{ old('leave_reason') }} </textarea>
@@ -120,7 +116,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-12 mt-2">
+                                <div class="col-lg-12">
                                     <a href="{{ route('leave.index') }}" class="btn btn-sm btn-secondary">Back</a>
                                     <button type="submit" class="btn btn-sm btn-info">Submit</button>
                                 </div>

@@ -22,9 +22,9 @@
                         </div>
                     </div>
                 @endif
-                <div class="card p-3">
-                    <div class="card-header ">
-                        <h4 class="card-title mb-2">Filter </h4>
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Filter </h4>
                         <hr>
                         <form method="GET" action="{{ route('attendence.index') }}" id="attendanceFilter">
                             @csrf
@@ -46,7 +46,7 @@
                     </div>
                 </div>
 
-                <div class="card p-3">
+                <div class="card">
                     <div class="card-header">
                         <h4 class="card-title mb-0">Attendence Table</h4>
                         {{-- <div class="text-end">
@@ -54,43 +54,41 @@
                         </div> --}}
                     </div>
                     <div class="card-body">
-                        <div class="admin-dashboard-table">
-                            <table class="table table-bordered mb-0" id="myTable">
-                                <thead>
+                        <table class="table table-bordered mb-0" id="myTable">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Name</th>
+                                    <th>Client</th>
+                                    <th>Attendence Month</th>
+                                    <th>Approved Date & Time</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($datas as $data)
                                     <tr>
-                                        <th style="padding-right: 20px">No</th>
-                                        <th style="padding-right: 50px">Name</th>
-                                        <th style="padding-right: 50px">Client</th>
-                                        <th style="padding-right: 500px">Attendence Month</th>
-                                        <th style="padding-right: 100px">Approved Date & Time</th>
-                                        <th style="padding-right: 30px">Action</th>
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $data->candidate?->candidate_name }}</td>
+                                        <td>{{ $data->company?->name }}</td>
+                                        <td>
+                                            {{ Carbon\Carbon::parse($data->month_year)->format('M, Y') }}
+                                        </td>
+                                        <td>{{ $data->updated_at }}</td>
+                                        <td style="display: flex;">
+                                            <a href="{{ route('attendence.edit', $data->id) }}"
+                                                class="btn btn-info btn-sm me-2"><i class="fas fa-pen"></i></a>
+                                            <a href="{{ route('attendence.edit', $data->id) }}"
+                                                class="btn btn-danger btn-sm me-2">Resubmit</a>
+                                            <a target="_blank" href="{{ route('attendence.print', $data->id) }}"
+                                                class="btn btn-warning btn-sm me-2">Print</a>
+                                            <a href="{{ route('attendence.edit', $data->id) }}"
+                                                class="btn btn-success btn-sm me-2">Attachments</a>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($datas as $data)
-                                        <tr>
-                                            <td>{{ $loop->index + 1 }}</td>
-                                            <td>{{ $data->candidate?->candidate_name }}</td>
-                                            <td>{{ $data->company?->name }}</td>
-                                            <td>
-                                                {{ Carbon\Carbon::parse($data->month_year)->format('M, Y') }}
-                                            </td>
-                                            <td>{{ $data->updated_at }}</td>
-                                            <td style="display: flex;">
-                                                <a href="{{ route('attendence.edit', $data->id) }}"
-                                                    class="btn btn-info btn-sm me-2"><i class="fas fa-pen"></i></a>
-                                                <a href="{{ route('attendence.edit', $data->id) }}"
-                                                    class="btn btn-danger btn-sm me-2">Resubmit</a>
-                                                <a target="_blank" href="{{ route('attendence.print', $data->id) }}"
-                                                    class="btn btn-warning btn-sm me-2">Print</a>
-                                                <a href="{{ route('attendence.edit', $data->id) }}"
-                                                    class="btn btn-success btn-sm me-2">Attachments</a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

@@ -806,7 +806,7 @@
                                     @method('PATCH')
                                     <h5>Character Referee's</h5>
                                     <p>Name 2 persons who are not your relatives</p>
-                                    <div class="row mb-3">
+                                    <div class="row mb-5">
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
                                                 <div class="row mb-4">
@@ -817,7 +817,7 @@
                                                             value="{{ $candidate->candidate_referee_name1 }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-1">
+                                                <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Years
                                                         Known</label>
                                                     <div class="col-sm-9">
@@ -829,8 +829,8 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
-                                            <div class="mt-1 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-1">
+                                            <div class="mt-5 mt-lg-4 mt-xl-0">
+                                                <div class="row mb-4">
                                                     <label for="one"
                                                         class="col-sm-3 col-form-label">Occupation</label>
                                                     <div class="col-sm-9">
@@ -839,7 +839,7 @@
                                                             value="{{ $candidate->candidate_referee_occupation1 }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-1">
+                                                <div class="row mb-4">
                                                     <label for="one" class="col-sm-4 col-form-label">Contact No /
                                                         Email
                                                         Address</label>
@@ -855,7 +855,7 @@
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-1">
+                                                <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Name</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" class="form-control"
@@ -863,7 +863,7 @@
                                                             value="{{ $candidate->candidate_referee_name2 }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-1">
+                                                <div class="row mb-4">
                                                     <label for="one" class="col-sm-3 col-form-label">Years
                                                         Known</label>
                                                     <div class="col-sm-9">
@@ -876,7 +876,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-1">
+                                                <div class="row mb-4">
                                                     <label for="one"
                                                         class="col-sm-3 col-form-label">Occupation</label>
                                                     <div class="col-sm-9">
@@ -885,7 +885,7 @@
                                                             value="{{ $candidate->candidate_referee_occupation2 }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-1">
+                                                <div class="row mb-4">
                                                     <label for="one" class="col-sm-4 col-form-label">Contact No /
                                                         Email
                                                         Address</label>

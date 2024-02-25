@@ -14,62 +14,56 @@ Type Of Pass
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="d-flex bd-highlight">
-                        <div class="p-2 flex-grow-1 bd-highlight">
-                            <h6 class="card-title mb-0">Type Of Pass Table</h6>
-                        </div>
-                        <div class="p-2 bd-highlight">
+                    <h4 class="card-title mb-0">Type Of Pass Table</h4>
+                    <div class="text-end">
                         <button data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
                         class="btn btn-sm btn-success">Create New</button>
-                        </div>
                     </div>
                 </div>
                 @include('admin.include.errors')
                 <div class="card-body">
-                    <div class="admin-dashboard-table">
-                        <table class="table table-bordered mb-0">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th style="padding-right: 20px !important">Name</th>
-                                    <th style="padding-right: 20px !important">Status</th>
-                                    <th style="padding-right: 30px !important">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($datas as $data)
-                                <tr>
-                                    <td>{{$loop->index+1}}</td>
-                                    <td>{{$data->passtype_code}}</td>
-                                    <td>{{$data->passtype_status == 1 ? 'Active' : 'Inactive'}}</td>
-                                    <td style="display: flex;">
+                    <table class="table table-bordered mb-0">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Name</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($datas as $data)
+                            <tr>
+                                <td>{{$loop->index+1}}</td>
+                                <td>{{$data->passtype_code}}</td>
+                                <td>{{$data->passtype_status == 1 ? 'Active' : 'Inactive'}}</td>
+                                <td style="display: flex;">
 
-                                        <button data-id="{{ $data->id }}" data-bs-toggle="modal"
-                                            data-bs-target=".bs-example-modal-lg-edit"
-                                            class="btn btn-sm btn-info edit me-3"><i
-                                                class="fa-solid fa-pen-to-square"></i></button>
-                                        <form id="deleteForm" action="{{route('pass-type.destroy', $data->id)}}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                onclick="return confirm('Are you sure you want to delete this item?')"
-                                                class="btn btn-sm btn-danger"><i class="fa fa-trash "></i></a>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @endforeach
+                                    <button data-id="{{ $data->id }}" data-bs-toggle="modal"
+                                        data-bs-target=".bs-example-modal-lg-edit"
+                                        class="btn btn-sm btn-info edit me-3"><i
+                                            class="fa-solid fa-pen-to-square"></i></button>
+                                    <form id="deleteForm" action="{{route('pass-type.destroy', $data->id)}}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            onclick="return confirm('Are you sure you want to delete this item?')"
+                                            class="btn btn-sm btn-danger"><i class="fa fa-trash "></i></a>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
 
 
-                                {{-- empty data --}}
-                                {{-- <tr>
-                                    <td class="text-center text-warning" colspan="5">
-                                        No data found!
-                                    </td>
-                                </tr> --}}
-                                {{-- empty data --}}
-                            </tbody>
-                        </table>
-                    </div>
+                            {{-- empty data --}}
+                            {{-- <tr>
+                                <td class="text-center text-warning" colspan="5">
+                                    No data found!
+                                </td>
+                            </tr> --}}
+                            {{-- empty data --}}
+                        </tbody>
+                    </table>
                 </div>
 
                     <!--  Create modal example -->
@@ -88,14 +82,14 @@ Type Of Pass
                                         @csrf
                                         <div class="row">
                                             <div class="col-lg-6">
-                                                <div class="row mb-1">
+                                                <div class="row mb-4">
                                                     <label for="one" class="col-sm-4 col-form-label">Pass Type Code</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="passtype_code" class="form-control"
                                                             placeholder="Title" value="{{ old('passtype_code') }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-1">
+                                                <div class="row mb-4">
                                                     <label for="one" class="col-sm-4 col-form-label">Pass Type Description</label>
                                                     <div class="col-sm-8">
                                                         <textarea name="passtype_desc" rows="2" class="form-control" placeholder="Descriptin">{{old('passtype_desc')}} </textarea>
@@ -104,7 +98,7 @@ Type Of Pass
                                             </div>
                                             <div class="col-lg-6">
 
-                                                <div class="row mb-1">
+                                                <div class="row mb-4">
                                                     <label for="one" class="col-sm-4 col-form-label">List Order</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="passtype_seqno" class="form-control"
@@ -113,7 +107,7 @@ Type Of Pass
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row mt-2">
+                                        <div class="row mt-5">
                                             <div class="col-lg-12">
                                                 <button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn btn-sm btn-secondary">Cancel</button>
                                                 <button type="submit" class="btn btn-sm btn-info">Submit</button>

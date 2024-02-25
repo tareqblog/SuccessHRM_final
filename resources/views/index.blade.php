@@ -62,7 +62,7 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                        </div><!-- end accordion --> 
+                                        </div><!-- end accordion -->
                                     </div><!-- end card-body -->
                                 </div>
                             </div>

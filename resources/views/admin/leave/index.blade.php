@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
-                    <div class="card-header p-3">
+                    <div class="card-header">
                         <div>
                             <p class="card-title mb-0 text-secondary">Filter</p>
                         </div>
@@ -47,78 +47,70 @@
                     </div>
                 </div>
 
-                <div class="card p-3">
+                <div class="card">
                     <div class="card-header">
-                        <div class="d-flex bd-highlight">
-                            <div class=" flex-grow-1 bd-highlight">
-                                <h6 class="card-title mb-0">Leave Table</h6>
-                            </div>
-                            <div class=" bd-highlight mb-2">
-                                @if (App\Helpers\FileHelper::usr()->can('leave.create'))
-                                <div class="text-end">
-                                    <a href="{{ route('leave.create') }}" class="btn btn-sm btn-success">Create New</a>
-                                </div>
-                                @endif
-                            </div>
+                        <h4 class="card-title mb-0">Leave Table</h4>
+                        @if (App\Helpers\FileHelper::usr()->can('leave.create'))
+                        <div class="text-end">
+                            <a href="{{ route('leave.create') }}" class="btn btn-sm btn-success">Create New</a>
                         </div>
+                        @endif
                     </div>
                     <div class="card-body">
-                        <div class="admin-dashboard-table">
-                            <table class="table table-bordered mb-0" id="leaveTable">
-                                <thead>
+                        <table class="table table-bordered mb-0" id="leaveTable">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Employee Type</th>
+                                    <th>Employee</th>
+                                    <th>Type Of Leave</th>
+                                    <th>Remark</th>
+                                    <th>Leave Start Date</th>
+                                    <th>Leave End Date</th>
+                                    <th>Leave Days</th>
+                                    <th>Approved/Rejected By </th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($datas as $data)
                                     <tr>
-                                        <th>No</th>
-                                        <th>Employee Type</th>
-                                        <th>Employee</th>
-                                        <th>Type Of Leave</th>
-                                        <th>Remark</th>
-                                        <th>Leave Start Date</th>
-                                        <th>Leave End Date</th>
-                                        <th>Leave Days</th>
-                                        <th>Approved/Rejected By </th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($datas as $data)
-                                        <tr>
-                                            <td>{{ $loop->index + 1 }}</td>
-                                            <td>@if ($data->leave_empl_type==1) Employee @else Candidate @endif</td>
-                                            @if ($data->leave_empl_type==1)
-                                            <td>{{ $data->employee?->employee_name }}</td>
-                                            @else
-                                            <td>{{ $data->candidate?->candidate_name }}</td>
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>@if ($data->leave_empl_type==1) Employee @else Candidate @endif</td>
+                                        @if ($data->leave_empl_type==1)
+                                        <td>{{ $data->employee?->employee_name }}</td>
+                                        @else
+                                        <td>{{ $data->candidate?->candidate_name }}</td>
+                                        @endif
+                                        <td>{{ $data->leaveType?->leavetype_code }}</td>
+                                        <td>{{ $data->leave_reason }}</td>
+                                        <td>{{ $data->leave_datefrom }}</td>
+                                        <td>{{ $data->leave_dateto }}</td>
+                                        <td>{{ $data->leave_total_day }}</td>
+                                        <td>--</td>
+                                        {{-- <td>{{$data->leave_status}}</td> --}}
+                                        <td class="text-{{\App\Enums\Status::from($data->leave_status)->message()}}">{{\App\Enums\Status::from($data->leave_status)->title()}}</td>
+                                        <td style="display: flex;">
+                                            @if (App\Helpers\FileHelper::usr()->can('leave.edit'))
+                                            <a href="{{ route('leave.edit', $data->id) }}" class="btn btn-info btn-sm me-3"><i
+                                                    class="fas fa-pen"></i></a>
+                                            <a href="{{ route('leave.cancle', $data->id) }}" class="btn btn-warning btn-sm me-3">Cancle</a>
                                             @endif
-                                            <td>{{ $data->leaveType?->leavetype_code }}</td>
-                                            <td>{{ $data->leave_reason }}</td>
-                                            <td>{{ $data->leave_datefrom }}</td>
-                                            <td>{{ $data->leave_dateto }}</td>
-                                            <td>{{ $data->leave_total_day }}</td>
-                                            <td>--</td>
-                                            {{-- <td>{{$data->leave_status}}</td> --}}
-                                            <td class="text-{{\App\Enums\Status::from($data->leave_status)->message()}}">{{\App\Enums\Status::from($data->leave_status)->title()}}</td>
-                                            <td style="display: flex;">
-                                                @if (App\Helpers\FileHelper::usr()->can('leave.edit'))
-                                                <a href="{{ route('leave.edit', $data->id) }}" class="btn btn-info btn-sm me-3"><i
-                                                        class="fas fa-pen"></i></a>
-                                                <a href="{{ route('leave.cancle', $data->id) }}" class="btn btn-warning btn-sm me-3">Cancle</a>
-                                                @endif
-                                                @if (App\Helpers\FileHelper::usr()->can('leave.destroy'))
-                                                <form action="{{ route('leave.destroy', $data->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger"
-                                                        onclick="return confirm('Are you sure you want to delete this item?')"><i
-                                                            class="fa-solid fa-trash"></i></button>
-                                                </form>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                            @if (App\Helpers\FileHelper::usr()->can('leave.destroy'))
+                                            <form action="{{ route('leave.destroy', $data->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger"
+                                                    onclick="return confirm('Are you sure you want to delete this item?')"><i
+                                                        class="fa-solid fa-trash"></i></button>
+                                            </form>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

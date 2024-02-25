@@ -195,6 +195,7 @@
 
                         &:hover {
                             color: $sidebar-menu-item-hover-color;
+
                             &:before{
                                 border-color: transparent transparent $sidebar-menu-sub-item-active-color transparent;
                             }

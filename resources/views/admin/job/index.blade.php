@@ -17,85 +17,83 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                    <div class="d-flex bd-highlight">
-                        <div class="p-2 flex-grow-1 bd-highlight">
-                            <h6 class="card-title mb-0">Job Summary Table</h6>
-                        </div>
-                        <div class="p-2 bd-highlight">
-                            @if (App\Helpers\FileHelper::usr()->can('job.create'))
+                        <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">
+                                {{-- <h6 class="card-title mb-0">Job Summary Table</h6> --}}
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                @if (App\Helpers\FileHelper::usr()->can('job.create'))
                                     <a href="{{ route('job.create') }}" class="btn btn-sm btn-success">Create New</a>
                                 @endif
+                            </div>
                         </div>
-                    </div>
                     </div>
                     <div class="card-body">
-                        <div class="admin-dashboard-table">
-                            <table class="table table-bordered mb-0" id="myTable">
-                                <thead>
+                        <table class="table table-bordered mb-0" id="myTable">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Title</th>
+                                    <th>Category</th>
+                                    <th>Owner</th>
+                                    <th>Status</th>
+                                    <th>Job Type</th>
+                                    <th>Create Date</th>
+                                    <th>Last Updated By</th>
+                                    <th style="width:100px">Internal Remark</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($datas as $data)
                                     <tr>
-                                        <th style="padding-right: 20px !important">No</th>
-                                        <th style="padding-right: 130px !important">Title</th>
-                                        <th style="padding-right: 60px !important">Category</th>
-                                        <th style="padding-right: 90px !important">Owner</th>
-                                        <th style="padding-right: 20px !important">Status</th>
-                                        <th style="padding-right: 110px !important">Job Type</th>
-                                        <th style="padding-right: 60px !important">Create Date</th>
-                                        <th style="padding-right: 60px !important">Last Updated By</th>
-                                        <th style="padding-right: 90px !important">Internal Remark</th>
-                                        <th style="padding-right: 60px !important">Action</th>
+                                        <td>
+                                            {{ $loop->index + 1 }}
+                                        </td>
+                                        <td>
+                                            {{ $data->job_title }}
+                                        </td>
+                                        <td>
+                                            {{ $data->job_category->jobcategory_name }}
+                                        </td>
+                                        <td>
+                                            {{ $data->client->client_name }}
+                                        </td>
+                                        <td>
+                                            {{ $data->job_status == 1 ? 'Active' : 'Close' }}
+                                        </td>
+                                        <td>
+                                            {{ $data?->job_type?->jobtype_code }}
+                                        </td>
+                                        <td>
+                                            {{ $data->created_at }}
+                                        </td>
+                                        <td>
+                                            {{ App\Helpers\FileHelper::modify_name($data->modify_by) }}
+                                        </td>
+                                        <td>
+                                            {!! $data->remark !!}
+                                        </td>
+                                        <td style="display: flex;">
+                                            @if (App\Helpers\FileHelper::usr()->can('job.edit'))
+                                            <a href="{{ route('job.edit', $data->id) }}"
+                                                class="btn btn-info btn-sm me-3"><i class="fas fa-pen"></i></a>
+                                            @endif
+                                            @if (App\Helpers\FileHelper::usr()->can('job.destroy'))
+                                            <form id="deleteForm" action="{{ route('job.destroy', $data->id) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    onclick="return confirm('Are you sure you want to delete this item?')"
+                                                    class="btn btn-sm btn-danger"> <i class="fas fa fa-trash"></i> </a>
+                                            </form>
+                                            @endif
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($datas as $data)
-                                        <tr>
-                                            <td>
-                                                {{ $loop->index + 1 }}
-                                            </td>
-                                            <td>
-                                                {{ $data->job_title }}
-                                            </td>
-                                            <td>
-                                                {{ $data->job_category->jobcategory_name }}
-                                            </td>
-                                            <td>
-                                                {{ $data->client->client_name }}
-                                            </td>
-                                            <td>
-                                                {{ $data->job_status == 1 ? 'Active' : 'Close' }}
-                                            </td>
-                                            <td>
-                                                {{ $data?->job_type?->jobtype_code }}
-                                            </td>
-                                            <td>
-                                                {{ $data->created_at }}
-                                            </td>
-                                            <td>
-                                                {{ App\Helpers\FileHelper::modify_name($data->modify_by) }}
-                                            </td>
-                                            <td>
-                                                {!! $data->remark !!}
-                                            </td>
-                                            <td style="display: flex;">
-                                                @if (App\Helpers\FileHelper::usr()->can('job.edit'))
-                                                <a href="{{ route('job.edit', $data->id) }}"
-                                                    class="btn btn-info btn-sm me-3"><i class="fas fa-pen"></i></a>
-                                                @endif
-                                                @if (App\Helpers\FileHelper::usr()->can('job.destroy'))
-                                                <form id="deleteForm" action="{{ route('job.destroy', $data->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        onclick="return confirm('Are you sure you want to delete this item?')"
-                                                        class="btn btn-sm btn-danger"> <i class="fas fa fa-trash"></i> </a>
-                                                </form>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

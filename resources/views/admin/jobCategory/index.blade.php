@@ -18,26 +18,13 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                    <div class="d-flex bd-highlight">
-                            <div class="p-2 flex-grow-1 bd-highlight">
-                                <h6 class="card-title mb-0">Job Category Table</h6>
-                            </div>
-                            <div class="p-2 bd-highlight">
-                            @if (App\Helpers\FileHelper::usr()->can('job-category.create'))
-                            <div class="text-end">
-                                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#createJob">Create new</button>
-                            </div>
-                        @endif
-                            </div>
-                        </div>
-                        <!-- <h4 class="card-title mb-0">Job Category Table</h4>
+                        <h4 class="card-title mb-0">Job Category Table</h4>
                         @if (App\Helpers\FileHelper::usr()->can('job-category.create'))
                             <div class="text-end">
                                 <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
                                     data-bs-target="#createJob">Create new</button>
                             </div>
-                        @endif -->
+                        @endif
                     </div>
 
                     @if ($errors->any())
@@ -53,7 +40,6 @@
                         <h6>Create Jobs Category</h6>
                         <div class="row">
                             <div class="col-lg-12 mt-2">
-                                <div class="admin-dashboard-table">
                                 <table class="table table-bordered mb-0" id="myTable">
                                     <thead>
                                         <tr>
@@ -106,7 +92,6 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -128,7 +113,7 @@
                             @csrf
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <div class="row mb-1">
+                                    <div class="row mb-4">
                                         <label for="one" class="col-sm-3 col-form-label">Category
                                             Name</label>
                                         <div class="col-sm-9">
@@ -136,7 +121,7 @@
                                                 placeholder="Name">
                                         </div>
                                     </div>
-                                    <div class="row mb-3">
+                                    <div class="row mb-4">
                                         <label for="one" class="col-sm-3 col-form-label">Category
                                             Parent</label>
                                         <div class="col-sm-9">
@@ -151,7 +136,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <div class="row mb-3">
+                                    <div class="row mb-4">
                                         <label for="one" class="col-sm-3 col-form-label">Seq
                                             No</label>
                                         <div class="col-sm-9">

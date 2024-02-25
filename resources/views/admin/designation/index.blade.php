@@ -17,17 +17,13 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <div class="d-flex bd-highlight">
-                            <div class="p-2 flex-grow-1 bd-highlight">
-                                <h6 class="card-title mb-0">Designation Table</h6>
-                            </div>
-                            <div class="p-2 bd-highlight">
+                        <h4 class="card-title mb-0">Designation Table</h4>
+                        <div class="text-end">
                             @if (App\Helpers\FileHelper::usr()->can('designation.create'))
                             <button data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
                                 class="btn btn-sm btn-success">Create
                                 New</button>
                             @endif
-                            </div>
                         </div>
                     </div>
 
@@ -42,15 +38,14 @@
                     @endif
                     <div class="card-body">
                         {{-- Here place table --}}
-                        <div class="admin-dashboard-table">
                         <table class="table table-bordered" id="myTable">
                             <thead>
                                 <tr>
-                                    <th style="padding-right: 60px !important">No.</th>
-                                    <th style="padding-right: 120px !important">Designation Code</th>
-                                    <th style="padding-right: 120px !important">Description</th>
-                                    <th style="padding-right: 40px !important">Status</th>
-                                    <th style="padding-right: 40px !important">Action</th>
+                                    <th>No.</th>
+                                    <th>Designation Code</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -82,7 +77,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        </div>
                     </div>
 
                     <!--  Create modal example -->
@@ -101,7 +95,7 @@
                                         @csrf
                                         <div class="row p-2">
                                             <div class="col-lg-12">
-                                                <div class="row mb-1">
+                                                <div class="row mb-4">
                                                     <label for="one" class="col-sm-4 col-form-label">Designation
                                                         Code</label>
                                                     <div class="col-sm-8">
@@ -109,14 +103,14 @@
                                                             placeholder="Designation Code">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-1">
+                                                <div class="row mb-4">
                                                     <label for="one"
                                                         class="col-sm-4 col-form-label">Description</label>
                                                     <div class="col-sm-8">
                                                         <textarea name="designation_desc" rows="2" class="form-control" placeholder="Description"></textarea>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-1">
+                                                <div class="row mb-4">
                                                     <label for="one" class="col-sm-4 col-form-label">List Order</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" class="form-control" name="designation_seqno"

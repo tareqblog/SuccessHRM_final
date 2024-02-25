@@ -18,16 +18,12 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                    <div class="d-flex bd-highlight">
-                            <div class="p-2 flex-grow-1 bd-highlight">
-                                <h6 class="card-title mb-0">Marial Status Table</h6>
-                            </div>
-                            <div class="p-2 bd-highlight">
+                        <h4 class="card-title mb-0">Marial Status Table</h4>
+                        <div class="text-end">
                             @if (App\Helpers\FileHelper::usr()->can('marital-status.create'))
                             <button data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
                                 class="btn btn-sm btn-success">Create New</button>
                             @endif
-                            </div>
                         </div>
                     </div>
 
@@ -43,44 +39,42 @@
                     <div class="card-body">
                         {{-- Here place table --}}
 
-                        <div class="admin-dashboard-table">
-                            <table class="table table-bordered" id="myTable">
-                                <thead>
+                        <table class="table table-bordered" id="myTable">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Marital Code</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($datas as $data)
                                     <tr>
-                                        <th>No.</th>
-                                        <th style="padding-right: 60px !important">Marital Code</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $data->marital_statuses_code }}</td>
+                                        <td>{{ $data->marital_statuses_status == '1' ? 'Active' : 'In-Active' }}</td>
+                                        <td class="d-flex">
+                                            @if (App\Helpers\FileHelper::usr()->can('marital-status.update'))
+                                            <button data-id="{{ $data->id }}" data-bs-toggle="modal"
+                                                data-bs-target=".bs-example-modal-lg-edit"
+                                                class="btn btn-sm btn-info edit me-3"><i
+                                                    class="fa-solid fa-pen-to-square"></i></button>
+                                            @endif
+                                            @if (App\Helpers\FileHelper::usr()->can('marital-status.destroy'))
+                                            <form action="{{ route('marital-status.destroy', $data->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger"
+                                                    onclick="return confirm('Are you sure you want to delete this item?')"><i
+                                                        class="fa-solid fa-trash"></i></button>
+                                            </form>
+                                            @endif
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($datas as $data)
-                                        <tr>
-                                            <td>{{ $loop->index + 1 }}</td>
-                                            <td>{{ $data->marital_statuses_code }}</td>
-                                            <td>{{ $data->marital_statuses_status == '1' ? 'Active' : 'In-Active' }}</td>
-                                            <td class="d-flex">
-                                                @if (App\Helpers\FileHelper::usr()->can('marital-status.update'))
-                                                <button data-id="{{ $data->id }}" data-bs-toggle="modal"
-                                                    data-bs-target=".bs-example-modal-lg-edit"
-                                                    class="btn btn-sm btn-info edit me-3"><i
-                                                        class="fa-solid fa-pen-to-square"></i></button>
-                                                @endif
-                                                @if (App\Helpers\FileHelper::usr()->can('marital-status.destroy'))
-                                                <form action="{{ route('marital-status.destroy', $data->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger"
-                                                        onclick="return confirm('Are you sure you want to delete this item?')"><i
-                                                            class="fa-solid fa-trash"></i></button>
-                                                </form>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
 
 
@@ -100,14 +94,14 @@
                                         @csrf
                                         <div class="row">
                                             <div class="col-lg-6">
-                                                <div class="row mb-1">
+                                                <div class="row mb-4">
                                                     <label for="one" class="col-sm-4 col-form-label">Marital Code</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="marital_statuses_code" class="form-control"
                                                             placeholder="Title" value="{{ old('marital_statuses_code') }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-1">
+                                                <div class="row mb-4">
                                                     <label for="one" class="col-sm-4 col-form-label">Marital Description</label>
                                                     <div class="col-sm-8">
                                                         <textarea name="marital_statuses_desc" rows="2" class="form-control" placeholder="Descriptin"></textarea>
@@ -116,7 +110,7 @@
                                             </div>
                                             <div class="col-lg-6">
 
-                                                <div class="row mb-1">
+                                                <div class="row mb-4">
                                                     <label for="one" class="col-sm-4 col-form-label">List Order</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="marital_statuses_seqno" class="form-control"
@@ -125,7 +119,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row mt-2">
+                                        <div class="row mt-5">
                                             <div class="col-lg-12">
                                                 <button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn btn-sm btn-secondary">Cancel</button>
                                                 <button type="submit" class="btn btn-sm btn-info">Submit</button>

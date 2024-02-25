@@ -13,7 +13,7 @@
 
                     <div class="row">
                         <div class="col-lg-6">
-                            <div class="row mb-1">
+                            <div class="row mb-4">
                                 <label for="one" class="col-sm-3 col-form-label">Name</label>
                                 <div class="col-sm-9">
                                     <input type="text" name="en_country_name" class="form-control"
@@ -23,7 +23,7 @@
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="row mb-1">
+                            <div class="row mb-4">
                                 <label for="one" class="col-sm-3 col-form-label">Nationality
                                     Code</label>
                                 <div class="col-sm-9">
@@ -33,7 +33,7 @@
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="row mb-1">
+                            <div class="row mb-4">
                                 <label for="one" class="col-sm-3 col-form-label">Nationality</label>
                                 <div class="col-sm-9">
                                     <input type="text" name="en_nationality" class="form-control"
@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="row mb-1">
+                            <div class="row mb-4">
                                 <label for="one" class="col-sm-3 col-form-label">Alpha 2 Code</label>
                                 <div class="col-sm-9">
                                     <input type="text" name="alpha_2_code" class="form-control"
@@ -51,7 +51,7 @@
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="row mb-1">
+                            <div class="row mb-4">
                                 <label for="one" class="col-sm-3 col-form-label">Alpha 3 Code</label>
                                 <div class="col-sm-9">
                                     <input type="text" name="alpha_3_code" class="form-control"
@@ -61,7 +61,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-12 mt-3">
+                        <div class="col-lg-12">
                             <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal"
                                 aria-label="Close">Cancel</button>
                             <button type="submit" class="btn btn-sm btn-info">Update</button>
