@@ -410,7 +410,7 @@ class CandidateController extends Controller
     }
     public function remark(Request $request, $id)
     {
-        return $request;
+        // return $request;
         if (is_null($this->user) || !$this->user->can('candidate.remark')) {
             abort(403, 'Unauthorized');
         }
