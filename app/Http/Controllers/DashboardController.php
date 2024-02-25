@@ -105,7 +105,7 @@ class DashboardController extends Controller
                 $candidatesByConsultent[$consultentId] = $candidatesForConsultent;
             }
         } elseif ($auth->roles_id == 8) {
-            $calander_datas = $calander_datas->where('consultent_id', $auth->id);
+            $calander_datas = $calander_datas->where('consultant_id', $auth->id);
             $activeResumes = $activeResumes->where('consultent_id', $auth->id);
             $interviews = $interviews->where('consultent_id', $auth->id);
             $assignToClients = $assignToClients->where('consultent_id', $auth->id);
