@@ -108,20 +108,20 @@
                                                                 <td>
                                                                     @php
                                                                         $main = \App\Models\CandidateResume::where('isMain', 1)->first();
-                                                                        if($main->resume_file_path)
+                                                                        if($main != null)
                                                                         {
                                                                             $resume_file_path = $main->resume_file_path;
                                                                         } else{
                                                                             $resume_file_path = null;
                                                                         }
                                                                     @endphp
-                                                                    @if($resume_file_path != null)
+                                                                    {{-- @if($resume_file_path != null) --}}
                                                                     <a class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate['id'].'/edit#remark') }}">R</a>
                                                                     <button type="button"
                                                                         class="btn btn-info me-2 resumePath btn-sm"
                                                                         data-bs-toggle="modal" data-bs-target="#showResume"
-                                                                        data-file-path="{{$resume_file_path }}">D</button>
-                                                                    @endif
+                                                                        data-file-path="{{$resume_file_path }}" {{ $resume_file_path != null ? '' : 'disabled' }}>D</button>
+                                                                    {{-- @endif --}}
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -172,20 +172,20 @@
                                                                 <td>
                                                                     @php
                                                                         $main = \App\Models\CandidateResume::where('isMain', 1)->first();
-                                                                        if($main->resume_file_path)
+                                                                        if($main != null)
                                                                         {
                                                                             $resume_file_path = $main->resume_file_path;
                                                                         } else{
                                                                             $resume_file_path = null;
                                                                         }
                                                                     @endphp
-                                                                    @if($resume_file_path != null)
+                                                                    {{-- @if($resume_file_path != null) --}}
                                                                     <a class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate['id'].'/edit#remark') }}">R</a>
                                                                     <button type="button"
                                                                         class="btn btn-info me-2 resumePath btn-sm"
                                                                         data-bs-toggle="modal" data-bs-target="#showResume"
-                                                                        data-file-path="{{$resume_file_path }}">D</button>
-                                                                    @endif
+                                                                        data-file-path="{{$resume_file_path }}" {{ $resume_file_path != null ? '' : 'disabled' }}>D</button>
+                                                                    {{-- @endif --}}
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -236,20 +236,20 @@
                                                                 <td>
                                                                     @php
                                                                         $main = \App\Models\CandidateResume::where('isMain', 1)->first();
-                                                                        if($main->resume_file_path)
+                                                                        if($main != null)
                                                                         {
                                                                             $resume_file_path = $main->resume_file_path;
                                                                         } else{
                                                                             $resume_file_path = null;
                                                                         }
                                                                     @endphp
-                                                                    @if($resume_file_path != null)
+                                                                    {{-- @if($resume_file_path != null) --}}
                                                                     <a class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate['id'].'/edit#remark') }}">R</a>
                                                                     <button type="button"
                                                                         class="btn btn-info me-2 resumePath btn-sm"
                                                                         data-bs-toggle="modal" data-bs-target="#showResume"
-                                                                        data-file-path="{{$resume_file_path }}">D</button>
-                                                                    @endif
+                                                                        data-file-path="{{$resume_file_path }}" {{ $resume_file_path != null ? '' : 'disabled' }}>D</button>
+                                                                    {{-- @endif --}}
                                                                 </td>
                                                             </tr>
                                                         @endforeach
