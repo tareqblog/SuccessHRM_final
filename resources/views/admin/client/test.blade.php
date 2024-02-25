@@ -302,7 +302,7 @@
                                                             <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                             <td>{{ $candidate->candidate['manager']['employee_name'] }}
                                                             </td>
-                                                            <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
+                                                            <td>{{ $candidate->candidate?->consultant?->employee_code ?? $candidate->candidate?->team_leader?->employee_code }}
                                                             </td>
                                                             <td class="d-flex flex-row">
                                                                 @if ($auth->roles_id == 4)
@@ -374,7 +374,7 @@
                                                                 <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                                 <td>{{ $candidate->candidate['manager']['employee_name'] }}
                                                                 </td>
-                                                                <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
+                                                                <td>{{ $candidate->candidate?->consultant?->employee_code ?? $candidate->candidate?->team_leader?->employee_code }}
                                                                 </td>
                                                                 <td>{{ \Carbon\Carbon::parse($candidate->candidate['created_at'])->format('d-M-Y') }}
                                                                 </td>
@@ -444,7 +444,7 @@
                                                             <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                             <td>{{ $candidate->candidate['manager']['employee_name'] }}
                                                             </td>
-                                                            <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
+                                                            <td>{{ $candidate->candidate?->consultant?->employee_code ?? $candidate->candidate?->team_leader?->employee_code }}
                                                             </td>
                                                             <td class="d-flex flex-row">
                                                                 @if ($auth->roles_id == 4)
@@ -522,7 +522,7 @@
                                                                 class="{{ $candidate['remark_id'] == 8 ? 'text-danger' : '' }}">
                                                                 {{ $candidate->candidate['manager']['employee_name'] }}
                                                             </td>
-                                                            <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
+                                                            <td>{{ $candidate->candidate?->consultant?->employee_code ?? $candidate->candidate?->team_leader?->employee_code }}
                                                             </td>
                                                             <td class="d-flex flex-row {{ $candidate['remark_id'] == 8 ? 'text-danger' : '' }}">
                                                                 @if ($auth->roles_id == 4)
@@ -590,7 +590,7 @@
                                                                 <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                                 <td>{{ $candidate->candidate['manager']['employee_name'] }}
                                                                 </td>
-                                                                <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
+                                                                <td>{{ $candidate->candidate?->consultant?->employee_code ?? $candidate->candidate?->team_leader?->employee_code }}
                                                                 </td>
                                                                 <td class="d-flex flex-row">
                                                                     @if ($auth->roles_id == 4)
@@ -658,7 +658,7 @@
                                                             <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                             <td>{{ $candidate->candidate['manager']['employee_name'] }}
                                                             </td>
-                                                            <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
+                                                            <td>{{ $candidate->candidate?->consultant?->employee_code ?? $candidate->candidate?->team_leader?->employee_code }}
                                                             </td>
                                                             <td class="d-flex flex-row">
                                                                 @if ($auth->roles_id == 4)
@@ -723,7 +723,7 @@
                                                             <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                             <td>{{ $candidate->candidate['manager']['employee_name'] }}
                                                             </td>
-                                                            <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
+                                                            <td>{{ $candidate->candidate?->consultant?->employee_code ?? $candidate->candidate?->team_leader?->employee_code }}
                                                             </td>
                                                             <td class="d-flex flex-row">
                                                                 @include('admin.dashboard.inc.select')
