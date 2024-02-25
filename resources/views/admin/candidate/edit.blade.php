@@ -1216,9 +1216,14 @@
                                                         <td>
                                                             {{ $resume->modify_name->name }}
                                                         </td>
-                                                        <td>
-                                                            {{ $resume->resume_name }}
-                                                        </td>
+                                                        <?php
+                                                        $path = $resume->resume_file_path;
+                                                        $parts = explode('/', $path);
+                                                        $filename = end($parts);
+                                                        $filenameParts = explode('_', $filename);
+                                                        $cleanedFilename = end($filenameParts);
+                                                        ?>
+                                                        <td>{{ $cleanedFilename }}</td>
                                                         <td>
                                                             {{ $resume->updated_at }}
                                                         </td>
@@ -1421,16 +1426,15 @@
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1" id="shortlistClientCompany" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Client
-                                                    Company
+                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Client Company
                                                     <span class="text-danger">*</span> </label>
                                                 <div class="col-sm-9">
                                                     <select name="client_company"
                                                         class="form-control single-select-field">
                                                         <option value="">Select One</option>
-                                                        @foreach ($outlet_data as $outlet)
-                                                            <option value="{{ $outlet->id }}">
-                                                                {{ $outlet->outlet_name }} </option>
+                                                        @foreach ($clients as $client)
+                                                            <option value="{{ $client->id }}">
+                                                                {{ $client->client_name }} </option>
                                                         @endforeach
                                                     </select>
                                                 </div>

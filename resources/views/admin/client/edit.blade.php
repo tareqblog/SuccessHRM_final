@@ -310,8 +310,7 @@
                                                 <input type="hidden" value="0" name="file_type_for">
                                                 <div class="mt-5 mt-lg-4 mt-xl-0">
                                                     <div class="row mb-1">
-                                                        <label for="file_path" class="col-sm-3 col-form-label">Upload
-                                                            File</label>
+                                                        <label for="file_path" class="col-sm-3 col-form-label">Upload File (<small class="text-danger">Pdf only</small>)</label>
                                                         <div class="col-sm-9">
                                                             <input type="file" name="file_path" class="form-control"
                                                                 value="{{ old('file_path') }}">
@@ -352,7 +351,7 @@
                                                         <td>{{ $loop->index + 1 }}</td>
                                                         <td>
                                                             @if ($file->created_by)
-                                                                {{ \App\Models\Employee::where(['id' => $file->created_by])->pluck('employee_code')->first() }}
+                                                                {{ \App\Models\Employee::where(['user_table_id' => $file->created_by])->pluck('employee_code')->first() }}
                                                             @else
                                                                 User Not Found
                                                             @endif
@@ -433,7 +432,7 @@
                                                         <td>{{ $loop->index + 1 }}</td>
                                                         <td>
                                                             @if ($file->created_by)
-                                                                {{ \App\Models\Employee::where(['id' => $file->created_by])->pluck('employee_code')->first() }}
+                                                                {{ \App\Models\Employee::where(['user_table_id' => $file->created_by])->pluck('employee_code')->first() }}
                                                             @else
                                                                 User Not Found
                                                             @endif

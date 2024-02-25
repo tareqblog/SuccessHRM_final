@@ -72,8 +72,8 @@
                                                 <select name="employees_id" class="form-control single-select-field" required>
                                                     <option disabled selected>Select One</option>
                                                     @foreach ($data['incharges'] as $incharge)
-                                                        <option value="{{ $incharge->id }}" @readonly(true)>
-                                                            {{ $incharge->employee_name }}</option>
+                                                        <option value="{{ $incharge['id'] }}" {{$incharge['id'] == Auth::user()->employe->id ? 'selected' : ''}}>
+                                                            {{ $incharge['employee_name'] }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

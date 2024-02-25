@@ -8,7 +8,13 @@ $(document).ready(function () {
         } else {
             $('#AssignToManager').hide().css('display', 'none');
         }
-        //AssignToManager end
+
+        if (selectedValue === '12') {
+            $('#AssignToManager').show().css('display', 'show');
+        } else {
+            $('#AssignToManager').hide().css('display', 'none');
+        }
+        // AssignToManager end
         // AssignToTeamLeader Start
         if (selectedValue === '2') {
             $('#AssignToTeamLeader').show().css('display', 'show');

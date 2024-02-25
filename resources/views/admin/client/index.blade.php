@@ -23,8 +23,7 @@
                             </div>
                             <div class="p-2 bd-highlight">
                                 @if (App\Helpers\FileHelper::usr()->can('clients.create'))
-                                    <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
-                                        data-bs-target=".bs-example-modal-lg-create">Import</button>
+                                    {{-- <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create">Import</button> --}}
                                     <a href="{{ route('clients.create') }}" class="btn btn-sm btn-success">Create New</a>
                                 @endif
                             </div>

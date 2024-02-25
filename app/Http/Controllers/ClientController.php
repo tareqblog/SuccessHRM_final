@@ -145,9 +145,32 @@ class ClientController extends Controller
         }
 
         $data = [];
+        $auth = Auth::user()->employe;
+        $incharges = Employee::select('id', 'employee_name')->latest();
 
-        $data['incharges'] = Employee::select('id', 'employee_name')->latest()->whereIn('roles_id', [4, 8, 11, 12])->get();
-        $data['payrolls'] = Employee::select('id', 'employee_name')->latest()->where('roles_id', 7)->get();
+        if ($auth->roles_id == 8) {
+            $incharges->where('id', $auth->id);
+        } elseif ($auth->roles_id == 11) {
+            $incharges->where('team_leader_users_id', $auth->id);
+        } elseif ($auth->roles_id == 4) {
+            $incharges->where('manager_users_id', $auth->id);
+        }
+
+        $data['incharges'] = $incharges->whereIn('roles_id', [4, 8, 11, 12])->get()->toArray();
+
+        if ($auth->roles_id != 1) {
+            // Create a new array representing the authenticated user
+            $newIncharge = [
+                'id' => $auth->id,
+                'employee_name' => $auth->employee_name,
+            ];
+
+            // Append the new array to the existing array of $data['incharges']
+            $data['incharges'][] = $newIncharge;
+        }
+
+        // return $data['incharges'];
+        $data['payrolls'] = Employee::select('id', 'employee_name')->latest()->whereIn('roles_id', [7, 13, 14])->get();
         $data['tncs'] = TncTemplate::orderBy('tnc_template_seqno')->where('tnc_template_status', 1)->select('id', 'tnc_template_code')->get();
         $data['client_terms'] = clientTerm::orderBy('client_term_seqno')->where('client_term_status', 1)->select('id', 'client_term_code')->get();
         $data['job_categories'] = jobcategory::select('id', 'jobcategory_name')->get();
@@ -280,10 +303,13 @@ class ClientController extends Controller
         if ($file_path) {
             $uploadedFilePath = FileHelper::uploadFile($file_path, 'client');
 
+            $employee = Auth::user()->id;
             ClientUploadFile::create([
                 'client_id' => $id,
                 'file_path' => $uploadedFilePath,
-                'file_type_id' => $request->file_type_id
+                'file_type_id' => $request->file_type_id,
+                'created_by' => $employee,
+                'modify_by' => $employee,
             ]);
 
             $url = '/ATS/clients/' . $id . '/edit#upload_file';
@@ -319,10 +345,12 @@ class ClientController extends Controller
             'description' => 'required',
             'clients_id' => 'required'
         ]);
-
+        $employee = Auth::user()->id;
         ClientFollowUp::create([
             'description' => $request->description,
-            'clients_id' => $request->clients_id
+            'clients_id' => $request->clients_id,
+            'created_by' => $employee,
+            'modify_by' => $employee,
         ]);
 
         $url = '/ATS/clients/' . $request->clients_id . '/edit#follow_up';
@@ -400,7 +428,7 @@ class ClientController extends Controller
 
         try {
             DB::beginTransaction();
-            
+
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->log_email,

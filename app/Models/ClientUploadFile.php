@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
 
 class ClientUploadFile extends Model
@@ -25,5 +26,10 @@ class ClientUploadFile extends Model
     {
         return $this->belongsTo(uploadfiletype::class, 'file_type_id');
     }
-    
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
 }

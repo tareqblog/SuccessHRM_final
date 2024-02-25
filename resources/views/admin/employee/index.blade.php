@@ -59,6 +59,7 @@
                                             <a href="{{ route('employee.edit', $data->id) }}"
                                                 class="btn btn-info btn-sm me-3"><i class="fas fa-pen"></i></a>
                                             @endif
+                                            @if (Auth::user()->employe->roles_id != 8)
                                                 @if (App\Helpers\FileHelper::usr()->can('employee.destroy'))
                                                 <form id="deleteForm" action="{{ route('employee.destroy', $data->id) }}"
                                                     method="POST">
@@ -69,6 +70,7 @@
                                                         class="btn btn-sm btn-danger"><i class="fas fa fa-trash"></i></a>
                                                 </form>
                                                 @endif
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
