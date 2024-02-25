@@ -483,13 +483,9 @@ class CandidateController extends Controller
                     'consultant_id' => $team['consultant_id'],
                 ]);
 
-                $dashboard->update([
-                    'manager_id' => $team['manager_id'],
-                    'teamleader_id' => $team['team_leader_id'],
-                    'consultent_id' => $team['consultant_id'],
-                    'remark_id' => $dashboard_data['remark_id'],
-                    'follow_day' => $dashboard_data['follow_day'],
-                ]);
+                $dashboard_data['manager_id'] = $team['manager_id'];
+                $dashboard_data['teamleader_id'] = $team['team_leader_id'];
+                $dashboard_data['consultent_id'] = $team['consultant_id'];
             }
             if ($request->remarkstype_id == 1) {
                 $team = get_team($request->Assign_to_manager);
@@ -499,13 +495,10 @@ class CandidateController extends Controller
                     'team_leader_id' => $team['team_leader_id'],
                     'consultant_id' => $team['consultant_id'],
                 ]);
-                $dashboard->update([
-                    'manager_id' => $team['manager_id'],
-                    'teamleader_id' => $team['team_leader_id'],
-                    'consultent_id' => $team['consultant_id'],
-                    'remark_id' => $dashboard_data['remark_id'],
-                    'follow_day' => $dashboard_data['follow_day'],
-                ]);
+
+                $dashboard_data['manager_id'] = $team['manager_id'];
+                $dashboard_data['teamleader_id'] = $team['team_leader_id'];
+                $dashboard_data['consultent_id'] = $team['consultant_id'];
             }
             if ($request->remarkstype_id == 12) {
                 $team = get_team($request->Assign_to_manager);
@@ -516,13 +509,9 @@ class CandidateController extends Controller
                     'consultant_id' => $team['consultant_id'],
                 ]);
                 // return $dashboard;
-                $dashboard->update([
-                    'manager_id' => $team['manager_id'],
-                    'teamleader_id' => $team['team_leader_id'],
-                    'consultent_id' => $team['consultant_id'],
-                    'remark_id' => $dashboard_data['remark_id'],
-                    'follow_day' => $dashboard_data['follow_day'],
-                ]);
+                $dashboard_data['manager_id'] = $team['manager_id'];
+                $dashboard_data['teamleader_id'] = $team['team_leader_id'];
+                $dashboard_data['consultent_id'] = $team['consultant_id'];
 
                 // return $dashboard;
             }
@@ -535,13 +524,9 @@ class CandidateController extends Controller
                     'consultant_id' => $team['consultant_id'],
                 ]);
 
-                $dashboard->update([
-                    'manager_id' => $team['manager_id'],
-                    'teamleader_id' => $team['team_leader_id'],
-                    'consultent_id' => $team['consultant_id'],
-                    'remark_id' => $dashboard_data['remark_id'],
-                    'follow_day' => $dashboard_data['follow_day'],
-                ]);
+                $dashboard_data['manager_id'] = $team['manager_id'];
+                $dashboard_data['teamleader_id'] = $team['team_leader_id'];
+                $dashboard_data['consultent_id'] = $team['consultant_id'];
             }
 
             if($request->remarkstype_id == 3)
@@ -560,13 +545,10 @@ class CandidateController extends Controller
                     'team_leader_id' => $team['team_leader_id'],
                     'consultant_id' => $team['consultant_id'],
                 ]);
-                $dashboard->update([
-                    'manager_id' => $team['manager_id'],
-                    'teamleader_id' => $team['team_leader_id'],
-                    'consultent_id' => $team['consultant_id'],
-                    'remark_id' => $dashboard_data['remark_id'],
-                    'follow_day' => $dashboard_data['follow_day'],
-                ]);
+
+                $dashboard_data['manager_id'] = $team['manager_id'];
+                $dashboard_data['teamleader_id'] = $team['team_leader_id'];
+                $dashboard_data['consultent_id'] = $team['consultant_id'];
             }
 
             if ($request->remarkstype_id == 7) {
@@ -633,6 +615,8 @@ class CandidateController extends Controller
                 $calander['status'] = 1;
                 Calander::create($calander);
             }
+
+            $dashboard->update($dashboard_data);
 
             $candidate = candidate::find($id);
             Assign::create([
