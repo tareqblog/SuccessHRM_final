@@ -547,4 +547,19 @@ class CandidateFileImportController extends Controller
 
         return response()->json(['remarks' => $data]);
     }
+
+    public function getCandidateTeamleader()
+    {
+        $auth = Auth::user()->employe;
+        $teamleader = Employee::select('id', 'employee_name');
+
+        if($auth->roles_id == 4)
+        {
+            $teamleader = $teamleader->where('manager_users_id', $auth->id);
+        }
+
+        $teamleader = $teamleader->where('roles_id', 11)->get();
+
+        return response()->json(['teamleader' => $teamleader]);
+    }
 }

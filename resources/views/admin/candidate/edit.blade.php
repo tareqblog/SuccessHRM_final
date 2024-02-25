@@ -1675,13 +1675,7 @@
                                                 <label for="one" class="col-sm-3 col-form-label fw-bold">Assign To
                                                     <span class="text-danger">*</span> </label>
                                                 <div class="col-sm-9">
-                                                    <select name="team_leader" class="form-control single-select-field">
-                                                        <option value="">Select One</option>
-                                                        @foreach ($users as $user)
-                                                            <option value="{{ $user->id }}">
-                                                                {{ $user->name }}
-                                                            </option>
-                                                        @endforeach
+                                                    <select id="team_leader_option" name="team_leader" class="form-control single-select-field">
                                                     </select>
                                                 </div>
                                             </div>
@@ -2455,6 +2449,23 @@
 
                     if (selectedValue === '2') {
                         $('#AssignToTeamLeader').show().css('display', 'show');
+                        $.ajax({
+                            type: 'GET',
+                            url: '/ATS/get/candidate/teamleader',
+                            success: function(response) {
+                                console.log(response);
+                                let selectElement = $('#team_leader_option');
+                                selectElement.empty();
+
+                                $.each(response.teamleader, function(index, item) {
+                                    var option = $('<option>', {
+                                        value: item.id,
+                                        text: item.employee_name
+                                    });
+                                    selectElement.append(option);
+                                });
+                            },
+                        });
                     } else {
                         $('#AssignToTeamLeader').hide().css('display', 'none');
                     }
