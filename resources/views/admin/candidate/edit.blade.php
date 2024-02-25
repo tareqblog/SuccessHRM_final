@@ -1237,7 +1237,7 @@
                                                                     @csrf
                                                                     @method('DELETE')
                                                                     <button class="btn btn-danger btn-sm"
-                                                                        onclick="return confirm('Are you sure you want to delete this item?')"
+                                                                        onclick="return confirm('Are you sure you want to delete this item?')" {{ $resume->isMain == 1 ? 'disabled' : '' }}
                                                                         type="submit">Delete</button>
                                                                 </form>
                                                             @endif
@@ -1333,7 +1333,7 @@
                                                 <label for="one" class="col-sm-3 col-form-label fw-bold">Remark Type</label>
                                                 <div class="col-sm-9">
                                                     <select name="remarkstype_id" class="form-control single-select-field"
-                                                        id="remark_type">
+                                                        id="remark_type_test">
                                                         <option selected disabled>Select One</option>
                                                         @if ($auth->roles_id == 1)
                                                             <option value="1" {{ old('remarkstype_id') == 1 ? 'selected' : '' }}>Assign To Manager</option>
@@ -1552,6 +1552,21 @@
                                                     </select>
                                                 </div>
                                             </div>
+                                            <div class="row col-md-6 col-lg-6 mb-1" id="reassign" style="display: none;">
+                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Assign To
+                                                    <span class="text-danger">*</span> </label>
+                                                <div class="col-sm-9">
+                                                    <select name="Assign_to_manager"
+                                                        class="form-control single-select-field">
+                                                        <option selected disabled>Select One</option>
+                                                        @foreach (\App\Models\Employee::select('id', 'employee_name')->where('roles_id', '!=', 1)->get() as $user)
+                                                            <option value="{{ $user->id }}" {{ old('Assign_to_manager') == $user->id || $candidate->Assign_to_manager == $user->id ? 'selected' : '' }}>
+                                                                {{ $user->employee_name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
 
                                             <div class="row col-md-6 col-lg-6 mb-1" id="clientArNo" style="display: none;">
                                                 <label for="one" class="col-sm-3 col-form-label fw-bold">AR
@@ -1631,7 +1646,7 @@
                                                         name="shortlistContractSigningTime">
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistCoEndDate">
+                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistContractEndDate" style="display: none">
                                                 <label for="one" class="col-sm-3 col-form-label fw-bold">Contract End Date <span class="text-danger">*</span></label>
                                                 <div class="col-sm-9">
                                                     <input type="date" class="form-control"
@@ -1713,8 +1728,8 @@
                                                     <select name="attendInterview"
                                                         class="form-control single-select-field">
                                                         <option value="pending">Pending</option>
-                                                        <option value="yes">Yes</option>
-                                                        <option value="no">No</option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="0">No</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -2332,7 +2347,7 @@
                                         <div class="mt-5 mt-lg-4 mt-xl-0">
                                             <div class="row mb-1">
                                                 <label for="file_path" class="col-sm-3 col-form-label">Upload
-                                                    File</label>
+                                                    File (<span class="text-danger">Pdf Only **</span>)</label>
                                                 <div class="col-sm-9">
                                                     <input type="file" name="file_path" class="form-control">
                                                 </div>
@@ -2422,6 +2437,113 @@
             }
         </script>
         <script>
+
+            $(document).ready(function() {
+                $('body').on('change','#remark_type_test',function () {
+                    var selectedValue = $(this).val();
+
+                    if (selectedValue === '9') {
+                        $('#reassign').show();
+                    } else {
+                        $('#reassign').hide();
+                    }
+                    if (selectedValue === '12' || selectedValue === '1') {
+                        $('#AssignToManager').show();
+                    } else {
+                        $('#AssignToManager').hide();
+                    }
+
+                    if (selectedValue === '2') {
+                        $('#AssignToTeamLeader').show().css('display', 'show');
+                    } else {
+                        $('#AssignToTeamLeader').hide().css('display', 'none');
+                    }
+
+                    if (selectedValue === '3') {
+                        $('#AssignToRC').show().css('display', 'show');
+                    } else {
+                        $('#AssignToRC').hide().css('display', 'none');
+                    }
+
+                    if (selectedValue === '5') {
+                        $('#interviewTime').show().css('display', 'show');
+                        $('#interviewCompany').show().css('display', 'show');
+                        $('#expectedSalary').show().css('display', 'show');
+                        $('#interviewPosition').show().css('display', 'show');
+                        $('#receivedJobOffer').show().css('display', 'show');
+                        $('#emailNoticeDate').show().css('display', 'show');
+                        $('#interviewDate').show().css('display', 'show');
+                        $('#interviewBy').show().css('display', 'show');
+                        $('#jobOfferSalary').show().css('display', 'show');
+                        $('#attendInterview').show().css('display', 'show');
+                        $('#availableDate').show().css('display', 'show');
+                        $('#interviewEmailNoticeDate').show().css('display', 'show');
+                    } else {
+                        $('#interviewTime').hide().css('display', 'none');
+                        $('#interviewCompany').hide().css('display', 'none');
+                        $('#expectedSalary').hide().css('display', 'none');
+                        $('#interviewPosition').hide().css('display', 'none');
+                        $('#receivedJobOffer').hide().css('display', 'none');
+                        $('#emailNoticeDate').hide().css('display', 'none');
+                        $('#interviewDate').hide().css('display', 'none');
+                        $('#interviewBy').hide().css('display', 'none');
+                        $('#jobOfferSalary').hide().css('display', 'none');
+                        $('#attendInterview').hide().css('display', 'none');
+                        $('#availableDate').hide().css('display', 'none');
+                        $('#interviewEmailNoticeDate').hide().css('display', 'none');
+                    }
+
+                    if (selectedValue === '6') {
+                        $('#AssignToClient').show().css('display', 'show');
+                        $('#clientArNo').show().css('display', 'show');
+                    } else {
+                        $('#AssignToClient').hide().css('display', 'none');
+                        $('#clientArNo').hide().css('display', 'none');
+                    }
+
+                    if (selectedValue === '7') {
+                        $('#shortlistClientCompany').show().css('display', 'show');
+                        $('#shortlistDepartment').show().css('display', 'show');
+                        $('#shortlistPlacement').show().css('display', 'show');
+                        $('#shortlistJobTitle').show().css('display', 'show');
+                        $('#shortlistJobType').show().css('display', 'show');
+                        $('#shortlistProbationPeriod').show().css('display', 'show');
+                        $('#shortlistContractSigningDate').show().css('display', 'show');
+                        $('#shortlistEmailNoticeDate').show().css('display', 'show');
+                        $('#shortlistSalary').show().css('display', 'show');
+                        $('#shortlistArNo').show().css('display', 'show');
+                        $('#shortlistHourlyRate').show().css('display', 'show');
+                        $('#shortlistAdminFee').show().css('display', 'show');
+                        $('#shortlistStartDate').show().css('display', 'show');
+                        $('#shortlistReminderPeriod').show().css('display', 'show');
+                        $('#shortlistContractSigningTime').show().css('display', 'show');
+                        $('#shortlistLastDay').show().css('display', 'show');
+                        $('#shortlistEmailNoticeTime').show().css('display', 'show');
+                        $('#shortlistContractEndDate').show().css('display', 'show');
+                    } else {
+                        $('#shortlistClientCompany').hide().css('display', 'none');
+                        $('#shortlistDepartment').hide().css('display', 'none');
+                        $('#shortlistPlacement').hide().css('display', 'none');
+                        $('#shortlistJobTitle').show().css('display', 'none');
+                        $('#shortlistJobType').hide().css('display', 'none');
+                        $('#shortlistProbationPeriod').hide().css('display', 'none');
+                        $('#shortlistContractSigningDate').hide().css('display', 'none');
+                        $('#shortlistEmailNoticeDate').hide().css('display', 'none');
+                        $('#shortlistSalary').hide().css('display', 'none');
+                        $('#shortlistArNo').hide().css('display', 'none');
+                        $('#shortlistHourlyRate').hide().css('display', 'none');
+                        $('#shortlistAdminFee').hide().css('display', 'none');
+                        $('#shortlistStartDate').hide().css('display', 'none');
+                        $('#testone').hide().css('display', 'none');
+                        $('#shortlistReminderPeriod').hide().css('display', 'none');
+                        $('#shortlistContractSigningTime').hide().css('display', 'none');
+                        $('#shortlistLastDay').hide().css('display', 'none');
+                        $('#shortlistEmailNoticeTime').hide().css('display', 'none');
+                        $('#shortlistContractEndDate').hide().css('display', 'none');
+                    }
+                });
+            });
+
             $(document).ready(function() {
                 function loadTimeSheetDetails(timesheetId) {
                     let html = '';
@@ -2511,7 +2633,7 @@
         @include('admin.candidate.inc.teamjs');
         <script src="{{ asset('build/js/ajax/candidateDeclaration.js') }}"></script>
         {{-- <script src="{{ asset('build/js/ajax/candidate/genaral.js') }}"></script> --}}
-        <script src="{{ asset('build/js/ajax/candidateRemark.js') }}"></script>
+        {{-- <script src="{{ asset('build/js/ajax/candidateRemark.js') }}"></script> --}}
         <script src="{{ asset('build/js/ajax/candidatePayroll.js') }}"></script>
         <script src="{{ asset('build/js/ajax/imagePreview.js') }}"></script>
         {{-- <script src="{{ asset('build/js/ajax/candidateTimeSheetGet.js') }}"></script> --}}

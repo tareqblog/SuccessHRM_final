@@ -1,6 +1,7 @@
 $(document).ready(function () {
-    $('#remark_type').change(function () {
+    $('#remark_type_test').change(function () {
 
+        alert('sdg')
         var selectedValue = $(this).val();
         // AssignToManager Start
         if (selectedValue === '1') {
@@ -10,10 +11,11 @@ $(document).ready(function () {
         }
 
         if (selectedValue === '12') {
-            $('#AssignToManager').show().css('display', 'show');
+            $('#AssignToManager').css('display', 'show');
         } else {
-            $('#AssignToManager').hide().css('display', 'none');
+            $('#AssignToManager').css('display', 'none');
         }
+
         // AssignToManager end
         // AssignToTeamLeader Start
         if (selectedValue === '2') {
@@ -113,5 +115,5 @@ $(document).ready(function () {
         //AssignToClient end
 
     });
-    $('#remark_type').trigger('change');
+    // $('#remark_type').trigger('change');
 });
