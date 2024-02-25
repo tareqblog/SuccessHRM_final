@@ -313,7 +313,6 @@ class EmployeeController extends Controller
 
     public function salaryInfoPost(Request $request)
     {
-
         if (is_null($this->user) || !$this->user->can('employee.salary.info.post')) {
             abort(403, 'Unauthorized');
         }

@@ -53,6 +53,13 @@
             width: 100vw;
             border-radius: 0;
         }
+
+        .form-select {
+            font-size: 0.8rem;
+            line-height: 1;
+            padding: 0 0.8rem;
+            margin: 0;
+        }
     </style>
 
     <body>
@@ -256,13 +263,14 @@
                                                                 @if ($auth->roles_id == 4)
                                                                     @include('admin.dashboard.inc.select')
                                                                 @endif
+                                                                <a class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}">R</a>
                                                                 @if($candidate->candidate->getMainResumeFilePath() != null)
                                                                 <button type="button"
-                                                                    class="btn btn-info me-2 resumePath"
+                                                                    class="btn btn-info me-2 resumePath  btn-sm"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
                                                                     data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
                                                                 @endif
-                                                                <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger me-2 resumePath">X</a>
+                                                                <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 resumePath">X</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -329,14 +337,15 @@
                                                                     @if ($auth->roles_id == 4)
                                                                         @include('admin.dashboard.inc.select')
                                                                     @endif
+                                                                    <a class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}">R</a>
                                                                     @if($candidate->candidate->getMainResumeFilePath() != null)
                                                                         <button type="button"
-                                                                            class="btn btn-info btn-sm me-2 mb-2 resumePath"
+                                                                            class="btn btn-info btn-sm me-2 mb-2 resumePath  btn-sm"
                                                                             data-bs-toggle="modal"
                                                                             data-bs-target="#showResume"
                                                                             data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
                                                                     @endif
-                                                                    <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 mb-2 resumePath">X</a>
+                                                                    <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 mb-2 resumePath  btn-sm">X</a>
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -396,13 +405,14 @@
                                                                 @if ($auth->roles_id == 4)
                                                                     @include('admin.dashboard.inc.select')
                                                                 @endif
+                                                                <a class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}">R</a>
                                                                 @if($candidate->candidate->getMainResumeFilePath() != null)
                                                                 <button type="button"
-                                                                    class="btn btn-info btn-sm me-2 mb-2 resumePath"
+                                                                    class="btn btn-info btn-sm me-2 mb-2 resumePath btn-sm"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
                                                                     data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
                                                                 @endif
-                                                                <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 mb-2 resumePath">X</a>
+                                                                <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 mb-2 resumePath btn-sm">X</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -473,13 +483,14 @@
                                                                 @if ($auth->roles_id == 4)
                                                                     @include('admin.dashboard.inc.select')
                                                                 @endif
+                                                                <a class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}">R</a>
                                                                 @if($candidate->candidate->getMainResumeFilePath() != null)
                                                                 <button type="button"
-                                                                    class="btn btn-info btn-sm me-2 mb-2 resumePath"
+                                                                    class="btn btn-info me-2 mb-2 resumePath btn-sm"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
                                                                     data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
                                                                 @endif
-                                                                <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 mb-2 resumePath">X</a>
+                                                                <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger me-2 mb-2 resumePath btn-sm">X</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -540,6 +551,7 @@
                                                                     @if ($auth->roles_id == 4)
                                                                         @include('admin.dashboard.inc.select')
                                                                     @endif
+                                                                    <a class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}">R</a>
                                                                     @if($candidate->candidate?->getMainResumeFilePath() != null)
                                                                     <button type="button"
                                                                         class="btn btn-info btn-sm me-2 mb-2 resumePath"
@@ -607,6 +619,7 @@
                                                                 @if ($auth->roles_id == 4)
                                                                     @include('admin.dashboard.inc.select')
                                                                 @endif
+
                                                                 @if($candidate->candidate?->getMainResumeFilePath() != null)
                                                                 <button type="button"
                                                                     class="btn btn-info btn-sm me-2 mb-2 resumePath"
@@ -671,11 +684,11 @@
                                                                 @include('admin.dashboard.inc.select')
                                                                 @if($candidate->candidate->getMainResumeFilePath() != null)
                                                                 <button type="button"
-                                                                    class="btn btn-info me-2 resumePath"
+                                                                    class="btn btn-info me-2 resumePath btn-sm"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
                                                                     data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
                                                                 @endif
-                                                                <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger me-2 resumePath">X</a>
+                                                                <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 resumePath">X</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach

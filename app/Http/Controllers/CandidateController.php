@@ -758,19 +758,19 @@ class CandidateController extends Controller
                 $calander = [];
                 $calander['candidate_remark_shortlist_id'] = $shortlist->id;
                 if ($shortlist->end_date != null) {
-                    $calander['title'] = 'Contract Ending -' . $candidate->consultant->employee_name . '-' . $remark->outlet->outlet_name;
+                    $calander['title'] = 'Contract Ending -' . $candidate->consultant->employee_code . '-' . $remark->outlet->outlet_name;
                     $calander['date'] = $shortlist->end_date;
                     $calander['status'] = 4;
                     Calander::create($calander);
                 }
                 if ($shortlist->start_date != null) {
-                    $calander['title'] = 'Shortlisted -' . $candidate->consultant->employee_name . '-' . $remark->outlet->outlet_name;
+                    $calander['title'] = 'Shortlisted -' . $candidate->consultant->employee_code . '-' . $remark->outlet->outlet_name;
                     $calander['date'] = $shortlist->start_date;
                     $calander['status'] = 2;
                     Calander::create($calander);
                 }
                 if ($shortlist->contact_signing_date != null) {
-                    $calander['title'] = Carbon::parse($shortlist->contact_signing_time)->format('h:i A') . ' -Contract Signing -' . $candidate->consultant->employee_name . '-' . $remark->outlet->outlet_name;
+                    $calander['title'] = Carbon::parse($shortlist->contact_signing_time)->format('h:i A') . ' -Contract Signing -' . $candidate->consultant->employee_code . '-' . $remark->outlet->outlet_name;
                     $calander['date'] = $shortlist->contact_signing_date;
                     $calander['status'] = 3;
                     Calander::create($calander);
@@ -797,7 +797,7 @@ class CandidateController extends Controller
                 $interview->update($data);
 
                 $interview = CandidateRemarkInterview::find($request->interview_id);
-                $calander_up['title'] = Carbon::parse($interview->interview_time)->format('h:i A') . ' - Interview -' . $candidate->consultant->employee_name . '-' . $interview->company->outlet_name;
+                $calander_up['title'] = Carbon::parse($interview->interview_time)->format('h:i A') . ' - Interview -' . $candidate->consultant->employee_code . '-' . $interview->company->outlet_name;
                 $calander_up['date'] = $interview->interview_date;
                 $calander = Calander::where('candidate_remark_shortlist_id', $interview->id)->first();
                 $calander->update($calander_up);

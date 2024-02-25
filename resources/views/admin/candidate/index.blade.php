@@ -74,11 +74,11 @@
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#showResume"
                                                 data-file-path="{{ $data->getMainResumeFilePath() }}">D</button>
-                                            <a href="" class="btn btn-secondary btn-sm me-2">Resume</a>
+                                            <a target="__blank" href="{{ asset('storage') }}/{{ $data->getMainResumeFilePath() }}" class="btn btn-info btn-sm me-2"><i class="fas fa-download"></i></a></a>
                                             @endif
                                             @if (App\Helpers\FileHelper::usr()->can('candidate.remark'))
                                                 <a onclick="getRemark({{ $data->id }})"
-                                                    class="btn btn-warning btn-sm me-2">Remarks</a>
+                                                    class="btn btn-warning btn-sm me-2">R</a>
                                             @endif
                                             @if (App\Helpers\FileHelper::usr()->can('candidate.update'))
                                                 <a href="{{ route('candidate.edit', $data->id) }}"
