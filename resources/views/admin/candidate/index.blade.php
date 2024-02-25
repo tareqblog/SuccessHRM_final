@@ -71,7 +71,7 @@
                                         <td class="d-flex flex-row">
                                             @if($data->getMainResumeFilePath() != null)
                                             <button type="button"
-                                                class="btn btn-info btn-sm me-2 mb-2 resumePath"
+                                                class="btn btn-info btn-sm me-2 resumePath"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#showResume"
                                                 data-file-path="{{ $data->getMainResumeFilePath() }}">D</button>
@@ -83,7 +83,7 @@
                                             @endif
                                             @if (App\Helpers\FileHelper::usr()->can('candidate.update'))
                                                 <a href="{{ route('candidate.edit', $data->id) }}"
-                                                    class="btn btn-info btn-sm me-2" title="Edit"><i
+                                                    class="btn btn-info btn-sm me-2" title="Edit"><i    
                                                         class="fas fa-pen"></i></a>
                                             @endif
                                             @if (App\Helpers\FileHelper::usr()->can('candidate.destroy'))

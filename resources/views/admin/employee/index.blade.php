@@ -35,13 +35,13 @@
                             <table class="table table-bordered mb-0 mt-0 bg-light" id="myTable">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>Name</th>
-                                        <th>User Role</th>
-                                        <th>Email</th>
-                                        <th>Mobile</th>
-                                        <th>Initialize</th>
-                                        <th>Status</th>
+                                        <th style="padding-right: 20px;">No</th>
+                                        <th style="padding-right: 90px !important;">Name</th>
+                                        <th style="padding-right: 80px !important">User Role</th>
+                                        <th style="padding-right: 90px !important;">Email</th>
+                                        <th style="padding-right: 90px !important;">Mobile</th>
+                                        <th style="padding-right: 30px !important;">Initialize</th>
+                                        <th style="padding-right: 30px !important;">Status</th>
                                         <th></th>
                                     </tr>
                                 </thead>

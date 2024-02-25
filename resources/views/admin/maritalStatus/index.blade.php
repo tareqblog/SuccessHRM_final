@@ -48,7 +48,7 @@
                                 <thead>
                                     <tr>
                                         <th>No.</th>
-                                        <th>Marital Code</th>
+                                        <th style="padding-right: 60px !important">Marital Code</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>

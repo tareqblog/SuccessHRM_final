@@ -36,11 +36,11 @@
                         <table class="table table-bordered" id="myTable">
                             <thead class="bg-light text-capitalize">
                                 <tr>
-                                    <th>Sl</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Roles</th>
-                                    <th>Action</th>
+                                    <th style="padding-right: 60px !important">Sl</th>
+                                    <th style="padding-right: 80px !important">Name</th>
+                                    <th style="padding-right: 60px !important">Email</th>
+                                    <th style="padding-right: 90px !important">Roles</th>
+                                    <th style="padding-right: 60px !important">Action</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -44,11 +44,11 @@ Leave Type Management
                         <table class="table table-bordered" id="myTable">
                             <thead>
                                 <tr>
-                                    <th>No.</th>
-                                    <th>Leave Type</th>
-                                    <th>Description</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    <th style="padding-right: 20px !important">No.</th>
+                                    <th style="padding-right: 120px !important">Leave Type</th>
+                                    <th style="padding-right: 100px !important">Description</th>
+                                    <th style="padding-right: 30px !important">Status</th>
+                                    <th style="padding-right: 60px !important">Action</th>
                                 </tr>
                             </thead>
                             <tbody>

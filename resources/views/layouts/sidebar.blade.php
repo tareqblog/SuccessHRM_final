@@ -1,5 +1,15 @@
+
+
+
 <!-- ========== Left Sidebar Start ========== -->
-<div class="vertical-menu">
+
+<button type="button" onclick="toggleSidebar()"  id="toggleMenu" class="btn btn-sm px-3 font-size-24 header-item waves-effect vertical-menu-btn">
+        <!-- <i  class="bx bx-menu align-middle"></i> -->
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+
+<div class="vertical-menu" id="sidebar">
 
     <!-- LOGO -->
     <div class="navbar-brand-box">
@@ -22,12 +32,9 @@
         </a>
     </div>
 
-    <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect vertical-menu-btn">
-        <i class="bx bx-menu align-middle"></i>
-    </button>
+    
 
-    <div data-simplebar class="sidebar-menu-scroll">
-
+    <div data-simplebar class="sidebar-menu-scroll" >
         <!--- Sidemenu -->
         <div id="sidebar-menu">
             <!-- Left Menu Start -->
@@ -422,3 +429,9 @@
     </div>
 </div>
 <!-- Left Sidebar End -->
+
+<script>
+    function toggleSidebar(){
+        document.getElementById("sidebar").classList.toggle('active');
+    }
+</script>

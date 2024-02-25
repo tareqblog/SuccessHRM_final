@@ -33,16 +33,16 @@
                             <table class="table table-bordered mb-0" id="myTable">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>Title</th>
-                                        <th>Category</th>
-                                        <th>Owner</th>
-                                        <th>Status</th>
-                                        <th>Job Type</th>
-                                        <th>Create Date</th>
-                                        <th>Last Updated By</th>
-                                        <th style="width:100px">Internal Remark</th>
-                                        <th>Action</th>
+                                        <th style="padding-right: 20px !important">No</th>
+                                        <th style="padding-right: 130px !important">Title</th>
+                                        <th style="padding-right: 60px !important">Category</th>
+                                        <th style="padding-right: 90px !important">Owner</th>
+                                        <th style="padding-right: 20px !important">Status</th>
+                                        <th style="padding-right: 110px !important">Job Type</th>
+                                        <th style="padding-right: 60px !important">Create Date</th>
+                                        <th style="padding-right: 60px !important">Last Updated By</th>
+                                        <th style="padding-right: 90px !important">Internal Remark</th>
+                                        <th style="padding-right: 60px !important">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>

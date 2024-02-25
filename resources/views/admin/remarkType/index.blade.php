@@ -36,7 +36,7 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Name</th>
+                                        <th style="padding-right: 130px !important">Name</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr> 

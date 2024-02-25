@@ -144,10 +144,10 @@
                                         <textarea rows="2" id="display_address" name="display_address" class="form-control" placeholder="Display Address"></textarea>
                                     </div>
                                 </div>
-                                <div class="row col-12 mb-1">
-                                    <label for="description" class="col-sm-2 col-form-label fw-bold">Description</label>
+                                <div class=" mb-1 remarkWrap">
+                                    <label for="description" class="newRemarkJob col-form-label fw-bold">Description</label>
                                     <div class="col-sm-10">
-                                        <textarea name="description" id="description" class="form-control editor" rows="2"> {{ old('description') }} </textarea>
+                                        <textarea name="description" id="description" class="remarktextarea editor" rows="2"> {{ old('description') }} </textarea>
                                     </div>
                                 </div>
                             </div>

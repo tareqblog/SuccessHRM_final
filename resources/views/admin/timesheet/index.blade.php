@@ -45,11 +45,11 @@
                             <table class="table table-bordered mb-0" id="myTable">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>Title</th>
-                                        <th>Print Title</th>
-                                        <th>Remark</th>
-                                        <th>Action</th>
+                                        <th style="padding-right: 20px !important">No</th>
+                                        <th style="padding-right: 100px !important">Title</th>
+                                        <th style="padding-right: 100px !important">Print Title</th>
+                                        <th style="padding-right: 100px !important">Remark</th>
+                                        <th style="padding-right: 70px !important">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>

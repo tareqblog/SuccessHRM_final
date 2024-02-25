@@ -31,9 +31,9 @@ Type Of Pass
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Name</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    <th style="padding-right: 20px !important">Name</th>
+                                    <th style="padding-right: 20px !important">Status</th>
+                                    <th style="padding-right: 30px !important">Action</th>
                                 </tr>
                             </thead>
                             <tbody>

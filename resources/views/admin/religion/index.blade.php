@@ -44,45 +44,44 @@ Religion Management
                         {{-- Here place table --}}
 
                         <div class="admin-dashboard-table">
-                        <table class="table table-bordered" id="myTable">
-                            <thead>
-                                <tr>
-                                    <th>No.</th>
-                                    <th>Religion Code</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($datas as $data)
+                            <table class="table table-bordered" id="myTable">
+                                <thead>
                                     <tr>
-                                        <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $data->religion_code }}</td>
-                                        <td>{{ $data->religion_status == '1' ? 'Active' : 'In-Active' }}</td>
-                                        <td class="d-flex">
-                                            @if (App\Helpers\FileHelper::usr()->can('religion.update'))
-                                            <button data-id="{{ $data->id }}" data-bs-toggle="modal"
-                                                data-bs-target=".bs-example-modal-lg-edit"
-                                                class="btn btn-sm btn-info edit me-3"><i
-                                                    class="fa-solid fa-pen-to-square"></i></button>
-                                            @endif
-                                            @if (App\Helpers\FileHelper::usr()->can('religion.destroy'))
-                                            <form action="{{ route('religion.destroy', $data->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger"
-                                                    onclick="return confirm('Are you sure you want to delete this item?')"><i
-                                                        class="fa-solid fa-trash"></i></button>
-                                            </form>
-                                            @endif
-                                        </td>
+                                        <th>No.</th>
+                                        <th style="padding-right: 60px !important">Religion Code</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach($datas as $data)
+                                        <tr>
+                                            <td>{{ $loop->index + 1 }}</td>
+                                            <td>{{ $data->religion_code }}</td>
+                                            <td>{{ $data->religion_status == '1' ? 'Active' : 'In-Active' }}</td>
+                                            <td class="d-flex">
+                                                @if (App\Helpers\FileHelper::usr()->can('religion.update'))
+                                                <button data-id="{{ $data->id }}" data-bs-toggle="modal"
+                                                    data-bs-target=".bs-example-modal-lg-edit"
+                                                    class="btn btn-sm btn-info edit me-3"><i
+                                                        class="fa-solid fa-pen-to-square"></i></button>
+                                                @endif
+                                                @if (App\Helpers\FileHelper::usr()->can('religion.destroy'))
+                                                <form action="{{ route('religion.destroy', $data->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-danger"
+                                                        onclick="return confirm('Are you sure you want to delete this item?')"><i
+                                                            class="fa-solid fa-trash"></i></button>
+                                                </form>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-
 
                     <!--  Create modal example -->
                     <div class="modal fade bs-example-modal-lg-create" tabindex="-1" role="dialog"

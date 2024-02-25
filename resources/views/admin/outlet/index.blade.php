@@ -41,13 +41,13 @@
                             <table class="table table-bordered mb-0" id="myTable">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>Company Name</th>
-                                        <th>Country</th>
-                                        <th>Tel No</th>
-                                        <th>Website</th>
-                                        <th>Description</th>
-                                        <th>Action</th>
+                                        <th style="padding-right: 30px">No</th>
+                                        <th style="padding-right: 150px !important">Company Name</th>
+                                        <th style="padding-right: 50px">Country</th>
+                                        <th style="padding-right: 60px">Tel No</th>
+                                        <th style="padding-right: 230px !important">Website</th>
+                                        <th style="padding-right: 80px !important">Description</th>
+                                        <th style="padding-right: 40px">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>

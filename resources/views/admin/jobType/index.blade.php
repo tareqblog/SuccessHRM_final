@@ -45,11 +45,11 @@
                         <table class="table table-bordered mb-0" id="myTable">
                             <thead>
                                 <tr>
-                                    <th>No</th>
-                                    <th>Type</th>
-                                    <th>Seq No</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    <th style="padding-right: 20px !important">No</th>
+                                    <th style="padding-right: 130px !important">Type</th>
+                                    <th style="padding-right: 30px !important">Seq No</th>
+                                    <th style="padding-right: 20px !important">Status</th>
+                                    <th style="padding-right: 60px !important">Action</th>
                                 </tr>
                             </thead>
                             <tbody>

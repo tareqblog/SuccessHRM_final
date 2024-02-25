@@ -24,8 +24,8 @@ Manage Roles
                         <a href="{{route('roles.create')}}" class="btn btn-sm btn-success">Create New</a>
                     </div>
                     @endif
-                            </div>
-                        </div>
+                    </div>
+                </div>
                 </div>
                 <div class="card-body">
                     <div class="admin-dashboard-table">

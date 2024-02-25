@@ -46,11 +46,11 @@
                         <table class="table table-bordered" id="myTable">
                             <thead>
                                 <tr>
-                                    <th>No.</th>
-                                    <th>Designation Code</th>
-                                    <th>Description</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    <th style="padding-right: 60px !important">No.</th>
+                                    <th style="padding-right: 120px !important">Designation Code</th>
+                                    <th style="padding-right: 120px !important">Description</th>
+                                    <th style="padding-right: 40px !important">Status</th>
+                                    <th style="padding-right: 40px !important">Action</th>
                                 </tr>
                             </thead>
                             <tbody>

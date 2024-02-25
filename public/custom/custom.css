@@ -6,30 +6,105 @@
 }
 
 table.dataTable tbody td {
-    padding: .3rem;
+    padding: 0.3rem;
 }
-.table>:not(caption)>*>* {
+.table > :not(caption) > * > * {
     padding: 0.2rem;
 }
 
-
-
-.admin-dashboard-table{
+.admin-dashboard-table {
     overflow-x: scroll;
 }
-.admin-dashboard-table table thead tr th{
-    padding-right: 1    0px !important;
+.admin-dashboard-table table thead tr th {
+    padding-right: 1 0px !important;
 }
 
-/* .tab-content{
-    input{
-        width: 100% !important;
-    }
-}    */
-
-
-@media screen and (max-width: 500px) {
-    .admin-dashboard-table{
-        padding: 20px 0px;
-    }
+table thead tr th{
+    padding: 12px 0px !important;
 }
+
+
+.dataTables_wrapper {
+    padding-top: 10px;
+}
+
+.remarkWrap{
+    display: flex;
+}
+.newRemarkJob{
+    width: 50% !important;
+}
+.newRemark{
+    width: 14% !important;
+}
+.remarktextarea{
+    width: 100%;
+}
+
+
+/* sidebar for mobile  */
+
+    #sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 280px;
+        height: 100%;
+        left: 0px;
+        transition: all linear .3s;
+    }
+    
+    #sidebar.active {
+        left: -280px;
+    }
+    
+    #sidebar .toggle-btn {
+        position: absolute;
+        left: 230px;
+        top: 20px;
+    }
+    
+
+
+    .navbar-header .vertical-menu-btn {
+         display: none !important;
+    }
+
+    .bx-menu:before {
+        /* content: ""; */
+        display: none !important;
+    }
+
+    .page-content {
+        padding: 0px 12px 60px;
+    }
+
+    /* #toggleMenu{
+        position: absolute !important;
+        top: 0px !important;
+        left: 200px !important;
+        z-index: 9999 !important;   
+    } */
+
+
+    @media screen and (max-width: 768px) {
+        .remarkWrap{
+            display:  block !important;
+        }
+        /* #sidebar{
+            display: block !important;
+            padding-top: 80px !important;
+        } */
+        .logo-sm {
+            position: relative;
+            z-index: 99999 !important;
+        }
+    }
+    
+    
+    @media screen and (max-width: 500px) {
+        .admin-dashboard-table {
+            padding: 20px 0px;
+        }
+    }
+    

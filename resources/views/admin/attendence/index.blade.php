@@ -58,12 +58,12 @@
                             <table class="table table-bordered mb-0" id="myTable">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>Name</th>
-                                        <th>Client</th>
-                                        <th>Attendence Month</th>
-                                        <th>Approved Date & Time</th>
-                                        <th>Action</th>
+                                        <th style="padding-right: 20px">No</th>
+                                        <th style="padding-right: 50px">Name</th>
+                                        <th style="padding-right: 50px">Client</th>
+                                        <th style="padding-right: 500px">Attendence Month</th>
+                                        <th style="padding-right: 100px">Approved Date & Time</th>
+                                        <th style="padding-right: 30px">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
