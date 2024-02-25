@@ -76,6 +76,7 @@ if (!function_exists('assign_dashboard_remark_id')) {
         return $data;
     }
 }
+
 if (!function_exists('get_team')) {
     function get_team($emp_id)
     {
@@ -97,52 +98,50 @@ if (!function_exists('get_team')) {
 
         return $data;
     }
+}
 
-    if (!function_exists('generate_text')) {
-        function generate_text($file)
-        {
-            $resume_text = '';
-            $file = $file;
-            $filePath = public_path('/storage/'.$file);
-            if (pathinfo($file, PATHINFO_EXTENSION) === 'docx') {
-            } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'pdf') {
-                try {
-                    $parser = new Parser();
-                    $pdf = $parser->parseFile($filePath);
+if (!function_exists('generate_text')) {
+    function generate_text($file)
+    {
+        $resume_text = '';
+        $file = $file;
+        $filePath = public_path('/storage/' . $file);
+        if (pathinfo($file, PATHINFO_EXTENSION) === 'docx') {
+        } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'pdf') {
+            try {
+                $parser = new Parser();
+                $pdf = $parser->parseFile($filePath);
 
-                    $resume_text = $pdf->getText();
-
-                } catch (\Exception $e) {
-                    return response('Error reading PDF: ' . $e->getMessage(), 500);
-                }
-            } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'xls || xlsx') {
-            } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'doc') {
+                $resume_text = $pdf->getText();
+            } catch (\Exception $e) {
+                return response('Error reading PDF: ' . $e->getMessage(), 500);
             }
+        } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'xls || xlsx') {
+        } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'doc') {
+        }
 
-            return $resume_text;
+        return $resume_text;
+    }
+}
+
+if (!function_exists('convert_lunch_to_minutes')) {
+    function convert_lunch_to_minutes($lunchHour)
+    {
+        switch ($lunchHour) {
+            case '30 minutes':
+                return 30;
+            case '45 minutes':
+                return 45;
+            case '1 hour':
+                return 60;
+            case '1.5 hour':
+                return 90;
+            case '2 hour':
+                return 120;
+            case 'No Lunch':
+                return 0;
+            default:
+                return 0;
         }
     }
-
-    if (!function_exists('convert_lunch_to_minutes')) {
-        function convert_lunch_to_minutes($lunchHour)
-        {
-            switch ($lunchHour) {
-                case '30 minutes':
-                    return 30;
-                case '45 minutes':
-                    return 45;
-                case '1 hour':
-                    return 60;
-                case '1.5 hour':
-                    return 90;
-                case '2 hour':
-                    return 120;
-                case 'No Lunch':
-                    return 0;
-                default:
-                    return 0;
-            }
-        }
-    }
-
 }

@@ -465,6 +465,19 @@ class CandidateController extends Controller
                 ]);
             }
 
+            if ($request->remarkstype_id == 1) {
+                $team = get_team($request->Assign_to_manager);
+                $request->Assign_to_manager = $team['manager_id'];
+                $candidate->update([
+                    'manager_id' => $team['manager_id'],
+                    'team_leader_id' => $team['team_leader_id'],
+                    'consultant_id' => $team['consultant_id'],
+                ]);
+                $dashboard_data['manager_id'] = $team['manager_id'];
+                $dashboard_data['team_leader_id'] = $team['team_leader_id'];
+                $dashboard_data['consultant_id'] = $team['consultant_id'];
+            }
+
             if ($request->remarkstype_id == 11 || $request->remarkstype_id == 9) {
                 $team = get_team($auth->id);
                 $request->Assign_to_manager = $team['manager_id'];
@@ -473,6 +486,9 @@ class CandidateController extends Controller
                     'team_leader_id' => $team['team_leader_id'],
                     'consultant_id' => $team['consultant_id'],
                 ]);
+                $dashboard_data['manager_id'] = $team['manager_id'];
+                $dashboard_data['team_leader_id'] = $team['team_leader_id'];
+                $dashboard_data['consultant_id'] = $team['consultant_id'];
             }
 
             if ($request->remarkstype_id == 7) {

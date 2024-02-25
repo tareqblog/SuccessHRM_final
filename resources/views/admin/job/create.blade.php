@@ -77,6 +77,9 @@
                                     <label for="leadersContainer" class="col-sm-5 col-form-label fw-bold">Person In Charge</label>
                                     <div class="col-sm-7">
                                         <select id="leadersContainer" name="person_incharge" class="form-control single-select-field">
+                                            @if (Auth::user()->employe->roles_id == 8)
+                                                <option selected value="{{Auth::user()->employe->id}}">{{Auth::user()->employe->employee_name}}</option>
+                                            @endif
                                             {{-- <option selected disabled>Select One</option> --}}
                                             {{-- @foreach ($employees as $row)
                                                 <option value="{{ $row->id }}">{{ $row->employee_name }}
