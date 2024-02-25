@@ -224,6 +224,7 @@ class CandidateController extends Controller
      */
     public function update(CandidateRequest $request, candidate $candidate)
     {
+        // return $request;
         if (is_null($this->user) || !$this->user->can('candidate.update')) {
             abort(403, 'Unauthorized');
         }
@@ -238,6 +239,13 @@ class CandidateController extends Controller
             $request['consultant_id'] = $auth->id;
         }
 
+        $dashboard = Dashboard::where('candidate_id', $candidate->id)->first();
+        $dashboard->update([
+            'manager_id' => $request['manager_id'],
+            'team_leader_id' => $request['team_leader_id'],
+            'consultant_id' => $request['consultant_id'],
+        ]);
+        // return $request;
         if ($request->hasFile('avatar')) {
             // Delete the old file
             Storage::delete("public/{$candidate->avatar}");
@@ -506,12 +514,12 @@ class CandidateController extends Controller
             if ($request->remarkstype_id == 9) {
                 $team = get_team($request->Assign_to_manager);
                 $request->Assign_to_manager = $team['manager_id'];
+                // return $candidate;
                 $candidate->update([
                     'manager_id' => $team['manager_id'],
                     'team_leader_id' => $team['team_leader_id'],
                     'consultant_id' => $team['consultant_id'],
                 ]);
-
                 $dashboard_data['manager_id'] = $team['manager_id'];
                 $dashboard_data['team_leader_id'] = $team['team_leader_id'];
                 $dashboard_data['consultant_id'] = $team['consultant_id'];
@@ -581,14 +589,15 @@ class CandidateController extends Controller
                 $calander['status'] = 1;
                 Calander::create($calander);
             }
-            $dashboard_data;
+
             $dashboard->update($dashboard_data);
 
+            $candidate = candidate::find($id);
             Assign::create([
                 'candidate_id' => $candidate->id,
                 'manager_id' => $request->Assign_to_manager ?? $candidate->manager_id,
-                'teamleader_id' => $candidate->team_leader_id ,
-                'consultent_id' => $candidate->consultant_id,
+                'teamleader_id' => $candidate->team_leader_id ?? null,
+                'consultent_id' => $candidate->consultant_id ?? null,
                 'insert_by' => Auth::user()->id,
                 'remark_id' => $assign_dashboard_remark['remark_id']
             ]);
