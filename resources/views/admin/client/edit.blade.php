@@ -62,18 +62,18 @@
                                             <span class="d-none d-sm-block">Follow Up</span>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
+                                    {{-- <li class="nav-item">
                                         <a class="nav-link" data-bs-toggle="tab" href="#department" role="tab">
                                             <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
                                             <span class="d-none d-sm-block">Department</span>
                                         </a>
-                                    </li>
-                                    <li class="nav-item">
+                                    </li> --}}
+                                    {{-- <li class="nav-item">
                                         <a class="nav-link" data-bs-toggle="tab" href="#supervisor" role="tab">
                                             <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
                                             <span class="d-none d-sm-block">Supervisor</span>
                                         </a>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </div>
                         </div>
@@ -104,13 +104,13 @@
                                         <div class="row col-lg-6 mb-1">
                                             <label for="two" class="col-sm-5 col-form-label fw-bold">Manager / Consultant (In Charge) <span class="text-danger">*</span></label>
                                             <div class="col-sm-7">
-                                                <select name="employees_id" class="form-control single-select-field" required>
-                                                    <option disabled selected>Select One</option>
-                                                    @foreach ($data['incharges'] as $incharge)
-                                                        <option value="{{ $incharge->id }}"
-                                                            {{ $client->employees_id == $incharge->id ? 'selected' : '' }}
-                                                            @readonly(true)>
-                                                            {{ $incharge->employee_name }}</option>
+                                                <select name="employees_id" id="employees_id" class="form-control single-select-field" required>
+                                                    @foreach (\Spatie\Permission\Models\Role::select('id', 'name')->whereNotIn('id', [1])->get() as $role)
+                                                        <option disabled><strong>{{$role->name}}</strong></option>
+                                                        @foreach (\App\Models\Employee::where('roles_id', $role->id)->get() as $incharge)
+                                                            <option value="{{ $incharge->id }}"  {{ isset($jobdetails['employees_id']) && $jobdetails['employees_id'] == $incharge->id ? 'selected' : '' }}>
+                                                                {{ $incharge->employee_name }}</option>
+                                                        @endforeach
                                                     @endforeach
                                                 </select>
                                             </div>

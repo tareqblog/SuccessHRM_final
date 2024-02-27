@@ -85,6 +85,12 @@
                                     <div class="row">
                                         <div class="col-lg-9 row">
                                             <div class="row col-md-6 col-lg-6 mb-1">
+                                                <label for="one" class="col-sm-5 col-form-label fw-bold">Reg No <span class="text-danger">*</span> </label>
+                                                <div class="col-sm-7">
+                                                    <input type="text" name="reg_no" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="row col-md-6 col-lg-6 mb-1">
                                                 <label for="one" class="col-sm-5 col-form-label fw-bold">Outlet <span class="text-danger">*</span> </label>
                                                 <div class="col-sm-7">
                                                     <select name="employee_outlet_id" class="form-control searchBox single-select-field"

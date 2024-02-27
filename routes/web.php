@@ -220,6 +220,7 @@ Route::prefix('ATS')->group(function () {
     Route::get('/client/tnctemplate/download/{client}', [ClientController::class, 'client_tnctemplate_download'])->name('client.tnctemplate.download');
     Route::get('/get/attendence/{parent}', [AttendanceController::class, 'get_attendence'])->name('get.attendence');
     Route::get('/get/single/attendence/{attendance}', [AttendanceController::class, 'get_single_attendence'])->name('get.single.attendence');
+    Route::post('/filter/job', [JobController::class, 'filter_job'])->name('filter.job');
 })->middleware('AdminMiddleware');
 
 
