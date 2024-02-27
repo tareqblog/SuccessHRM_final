@@ -69,27 +69,13 @@
                                             <label for="two" class="col-sm-5 col-form-label">Manager /
                                                 Consultant (In Charge) <span class="text-danger">*</span></label>
                                             <div class="col-sm-7">
-                                                <select name="employees_id" class="form-control single-select-field" required>
-                                                    <option disabled selected>Manager</option>
-                                                    @foreach (\App\Models\Employee::where('roles_id', 4)->get() as $incharge)
-                                                        <option value="{{ $incharge->id }}"
-                                                            {{ $client->employees_id == $incharge->id ? 'selected' : '' }}
-                                                            @readonly(true)>
-                                                            {{ $incharge->employee_name }}</option>
-                                                    @endforeach
-                                                    <option disabled selected>Team Leader</option>
-                                                    @foreach (\App\Models\Employee::where('roles_id', 11)->get() as $incharge)
-                                                        <option value="{{ $incharge->id }}"
-                                                            {{ $client->employees_id == $incharge->id ? 'selected' : '' }}
-                                                            @readonly(true)>
-                                                            {{ $incharge->employee_name }}</option>
-                                                    @endforeach
-                                                    <option disabled selected>Consultant</option>
-                                                    @foreach (\App\Models\Employee::where('roles_id', 8)->get() as $incharge)
-                                                        <option value="{{ $incharge->id }}"
-                                                            {{ $client->employees_id == $incharge->id ? 'selected' : '' }}
-                                                            @readonly(true)>
-                                                            {{ $incharge->employee_name }}</option>
+                                                <select name="employees_id" id="employees_id" class="form-control single-select-field" required>
+                                                    @foreach (\Spatie\Permission\Models\Role::select('id', 'name')->whereNotIn('id', [1])->get() as $role)
+                                                        <option disabled><strong>{{$role->name}}</strong></option>
+                                                        @foreach (\App\Models\Employee::where('roles_id', $role->id)->get() as $incharge)
+                                                            <option value="{{ $incharge->id }}">
+                                                                {{ $incharge->employee_name }}</option>
+                                                        @endforeach
                                                     @endforeach
                                                 </select>
                                             </div>
