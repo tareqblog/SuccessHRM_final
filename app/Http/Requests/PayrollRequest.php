@@ -45,7 +45,7 @@ class PayrollRequest extends FormRequest
             'recruitment_fee' => 'nullable|string',
             'admin_fee_daily' => 'nullable|string',
             'ar_no' => 'nullable|integer',
-            'salary' => 'nullable|string',
+            'salary' => 'nullable|numeric',
             'daily_rate_night_shift' => 'nullable|string',
             'programme' => 'nullable|string',
             'hourly_rate' => 'nullable|string',

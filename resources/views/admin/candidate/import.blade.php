@@ -108,7 +108,7 @@
                                         <div class="row mb-4">
                                             <label for="one" class="col-sm-4 col-form-label">Gender</label>
                                             <div class="col-sm-8">
-                                                <select name="gender" required class="form-control single-select-field" id="gender">
+                                                <select name="gender" class="form-control single-select-field" id="gender">
                                                     <option value="">Select One</option>
                                                     <option value="Male">Male</option>
                                                     <option value="Female">Female</option>

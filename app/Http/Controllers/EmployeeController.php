@@ -132,13 +132,13 @@ class EmployeeController extends Controller
             abort(403, 'Unauthorized');
         }
 
-        if($this->user->employe->roles_id == 4)
-        {
-            $request['manager_users_id'] = $this->user->employe->id;
-        } elseif ($this->user->employe->roles_id == 11) {
-            $request['team_leader_users_id'] = $this->user->employe->id;
-            $request['manager_users_id'] = $this->user->employe->manager_users_id;
-        }
+        // if($this->user->employe->roles_id == 4)
+        // {
+        //     $request['manager_users_id'] = $this->user->employe->id;
+        // } elseif ($this->user->employe->roles_id == 11) {
+        //     $request['team_leader_users_id'] = $this->user->employe->id;
+        //     $request['manager_users_id'] = $this->user->employe->manager_users_id;
+        // }
 
         $file_path = $request->file('employee_avater');
 
@@ -265,12 +265,12 @@ class EmployeeController extends Controller
             abort(403, 'Unauthorized');
         }
 
-        if ($this->user->employe->roles_id == 4) {
-            $request['manager_users_id'] = $this->user->employe->id;
-        } elseif ($this->user->employe->roles_id == 11) {
-            $request['team_leader_users_id'] = $this->user->employe->id;
-            $request['manager_users_id'] = $this->user->employe->manager_users_id;
-        }
+        // if ($this->user->employe->roles_id == 4) {
+        //     $request['manager_users_id'] = $this->user->employe->id;
+        // } elseif ($this->user->employe->roles_id == 11) {
+        //     $request['team_leader_users_id'] = $this->user->employe->id;
+        //     $request['manager_users_id'] = $this->user->employe->manager_users_id;
+        // }
 
         if ($request->hasFile('employee_avater')) {
             // Delete the old file

@@ -1423,13 +1423,14 @@
                                                 <input type="hidden" name="shortlist_id" value="{{$remark->shortlist?->id}}">
                                             <div class="row col-md-6 col-lg-6 mb-1" id="shortlistClientCompany" style="display: none;">
                                                 <label for="one" class="col-sm-3 col-form-label fw-bold">Client Company <span class="text-danger">*</span> </label>
+                                                @dump($remark->shortlist)
                                                 <div class="col-sm-9">
                                                     <select name="client_company"
                                                         class="form-control single-select-field">
                                                         <option selected disabled>Select One</option>
-                                                        @foreach ($outlet_data as $outlet)
-                                                            <option value="{{ $outlet->id }}" {{ (old('client_company') == $outlet->id || ($remark && $remark->client_company == $outlet->id)) ? 'selected' : '' }}>
-                                                                {{ $outlet->outlet_name }} </option>
+                                                        @foreach ($clients as $client)
+                                                            <option value="{{ $client->id }}" {{ (old('client_company') == $client->id || ($remark && $remark->client_company == $client->id)) ? 'selected' : '' }}>
+                                                                {{ $client->client_name }} </option>
                                                         @endforeach
                                                     </select>
                                                 </div>

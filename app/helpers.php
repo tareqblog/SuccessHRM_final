@@ -27,6 +27,7 @@ if (!function_exists('manager')) {
         return $manager;
     }
 }
+
 if (!function_exists('manager_for_client')) {
     function manager_for_client()
     {
@@ -140,6 +141,32 @@ if (!function_exists('convert_lunch_to_minutes')) {
                 return 120;
             case 'No Lunch':
                 return 0;
+            default:
+                return 0;
+        }
+    }
+}
+
+if (!function_exists('week_calculation')) {
+    function week_calculation($week)
+    {
+        switch ($week) {
+            case '1 Week Before':
+                return 6;
+            case '2 Week Before':
+                return 13;
+            case '3 Week Before':
+                return 20;
+            case '4 Week Before':
+                return 27;
+            case '5 Week Before':
+                return 34;
+            case '6 Week Before':
+                return 41;
+            case '7 Week Before':
+                return 48;
+            case '8 Week Before':
+                return 55;
             default:
                 return 0;
         }

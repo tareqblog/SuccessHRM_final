@@ -4,7 +4,7 @@
     @method('PATCH')
     <div class="row">
         <div class="col-lg-6">
-            <div class="row mb-4">
+            <div class="row mb-1">
                 <label for="one" class="col-sm-3 col-form-label">Category
                     Name</label>
                 <div class="col-sm-9">
@@ -12,7 +12,7 @@
                         class="form-control" placeholder="Name" value="{{$job_category->jobcategory_name}}">
                 </div>
             </div>
-            <div class="row mb-4">
+            <div class="row mb-1">
                 <label for="one" class="col-sm-3 col-form-label">Category
                     Parent</label>
                 <div class="col-sm-9">
@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="col-lg-6">
-            <div class="row mb-4">
+            <div class="row mb-1">
                 <label for="one" class="col-sm-3 col-form-label">Seq
                     No</label>
                 <div class="col-sm-9">
@@ -34,7 +34,7 @@
                         name="jobcategory_seqno" placeholder="Seq No">
                 </div>
             </div>
-            <div class="row mb-4">
+            <div class="row mb-1">
                 <label for="one" class="col-sm-3 col-form-label">Category
                     Status</label>
                 <div class="col-sm-9">
@@ -42,7 +42,7 @@
                         <option value="">Select One</option>
                         <option value="1" {{$job_category->jobcategory_status ==1 ? 'selected' : ''}}> Active</option>
                         <option value="0" {{$job_category->jobcategory_status ==0 ? 'selected' : ''}}> In-Active</option>
-                        
+
                     </select>
                 </div>
             </div>

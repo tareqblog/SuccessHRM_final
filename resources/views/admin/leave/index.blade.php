@@ -15,7 +15,7 @@
     @section('content')
         <div class="row">
             <div class="col-lg-12">
-                <div class="card">
+                <div class="card p-3">
                     <div class="card-header">
                         <div>
                             <p class="card-title mb-0 text-secondary">Filter</p>
@@ -38,7 +38,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mt-3">
+                            <div class="row mt-3 mb-3">
                                 <div class="col-12  d-flex justify-content-center align-items-center">
                                     <button type="submit" class="btn btn-sm btn-success">Search</button>
                                 </div>
@@ -47,14 +47,20 @@
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card p-3">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Leave Table</h4>
-                        @if (App\Helpers\FileHelper::usr()->can('leave.create'))
-                        <div class="text-end">
-                            <a href="{{ route('leave.create') }}" class="btn btn-sm btn-success">Create New</a>
+                        <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">
+                                <h6 class="card-title mb-0">Leave Table</h6>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                 @if (App\Helpers\FileHelper::usr()->can('leave.create'))
+                                <div class="text-end">
+                                    <a href="{{ route('leave.create') }}" class="btn btn-sm btn-success">Create New</a>
+                                </div>
+                                @endif
+                            </div>
                         </div>
-                        @endif
                     </div>
                     <div class="card-body">
                         <table class="table table-bordered mb-0" id="leaveTable">

@@ -14,10 +14,14 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Create role</h4>
-                        <div class="text-end">
+                        <div class="d-flex bd-highlight">
+                        <div class="p-2 flex-grow-1 bd-highlight">
+                            <h6 class="card-title mb-0">Create role</h6>
+                        </div>
+                        <div class="p-2 bd-highlight">
                             <a href="{{ route('roles.index') }}" class="btn btn-sm btn-success">Search</a>
                         </div>
+                    </div>
                     </div>
                     @include('admin.include.errors')
                     <div class="card-body"> <form action="{{ route('roles.store') }}" method="POST">

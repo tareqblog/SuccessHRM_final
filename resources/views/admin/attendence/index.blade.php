@@ -22,14 +22,14 @@
                         </div>
                     </div>
                 @endif
-                <div class="card">
+                <div class="card p-3">
                     <div class="card-header">
                         <h4 class="card-title mb-0">Filter </h4>
                         <hr>
                         <form method="GET" action="{{ route('attendence.index') }}" id="attendanceFilter">
                             @csrf
                         <div class="row">
-                            <div class="col-sm-12 col-md-6 row">
+                            <div class="col-sm-12 col-md-6 row mb-3">
                                 <label for="three" class="col-sm-12 col-md-4 col-form-label"> Start Date</label>
                                 <div class="col-sm-12 col-md-8">
                                     <input type="date" class="form-control" name="start_date" id="start_date" value="{{$start}}">
@@ -46,9 +46,9 @@
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card p-3">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Attendence Table</h4>
+                        <h4 class="card-title mb-2">Attendence Table</h4>
                         {{-- <div class="text-end">
                             <a href="{{ route('candidate.create') }}" class="btn btn-sm btn-success">Create New</a>
                         </div> --}}

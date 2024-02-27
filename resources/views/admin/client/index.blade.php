@@ -30,7 +30,8 @@
                         </div>
                     </div>
                     <div class="card-body p-3">
-                        <table class="table table-bordered mb-0 bg-light" id="myTable">
+                        <div class="admin-dashboard-table">
+                            <table class="table table-bordered mb-0 bg-light" id="myTable">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -105,6 +106,7 @@
 
                             </tbody>
                         </table>
+                        </div>
                         <div class="mt-3" style="height: 60vh; border: 1px solid black">
                             <div id="clientResume" class="p-3" style="display: none; height: 100%; overflow: auto;">
                                 <table class="table table-bordered mb-0 bg-light" id="remarkTable">

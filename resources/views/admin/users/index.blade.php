@@ -18,21 +18,26 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Users Table</h4>
-                        <div class="text-end">
+                        <div class="d-flex bd-highlight">
+                        <div class="p-2 flex-grow-1 bd-highlight">
+                            <h6 class="card-title mb-0">Users Table</h6>
+                        </div>
+                        <div class="p-2 bd-highlight">
                             <a href="{{ route('users.create') }}" class="btn btn-sm btn-success">Create New</a>
                         </div>
                     </div>
+                    </div>
                     <div class="card-body">
-                        <table class="table table-bordered" id="myTable">
+                        <div class="admin-dashboard-table">
+                            <table class="table table-bordered" id="myTable">
                             <thead class="bg-light text-capitalize">
                                 <tr>
-                                    <th>Sl</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Roles</th>
-                                    <th>2FA</th>
-                                    <th>Action</th>
+                                    <th style="padding-right: 40px !important;">Sl</th>
+                                    <th style="padding-right: 40px !important;">Name</th>
+                                    <th style="padding-right: 40px !important;">Email</th>
+                                    <th style="padding-right: 120px !important;">Roles</th>
+                                    <th style="padding-right: 40px !important;">2FA</th>
+                                    <th style="padding-right: 40px !important;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -66,6 +71,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>

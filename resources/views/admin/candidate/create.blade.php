@@ -291,10 +291,10 @@
                                                     <select class="form-control single-select-field"
                                                         id="candidate_outlet_id" name="candidate_outlet_id" required>
                                                         <option value="">Select One</option>
-                                                        @foreach ($outlet_data as $row)
+                                                        @foreach ($clients as $row)
                                                             <option value="{{ $row->id }}"
                                                                 {{ old('candidate_outlet_id') == $row->id ? 'selected' : '' }}>
-                                                                {{ $row->outlet_name }}</option>
+                                                                {{ $row->client_name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -328,7 +328,7 @@
                                         <h5>Address Information</h5>
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">Postal Code
                                                         1</label>
                                                     <div class="col-sm-8">
@@ -336,7 +336,7 @@
                                                             class="form-control" placeholder="Postal Code">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">Unit No
                                                         1</label>
                                                     <div class="col-sm-8">
@@ -344,7 +344,7 @@
                                                             class="form-control" placeholder="Unit No">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="four" class="col-sm-4 col-form-label">Address
                                                         1</label>
                                                     <div class="col-sm-8">
@@ -355,7 +355,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">Postal Code
                                                         2</label>
                                                     <div class="col-sm-8">
@@ -363,7 +363,7 @@
                                                             class="form-control" placeholder="Postal Code">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">Unit No
                                                         2</label>
                                                     <div class="col-sm-8">
@@ -371,7 +371,7 @@
                                                             class="form-control" placeholder="Unit No">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="four" class="col-sm-4 col-form-label">Address
                                                         2</label>
                                                     <div class="col-sm-8">
@@ -385,7 +385,7 @@
                                         <h5>Emergency Contact Address Information</h5>
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">Contact
                                                         Person</label>
                                                     <div class="col-sm-8">
@@ -393,14 +393,14 @@
                                                             class="form-control" placeholder="Contact Person">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">Phone 1</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="candidate_emr_phone1"
                                                             class="form-control" placeholder="Phone 1">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="four" class="col-sm-4 col-form-label">Address</label>
                                                     <div class="col-sm-8">
                                                         <textarea name="candidate_emr_address" rows="2" class="form-control" placeholder="Address"></textarea>
@@ -410,7 +410,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one"
                                                         class="col-sm-4 col-form-label">Relationship</label>
                                                     <div class="col-sm-8">
@@ -418,14 +418,14 @@
                                                             class="form-control" placeholder="Relationship">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">Phone 2</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="candidate_emr_phone2"
                                                             class="form-control" placeholder="Phone 2">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="four" class="col-sm-4 col-form-label">Remarks</label>
                                                     <div class="col-sm-8">
                                                         <textarea name="candidate_emr_remarks" rows="2" class="form-control" placeholder="Remarks"></textarea>
@@ -439,7 +439,7 @@
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">Pay Mode</label>
                                                     <div class="col-sm-8">
                                                         <select name="paymodes_id" class="form-control" id="">
@@ -452,7 +452,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">GIRO Account
                                                         Name</label>
                                                     <div class="col-sm-8">
@@ -464,7 +464,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">GIRO
                                                         Bank</label>
                                                     <div class="col-sm-8">
@@ -479,7 +479,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">GIRO Account
                                                         No</label>
                                                     <div class="col-sm-8">
@@ -496,21 +496,21 @@
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">N-Levels</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" class="form-control"
                                                             name="candidate_n_level" placeholder="Course">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">O-Levels</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="candidate_o_level"
                                                             class="form-control" placeholder="Course">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">A-Levels</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="candidate_a_level"
@@ -521,21 +521,21 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">Diploma</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="candidate_diploma"
                                                             class="form-control" placeholder="Course">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">Degree</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="candidate_degree"
                                                             class="form-control" placeholder="Course">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">Other</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="candidate_other" class="form-control"
@@ -549,7 +549,7 @@
                                         <p>Please state languages and proficiency level, e.g. excellent, good, fair, poor
                                         </p>
                                         <div class="col-lg-6">
-                                            <div class="row mb-4">
+                                            <div class="row mb-1">
                                                 <label for="one" class="col-sm-4 col-form-label">Written</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" name="candidate_written" class="form-control"
@@ -558,7 +558,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
-                                            <div class="row mb-4">
+                                            <div class="row mb-1">
                                                 <label for="one" class="col-sm-4 col-form-label">Spoken</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" name="candidate_spocken" class="form-control"
@@ -574,14 +574,14 @@
                                     <div class="row mb-5">
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">Name</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="candidate_referee_name1"
                                                             class="form-control" placeholder="Name">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">Years
                                                         Known</label>
                                                     <div class="col-sm-8">
@@ -593,7 +593,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one"
                                                         class="col-sm-4 col-form-label">Occupation</label>
                                                     <div class="col-sm-8">
@@ -601,7 +601,7 @@
                                                             name="candidate_referee_occupation1" placeholder="Occupation">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">Contact No /
                                                         Email
                                                         Address</label>
@@ -616,14 +616,14 @@
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">Name</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" class="form-control"
                                                             name="candidate_referee_name2" placeholder="Name">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">Years
                                                         Known</label>
                                                     <div class="col-sm-8">
@@ -635,7 +635,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one"
                                                         class="col-sm-4 col-form-label">Occupation</label>
                                                     <div class="col-sm-8">
@@ -643,7 +643,7 @@
                                                             class="form-control" placeholder="Occupation">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">Contact No /
                                                         Email
                                                         Address</label>
@@ -990,7 +990,7 @@
                                                 companies.</p>
 
                                             <div class="mt-5 mt-lg-4 mt-xl-0">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-2 col-form-label">Join
                                                         Date</label>
                                                     <div class="col-sm-4">

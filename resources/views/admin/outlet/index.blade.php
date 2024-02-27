@@ -18,12 +18,14 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Outlet Table</h4>
-                        {{-- @if (App\Helpers\FileHelper::usr()->can('outlets.create')) --}}
-                        <div class="text-end">
-                            <a href="{{ route('outlets.create') }}" class="btn btn-sm btn-success">Create new</a>
+                        <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">
+                                <h6 class="card-title mb-0">Outlet Table</h6>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                <a href="{{ route('outlets.create') }}" class="btn btn-sm btn-success">Create new</a>
+                            </div>
                         </div>
-                        {{-- @endif --}}
                     </div>
 
                     @if ($errors->any())
@@ -37,16 +39,17 @@
                     @endif
                     <div class="card-body">
 
-                        <table class="table table-bordered mb-0" id="myTable">
+                        <div class="admin-dashboard-table">
+                            <table class="table table-bordered mb-0" id="myTable">
                             <thead>
                                 <tr>
-                                    <th>No</th>
-                                    <th>Company Name</th>
-                                    <th>Country</th>
-                                    <th>Tel No</th>
-                                    <th>Website</th>
-                                    <th>Description</th>
-                                    <th>Action</th>
+                                    <th style="padding-right: 20px !important">No</th>
+                                    <th style="padding-right: 120px !important">Company Name</th>
+                                    <th style="padding-right: 20px !important">Country</th>
+                                    <th style="padding-right: 20px !important">Tel No</th>
+                                    <th style="padding-right: 220px !important">Website</th>
+                                    <th style="padding-right: 80px !important">Description</th>
+                                    <th style="padding-right: 20px !important">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -77,6 +80,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>

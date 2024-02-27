@@ -97,9 +97,10 @@ class CandidateController extends Controller
         $passtype_data = passtype::orderBy('passtype_seqno')->where('passtype_status', '1')->get();
         $religion_data = religion::orderBy('religion_seqno')->where('religion_status', '1')->get();
         $outlet_data = Outlet::latest()->get();
+        $clients = client::latest()->get();
         $nationality = country::orderBy('en_country_name')->get();
         $Paybanks = Paybank::orderBy('Paybank_seqno')->select('id', 'Paybank_code')->where('Paybank_status', 1)->get();
-        return view('admin.candidate.create', compact('Paybanks', 'outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data', 'nationality'));
+        return view('admin.candidate.create', compact('Paybanks', 'outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data', 'nationality', 'clients'));
     }
 
     /**
@@ -150,7 +151,7 @@ class CandidateController extends Controller
                 'candidate_id' => $candidate->id,
                 'remarkstype_id' => 1,
                 'isNotice' => 0,
-                'remarks' => 'Candidate create',
+                'remarks' => 'Candidate created',
             ]);
 
             Dashboard::create($datas);
@@ -215,7 +216,9 @@ class CandidateController extends Controller
             $users = Employee::where('roles_id', 4)->where('id', '!=', $auth->id)->latest()->get();
             $Paybanks = Paybank::orderBy('Paybank_seqno')->select('id', 'Paybank_code')->where('Paybank_status', 1)->get();
             $time_sheet = TimeSheet::latest()->get();
-            return view('admin.candidate.edit', compact('Paybanks', 'fileTypes', 'client_files', 'candidate', 'outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data', 'remarks_type', 'client_remarks', 'job_types', 'clients', 'payrolls', 'time', 'families', 'candidate_resume', 'nationality', 'users', 'time_sheet'));
+            $employees = Employee::latest()->get();
+
+            return view('admin.candidate.edit', compact('Paybanks', 'fileTypes', 'client_files', 'candidate', 'outlet_data', 'religion_data', 'passtype_data', 'marital_data', 'race_data', 'department_data', 'designation_data', 'paymode_data', 'remarks_type', 'client_remarks', 'job_types', 'clients', 'payrolls', 'time', 'families', 'candidate_resume', 'nationality', 'users', 'time_sheet', 'employees'));
         } else {
             return redirect()->back()->with('error', 'Sorry! You enter invalid Candidate id');
         }
@@ -553,6 +556,7 @@ class CandidateController extends Controller
                 $dashboard_data['consultent_id'] = $team['consultant_id'];
             }
 
+            // return $request;
             if ($request->remarkstype_id == 7) {
                 $list = CandidateRemarkShortlist::create([
                     'candidate_remark_id' => $candidate_remark->id,
@@ -573,22 +577,29 @@ class CandidateController extends Controller
                     'email_notice_time' => $request->shortlistEmailNoticeTime,
                     'email_notice_date' => $request->shortlistEmailNoticeDate,
                 ]);
+                // return $list;
 
                 $calander['candidate_remark_shortlist_id'] = $list->id;
                 if ($list->end_date != null) {
-                    $calander['title'] = 'Contract Ending -'. $candidate->consultant->employee_code . '-' . $candidate_remark->client->client_name;
-                    $calander['date'] = $list->end_date;
+                    // return $list->end_date;
+                    $week_day = week_calculation($request->shortlistReminderPeriod);
+                    $endDate = Carbon::parse($list->end_date);
+                    $newEndDate = $endDate->subDays($week_day);
+
+                    $calander['title'] = $candidate->consultant->employee_code . ' - Contract Ending - '. $candidate->candidate_name . ' - ' . $candidate_remark->client->client_name;
+                    $calander['date'] = $newEndDate;
                     $calander['status'] = 4;
                     Calander::create($calander);
                 }
                 if ($list->start_date != null) {
-                    $calander['title'] = 'Shortlisted -' . $candidate->consultant->employee_code . '-' . $candidate_remark->client->client_name;
+                    $calander['title'] = $candidate->consultant->employee_code .' - Shortlisted -' . $candidate->candidate_name . ' - ' .  $candidate_remark->client->client_name;
                     $calander['date'] = $list->start_date;
                     $calander['status'] = 2;
                     Calander::create($calander);
                 }
                 if ($list->contact_signing_date != null) {
-                    $calander['title'] = Carbon::parse($list->contact_signing_time)->format('h:i A') . ' -Contract Signing -'. $candidate->consultant->employee_code . '-' . $candidate_remark->client->client_name;
+                    $calander['title'] =
+                    Carbon::parse($list->interview_time)->format('h:i A') . '-' . $candidate->consultant->employee_code . ' - Contact Signing -' . $candidate->candidate_name . ' - ' .  $candidate_remark->client->client_name;
                     $calander['date'] = $list->contact_signing_date;
                     $calander['status'] = 3;
                     Calander::create($calander);
@@ -612,7 +623,7 @@ class CandidateController extends Controller
                 ]);
 
                 $calander['candidate_remark_shortlist_id'] = $list->id;
-                $calander['title'] = Carbon::parse($list->interview_time)->format('h:i A') . ' - Interview -' . $candidate->consultant->employee_code . '-' . $list->company->outlet_name;
+                $calander['title'] = Carbon::parse($list->interview_time)->format('h:i A') . '-' . $candidate->consultant->employee_code .' - Interview -'. $candidate->candidate_name. ' - ' .  $list->company->client_name;
                 $calander['date'] = $list->interview_date;
                 $calander['status'] = 1;
                 Calander::create($calander);
@@ -655,6 +666,10 @@ class CandidateController extends Controller
         if (is_null($this->user) || !$this->user->can('candidate.payroll')) {
             abort(403, 'Unauthorized');
         }
+
+        $request['created_by'] = Auth::user()->employe->id;
+        $request['modify_by'] = Auth::user()->employe->id;
+
         CandidatePayroll::create($request->except('_token'));
 
         return redirect()->route('candidate.edit', [$request->candidate_id, '#payroll'])->with('success', 'Payroll added successfully.');
@@ -667,7 +682,7 @@ class CandidateController extends Controller
             abort(403, 'Unauthorized');
         }
         $candidate = CandidatePayroll::find($id);
-        $candidate_id = $candidate;
+        $candidate_id = $candidate->candidate_id;
         $candidate->delete();
 
         return redirect()->route('candidate.edit', [$candidate_id, '#payroll'])->with('success', 'Deleted Successfully.');
@@ -834,27 +849,28 @@ class CandidateController extends Controller
                 ];
 
                 $shortlist->update($data);
-                Calander::where('candidate_remark_shortlist_id', $shortlist->id)->delete();
+                $calander = Calander::where('candidate_remark_shortlist_id', $shortlist->id)->delete();
+                $candidate_remark = CandidateRemark::find($remark->id);
 
-                $calander = [];
-                $calander['candidate_remark_shortlist_id'] = $shortlist->id;
+                $calander_up = [];
+                // $calander['candidate_remark_shortlist_id'] = $shortlist->id;
                 if ($shortlist->end_date != null) {
-                    $calander['title'] = 'Contract Ending -' . $candidate->consultant->employee_code . '-' . $remark->outlet->outlet_name;
-                    $calander['date'] = $shortlist->end_date;
-                    $calander['status'] = 4;
-                    Calander::create($calander);
+                    $calander_up['title'] = $candidate->consultant->employee_code . ' - Contract Ending - ' . $candidate->candidate_name . ' - ' . $candidate_remark->client->client_name;
+                    $calander_up['date'] = $shortlist->end_date;
+                    $calander_up['status'] = 4;
+                    $calander->update($calander_up);
                 }
                 if ($shortlist->start_date != null) {
-                    $calander['title'] = 'Shortlisted -' . $candidate->consultant->employee_code . '-' . $remark->outlet->outlet_name;
-                    $calander['date'] = $shortlist->start_date;
-                    $calander['status'] = 2;
-                    Calander::create($calander);
+                    $calander_up['title'] = $candidate->consultant->employee_code . ' - Shortlisted -' . $candidate->candidate_name . ' - ' .  $candidate_remark->client->client_name;
+                    $calander_up['date'] = $shortlist->start_date;
+                    $calander_up['status'] = 2;
+                    $calander->update($calander_up);
                 }
                 if ($shortlist->contact_signing_date != null) {
-                    $calander['title'] = Carbon::parse($shortlist->contact_signing_time)->format('h:i A') . ' -Contract Signing -' . $candidate->consultant->employee_code . '-' . $remark->outlet->outlet_name;
-                    $calander['date'] = $shortlist->contact_signing_date;
-                    $calander['status'] = 3;
-                    Calander::create($calander);
+                    $calander_up['title'] = $candidate->consultant->employee_code . ' - Contact Signing -' . $candidate->candidate_name . ' - ' .  $candidate_remark->client->client_name;
+                    $calander_up['date'] = $shortlist->contact_signing_date;
+                    $calander_up['status'] = 3;
+                    $calander->update($calander_up);
                 }
             }
 
@@ -878,7 +894,7 @@ class CandidateController extends Controller
                 $interview->update($data);
 
                 $interview = CandidateRemarkInterview::find($request->interview_id);
-                $calander_up['title'] = Carbon::parse($interview->interview_time)->format('h:i A') . ' - Interview -' . $candidate->consultant->employee_code . '-' . $interview->company->outlet_name;
+                $calander_up['title'] = Carbon::parse($interview->interview_time)->format('h:i A') . '-' . $candidate->consultant->employee_code . ' - Interview -' . $candidate->candidate_name . ' - ' .  $interview->company->client_name;
                 $calander_up['date'] = $interview->interview_date;
                 $calander = Calander::where('candidate_remark_shortlist_id', $interview->id)->first();
                 $calander->update($calander_up);

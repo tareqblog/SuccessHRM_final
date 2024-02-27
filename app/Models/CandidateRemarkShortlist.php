@@ -16,4 +16,9 @@ class CandidateRemarkShortlist extends Model
     {
         return $this->belongsTo(User::class, 'candidate_remark_id');
     }
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(client::class, 'interview_company', 'id');
+    }
 }

@@ -108,7 +108,7 @@
                                 <div class="row col-md-6 col-lg-6 mb-1">
                                     <label for="remark" class="col-sm-5 col-form-label fw-bold">Internal Remark</label>
                                     <div class="col-sm-7">
-                                        <textarea id="remark" name="remark" rows="2" class="form-control" placeholder="Internal Remark"> {{ old('remark') }} </textarea>
+                                        <textarea id="remark" name="remark" rows="2" class="" placeholder="Internal Remark"> {{ old('remark') }} </textarea>
                                     </div>
                                 </div>
                                 <div class="row col-md-6 col-lg-6 mb-1">
@@ -147,10 +147,10 @@
                                         <textarea rows="2" id="display_address" name="display_address" class="form-control" placeholder="Display Address"></textarea>
                                     </div>
                                 </div>
-                                <div class="row col-12 mb-1">
-                                    <label for="description" class="col-sm-2 col-form-label fw-bold">Description</label>
+                                <div class="row mb-1 remarkWrap">
+                                    <label for="description" class="col-sm-2 col-form-label fw-bold newRemark">Description</label>
                                     <div class="col-sm-10">
-                                        <textarea name="description" id="description" class="form-control editor" rows="2"> {{ old('description') }} </textarea>
+                                        <textarea name="description" id="description" class=" remarktextarea editor" rows="2"> {{ old('description') }} </textarea>
                                     </div>
                                 </div>
                             </div>
