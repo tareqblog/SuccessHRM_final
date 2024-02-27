@@ -137,7 +137,8 @@ class JobApplicationController extends Controller
             CandidateResume::create([
                 'candidate_id' => $candidate->id,
                 'resume_file_path' => $jobapplication->resume,
-                'resume_text' => $resume_text
+                'resume_text' => $resume_text,
+                'isMain' => 1
             ]);
 
             CandidateRemark::create([

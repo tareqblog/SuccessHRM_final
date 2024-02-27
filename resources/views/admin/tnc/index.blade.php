@@ -42,15 +42,16 @@
                     <div class="card-body">
                         {{-- Here place table --}}
 
-                        <table class="table table-bordered" id="myTable">
+                        <div class="admin-dashboard-table">
+                            <table class="table table-bordered" id="myTable">
                             <thead>
                                 <tr>
-                                    <th>No.</th>
-                                    <th>TNC Code</th>
-                                    <th>Default</th>
-                                    <th>Status</th>
-                                    <th>File</th>
-                                    <th>Action</th>
+                                    <th style="padding-right: 60px">No.</th>
+                                    <th style="padding-right: 60px">TNC Code</th>
+                                    <th style="padding-right: 60px">Default</th>
+                                    <th style="padding-right: 60px">Status</th>
+                                    <th style="padding-right: 60px">File</th>
+                                    <th style="padding-right: 60px">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -92,6 +93,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        </div>
                     </div>
 
 

@@ -14,11 +14,15 @@ Type Of Pass
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title mb-0">Type Of Pass Table</h4>
-                    <div class="text-end">
-                        <button data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
+                    <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">
+                                <h6 class="card-title mb-0">Type Of Pass Table</h6>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                <button data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
                         class="btn btn-sm btn-success">Create New</button>
-                    </div>
+                            </div>
+                        </div>
                 </div>
                 @include('admin.include.errors')
                 <div class="card-body">
@@ -82,14 +86,14 @@ Type Of Pass
                                         @csrf
                                         <div class="row">
                                             <div class="col-lg-6">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">Pass Type Code</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="passtype_code" class="form-control"
                                                             placeholder="Title" value="{{ old('passtype_code') }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">Pass Type Description</label>
                                                     <div class="col-sm-8">
                                                         <textarea name="passtype_desc" rows="2" class="form-control" placeholder="Descriptin">{{old('passtype_desc')}} </textarea>
@@ -98,7 +102,7 @@ Type Of Pass
                                             </div>
                                             <div class="col-lg-6">
 
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">List Order</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="passtype_seqno" class="form-control"

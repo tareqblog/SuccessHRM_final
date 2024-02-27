@@ -40,14 +40,15 @@ Leave Type Management
                 @endif
                 <div class="card-body">
                     {{-- Here place table --}}
-                    <table class="table table-bordered" id="myTable">
+                    <div class="admin-dashboard-table">
+                        <table class="table table-bordered" id="myTable">
                         <thead>
                             <tr>
-                                <th>No.</th>
-                                <th>Leave Type</th>
-                                <th>Description</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th style="padding-right: 30px !important">No.</th>
+                                <th style="padding-right: 120px !important">Leave Type</th>
+                                <th style="padding-right: 120px !important">Description</th>
+                                <th style="padding-right: 30px !important">Status</th>
+                                <th style="padding-right: 30px !important">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -81,6 +82,7 @@ Leave Type Management
                             @endforeach
                         </tbody>
                     </table>
+                    </div>
                 </div>
 
                 <!--  Create modal example -->

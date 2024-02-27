@@ -30,7 +30,7 @@
                             @method("PATCH")
                             <div class="row">
                                 <div class="col-lg-12 row">
-                                    <div class="row mb-4 col-lg-6">
+                                    <div class="row mb-1 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Group</label>
                                         <div class="col-sm-9">
                                             <select name="leave_empl_type" class="form-control" disabled>
@@ -41,7 +41,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="row mb-4 col-lg-6">
+                                    <div class="row mb-1 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Employee Name</label>
                                         <div class="col-sm-9">
                                             <select name="employees_id" class="form-control" >
@@ -52,7 +52,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="row mb-4 col-lg-6">
+                                    <div class="row mb-1 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Type of Leave</label>
                                         <div class="col-sm-9">
                                             <select name="leave_types_id" class="form-control">
@@ -65,7 +65,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="row mb-4 col-lg-6">
+                                    <div class="row mb-1 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Leave Duration</label>
                                         <div class="col-sm-9">
                                             <select name="leave_duration" class="form-control">
@@ -83,28 +83,28 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="row mb-4 col-lg-6">
+                                    <div class="row mb-1 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Date (From)</label>
                                         <div class="col-sm-9">
                                             <input type="date" name="leave_datefrom" class="form-control"
                                                 placeholder="Date (From)" value="{{ $leave->leave_datefrom }}">
                                         </div>
                                     </div>
-                                    <div class="row mb-4 col-lg-6">
+                                    <div class="row mb-1 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Date (To)</label>
                                         <div class="col-sm-9">
                                             <input type="date" class="form-control" name="leave_dateto"
                                                 placeholder="Date (To)" value="{{ $leave->leave_dateto }}">
                                         </div>
                                     </div>
-                                    <div class="row mb-4 col-lg-6">
+                                    <div class="row mb-1 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Total Days</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="form-control" placeholder="Total Hours"
                                                 name="leave_total_day" value="{{ $leave->leave_total_day }}">
                                         </div>
                                     </div>
-                                    <div class="row mb-4 col-lg-6">
+                                    <div class="row mb-1 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Upload File</label>
                                         <div class="col-sm-9">
                                             <input type="file" class="form-control" placeholder="Upload File"
@@ -119,7 +119,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="row mb-4 col-lg-6">
+                                    <div class="row mb-1 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Remarks</label>
                                         <div class="col-sm-9">
                                             <textarea rows="2" name="leave_reason" class="form-control" placeholder="Remarks"> {{ $leave->leave_reason }} </textarea>

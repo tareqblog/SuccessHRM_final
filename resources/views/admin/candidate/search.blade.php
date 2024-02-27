@@ -59,7 +59,6 @@ Search Candidate Detail
                         <h6 class="card-title mb-0">Search Table</h6>
                     </div>
                     <div class="p-2 bd-highlight">
-
                     </div>
                 </div>
             </div>
@@ -78,13 +77,13 @@ Search Candidate Detail
 
                     <div class="row">
                         <div class="col-lg-6">
-                            <div class="row mb-4">
+                            <div class="row mb-1">
                                 <label for="one" class="col-sm-3 col-form-label">Keyword</label>
                                 <div class="col-sm-8">
                                     <input type="text" name="keyword" class="form-control" placeholder="Keyword">
                                 </div>
                             </div>
-                            <div class="row mb-4">
+                            <div class="row mb-1">
                                 <label for="one" class="col-sm-3 col-form-label">Grouping</label>
                                 <div class="col-sm-8">
                                     <select name="" id="" class="form-control">
@@ -95,13 +94,13 @@ Search Candidate Detail
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="row mb-4">
+                            <div class="row mb-1">
                                 <label for="one" class="col-sm-3 col-form-label">Date Range</label>
                                 <div class="col-sm-8">
                                      <input type="text" name="daterange" value="{{ old('daterange', '2023-12-01 - 2024-01-25') }}" class="form-control" />
                                 </div>
                             </div>
-                            <div class="row mb-4">
+                            <div class="row mb-1">
                                 <label for="one" class="col-sm-3 col-form-label">Existing Folder</label>
                                 <div class="col-sm-8">
                                     <select name="" id="" class="form-control">

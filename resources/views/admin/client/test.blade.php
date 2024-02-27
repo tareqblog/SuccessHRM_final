@@ -275,7 +275,7 @@
                                                 Active Resume
                                             </button>
                                         </h2>
-                                        <div id="active-resume-collapse" class="accordion-collapse collapse"
+                                        <div id="active-resume-collapse" class="accordion-collapse collapse p-2"
                                             aria-labelledby="active-resume-heading"
                                             data-bs-parent="#accordionactive-resumeExample" style="">
                                             <h5 class="bg-success px-4 py-1 text-white">Candidates Detail</h5>
@@ -341,7 +341,7 @@
                                             </button>
                                         </h2>
 
-                                        <div id="follow_ups-collapse" class="accordion-collapse collapse"
+                                        <div id="follow_ups-collapse" class="accordion-collapse collapse p-2"
                                             aria-labelledby="follow_ups-heading" data-bs-parent="#follow_ups"
                                             style="">
                                             <h5 class="bg-success px-4 py-1 text-white">Candidates Detail</h5>
@@ -416,7 +416,7 @@
                                             </button>
                                         </h2>
 
-                                        <div id="Interview-collapse" class="accordion-collapse collapse"
+                                        <div id="Interview-collapse" class="accordion-collapse collapse p-2"
                                             aria-labelledby="Interview-heading" data-bs-parent="#Interview"
                                             style="">
                                             <h5 class="bg-success px-4 py-1 text-white">Candidates Detail</h5>
@@ -483,7 +483,7 @@
                                             </button>
                                         </h2>
 
-                                        <div id="blacklist-collapse" class="accordion-collapse collapse"
+                                        <div id="blacklist-collapse" class="accordion-collapse collapse p-2"
                                             aria-labelledby="blacklist-heading" data-bs-parent="#blacklist"
                                             style="">
                                             <h5 class="bg-success px-4 py-1 text-white">Candidates Detail</h5>
@@ -561,7 +561,7 @@
                                             </button>
                                         </h2>
 
-                                        <div id="kiv-collapse" class="accordion-collapse collapse"
+                                        <div id="kiv-collapse" class="accordion-collapse collapse p-2"
                                             aria-labelledby="kiv-heading" data-bs-parent="#kiv" style="">
                                             <h5 class="bg-success px-4 py-1 text-white">Candidates Detail</h5>
                                             <table class="table table-bordered mb-0" id="myTable12">
@@ -621,12 +621,12 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="accordion accordion-total-candidate" id="total-candidate">
-                                    <div class="accordion-item">
+                                    <div class="accordion-item p-2">
                                         {{-- {{ $loop->index }} --}}
                                         <h2 class="accordion-header" id="total-candidate-heading">
                                             <button class="accordion-button fw-medium collapsed" type="button"
                                                 data-bs-toggle="collapse" data-bs-target="#total-candidate-collapse"
-                                                aria-expanded="false" aria-controls="total-candidate-collapse">
+                                                aria-expanded="false" aria-controls="total-candidate-collapse ">
                                                 Total Candidate Assign to Client
                                             </button>
                                         </h2>
@@ -696,7 +696,7 @@
                                                 New Candidate Assigned to You
                                             </button>
                                         </h2>
-                                        <div id="active-resume-collapse" class="accordion-collapse collapse"
+                                        <div id="active-resume-collapse" class="accordion-collapse collapse p-2"
                                             aria-labelledby="active-resume-heading"
                                             data-bs-parent="#accordionactive-resumeExample" style="">
                                             <h5 class="bg-success px-4 py-1 text-white">Candidates Detail</h5>

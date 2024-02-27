@@ -114,7 +114,7 @@
                                             @php
                                                 $auth = Auth::user()->employe;
                                             @endphp
-                                            @if($auth->roles_id == 1)
+                                            {{-- @if($auth->roles_id == 1) --}}
                                             <div class="row col-md-6 col-lg-6 mb-1" id="role7input" style="display: none;">
                                                 <label for="two" class="col-sm-5 col-form-label fw-bold">Manager</label>
                                                 <div class="col-sm-7">
@@ -134,8 +134,8 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            @endif
-                                            @if($auth->roles_id == 1 || $auth->roles_id == 4)
+                                            {{-- @endif --}}
+                                            {{-- @if($auth->roles_id == 1 || $auth->roles_id == 4) --}}
                                             <div class="row col-md-6 col-lg-6 mb-1" id="role7inputanother" style="display: none;">
                                                 <label for="role7team_leader" class="col-sm-5 col-form-label fw-bold">Team Leader</label>
                                                 <div class="col-sm-7">
@@ -144,7 +144,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            @endif
+                                            {{-- @endif --}}
                                             <div class="row col-md-6 col-lg-6 mb-1 form-group required">
                                                 <label for="employee_name" class="col-sm-5 col-form-label fw-bold">Name <span
                                                         class="text-danger">*</span></label>

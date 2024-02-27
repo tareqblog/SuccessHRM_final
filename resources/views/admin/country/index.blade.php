@@ -41,15 +41,16 @@
                     @endif
                     <div class="card-body">
 
-                        <table class="table table-bordered mb-0" id="nationalityDataTable">
+                        <div class="admin-dashboard-table">
+                            <table class="table table-bordered mb-0" id="nationalityDataTable">
                             <thead>
                                 <tr>
-                                    <th>No</th>
-                                    <th>Name</th>
-                                    <th>Nationality</th>
-                                    <th>Alpha_2_Code</th>
-                                    <th>Alpha_3_Code</th>
-                                    <th>Action</th>
+                                    <th style="padding-right: 20px !important">No</th>
+                                    <th style="padding-right: 100px !important">Name</th>
+                                    <th style="padding-right: 100px !important">Nationality</th>
+                                    <th style="padding-right: 10px !important">Alpha_2_Code</th>
+                                    <th style="padding-right: 10px !important">Alpha_3_Code</th>
+                                    <th style="padding-right: 10px !important">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -85,6 +86,7 @@
 
                             </tbody>
                         </table>
+                        </div>
                     </div>
 
                     <!--  Create modal example -->

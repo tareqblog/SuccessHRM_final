@@ -365,7 +365,7 @@ class CandidateFileImportController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone_no' => 'required|string|max:20',
-            'gender' => 'required|string|max:200',
+            'gender' => 'nullable|string|max:200',
             'assaign_to' => 'required|numeric|exists:employees,id',
             'resume_path' => 'required|string|max:255',
             'resume_text' => 'nullable|string',
@@ -463,7 +463,8 @@ class CandidateFileImportController extends Controller
                 CandidateResume::create([
                     'candidate_id' => $candidate->id,
                     'resume_file_path' => $data['resume_path'],
-                    'resume_text' => $data['resume_text']
+                    'resume_text' => $data['resume_text'],
+                    'isMain' => 1
                 ]);
 
                 TemporaryImportedData::find($data['id'])

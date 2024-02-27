@@ -41,7 +41,8 @@
                     @endif
                     <div class="card-body">
 
-                        <table class="table table-bordered mb-0" id="myTable">
+                        <div class="admin-dashboard-table">
+                            <table class="table table-bordered mb-0" id="myTable">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -78,6 +79,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>

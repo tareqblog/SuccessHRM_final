@@ -29,18 +29,19 @@
                         </div>
                     </div>
                     <div class="card-body p-2">
-                        <table class="table table-bordered mb-0" id="myTable">
+                        <div class="admin-dashboard-table">
+                            <table class="table table-bordered mb-0" id="myTable">
                             <thead>
                                 <tr>
-                                    <th>No</th>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Mobile</th>
-                                    <th>Last Update Date</th>
-                                    <th>Assign</th>
-                                    <th>Group</th>
-                                    <th>Action</th>
+                                    <th style="padding-right: 20px !important">No</th>
+                                    <th style="padding-right: 20px !important">ID</th>
+                                    <th style="padding-right: 20px !important">Name</th>
+                                    <th style="padding-right: 20px !important">Email</th>
+                                    <th style="padding-right: 20px !important">Mobile</th>
+                                    <th style="padding-right: 20px !important">Last Update Date</th>
+                                    <th style="padding-right: 20px !important">Assign</th>
+                                    <th style="padding-right: 20px !important">Group</th>
+                                    <th style="padding-right: 20px !important">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -100,6 +101,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        </div>
 
                         <div class="mt-3" style="height: 60vh; border: 1px solid black">
                             <div id="candidateResume" class="p-3" style="display: none; height: 100%; overflow: auto;">

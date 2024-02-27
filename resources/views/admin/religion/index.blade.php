@@ -18,13 +18,15 @@ Religion Management
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Religion Table</h4>
-                        <div class="text-end">
-                            @if (App\Helpers\FileHelper::usr()->can('religion.create'))
+                        <div class="d-flex bd-highlight">
+                        <div class="p-2 flex-grow-1 bd-highlight">
+                            <h6 class="card-title mb-0">Religion Table</h6>
+                        </div>
+                        <div class="p-2 bd-highlight">
                             <button data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
                                 class="btn btn-sm btn-success">Create New</button>
-                            @endif
                         </div>
+                    </div>
                     </div>
 
                     @if ($errors->any())
@@ -39,7 +41,8 @@ Religion Management
                     <div class="card-body">
                         {{-- Here place table --}}
 
-                        <table class="table table-bordered" id="myTable">
+                        <div class="admin-dashboard-table">
+                            <table class="table table-bordered" id="myTable">
                             <thead>
                                 <tr>
                                     <th>No.</th>
@@ -75,6 +78,7 @@ Religion Management
                                 @endforeach
                             </tbody>
                         </table>
+                        </div>
                     </div>
 
 
@@ -94,14 +98,14 @@ Religion Management
                                         @csrf
                                         <div class="row p-2">
                                             <div class="col-lg-6">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">Religion Code</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="religion_code" class="form-control"
                                                             placeholder="Title" value="{{ old('religion_code') }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">Religion Description</label>
                                                     <div class="col-sm-8">
                                                         <textarea name="religion_desc" rows="2" class="form-control" placeholder="Descriptin"></textarea>
@@ -110,7 +114,7 @@ Religion Management
                                             </div>
                                             <div class="col-lg-6">
 
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-4 col-form-label">List Order</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="religion_seqno" class="form-control"

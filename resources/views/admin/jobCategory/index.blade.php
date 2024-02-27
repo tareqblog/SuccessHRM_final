@@ -18,13 +18,17 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Job Category Table</h4>
-                        @if (App\Helpers\FileHelper::usr()->can('job-category.create'))
-                            <div class="text-end">
+                        <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">
+                                <h6 class="card-title mb-0">Job Category Table</h6>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                @if (App\Helpers\FileHelper::usr()->can('client-term.create'))
                                 <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
                                     data-bs-target="#createJob">Create new</button>
+                                @endif
                             </div>
-                        @endif
+                        </div>
                     </div>
 
                     @if ($errors->any())
@@ -40,14 +44,15 @@
                         <h6>Create Jobs Category</h6>
                         <div class="row">
                             <div class="col-lg-12 mt-2">
-                                <table class="table table-bordered mb-0" id="myTable">
+                                <div class="admin-dashboard-table">
+                                    <table class="table table-bordered mb-0" id="myTable">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
-                                            <th>Category Name</th>
-                                            <th>Category Parent</th>
-                                            <th>Category Status</th>
-                                            <th>Action</th>
+                                            <th style="padding-right: 20px !important;">No</th>
+                                            <th style="padding-right: 20px !important;">Category Name</th>
+                                            <th style="padding-right: 20px !important;">Category Parent</th>
+                                            <th style="padding-right: 20px !important;">Category Status</th>
+                                            <th style="padding-right: 20px !important;">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -92,6 +97,7 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -113,7 +119,7 @@
                             @csrf
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <div class="row mb-4">
+                                    <div class="row mb-1">
                                         <label for="one" class="col-sm-3 col-form-label">Category
                                             Name</label>
                                         <div class="col-sm-9">
@@ -121,7 +127,7 @@
                                                 placeholder="Name">
                                         </div>
                                     </div>
-                                    <div class="row mb-4">
+                                    <div class="row mb-1">
                                         <label for="one" class="col-sm-3 col-form-label">Category
                                             Parent</label>
                                         <div class="col-sm-9">
@@ -136,7 +142,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <div class="row mb-4">
+                                    <div class="row mb-1">
                                         <label for="one" class="col-sm-3 col-form-label">Seq
                                             No</label>
                                         <div class="col-sm-9">

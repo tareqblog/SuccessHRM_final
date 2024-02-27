@@ -109,7 +109,7 @@
                                             @php
                                                 $auth = Auth::user()->employe;
                                             @endphp
-                                            @if($auth->roles_id == 1)
+                                            {{-- @if($auth->roles_id == 1) --}}
                                             <div class="row col-md-6 col-lg-6 mb-1" id="role7input" style="display: none;">
                                                 <label for="two" class="col-sm-5 col-form-label fw-bold">Manager</label>
                                                 <div class="col-sm-7">
@@ -129,8 +129,8 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            @endif
-                                            @if($auth->roles_id == 1 || $auth->roles_id == 4)
+                                            {{-- @endif --}}
+                                            {{-- @if($auth->roles_id == 1 || $auth->roles_id == 4) --}}
                                             <div class="row col-md-6 col-lg-6 mb-1" id="role7inputanother" style="display: none;">
                                                 <label for="role7team_leader" class="col-sm-5 col-form-label fw-bold">Team Leader</label>
                                                 <div class="col-sm-7">
@@ -139,7 +139,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            @endif
+                                            {{-- @endif --}}
                                             <div class="row col-md-6 col-lg-6 mb-1 form-group required">
                                                 <label for="employee_name" class="col-sm-5 col-form-label fw-bold">Name <span
                                                         class="text-danger">*</span></label>
@@ -280,11 +280,9 @@
                                     </div>
                                     <div class="row mt-4" id="login_info" style="display: none;">
                                         <h5>Login Information</h5>
-
                                         <div class="mt-5 mt-lg-4 mt-xl-0">
                                             <div class="row col-md-6 col-lg-6 mb-1">
-                                                <label for="two" class="col-sm-4  col-form-label fw-bold">Login Initialize
-                                                    / ID <span class="text-danger">*</span></label>
+                                                <label for="two" class="col-sm-4  col-form-label fw-bold">Login Email <span class="text-danger">*</span></label>
                                                 <div class="col-sm-8">
                                                     <input type="email" class="form-control" name="email">
                                                 </div>
@@ -823,11 +821,16 @@
                         $('#role7team_leader').attr('name', 'team_leader_users_id');
                     }
 
+                    function cons() {
+                        $('#role7inputcons').show();
+                        $('#role7team_leader').attr('name', 'team_leader_users_id');
+                    }
+
                     function manager() {
                         $('#role7input').show();
                         $('#role7manager').attr('name', 'manager_users_id');
                     }
-                    
+
                 });
             });
 

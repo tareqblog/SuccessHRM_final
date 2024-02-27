@@ -24,6 +24,6 @@ class CandidateRemarkInterview extends Model
      */
     public function company(): BelongsTo
     {
-        return $this->belongsTo(Outlet::class, 'interview_company', 'id');
+        return $this->belongsTo(client::class, 'interview_company', 'id');
     }
 }

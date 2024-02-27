@@ -17,12 +17,16 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Remark Type Table</h4>
-                        <div class="text-end">
-                            @if (App\Helpers\FileHelper::usr()->can('remarks-type.create'))
+                        <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">
+                                <h6 class="card-title mb-0">Remark Type Table</h6>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                @if (App\Helpers\FileHelper::usr()->can('remarks-type.create'))
                             <button data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
                                 class="btn btn-sm btn-info">Create New</button>
                             @endif
+                            </div>
                         </div>
                     </div>
                     @include('admin.include.errors')
@@ -34,7 +38,7 @@
                                     <th>Name</th>
                                     <th>Status</th>
                                     <th>Action</th>
-                                </tr> 
+                                </tr>
                             </thead>
                             <tbody>
                                 @foreach ($datas as $data)
@@ -82,7 +86,7 @@
                                         @csrf
                                         <div class="row">
                                             <div class="col-lg-6">
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Remarks Type
                                                         Code</label>
                                                     <div class="col-sm-9">
@@ -90,7 +94,7 @@
                                                             placeholder="Title" value="{{ old('remarkstype_code') }}">
                                                     </div>
                                                 </div>
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Remarks Type
                                                         Description</label>
                                                     <div class="col-sm-9">
@@ -100,7 +104,7 @@
                                             </div>
                                             <div class="col-lg-6">
 
-                                                <div class="row mb-4">
+                                                <div class="row mb-1">
                                                     <label for="one" class="col-sm-3 col-form-label">Seq No</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" name="remarkstype_seqno" class="form-control"

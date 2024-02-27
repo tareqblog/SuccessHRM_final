@@ -256,7 +256,13 @@ class AttendenceController extends Controller
 
         if($parent != null)
         {
-            return redirect()->route('attendence.edit', $parent->id);
+            $attendances = Attendance::where('parent_id', $parent->id)->get();
+            foreach ($attendances as $key => $attendance)
+            {
+                $attendance->delete();
+            }
+            $parent->delete();
+            // return redirect()->route('attendence.edit', $parent->id);
         }
 
         $candidate = Candidate::select('id', 'candidate_name', 'candidate_outlet_id')
