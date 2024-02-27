@@ -1254,10 +1254,14 @@
                                     @if (App\Helpers\FileHelper::usr()->can('candidate.file.upload'))
                                         <div class="col-lg-12">
                                             <div class="card-header">
-                                                <h4 class="card-title mb-0">Upload File</h4>
-                                                <div class="text-end">
-                                                    <a data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
+                                                <div class="d-flex bd-highlight">
+                                                    <div class="p-2 flex-grow-1 bd-highlight">
+                                                        <h6 class="card-title mb-0">Upload File</h6>
+                                                    </div>
+                                                    <div class="p-2 bd-highlight">
+                                                        <a data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg-create"
                                                         class="btn btn-sm btn-info">Upload New File</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1280,7 +1284,7 @@
                                                         <td>{{ $loop->index + 1 }}</td>
                                                         <td>
                                                             @if ($file->created_by)
-                                                                {{ \App\Models\Employee::where(['id' => $file->created_by])->pluck('employee_code')->first() }}
+                                                                {{ \App\Models\Employee::where(['user_table_id' => $file->created_by])->pluck('employee_code')->first() }}
                                                             @else
                                                                 User Not Found
                                                             @endif

@@ -68,22 +68,25 @@
                                         {{-- <td class="text-{{ \App\Enums\Status::from($data->candidate_status)->message() }}">
                                             {{ \App\Enums\Status::from($data->candidate_status)->title() }}
                                         </td> --}}
-                                        <td class="d-flex flex-row">
+                                        <td class="d-flex justify-content-end">
                                             @if($data->getMainResumeFilePath() != null)
                                             <button type="button"
-                                                class="btn btn-info btn-sm me-2 mb-2 resumePath"
+                                                class="btn btn-info btn-sm me-1 resumePath"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#showResume"
                                                 data-file-path="{{ $data->getMainResumeFilePath() }}">D</button>
-                                            <a target="__blank" href="{{ asset('storage') }}/{{ $data->getMainResumeFilePath() }}" class="btn btn-info btn-sm me-2"><i class="fas fa-download"></i></a></a>
+                                            <a target="__blank" href="{{ asset('storage') }}/{{ $data->getMainResumeFilePath() }}" class="btn btn-info btn-sm me-1"><i class="fas fa-download"></i></a></a>
                                             @endif
                                             @if (App\Helpers\FileHelper::usr()->can('candidate.remark'))
+                                                <a href="{{ route('candidate.edit', $data->id) }}#remark"
+                                                    class="btn btn-warning btn-sm me-1 d-flex justify-content-start" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Add Remark"><i class="fas fa-plus mt-1 me-1"></i> R</a>
                                                 <a onclick="getRemark({{ $data->id }})"
-                                                    class="btn btn-warning btn-sm me-2">R</a>
+                                                    class="btn btn-success btn-sm me-1">R</a>
                                             @endif
                                             @if (App\Helpers\FileHelper::usr()->can('candidate.update'))
                                                 <a href="{{ route('candidate.edit', $data->id) }}"
-                                                    class="btn btn-info btn-sm me-2" title="Edit"><i
+                                                    class="btn btn-info btn-sm me-1" title="Edit"><i
                                                         class="fas fa-pen"></i></a>
                                             @endif
                                             @if (App\Helpers\FileHelper::usr()->can('candidate.destroy'))

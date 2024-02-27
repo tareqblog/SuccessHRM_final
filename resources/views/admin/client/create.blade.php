@@ -70,10 +70,26 @@
                                                 Consultant (In Charge) <span class="text-danger">*</span></label>
                                             <div class="col-sm-7">
                                                 <select name="employees_id" class="form-control single-select-field" required>
-                                                    <option disabled selected>Select One</option>
-                                                    @foreach ($data['incharges'] as $incharge)
-                                                        <option value="{{ $incharge['id'] }}" {{$incharge['id'] == Auth::user()->employe->id ? 'selected' : ''}}>
-                                                            {{ $incharge['employee_name'] }}</option>
+                                                    <option disabled selected>Manager</option>
+                                                    @foreach (\App\Models\Employee::where('roles_id', 4)->get() as $incharge)
+                                                        <option value="{{ $incharge->id }}"
+                                                            {{ $client->employees_id == $incharge->id ? 'selected' : '' }}
+                                                            @readonly(true)>
+                                                            {{ $incharge->employee_name }}</option>
+                                                    @endforeach
+                                                    <option disabled selected>Team Leader</option>
+                                                    @foreach (\App\Models\Employee::where('roles_id', 11)->get() as $incharge)
+                                                        <option value="{{ $incharge->id }}"
+                                                            {{ $client->employees_id == $incharge->id ? 'selected' : '' }}
+                                                            @readonly(true)>
+                                                            {{ $incharge->employee_name }}</option>
+                                                    @endforeach
+                                                    <option disabled selected>Consultant</option>
+                                                    @foreach (\App\Models\Employee::where('roles_id', 8)->get() as $incharge)
+                                                        <option value="{{ $incharge->id }}"
+                                                            {{ $client->employees_id == $incharge->id ? 'selected' : '' }}
+                                                            @readonly(true)>
+                                                            {{ $incharge->employee_name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -268,7 +284,7 @@
                     </div>
                 </form>
             </div><!-- end card-body -->
-        </div><!-- end card -->
+        </div>
         </div>
         </div>
     @endsection

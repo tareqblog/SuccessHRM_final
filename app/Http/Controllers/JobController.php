@@ -160,4 +160,22 @@ class JobController extends Controller
 
         return response()->json(['team' => $team]);
     }
+
+    public function filter_job(Request $request)
+    {
+        $jobdetails = [
+            'job_status' => $request->job_status,
+            'employees_id' => $request->employees_id,
+        ];
+
+        $datas = Job::where('job_status', $request->job_status)
+            ->where(function ($query) use ($request) {
+                $query->where('team_leader_id', $request->employees_id)
+                    ->orWhere('manager_id', $request->employees_id)
+                    ->orWhere('consultant_id', $request->employees_id);
+            })
+            ->get();
+
+        return view('admin.job.index', compact('datas', 'jobdetails'));
+    }
 }

@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('employees', function (Blueprint $table) {
-            $table->boolean('active_status')->default(1);
-            $table->integer('user_table_id')->default(0);
+            $table->string('reg_no')->default(0);
         });
     }
 
@@ -23,8 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('employees', function (Blueprint $table) {
-            $table->dropColumn('active_status');
-            $table->dropColumn('user_table_id');
+            $table->dropColumn('reg_no');
         });
     }
 };

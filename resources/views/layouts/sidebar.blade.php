@@ -245,7 +245,7 @@
                 <li>
                     <a href="#" class="has-arrow" data-toggle="collapse" data-target="#job-setting">
                         <i class="fa fa-sun-o icon nav-icon" aria-hidden="true"></i>
-                        <span class="menu-item" data-key="job-setting">Job Setting</span>
+                        <span class="menu-item" data-key="job-setting">Job Settings</span>
                     </a>
                     <ul class="sub-menu collapse mm-collapse" aria-expanded="false">
                         @if ($usr->can('job-category.index'))
