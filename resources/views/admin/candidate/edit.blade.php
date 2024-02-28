@@ -503,9 +503,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="row mb-1 ">
-                                                    <label for="four" class="col-sm-3 col-form-label">Remarks</label>
+                                                    <label for="four" class="col-sm-3 col-form-label">Remarks<span
+                                                        class="text-danger">*</span></label>
                                                     <div class="col-sm-9">
-                                                        <textarea name="candidate_emr_remarks" rows="2" class="form-control" placeholder="Remarks"> {{ $candidate->candidate_emr_remarks }} </textarea>
+                                                        <textarea name="candidate_emr_remarks" rows="2" class="form-control" placeholder="Remarks" required> {{ $candidate->candidate_emr_remarks }} </textarea>
                                                     </div>
                                                 </div>
                                             </div>
