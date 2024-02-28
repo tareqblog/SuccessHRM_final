@@ -66,7 +66,6 @@
                                             </select>
                                         </div>
                                     </div>
-                                    {{$company_id}}
                                     <div class="row col-lg-6  mb-1">
                                         <label for="eleven" class="col-sm-3 col-form-label">Company</label>
                                         <div class="col-sm-9">

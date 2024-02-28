@@ -29,6 +29,7 @@ class AttendanceController extends Controller
     {
         // return $request;
         // try {
+        return  $request->candidate_id;
         $attP = new AttendenceParent;
         $attP->candidate_id = $request->candidate_id;
         $attP->company_id = $request->company_id ?? 0;

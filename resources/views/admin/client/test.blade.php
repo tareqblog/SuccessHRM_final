@@ -105,7 +105,7 @@
                                                                 <td>{{ $loop->index + 1 }}</td>
                                                                 <td>{{ $candidate['candidate_name'] }}</td>
                                                                 <td>{{ $candidate['candidate_email'] }}</td>
-                                                                <td>
+                                                                <td class="d-flex justify-content-end">
                                                                     @php
                                                                         $main = \App\Models\CandidateResume::where('isMain', 1)->first();
                                                                         if($main != null)
@@ -116,7 +116,7 @@
                                                                         }
                                                                     @endphp
                                                                     {{-- @if($resume_file_path != null) --}}
-                                                                    <a title="Add Remarks"  class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate['id'].'/edit#remark') }}">+R</a>
+                                                                    <a title="Add Remarks"  class="btn btn-warning btn-sm me-2 mb-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate['id'].'/edit#remark') }}"><i class="fas fa-plus"></i> R</a>
                                                                     <button title="Show Resume" type="button"
                                                                         class="btn btn-info me-2 resumePath btn-sm"
                                                                         data-bs-toggle="modal" data-bs-target="#showResume"
@@ -180,7 +180,7 @@
                                                                         }
                                                                     @endphp
                                                                     {{-- @if($resume_file_path != null) --}}
-                                                                    <a title="Add Remarks" class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate['id'].'/edit#remark') }}">+R</a>
+                                                                    <a title="Add Remarks" class="btn btn-warning btn-sm me-2 mb-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate['id'].'/edit#remark') }}"><i class="fas fa-plus"></i> R</a>
                                                                     <button title="Show Resume" type="button"
                                                                         class="btn btn-info me-2 resumePath btn-sm"
                                                                         data-bs-toggle="modal" data-bs-target="#showResume"
@@ -244,7 +244,7 @@
                                                                         }
                                                                     @endphp
                                                                     {{-- @if($resume_file_path != null) --}}
-                                                                    <a title="Add Remarks" class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate['id'].'/edit#remark') }}">+R</a>
+                                                                    <a title="Add Remarks" class="btn btn-warning btn-sm me-2 mb-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate['id'].'/edit#remark') }}"><i class="fas fa-plus"></i> R</a>
                                                                     <button title="Show Resume" type="button"
                                                                         class="btn btn-info me-2 resumePath btn-sm"
                                                                         data-bs-toggle="modal" data-bs-target="#showResume"
@@ -302,20 +302,19 @@
                                                             <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                             <td>{{ $candidate->candidate['manager']['employee_name'] ?? '' }}
                                                             </td>
-                                                            <td>{{ $candidate->candidate?->consultant?->employee_code ?? $candidate->candidate?->team_leader?->employee_code }}
-                                                            </td>
+                                                            <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}</td>
                                                             <td class="d-flex flex-row">
                                                                 @if ($auth->roles_id == 4)
                                                                     @include('admin.dashboard.inc.select')
                                                                 @endif
-                                                                <a title="Add Remarks" class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}">+R</a>
+                                                                <a title="Add Remarks" class="btn btn-warning btn-sm me-2 mb-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}"><i class="fas fa-plus"></i> R</a>
                                                                 @if($candidate->candidate->getMainResumeFilePath() != null)
                                                                 <button title="Show Resume" type="button"
-                                                                    class="btn btn-info me-2 resumePath  btn-sm"
+                                                                    class="btn btn-info me-2 mb-2 resumePath  btn-sm"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
                                                                     data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
                                                                 @endif
-                                                                <a title="Block" onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 resumePath">X</a>
+                                                                <a title="Block" onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 mb-2 resumePath">X</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -374,7 +373,7 @@
                                                                 <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                                 <td>{{ $candidate->candidate['manager']['employee_name'] ?? '' }}
                                                                 </td>
-                                                                <td>{{ $candidate->candidate?->consultant?->employee_code ?? $candidate->candidate?->team_leader?->employee_code }}
+                                                                <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
                                                                 </td>
                                                                 <td>{{ \Carbon\Carbon::parse($candidate->candidate['created_at'])->format('d-M-Y') }}
                                                                 </td>
@@ -382,7 +381,7 @@
                                                                     @if ($auth->roles_id == 4)
                                                                         @include('admin.dashboard.inc.select')
                                                                     @endif
-                                                                    <a title="Add Remarks" class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}">+R</a>
+                                                                    <a title="Add Remarks" class="btn btn-warning btn-sm me-2 mb-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}"><i class="fas fa-plus"></i> R</a>
                                                                     @if($candidate->candidate->getMainResumeFilePath() != null)
                                                                         <button  title="Show Resume" type="button"
                                                                             class="btn btn-info btn-sm me-2 mb-2 resumePath  btn-sm"
@@ -444,13 +443,13 @@
                                                             <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                             <td>{{ $candidate->candidate['manager']['employee_name'] ?? '' }}
                                                             </td>
-                                                            <td>{{ $candidate->candidate?->consultant?->employee_code ?? $candidate->candidate?->team_leader?->employee_code }}
+                                                            <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
                                                             </td>
                                                             <td class="d-flex flex-row">
                                                                 @if ($auth->roles_id == 4)
                                                                     @include('admin.dashboard.inc.select')
                                                                 @endif
-                                                                <a title="Add Remarks" class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}">+R</a>
+                                                                <a title="Add Remarks" class="btn btn-warning btn-sm me-2 mb-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}"><i class="fas fa-plus"></i> R</a>
                                                                 @if($candidate->candidate->getMainResumeFilePath() != null)
                                                                 <button  title="Show Resume" type="button"
                                                                     class="btn btn-info btn-sm me-2 mb-2 resumePath btn-sm"
@@ -522,13 +521,13 @@
                                                                 class="{{ $candidate['remark_id'] == 8 ? 'text-danger' : '' }}">
                                                                 {{ $candidate->candidate['manager']['employee_name'] ?? '' }}
                                                             </td>
-                                                            <td>{{ $candidate->candidate?->consultant?->employee_code ?? $candidate->candidate?->team_leader?->employee_code }}
+                                                            <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
                                                             </td>
                                                             <td class="d-flex flex-row {{ $candidate['remark_id'] == 8 ? 'text-danger' : '' }}">
                                                                 @if ($auth->roles_id == 4)
                                                                     @include('admin.dashboard.inc.select')
                                                                 @endif
-                                                                <a title="Add Remarks" class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}">+R</a>
+                                                                <a title="Add Remarks" class="btn btn-warning btn-sm me-2 mb-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}"><i class="fas fa-plus"></i> R</a>
                                                                 @if($candidate->candidate->getMainResumeFilePath() != null)
                                                                 <button  title="Show Resume" type="button"
                                                                     class="btn btn-info me-2 mb-2 resumePath btn-sm"
@@ -590,13 +589,13 @@
                                                                 <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                                 <td>{{ $candidate->candidate['manager']['employee_name'] ?? '' }}
                                                                 </td>
-                                                                <td>{{ $candidate->candidate?->consultant?->employee_code ?? $candidate->candidate?->team_leader?->employee_code }}
+                                                                <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
                                                                 </td>
                                                                 <td class="d-flex flex-row">
                                                                     @if ($auth->roles_id == 4)
                                                                         @include('admin.dashboard.inc.select')
                                                                     @endif
-                                                                    <a title="Add Remarks" class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}">+R</a>
+                                                                    <a title="Add Remarks" class="btn btn-warning btn-sm me-2 mb-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}"><i class="fas fa-plus"></i> R</a>
                                                                     @if($candidate->candidate?->getMainResumeFilePath() != null)
                                                                     <button  title="Show Resume" type="button"
                                                                         class="btn btn-info btn-sm me-2 mb-2 resumePath"
@@ -658,13 +657,13 @@
                                                             <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                             <td>{{ $candidate->candidate['manager']['employee_name'] ?? '' }}
                                                             </td>
-                                                            <td>{{ $candidate->candidate?->consultant?->employee_code ?? $candidate->candidate?->team_leader?->employee_code }}
+                                                            <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
                                                             </td>
                                                             <td class="d-flex flex-row">
                                                                 @if ($auth->roles_id == 4)
                                                                     @include('admin.dashboard.inc.select')
                                                                 @endif
-                                                                <a title="Add Remarks"  class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}">+R</a>
+                                                                <a title="Add Remarks"  class="btn btn-warning btn-sm me-2 mb-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}"><i class="fas fa-plus"></i> R</a>
                                                                 @if($candidate->candidate?->getMainResumeFilePath() != null)
                                                                 <button  title="Show Resume" type="button"
                                                                     class="btn btn-info btn-sm me-2 mb-2 resumePath"
@@ -723,18 +722,18 @@
                                                             <td>{{ $candidate->candidate['candidate_email'] }}</td>
                                                             <td>{{ $candidate->candidate['manager']['employee_name'] ?? '' }}
                                                             </td>
-                                                            <td>{{ $candidate->candidate?->consultant?->employee_code ?? $candidate->candidate?->team_leader?->employee_code }}
+                                                            <td>{{ $candidate->candidate?->consultant?->employee_name ?? $candidate->candidate?->team_leader?->employee_name }}
                                                             </td>
                                                             <td class="d-flex flex-row">
                                                                 @include('admin.dashboard.inc.select')
                                                                 @if($candidate->candidate->getMainResumeFilePath() != null)
-                                                                <a title="Add Remarks"  class="btn btn-warning btn-sm me-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}">+R</a>
+                                                                <a title="Add Remarks"  class="btn btn-warning btn-sm me-2 mb-2 resumePath" href="{{ URL::to('/ATS/candidate/'.$candidate->candidate_id.'/edit#remark') }}"><i class="fas fa-plus"></i> R</a>
                                                                 <button  title="Show Resume" type="button"
                                                                     class="btn btn-info me-2 resumePath btn-sm"
                                                                     data-bs-toggle="modal" data-bs-target="#showResume"
                                                                     data-file-path="{{ $candidate->candidate->getMainResumeFilePath() }}">D</button>
                                                                 @endif
-                                                                <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 resumePath">X</a>
+                                                                <a onclick="changeRemarkBlock({{ $candidate['id'] }})" class="btn btn-danger btn-sm me-2 mb-2 resumePath">X</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach

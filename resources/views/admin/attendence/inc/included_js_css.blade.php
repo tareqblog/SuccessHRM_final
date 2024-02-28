@@ -38,10 +38,13 @@
                 url: route,
                 method: 'GET',
                 success: function(response) {
+                    let weekcount = 0;
                     let leaveTypes = {!! json_encode($leaveTypes) !!};
+                    const remarksCount = response.length - 1;
+
                     $.each(response, function(index, attendance) {
+
                         let html = `
-                            ${attendance.day === 'Monday' ? '<strong class=" py-2 d-flex justify-content-center">Total Hour (Week): <span class="hour_week"> 0 hours</span> </strong>' : ''}
                             <div style="display:flex" id="single_attendance-${index}">
                                 <div style="flex:0 0 120px;position: sticky;left: 0;z-index: 20;">
                                     <input type="text" class="form-control ${attendance.work == 1 ? 'bg-f1f1f1' : ''}" readonly name="group[${index}][date]" value="${attendance.date}">
@@ -173,6 +176,13 @@
 
                             </div>
                         `;
+                        if (attendance.day === 'Sunday' || index == remarksCount) {
+                            ++weekcount;
+                            console.log(weekcount);
+                            html += `
+                                <strong class="py-2 d-flex justify-content-center">Total Hour (Week): <span class="hour_week-${weekcount}">0 hours</span></strong>
+                            `;
+                        }
                         $('#haveData').append(html);
                     });
                     let count = response.length;
@@ -185,10 +195,11 @@
         @endif
     }
 
+    let  count = 0;
     function check_total_week(numberOfDays)
     {
         let total_hours = 0;
-        let check = numberOfDays - 1;
+        let last_day = numberOfDays - 1;
 
         for (let day = 0; day < numberOfDays; day++) {
             let nameofday = $('.day-' + day).val();
@@ -212,7 +223,9 @@
             minutesDifference %= (24 * 60);
             total_hours += minutesDifference;
 
-            if (nameofday == 'Sunday' || day == check) {
+            if (nameofday == 'Sunday' || day == last_day) {
+                ++count;
+                console.log(count);
                 let hours = 0;
                 let minutes = 0;
 
@@ -222,7 +235,7 @@
                 }
 
                 let total_time = hours + ' h ' + minutes + ' m';
-                $('.hour_week').text(total_time);
+                $('.hour_week-' + count).text(total_time);
                 total_hours = 0;
             }
         }

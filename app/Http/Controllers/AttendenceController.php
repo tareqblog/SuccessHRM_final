@@ -6,6 +6,7 @@ use App\Helpers\FileHelper;
 use App\Models\AttendenceParent;
 use App\Models\Attendance;
 use App\Models\candidate;
+use App\Models\CandidateRemark;
 use App\Models\CandidateWorkingHour;
 use App\Models\client;
 use App\Models\Company;
@@ -90,18 +91,22 @@ class AttendenceController extends Controller
         $daysInMonth = $currentMonth->daysInMonth;
 
         $clients = client::latest()->get();
+        
+        return $candidates = Candidate::select('id', 'candidate_name')
+                                        ->with(['remarks' => function ($query) {
+                                            $query->select('id', 'candidate_id', 'remarkstype_id')
+                                            ->orderBy('created_at', 'desc')
+                                                ->limit(1);
+                                        }])
+                                        ->whereHas('remarks', function ($query) {
+                                            $query->whereNotNull('candidate_id');
+                                        })
+                                        ->whereHas('remarks', function ($query) {
+                                            $query->where('remarkstype_id', 6);
+                                        })
+                                        ->where('candidate_status', 1)
+                                        ->get();
 
-        $candidates = Candidate::select('id', 'candidate_name')
-                                ->with(['remarks' => function ($query) {
-                                    $query->select('id', 'candidate_id', 'client_company')
-                                    ->orderBy('created_at', 'desc')
-                                    ->limit(1);
-                                }])
-                                ->whereHas('remarks', function ($query) {
-                                    $query->whereNotNull('client_company');
-                                })
-                                ->where('candidate_status', 1)
-                                ->get();
 
         return view('admin.attendence.create', compact('clients', 'candidates', 'daysInMonth'));
     }
@@ -128,17 +133,34 @@ class AttendenceController extends Controller
         $month_year = $parent['month_year'];
         $clients = client::latest()->get();
         $candidates = Candidate::select('id', 'candidate_name')
-                                ->with(['remarks' => function ($query) {
-                                    $query->select('id', 'candidate_id', 'client_company')
-                                    ->orderBy('created_at', 'desc')
-                                        ->limit(1);
-                                }])
-                                    ->whereHas('remarks', function ($query) {
-                                        $query->whereNotNull('client_company');
-                                    })
-                                    ->where('candidate_status', 1)
-                                    ->get();
+                        ->with(['remarks' => function ($query) {
+                            $query->select('id', 'candidate_id', 'client_company')
+                            ->orderBy('created_at', 'desc')
+                                ->limit(1);
+                        }])
+                            ->whereHas('remarks', function ($query) {
+                                $query->whereNotNull('client_company');
+                            })
+                            ->where('candidate_status', 1)
+                            ->whereExists(function ($query) {
+                                $query->select(DB::raw(1))
+                                    ->from('candidate_remarks')
+                                    ->whereRaw('candidate_remarks.candidate_id = candidates.id')
+                                    ->limit(1);
+                            })
+                            ->get();
 
+        // $candidates = Candidate::select('id', 'candidate_name')
+        //                         ->with(['remarks' => function ($query) {
+        //                             $query->select('id', 'candidate_id', 'client_company')
+        //                             ->orderBy('created_at', 'desc')
+        //                                 ->limit(1);
+        //                         }])
+        //                             ->whereHas('remarks', function ($query) {
+        //                                 $query->whereNotNull('client_company');
+        //                             })
+        //                             ->where('candidate_status', 1)
+        //                             ->get();
 
         return view('admin.attendence.edit', compact(
             'daysInMonth',
@@ -258,14 +280,27 @@ class AttendenceController extends Controller
         }
 
         $validated = $validator->validated();
+
+        //  CandidateRemark::where('candidate_id', $validated['candidate_id'])->latest()->first();
+
+        // return $candidates = Candidate::select('id', 'candidate_name')
+        //                         ->with(['remarks' => function ($query) {
+        //                             $query->select('id', 'candidate_id', 'client_company')
+        //                             ->orderBy('created_at', 'desc')
+        //                             ->limit(1);
+        //                         }])
+        //                         ->whereHas('remarks', function ($query) {
+        //                             $query->whereNotNull('client_company');
+        //                         })
+        //                         ->where('candidate_status', 1)
+        //                         ->find($validated['candidate_id']);
+
+        $validated = $validator->validated();
         $providedDate = Carbon::parse($validated['date']);
 
-
-        // Extract month and year from the provided date
         $providedMonth = $providedDate->format('m');
         $providedYear = $providedDate->format('Y');
 
-        // Query to compare month and year
         $parent = AttendenceParent::where('candidate_id', $validated['candidate_id'])
         ->whereMonth('month_year', $providedMonth)
         ->whereYear('month_year', $providedYear)
@@ -279,7 +314,6 @@ class AttendenceController extends Controller
                 $attendance->delete();
             }
             $parent->delete();
-            // return redirect()->route('attendence.edit', $parent->id);
         }
 
         $candidate = Candidate::select('id', 'candidate_name', 'candidate_outlet_id')
