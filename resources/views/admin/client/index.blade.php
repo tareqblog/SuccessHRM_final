@@ -73,7 +73,7 @@
                                                     class="btn btn-secondary btn-sm me-1">Upload File</a>
                                             @endif --}}
 
-                                            {{-- @if (App\Helpers\FileHelper::usr()->can('client.followup'))--}}
+                                            @if (App\Helpers\FileHelper::usr()->can('client.followup'))
                                                 <a href="{{ route('clients.edit', $data->id) }}#follow_up"
                                                     class="btn btn-warning btn-sm me-1" data-bs-toggle="tooltip"
                                                     data-bs-placement="top" title="Add Remark"><i class="fas fa-plus"></i>
@@ -82,14 +82,14 @@
                                                     class="btn btn-success btn-sm me-1" data-bs-toggle="tooltip"
                                                     data-bs-placement="top" title="Show Remarks"><i
                                                         class="fas fa-registered"></i></a>
-                                            {{--@endif --}}
+                                            @endif
 
-                                            {{-- @if (App\Helpers\FileHelper::usr()->can('clients.edit')) --}}
+                                            @if (App\Helpers\FileHelper::usr()->can('clients.edit'))
                                                 <a href="{{ route('clients.edit', $data->id) }}"
                                                     class="btn btn-info btn-sm me-1"><i class="fas fa-pen"></i></a>
-                                                    {{--@endif --}}
+                                            @endif
 
-                                            {{--@if (App\Helpers\FileHelper::usr()->can('clients.destroy')) --}}
+                                            @if (App\Helpers\FileHelper::usr()->can('clients.destroy'))
                                                 <form id="deleteForm" action="{{ route('clients.destroy', $data->id) }}"
                                                     method="POST">
                                                     @csrf
@@ -98,7 +98,7 @@
                                                         onclick="return confirm('Are you sure you want to delete this item?')"
                                                         class="btn btn-sm btn-danger"><i class="fas fa fa-trash"></i></a>
                                                 </form>
-                                                {{--@endif --}}
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
