@@ -78,12 +78,12 @@
                                         <td style="display: flex;">
                                             <a href="{{ route('attendence.edit', $data->id) }}"
                                                 class="btn btn-info btn-sm me-2"><i class="fas fa-pen"></i></a>
-                                            <a href="{{ route('attendence.edit', $data->id) }}"
+                                            <a href="#"
                                                 class="btn btn-danger btn-sm me-2">Resubmit</a>
                                             <a target="_blank" href="{{ route('attendence.print', $data->id) }}"
                                                 class="btn btn-warning btn-sm me-2">Print</a>
-                                            <a href="{{ route('attendence.edit', $data->id) }}"
-                                                class="btn btn-success btn-sm me-2">Attachments</a>
+                                            <a disable href="#"
+                                                class="btn btn-success btn-sm me-2">Download Attachments</a>
                                         </td>
                                     </tr>
                                 @endforeach
