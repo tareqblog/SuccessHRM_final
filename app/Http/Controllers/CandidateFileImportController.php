@@ -575,7 +575,7 @@ class CandidateFileImportController extends Controller
             $rc = $rc->where('team_leader_users_id', $auth->id);
         }
 
-        $rc = $rc->whereIn('roles_id', [7, 10, 12,13,14])->get();
+        $rc = $rc->whereIn('roles_id', [8, 12])->get();
 
         return response()->json(['rc' => $rc]);
     }

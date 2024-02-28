@@ -7,6 +7,7 @@ use App\Models\AttendenceParent;
 use App\Models\Attendance;
 use App\Models\candidate;
 use App\Models\CandidateWorkingHour;
+use App\Models\client;
 use App\Models\Company;
 use App\Models\LeaveType;
 use App\Models\TimeSheet;
@@ -22,7 +23,7 @@ class AttendenceController extends Controller
 {
 
     public $user;
- 
+
 
     public function __construct()
     {
@@ -88,10 +89,21 @@ class AttendenceController extends Controller
         $currentMonth = Carbon::parse();
         $daysInMonth = $currentMonth->daysInMonth;
 
-        $companies = Company::latest()->get();
-        $candidates = candidate::latest()->where('candidate_status',1)->get();
+        $clients = client::latest()->get();
 
-        return view('admin.attendence.create', compact('companies', 'candidates', 'daysInMonth'));
+        $candidates = Candidate::select('id', 'candidate_name')
+                                ->with(['remarks' => function ($query) {
+                                    $query->select('id', 'candidate_id', 'client_company')
+                                    ->orderBy('created_at', 'desc')
+                                    ->limit(1);
+                                }])
+                                ->whereHas('remarks', function ($query) {
+                                    $query->whereNotNull('client_company');
+                                })
+                                ->where('candidate_status', 1)
+                                ->get();
+
+        return view('admin.attendence.create', compact('clients', 'candidates', 'daysInMonth'));
     }
 
     /**
@@ -114,18 +126,30 @@ class AttendenceController extends Controller
         $daysInMonth = $attendances->count();
         $leaveTypes = LeaveType::where('leavetype_status', 1)->get();
         $month_year = $parent['month_year'];
-        $companies = Company::latest()->get();
-        $candidates = candidate::latest()->where('candidate_status',1)->get();
+        $clients = client::latest()->get();
+        $candidates = Candidate::select('id', 'candidate_name')
+                                ->with(['remarks' => function ($query) {
+                                    $query->select('id', 'candidate_id', 'client_company')
+                                    ->orderBy('created_at', 'desc')
+                                        ->limit(1);
+                                }])
+                                    ->whereHas('remarks', function ($query) {
+                                        $query->whereNotNull('client_company');
+                                    })
+                                    ->where('candidate_status', 1)
+                                    ->get();
+
 
         return view('admin.attendence.edit', compact(
             'daysInMonth',
             'month_year',
             'candidate_id',
-            'companies',
+            'clients',
             'candidates',
             'attendances',
             'leaveTypes',
             'parent',
+            'company_id'
         ));
     }
 
@@ -212,13 +236,7 @@ class AttendenceController extends Controller
             $candidateId = $id[1];
 
             return response()->json(['candidateId' => $candidateId]);
-            // return $data = Company::where('id', $companyId)->first();
 
-            // if ($data) {
-                // return response()->json(['company' => $data, 'candidateId' => $candidateId]);
-            // } else {
-            //     return response()->json(['error' => 'Company not found'], 404);
-            // }
         } else {
             return response()->json(['error' => 'Invalid data format'], 400);
         }
@@ -226,11 +244,10 @@ class AttendenceController extends Controller
 
     public function getMonthData(Request $request)
     {
-        // return $request;
         $validator = Validator::make($request->all(), [
             'date' => 'required|date',
             'candidate_id' => 'required|exists:candidates,id',
-            'company_id' => 'nullable|exists:companies,id',
+            'company_id' => 'nullable|exists:clients,id',
             'invoice_no' => 'nullable',
         ]);
 
@@ -343,6 +360,8 @@ class AttendenceController extends Controller
                     $formate[$day]['in_time'] = null;
                     $formate[$day]['out_time'] = null;
                     $formate[$day]['lunch_hour'] = null;
+                    $formate[$day]['total_hour_min'] = 0;
+                    $formate[$day]['normal_hour_min'] = 0;
                     $formate[$day]['ot_rate'] = $timesheet['ot_rate'] ?? 'off';
                     $formate[$day]['minimum'] = $timesheet['minimum'];
                     $formate[$day]['allowance'] = $timesheet['allowance'];
@@ -370,7 +389,20 @@ class AttendenceController extends Controller
         try {
             $attP = new AttendenceParent;
             $attP->candidate_id = $request->candidate_id;
-            $attP->company_id = $request->company_id ?? 0;
+
+            $company = Candidate::select('id', 'candidate_name')
+            ->with(['remarks' => function ($query) {
+                $query->select('id', 'candidate_id', 'client_company')
+                ->orderBy('created_at', 'desc')
+                ->limit(1);
+            }])
+                ->whereHas('remarks', function ($query) {
+                    $query->whereNotNull('client_company');
+                })
+                ->where('candidate_status', 1)
+                ->find($request->candidate_id);
+
+            $attP->company_id = $company->remarks->isNotEmpty() ? $company->remarks->first()['client_company'] : 0;
             $attP->invoice_no = $request->invoice_no ?? 0;
             $attP->month_year = $validated['date'];
             $attP->save();

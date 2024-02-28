@@ -187,7 +187,7 @@
                                                         required>
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="row col-md-6 col-lg-6 mb-1">
                                                 <label for="passtypes_id" class="col-sm-5 col-form-label fw-bold">Type Of
                                                     Pass</label>
@@ -1773,6 +1773,7 @@
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Assign</th>
+                                                    <th>Client</th>
                                                     <th>Remarks Type</th>
                                                     <th>Comments</th>
                                                     <th>Created By</th>
@@ -1786,10 +1787,11 @@
                                                     <tr>
                                                         <td>{{ $loop->index + 1 }}</td>
                                                         <td>{{ $remark->Assign->name }}</td>
+                                                        <td>{{ $remark->assign_client?->client?->client_name }}</td>
                                                         <td>{{ $remark->remarksType->remarkstype_code }}</td>
                                                         <td>{!! $remark->remarks !!}</td>
                                                         <td>{{ $remark->Assign->name }}</td>
-                                                        <td>{{ $remark->created_at->format('H:i:s') }}
+                                                        <td>{{ $remark->created_at->format('h:i:s A') }}
                                                         </td>
                                                         <td>{{ $remark->created_at->format('d-M-y') }}
                                                         </td>

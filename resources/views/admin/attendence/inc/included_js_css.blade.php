@@ -101,7 +101,7 @@
                                         name="group[${index}][ot_calculation]" value="${attendance.ot_calculation}">
                                 </div>
                                 <div style="flex:0 0 80px;text-align:center">
-                                    <input type="checkbox" class="attendance_edit1" id="ot_edit-${index}" data-line="1" value="1" name="group[${index}][ot_edit]" onclick="ot_edit(${index})"  ${attendance.ot_edit == 1 ? 'checked' : ''}>
+                                    <input type="checkbox" class="attendance_edit1" id="ot_edit-${index}" data-line="1" value="1" name="group[${index}][ot_edit]"  ${attendance.ot_edit == 1 ? 'checked' : ''} onclick="ot_edit(${index})">
                                 </div>
                                 <div style="flex:0 0 100px;text-align:center">
                                     <input type="checkbox" class="work attendance_work1" id="workCheB-${index}" data-line="1" value="${attendance.work}" name="group[${index}][work]" onclick="work_check(${attendance.id}, ${index})" ${attendance.work == 1 ? 'checked' : ''}>
@@ -135,14 +135,14 @@
                                         <option value="Half Day PM" ${attendance.leave_day == 'Half Day PM' ? 'selected' : ''} >Half Day PM</option>
                                     </select>
                                 </div>
-                                <div style="flex:0 0 280px;" class="d-flex">
+                                <div style="flex: 0 0 280px;" class="d-flex">
                                     <div class="flex-grow-1" style="width: 200px;">
                                         <input type="hidden" name="group[${index}][old_leave_attachment]" value="${attendance.leave_attachment}">
-                                        <input type="file" class="attendance_leave_file-${index}" name="group[${index}][leave_attachment]" value="${attendance.leave_attachment}" onchange="displayFilename(${index}, this)">
+                                        <input type="file" class="attendance_leave_file-${index}" name="group[${index}][leave_attachment]" value="${attendance.leave_attachment}" onChange="hasFile(${index})">
                                     </div>
                                     <div class="leave_attachment-${index} pe-3">
                                         <label class="remove-label remove-label-${index}" onclick="removeFile('${index}')"><i class="fas fa-trash text-danger"></i></label>
-                                        ${attendance.leave_attachment ? `<a href="${attendance.leave_attachment}" target="_blank"><i class="fas fa-eye"></i></a>` : ''}
+                                        <a href="${attendance.leave_attachment}" target="_blank" style="display: ${attendance.leave_attachment ? 'inline' : 'none'}"><i class="fas fa-eye"></i></a>
                                     </div>
                                 </div>
                                 <div style="flex:0 0 280px;" class="d-flex">
@@ -211,11 +211,8 @@
 
             minutesDifference %= (24 * 60);
             total_hours += minutesDifference;
-            // console.log(minutesDifference);
-            // console.log(total_hours);
 
             if (nameofday == 'Sunday' || day == check) {
-                console.log(total_hours);
                 let hours = 0;
                 let minutes = 0;
 
@@ -290,14 +287,26 @@
         let hours = 0;
         let minutes = 0;
 
-        if(over_time)
-        {
-            hours = Math.floor(over_time / 60);
-            minutes = over_time % 60;
-        }
+        let ot_edit = $('#ot_edit-' + day);
+        if (ot_edit.prop('checked')) {
+            $('.ot-' + day).val(0);
+            $('.otc-' + day).val(0);
+        } else {
+            if(over_time)
+            {
+                hours = Math.floor(over_time / 60);
+                minutes = over_time % 60;
+                console.log(minutes);
+                minute_ten = minutes / 60;
+                console.log(minute_ten);
+            }
 
-        let ot = hours + ' h ' + minutes + ' m';
-        $('.ot-' + day).val(ot);
+            let ot = hours + ' h ' + minutes + ' m';
+            $('.ot-' + day).val(ot);
+
+            let otc = (hours + minute_ten).toFixed(2);
+            $('.otc-' + day).val(otc);
+        }
     }
 
     function total_time(minutesDifference, day)
@@ -319,13 +328,11 @@
 
     function ot_edit(day)
     {
-        let ot_edit = $('#ot_edit-' + day); // Retrieve the checkbox element
-        if (ot_edit.prop('checked')) { // Check if the checkbox is checked
-            $('.ot-' + day).prop('readonly', true);
-            $('.otc-' + day).prop('readonly', true);
-        } else { // If the checkbox is not checked
-            $('.ot-' + day).prop('readonly', false);
-            $('.otc-' + day).prop('readonly', false);
+        let ot_edit = $('#ot_edit-' + day);
+        if (ot_edit.prop('checked')) {
+            $('.ot-' + day).val(0);
+            $('.otc-' + day).val(0);
+        } else {
         }
     }
 
@@ -486,22 +493,6 @@
             all_empty(day);
             leave_filds(day);
         }
-
-        // let timeString = "8 h 30 m";
-
-        // let [hours, minutes] = timeString.split(" ").filter(part => part !== "h" && part !== "m");
-
-        // // Convert hours and minutes to integers
-        // let totalMinutes = parseInt(hours) * 60 + parseInt(minutes);
-
-        // // Calculate total hours and remaining minutes
-        // let totalHours = Math.floor(totalMinutes / 60);
-        // let remainingMinutes = totalMinutes % 60;
-
-        // let hour_week = totalHours + ' hour ' + remainingMinutes + ' minutes';
-        // console.log(hour_week);
-
-        // $('.hour_week').text(hour_week);
     });
 
 </script>

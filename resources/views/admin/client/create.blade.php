@@ -71,7 +71,7 @@
                                             <div class="col-sm-7">
                                                 <select name="employees_id" id="employees_id" class="form-control single-select-field" required>
                                                     @foreach (\Spatie\Permission\Models\Role::select('id', 'name')->whereNotIn('id', [1])->get() as $role)
-                                                        <option disabled><strong>{{$role->name}}</strong></option>
+                                                        <option disabled class="text-danger">{{$role->name}}</option>
                                                         @foreach (\App\Models\Employee::where('roles_id', $role->id)->get() as $incharge)
                                                             <option value="{{ $incharge->id }}">
                                                                 {{ $incharge->employee_name }}</option>

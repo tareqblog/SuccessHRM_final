@@ -513,12 +513,10 @@ class CandidateController extends Controller
                     'team_leader_id' => $team['team_leader_id'],
                     'consultant_id' => $team['consultant_id'],
                 ]);
-                // return $dashboard;
+
                 $dashboard_data['manager_id'] = $team['manager_id'];
                 $dashboard_data['teamleader_id'] = $team['team_leader_id'];
                 $dashboard_data['consultent_id'] = $team['consultant_id'];
-
-                // return $dashboard;
             }
 
             if ($request->remarkstype_id == 11) {
@@ -544,7 +542,7 @@ class CandidateController extends Controller
             if ($request->remarkstype_id == 9) {
                 $team = get_team($request->Assign_to_manager);
                 $request->Assign_to_manager = $team['manager_id'];
-                // return $candidate;
+
                 $candidate->update([
                     'manager_id' => $team['manager_id'],
                     'team_leader_id' => $team['team_leader_id'],
@@ -586,20 +584,20 @@ class CandidateController extends Controller
                     $endDate = Carbon::parse($list->end_date);
                     $newEndDate = $endDate->subDays($week_day);
 
-                    $calander['title'] = $candidate->consultant->employee_code . ' - Contract Ending - '. $candidate->candidate_name . ' - ' . $candidate_remark->client->client_name;
+                    $calander['title'] = $candidate->consultant->employee_code . ' - Contract Ending - '. $candidate_remark->client->client_name . ' - ' . $candidate->candidate_name;
                     $calander['date'] = $newEndDate;
                     $calander['status'] = 4;
                     Calander::create($calander);
                 }
                 if ($list->start_date != null) {
-                    $calander['title'] = $candidate->consultant->employee_code .' - Shortlisted -' . $candidate->candidate_name . ' - ' .  $candidate_remark->client->client_name;
+                    $calander['title'] = $candidate->consultant->employee_code .' - Shortlisted -' . $candidate_remark->client->client_name . ' - ' . $candidate->candidate_name;
                     $calander['date'] = $list->start_date;
                     $calander['status'] = 2;
                     Calander::create($calander);
                 }
                 if ($list->contact_signing_date != null) {
                     $calander['title'] =
-                    Carbon::parse($list->interview_time)->format('h:i A') . '-' . $candidate->consultant->employee_code . ' - Contact Signing -' . $candidate->candidate_name . ' - ' .  $candidate_remark->client->client_name;
+                    Carbon::parse($list->interview_time)->format('h:i A') . '-' . $candidate->consultant->employee_code . ' - Contact Signing -' . $candidate_remark->client->client_name . ' - ' . $candidate->candidate_name;
                     $calander['date'] = $list->contact_signing_date;
                     $calander['status'] = 3;
                     Calander::create($calander);
@@ -623,7 +621,7 @@ class CandidateController extends Controller
                 ]);
 
                 $calander['candidate_remark_shortlist_id'] = $list->id;
-                $calander['title'] = Carbon::parse($list->interview_time)->format('h:i A') . '-' . $candidate->consultant->employee_code .' - Interview -'. $candidate->candidate_name. ' - ' .  $list->company->client_name;
+                $calander['title'] = Carbon::parse($list->interview_time)->format('h:i A') . '-' . $candidate->consultant->employee_code .' - Interview -'. $list->company->client_name. ' - ' .$candidate->candidate_name;
                 $calander['date'] = $list->interview_date;
                 $calander['status'] = 1;
                 Calander::create($calander);
