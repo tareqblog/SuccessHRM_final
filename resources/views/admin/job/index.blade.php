@@ -29,8 +29,9 @@
                                     <label for="display_address" class="col-sm-5 col-form-label fw-bold">Person In-Charge</label>
                                     <div class="col-sm-7">
                                         <select name="employees_id" id="employees_id" class="form-control single-select-field" required>
+                                        <option value="" selected>---Select One ----</option>
                                             @foreach (\Spatie\Permission\Models\Role::select('id', 'name')->whereNotIn('id', [1])->get() as $role)
-                                                <option disabled>{{$role->name}}</option>
+                                                <option value="" disabled>{{$role->name}}</option>
                                                 @foreach (\App\Models\Employee::where('roles_id', $role->id)->get() as $incharge)
                                                     <option value="{{ $incharge->id }}"  {{ isset($jobdetails['employees_id']) && $jobdetails['employees_id'] == $incharge->id ? 'selected' : '' }}>
                                                         {{ $incharge->employee_name }}</option>
