@@ -91,8 +91,8 @@ class AttendenceController extends Controller
         $daysInMonth = $currentMonth->daysInMonth;
 
         $clients = client::latest()->get();
-        
-        return $candidates = Candidate::select('id', 'candidate_name')
+
+        $candidates = Candidate::select('id', 'candidate_name')
                                         ->with(['remarks' => function ($query) {
                                             $query->select('id', 'candidate_id', 'remarkstype_id')
                                             ->orderBy('created_at', 'desc')
