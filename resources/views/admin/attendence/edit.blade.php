@@ -66,13 +66,14 @@
                                             </select>
                                         </div>
                                     </div>
+                                    {{$company_id}}
                                     <div class="row col-lg-6  mb-1">
                                         <label for="eleven" class="col-sm-3 col-form-label">Company</label>
                                         <div class="col-sm-9">
                                             <select name="company_id" id="companyDropdown" class="form-control single-select-field">
                                                 <option value="" selected disabled>Select One</option>
-                                                @foreach ($companies as $company)
-                                                    <option  value="{{ $company->id }}"> {{ $company->name }} </option>
+                                                @foreach ($clients as $client)
+                                                    <option  value="{{ $client->id }}" {{ $client->id == $company_id ? 'selected' : ''}}> {{ $client->client_name }} </option>
                                                 @endforeach
                                             </select>
                                         </div>
