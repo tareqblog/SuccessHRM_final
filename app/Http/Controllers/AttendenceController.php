@@ -22,7 +22,7 @@ class AttendenceController extends Controller
 {
 
     public $user;
-
+ 
 
     public function __construct()
     {
@@ -89,7 +89,7 @@ class AttendenceController extends Controller
         $daysInMonth = $currentMonth->daysInMonth;
 
         $companies = Company::latest()->get();
-        $candidates = candidate::latest()->get();
+        $candidates = candidate::latest()->where('candidate_status',1)->get();
 
         return view('admin.attendence.create', compact('companies', 'candidates', 'daysInMonth'));
     }
@@ -115,7 +115,7 @@ class AttendenceController extends Controller
         $leaveTypes = LeaveType::where('leavetype_status', 1)->get();
         $month_year = $parent['month_year'];
         $companies = Company::latest()->get();
-        $candidates = candidate::latest()->get();
+        $candidates = candidate::latest()->where('candidate_status',1)->get();
 
         return view('admin.attendence.edit', compact(
             'daysInMonth',
@@ -359,7 +359,7 @@ class AttendenceController extends Controller
 
         $leaveTypes = LeaveType::where('leavetype_status', 1)->get();
         $companies = Company::latest()->get();
-        $candidates = candidate::latest()->get();
+        $candidates = candidate::latest()->where('candidate_status',1)->get();
         $candidate_id = $request->candidate_id;
         $selectCandidate = $candidate->candidate_outlet_id . '-' . $candidate_id;
         $month_year = $validated['date'];

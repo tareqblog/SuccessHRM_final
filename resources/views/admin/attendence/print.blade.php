@@ -29,7 +29,7 @@
                                 </th>
                             </tr>
                             <tr>
-                                <th colspan="5">Company: {{ $parent->company->name }}</th>
+                                <th colspan="5">Company: <!--{ { //$parent->company->name// } }--></th>
                                 <th colspan="5">DEPT: ---</th>
                                 <th colspan="4">POSITION: ---</th>
                             </tr>

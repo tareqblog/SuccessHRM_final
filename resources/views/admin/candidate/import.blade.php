@@ -85,21 +85,24 @@
                                         <input type="hidden" id="resume_path" name="resume_path" value="">
                                         <textarea name="resume_text" hidden></textarea>
                                         <div class="row mb-4">
-                                            <label for="one" class="col-sm-4 col-form-label">Name</label>
+                                            <label for="one" class="col-sm-4 col-form-label">Name<span
+                                                        class="text-danger">*</span></label>
                                             <div class="col-sm-8">
                                                 <input type="text" id="name" name="name" class="form-control"
                                                     value="" placeholder="Name" required>
                                             </div>
                                         </div>
                                         <div class="row mb-4">
-                                            <label for="one" class="col-sm-4 col-form-label">Email</label>
+                                            <label for="one" class="col-sm-4 col-form-label">Email<span
+                                                        class="text-danger">*</span></label>
                                             <div class="col-sm-8">
                                                 <input type="text" id="email" name="email" class="form-control"
                                                     value="" placeholder="Email" required>
                                             </div>
                                         </div>
                                         <div class="row mb-4">
-                                            <label for="one" class="col-sm-4 col-form-label">Phone No</label>
+                                            <label for="one" class="col-sm-4 col-form-label">Phone No<span
+                                                        class="text-danger">*</span></label>
                                             <div class="col-sm-8">
                                                 <input type="text" id="phone_no" name="phone_no" class="form-control"
                                                     value="" placeholder="Phone no" required>
@@ -120,7 +123,8 @@
                                         @endphp
                                         @if($auth->roles_id != 8)
                                         <div class="row mb-4">
-                                            <label for="one" class="col-sm-4 col-form-label">Assaign To</label>
+                                            <label for="one" class="col-sm-4 col-form-label">Assaign To<span
+                                                        class="text-danger">*</span></label>
                                             <div class="col-sm-8">
                                                 <select name="assaign_to" required class="form-control single-select-field">
                                                     <option value="">Select One</option>
