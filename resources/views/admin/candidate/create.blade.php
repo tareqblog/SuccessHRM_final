@@ -102,7 +102,7 @@
                                                             <option value="{{ $auth->id }}" selected @readonly(true)>
                                                                 {{ $auth->employee_name }}</option>
                                                         @elseif($auth->roles_id == 1 || $auth->roles_id == 4 || $auth->roles_id == 8)
-                                                            <option selected disabled>Select One
+                                                            <option value="" selected disabled>Select One
                                                             </option>
                                                             @foreach (\App\Models\Employee::where('roles_id', 4)->get() as $manager)
                                                                 <option value="{{ $manager->id }}"
@@ -200,7 +200,7 @@
                                                 <div class="col-sm-7">
                                                     <select id="races_id" name="races_id"
                                                         class="form-control single-select-field">
-                                                        <option selected disabled>Select One</option>
+                                                        <option value="" selected disabled>Select One</option>
                                                         @foreach ($race_data as $row)
                                                             <option value="{{ $row->id }}"
                                                                 {{ old('races_id') == $row->id ? 'selected' : '' }}>

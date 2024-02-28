@@ -120,7 +120,7 @@
                                                 Person In Charge</label>
                                             <div class="col-sm-7">
                                                 <select name="payroll_employees_id" class="form-control single-select-field">
-                                                    <option selected disabled>Select One</option>
+                                                    <option value="" selected disabled>Select One</option>
                                                     @foreach ($data['payrolls'] as $payroll)
                                                         <option value="{{ $payroll->id }}"
                                                             {{ $client->payroll_employees_id == $payroll->id ? 'selected' : '' }}>
@@ -145,7 +145,7 @@
                                             <div class="col-sm-7">
                                                 <select name="industry_types_id" class="form-control single-select-field" required
                                                     data-trigger>
-                                                    <option disabled selected>Select One</option>
+                                                    <option value=""  disabled selected>Select One</option>
                                                     @foreach ($data['job_categories'] as $category)
                                                         <option value="{{ $category->id }}"
                                                             {{ $client->industry_types_id == $category->id ? 'selected' : '' }}>
@@ -160,7 +160,7 @@
                                             <div class="col-sm-7">
                                                 <select name="tnc_templates_id" class="form-control single-select-field" required
                                                     data-trigger>
-                                                    <option disabled selected>Select One</option>
+                                                    <option value=""  disabled selected>Select One</option>
                                                     @foreach ($data['tncs'] as $tnc)
                                                         <option value="{{ $tnc->id }}"
                                                             {{ $client->tnc_templates_id == $tnc->id ? 'selected' : '' }}>
@@ -175,7 +175,7 @@
                                             <div class="col-sm-7">
                                                 <select name="client_terms_id" class="form-control single-select-field"
                                                     id="client_terms_id" placeholder="">
-                                                    <option disabled selected>Select One</option>
+                                                    <option value=""  disabled selected>Select One</option>
                                                     @foreach ($data['client_terms'] as $term)
                                                         <option value="{{ $term->id }}"
                                                             {{ $client->client_terms_id == $term->id ? 'selected' : '' }}>

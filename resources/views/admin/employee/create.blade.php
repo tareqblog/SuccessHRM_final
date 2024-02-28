@@ -107,7 +107,7 @@
                                                 <label for="two" class="col-sm-5 col-form-label fw-bold">Manager</label>
                                                 <div class="col-sm-7">
                                                     <select id="role7manager" class="form-control searchBox single-select-field" name="manager_users_id">
-                                                        <option selected disabled>Select One</option>
+                                                        <option value="" selected disabled>Select One</option>
                                                         @foreach ($managers as $user)
                                                             @if ($auth->roles_id == 4)
                                                                 <option value="{{ $user->id }}"
@@ -292,7 +292,7 @@
                                                 <label for="two" class="col-sm-4  col-form-label fw-bold">Login Email <span class="text-danger">*</span></label>
                                                 <div class="col-sm-8">
                                                     <input type="email" class="form-control" name="email">
-                                                    <small>Google Authenticator secratecode will send this email!</small>
+                                                    <small>Google Authenticator secret key will send this email!</small>
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">

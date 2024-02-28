@@ -138,7 +138,7 @@
                                                                     @readonly(true)>
                                                                     {{ $auth->employee_name }}</option>
                                                             @elseif($auth->roles_id == 1 || $auth->roles_id == 4 || $auth->roles_id == 8)
-                                                                <option selected disabled> Select One </option>
+                                                                <option value="" selected disabled> Select One </option>
                                                                 @foreach (\App\Models\Employee::where('roles_id', 4)->get() as $manager)
                                                                     <option value="{{ $manager->id }}"
                                                                         {{ $candidate->manager_id == $manager->id ? 'selected' : ($auth->manager_id == $manager->id ? 'selected' : '') }}>
@@ -172,7 +172,7 @@
                                                     <div class="col-sm-7">
                                                         <select id="consultantSelect"
                                                             class="form-control single-select-field" name="consultant_id">
-                                                            <option selected disabled>Select One </option>
+                                                            <option value="" selected disabled>Select One </option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -226,7 +226,7 @@
                                                 <div class="col-sm-7">
                                                     <select name="dbsexes_id" id="dbsexes_id"
                                                         class="form-control single-select-field">
-                                                        <option selected disabled>Select One
+                                                        <option value="" selected disabled>Select One
                                                         </option>
                                                         <option value="1"
                                                             {{ $candidate->dbsexes_id == 1 ? 'selected' : '' }}>
@@ -242,7 +242,7 @@
                                                 <div class="col-sm-7">
                                                     <select id="races_id" name="races_id"
                                                         class="form-control single-select-field">
-                                                        <option selected disabled>Select One</option>
+                                                        <option value="" selected disabled>Select One</option>
                                                         @foreach ($race_data as $row)
                                                             <option value="{{ $row->id }}"
                                                                 {{ $row->id == old('races_id', $candidate->races_id) ? 'selected' : '' }}>
@@ -1346,7 +1346,7 @@
                                                 <div class="col-sm-9">
                                                     <select name="remarkstype_id" class="form-control single-select-field"
                                                         id="remark_type_test">
-                                                        <option selected disabled>Select One</option>
+                                                        <option value="" selected disabled>Select One</option>
                                                         @if ($auth->roles_id == 1)
                                                             <option value="1" {{ old('remarkstype_id') == 1 ? 'selected' : '' }}>Assign To Manager</option>
                                                         @endif
@@ -1377,7 +1377,7 @@
                                                 <div class="col-sm-9">
                                                     <select name="assign_client_id"
                                                         class="form-control single-select-field">
-                                                        <option selected disabled>Select One</option>
+                                                        <option value="" selected disabled>Select One</option>
                                                         @foreach ($clients as $client)
                                                             <option value="{{ $client->id }}">
                                                                 {{ $client->client_name }} </option>
@@ -1555,7 +1555,7 @@
                                                 <div class="col-sm-9">
                                                     <select name="Assign_to_manager"
                                                         class="form-control single-select-field">
-                                                        <option selected disabled>Select One</option>
+                                                        <option value="" selected disabled>Select One</option>
                                                         @foreach ($users as $user)
                                                             <option value="{{ $user->id }}" {{ old('Assign_to_manager') == $user->id || $candidate->Assign_to_manager == $user->id ? 'selected' : '' }}>
                                                                 {{ $user->employee_name }}
@@ -1570,7 +1570,7 @@
                                                 <div class="col-sm-9">
                                                     <select name="Assign_to_manager"
                                                         class="form-control single-select-field">
-                                                        <option selected disabled>Select One</option>
+                                                        <option value="" selected disabled>Select One</option>
                                                         @foreach (\App\Models\Employee::select('id', 'employee_name')->where('roles_id', '!=', 1)->get() as $user)
                                                             <option value="{{ $user->id }}" {{ old('Assign_to_manager') == $user->id || $candidate->Assign_to_manager == $user->id ? 'selected' : '' }}>
                                                                 {{ $user->employee_name }}
