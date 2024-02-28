@@ -59,7 +59,7 @@
                                             @if($data->manager_id != null)
                                                 <a href="#" class="btn btn-success bg-info btn-sm me-3">Unassigned</a>
                                             @else
-                                                <a href="{{ route('candidate.edit', $data->id) }}" class="btn btn-success btn-sm me-3">Assigned</a>
+                                                <a href="{{ route('candidate.edit', $data->id) }}#remark" class="btn btn-success btn-sm me-3">Assigned</a>
                                             @endif
                                         </td>
                                         <td>

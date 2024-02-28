@@ -128,7 +128,8 @@
                                             @if ($auth->roles_id == 1)
                                                 <div class="row col-md-6 col-lg-6 mb-1">
                                                     <label for="managerSelect"
-                                                        class="col-sm-5 col-form-label fw-bold">Manager</label>
+                                                        class="col-sm-5 col-form-label fw-bold">Manager<span
+                                                        class="text-danger">*</span></label>
                                                     <div class="col-sm-7">
                                                         <select name="manager_id" id="managerSelect"
                                                             class="form-control single-select-field">
@@ -153,7 +154,8 @@
                                                 <div class="row col-md-6 col-lg-6 mb-1">
                                                     <label for="teamLeaderSelect"
                                                         class="col-sm-5 col-form-label fw-bold">Team
-                                                        Leader</label>
+                                                        Leader<span
+                                                        class="text-danger">*</span></label>
                                                     <div class="col-sm-7">
                                                         <select name="team_leader_id" id="teamLeaderSelect"
                                                             class="form-control single-select-field">
@@ -165,7 +167,8 @@
                                             @if ($auth->roles_id == 1 || $auth->roles_id == 4 || $auth->roles_id == 11)
                                                 <div class="row col-md-6 col-lg-6 mb-1">
                                                     <label for="consultantSelect"
-                                                        class="col-sm-5 col-form-label fw-bold">Consultant</label>
+                                                        class="col-sm-5 col-form-label fw-bold">Consultant<span
+                                                        class="text-danger">*</span></label>
                                                     <div class="col-sm-7">
                                                         <select id="consultantSelect"
                                                             class="form-control single-select-field" name="consultant_id">
@@ -176,11 +179,27 @@
                                             @endif
                                             <div class="row col-md-6 col-lg-6 mb-1">
                                                 <label for="candidate_name"
-                                                    class="col-sm-5 col-form-label fw-bold">Candidate Name</label>
+                                                    class="col-sm-5 col-form-label fw-bold">Candidate Name<span
+                                                        class="text-danger">*</span></label>
                                                 <div class="col-sm-7">
                                                     <input type="text" id="candidate_name" name="candidate_name"
                                                         class="form-control" value="{{ $candidate->candidate_name }}"
                                                         required>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row col-md-6 col-lg-6 mb-1">
+                                                <label for="passtypes_id" class="col-sm-5 col-form-label fw-bold">Type Of
+                                                    Pass</label>
+                                                <div class="col-sm-7">
+                                                    <select id="passtypes_id" name="passtypes_id"
+                                                        class="form-control single-select-field">
+                                                        <option value="">Select One</option>
+                                                        @foreach ($passtype_data as $row)
+                                                            <option value="{{ $row->id }}" {{ $row->id == old('passtypes_id', $candidate->passtypes_id) ? 'selected' : '' }}>
+                                                                {{ $row->passtype_code }}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
@@ -287,7 +306,8 @@
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
                                                 <label for="candidate_mobile"
-                                                    class="col-sm-5 col-form-label fw-bold">Mobile</label>
+                                                    class="col-sm-5 col-form-label fw-bold">Mobile<span
+                                                        class="text-danger">*</span></label>
                                                 <div class="col-sm-7">
                                                     <input type="text" class="form-control" name="candidate_mobile"
                                                         value="{{$candidate->candidate_mobile}}" required>
@@ -303,29 +323,17 @@
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
                                                 <label for="candidate_email"
-                                                    class="col-sm-5 col-form-label fw-bold">Email</label>
+                                                    class="col-sm-5 col-form-label fw-bold">Email<span
+                                                        class="text-danger">*</span></label>
                                                 <div class="col-sm-7">
                                                     <input type="email" name="candidate_email" id="candidate_email"
                                                         class="form-control" value="{{ $candidate->candidate_email }}">
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
-                                                <label for="passtypes_id" class="col-sm-5 col-form-label fw-bold">Type Of
-                                                    Pass</label>
-                                                <div class="col-sm-7">
-                                                    <select id="passtypes_id" name="passtypes_id"
-                                                        class="form-control single-select-field">
-                                                        <option value="">Select One</option>
-                                                        @foreach ($passtype_data as $row)
-                                                            <option value="{{ $row->id }}" {{ $row->id == old('passtypes_id', $candidate->passtypes_id) ? 'selected' : '' }}>
-                                                                {{ $row->passtype_code }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1">
                                                 <label for="candidate_outlet_id"
-                                                    class="col-sm-5 col-form-label fw-bold">Outlet</label>
+                                                    class="col-sm-5 col-form-label fw-bold">Outlet<span
+                                                        class="text-danger">*</span></label>
                                                 <div class="col-sm-7">
                                                     <select class="form-control single-select-field"
                                                         id="candidate_outlet_id" name="candidate_outlet_id" required>
