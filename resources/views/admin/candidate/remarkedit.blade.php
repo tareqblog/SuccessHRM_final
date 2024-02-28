@@ -1423,7 +1423,7 @@
                                                 <input type="hidden" name="shortlist_id" value="{{$remark->shortlist?->id}}">
                                             <div class="row col-md-6 col-lg-6 mb-1" id="shortlistClientCompany" style="display: none;">
                                                 <label for="one" class="col-sm-3 col-form-label fw-bold">Client Company <span class="text-danger">*</span> </label>
-                                                @dump($remark->shortlist)
+                                                
                                                 <div class="col-sm-9">
                                                     <select name="client_company"
                                                         class="form-control single-select-field">
@@ -1858,9 +1858,9 @@
                                                         <select name="client_company"
                                                             class="form-control single-select-field">
                                                             <option value="">Select One</option>
-                                                            @foreach ($outlet_data as $outlet)
-                                                                <option value="{{ $outlet->id }}">
-                                                                    {{ $outlet->outlet_name }} </option>
+                                                            @foreach ($clients as $client)
+                                                                <option value="{{ $client->id }}">
+                                                                    {{ $client->client_name }} </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
