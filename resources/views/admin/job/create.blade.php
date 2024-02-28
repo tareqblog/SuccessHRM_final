@@ -150,7 +150,7 @@
                                 <div class="row mb-1 remarkWrap">
                                     <label for="description" class="col-sm-2 col-form-label fw-bold newRemark">Description</label>
                                     <div class="col-sm-10">
-                                        <textarea name="description" id="description" class=" remarktextarea editor" rows="2"> {{ old('description') }} </textarea>
+                                        <textarea name="description" id="description" class="remarktextarea editor" rows="2"> {{ old('description') }} </textarea>
                                     </div>
                                 </div>
                             </div>
