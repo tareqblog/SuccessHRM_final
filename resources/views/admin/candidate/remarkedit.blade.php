@@ -1742,7 +1742,7 @@
                                                 <textarea name="remarks" id="ckeditor-classic" class="form-control">{{ old('remarks', $remark->remarks ?? '') }}</textarea>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-sm btn-info">Update</button>
+                                        <!--<button type="submit" class="btn btn-sm btn-info">Update</button> -->
                                     </form>
                                 {{-- @endif --}}
                                 <div class="row">
