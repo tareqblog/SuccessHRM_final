@@ -85,24 +85,12 @@
                                     <div class="row">
                                         <div class="col-lg-9 row">
                                             <div class="row col-md-6 col-lg-6 mb-1">
-                                                <label for="one" class="col-sm-5 col-form-label fw-bold">Reg No <span class="text-danger">*</span> </label>
+                                                <label for="one" class="col-sm-5 col-form-label fw-bold">Reg No </label>
                                                 <div class="col-sm-7">
                                                     <input type="text" name="reg_no" class="form-control">
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1">
-                                                <label for="one" class="col-sm-5 col-form-label fw-bold">Outlet <span class="text-danger">*</span> </label>
-                                                <div class="col-sm-7">
-                                                    <select name="employee_outlet_id" class="form-control searchBox single-select-field"
-                                                        required>
-                                                        <option value="">Select One</option>
-                                                        @foreach ($outlets as $outlet)
-                                                            <option value="{{ $outlet->id }}" {{ old('employee_outlet_id', $employee->employee_outlet_id) == $outlet->id ? 'selected' : '' }}>
-                                                                {{ $outlet->outlet_name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
+                                            
                                             <div class="row col-md-6 col-lg-6 mb-1 form-group required">
                                                 <label for="two" class="col-sm-5 col-form-label fw-bold">User Right</label>
                                                 <div class="col-sm-7">
@@ -125,7 +113,7 @@
                                                 <label for="two" class="col-sm-5 col-form-label fw-bold">Manager</label>
                                                 <div class="col-sm-7">
                                                     <select id="role7manager" class="form-control searchBox single-select-field" name="manager_users_id">
-                                                        <option selected disabled>Select One</option>
+                                                        <option value="" selected disabled>Select One</option>
                                                         @foreach ($managers as $user)
                                                             @if ($auth->roles_id == 4)
                                                                 <option value="{{ $user->id }}"
@@ -184,10 +172,23 @@
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
+                                                <label for="one" class="col-sm-5 col-form-label fw-bold">Outlet <span class="text-danger">*</span> </label>
+                                                <div class="col-sm-7">
+                                                    <select name="employee_outlet_id" class="form-control searchBox single-select-field"
+                                                        required>
+                                                        <option value="">Select One</option>
+                                                        @foreach ($outlets as $outlet)
+                                                            <option value="{{ $outlet->id }}" {{ old('employee_outlet_id', $employee->employee_outlet_id) == $outlet->id ? 'selected' : '' }}>
+                                                                {{ $outlet->outlet_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row col-md-6 col-lg-6 mb-1">
                                                 <label for="two" class="col-sm-5 col-form-label fw-bold">Pass Type</label>
                                                 <div class="col-sm-7">
                                                     <select name="passtypes_id" class="form-control searchBox single-select-field">
-                                                        <option >Select One</option>
+                                                        <option value="">Select One</option>
                                                         @foreach ($passes as $pass)
                                                             <option value="{{ $pass->id }}" {{ old('passtypes_id', $employee->passtypes_id) == $pass->id ? 'selected' : ''}}>
                                                                 {{ $pass->passtype_code }} </option>
@@ -212,7 +213,7 @@
                                                 <label for="two" class="col-sm-5 col-form-label fw-bold">Sex</label>
                                                 <div class="col-sm-7">
                                                     <select name="dbsexes_id" class="form-control searchBox single-select-field">
-                                                        <option>Select One</option>
+                                                        <option value="">Select One</option>
                                                         @foreach ($sexs as $sex)
                                                             <option value="{{ $sex->id }}" {{ old('dbsexes_id', $employee->dbsexes_id) == $sex->id ? 'selected' : ''}}>
                                                                 {{$sex->dbsexes_code }} </option>
@@ -225,7 +226,7 @@
                                                     Status</label>
                                                 <div class="col-sm-7">
                                                     <select name="marital_statuses_id" class="form-control searchBox single-select-field">
-                                                        <option>Select One</option>
+                                                        <option value="">Select One</option>
                                                         @foreach ($marital_status as $marital)
                                                             <option value="{{ $marital->id }}" {{ old('marital_statuses_id', $employee->marital_statuses_id) == $marital->id ? 'selected' : ''}}>
                                                                 {{ $marital->marital_statuses_code }} </option>
@@ -249,7 +250,7 @@
                                                 <label for="two" class="col-sm-5 col-form-label fw-bold">Race</label>
                                                 <div class="col-sm-7">
                                                     <select name="races_id" class="form-control searchBox single-select-field">
-                                                        <option>Select One</option>
+                                                        <option value="">Select One</option>
                                                         @foreach ($races as $race)
                                                             <option value="{{ $race->id }}"   {{ old('races_id', $employee->races_id) == $race->id ? 'selected' : ''}}>
                                                                 {{ $race->race_code }} </option>
@@ -430,7 +431,7 @@
                                                 class="col-sm-5 col-form-label fw-bold">Designation</label>
                                             <div class="col-sm-7">
                                                 <select name="designations_id" class="form-control single-select-field">
-                                                    <option selected disabled>Select One</option>
+                                                    <option value="">Select One</option>
                                                     @foreach ($designations as $designation)
                                                         <option value="{{ $designation->id }}"
                                                             {{ $designation->id == old('designations_id', $employee->designations_id) ? 'selected' : '' }}>

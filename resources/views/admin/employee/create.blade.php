@@ -81,22 +81,9 @@
                                     <div class="row">
                                         <div class="col-lg-9 row">
                                             <div class="row col-md-6 col-lg-6 mb-1">
-                                                <label for="one" class="col-sm-5 col-form-label fw-bold">Reg No <span class="text-danger">*</span> </label>
+                                                <label for="one" class="col-sm-5 col-form-label fw-bold">Reg No</label>
                                                 <div class="col-sm-7">
                                                     <input type="text" name="reg_no" class="form-control">
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1">
-                                                <label for="one" class="col-sm-5 col-form-label fw-bold">Outlet <span class="text-danger">*</span> </label>
-                                                <div class="col-sm-7">
-                                                    <select name="employee_outlet_id" class="form-control searchBox single-select-field"
-                                                        required>
-                                                        <option value="">Select One</option>
-                                                        @foreach ($outlets as $outlet)
-                                                            <option value="{{ $outlet->id }}">
-                                                                {{ $outlet->outlet_name }}</option>
-                                                        @endforeach
-                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1 form-group required">
@@ -120,7 +107,7 @@
                                                 <label for="two" class="col-sm-5 col-form-label fw-bold">Manager</label>
                                                 <div class="col-sm-7">
                                                     <select id="role7manager" class="form-control searchBox single-select-field" name="manager_users_id">
-                                                        <option selected disabled>Select One</option>
+                                                        <option value="" selected disabled>Select One</option>
                                                         @foreach ($managers as $user)
                                                             @if ($auth->roles_id == 4)
                                                                 <option value="{{ $user->id }}"
@@ -169,10 +156,11 @@
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
-                                                <label for="employee_email" class="col-sm-5 col-form-label fw-bold">Email Address</label>
+                                                <label for="employee_email" class="col-sm-5 col-form-label fw-bold">Email Address<span
+                                                        class="text-danger">*</span></label>
                                                 <div class="col-sm-7">
                                                     <input type="text" name="employee_email" class="form-control"
-                                                        placeholder="Email">
+                                                        placeholder="Email" required>
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
@@ -180,6 +168,19 @@
                                                 <div class="col-sm-7">
                                                     <input type="text" name="employee_phone" class="form-control"
                                                         placeholder="Phone no">
+                                                </div>
+                                            </div>
+                                            <div class="row col-md-6 col-lg-6 mb-1">
+                                                <label for="one" class="col-sm-5 col-form-label fw-bold">Outlet <span class="text-danger">*</span> </label>
+                                                <div class="col-sm-7">
+                                                    <select name="employee_outlet_id" class="form-control searchBox single-select-field"
+                                                        required>
+                                                        <option value="">Select One</option>
+                                                        @foreach ($outlets as $outlet)
+                                                            <option value="{{ $outlet->id }}">
+                                                                {{ $outlet->outlet_name }}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
@@ -291,6 +292,7 @@
                                                 <label for="two" class="col-sm-4  col-form-label fw-bold">Login Email <span class="text-danger">*</span></label>
                                                 <div class="col-sm-8">
                                                     <input type="email" class="form-control" name="email">
+                                                    <small>Google Authenticator secret key will send this email!</small>
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
@@ -307,6 +309,7 @@
                                                         name="password_confirmation">
                                                 </div>
                                             </div>
+                                            
                                         </div>
                                     </div>
                                 </div>

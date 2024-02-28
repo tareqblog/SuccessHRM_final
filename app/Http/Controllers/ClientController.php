@@ -235,7 +235,7 @@ class ClientController extends Controller
                 $team_leader_id = null;
             }
         }
-        if ($client->team_leader_id == $team_leader_id || $auth->roles_id == 1) {
+        //if ($client->team_leader_id == $team_leader_id || $auth->roles_id == 1) {
             $data = [];
 
             $data['incharges'] = Employee::select('id', 'employee_name')->latest()->whereIn('roles_id', [4, 8, 11, 12])->get();
@@ -250,9 +250,9 @@ class ClientController extends Controller
             $data['client_followup'] = ClientFollowUp::where('clients_id', $client->id)->orderBy('created_at', 'DESC')->get();
 
             return view('admin.client.edit', compact('data', 'client'));
-        } else {
-            return redirect()->back()->with('error', 'Sorry! You enter invalid Client id');
-        }
+        //} else {
+        //    return redirect()->back()->with('error', 'Sorry! You enter invalid Client id');
+       // }
     }
 
     /**

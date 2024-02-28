@@ -52,7 +52,7 @@
                                     <label for="clientSelect" class="col-sm-5 col-form-label fw-bold">Client</label>
                                     <div class="col-sm-7">
                                         <select id="clientSelect" name="client_id" class="form-control single-select-field">
-                                            <option selected disabled>Select One</option>
+                                            <option value=""  selected disabled>Select One</option>
                                             @foreach ($clients as $client)
                                                 <option value="{{ $client->id }}">{{ $client->client_name }}
 
@@ -65,7 +65,7 @@
                                     <label for="job_category_id" class="col-sm-5 col-form-label fw-bold">Job Category</label>
                                     <div class="col-sm-7">
                                         <select name="job_category_id" id="job_category_id" class="form-control single-select-field">
-                                            <option selected disabled>Select One</option>
+                                            <option value="" selected disabled>Select One</option>
                                             @foreach ($jobCategory as $category)
                                                 <option value="{{ $category->id }}"> {{ $category->jobcategory_name }}
                                                 </option>
@@ -80,7 +80,7 @@
                                             @if (Auth::user()->employe->roles_id == 8)
                                                 <option selected value="{{Auth::user()->employe->id}}">{{Auth::user()->employe->employee_name}}</option>
                                             @endif
-                                            {{-- <option selected disabled>Select One</option> --}}
+                                            {{-- <option value=""  selected disabled>Select One</option> --}}
                                             {{-- @foreach ($employees as $row)
                                                 <option value="{{ $row->id }}">{{ $row->employee_name }}
                                                 </option>
@@ -98,7 +98,7 @@
                                     <label for="job_type_id" class="col-sm-5 col-form-label fw-bold">Job Type</label>
                                     <div class="col-sm-7">
                                         <select id="job_type_id" name="job_type_id" class="form-control single-select-field">
-                                            <option selected disabled>Select One</option>
+                                            <option value=""  selected disabled>Select One</option>
                                             @foreach ($jobType as $type)
                                                 <option value="{{ $type->id }}">{{ $type->jobtype_code }}</option>
                                             @endforeach

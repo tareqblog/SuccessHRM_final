@@ -128,7 +128,8 @@
                                             @if ($auth->roles_id == 1)
                                                 <div class="row col-md-6 col-lg-6 mb-1">
                                                     <label for="managerSelect"
-                                                        class="col-sm-5 col-form-label fw-bold">Manager</label>
+                                                        class="col-sm-5 col-form-label fw-bold">Manager<span
+                                                        class="text-danger">*</span></label>
                                                     <div class="col-sm-7">
                                                         <select name="manager_id" id="managerSelect"
                                                             class="form-control single-select-field">
@@ -137,7 +138,7 @@
                                                                     @readonly(true)>
                                                                     {{ $auth->employee_name }}</option>
                                                             @elseif($auth->roles_id == 1 || $auth->roles_id == 4 || $auth->roles_id == 8)
-                                                                <option selected disabled> Select One </option>
+                                                                <option value="" selected disabled> Select One </option>
                                                                 @foreach (\App\Models\Employee::where('roles_id', 4)->get() as $manager)
                                                                     <option value="{{ $manager->id }}"
                                                                         {{ $candidate->manager_id == $manager->id ? 'selected' : ($auth->manager_id == $manager->id ? 'selected' : '') }}>
@@ -153,7 +154,8 @@
                                                 <div class="row col-md-6 col-lg-6 mb-1">
                                                     <label for="teamLeaderSelect"
                                                         class="col-sm-5 col-form-label fw-bold">Team
-                                                        Leader</label>
+                                                        Leader<span
+                                                        class="text-danger">*</span></label>
                                                     <div class="col-sm-7">
                                                         <select name="team_leader_id" id="teamLeaderSelect"
                                                             class="form-control single-select-field">
@@ -165,22 +167,39 @@
                                             @if ($auth->roles_id == 1 || $auth->roles_id == 4 || $auth->roles_id == 11)
                                                 <div class="row col-md-6 col-lg-6 mb-1">
                                                     <label for="consultantSelect"
-                                                        class="col-sm-5 col-form-label fw-bold">Consultant</label>
+                                                        class="col-sm-5 col-form-label fw-bold">Consultant<span
+                                                        class="text-danger">*</span></label>
                                                     <div class="col-sm-7">
                                                         <select id="consultantSelect"
                                                             class="form-control single-select-field" name="consultant_id">
-                                                            <option selected disabled>Select One </option>
+                                                            <option value="" selected disabled>Select One </option>
                                                         </select>
                                                     </div>
                                                 </div>
                                             @endif
                                             <div class="row col-md-6 col-lg-6 mb-1">
                                                 <label for="candidate_name"
-                                                    class="col-sm-5 col-form-label fw-bold">Candidate Name</label>
+                                                    class="col-sm-5 col-form-label fw-bold">Candidate Name<span
+                                                        class="text-danger">*</span></label>
                                                 <div class="col-sm-7">
                                                     <input type="text" id="candidate_name" name="candidate_name"
                                                         class="form-control" value="{{ $candidate->candidate_name }}"
                                                         required>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row col-md-6 col-lg-6 mb-1">
+                                                <label for="passtypes_id" class="col-sm-5 col-form-label fw-bold">Type Of
+                                                    Pass</label>
+                                                <div class="col-sm-7">
+                                                    <select id="passtypes_id" name="passtypes_id"
+                                                        class="form-control single-select-field">
+                                                        <option value="">Select One</option>
+                                                        @foreach ($passtype_data as $row)
+                                                            <option value="{{ $row->id }}" {{ $row->id == old('passtypes_id', $candidate->passtypes_id) ? 'selected' : '' }}>
+                                                                {{ $row->passtype_code }}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
@@ -207,7 +226,7 @@
                                                 <div class="col-sm-7">
                                                     <select name="dbsexes_id" id="dbsexes_id"
                                                         class="form-control single-select-field">
-                                                        <option selected disabled>Select One
+                                                        <option value="" selected disabled>Select One
                                                         </option>
                                                         <option value="1"
                                                             {{ $candidate->dbsexes_id == 1 ? 'selected' : '' }}>
@@ -223,7 +242,7 @@
                                                 <div class="col-sm-7">
                                                     <select id="races_id" name="races_id"
                                                         class="form-control single-select-field">
-                                                        <option selected disabled>Select One</option>
+                                                        <option value="" selected disabled>Select One</option>
                                                         @foreach ($race_data as $row)
                                                             <option value="{{ $row->id }}"
                                                                 {{ $row->id == old('races_id', $candidate->races_id) ? 'selected' : '' }}>
@@ -287,7 +306,8 @@
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
                                                 <label for="candidate_mobile"
-                                                    class="col-sm-5 col-form-label fw-bold">Mobile</label>
+                                                    class="col-sm-5 col-form-label fw-bold">Mobile<span
+                                                        class="text-danger">*</span></label>
                                                 <div class="col-sm-7">
                                                     <input type="text" class="form-control" name="candidate_mobile"
                                                         value="{{$candidate->candidate_mobile}}" required>
@@ -303,29 +323,17 @@
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
                                                 <label for="candidate_email"
-                                                    class="col-sm-5 col-form-label fw-bold">Email</label>
+                                                    class="col-sm-5 col-form-label fw-bold">Email<span
+                                                        class="text-danger">*</span></label>
                                                 <div class="col-sm-7">
                                                     <input type="email" name="candidate_email" id="candidate_email"
                                                         class="form-control" value="{{ $candidate->candidate_email }}">
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
-                                                <label for="passtypes_id" class="col-sm-5 col-form-label fw-bold">Type Of
-                                                    Pass</label>
-                                                <div class="col-sm-7">
-                                                    <select id="passtypes_id" name="passtypes_id"
-                                                        class="form-control single-select-field">
-                                                        <option value="">Select One</option>
-                                                        @foreach ($passtype_data as $row)
-                                                            <option value="{{ $row->id }}" {{ $row->id == old('passtypes_id', $candidate->passtypes_id) ? 'selected' : '' }}>
-                                                                {{ $row->passtype_code }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1">
                                                 <label for="candidate_outlet_id"
-                                                    class="col-sm-5 col-form-label fw-bold">Outlet</label>
+                                                    class="col-sm-5 col-form-label fw-bold">Outlet<span
+                                                        class="text-danger">*</span></label>
                                                 <div class="col-sm-7">
                                                     <select class="form-control single-select-field"
                                                         id="candidate_outlet_id" name="candidate_outlet_id" required>
@@ -495,9 +503,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="row mb-1 ">
-                                                    <label for="four" class="col-sm-3 col-form-label">Remarks</label>
+                                                    <label for="four" class="col-sm-3 col-form-label">Remarks<span
+                                                        class="text-danger">*</span></label>
                                                     <div class="col-sm-9">
-                                                        <textarea name="candidate_emr_remarks" rows="2" class="form-control" placeholder="Remarks"> {{ $candidate->candidate_emr_remarks }} </textarea>
+                                                        <textarea name="candidate_emr_remarks" rows="2" class="form-control" placeholder="Remarks" required> {{ $candidate->candidate_emr_remarks }} </textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1338,7 +1347,7 @@
                                                 <div class="col-sm-9">
                                                     <select name="remarkstype_id" class="form-control single-select-field"
                                                         id="remark_type_test">
-                                                        <option selected disabled>Select One</option>
+                                                        <option value="" selected disabled>Select One</option>
                                                         @if ($auth->roles_id == 1)
                                                             <option value="1" {{ old('remarkstype_id') == 1 ? 'selected' : '' }}>Assign To Manager</option>
                                                         @endif
@@ -1369,7 +1378,7 @@
                                                 <div class="col-sm-9">
                                                     <select name="assign_client_id"
                                                         class="form-control single-select-field">
-                                                        <option selected disabled>Select One</option>
+                                                        <option value="" selected disabled>Select One</option>
                                                         @foreach ($clients as $client)
                                                             <option value="{{ $client->id }}">
                                                                 {{ $client->client_name }} </option>
@@ -1535,7 +1544,7 @@
                                                     class="col-sm-3 col-form-label fw-bold">Notice</label>
                                                 <div class="col-sm-9">
                                                     <select name="isNotice" class="form-control single-select-field" required>
-                                                        <option selected disabled>Select One</option>
+                                                        <option value="" selected disabled>Select One</option>
                                                         <option value="1" {{ old('isNotice') == 1 ? 'selected' : '' }}>Yes</option>
                                                         <option value="0" {{ old('isNotice') == 0 ? 'selected' : '' }}>No</option>
                                                     </select>
@@ -1547,7 +1556,7 @@
                                                 <div class="col-sm-9">
                                                     <select name="Assign_to_manager"
                                                         class="form-control single-select-field">
-                                                        <option selected disabled>Select One</option>
+                                                        <option value="" selected disabled>Select One</option>
                                                         @foreach ($users as $user)
                                                             <option value="{{ $user->id }}" {{ old('Assign_to_manager') == $user->id || $candidate->Assign_to_manager == $user->id ? 'selected' : '' }}>
                                                                 {{ $user->employee_name }}
@@ -1562,7 +1571,7 @@
                                                 <div class="col-sm-9">
                                                     <select name="Assign_to_manager"
                                                         class="form-control single-select-field">
-                                                        <option selected disabled>Select One</option>
+                                                        <option value="" selected disabled>Select One</option>
                                                         @foreach (\App\Models\Employee::select('id', 'employee_name')->where('roles_id', '!=', 1)->get() as $user)
                                                             <option value="{{ $user->id }}" {{ old('Assign_to_manager') == $user->id || $candidate->Assign_to_manager == $user->id ? 'selected' : '' }}>
                                                                 {{ $user->employee_name }}

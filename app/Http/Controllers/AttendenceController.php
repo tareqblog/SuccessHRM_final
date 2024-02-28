@@ -22,7 +22,7 @@ class AttendenceController extends Controller
 {
 
     public $user;
-
+ 
 
     public function __construct()
     {
