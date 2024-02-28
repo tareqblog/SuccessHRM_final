@@ -56,7 +56,7 @@
                                         <div class="col-sm-9">
                                             <input type="hidden" id="candidateId" name="candidate_id">
                                             <select id="candidateDropdown" class="form-control single-select-field">
-                                                <option selected disabled>Select One</option>
+                                                <option value="" selected disabled>Select One</option>
                                                 @foreach ($candidates as $candidate)
                                                     <option
                                                         value="{{ $candidate->candidate_outlet_id }}-{{ $candidate->id }}"
@@ -70,7 +70,7 @@
                                         <label for="eleven" class="col-sm-3 col-form-label">Company</label>
                                         <div class="col-sm-9">
                                             <select name="company_id" id="companyDropdown" class="form-control single-select-field">
-                                                <option selected disabled>Select One</option>
+                                                <option value="" selected disabled>Select One</option>
                                                 @foreach ($companies as $company)
                                                     <option  value="{{ $company->id }}"> {{ $company->name }} </option>
                                                 @endforeach

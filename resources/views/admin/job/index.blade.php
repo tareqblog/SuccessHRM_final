@@ -43,7 +43,7 @@
                                     <label for="display_address" class="col-sm-5 col-form-label fw-bold">Job Status</label>
                                     <div class="col-sm-7">
                                         <select name="job_status" id="job_status" class="form-control single-select-field">
-                                            <option selected disabled>Select One</option>
+                                            <option value="" selected disabled>Select One</option>
                                             <option value="1"  {{ isset($jobdetails['job_status']) && $jobdetails['job_status'] == 1 ? 'selected' : '' }}>Active</option>
                                             <option value="0"  {{ isset($jobdetails['job_status']) && $jobdetails['job_status'] == 0 ? 'selected' : '' }}>Close</option>
                                         </select>

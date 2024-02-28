@@ -1543,7 +1543,7 @@
                                                     class="col-sm-3 col-form-label fw-bold">Notice</label>
                                                 <div class="col-sm-9">
                                                     <select name="isNotice" class="form-control single-select-field" required>
-                                                        <option selected disabled>Select One</option>
+                                                        <option value="" selected disabled>Select One</option>
                                                         <option value="1" {{ old('isNotice') == 1 ? 'selected' : '' }}>Yes</option>
                                                         <option value="0" {{ old('isNotice') == 0 ? 'selected' : '' }}>No</option>
                                                     </select>

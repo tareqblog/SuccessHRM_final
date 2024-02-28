@@ -65,7 +65,7 @@
                                     <label for="job_category_id" class="col-sm-5 col-form-label fw-bold">Job Category</label>
                                     <div class="col-sm-7">
                                         <select name="job_category_id" id="job_category_id" class="form-control single-select-field">
-                                            <option selected disabled>Select One</option>
+                                            <option value="" selected disabled>Select One</option>
                                             @foreach ($jobCategory as $category)
                                                 <option value="{{ $category->id }}"> {{ $category->jobcategory_name }}
                                                 </option>

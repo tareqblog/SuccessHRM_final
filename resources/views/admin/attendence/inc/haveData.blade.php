@@ -90,7 +90,7 @@
             <div style="flex:0 0 220px;">
                 <select class="form-control single-select-field change leave_type  type_of_leave-{{$day}}" data-line="1"
                     name="group[{{ $day }}][type_of_leave]" style="width:100%;  ;">
-                    <option selected disabled>Select One</option>
+                    <option value="" selected disabled>Select One</option>
                     @foreach ($leaveTypes as $type)
                         <option style="width: 120px" value="{{ $type->id }}" {{ $type->id == $attendance['type_of_leave'] ? 'selected' : '' }}>{{ $type->leavetype_code }}</option>
                     @endforeach
@@ -101,7 +101,7 @@
                 <select class="form-control single-select-field change leave_days-{{$day}}"
                     onchange="leaveDay({{ $day }})" data-line="1"
                     name="group[{{ $day }}][leave_day]" style="width:100%;  ">
-                    <option selected disabled>Select One</option>
+                    <option value="" selected disabled>Select One</option>
                     <option value="Full Day Leave" {{ $attendance['leave_day'] == 'Full Day Leave' ? 'selected' : '' }}>Full Day Leave</option>
                     <option value="Half Day AM"{{ $attendance['leave_day'] == 'Half Day AM' ? 'selected' : '' }}> Half Day AM</option>
                     <option value="Half Day PM"{{ $attendance['leave_day'] == 'Half Day PM' ? 'selected' : '' }}> Half Day PM</option>

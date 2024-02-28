@@ -223,7 +223,7 @@
                                                 <div class="col-sm-7">
                                                     <select id="races_id" name="races_id"
                                                         class="form-control single-select-field">
-                                                        <option selected disabled>Select One</option>
+                                                        <option value="" selected disabled>Select One</option>
                                                         @foreach ($race_data as $row)
                                                             <option value="{{ $row->id }}"
                                                                 {{ $row->id == old('races_id', $candidate->races_id) ? 'selected' : '' }}>
@@ -1327,7 +1327,7 @@
                                                 <div class="col-sm-9">
                                                     <select name="remarkstype_id" class="form-control single-select-field" disabled
                                                         id="remark_type">
-                                                        <option selected disabled>Select One</option>
+                                                        <option value="" selected disabled>Select One</option>
                                                         @if ($auth->roles_id == 1)
                                                             <option value="1" {{ old('remarkstype_id') == 1 || $remark->remarkstype_id == 1 ? 'selected' : '' }}>Assign To Manager</option>
                                                         @endif
@@ -1427,7 +1427,7 @@
                                                 <div class="col-sm-9">
                                                     <select name="client_company"
                                                         class="form-control single-select-field">
-                                                        <option selected disabled>Select One</option>
+                                                        <option value="" selected disabled>Select One</option>
                                                         @foreach ($clients as $client)
                                                             <option value="{{ $client->id }}" {{ (old('client_company') == $client->id || ($remark && $remark->client_company == $client->id)) ? 'selected' : '' }}>
                                                                 {{ $client->client_name }} </option>
@@ -1464,7 +1464,7 @@
                                                 <div class="col-sm-9">
                                                     <select name="shortlistJobType"
                                                         class="form-control single-select-field">
-                                                        <option selected disabled>Select One</option>
+                                                        <option value="" selected disabled>Select One</option>
                                                         @foreach ($job_types as $type)
                                                             <option value="{{ $type->id }}" {{ (old('shortlistJobType', $remark->shortlist?->job_type) == $type->id) ? 'selected' : '' }}>
                                                                 {{ $type->jobtype_code }} </option>
@@ -1521,7 +1521,7 @@
                                                     class="col-sm-3 col-form-label fw-bold">Notice</label>
                                                 <div class="col-sm-9">
                                                     <select name="isNotice" class="form-control single-select-field" required disabled>
-                                                        <option selected disabled>Select One</option>
+                                                        <option value="" selected disabled>Select One</option>
                                                         <option value="1" {{ old('isNotice') == 1 || $remark->isNotice ? 'selected' : '' }}>Yes</option>
                                                         <option value="0" {{ old('isNotice') == 0 || $remark->isNotice ? 'selected' : '' }}>No</option>
                                                     </select>
@@ -1533,7 +1533,7 @@
                                                 <div class="col-sm-9">
                                                     <select name="Assign_to_manager"
                                                         class="form-control single-select-field" disabled>
-                                                        <option selected disabled>Select One</option>
+                                                        <option value="" selected disabled>Select One</option>
                                                         @foreach ($users as $user)
                                                             <option value="{{ $user->id }}" {{ old('Assign_to_manager') == $user->id || $remark->assign_to == $user->id ? 'selected' : '' }}>
                                                                 {{ $user->employee_name }}
@@ -1548,7 +1548,7 @@
                                                 <div class="col-sm-9">
                                                     <select name="Assign_to_manager"
                                                         class="form-control single-select-field">
-                                                        <option selected disabled>Select One</option>
+                                                        <option value="" selected disabled>Select One</option>
                                                         @foreach (\App\Models\Employee::select('id', 'employee_name')->where('roles_id', '!=', 1)->get() as $user)
                                                             <option value="{{ $user->id }}" {{ old('Assign_to_manager') == $user->id || $candidate->Assign_to_manager == $user->id ? 'selected' : '' }}>
                                                                 {{ $user->employee_name }}
