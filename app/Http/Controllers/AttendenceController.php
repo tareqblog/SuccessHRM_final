@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\FileHelper;
+use App\Models\AssignClient;
 use App\Models\AttendenceParent;
 use App\Models\Attendance;
 use App\Models\candidate;
@@ -95,18 +96,16 @@ class AttendenceController extends Controller
         $candidates = Candidate::select('id', 'candidate_name')
                                         ->with(['remarks' => function ($query) {
                                             $query->select('id', 'candidate_id', 'remarkstype_id')
-                                            ->orderBy('created_at', 'desc')
-                                                ->limit(1);
+                                            ->latest('created_at')
+                                            ->first();
                                         }])
-                                        ->whereHas('remarks', function ($query) {
-                                            $query->whereNotNull('candidate_id');
-                                        })
                                         ->whereHas('remarks', function ($query) {
                                             $query->where('remarkstype_id', 6);
                                         })
-                                        ->where('candidate_status', 1)
-                                        ->get();
-
+                                        ->get()
+                                        ->filter(function ($candidate) {
+                                            return $candidate->remarks->isNotEmpty();
+                                        });
 
         return view('admin.attendence.create', compact('clients', 'candidates', 'daysInMonth'));
     }
@@ -150,17 +149,6 @@ class AttendenceController extends Controller
                             })
                             ->get();
 
-        // $candidates = Candidate::select('id', 'candidate_name')
-        //                         ->with(['remarks' => function ($query) {
-        //                             $query->select('id', 'candidate_id', 'client_company')
-        //                             ->orderBy('created_at', 'desc')
-        //                                 ->limit(1);
-        //                         }])
-        //                             ->whereHas('remarks', function ($query) {
-        //                                 $query->whereNotNull('client_company');
-        //                             })
-        //                             ->where('candidate_status', 1)
-        //                             ->get();
 
         return view('admin.attendence.edit', compact(
             'daysInMonth',
@@ -177,12 +165,6 @@ class AttendenceController extends Controller
 
     public function update(Request $request, string $id)
     {
-        // if (is_null($this->user) || !$this->user->can('attendence.update')) {
-        //     abort(403, 'Unauthorized');
-        // }
-
-        // return $request;
-
         $parent = AttendenceParent::find($id);
 
         $data = $request->group;
@@ -280,21 +262,6 @@ class AttendenceController extends Controller
         }
 
         $validated = $validator->validated();
-
-        //  CandidateRemark::where('candidate_id', $validated['candidate_id'])->latest()->first();
-
-        // return $candidates = Candidate::select('id', 'candidate_name')
-        //                         ->with(['remarks' => function ($query) {
-        //                             $query->select('id', 'candidate_id', 'client_company')
-        //                             ->orderBy('created_at', 'desc')
-        //                             ->limit(1);
-        //                         }])
-        //                         ->whereHas('remarks', function ($query) {
-        //                             $query->whereNotNull('client_company');
-        //                         })
-        //                         ->where('candidate_status', 1)
-        //                         ->find($validated['candidate_id']);
-
         $validated = $validator->validated();
         $providedDate = Carbon::parse($validated['date']);
 
@@ -410,36 +377,34 @@ class AttendenceController extends Controller
             }
         }
 
-        $leaveTypes = LeaveType::where('leavetype_status', 1)->get();
-        $companies = Company::latest()->get();
-        $candidates = candidate::latest()->where('candidate_status',1)->get();
-        $candidate_id = $request->candidate_id;
-        $selectCandidate = $candidate->candidate_outlet_id . '-' . $candidate_id;
-        $month_year = $validated['date'];
-
-        // return $formate;
         DB::beginTransaction();
 
+        // return 'ok';
         try {
+            $company = null;
             $attP = new AttendenceParent;
             $attP->candidate_id = $request->candidate_id;
 
-            $company = Candidate::select('id', 'candidate_name')
-            ->with(['remarks' => function ($query) {
-                $query->select('id', 'candidate_id', 'client_company')
-                ->orderBy('created_at', 'desc')
-                ->limit(1);
-            }])
-                ->whereHas('remarks', function ($query) {
-                    $query->whereNotNull('client_company');
-                })
-                ->where('candidate_status', 1)
-                ->find($request->candidate_id);
+            $candidate = Candidate::select('id', 'candidate_name')
+                            ->with(['remarks' => function ($query) {
+                                $query->select('id', 'candidate_id', 'remarkstype_id')
+                                    ->orderBy('created_at', 'desc')
+                                    ->first();
+                            }])->find($request->candidate_id);
 
-            $attP->company_id = $company->remarks->isNotEmpty() ? $company->remarks->first()['client_company'] : 0;
+            if (!$candidate->remarks && $candidate->remarks[0]->remarkstype_id !== 6) {
+                return response()->json(['error' => 'Candidate Not Assign to Client'], 500);
+            }
+
+            $assign_client = AssignClient::with('client')->where('candidate_remark_id', $candidate->remarks[0]->id)
+                ->orderBy('created_at', 'desc')
+                ->first();
+
+            $attP->company_id = $assign_client->client->id;
             $attP->invoice_no = $request->invoice_no ?? 0;
             $attP->month_year = $validated['date'];
             $attP->save();
+
             foreach ($formate as $day => $group) {
                 $date = Carbon::createFromFormat('d-m-Y', $group['date']);
                 $formattedDate = $date->format('Y-m-d');
@@ -476,58 +441,15 @@ class AttendenceController extends Controller
             DB::rollBack();
             return response()->json(['error' => $e->getMessage()], 500);
         }
-
-
-
-        // return $formate;
-
-        // `date`, `day`, `in_time`, `out_time`, `next_day`, `lunch_hour`, `total_hour_min`, `normal_hour_min`, `ot_hour_min`, `ot_calculation`, `ot_edit`, `work`, `ph`, `ph_pay`, `remark`, `type_of_leave`, `leave_day`, `leave_attachment`, `claim_attachment`, `type_of_reimbursement`, `amount_of_reimbursement`,
-
-        // $work_data = CandidateWorkingHour::where('candidate_id', $request->candidate_id)->firstOrFail();
-
-
-        // $timesheet_id  = $work_data->timesheet_id;
-        // $timeSheetData  = TimeSheetEntry::where('time_sheet_id', $timesheet_id)->get();
-
-        // $candidate_id = $request->candidate_id;
-        // $data = [
-        //     'candidate_id' => $candidate_id,
-        //     'daysInMonth' => $daysInMonth,
-        //     'currentMonth' => $currentMonth,
-        //     'candidates' => $candidates,
-        //     'selectedDate' => $selectedDate,
-        //     'selectCandidate' => $selectCandidate,
-        //     'timeSheetData' => $timeSheetData,
-        //     'company_outlet_id' => $company_outlet_id,
-        //     'company_name' => $company_name,
-        //     'leaves' => $leaves,
-        //     'leaveTypes' => $leaveTypes
-        // ];
-
-        // return $data;
-
-        // return view('admin.attendence.create', compact(
-        //     'candidate_id',
-        //     'daysInMonth',
-        //     'currentMonth',
-        //     'candidates',
-        //     'selectedDate',
-        //     'selectCandidate',
-        //     'timeSheetData',
-        //     'company_outlet_id',
-        //     'company_name',
-        //     'leaves',
-        //     'leaveTypes'
-        // ));
     }
 
     public function attendencePrint(AttendenceParent $attendence)
     {
-
         $parent = $attendence;
+
         $attendence = $attendence->load('attendences');
         $attendances = $attendence->attendences;
         $leaveTypes = LeaveType::where('leavetype_status', 1)->get();
-        return view('admin.attendence.print', compact('attendances', 'parent', 'leaveTypes'));
+        return view('admin.attendence.new_print', compact('attendances', 'parent', 'leaveTypes'));
     }
 }

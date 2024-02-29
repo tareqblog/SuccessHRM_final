@@ -518,8 +518,8 @@ class CandidateFileImportController extends Controller
                 'candidate_name' => $candidate->candidate_name,
                 'candidate_email' => $candidate->candidate_email,
                 'candidate_mobile' => $candidate->candidate_mobile,
-                'resume_file_path' => $candidate->resumes[0]->resume_file_path ?? '',
-                'resume_text' => $candidate->resumes[0]->resume_text,
+                'resume_file_path' => $candidate->resumes->isNotEmpty() ? $candidate->resumes[0]->resume_file_path : '',
+                'resume_text' => $candidate->resumes->isNotEmpty() ? $candidate->resumes[0]?->resume_text : '',
             ];
             $data[] = $candidateDetails;
         }

@@ -441,7 +441,7 @@
                                                         <td>{{ Carbon\Carbon::parse($file->created_at)->format('h:i a j M Y') }}
                                                         </td>
                                                         <td style="display: flex;">
-                                                            <button class="btn btn-info btn-sm"
+                                                            <button class="btn btn-info btn-sm me-2"
                                                                 onclick="editClient({{ $file->clients_id }}, {{ $file->id }}, '{{ $file->description }}')"
                                                                 type="button">Show</button>
 

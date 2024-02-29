@@ -228,7 +228,6 @@ class CandidateController extends Controller
      */
     public function update(CandidateRequest $request, candidate $candidate)
     {
-        // return $request;
         if (is_null($this->user) || !$this->user->can('candidate.update')) {
             abort(403, 'Unauthorized');
         }
@@ -245,12 +244,11 @@ class CandidateController extends Controller
 
         $dashboard = Dashboard::where('candidate_id', $candidate->id)->first();
         $dashboard->update([
-            'manager_id' => $request['manager_id'],
-            'teamleader_id' => $request['team_leader_id'],
-            'consultent_id' => $request['consultant_id'],
+            'manager_id' => $request['manager_id'] ?? $dashboard->manager_id,
+            'teamleader_id' => $request['team_leader_id'] ?? $dashboard->teamleader_id,
+            'consultent_id' => $request['consultant_id'] ?? $dashboard->consultent_id,
         ]);
 
-        // return $request;
         if ($request->hasFile('avatar')) {
             // Delete the old file
             Storage::delete("public/{$candidate->avatar}");
@@ -536,8 +534,16 @@ class CandidateController extends Controller
             {
                 AssignToRc::create([
                     'candidate_id' => $request->candidate_id,
-                    'rc_id' => $request->rc_id,
+                    'rc_id' => $request->rc,
                 ]);
+
+                $rework = AssignToRc::where('candidate_id', $request->candidate_id)
+                                    ->where('rc_id', $request->rc)
+                                    ->count();
+                if($rework >= 2)
+                {
+                    $dashboard_data['remark_id'] = 11;
+                }
             }
             if ($request->remarkstype_id == 9) {
                 $team = get_team($request->Assign_to_manager);

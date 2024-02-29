@@ -26,6 +26,8 @@ class DashboardController extends Controller
 
         $calander_datas = Calander::query();
         $activeResumes = Dashboard::with('candidate')->where('status', 0)->where('remark_id', 0);
+        $shortlists = Dashboard::with('candidate')->where('status', 0)->where('remark_id', 99);
+        $rework = Dashboard::with('candidate')->where('status', 0)->where('remark_id', 11);
         $followUp = Dashboard::with('candidate')->where('status', 0)->where('remark_id', 6)->where('follow_day', '>', 0)->get();
         $interviews = Dashboard::with('candidate')->where('status', 0)->where('remark_id', 4);
         $assignToClients = Dashboard::with('candidate')->where('status', 0)->where('remark_id', 5);
@@ -75,6 +77,8 @@ class DashboardController extends Controller
             }
         } elseif ($auth->roles_id == 4) {
             $calander_datas = $calander_datas->where('manager_id', $auth->id);
+            $shortlists = $shortlists->where('manager_id', $auth->id);
+            $rework = $rework->where('manager_id', $auth->id);
             $activeResumes = $activeResumes->where('manager_id', $auth->id);
             $interviews = $interviews->where('manager_id', $auth->id);
             $assignToClients = $assignToClients->where('manager_id', $auth->id);
@@ -94,6 +98,8 @@ class DashboardController extends Controller
             }
         } elseif ($auth->roles_id == 11) {
             $calander_datas = $calander_datas->where('teamleader_id', $auth->id);
+            $shortlists = $shortlists->where('teamleader_id', $auth->id);
+            $rework = $rework->where('teamleader_id', $auth->id);
             $activeResumes = $activeResumes->where('teamleader_id', $auth->id);
             $interviews = $interviews->where('teamleader_id', $auth->id);
             $assignToClients = $assignToClients->where('teamleader_id', $auth->id);
@@ -106,6 +112,8 @@ class DashboardController extends Controller
             }
         } elseif ($auth->roles_id == 8) {
             $calander_datas = $calander_datas->where('consultant_id', $auth->id);
+            $shortlists = $shortlists->where('consultent_id', $auth->id);
+            $rework = $rework->where('consultent_id', $auth->id);
             $activeResumes = $activeResumes->where('consultent_id', $auth->id);
             $interviews = $interviews->where('consultent_id', $auth->id);
             $assignToClients = $assignToClients->where('consultent_id', $auth->id);
@@ -139,6 +147,8 @@ class DashboardController extends Controller
         $interviews = $interviews->latest()->get();
         $assignToClients = $assignToClients->latest()->get();
         $kivs = $kivs->latest()->get();
+        $shortlists = $shortlists->latest()->get();
+        $rework = $rework->latest()->get();
         $activeResumes = $activeResumes->latest()->get();
         $blackListed = $blackListed->latest()->get();
         return view('admin.client.test', compact(
@@ -155,6 +165,8 @@ class DashboardController extends Controller
             'assignToClients',
             'kivs',
             'activeResumes',
+            'shortlists',
+            'rework',
         ));
     }
 

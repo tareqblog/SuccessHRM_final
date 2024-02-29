@@ -40,7 +40,7 @@
                                     <th>Industry</th>
                                     <th>Status</th>
                                     <th>Payroll PIC</th>
-                                    <th class="text-end">Action</th>
+                                    <th class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -67,7 +67,7 @@
                                                 {!! $data->latestFollowUp()->description !!}
                                             @endif
                                         </td> --}}
-                                        <td class="d-flex flex-row">
+                                        <td class="d-flex justify-content-center">
                                             {{-- @if (App\Helpers\FileHelper::usr()->can('client.file.upload'))
                                                 <a href="{{ route('clients.edit', $data->id) }}#upload_file"
                                                     class="btn btn-secondary btn-sm me-1">Upload File</a>

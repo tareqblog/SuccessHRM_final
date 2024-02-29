@@ -70,7 +70,7 @@
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ $data->candidate?->candidate_name }}</td>
-                                        <td>{{ $data->company?->name }}</td>
+                                        <td>{{ $data->client?->client_name }}</td>
                                         <td>
                                             {{ Carbon\Carbon::parse($data->month_year)->format('M, Y') }}
                                         </td>
@@ -80,7 +80,7 @@
                                                 class="btn btn-info btn-sm me-2"><i class="fas fa-pen"></i></a>
                                             <a href="#"
                                                 class="btn btn-danger btn-sm me-2">Resubmit</a>
-                                            <a target="_blank" href="{{ route('attendence.print', $data->id) }}"
+                                            <a href="{{ route('attendence.print', $data->id) }}"
                                                 class="btn btn-warning btn-sm me-2">Print</a>
                                             <a disable href="#"
                                                 class="btn btn-success btn-sm me-2">Download Attachments</a>

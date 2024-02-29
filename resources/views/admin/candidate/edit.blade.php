@@ -2615,7 +2615,7 @@
                                 let lunch_time = entry.lunch_time;
 
                                 html += `
-                                    <div class="form-group">
+                                    <div class="form-group" id="${entry.day.toLowerCase()}">
                                         <div class="row mt-3">
                                             <label for="time_sheet_day" class="col-sm-1 control-label">${entry.day}</label>
                                             <div class="col-sm-3">
@@ -2636,7 +2636,7 @@
                                             </div>
                                             <div class="col-sm-1">
                                                 <label>
-                                                    <input type="checkbox" name="${entry.day.toLowerCase()}_isWork" ${isWorkChecked}>
+                                                    <input type="checkbox" name="${entry.day.toLowerCase()}_isWork" ${isWorkChecked} onClick="workCheckUncheck('${entry.day.toLowerCase()}')">
                                                 </label>
                                             </div>
                                         </div>
@@ -2658,9 +2658,14 @@
                     let timesheetId = $(this).val();
                     loadTimeSheetDetails(timesheetId);
                 });
+
+                function workCheckUncheck(day) {
+                    console.log(day);
+                }
             });
 
             $(document).ready(function() {
+
                 $('.isMainRadio').on('change', function() {
                     // Get the candidate ID from the data attribute
                     var resumeId = $(this).data('resume-id');
