@@ -529,7 +529,7 @@ class CandidateFileImportController extends Controller
 
     public function getCandidateRemark(candidate $candidate)
     {
-       $remarks = $candidate->remarks;
+       $remarks = $candidate->remarks()->orderByDesc('created_at')->get();
 
        $data = [];
         foreach ($remarks as $remark) {

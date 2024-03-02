@@ -93,19 +93,28 @@ class AttendenceController extends Controller
 
         $clients = client::latest()->get();
 
-        $candidates = Candidate::select('id', 'candidate_name')
+        $data = Candidate::select('id', 'candidate_name', 'candidate_outlet_id')
                                         ->with(['remarks' => function ($query) {
                                             $query->select('id', 'candidate_id', 'remarkstype_id')
                                             ->latest('created_at')
-                                            ->first();
+                                            ->get();
                                         }])
-                                        ->whereHas('remarks', function ($query) {
-                                            $query->where('remarkstype_id', 6);
-                                        })
                                         ->get()
                                         ->filter(function ($candidate) {
                                             return $candidate->remarks->isNotEmpty();
                                         });
+        $candidates = [];
+        foreach ($data as $candidate) {
+            if($candidate->remarks[0]->remarkstype_id == 6)
+            {
+                $candidates[] = [
+                    'id' => $candidate->id,
+                    'candidate_name' => $candidate->candidate_name,
+                    'candidate_outlet_id' => $candidate->candidate_outlet_id,
+                    'client_id' => $candidate->remarks[0]->assign_client->client_id
+                ];
+            }
+        }
 
         return view('admin.attendence.create', compact('clients', 'candidates', 'daysInMonth'));
     }
@@ -131,24 +140,28 @@ class AttendenceController extends Controller
         $leaveTypes = LeaveType::where('leavetype_status', 1)->get();
         $month_year = $parent['month_year'];
         $clients = client::latest()->get();
-        $candidates = Candidate::select('id', 'candidate_name')
-                        ->with(['remarks' => function ($query) {
-                            $query->select('id', 'candidate_id', 'client_company')
-                            ->orderBy('created_at', 'desc')
-                                ->limit(1);
-                        }])
-                            ->whereHas('remarks', function ($query) {
-                                $query->whereNotNull('client_company');
-                            })
-                            ->where('candidate_status', 1)
-                            ->whereExists(function ($query) {
-                                $query->select(DB::raw(1))
-                                    ->from('candidate_remarks')
-                                    ->whereRaw('candidate_remarks.candidate_id = candidates.id')
-                                    ->limit(1);
-                            })
-                            ->get();
+        $data = Candidate::select('id', 'candidate_name', 'candidate_outlet_id')
+                ->with(['remarks' => function ($query) {
+                    $query->select('id', 'candidate_id', 'remarkstype_id')
+                    ->latest('created_at')
+                    ->get();
+                }])
+                    ->get()
+                    ->filter(function ($candidate) {
+                        return $candidate->remarks->isNotEmpty();
+                    });
 
+        $candidates = [];
+        foreach ($data as $candidate) {
+            if ($candidate->remarks[0]->remarkstype_id == 6) {
+                $candidates[] = [
+                    'id' => $candidate->id,
+                    'candidate_name' => $candidate->candidate_name,
+                    'candidate_outlet_id' => $candidate->candidate_outlet_id,
+                    'client_id' => $candidate->remarks[0]->assign_client->client_id
+                ];
+            }
+        }
 
         return view('admin.attendence.edit', compact(
             'daysInMonth',
@@ -353,6 +366,8 @@ class AttendenceController extends Controller
 
             // Check for leave data
             foreach ($leaves as $leave) {
+
+                // return $leave;
                 $leaveDateFrom = Carbon::parse($leave->leave_datefrom);
                 $leaveDateTo = Carbon::parse($leave->leave_dateto);
 
@@ -372,6 +387,7 @@ class AttendenceController extends Controller
                     $formate[$day]['leave_day'] = $leave->leave_duration;
                     $formate[$day]['leaveRemarks'] = $leave->leave_reason;
                     $formate[$day]['leave_attachment'] = $leave->leave_file_path;
+
                     break;
                 }
             }
@@ -379,7 +395,6 @@ class AttendenceController extends Controller
 
         DB::beginTransaction();
 
-        // return 'ok';
         try {
             $company = null;
             $attP = new AttendenceParent;
@@ -428,6 +443,8 @@ class AttendenceController extends Controller
                 $att->remark = $group['remark'] ?? null;
                 $att->type_of_leave = $group['type_of_leave'] ?? null;
                 $att->leave_day = $group['leave_day'];
+                $att->leave_attachment = $group['leave_attachment'];
+                $att->claim_attachment = $group['leave_attachment'];
                 $att->type_of_reimbursement = isset($group['type_of_reimbursement']) ? $group['type_of_reimbursement'] : '';
                 $att->amount_of_reimbursement = isset($group['amount_of_reimbursement']) ? $group['amount_of_reimbursement'] : 0.00;
 

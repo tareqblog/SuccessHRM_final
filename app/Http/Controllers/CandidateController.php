@@ -343,7 +343,6 @@ class CandidateController extends Controller
         return redirect($url)->with('success', 'Successfully Deleted.');
     }
 
-
     public function resumeUpload(Request $request, $id)
     {
         if (is_null($this->user) || !$this->user->can('candidate.resume')) {
@@ -373,6 +372,7 @@ class CandidateController extends Controller
             return redirect($url)->with('error', 'Please select a file.');
         }
     }
+
     public function resumeDelete($id, candidate $candidate)
     {
         if (is_null($this->user) || !$this->user->can('candidate.resume.delete')) {
@@ -409,6 +409,7 @@ class CandidateController extends Controller
         // $candidate = CandidateResume::findOrFail($id);
         // $candidate->update(['isMain' => $request->input('isMain')]);
     }
+
     public function remark(Request $request, $id)
     {
         // return $request;
@@ -581,11 +582,9 @@ class CandidateController extends Controller
                     'email_notice_time' => $request->shortlistEmailNoticeTime,
                     'email_notice_date' => $request->shortlistEmailNoticeDate,
                 ]);
-                // return $list;
 
                 $calander['candidate_remark_shortlist_id'] = $list->id;
                 if ($list->end_date != null) {
-                    // return $list->end_date;
                     $week_day = week_calculation($request->shortlistReminderPeriod);
                     $endDate = Carbon::parse($list->end_date);
                     $newEndDate = $endDate->subDays($week_day);
@@ -652,7 +651,6 @@ class CandidateController extends Controller
             return redirect($url)->with('error', $e->getMessage());
         }
     }
-
 
     public function remarkDelete($id)
     {

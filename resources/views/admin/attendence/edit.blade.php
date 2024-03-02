@@ -59,9 +59,9 @@
                                                 <option value="" selected disabled>Select One</option>
                                                 @foreach ($candidates as $candidate)
                                                     <option
-                                                        value="{{ $candidate->candidate_outlet_id }}-{{ $candidate->id }}"
-                                                        {{ $candidate->id == $candidate_id ? 'selected' : '' }}>
-                                                        {{ $candidate->candidate_name }}</option>
+                                                        value="{{ $candidate['candidate_outlet_id'] }}-{{ $candidate['id'] }}"
+                                                        {{ $candidate['id'] == $candidate_id ? 'selected' : '' }}>
+                                                        {{ $candidate['candidate_name'] }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

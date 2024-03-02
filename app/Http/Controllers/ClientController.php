@@ -34,7 +34,6 @@ class ClientController extends Controller
 {
     public $user;
 
-
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
@@ -498,7 +497,7 @@ class ClientController extends Controller
     public function getClientRemark(client $client)
     {
         $remarks = [];
-        foreach ($client->followUps as $key => $remark) {
+        foreach ($client->followUps()->orderByDesc('created_at')->get() as $key => $remark) {
             $remarkData = [
                 'created_by' => $remark->client->client_name,
                 'description' => $remark->description,
@@ -529,6 +528,16 @@ class ClientController extends Controller
     {
         $fpdi = new Fpdi();
         $count = $fpdi->setSourceFile($file_path);
+
+        // Add a blank page before the existing pages
+        $fpdi->AddPage();
+
+        // Add content to the blank page
+        $this->addTextToPage($fpdi, $this->text(), 10);
+
+        $this->addCustomTextToPage($fpdi, $this->customText(), 55, 30);
+
+        // Loop through existing pages and add content
         for ($i = 1; $i <= $count; $i++) {
             $template = $fpdi->importPage($i);
             $size = $fpdi->getTemplateSize($template);
@@ -536,25 +545,81 @@ class ClientController extends Controller
             $fpdi->AddPage($size['orientation'], array($size['width'], $size['height']));
             $fpdi->useTemplate($template);
 
-            $left = 10;
-            $top = 10;
-            $width = (int)$size['width'];
-            $textLinesWithStyles = $this->text();
-            foreach ($textLinesWithStyles as $textWithStyle) {
-                $top = $top + 5;
-
-                list($text, $font, $style, $size, $color) = $textWithStyle;
-                $fpdi->SetFont($font, $style, $size);
-                $fpdi->SetTextColor($color[0], $color[1], $color[2]);
-                $textWidth = $fpdi->GetStringWidth($text);
-
-                $x = ($width - $textWidth) / 2;
-                $fpdi->Text($x, $top, $text);
-            }
+            // Add content to the current page
+            $this->addTextToPage($fpdi, $this->text(), 10);
         }
 
         return $fpdi->Output($output_file_path, 'F');
     }
+
+    private function customText()
+    {
+        return [
+            [date('d M, Y', strtotime(now())), "Arial", "", 11, [0, 0, 0], 1],
+            ["", "Arial", "", 12, [0, 0, 0], .7],
+            ["Stell \nSatsaco Group Pte Ltd", "Arial", "B", 11, [0, 0, 0], .4],
+            ["", "Arial", "", 12, [0, 0, 0], .7],
+            ["Dear Stell,", "Arial", "", 12, [0, 0, 0], 1],
+            ["", "Arial", "", 12, [0, 0, 0], .7],
+            ["RE : TERMS AND CONDITIONS FOR RECRUITMENT OF PERMANENT \n STAFF/ CONTRACT STAFF/TEMPORARY STAFF", "Arial", "BU", 13, [0, 0, 0], .4],
+            ["", "Arial", "", 12, [0, 0, 0], .7],
+            ["We enclose here with a set of our Terms and Conditions for your perusal and retention.", "Arial", "", 12, [0, 0, 0], .4],
+            ["", "Arial", "", 12, [0, 0, 0], .5],
+            ["If the terms and conditions are acceptable, kindly confirm by counter-signing and return to us via scan/fax.", "Arial", "", 12, [0, 0, 0], .4],
+            ["", "Arial", "", 12, [0, 0, 0], .5],
+            ["We thank you for giving us the opportunity to be of service to your esteemed organization.", "Arial", "", 12, [0, 0, 0], .5],
+            ["", "Arial", "", 12, [0, 0, 0], 1.4],
+            ["Yours Faithfully \n for SUCCESS RESOURCE CENTRE PTE LTD", "Arial", "", 12, [0, 0, 0], .4],
+            ["", "Arial", "", 12, [0, 0, 0], 1.4],
+            ["Jansen Chua", "Arial", "I", 12, [39, 191, 49], .3],
+            ["Jansen Chua", "Arial", "", 12, [0, 0, 0], .3],
+        ];
+
+    }
+
+    private function addTextToPage($fpdi, $textLinesWithStyles, $top)
+    {
+        foreach ($textLinesWithStyles as $textWithStyle) {
+            $top = $top + 5;
+
+            list($text, $font, $style, $size, $color) = $textWithStyle;
+            $fpdi->SetFont($font, $style, $size);
+            $fpdi->SetTextColor($color[0], $color[1], $color[2]);
+            $textWidth = $fpdi->GetStringWidth($text);
+            $width = (int)$fpdi->GetPageWidth();
+            $x = ($width - $textWidth) / 2;
+            $fpdi->Text($x, $top, $text);
+        }
+    }
+
+    private function addCustomTextToPage($fpdi, $textLinesWithStyles, $top)
+    {
+        $leftMargin = 20;
+        $rightMargin = 20;
+
+        $defaultFont = "Arial";
+        $defaultSize = 12;
+        $defaultColor = [0, 0, 0];
+
+        $fpdi->SetFont($defaultFont, "", $defaultSize);
+        $fpdi->SetTextColor(...$defaultColor);
+        $availableWidth = $fpdi->GetPageWidth() - $leftMargin - $rightMargin;
+
+        foreach ($textLinesWithStyles as $line) {
+            list($text, $font, $style, $size, $color, $lineHeightMultiplier) = $line;
+
+            $lineHeight = $lineHeightMultiplier * $size;
+            $leftPosition = $leftMargin;
+
+            $fpdi->SetFont($font, $style, $size);
+            $fpdi->SetTextColor(...$color);
+            $fpdi->SetXY($leftPosition, $top);
+            $fpdi->MultiCell($availableWidth, $lineHeight, $text);
+            $top += $lineHeight;
+        }
+    }
+
+
 
     private function text()
     {

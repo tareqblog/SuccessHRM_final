@@ -4,6 +4,7 @@
 
 <script>
     let total_hours = 0;
+    let numberOfDays = 0;
     function allWork(days) {
         if ($('#allCheckB').is(':checked')) {
             for (let day = 0; day <= days; day++) {
@@ -43,7 +44,6 @@
                     const remarksCount = response.length - 1;
 
                     $.each(response, function(index, attendance) {
-
                         let html = `
                             <div style="display:flex" id="single_attendance-${index}">
                                 <div style="flex:0 0 120px;position: sticky;left: 0;z-index: 20;">
@@ -178,15 +178,14 @@
                         `;
                         if (attendance.day === 'Sunday' || index == remarksCount) {
                             ++weekcount;
-                            console.log(weekcount);
                             html += `
                                 <strong class="py-2 d-flex justify-content-center">Total Hour (Week): <span class="hour_week-${weekcount}">0 hours</span></strong>
                             `;
                         }
                         $('#haveData').append(html);
                     });
-                    let count = response.length;
-                    check_total_week(count);
+                    numberOfDays = response.length;
+                    check_total_week(numberOfDays);
                 },
                 error: function(xhr, status, error) {
                     console.error('Error loading attendance data:', xhr.status);
@@ -195,49 +194,53 @@
         @endif
     }
 
-    let  count = 0;
+    let count = 0;
+    function single_hour_check(day, last_day)
+    {
+        let nameofday = $('.day-' + day).val();
+        let lunch_val = convert_lunch_to_minutes($('.lunch_val-' + day).val());
+
+        let inMoment = moment($('.inTime-' + day).val(), 'HH:mm');
+        let outMoment = moment($('.outTime-' + day).val(), 'HH:mm');
+
+        if (outMoment.isBefore(inMoment)) {
+            outMoment.add(1, 'day');
+        }
+
+        let minutesDifference = outMoment.diff(inMoment, 'minutes');
+        minutesDifference -= lunch_val;
+
+        if (isNaN(minutesDifference)) {
+            minutesDifference = 0;
+        }
+
+        minutesDifference %= (24 * 60);
+        total_hours += minutesDifference;
+
+        if (nameofday == 'Sunday' || day == last_day) {
+            ++count;
+            let hours = 0;
+            let minutes = 0;
+
+            if (total_hours >= 0) {
+                hours = Math.floor(total_hours / 60);
+                minutes = total_hours % 60;
+            }
+            let total_time = hours + ' h ' + minutes + ' m';
+
+            $('.hour_week-' + count).text(total_time);
+            total_hours = 0;
+        }
+    }
+
     function check_total_week(numberOfDays)
     {
         let total_hours = 0;
         let last_day = numberOfDays - 1;
+        count = 0;
 
         for (let day = 0; day < numberOfDays; day++) {
-            let nameofday = $('.day-' + day).val();
-            let lunch_val = convert_lunch_to_minutes($('.lunch_val-' + day).val());
-
-            let inMoment = moment($('.inTime-' + day).val(), 'HH:mm');
-            let outMoment = moment($('.outTime-' + day).val(), 'HH:mm');
-
-            if (outMoment.isBefore(inMoment)) {
-                outMoment.add(1, 'day');
-            }
-
-            let minutesDifference = outMoment.diff(inMoment, 'minutes');
-            minutesDifference -= lunch_val;
-
-            if (isNaN(minutesDifference)) {
-                minutesDifference = 0;
-            }
-
-
-            minutesDifference %= (24 * 60);
-            total_hours += minutesDifference;
-
-            if (nameofday == 'Sunday' || day == last_day) {
-                ++count;
-                console.log(count);
-                let hours = 0;
-                let minutes = 0;
-
-                if (total_hours >= 0) {
-                    hours = Math.floor(total_hours / 60);
-                    minutes = total_hours % 60;
-                }
-
-                let total_time = hours + ' h ' + minutes + ' m';
-                $('.hour_week-' + count).text(total_time);
-                total_hours = 0;
-            }
+            single_hour_check(day, last_day)
         }
     }
 
@@ -250,6 +253,7 @@
                 type: 'GET',
                 success: function(response) {
                     all_show(response, day);
+                    check_total_week(numberOfDays);
                 },
                 error: function(xhr, status, error) {
                     console.error('Error loading attendance data:', xhr.status);
@@ -258,6 +262,7 @@
         } else if ($('#workCheB-' + day).is(':not(:checked)')) {
             all_empty(day);
             leave_filds(day);
+            check_total_week(numberOfDays);
         }
     }
 
@@ -290,6 +295,7 @@
 
         const over_time = Math.max(0, minutesDifference - oldminutesDifference);
 
+        check_total_week(numberOfDays);
         total_time(minutesDifference, day);
         over_time_calculation(over_time, day);
         return minutesDifference;
@@ -299,6 +305,7 @@
     {
         let hours = 0;
         let minutes = 0;
+        let minute_ten = 0;
 
         let ot_edit = $('#ot_edit-' + day);
         if (ot_edit.prop('checked')) {
@@ -309,9 +316,7 @@
             {
                 hours = Math.floor(over_time / 60);
                 minutes = over_time % 60;
-                console.log(minutes);
                 minute_ten = minutes / 60;
-                console.log(minute_ten);
             }
 
             let ot = hours + ' h ' + minutes + ' m';
@@ -335,7 +340,6 @@
 
         let totla_time = hours + ' h ' + minutes + ' m';
         $('.totla_time-' + day).val(totla_time);
-        $('.hour_week').val(totla_time);
 
     }
 
