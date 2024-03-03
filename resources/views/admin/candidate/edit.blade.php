@@ -1183,11 +1183,15 @@
                                     @if (App\Helpers\FileHelper::usr()->can('candidate.resume'))
                                         <div class="col-lg-12">
                                             <div class="card-header">
-                                                <h4 class="card-title mb-0">Upload Resume</h4>
-                                                <div class="text-end">
-                                                    <a data-bs-toggle="modal"
+                                                <div class="d-flex bd-highlight">
+                                                    <div class="p-2 flex-grow-1 bd-highlight">
+                                                        <h6 class="card-title mb-0">Upload Resume</h6>
+                                                    </div>
+                                                    <div class="p-2 bd-highlight">
+                                                        <a data-bs-toggle="modal"
                                                         data-bs-target=".bs-example-modal-lg-create-resume"
                                                         class="btn btn-sm btn-info">Upload New Resume</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1370,6 +1374,7 @@
                                                         <option value="5" {{ old('remarkstype_id') == 5 ? 'selected' : '' }}>Assign Interview</option>
                                                         <option value="6" {{ old('remarkstype_id') == 6 ? 'selected' : '' }}>Assign To Client</option>
                                                         <option value="7" {{ old('remarkstype_id') == 7 ? 'selected' : '' }}>Shortlisted</option>
+                                                        <option value="22" {{ old('remarkstype_id') == 22 ? 'selected' : '' }}>Call Back</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -1756,11 +1761,11 @@
                                                         class="form-control">
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row col-12 my-2">
-                                            <label for="one" class="col-2 col-form-label fw-bold">Remark</label>
-                                            <div class="col-10 pe-5">
-                                                <textarea name="remarks" id="ckeditor-classic" class="form-control"></textarea>
+                                            <div class="row col-12 my-2">
+                                                <label for="one" class="col-2 col-form-label fw-bold">Remark</label>
+                                                <div class="col-10 pe-5">
+                                                    <textarea name="remarks" id="ckeditor-classic" class="form-control"></textarea>
+                                                </div>
                                             </div>
                                         </div>
                                         <button type="submit" class="btn btn-sm btn-info">Save</button>
@@ -2595,9 +2600,7 @@
                         $('#shortlistContractEndDate').hide().css('display', 'none');
                     }
                 });
-            });
 
-            $(document).ready(function() {
                 function loadTimeSheetDetails(timesheetId) {
                     let html = '';
 
@@ -2631,12 +2634,12 @@
                                                     <option value="1 hour" ${lunch_time === '1 hour' ? 'selected' : ''}>1 hour</option>
                                                     <option value="1.5 hour" ${lunch_time === '1.5 hour' ? 'selected' : ''}>1.5 hour</option>
                                                     <option value="2 hour" ${lunch_time === '2 hour' ? 'selected' : ''}>2 hour</option>
-                                                    <option value="No Lunch" ${lunch_time === 'No Lunch' ? 'selected' : ''}>No Lunch</option>
+                                                    <option value="" ${lunch_time === 'No Lunch' ? 'selected' : ''}>No Lunch</option>
                                                 </select>
                                             </div>
                                             <div class="col-sm-1">
                                                 <label>
-                                                    <input type="checkbox" name="${entry.day.toLowerCase()}_isWork" ${isWorkChecked} onClick="workCheckUncheck('${entry.day.toLowerCase()}')">
+                                                    <input type="checkbox" name="${entry.day.toLowerCase()}_isWork" ${isWorkChecked}>
                                                 </label>
                                             </div>
                                         </div>
@@ -2652,19 +2655,27 @@
                     });
                 }
 
-                loadTimeSheetDetails($('#sheet_type_id').val());
+                if ($('#sheet_type_id').val()) {
+                    loadTimeSheetDetails($('#sheet_type_id').val());
+                }
 
                 $('#sheet_type_id').change(function() {
                     let timesheetId = $(this).val();
                     loadTimeSheetDetails(timesheetId);
                 });
 
-                function workCheckUncheck(day) {
-                    console.log(day);
-                }
-            });
+                $(document).on('click', 'input[type="checkbox"]', function() {
+                    let day = $(this).attr('name').split('_')[0];
 
-            $(document).ready(function() {
+                    let isChecked = $(this).prop('checked');
+
+                    if (isChecked) {
+                        $('#' + day).find(':input').val('');
+                        loadTimeSheetDetails($('#sheet_type_id').val());
+                    } else {
+                        $('#' + day).find(':input').val('');
+                    }
+                });
 
                 $('.isMainRadio').on('change', function() {
                     // Get the candidate ID from the data attribute

@@ -2,6 +2,7 @@
 
 use App\Models\Dashboard;
 use App\Models\Employee;
+use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Str;
 use Smalot\PdfParser\Parser;
@@ -62,6 +63,7 @@ if (!function_exists('assign_dashboard_remark_id')) {
     {
         $data = [];
         $data['follow_day'] = 0;
+        $data['callback'] = 0;
         if($id == 1 || $id == 2 || $id == 3 || $id == 9 || $id == 10 || $id == 11 || $id == 12) {
             $data['remark_id'] = 0;
         } elseif ($id == 4) {
@@ -72,6 +74,8 @@ if (!function_exists('assign_dashboard_remark_id')) {
             $data['remark_id'] = 5;
         } elseif ($id == 7) {
             $data['remark_id'] = 99;
+        } elseif ($id == 22) {
+            $data['remark_id'] = 22;
         }
 
         return $data;
@@ -170,5 +174,82 @@ if (!function_exists('week_calculation')) {
             default:
                 return 0;
         }
+    }
+}
+if (!function_exists('twobusinessday')) {
+    function twobusinessday($date)
+    {
+        $businessDaysToAdd = 2;
+        for ($i = 0; $i < $businessDaysToAdd; $i++) {
+            $date->addDay();
+            if ($date->isWeekend()) {
+                if ($date->isSaturday()) {
+                    $date->addDay();
+                } elseif ($date->isSunday()) {
+                    $date->addDays(2);
+                }
+            }
+        }
+        return $date;
+    }
+}
+if (!function_exists('twobusinessdayclient')) {
+    function twobusinessdayclient($assignToClients)
+    {
+        $twobusinessday = [];
+        foreach ($assignToClients as $assignToClient) {
+            $date = Carbon::parse($assignToClient->updated_at);
+            $businessDaysToAdd = 2;
+
+            for ($i = 0; $i < $businessDaysToAdd; $i++) {
+                $date->addDay();
+                if ($date->isWeekend()) {
+                    if ($date->isSaturday()) {
+                        $date->addDay();
+                    } elseif ($date->isSunday()) {
+                        $date->addDays(2);
+                    }
+                }
+            }
+            if ($date->isPast()) {
+                $twobusinessday[] = $assignToClient;
+            }
+        }
+
+        return $twobusinessday;
+    }
+}
+
+if (!function_exists('threebusinessdaynoaction')) {
+    function threebusinessdaynoaction($dashboards)
+    {
+        $data = [];
+        $threebusinessdaynoaction = [];
+        $active_resume = [];
+        foreach ($dashboards as $dashboard) {
+            $date = Carbon::parse($dashboard->created_at);
+            $businessDaysToAdd = 3;
+
+            for ($i = 0; $i < $businessDaysToAdd; $i++) {
+                $date->addDay();
+                if ($date->isWeekend()) {
+                    if ($date->isSaturday()) {
+                        $date->addDay();
+                    }
+                    elseif ($date->isSunday()) {
+                        $date->addDays(2);
+                    }
+                }
+            }
+            if ($date->isPast()) {
+                $threebusinessdaynoaction[] = $dashboard;
+            } else {
+                $active_resume[] = $dashboard;
+            }
+        }
+        $data['threebusinessdaynoaction'] = $threebusinessdaynoaction;
+        $data['active_resume'] = $active_resume;
+
+        return $data;
     }
 }

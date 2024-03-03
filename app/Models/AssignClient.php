@@ -14,6 +14,6 @@ class AssignClient extends Model
 
     public function client(): BelongsTo
     {
-        return $this->belongsTo(client::class,);
+        return $this->belongsTo(client::class, 'client_id');
     }
 }

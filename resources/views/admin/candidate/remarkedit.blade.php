@@ -1314,437 +1314,431 @@
                                 </div>
                             </div>
                             <div class="tab-pane" id="remark" role="tabpanel">
-                                {{-- @if (App\Helpers\FileHelper::usr()->can('candidate.remark')) --}}
-                                    <form action="{{ route('candidate.remark.update', $remark->id) }}" method="POST">
-                                        @csrf
-                                        <div class="row">
-                                            <h5>Update Remarks</h5>
-                                            <p class="mb-0"><strong>Name:</strong> {{ $candidate->candidate_name }}</p>
-                                            <p><strong>NRIC:</strong> {{ $candidate->candidate_nric }}</p>
-                                            <div class="row col-md-6 col-lg-6 mb-1">
-                                                <input type="hidden" value="{{ $candidate->id }}" name="candidate_id">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Remark Type</label>
-                                                <div class="col-sm-9">
-                                                    <select name="remarkstype_id" class="form-control single-select-field" disabled
-                                                        id="remark_type">
-                                                        <option value="" selected disabled>Select One</option>
-                                                        @if ($auth->roles_id == 1)
-                                                            <option value="1" {{ old('remarkstype_id') == 1 || $remark->remarkstype_id == 1 ? 'selected' : '' }}>Assign To Manager</option>
-                                                        @endif
-                                                        @if ($auth->roles_id == 8)
-                                                            <option value="11" {{ old('remarkstype_id') == 11 || $remark->remarkstype_id == 11 ? 'selected' : '' }}>Assign To Own</option>
-                                                        @endif
-                                                        @if ($auth->roles_id == 4 || $auth->roles_id == 11)
-                                                        <option value="3" {{ old('remarkstype_id') == 3 || $remark->remarkstype_id == 3 ? 'selected' : '' }}>Assign To RC</option>
-                                                        @endif
-                                                        @if ($auth->roles_id == 4)
-                                                            <option value="2" {{ old('remarkstype_id') == 2 || $remark->remarkstype_id == 2 ? 'selected' : '' }}>Assign To Team Leader</option>
-                                                        @endif
-                                                        @if ($auth->roles_id == 8 || $auth->roles_id == 11 || $auth->roles_id == 4)
-                                                        <option value="9" {{ old('remarkstype_id') == 9 || $remark->remarkstype_id == 9 ? 'selected' : '' }}>Reassign</option>
-                                                        @endif
-                                                        @if ($auth->roles_id == 1 || $auth->roles_id == 4)
-                                                        <option value="12" {{ old('remarkstype_id') == 12 || $remark->remarkstype_id == 12 ? 'selected' : '' }}>Share to Other Managers (Admin / Manager use only)</option>
-                                                        @endif
-                                                        <option value="4" {{ old('remarkstype_id') == 4 || $remark->remarkstype_id == 4 ? 'selected' : '' }}>Candidate Follow Up</option>
-                                                        <option value="5" {{ old('remarkstype_id') == 5 || $remark->remarkstype_id == 5 ? 'selected' : '' }}>Assign Interview</option>
-                                                        <option value="6" {{ old('remarkstype_id') == 6 || $remark->remarkstype_id == 6 ? 'selected' : '' }}>Assign To Client</option>
-                                                        <option value="7" {{ old('remarkstype_id') == 7 || $remark->remarkstype_id == 7 ? 'selected' : '' }}>Shortlisted</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            {{-- @dump($remark->assign_client->client->id) --}}
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="AssignToClient" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Client </label>
-                                                <div class="col-sm-9">
-                                                    <select name="assign_client_id"
-                                                        class="form-control single-select-field" disabled>
-                                                        @foreach ($clients as $client)
-                                                            <option value="{{ $client->id }}" {{ old('assign_client_id', $remark->assign_client?->client->id) == $client->id ? 'selected' : '' }} >
-                                                                {{ $client->client_name }} </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="interviewTime" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Interview
-                                                    Time</label>
-                                                <div class="col-sm-9">
-                                                    <input type="time" class="form-control" name="interview_time" value="{{ old('interview_time', $remark->interview?->interview_time) }}">
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="interviewCompany" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Interview
-                                                    Company
-                                                    <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <select name="interview_company" id=""
-                                                        class="form-control single-select-field">
-                                                        <option value="">Select One</option>
-                                                        @foreach ($outlet_data as $outlet)
-                                                            <option value="{{ $outlet->id }}" {{ (old('interview_company', $remark->interview?->interview_company) == $outlet->id) ? 'selected' : '' }}>
-                                                                {{ $outlet->outlet_name }} </option>
-                                                        @endforeach
-                                                    </select>
-
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="expectedSalary" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Expected
-                                                    Salary</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control"
-                                                        name="interview_expected_salary" value="{{ old('interview_expected_salary', $remark->interview?->expected_salary) }}">
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="interviewPosition" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Interview
-                                                    Position <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control"
-                                                        name="interview_position" value="{{ old('interview_position', $remark->interview?->interview_position) }}">
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="receivedJobOffer" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Received
-                                                    Job
-                                                    Offer</label>
-                                                <div class="col-sm-9">
-                                                    <select name="interview_received_job_offer"
-                                                        class="form-control single-select-field">
-                                                        <option value="pending"  {{ (old('interview_received_job_offer', $remark->interview?->receive_job_offer) == 'pending') ? 'selected' : '' }}>Pending</option>
-                                                        <option value="yes"  {{ (old('interview_received_job_offer', $remark->interview?->receive_job_offer) == 'yes') ? 'selected' : '' }}>Yes</option>
-                                                        <option value="no"  {{ (old('interview_received_job_offer', $remark->interview?->receive_job_offer) == 'no') ? 'selected' : '' }}>No</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                                <input type="hidden" name="interview_id" value="{{$remark->interview?->id}}">
-                                                <input type="hidden" name="shortlist_id" value="{{$remark->shortlist?->id}}">
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistClientCompany" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Client Company <span class="text-danger">*</span> </label>
-                                                
-                                                <div class="col-sm-9">
-                                                    <select name="client_company"
-                                                        class="form-control single-select-field">
-                                                        <option value="" selected disabled>Select One</option>
-                                                        @foreach ($clients as $client)
-                                                            <option value="{{ $client->id }}" {{ (old('client_company') == $client->id || ($remark && $remark->client_company == $client->id)) ? 'selected' : '' }}>
-                                                                {{ $client->client_name }} </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistDepartment" style="display: none;">
-                                                <label for="one"
-                                                    class="col-sm-3 col-form-label fw-bold">Department</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control"
-                                                        name="shortlistDepartment" value="{{ old('shortlistDepartment', isset($remark->shortlist?->depertment) ? $remark->shortlist?->depertment : '') }}">
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistPlacement" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Placement / Recruitment Fee </label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control"
-                                                        name="shortlistPlacement" value="{{ old('shortlistPlacement', isset($remark->shortlist?->placement_recruitment_fee) ? $remark->shortlist?->placement_recruitment_fee : '') }}">
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistJobTitle" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Job Title
-                                                    <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control"
-                                                        name="shortlistJobTitle"  value="{{ old('shortlistJobTitle', isset($remark->shortlist?->job_title) ? $remark->shortlist?->job_title : '') }}">
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistJobType" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Job Type
-                                                    <span class="text-danger">*</span> </label>
-                                                <div class="col-sm-9">
-                                                    <select name="shortlistJobType"
-                                                        class="form-control single-select-field">
-                                                        <option value="" selected disabled>Select One</option>
-                                                        @foreach ($job_types as $type)
-                                                            <option value="{{ $type->id }}" {{ (old('shortlistJobType', $remark->shortlist?->job_type) == $type->id) ? 'selected' : '' }}>
-                                                                {{ $type->jobtype_code }} </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistProbationPeriod"
-                                                style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Probation
-                                                    Period</label>
-                                                <div class="col-sm-9">
-                                                    <select name="shortlistProbationPeriod"
-                                                        class="form-control single-select-field">
-                                                        <option>Select One</option>
-                                                        <option value="0" {{ (old('shortlistProbationPeriod') ?? $remark->shortlist?->probition_period) == 0 ? 'selected' : '' }}>No Probation</option>
-                                                        <option value="1" {{ (old('shortlistProbationPeriod') ?? $remark->shortlist?->probition_period) == 1 ? 'selected' : '' }}>1 Month</option>
-                                                        <option value="2" {{ (old('shortlistProbationPeriod') ?? $remark->shortlist?->probition_period) == 2 ? 'selected' : '' }}>2 Months</option>
-                                                        <option value="3" {{ (old('shortlistProbationPeriod') ?? $remark->shortlist?->probition_period) == 3 ? 'selected' : '' }}>3 Months</option>
-                                                        <option value="4" {{ (old('shortlistProbationPeriod') ?? $remark->shortlist?->probition_period) == 4 ? 'selected' : '' }}>4 Months</option>
-                                                        <option value="5" {{ (old('shortlistProbationPeriod') ?? $remark->shortlist?->probition_period) == 5 ? 'selected' : '' }}>5 Months</option>
-                                                        <option value="6" {{ (old('shortlistProbationPeriod') ?? $remark->shortlist?->probition_period) == 6 ? 'selected' : '' }}>6 Months</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistContractSigningDate"
-                                                style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Contract
-                                                    Signing
-                                                    Date <span class="text-danger"></span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control"
-                                                        name="shortlistContractSigningDate" value="{{ old('shortlistContractSigningDate', isset($remark->shortlist?->contact_signing_date) ? $remark->shortlist?->contact_signing_date : '') }}">
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistEmailNoticeDate"
-                                                style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Email Notice Date</label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control"
-                                                        name="shortlistEmailNoticeDate" value="{{ old('shortlistEmailNoticeDate', $remark->shortlist?->email_notice_date) ?? ''}}">
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="interviewEmailNoticeDate"
-                                                style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Email Notice Date</label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control"
-                                                        name="interviewEmailNoticeDate" value="{{ old('interviewEmailNoticeDate', $remark->interview?->email_notice_date) ?? ''}}">
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1">
-                                                <label for="one"
-                                                    class="col-sm-3 col-form-label fw-bold">Notice</label>
-                                                <div class="col-sm-9">
-                                                    <select name="isNotice" class="form-control single-select-field" required disabled>
-                                                        <option value="" selected disabled>Select One</option>
-                                                        <option value="1" {{ old('isNotice') == 1 || $remark->isNotice ? 'selected' : '' }}>Yes</option>
-                                                        <option value="0" {{ old('isNotice') == 0 || $remark->isNotice ? 'selected' : '' }}>No</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="AssignToManager" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Assign To
-                                                    <span class="text-danger">*</span> </label>
-                                                <div class="col-sm-9">
-                                                    <select name="Assign_to_manager"
-                                                        class="form-control single-select-field" disabled>
-                                                        <option value="" selected disabled>Select One</option>
-                                                        @foreach ($users as $user)
-                                                            <option value="{{ $user->id }}" {{ old('Assign_to_manager') == $user->id || $remark->assign_to == $user->id ? 'selected' : '' }}>
-                                                                {{ $user->employee_name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="reassign" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Assign To
-                                                    <span class="text-danger">*</span> </label>
-                                                <div class="col-sm-9">
-                                                    <select name="Assign_to_manager"
-                                                        class="form-control single-select-field">
-                                                        <option value="" selected disabled>Select One</option>
-                                                        @foreach (\App\Models\Employee::select('id', 'employee_name')->where('roles_id', '!=', 1)->get() as $user)
-                                                            <option value="{{ $user->id }}" {{ old('Assign_to_manager') == $user->id || $candidate->Assign_to_manager == $user->id ? 'selected' : '' }}>
-                                                                {{ $user->employee_name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="clientArNo" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">AR
-                                                    No</label>
-                                                <div class="col-sm-9">
-                                                    <select name="client_ar_no" id=""
-                                                        class="form-control single-select-field">
-                                                        <option value="0">Select On</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistSalary" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Salary
-                                                    <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control" name="shortlistSalary" value="{{ old('shortlistSalary', $remark->shortlist?->salary) }}">
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistArNo" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">AR
-                                                    No</label>
-                                                <div class="col-sm-9">
-                                                    <select name="shortlistArNo"
-                                                        class="form-control single-select-field">
-                                                        <option value="">Select One</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistHourlyRate" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Hourly
-                                                    Rate</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control"
-                                                        name="shortlistHourlyRate" value="{{ old('shortlistHourlyRate') ?? $remark->shortlist?->hourly_rate }}">
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistAdminFee" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Admin
-                                                    Fee</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control"
-                                                        name="shortlistAdminFee" value="{{ old('shortlistAdminFee') ?? $remark->shortlist?->admin_fee }}">
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistStartDate" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Start Date
-                                                    <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control"
-                                                        name="shortlistStartDate"  value="{{ old('shortlistStartDate') ?? $remark->shortlist?->start_date }}">
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistReminderPeriod" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Reminder
-                                                    Period <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <select name="shortlistReminderPeriod"
-                                                        class="form-control single-select-field">
-                                                        <option value="1 Week Before" {{ $remark->shortlist?->reminder_period == '1 Week Before' ? 'selected' : ''}}>1 Week Before</option>
-                                                        <option value="2 Week Before" {{ $remark->shortlist?->reminder_period == '1 Week Before' ? 'selected' : ''}}>2 Week Before</option>
-                                                        <option value="3 Week Before" {{ $remark->shortlist?->reminder_period == '1 Week Before' ? 'selected' : ''}}>3 Week Before</option>
-                                                        <option value="4 Week Before" {{ $remark->shortlist?->reminder_period == '1 Week Before' ? 'selected' : ''}}>4 Week Before</option>
-                                                        <option value="5 Week Before" {{ $remark->shortlist?->reminder_period == '1 Week Before' ? 'selected' : ''}}>5 Week Before</option>
-                                                        <option value="6 Week Before" {{ $remark->shortlist?->reminder_period == '1 Week Before' ? 'selected' : ''}}>6 Week Before</option>
-                                                        <option value="7 Week Before" {{ $remark->shortlist?->reminder_period == '1 Week Before' ? 'selected' : ''}}>7 Week Before</option>
-                                                        <option value="8 Week Before" {{ $remark->shortlist?->reminder_period == '1 Week Before' ? 'selected' : ''}}>8 Week Before</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistContractSigningTime"
-                                                style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Contract Signing Time <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="time" class="form-control"
-                                                        name="shortlistContractSigningTime" value="{{old('shortlistContractSigningTime') ?? $remark->shortlist?->contact_signing_time}}">
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistContractEndDate"
-                                                style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Contract End Time <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control"
-                                                        name="shortlistContractEndDate" value="{{old('shortlistContractEndDate') ?? $remark->shortlist?->end_date}}">
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistLastDay" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Last
-                                                    Day</label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control"
-                                                        name="shortlistLastDay" value="{{old('shortlistLastDay') ?? $remark->shortlist?->last_day}}">
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistEmailNoticeTime"
-                                                style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Email Notice Time</label>
-                                                <div class="col-sm-9">
-                                                    <input type="time" class="form-control"
-                                                        name="shortlistEmailNoticeTime"  value="{{old('shortlistEmailNoticeTime') ?? $remark->shortlist?->email_notice_time}}">
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="AssignToTeamLeader" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Assign To
-                                                    <span class="text-danger">*</span> </label>
-                                                <div class="col-sm-9">
-                                                    <select name="team_leader" class="form-control single-select-field">
-                                                        <option value="">Select One</option>
-                                                        @foreach ($users as $user)
-                                                            <option value="{{ $user->id }}">
-                                                                {{ $user->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="AssignToRC" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Assign To
-                                                    <span class="text-danger">*</span> </label>
-                                                <div class="col-sm-9">
-                                                    <select name="rc" class="form-control single-select-field">
-                                                        <option value="">Select One</option>
-                                                        @foreach ($users as $user)
-                                                            <option value="{{ $user->id }}">
-                                                                {{ $user->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="interviewDate" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Interview Date<span class="text-danger">*</span> </label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control" name="interview_date" value="{{old('interview_date') ?? $remark->interview?->interview_date}}">
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6  mb-1" id="interviewBy" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Interview
-                                                    By</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control" name="interview_by" value="{{old('interview_by') ?? $remark->interview?->interview_by}}">
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="jobOfferSalary" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Jobs Offer
-                                                    Salary</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="inteview_job_offer_salary"
-                                                        class="form-control" value="{{old('inteview_job_offer_salary', $remark->interview?->job_offer_salary)}}">
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="attendInterview" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Attend
-                                                    Interview</label>
-                                                <div class="col-sm-9">
-                                                    <select name="attendInterview"
-                                                        class="form-control single-select-field">
-                                                        <option>Choose one</option>
-                                                        <option value="pending" {{ old('attendInterview', $remark->interview?->attend_interview) == 'pending' ? 'selected' : '' }}>Pending</option>
-                                                        <option value="yes" {{ old('attendInterview', $remark->interview?->attend_interview) == 'yes' ? 'selected' : '' }}>Yes</option>
-                                                        <option value="no" {{ old('attendInterview', $remark->interview?->attend_interview) == 'no' ? 'selected' : '' }}>No</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="availableDate" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Available
-                                                    Date</label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control" name="available_date" value="{{ old('available_date', $remark->interview?->available_date)}}">
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="emailNoticeTime" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Email
-                                                    Notice
-                                                    Time</label>
-                                                <div class="col-sm-9">
-                                                    <input type="time" name="interviewEmailNoticeTime"
-                                                        class="form-control"  value="{{old('interviewEmailNoticeTime') ?? $remark->shortlist?->email_notice_time}}">
-                                                </div>
-                                            </div>
+                                <div class="row">
+                                    <h5>Update Remarks</h5>
+                                    <p class="mb-0"><strong>Name:</strong> {{ $candidate->candidate_name }}</p>
+                                    <p><strong>NRIC:</strong> {{ $candidate->candidate_nric }}</p>
+                                    <div class="row col-md-6 col-lg-6 mb-1">
+                                        <input type="hidden" value="{{ $candidate->id }}" name="candidate_id">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Remark Type</label>
+                                        <div class="col-sm-9">
+                                            <select name="remarkstype_id" class="form-control single-select-field" disabled
+                                                id="remark_type">
+                                                <option value="" selected disabled>Select One</option>
+                                                @if ($auth->roles_id == 1)
+                                                    <option value="1" {{ old('remarkstype_id') == 1 || $remark->remarkstype_id == 1 ? 'selected' : '' }}>Assign To Manager</option>
+                                                @endif
+                                                @if ($auth->roles_id == 8)
+                                                    <option value="11" {{ old('remarkstype_id') == 11 || $remark->remarkstype_id == 11 ? 'selected' : '' }}>Assign To Own</option>
+                                                @endif
+                                                @if ($auth->roles_id == 4 || $auth->roles_id == 11)
+                                                <option value="3" {{ old('remarkstype_id') == 3 || $remark->remarkstype_id == 3 ? 'selected' : '' }}>Assign To RC</option>
+                                                @endif
+                                                @if ($auth->roles_id == 4)
+                                                    <option value="2" {{ old('remarkstype_id') == 2 || $remark->remarkstype_id == 2 ? 'selected' : '' }}>Assign To Team Leader</option>
+                                                @endif
+                                                @if ($auth->roles_id == 8 || $auth->roles_id == 11 || $auth->roles_id == 4)
+                                                <option value="9" {{ old('remarkstype_id') == 9 || $remark->remarkstype_id == 9 ? 'selected' : '' }}>Reassign</option>
+                                                @endif
+                                                @if ($auth->roles_id == 1 || $auth->roles_id == 4)
+                                                <option value="12" {{ old('remarkstype_id') == 12 || $remark->remarkstype_id == 12 ? 'selected' : '' }}>Share to Other Managers (Admin / Manager use only)</option>
+                                                @endif
+                                                <option value="4" {{ old('remarkstype_id') == 4 || $remark->remarkstype_id == 4 ? 'selected' : '' }}>Candidate Follow Up</option>
+                                                <option value="5" {{ old('remarkstype_id') == 5 || $remark->remarkstype_id == 5 ? 'selected' : '' }}>Assign Interview</option>
+                                                <option value="6" {{ old('remarkstype_id') == 6 || $remark->remarkstype_id == 6 ? 'selected' : '' }}>Assign To Client</option>
+                                                <option value="7" {{ old('remarkstype_id') == 7 || $remark->remarkstype_id == 7 ? 'selected' : '' }}>Shortlisted</option>
+                                            </select>
                                         </div>
-                                        <div class="row col-12 my-2">
-                                            <label for="one" class="col-2 col-form-label fw-bold">Remark</label>
-                                            <div class="col-10 pe-5">
-                                                <textarea name="remarks" id="ckeditor-classic" class="form-control">{{ old('remarks', $remark->remarks ?? '') }}</textarea>
-                                            </div>
+                                    </div>
+                                    {{-- @dump($remark->assign_client->client->id) --}}
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="AssignToClient" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Client </label>
+                                        <div class="col-sm-9">
+                                            <select name="assign_client_id"
+                                                class="form-control single-select-field" disabled>
+                                                @foreach ($clients as $client)
+                                                    <option value="{{ $client->id }}" {{ old('assign_client_id', $remark->assign_client?->client->id) == $client->id ? 'selected' : '' }} >
+                                                        {{ $client->client_name }} </option>
+                                                @endforeach
+                                            </select>
                                         </div>
-                                        <!--<button type="submit" class="btn btn-sm btn-info">Update</button> -->
-                                    </form>
-                                {{-- @endif --}}
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="interviewTime" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Interview
+                                            Time</label>
+                                        <div class="col-sm-9">
+                                            <input type="time" class="form-control" name="interview_time" value="{{ old('interview_time', $remark->interview?->interview_time) }}">
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="interviewCompany" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Interview
+                                            Company
+                                            <span class="text-danger">*</span></label>
+                                        <div class="col-sm-9">
+                                            <select name="interview_company" id=""
+                                                class="form-control single-select-field">
+                                                <option value="">Select One</option>
+                                                @foreach ($outlet_data as $outlet)
+                                                    <option value="{{ $outlet->id }}" {{ (old('interview_company', $remark->interview?->interview_company) == $outlet->id) ? 'selected' : '' }}>
+                                                        {{ $outlet->outlet_name }} </option>
+                                                @endforeach
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="expectedSalary" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Expected
+                                            Salary</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control"
+                                                name="interview_expected_salary" value="{{ old('interview_expected_salary', $remark->interview?->expected_salary) }}">
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="interviewPosition" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Interview
+                                            Position <span class="text-danger">*</span></label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control"
+                                                name="interview_position" value="{{ old('interview_position', $remark->interview?->interview_position) }}">
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="receivedJobOffer" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Received
+                                            Job
+                                            Offer</label>
+                                        <div class="col-sm-9">
+                                            <select name="interview_received_job_offer"
+                                                class="form-control single-select-field">
+                                                <option value="pending"  {{ (old('interview_received_job_offer', $remark->interview?->receive_job_offer) == 'pending') ? 'selected' : '' }}>Pending</option>
+                                                <option value="yes"  {{ (old('interview_received_job_offer', $remark->interview?->receive_job_offer) == 'yes') ? 'selected' : '' }}>Yes</option>
+                                                <option value="no"  {{ (old('interview_received_job_offer', $remark->interview?->receive_job_offer) == 'no') ? 'selected' : '' }}>No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                        <input type="hidden" name="interview_id" value="{{$remark->interview?->id}}">
+                                        <input type="hidden" name="shortlist_id" value="{{$remark->shortlist?->id}}">
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="shortlistClientCompany" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Client Company <span class="text-danger">*</span> </label>
+
+                                        <div class="col-sm-9">
+                                            <select name="client_company"
+                                                class="form-control single-select-field">
+                                                <option value="" selected disabled>Select One</option>
+                                                @foreach ($clients as $client)
+                                                    <option value="{{ $client->id }}" {{ (old('client_company') == $client->id || ($remark && $remark->client_company == $client->id)) ? 'selected' : '' }}>
+                                                        {{ $client->client_name }} </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="shortlistDepartment" style="display: none;">
+                                        <label for="one"
+                                            class="col-sm-3 col-form-label fw-bold">Department</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control"
+                                                name="shortlistDepartment" value="{{ old('shortlistDepartment', isset($remark->shortlist?->depertment) ? $remark->shortlist?->depertment : '') }}">
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="shortlistPlacement" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Placement / Recruitment Fee </label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control"
+                                                name="shortlistPlacement" value="{{ old('shortlistPlacement', isset($remark->shortlist?->placement_recruitment_fee) ? $remark->shortlist?->placement_recruitment_fee : '') }}">
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="shortlistJobTitle" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Job Title
+                                            <span class="text-danger">*</span></label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control"
+                                                name="shortlistJobTitle"  value="{{ old('shortlistJobTitle', isset($remark->shortlist?->job_title) ? $remark->shortlist?->job_title : '') }}">
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="shortlistJobType" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Job Type
+                                            <span class="text-danger">*</span> </label>
+                                        <div class="col-sm-9">
+                                            <select name="shortlistJobType"
+                                                class="form-control single-select-field">
+                                                <option value="" selected disabled>Select One</option>
+                                                @foreach ($job_types as $type)
+                                                    <option value="{{ $type->id }}" {{ (old('shortlistJobType', $remark->shortlist?->job_type) == $type->id) ? 'selected' : '' }}>
+                                                        {{ $type->jobtype_code }} </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="shortlistProbationPeriod"
+                                        style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Probation
+                                            Period</label>
+                                        <div class="col-sm-9">
+                                            <select name="shortlistProbationPeriod"
+                                                class="form-control single-select-field">
+                                                <option>Select One</option>
+                                                <option value="0" {{ (old('shortlistProbationPeriod') ?? $remark->shortlist?->probition_period) == 0 ? 'selected' : '' }}>No Probation</option>
+                                                <option value="1" {{ (old('shortlistProbationPeriod') ?? $remark->shortlist?->probition_period) == 1 ? 'selected' : '' }}>1 Month</option>
+                                                <option value="2" {{ (old('shortlistProbationPeriod') ?? $remark->shortlist?->probition_period) == 2 ? 'selected' : '' }}>2 Months</option>
+                                                <option value="3" {{ (old('shortlistProbationPeriod') ?? $remark->shortlist?->probition_period) == 3 ? 'selected' : '' }}>3 Months</option>
+                                                <option value="4" {{ (old('shortlistProbationPeriod') ?? $remark->shortlist?->probition_period) == 4 ? 'selected' : '' }}>4 Months</option>
+                                                <option value="5" {{ (old('shortlistProbationPeriod') ?? $remark->shortlist?->probition_period) == 5 ? 'selected' : '' }}>5 Months</option>
+                                                <option value="6" {{ (old('shortlistProbationPeriod') ?? $remark->shortlist?->probition_period) == 6 ? 'selected' : '' }}>6 Months</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="shortlistContractSigningDate"
+                                        style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Contract
+                                            Signing
+                                            Date <span class="text-danger"></span></label>
+                                        <div class="col-sm-9">
+                                            <input type="date" class="form-control"
+                                                name="shortlistContractSigningDate" value="{{ old('shortlistContractSigningDate', isset($remark->shortlist?->contact_signing_date) ? $remark->shortlist?->contact_signing_date : '') }}">
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="shortlistEmailNoticeDate"
+                                        style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Email Notice Date</label>
+                                        <div class="col-sm-9">
+                                            <input type="date" class="form-control"
+                                                name="shortlistEmailNoticeDate" value="{{ old('shortlistEmailNoticeDate', $remark->shortlist?->email_notice_date) ?? ''}}">
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="interviewEmailNoticeDate"
+                                        style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Email Notice Date</label>
+                                        <div class="col-sm-9">
+                                            <input type="date" class="form-control"
+                                                name="interviewEmailNoticeDate" value="{{ old('interviewEmailNoticeDate', $remark->interview?->email_notice_date) ?? ''}}">
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1">
+                                        <label for="one"
+                                            class="col-sm-3 col-form-label fw-bold">Notice</label>
+                                        <div class="col-sm-9">
+                                            <select name="isNotice" class="form-control single-select-field" required disabled>
+                                                <option value="" selected disabled>Select One</option>
+                                                <option value="1" {{ old('isNotice') == 1 || $remark->isNotice ? 'selected' : '' }}>Yes</option>
+                                                <option value="0" {{ old('isNotice') == 0 || $remark->isNotice ? 'selected' : '' }}>No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="AssignToManager" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Assign To
+                                            <span class="text-danger">*</span> </label>
+                                        <div class="col-sm-9">
+                                            <select name="Assign_to_manager"
+                                                class="form-control single-select-field" disabled>
+                                                <option value="" selected disabled>Select One</option>
+                                                @foreach ($users as $user)
+                                                    <option value="{{ $user->id }}" {{ old('Assign_to_manager') == $user->id || $remark->assign_to == $user->id ? 'selected' : '' }}>
+                                                        {{ $user->employee_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="reassign" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Assign To
+                                            <span class="text-danger">*</span> </label>
+                                        <div class="col-sm-9">
+                                            <select name="Assign_to_manager"
+                                                class="form-control single-select-field">
+                                                <option value="" selected disabled>Select One</option>
+                                                @foreach (\App\Models\Employee::select('id', 'employee_name')->where('roles_id', '!=', 1)->get() as $user)
+                                                    <option value="{{ $user->id }}" {{ old('Assign_to_manager') == $user->id || $candidate->Assign_to_manager == $user->id ? 'selected' : '' }}>
+                                                        {{ $user->employee_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="clientArNo" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">AR
+                                            No</label>
+                                        <div class="col-sm-9">
+                                            <select name="client_ar_no" id=""
+                                                class="form-control single-select-field">
+                                                <option value="0">Select On</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="shortlistSalary" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Salary
+                                            <span class="text-danger">*</span></label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" name="shortlistSalary" value="{{ old('shortlistSalary', $remark->shortlist?->salary) }}">
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="shortlistArNo" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">AR
+                                            No</label>
+                                        <div class="col-sm-9">
+                                            <select name="shortlistArNo"
+                                                class="form-control single-select-field">
+                                                <option value="">Select One</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="shortlistHourlyRate" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Hourly
+                                            Rate</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control"
+                                                name="shortlistHourlyRate" value="{{ old('shortlistHourlyRate') ?? $remark->shortlist?->hourly_rate }}">
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="shortlistAdminFee" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Admin
+                                            Fee</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control"
+                                                name="shortlistAdminFee" value="{{ old('shortlistAdminFee') ?? $remark->shortlist?->admin_fee }}">
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="shortlistStartDate" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Start Date
+                                            <span class="text-danger">*</span></label>
+                                        <div class="col-sm-9">
+                                            <input type="date" class="form-control"
+                                                name="shortlistStartDate"  value="{{ old('shortlistStartDate') ?? $remark->shortlist?->start_date }}">
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="shortlistReminderPeriod" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Reminder
+                                            Period <span class="text-danger">*</span></label>
+                                        <div class="col-sm-9">
+                                            <select name="shortlistReminderPeriod"
+                                                class="form-control single-select-field">
+                                                <option value="1 Week Before" {{ $remark->shortlist?->reminder_period == '1 Week Before' ? 'selected' : ''}}>1 Week Before</option>
+                                                <option value="2 Week Before" {{ $remark->shortlist?->reminder_period == '1 Week Before' ? 'selected' : ''}}>2 Week Before</option>
+                                                <option value="3 Week Before" {{ $remark->shortlist?->reminder_period == '1 Week Before' ? 'selected' : ''}}>3 Week Before</option>
+                                                <option value="4 Week Before" {{ $remark->shortlist?->reminder_period == '1 Week Before' ? 'selected' : ''}}>4 Week Before</option>
+                                                <option value="5 Week Before" {{ $remark->shortlist?->reminder_period == '1 Week Before' ? 'selected' : ''}}>5 Week Before</option>
+                                                <option value="6 Week Before" {{ $remark->shortlist?->reminder_period == '1 Week Before' ? 'selected' : ''}}>6 Week Before</option>
+                                                <option value="7 Week Before" {{ $remark->shortlist?->reminder_period == '1 Week Before' ? 'selected' : ''}}>7 Week Before</option>
+                                                <option value="8 Week Before" {{ $remark->shortlist?->reminder_period == '1 Week Before' ? 'selected' : ''}}>8 Week Before</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="shortlistContractSigningTime"
+                                        style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Contract Signing Time <span class="text-danger">*</span></label>
+                                        <div class="col-sm-9">
+                                            <input type="time" class="form-control"
+                                                name="shortlistContractSigningTime" value="{{old('shortlistContractSigningTime') ?? $remark->shortlist?->contact_signing_time}}">
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="shortlistContractEndDate"
+                                        style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Contract End Time <span class="text-danger">*</span></label>
+                                        <div class="col-sm-9">
+                                            <input type="date" class="form-control"
+                                                name="shortlistContractEndDate" value="{{old('shortlistContractEndDate') ?? $remark->shortlist?->end_date}}">
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="shortlistLastDay" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Last
+                                            Day</label>
+                                        <div class="col-sm-9">
+                                            <input type="date" class="form-control"
+                                                name="shortlistLastDay" value="{{old('shortlistLastDay') ?? $remark->shortlist?->last_day}}">
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="shortlistEmailNoticeTime"
+                                        style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Email Notice Time</label>
+                                        <div class="col-sm-9">
+                                            <input type="time" class="form-control"
+                                                name="shortlistEmailNoticeTime"  value="{{old('shortlistEmailNoticeTime') ?? $remark->shortlist?->email_notice_time}}">
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="AssignToTeamLeader" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Assign To
+                                            <span class="text-danger">*</span> </label>
+                                        <div class="col-sm-9">
+                                            <select name="team_leader" class="form-control single-select-field">
+                                                <option value="">Select One</option>
+                                                @foreach ($users as $user)
+                                                    <option value="{{ $user->id }}">
+                                                        {{ $user->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="AssignToRC" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Assign To
+                                            <span class="text-danger">*</span> </label>
+                                        <div class="col-sm-9">
+                                            <select name="rc" class="form-control single-select-field">
+                                                <option value="">Select One</option>
+                                                @foreach ($users as $user)
+                                                    <option value="{{ $user->id }}">
+                                                        {{ $user->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="interviewDate" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Interview Date<span class="text-danger">*</span> </label>
+                                        <div class="col-sm-9">
+                                            <input type="date" class="form-control" name="interview_date" value="{{old('interview_date') ?? $remark->interview?->interview_date}}">
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6  mb-1" id="interviewBy" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Interview
+                                            By</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" name="interview_by" value="{{old('interview_by') ?? $remark->interview?->interview_by}}">
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="jobOfferSalary" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Jobs Offer
+                                            Salary</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="inteview_job_offer_salary"
+                                                class="form-control" value="{{old('inteview_job_offer_salary', $remark->interview?->job_offer_salary)}}">
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="attendInterview" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Attend
+                                            Interview</label>
+                                        <div class="col-sm-9">
+                                            <select name="attendInterview"
+                                                class="form-control single-select-field">
+                                                <option>Choose one</option>
+                                                <option value="pending" {{ old('attendInterview', $remark->interview?->attend_interview) == 'pending' ? 'selected' : '' }}>Pending</option>
+                                                <option value="yes" {{ old('attendInterview', $remark->interview?->attend_interview) == 'yes' ? 'selected' : '' }}>Yes</option>
+                                                <option value="no" {{ old('attendInterview', $remark->interview?->attend_interview) == 'no' ? 'selected' : '' }}>No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="availableDate" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Available
+                                            Date</label>
+                                        <div class="col-sm-9">
+                                            <input type="date" class="form-control" name="available_date" value="{{ old('available_date', $remark->interview?->available_date)}}">
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6 col-lg-6 mb-1" id="emailNoticeTime" style="display: none;">
+                                        <label for="one" class="col-sm-3 col-form-label fw-bold">Email
+                                            Notice
+                                            Time</label>
+                                        <div class="col-sm-9">
+                                            <input type="time" name="interviewEmailNoticeTime"
+                                                class="form-control"  value="{{old('interviewEmailNoticeTime') ?? $remark->shortlist?->email_notice_time}}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row col-12 my-2">
+                                    <label for="one" class="col-2 col-form-label fw-bold">Remark</label>
+                                    <div class="col-10 pe-5">
+                                        <textarea name="remarks" id="ckeditor-classic" class="form-control">{{ old('remarks', $remark->remarks ?? '') }}</textarea>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-lg-12 mt-2">
                                         <table class="table table-bordered mb-0">
