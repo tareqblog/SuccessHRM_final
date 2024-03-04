@@ -25,7 +25,7 @@ class ClientRequest extends FormRequest
     {
         $clientId = $this->route('client.edit') ? $this->route('client')->id : null;
         return [
-            'client_code' => 'required|unique:clients,client_code,except,'. $clientId,
+            'client_code' => 'required|unique:clients,client_code,except,' . $clientId,
             'client_name' => 'nullable',
             'industry_types_id' => 'nullable|integer',
             'client_attention_person' => 'nullable',
@@ -33,15 +33,15 @@ class ClientRequest extends FormRequest
             'client_attention_phone' => 'nullable',
             'client_contact_person' => 'nullable',
             'client_contact_number' => 'nullable',
-            'client_phone' => 'nullable|numeric',
+            'client_phone' => 'nullable|string',
             'client_fax' => 'nullable',
-            'client_email' => 'email|unique:clients,email,except,id',
+            'client_email' => 'email|unique:clients,client_email,except,id',
             'client_street' => 'nullable',
             'client_unit_number' => 'nullable|numeric',
             'client_postal_code' => 'nullable|numeric',
             'employees_id' => 'required|exists:employees,id',
             'users_id' => 'nullable|exists:users,id',
-            'payroll_employees_id' => 'required|exists:employe,id',
+            'payroll_employees_id' => 'required|exists:employees,id',
             'payroll_users_id' => 'nullable|integer',
             'tnc_templates_id' => 'nullable|integer',
             'tnc_renewal_date' => 'nullable|date',
