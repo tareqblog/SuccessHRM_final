@@ -11,9 +11,13 @@ class AttendenceParent extends Model
     use HasFactory;
     protected $guarded = ['_token'];
 
-    public function company()
+    // public function company()
+    // {
+    //     return $this->belongsTo(Company::class, 'company_id', 'id');
+    // }
+    public function client()
     {
-        return $this->belongsTo(Company::class, 'company_id', 'id');
+        return $this->belongsTo(client::class, 'company_id', 'id');
     }
 
     public function candidate()

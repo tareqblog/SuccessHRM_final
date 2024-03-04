@@ -60,15 +60,14 @@ class JobController extends Controller
 
 
         $auth = Auth::user()->employe;
-        $clients = client::query();
-        $clients = $clients->latest()->where('clients_status',1)->get();
+        $clients = client::latest()->where('clients_status',1)->get();
 
-        $users = User::latest()->select('id', 'name')->get();
+        $incharges = Employee::select('employee_name', 'id')->whereNotIn('roles_id', [1])->latest()->get();
         $employees = Employee::select('id', 'employee_name')->where('roles_id', 11)->get();
         $jobType = jobtype::latest()->select('id', 'jobtype_code')->get();
         $jobCategory = jobcategory::latest()->select('id', 'jobcategory_name')->get();
 
-        return view('admin.job.create', compact('users', 'jobType', 'clients', 'jobCategory', 'employees'));
+        return view('admin.job.create', compact('incharges', 'jobType', 'clients', 'jobCategory', 'employees'));
     }
 
     /**
@@ -117,11 +116,12 @@ class JobController extends Controller
             abort(403, 'Unauthorized');
         }
 
-        $users = User::latest()->select('id', 'name')->get();
+        $incharges = Employee::select('employee_name', 'id')->whereNotIn('roles_id', [1])->latest()->get();
         $jobType = jobtype::latest()->select('id', 'jobtype_code')->get();
-        $clients = client::latest()->select('id', 'client_code')->get();
+        $clients = client::latest()->get();
         $jobCategory = jobcategory::latest()->select('id', 'jobcategory_name')->get();
-        return view('admin.job.edit',compact('users', 'jobType', 'clients', 'jobCategory', 'job'));
+
+        return view('admin.job.edit',compact('incharges', 'jobType', 'clients', 'jobCategory', 'job'));
     }
 
     /**

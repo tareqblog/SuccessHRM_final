@@ -490,8 +490,7 @@ class CandidateFileImportController extends Controller
         $dateRange = $request->input('daterange');
 
         [$startDate, $endDate] = explode(' - ', $dateRange);
-        $candidates =
-        $candidates =
+
         $candidates = Candidate::with(['resumes'])
                             ->where(function ($query) use ($startDate, $endDate, $keyword) {
                                 $query->whereBetween('candidate_joindate', [$startDate, $endDate])
@@ -502,14 +501,11 @@ class CandidateFileImportController extends Controller
                                         $query->whereHas('remarks', function ($remarksQuery) use ($keyword) {
                                             $remarksQuery->where('remarks', 'like', "%$keyword%");
                                         })
-                                            ->orWhereHas('resumes', function ($resumesQuery) use ($keyword) {
-                                                $resumesQuery->where('isMain', 1)->where('resume_text', 'like', "%$keyword%");
-                                            });
+                                        ->orWhereHas('resumes', function ($resumesQuery) use ($keyword) {
+                                            $resumesQuery->where('isMain', 1)->where('resume_text', 'like', "%$keyword%");
+                                        });
                                     });
                             })->get();
-
-
-
 
         $data = [];
         foreach ($candidates as $key => $candidate) {
@@ -518,18 +514,18 @@ class CandidateFileImportController extends Controller
                 'candidate_name' => $candidate->candidate_name,
                 'candidate_email' => $candidate->candidate_email,
                 'candidate_mobile' => $candidate->candidate_mobile,
-                'resume_file_path' => $candidate->resumes[0]->resume_file_path ?? '',
-                'resume_text' => $candidate->resumes[0]->resume_text,
+                'resume_file_path' => $candidate->resumes->isNotEmpty() ? $candidate->resumes[0]->resume_file_path : '',
+                'resume_text' => $candidate->resumes->isNotEmpty() ? $candidate->resumes[0]?->resume_text : '',
             ];
             $data[] = $candidateDetails;
         }
-        return view('admin.candidate.search', compact('data'));
+        
+        return view('admin.candidate.search', compact('data', 'keyword', 'dateRange'));
     }
-
 
     public function getCandidateRemark(candidate $candidate)
     {
-       $remarks = $candidate->remarks;
+       $remarks = $candidate->remarks()->orderByDesc('created_at')->get();
 
        $data = [];
         foreach ($remarks as $remark) {

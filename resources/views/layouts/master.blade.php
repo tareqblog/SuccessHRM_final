@@ -5,7 +5,6 @@
     <meta charset="utf-8" />
     <title> @yield('title') | Success HR</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Build with Digipixel Singapore" name="description" />
     <meta content="Digipixel" name="author" />
@@ -39,34 +38,26 @@
             <div class="container-fluid">
                 @yield('content')
             </div>
-            <!-- container-fluid -->
         </div>
-        <!-- End Page-content -->
-
-        <!-- footer -->
         @include('layouts.footer')
 
     </div>
-    <!-- end main content-->
 </div>
-<!-- END layout-wrapper -->
-
-<!-- customizer -->
 @include('layouts.right-sidebar')
 
-<!-- vendor-scripts -->
 @include('layouts.vendor-scripts')
-{{-- <script>
-    $(document).ready(function() {
-        $('select').select2({
-            placeholder: 'Search...',
-            allowClear: true
-        });
-    });
-</script> --}}
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<script>
+    document.addEventListener('contextmenu', function(event) {
+        event.preventDefault();
+    });
 
+    // document.addEventListener('keydown', function(event) {
+    //     if (event.ctrlKey && event.shiftKey && event.key === 'I') {
+    //         event.preventDefault();
+    //     }
+    // });
+</script>
 </body>
-
 </html>

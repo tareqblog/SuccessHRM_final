@@ -87,10 +87,10 @@
                                             <div class="row col-md-6 col-lg-6 mb-1">
                                                 <label for="one" class="col-sm-5 col-form-label fw-bold">Reg No </label>
                                                 <div class="col-sm-7">
-                                                    <input type="text" name="reg_no" class="form-control">
+                                                    <input type="text" name="reg_no" class="form-control" value="{{ $employee->reg_no }}">
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="row col-md-6 col-lg-6 mb-1 form-group required">
                                                 <label for="two" class="col-sm-5 col-form-label fw-bold">User Right</label>
                                                 <div class="col-sm-7">

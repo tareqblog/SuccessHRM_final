@@ -38,7 +38,7 @@ class CandidateRequest extends FormRequest
             'candidate_height' => 'nullable',
             'candidate_weight' => 'nullable',
             'candidate_type' => 'nullable|integer',
-            'users_id' => 'nullable|integer',
+            'users_id' => 'nullable|exists:users,id',
             'leave_aprv1_users_id' => 'nullable|integer',
             'leave_aprv2_users_id' => 'nullable|integer',
             'leave_aprv3_users_id' => 'nullable|integer',

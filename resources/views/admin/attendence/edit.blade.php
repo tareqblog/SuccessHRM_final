@@ -59,14 +59,13 @@
                                                 <option value="" selected disabled>Select One</option>
                                                 @foreach ($candidates as $candidate)
                                                     <option
-                                                        value="{{ $candidate->candidate_outlet_id }}-{{ $candidate->id }}"
-                                                        {{ $candidate->id == $candidate_id ? 'selected' : '' }}>
-                                                        {{ $candidate->candidate_name }}</option>
+                                                        value="{{ $candidate['candidate_outlet_id'] }}-{{ $candidate['id'] }}"
+                                                        {{ $candidate['id'] == $candidate_id ? 'selected' : '' }}>
+                                                        {{ $candidate['candidate_name'] }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
-                                    {{$company_id}}
                                     <div class="row col-lg-6  mb-1">
                                         <label for="eleven" class="col-sm-3 col-form-label">Company</label>
                                         <div class="col-sm-9">

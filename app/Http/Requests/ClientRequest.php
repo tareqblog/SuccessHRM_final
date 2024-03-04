@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ClientRequest extends FormRequest
 {
@@ -19,11 +20,12 @@ class ClientRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    
+
     public function rules(): array
     {
+        $clientId = $this->route('client.edit') ? $this->route('client')->id : null;
         return [
-            'client_code' => 'required',
+            'client_code' => 'required|unique:clients,client_code,except,'. $clientId,
             'client_name' => 'nullable',
             'industry_types_id' => 'nullable|integer',
             'client_attention_person' => 'nullable',
@@ -31,14 +33,14 @@ class ClientRequest extends FormRequest
             'client_attention_phone' => 'nullable',
             'client_contact_person' => 'nullable',
             'client_contact_number' => 'nullable',
-            'client_phone' => 'nullable',
+            'client_phone' => 'nullable|numeric',
             'client_fax' => 'nullable',
-            'client_email' => 'nullable',
+            'client_email' => 'nullable|email',
             'client_street' => 'nullable',
-            'client_unit_number' => 'nullable',
-            'client_postal_code' => 'nullable',
-            'employees_id' => 'nullable|integer',
-            'users_id' => 'nullable|integer',
+            'client_unit_number' => 'nullable|numeric',
+            'client_postal_code' => 'nullable|numeric',
+            'employees_id' => 'nullable|exists:employees,id',
+            'users_id' => 'nullable|exists:users,id',
             'payroll_employees_id' => 'nullable|integer',
             'payroll_users_id' => 'nullable|integer',
             'tnc_templates_id' => 'nullable|integer',

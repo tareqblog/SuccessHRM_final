@@ -228,7 +228,6 @@ class CandidateController extends Controller
      */
     public function update(CandidateRequest $request, candidate $candidate)
     {
-        // return $request;
         if (is_null($this->user) || !$this->user->can('candidate.update')) {
             abort(403, 'Unauthorized');
         }
@@ -245,12 +244,11 @@ class CandidateController extends Controller
 
         $dashboard = Dashboard::where('candidate_id', $candidate->id)->first();
         $dashboard->update([
-            'manager_id' => $request['manager_id'],
-            'teamleader_id' => $request['team_leader_id'],
-            'consultent_id' => $request['consultant_id'],
+            'manager_id' => $request['manager_id'] ?? $dashboard->manager_id,
+            'teamleader_id' => $request['team_leader_id'] ?? $dashboard->teamleader_id,
+            'consultent_id' => $request['consultant_id'] ?? $dashboard->consultent_id,
         ]);
 
-        // return $request;
         if ($request->hasFile('avatar')) {
             // Delete the old file
             Storage::delete("public/{$candidate->avatar}");
@@ -345,7 +343,6 @@ class CandidateController extends Controller
         return redirect($url)->with('success', 'Successfully Deleted.');
     }
 
-
     public function resumeUpload(Request $request, $id)
     {
         if (is_null($this->user) || !$this->user->can('candidate.resume')) {
@@ -363,11 +360,17 @@ class CandidateController extends Controller
         if ($file_path) {
             $uploadedFilePath = FileHelper::uploadFile($file_path, 'candidate');
             $resume_text = generate_text($uploadedFilePath);
+            $hasMain = CandidateResume::where('candidate_id', $id)->where('isMain', 1)->first();
+            if($hasMain)
+            {
+                $hasMain->update(['isMain' => 0]);
+            }
             CandidateResume::create([
                 'candidate_id' => $id,
                 'resume_name' => $request->resume_name,
                 'resume_file_path' => $uploadedFilePath,
-                'resume_text' => $resume_text
+                'resume_text' => $resume_text,
+                'isMain' => 1
             ]);
 
             return redirect($url)->with('success', 'Created Successfully.');
@@ -375,6 +378,7 @@ class CandidateController extends Controller
             return redirect($url)->with('error', 'Please select a file.');
         }
     }
+
     public function resumeDelete($id, candidate $candidate)
     {
         if (is_null($this->user) || !$this->user->can('candidate.resume.delete')) {
@@ -387,7 +391,8 @@ class CandidateController extends Controller
         if (file_exists($filePath)) {
             Storage::delete("public/{$file_path_name}");
         }
-        CandidateResume::where('id', $candidate->id)->delete();
+
+        CandidateResume::where('id', $id)->where('candidate_id', $candidate->id)->delete();
 
         return redirect()->route('candidate.edit', [$candidate->id, '#upload_resume'])->with('success', 'successfully Deleted.');
     }
@@ -411,6 +416,7 @@ class CandidateController extends Controller
         // $candidate = CandidateResume::findOrFail($id);
         // $candidate->update(['isMain' => $request->input('isMain')]);
     }
+
     public function remark(Request $request, $id)
     {
         // return $request;
@@ -462,9 +468,7 @@ class CandidateController extends Controller
             $assign_dashboard_remark = assign_dashboard_remark_id($request->remarkstype_id);
             $dashboard_data['remark_id'] = $assign_dashboard_remark['remark_id'];
             $dashboard_data['follow_day'] = $assign_dashboard_remark['follow_day'];
-            if ($request->remarkstype_id == 4) {
-                $dashboard_data['follow_day'] = ++$dashboard->follow_day;
-            }
+            $dashboard_data['callback'] = $assign_dashboard_remark['callback'];
 
             $calander = [
                 'manager_id' => $candidate->manager_id,
@@ -472,11 +476,33 @@ class CandidateController extends Controller
                 'consultant_id' => $candidate->consultant_id,
                 'candidate_remark_id' => $candidate_remark->id,
             ];
+
+            if ($request->remarkstype_id == 4) {
+                $dashboard_data['follow_day'] = ++$dashboard->follow_day;
+            }
+
+            if ($request->remarkstype_id == 22) {
+                $dashboard_data['callback'] = ++$dashboard->callback;
+
+                $calander['title'] = '09:00 AM -' . $candidate->consultant->employee_code . ' - Call Back -' . $candidate->candidate_name;
+
+                $calander['date'] = twobusinessday($candidate_remark->created_at);
+                $calander['status'] = 1;
+                Calander::create($calander);
+            }
+
             if ($request->remarkstype_id == 6) {
-                AssignClient::create([
+                $list = AssignClient::create([
                     'client_id' => $request->assign_client_id,
                     'candidate_remark_id' => $candidate_remark->id,
                 ]);
+
+                $calander['assign_client_id'] = $list->id;
+                $calander['title'] = '09:00 AM -' . $candidate->consultant->employee_code . ' - 2 Business Days Follow Up with Client -' . $list->client->client_name . ' - ' . $candidate->candidate_name;
+
+                $calander['date'] = twobusinessday($list->created_at);
+                $calander['status'] = 1;
+                Calander::create($calander);
             }
 
             if ($request->remarkstype_id == 2) {
@@ -492,6 +518,7 @@ class CandidateController extends Controller
                 $dashboard_data['teamleader_id'] = $team['team_leader_id'];
                 $dashboard_data['consultent_id'] = $team['consultant_id'];
             }
+
             if ($request->remarkstype_id == 1) {
                 $team = get_team($request->Assign_to_manager);
                 $request->Assign_to_manager = $team['manager_id'];
@@ -505,7 +532,9 @@ class CandidateController extends Controller
                 $dashboard_data['teamleader_id'] = $team['team_leader_id'];
                 $dashboard_data['consultent_id'] = $team['consultant_id'];
             }
-            if ($request->remarkstype_id == 12) {
+
+            if ($request->remarkstype_id == 12)
+            {
                 $team = get_team($request->Assign_to_manager);
                 $request->Assign_to_manager = $team['manager_id'];
                 $candidate->update([
@@ -519,7 +548,8 @@ class CandidateController extends Controller
                 $dashboard_data['consultent_id'] = $team['consultant_id'];
             }
 
-            if ($request->remarkstype_id == 11) {
+            if ($request->remarkstype_id == 11)
+            {
                 $team = get_team($auth->id);
                 $candidate->update([
                     'manager_id' => $team['manager_id'],
@@ -536,9 +566,18 @@ class CandidateController extends Controller
             {
                 AssignToRc::create([
                     'candidate_id' => $request->candidate_id,
-                    'rc_id' => $request->rc_id,
+                    'rc_id' => $request->rc,
                 ]);
+
+                $rework = AssignToRc::where('candidate_id', $request->candidate_id)
+                                    ->where('rc_id', $request->rc)
+                                    ->count();
+                if($rework >= 2)
+                {
+                    $dashboard_data['remark_id'] = 11;
+                }
             }
+
             if ($request->remarkstype_id == 9) {
                 $team = get_team($request->Assign_to_manager);
                 $request->Assign_to_manager = $team['manager_id'];
@@ -554,7 +593,6 @@ class CandidateController extends Controller
                 $dashboard_data['consultent_id'] = $team['consultant_id'];
             }
 
-            // return $request;
             if ($request->remarkstype_id == 7) {
                 $list = CandidateRemarkShortlist::create([
                     'candidate_remark_id' => $candidate_remark->id,
@@ -575,11 +613,9 @@ class CandidateController extends Controller
                     'email_notice_time' => $request->shortlistEmailNoticeTime,
                     'email_notice_date' => $request->shortlistEmailNoticeDate,
                 ]);
-                // return $list;
 
                 $calander['candidate_remark_shortlist_id'] = $list->id;
                 if ($list->end_date != null) {
-                    // return $list->end_date;
                     $week_day = week_calculation($request->shortlistReminderPeriod);
                     $endDate = Carbon::parse($list->end_date);
                     $newEndDate = $endDate->subDays($week_day);
@@ -646,7 +682,6 @@ class CandidateController extends Controller
             return redirect($url)->with('error', $e->getMessage());
         }
     }
-
 
     public function remarkDelete($id)
     {
