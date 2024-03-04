@@ -495,9 +495,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <label for="four" class="col-sm-3 col-form-label">Remarks</label>
-                                                    <div class="col-sm-9">
-                                                        <textarea name="candidate_emr_remarks" rows="2" class="form-control" placeholder="Remarks"> {{ $candidate->candidate_emr_remarks }} </textarea>
+                                                    <div class="row">
+                                                        <label for="description" class="col-sm-3 col-form-label">Remarks</label>
+                                                        {{-- <label for="description" class="col-sm-12 col-md-2 col-form-label fw-bold">Description</label> --}}
+                                                        <div class="col-sm-12 col-md-10">
+                                                            <div class="d-flex flex-row-reverse description_textarea">
+                                                                <textarea name="candidate_emr_remarks" id="description" class="editor" rows="2"> {{ $candidate->candidate_emr_remarks }}</textarea>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1768,17 +1773,6 @@
                                                         </td>
                                                         <td style="display: flex;">
                                                             <a href="{{ route('candidates.edit.remark', ['candidate' => $candidate->id, 'remark' => $remark->id]) }}" class="btn btn-info btn-sm me-3 {{ Auth::user()->id == $remark->created_by ? '' : 'disabled' }}">Edit</a>
-                                                            {{-- @if (App\Helpers\FileHelper::usr()->can('candidate.remark.delete'))
-                                                                <form
-                                                                    action="{{ route('candidate.remark.delete', $remark->id) }}"
-                                                                    method="POST">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <button class="btn btn-danger btn-sm"
-                                                                        onclick="return confirm('Are you sure you want to delete this item?')"
-                                                                        type="submit">Delete</button>
-                                                                </form>
-                                                            @endif --}}
                                                         </td>
                                                     </tr>
                                                 @endforeach

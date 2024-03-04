@@ -9,12 +9,18 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
 
     <style>
-
         .table th, td{
-            padding-left: 5px !important;
+            padding: 1px 0 1px 5px !important;
         }
+
         .print_table {
-            overflow-x: scroll;
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        .print_table table {
+            margin-right: 1px;
+            min-width: 1700px;
         }
     </style>
 @endsection
@@ -35,28 +41,35 @@
 
                 <div class="card p-3">
                     <div class="card-header">
-                        <h4 class="card-title mb-2">Attendence Table</h4>
+                        <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">
+                                <h6 class="card-title mb-0">Attendence Table</h6>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                {{-- <a href="{{ route('attendence.print_p', $parent->id) }}" class="btn btn-warning btn-sm me-2">Print</a> --}}
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="print_table">
                             <table class="table table-bordered border-dark">
                                 <thead>
                                     <tr>
-                                        <th colspan="11"> <h4>SUCCESS RESOURCE CENTRE PTE LTD</h4> </th>
-                                        <th colspan="3">
+                                        <th colspan="12"> <h4 class="text-center">SUCCESS RESOURCE CENTRE PTE LTD</h4> </th>
+                                        <th colspan="2">
                                             <div class="text-center bg-secondary fs-6 text-white">TIMESHEET</div>
                                             <div>Month: {{ Carbon\Carbon::parse($parent->month_year)->format('F') }}</div>
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th colspan="5">Company: {{ $parent->client->client_name }}</th>
+                                        <th colspan="7">Company: {{ $parent->client->client_name }}</th>
                                         <th colspan="5">DEPT: ---</th>
-                                        <th colspan="4">POSITION: ---</th>
+                                        <th colspan="2">POSITION: ---</th>
                                     </tr>
                                     <tr>
-                                        <th colspan="6">Full Name: {{ $parent->candidate->candidate_name }}</th>
-                                        <th colspan="5">Mobile No: {{ $parent->candidate->candidate_home_phone }}</th>
-                                        <th colspan="3"></th>
+                                        <th colspan="9">Full Name: {{ $parent->candidate->candidate_name }}</th>
+                                        <th colspan="3">Mobile No: {{ $parent->candidate->candidate_home_phone }}</th>
+                                        <th colspan="2"></th>
                                     </tr>
                                     <tr>
                                         <th colspan="14">Official Working Hours: Mon to Fri : 09:00 - 18:00</th>
@@ -86,24 +99,24 @@
                                         ++$day;
                                     @endphp
                                     <tr>
-                                        <td>{{ $attendance->date }}</td>
-                                        <td>{{ $attendance->day }}</td>
-                                        <td>{{ $attendance->in_time }}</td>
-                                        <td>{{ $attendance->out_time }}</td>
-                                        <td>{{ $attendance->lunch_hour }}</td>
-                                        <td>{{ $attendance->total_hour_min }}</td>
-                                        <td>{{ $attendance->ot_hour_min }}</td>
-                                        <td>---</td>
-                                        <td>{{ $attendance->remark }}</td>
-                                        <td>{{ $attendance->ph }}</td>
-                                        <td>
+                                        <td width="80px">{{ $attendance->date }}</td>
+                                        <td width="80px">{{ $attendance->day }}</td>
+                                        <td width="80px">{{ $attendance->in_time }}</td>
+                                        <td width="80px">{{ $attendance->out_time }}</td>
+                                        <td width="100px">{{ $attendance->lunch_hour }}</td>
+                                        <td width="100px">{{ $attendance->total_hour_min }}</td>
+                                        <td width="100px">{{ $attendance->ot_hour_min }}</td>
+                                        <td width="80px">---</td>
+                                        <td width="200px">{{ $attendance->remark }}</td>
+                                        <td width="80px">{{ $attendance->ph }}</td>
+                                        <td width="200px">
                                             @foreach ($leaveTypes as $type)
                                                 <span style="display: {{$type->id == $attendance->type_of_leave ? '' : 'none'}}">{{$type->leavetype_code}}</span>
                                             @endforeach
                                         </td>
-                                        <td>{{ $attendance->leave_day }}</td>
-                                        <td>{{ $attendance->type_of_reimbursement }}</td>
-                                        <td>{{ $attendance->amount_of_reimbursement }}</td>
+                                        <td width="150px">{{ $attendance->leave_day }}</td>
+                                        <td width="200px">{{ $attendance->type_of_reimbursement }}</td>
+                                        <td width="150px">{{ $attendance->amount_of_reimbursement }}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>

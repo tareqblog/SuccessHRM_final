@@ -49,6 +49,12 @@ Search Candidate Detail
         width: 100vw;
         border-radius: 0;
     }
+
+    .highlight {
+        background-color: yellow;
+        font-weight: bold;
+    }
+
 </style>
 <div class="row">
     <div class="col-lg-12">
@@ -97,7 +103,7 @@ Search Candidate Detail
                             <div class="row mb-1">
                                 <label for="one" class="col-sm-3 col-form-label">Date Range</label>
                                 <div class="col-sm-8">
-                                     <input type="text" name="daterange" value="{{ old('daterange', '2023-12-01 - 2024-01-25') }}" class="form-control" />
+                                    <input type="text" name="daterange" value="{{ isset($dateRange) ? $dateRange : old('dateRange') }}" class="form-control" id="daterangeInput" />
                                 </div>
                             </div>
                             <div class="row mb-1">
@@ -134,11 +140,11 @@ Search Candidate Detail
                                     @foreach($data as $key => $item)
                                         <tr style="cursor: pointer" class="accordion-row" id="row_{{ $item['candidate_id'] }}"  data-candidate-name="{{ $item['candidate_name'] }}" >
                                             <th>{{ ++$key }}</th>
-                                            <th>{{ $item['candidate_name'] }}</th>
-                                            <th>{{ $item['candidate_mobile'] }}</th>
-                                            <th>{{ $item['candidate_email'] }}</th>
+                                            <th>{!! str_replace($keyword, '<span class="highlight">' . $keyword . '</span>', $item['candidate_name']) !!}</th>
+                                            <th>{!! str_replace($keyword, '<span class="highlight">' . $keyword . '</span>', $item['candidate_mobile']) !!}</th>
+                                            <th>{!! str_replace($keyword, '<span class="highlight">' . $keyword . '</span>', $item['candidate_email']) !!}</th>
                                             <td>
-                                                <p style="height:200px; overflow:scroll">{{ $item['resume_text'] }}</p>
+                                                <p style="height:200px; overflow:scroll">{!! str_replace($keyword, '<span class="highlight">' . $keyword . '</span>', $item['resume_text']) !!}</p>
                                             </td>
                                             <th>
                                                 {{-- @if (App\Helpers\FileHelper::usr()->can('candidate.update')) --}}
@@ -290,12 +296,18 @@ Search Candidate Detail
         });
 
         $(function() {
-            $('input[name="daterange"]').daterangepicker({
+            var initialValue = $('#daterangeInput').val();
+            if (!initialValue) {
+                initialValue = moment().format('YYYY-MM-DD');
+            }
+
+            $('#daterangeInput').daterangepicker({
                 opens: 'left',
                 locale: {
                     format: 'YYYY-MM-DD'
                 },
-                endDate: moment().format('YYYY-MM-DD')
+                endDate: moment().format('YYYY-MM-DD'),
+                startDate: initialValue
             }, function(start, end, label) {
                 console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
             });

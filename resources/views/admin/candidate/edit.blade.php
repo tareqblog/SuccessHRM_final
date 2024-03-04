@@ -1345,426 +1345,461 @@
                                             <p class="mb-0"><strong>Name:</strong> {{ $candidate->candidate_name }}</p>
                                             <p><strong>NRIC:</strong> {{ $candidate->candidate_nric }}</p>
 
-                                            <div class="row col-md-6 col-lg-6 mb-1">
+                                            <div class="col-md-6 col-lg-6 mb-1">
                                                 <input type="hidden" value="{{ $candidate->id }}" name="candidate_id">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Remark Type</label>
-                                                <div class="col-sm-9">
-                                                    <select name="remarkstype_id" class="form-control single-select-field"
-                                                        id="remark_type_test">
-                                                        <option value="" selected disabled>Select One</option>
-                                                        @if ($auth->roles_id == 1)
-                                                            <option value="1" {{ old('remarkstype_id') == 1 ? 'selected' : '' }}>Assign To Manager</option>
-                                                        @endif
-                                                        @if ($auth->roles_id == 8)
-                                                            <option value="11" {{ old('remarkstype_id') == 11 ? 'selected' : '' }}>Assign To Own</option>
-                                                        @endif
-                                                        @if ($auth->roles_id == 4 || $auth->roles_id == 11)
-                                                        <option value="3" {{ old('remarkstype_id') == 3 ? 'selected' : '' }}>Assign To RC</option>
-                                                        @endif
-                                                        @if ($auth->roles_id == 4)
-                                                            <option value="2" {{ old('remarkstype_id') == 2 ? 'selected' : '' }}>Assign To Team Leader</option>
-                                                        @endif
-                                                        @if ($auth->roles_id == 8 || $auth->roles_id == 11 || $auth->roles_id == 4)
-                                                        <option value="9" {{ old('remarkstype_id') == 9 ? 'selected' : '' }}>Reassign</option>
-                                                        @endif
-                                                        @if ($auth->roles_id == 1 || $auth->roles_id == 4)
-                                                        <option value="12" {{ old('remarkstype_id') == 12 ? 'selected' : '' }}>Share to Other Managers (Admin / Manager use only)</option>
-                                                        @endif
-                                                        <option value="4" {{ old('remarkstype_id') == 4 ? 'selected' : '' }}>Candidate Follow Up</option>
-                                                        <option value="5" {{ old('remarkstype_id') == 5 ? 'selected' : '' }}>Assign Interview</option>
-                                                        <option value="6" {{ old('remarkstype_id') == 6 ? 'selected' : '' }}>Assign To Client</option>
-                                                        <option value="7" {{ old('remarkstype_id') == 7 ? 'selected' : '' }}>Shortlisted</option>
-                                                        <option value="22" {{ old('remarkstype_id') == 22 ? 'selected' : '' }}>Call Back</option>
-                                                    </select>
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Remark Type</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="remarkstype_id" class="form-control single-select-field"
+                                                            id="remark_type_test">
+                                                            <option value="" selected disabled>Select One</option>
+                                                            @if ($auth->roles_id == 1)
+                                                                <option value="1" {{ old('remarkstype_id') == 1 ? 'selected' : '' }}>Assign To Manager</option>
+                                                            @endif
+                                                            @if ($auth->roles_id == 8)
+                                                                <option value="11" {{ old('remarkstype_id') == 11 ? 'selected' : '' }}>Assign To Own</option>
+                                                            @endif
+                                                            @if ($auth->roles_id == 4 || $auth->roles_id == 11)
+                                                            <option value="3" {{ old('remarkstype_id') == 3 ? 'selected' : '' }}>Assign To RC</option>
+                                                            @endif
+                                                            @if ($auth->roles_id == 4)
+                                                                <option value="2" {{ old('remarkstype_id') == 2 ? 'selected' : '' }}>Assign To Team Leader</option>
+                                                            @endif
+                                                            @if ($auth->roles_id == 8 || $auth->roles_id == 11 || $auth->roles_id == 4)
+                                                            <option value="9" {{ old('remarkstype_id') == 9 ? 'selected' : '' }}>Reassign</option>
+                                                            @endif
+                                                            @if ($auth->roles_id == 1 || $auth->roles_id == 4)
+                                                            <option value="12" {{ old('remarkstype_id') == 12 ? 'selected' : '' }}>Share to Other Managers (Admin / Manager use only)</option>
+                                                            @endif
+                                                            <option value="4" {{ old('remarkstype_id') == 4 ? 'selected' : '' }}>Candidate Follow Up</option>
+                                                            <option value="5" {{ old('remarkstype_id') == 5 ? 'selected' : '' }}>Assign Interview</option>
+                                                            <option value="6" {{ old('remarkstype_id') == 6 ? 'selected' : '' }}>Assign To Client</option>
+                                                            <option value="7" {{ old('remarkstype_id') == 7 ? 'selected' : '' }}>Shortlisted</option>
+                                                            <option value="22" {{ old('remarkstype_id') == 22 ? 'selected' : '' }}>Call Back</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="AssignToClient" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Client </label>
-                                                <div class="col-sm-9">
-                                                    <select name="assign_client_id"
-                                                        class="form-control single-select-field">
-                                                        <option value="" selected disabled>Select One</option>
-                                                        @foreach ($clients as $client)
-                                                            <option value="{{ $client->id }}">
-                                                                {{ $client->client_name }} </option>
-                                                        @endforeach
-                                                    </select>
+                                            <div class="col-md-6 col-lg-6 mb-1" id="AssignToClient" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Client </label>
+                                                    <div class="col-sm-9">
+                                                        <select name="assign_client_id"
+                                                            class="form-control single-select-field">
+                                                            <option value="" selected disabled>Select One</option>
+                                                            @foreach ($clients as $client)
+                                                                <option value="{{ $client->id }}">
+                                                                    {{ $client->client_name }} </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="interviewTime" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Interview
-                                                    Time</label>
-                                                <div class="col-sm-9">
-                                                    <input type="time" class="form-control" name="interview_time">
+                                            <div class="col-md-6 col-lg-6 mb-1" id="interviewTime" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Interview Time</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="time" class="form-control" name="interview_time">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="interviewCompany" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Interview
-                                                    Company
-                                                    <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <select name="interview_company"
-                                                        class="form-control single-select-field">
-                                                        <option value="">Select One</option>
-                                                        @foreach ($clients as $client)
-                                                            <option value="{{ $client->id }}">
-                                                                {{ $client->client_name }} </option>
-                                                        @endforeach
-                                                    </select>
+                                            <div class="col-md-6 col-lg-6 mb-1" id="interviewCompany" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Interview Company <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <select name="interview_company"
+                                                            class="form-control single-select-field">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($clients as $client)
+                                                                <option value="{{ $client->id }}">
+                                                                    {{ $client->client_name }} </option>
+                                                            @endforeach
+                                                        </select>
 
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="expectedSalary" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Expected
-                                                    Salary</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control"
-                                                        name="interview_expected_salary">
+                                            <div class="col-md-6 col-lg-6 mb-1" id="expectedSalary" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Expected Salary</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control"
+                                                            name="interview_expected_salary">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="interviewPosition" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Interview
-                                                    Position <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control"
-                                                        name="interview_position">
+                                            <div class="col-md-6 col-lg-6 mb-1" id="interviewPosition" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Interview Position <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control"
+                                                            name="interview_position">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="receivedJobOffer" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Received
-                                                    Job
-                                                    Offer</label>
-                                                <div class="col-sm-9">
-                                                    <select name="interview_received_job_offer"
-                                                        class="form-control single-select-field">
-                                                        <option value="pending">Pending</option>
-                                                        <option value="yes">Yes</option>
-                                                        <option value="no">No</option>
-                                                    </select>
+                                            <div class="col-md-6 col-lg-6 mb-1" id="receivedJobOffer" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Received Job Offer</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="interview_received_job_offer"
+                                                            class="form-control single-select-field">
+                                                            <option value="pending">Pending</option>
+                                                            <option value="yes">Yes</option>
+                                                            <option value="no">No</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistClientCompany" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Client Company
-                                                    <span class="text-danger">*</span> </label>
-                                                <div class="col-sm-9">
-                                                    <select name="client_company"
-                                                        class="form-control single-select-field">
-                                                        <option value="">Select One</option>
-                                                        @foreach ($clients as $client)
-                                                            <option value="{{ $client->id }}">
-                                                                {{ $client->client_name }} </option>
-                                                        @endforeach
-                                                    </select>
+                                            <div class="col-md-6 col-lg-6 mb-1" id="shortlistClientCompany" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Client Company <span class="text-danger">*</span> </label>
+                                                    <div class="col-sm-9">
+                                                        <select name="client_company"
+                                                            class="form-control single-select-field">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($clients as $client)
+                                                                <option value="{{ $client->id }}">
+                                                                    {{ $client->client_name }} </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistDepartment" style="display: none;">
-                                                <label for="one"
-                                                    class="col-sm-3 col-form-label fw-bold">Department</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control"
-                                                        name="shortlistDepartment">
+                                            <div class="col-md-6 col-lg-6 mb-1" id="shortlistDepartment" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Department</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control"
+                                                            name="shortlistDepartment">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistPlacement" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Placement
-                                                    /
-                                                    Recruitment Fee </label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control"
-                                                        name="shortlistPlacement">
+                                            <div class="col-md-6 col-lg-6 mb-1" id="shortlistPlacement" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Placement / Recruitment Fee </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control"
+                                                            name="shortlistPlacement">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistJobTitle" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Job Title
-                                                    <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control"
-                                                        name="shortlistJobTitle">
+                                            <div class="col-md-6 col-lg-6 mb-1" id="shortlistJobTitle" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Job Title <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control"
+                                                            name="shortlistJobTitle">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistJobType" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Job Type
-                                                    <span class="text-danger">*</span> </label>
-                                                <div class="col-sm-9">
-                                                    <select name="shortlistJobType"
-                                                        class="form-control single-select-field">
-                                                        <option value="">Select One</option>
-                                                        @foreach ($job_types as $type)
-                                                            <option value="{{ $type->id }}">
-                                                                {{ $type->jobtype_code }} </option>
-                                                        @endforeach
-                                                    </select>
+                                            <div class="col-md-6 col-lg-6 mb-1" id="shortlistJobType" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Job Type <span class="text-danger">*</span> </label>
+                                                    <div class="col-sm-9">
+                                                        <select name="shortlistJobType"
+                                                            class="form-control single-select-field">
+                                                            <option value="">Select One</option>
+                                                            @foreach ($job_types as $type)
+                                                                <option value="{{ $type->id }}">
+                                                                    {{ $type->jobtype_code }} </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistProbationPeriod"
+                                            <div class="col-md-6 col-lg-6 mb-1" id="shortlistProbationPeriod"
                                                 style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Probation
-                                                    Period</label>
-                                                <div class="col-sm-9">
-                                                    <select name="shortlistProbationPeriod"
-                                                        class="form-control single-select-field">
-                                                        <option value="">Select One</option>
-                                                        <option value="0">No Probation</option>
-                                                        <option value="1">1 Month</option>
-                                                        <option value="2">2 Months</option>
-                                                        <option value="3">3 Months</option>
-                                                        <option value="4">4 Months</option>
-                                                        <option value="5">5 Months</option>
-                                                        <option value="6">6 Months</option>
-                                                    </select>
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Probation Period</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="shortlistProbationPeriod"
+                                                            class="form-control single-select-field">
+                                                            <option value="">Select One</option>
+                                                            <option value="0">No Probation</option>
+                                                            <option value="1">1 Month</option>
+                                                            <option value="2">2 Months</option>
+                                                            <option value="3">3 Months</option>
+                                                            <option value="4">4 Months</option>
+                                                            <option value="5">5 Months</option>
+                                                            <option value="6">6 Months</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistContractSigningDate"
+                                            <div class="col-md-6 col-lg-6 mb-1" id="shortlistContractSigningDate"
                                                 style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Contract
-                                                    Signing
-                                                    Date <span class="text-danger"></span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control"
-                                                        name="shortlistContractSigningDate">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Contract Signing Date <span class="text-danger"></span></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="date" class="form-control"
+                                                            name="shortlistContractSigningDate">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistEmailNoticeDate"
+                                            <div class="col-md-6 col-lg-6 mb-1" id="shortlistEmailNoticeDate"
                                                 style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Email
-                                                    Notice
-                                                    Date</label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control"
-                                                        name="shortlistEmailNoticeDate">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Email Notice Date</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="date" class="form-control"
+                                                            name="shortlistEmailNoticeDate">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="interviewEmailNoticeDate"
+                                            <div class="col-md-6 col-lg-6 mb-1" id="interviewEmailNoticeDate"
                                                 style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Email
-                                                    Notice
-                                                    Date</label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control"
-                                                        name="interviewEmailNoticeDate">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Email Notice  Date</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="date" class="form-control"
+                                                            name="interviewEmailNoticeDate">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1">
-                                                <label for="one"
+                                            <div class="col-md-6 col-lg-6 mb-1">
+                                                <div class="row">
+                                                    <label for="one"
                                                     class="col-sm-3 col-form-label fw-bold">Notice</label>
-                                                <div class="col-sm-9">
-                                                    <select name="isNotice" class="form-control single-select-field" required>
-                                                        <option value="" selected disabled>Select One</option>
-                                                        <option value="1" {{ old('isNotice') == 1 ? 'selected' : '' }}>Yes</option>
-                                                        <option value="0" {{ old('isNotice') == 0 ? 'selected' : '' }}>No</option>
-                                                    </select>
+                                                    <div class="col-sm-9">
+                                                        <select name="isNotice" class="form-control single-select-field" required>
+                                                            <option value="" selected disabled>Select One</option>
+                                                            <option value="1" {{ old('isNotice') == 1 ? 'selected' : '' }}>Yes</option>
+                                                            <option value="0" {{ old('isNotice') == 0 ? 'selected' : '' }}>No</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="AssignToManager" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Assign To
+                                            <div class="col-md-6 col-lg-6 mb-1" id="AssignToManager" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Assign To
                                                     <span class="text-danger">*</span> </label>
-                                                <div class="col-sm-9">
-                                                    <select name="Assign_to_manager"
-                                                        class="form-control single-select-field">
-                                                        <option value="" selected disabled>Select One</option>
-                                                        @foreach ($users as $user)
-                                                            <option value="{{ $user->id }}" {{ old('Assign_to_manager') == $user->id || $candidate->Assign_to_manager == $user->id ? 'selected' : '' }}>
-                                                                {{ $user->employee_name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
+                                                    <div class="col-sm-9">
+                                                        <select name="Assign_to_manager"
+                                                            class="form-control single-select-field">
+                                                            <option value="" selected disabled>Select One</option>
+                                                            @foreach ($users as $user)
+                                                                <option value="{{ $user->id }}" {{ old('Assign_to_manager') == $user->id || $candidate->Assign_to_manager == $user->id ? 'selected' : '' }}>
+                                                                    {{ $user->employee_name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="reassign" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Assign To
-                                                    <span class="text-danger">*</span> </label>
-                                                <div class="col-sm-9">
-                                                    <select name="Assign_to_manager"
-                                                        class="form-control single-select-field">
-                                                        <option value="" selected disabled>Select One</option>
-                                                        @foreach (\App\Models\Employee::select('id', 'employee_name')->where('roles_id', '!=', 1)->get() as $user)
-                                                            <option value="{{ $user->id }}" {{ old('Assign_to_manager') == $user->id || $candidate->Assign_to_manager == $user->id ? 'selected' : '' }}>
-                                                                {{ $user->employee_name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
+                                            <div class="col-md-6 col-lg-6 mb-1" id="reassign" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Assign To <span class="text-danger">*</span> </label>
+                                                    <div class="col-sm-9">
+                                                        <select name="Assign_to_manager"
+                                                            class="form-control single-select-field">
+                                                            <option value="" selected disabled>Select One</option>
+                                                            @foreach (\App\Models\Employee::select('id', 'employee_name')->where('roles_id', '!=', 1)->get() as $user)
+                                                                <option value="{{ $user->id }}" {{ old('Assign_to_manager') == $user->id || $candidate->Assign_to_manager == $user->id ? 'selected' : '' }}>
+                                                                    {{ $user->employee_name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
 
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="clientArNo" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">AR
+                                            <div class="col-md-6 col-lg-6 mb-1" id="clientArNo" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">AR
                                                     No</label>
-                                                <div class="col-sm-9">
-                                                    <select name="client_ar_no" id=""
-                                                        class="form-control single-select-field">
-                                                        <option value="0">Select On</option>
-                                                    </select>
+                                                    <div class="col-sm-9">
+                                                        <select name="client_ar_no" id=""
+                                                            class="form-control single-select-field">
+                                                            <option value="0">Select On</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistSalary" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Salary
+                                            <div class="col-md-6 col-lg-6 mb-1" id="shortlistSalary" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Salary
                                                     <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control" name="shortlistSalary" value="{{ old('shortlistSalary') || $candidate->shortlistSalary }}">
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control" name="shortlistSalary" value="{{ old('shortlistSalary') || $candidate->shortlistSalary }}">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistArNo" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">AR
+                                            <div class="col-md-6 col-lg-6 mb-1" id="shortlistArNo" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">AR
                                                     No</label>
-                                                <div class="col-sm-9">
-                                                    <select name="shortlistArNo"
-                                                        class="form-control single-select-field">
-                                                        <option value="">Select One</option>
-                                                    </select>
+                                                    <div class="col-sm-9">
+                                                        <select name="shortlistArNo"
+                                                            class="form-control single-select-field">
+                                                            <option value="">Select One</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistHourlyRate" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Hourly
-                                                    Rate</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control"
-                                                        name="shortlistHourlyRate">
+                                            <div class="col-md-6 col-lg-6 mb-1" id="shortlistHourlyRate" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Hourly Rate</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control"
+                                                            name="shortlistHourlyRate">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistAdminFee" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Admin
-                                                    Fee</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control"
-                                                        name="shortlistAdminFee">
+                                            <div class="col-md-6 col-lg-6 mb-1" id="shortlistAdminFee" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Admin Fee</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control"
+                                                            name="shortlistAdminFee">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistStartDate" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Start Date
-                                                    <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control"
-                                                        name="shortlistStartDate">
+                                            <div class="col-md-6 col-lg-6 mb-1" id="shortlistStartDate" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Start Date <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="date" class="form-control"
+                                                            name="shortlistStartDate">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistReminderPeriod" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Reminder
-                                                    Period <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <select name="shortlistReminderPeriod"
-                                                        class="form-control single-select-field">
-                                                        <option value="1 Week Before">1 Week Before</option>
-                                                        <option value="2 Week Before">2 Week Before</option>
-                                                        <option value="3 Week Before">3 Week Before</option>
-                                                        <option value="4 Week Before">4 Week Before</option>
-                                                        <option value="5 Week Before">5 Week Before</option>
-                                                        <option value="6 Week Before">6 Week Before</option>
-                                                        <option value="7 Week Before">7 Week Before</option>
-                                                        <option value="8 Week Before">8 Week Before</option>
-                                                    </select>
+                                            <div class="col-md-6 col-lg-6 mb-1" id="shortlistReminderPeriod" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Reminder Period <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <select name="shortlistReminderPeriod"
+                                                            class="form-control single-select-field">
+                                                            <option value="1 Week Before">1 Week Before</option>
+                                                            <option value="2 Week Before">2 Week Before</option>
+                                                            <option value="3 Week Before">3 Week Before</option>
+                                                            <option value="4 Week Before">4 Week Before</option>
+                                                            <option value="5 Week Before">5 Week Before</option>
+                                                            <option value="6 Week Before">6 Week Before</option>
+                                                            <option value="7 Week Before">7 Week Before</option>
+                                                            <option value="8 Week Before">8 Week Before</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistContractSigningTime"
+                                            <div class="col-md-6 col-lg-6 mb-1" id="shortlistContractSigningTime"
                                                 style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Contract
-                                                    Signing
-                                                    Time <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="time" class="form-control"
-                                                        name="shortlistContractSigningTime">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Contract Signing Time <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="time" class="form-control"
+                                                            name="shortlistContractSigningTime">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistContractEndDate" style="display: none">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Contract End Date <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control"
-                                                        name="shortlistContractEndDate">
+                                            <div class="col-md-6 col-lg-6 mb-1" id="shortlistContractEndDate" style="display: none">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Contract End Date <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="date" class="form-control"
+                                                            name="shortlistContractEndDate">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistLastDay" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Last
-                                                    Day</label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control"
-                                                        name="shortlistLastDay">
+                                            <div class="col-md-6 col-lg-6 mb-1" id="shortlistLastDay" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Last Day</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="date" class="form-control"
+                                                            name="shortlistLastDay">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="shortlistEmailNoticeTime"
+                                            <div class="col-md-6 col-lg-6 mb-1" id="shortlistEmailNoticeTime"
                                                 style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Email
-                                                    Notice
-                                                    Time</label>
-                                                <div class="col-sm-9">
-                                                    <input type="time" class="form-control"
-                                                        name="shortlistEmailNoticeTime">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Email Notice Time</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="time" class="form-control"
+                                                            name="shortlistEmailNoticeTime">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="AssignToTeamLeader" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Assign To
-                                                    <span class="text-danger">*</span> </label>
-                                                <div class="col-sm-9">
-                                                    <select id="team_leader_option" name="team_leader" class="form-control single-select-field">
-                                                    </select>
+                                            <div class="col-md-6 col-lg-6 mb-1" id="AssignToTeamLeader" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Assign To <span class="text-danger">*</span> </label>
+                                                    <div class="col-sm-9">
+                                                        <select id="team_leader_option" name="team_leader" class="form-control single-select-field">
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="AssignToRC" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Assign To
-                                                    <span class="text-danger">*</span> </label>
-                                                <div class="col-sm-9">
-                                                    <select id="selected_rc" name="rc" class="form-control single-select-field">
-                                                        {{-- <option value="">Select One</option>
-                                                        @foreach ($users as $user)
-                                                            <option value="{{ $user->id }}">
-                                                                {{ $user->name }}
-                                                            </option>
-                                                        @endforeach --}}
-                                                    </select>
+                                            <div class="col-md-6 col-lg-6 mb-1" id="AssignToRC" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Assign To <span class="text-danger">*</span> </label>
+                                                    <div class="col-sm-9">
+                                                        <select id="selected_rc" name="rc" class="form-control single-select-field">
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="interviewDate" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Interview
-                                                    Date<span class="text-danger">*</span> </label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control" name="interview_date">
+                                            <div class="col-md-6 col-lg-6 mb-1" id="interviewDate" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Interview Date<span class="text-danger">*</span> </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="date" class="form-control" name="interview_date">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6  mb-1" id="interviewBy" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Interview
-                                                    By</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control" name="interview_by">
+                                            <div class="col-md-6 col-lg-6  mb-1" id="interviewBy" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Interview By</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control" name="interview_by">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="jobOfferSalary" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Jobs Offer
-                                                    Salary</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" name="inteview_job_offer_salary"
-                                                        class="form-control">
+                                            <div class="col-md-6 col-lg-6 mb-1" id="jobOfferSalary" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Jobs Offer Salary</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="inteview_job_offer_salary"
+                                                            class="form-control">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="attendInterview" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Attend
-                                                    Interview</label>
-                                                <div class="col-sm-9">
-                                                    <select name="attendInterview"
-                                                        class="form-control single-select-field">
-                                                        <option value="pending">Pending</option>
-                                                        <option value="1">Yes</option>
-                                                        <option value="0">No</option>
-                                                    </select>
+                                            <div class="col-md-6 col-lg-6 mb-1" id="attendInterview" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Attend Interview</label>
+                                                    <div class="col-sm-9">
+                                                        <select name="attendInterview"
+                                                            class="form-control single-select-field">
+                                                            <option value="pending">Pending</option>
+                                                            <option value="1">Yes</option>
+                                                            <option value="0">No</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="availableDate" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Available
+                                            <div class="col-md-6 col-lg-6 mb-1" id="availableDate" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Available
                                                     Date</label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control" name="available_date">
+                                                    <div class="col-sm-9">
+                                                        <input type="date" class="form-control" name="available_date">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-6 col-lg-6 mb-1" id="emailNoticeTime" style="display: none;">
-                                                <label for="one" class="col-sm-3 col-form-label fw-bold">Email
-                                                    Notice
-                                                    Time</label>
-                                                <div class="col-sm-9">
-                                                    <input type="time" name="interviewEmailNoticeTime"
-                                                        class="form-control">
+                                            <div class="col-md-6 col-lg-6 mb-1" id="emailNoticeTime" style="display: none;">
+                                                <div class="row">
+                                                    <label for="one" class="col-sm-3 col-form-label fw-bold">Email Notice Time</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="time" name="interviewEmailNoticeTime" class="form-control">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row col-12 my-2">
-                                                <label for="one" class="col-2 col-form-label fw-bold">Remark</label>
-                                                <div class="col-10 pe-5">
-                                                    <textarea name="remarks" id="ckeditor-classic" class="form-control"></textarea>
+                                            <div class="col-12 mb-1">
+                                                <div class="row">
+                                                    <label for="remarks" class="col-sm-12 col-md-1 col-form-label fw-bold">Remark</label>
+                                                    <div class="col-sm-12 col-md-11">
+                                                        <div class="d-flex flex-row-reverse description_textarea">
+                                                            <textarea name="remarks" id="ckeditor-classic" class="editor" rows="2"> {{ old('remarks') }} </textarea>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

@@ -490,8 +490,7 @@ class CandidateFileImportController extends Controller
         $dateRange = $request->input('daterange');
 
         [$startDate, $endDate] = explode(' - ', $dateRange);
-        $candidates =
-        $candidates =
+
         $candidates = Candidate::with(['resumes'])
                             ->where(function ($query) use ($startDate, $endDate, $keyword) {
                                 $query->whereBetween('candidate_joindate', [$startDate, $endDate])
@@ -502,14 +501,11 @@ class CandidateFileImportController extends Controller
                                         $query->whereHas('remarks', function ($remarksQuery) use ($keyword) {
                                             $remarksQuery->where('remarks', 'like', "%$keyword%");
                                         })
-                                            ->orWhereHas('resumes', function ($resumesQuery) use ($keyword) {
-                                                $resumesQuery->where('isMain', 1)->where('resume_text', 'like', "%$keyword%");
-                                            });
+                                        ->orWhereHas('resumes', function ($resumesQuery) use ($keyword) {
+                                            $resumesQuery->where('isMain', 1)->where('resume_text', 'like', "%$keyword%");
+                                        });
                                     });
                             })->get();
-
-
-
 
         $data = [];
         foreach ($candidates as $key => $candidate) {
@@ -523,9 +519,9 @@ class CandidateFileImportController extends Controller
             ];
             $data[] = $candidateDetails;
         }
-        return view('admin.candidate.search', compact('data'));
+        
+        return view('admin.candidate.search', compact('data', 'keyword', 'dateRange'));
     }
-
 
     public function getCandidateRemark(candidate $candidate)
     {

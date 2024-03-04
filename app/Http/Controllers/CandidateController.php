@@ -469,13 +469,6 @@ class CandidateController extends Controller
             $dashboard_data['remark_id'] = $assign_dashboard_remark['remark_id'];
             $dashboard_data['follow_day'] = $assign_dashboard_remark['follow_day'];
             $dashboard_data['callback'] = $assign_dashboard_remark['callback'];
-            if ($request->remarkstype_id == 4) {
-                $dashboard_data['follow_day'] = ++$dashboard->follow_day;
-            }
-
-            if ($request->remarkstype_id == 22) {
-                $dashboard_data['callback'] = ++$dashboard->callback;
-            }
 
             $calander = [
                 'manager_id' => $candidate->manager_id,
@@ -483,6 +476,21 @@ class CandidateController extends Controller
                 'consultant_id' => $candidate->consultant_id,
                 'candidate_remark_id' => $candidate_remark->id,
             ];
+
+            if ($request->remarkstype_id == 4) {
+                $dashboard_data['follow_day'] = ++$dashboard->follow_day;
+            }
+
+            if ($request->remarkstype_id == 22) {
+                $dashboard_data['callback'] = ++$dashboard->callback;
+
+                $calander['title'] = '09:00 AM -' . $candidate->consultant->employee_code . ' - Call Back -' . $candidate->candidate_name;
+
+                $calander['date'] = twobusinessday($candidate_remark->created_at);
+                $calander['status'] = 1;
+                Calander::create($calander);
+            }
+
             if ($request->remarkstype_id == 6) {
                 $list = AssignClient::create([
                     'client_id' => $request->assign_client_id,
