@@ -484,7 +484,7 @@ class CandidateController extends Controller
             if ($request->remarkstype_id == 22) {
                 $dashboard_data['callback'] = ++$dashboard->callback;
 
-                $calander['title'] = '09:00 AM -' . $candidate->consultant->employee_code . ' - Call Back -' . $candidate->candidate_name;
+                $calander['title'] = '09:00 AM -' . $candidate->consultant?->employee_code . ' - Call Back -' . $candidate->candidate_name;
 
                 $calander['date'] = twobusinessday($candidate_remark->created_at);
                 $calander['status'] = 1;
@@ -564,6 +564,17 @@ class CandidateController extends Controller
 
             if($request->remarkstype_id == 3)
             {
+                $team = get_team($request->rc);
+                $candidate->update([
+                    'manager_id' => $team['manager_id'],
+                    'team_leader_id' => $team['team_leader_id'],
+                    'consultant_id' => $team['consultant_id'],
+                ]);
+
+                $dashboard_data['manager_id'] = $team['manager_id'];
+                $dashboard_data['teamleader_id'] = $team['team_leader_id'];
+                $dashboard_data['consultent_id'] = $team['consultant_id'];
+
                 AssignToRc::create([
                     'candidate_id' => $request->candidate_id,
                     'rc_id' => $request->rc,
