@@ -70,6 +70,7 @@
                                                 Consultant (In Charge) <span class="text-danger">*</span></label>
                                             <div class="col-sm-7">
                                                 <select name="employees_id" id="employees_id" class="form-control single-select-field" required>
+                                                    <option value="">Choose One</option>
                                                     @foreach (\Spatie\Permission\Models\Role::select('id', 'name')->whereNotIn('id', [1])->get() as $role)
                                                         <option disabled class="text-danger">{{$role->name}}</option>
                                                         @foreach (\App\Models\Employee::where('roles_id', $role->id)->get() as $incharge)
