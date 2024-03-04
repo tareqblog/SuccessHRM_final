@@ -159,8 +159,7 @@
                                                 <label for="employee_email" class="col-sm-5 col-form-label fw-bold">Email Address<span
                                                         class="text-danger">*</span></label>
                                                 <div class="col-sm-7">
-                                                    <input type="text" name="employee_email" class="form-control"
-                                                        placeholder="Email" required>
+                                                    <input type="text" name="employee_email" class="form-control" id="employee_email" placeholder="Email" required>
                                                 </div>
                                             </div>
                                             <div class="row col-md-6 col-lg-6 mb-1">
@@ -263,16 +262,8 @@
                                             <div class="row col-md-6 col-lg-6 mb-1">
                                                 <label for="toggleCheckbox" class="col-sm-8 col-form-label fw-bold">Click to set credential</label>
                                                 <div class="col-sm-4">
-                                                    <input type="checkbox" class="mt-2" id="toggleCheckbox" onclick="toggleDiv()">
+                                                    <input type="checkbox" class="mt-2" id="toggleCheckbox" onclick="setCredential()">
                                                 </div>
-
-                                                {{-- <div class="form-check" id="role10input1" style="display: none;">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="flexCheckChecked" checked>
-                                                    <label class="form-check-label" for="flexCheckChecked">
-                                                        Checked checkbox
-                                                    </label>
-                                                </div> --}}
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
@@ -291,7 +282,7 @@
                                             <div class="row col-md-6 col-lg-6 mb-1">
                                                 <label for="two" class="col-sm-4  col-form-label fw-bold">Login Email <span class="text-danger">*</span></label>
                                                 <div class="col-sm-8">
-                                                    <input type="email" class="form-control" name="email">
+                                                    <input type="email" class="form-control" id="email" name="email">
                                                     <small>Google Authenticator secret key will send this email!</small>
                                                 </div>
                                             </div>
@@ -843,8 +834,12 @@
                 });
             });
 
-            function toggleDiv() {
+            function setCredential()
+            {
                 var div = document.getElementById("login_info");
+                let employee_email = $('#employee_email').val();
+                console.log(employee_email);
+                $('#email').val(employee_email);
                 div.style.display = div.style.display === "none" ? "block" : "none";
             }
 
