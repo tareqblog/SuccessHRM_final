@@ -46,7 +46,7 @@
                                 <h6 class="card-title mb-0">Attendence Table</h6>
                             </div>
                             <div class="p-2 bd-highlight">
-                                {{-- <a href="{{ route('attendence.print_p', $parent->id) }}" class="btn btn-warning btn-sm me-2">Print</a> --}}
+                                <a href="{{ route('attendence.print_p', $parent->id) }}" class="btn btn-warning btn-sm me-2">Print</a>
                             </div>
                         </div>
                     </div>

@@ -470,13 +470,13 @@ class AttendenceController extends Controller
         return view('admin.attendence.new_print', compact('attendances', 'parent', 'leaveTypes'));
     }
 
-    // public function attendencePrint_p(AttendenceParent $attendence)
-    // {
-    //     $parent = $attendence;
+    public function attendencePrint_p(AttendenceParent $attendence)
+    {
+        $parent = $attendence;
 
-    //     $attendence = $attendence->load('attendences');
-    //     $attendances = $attendence->attendences;
-    //     $leaveTypes = LeaveType::where('leavetype_status', 1)->get();
-    //     return view('admin.attendence.print', compact('attendances', 'parent', 'leaveTypes'));
-    // }
+        $attendence = $attendence->load('attendences');
+        $attendances = $attendence->attendences;
+        $leaveTypes = LeaveType::where('leavetype_status', 1)->get();
+        return view('admin.attendence.print', compact('attendances', 'parent', 'leaveTypes'));
+    }
 }

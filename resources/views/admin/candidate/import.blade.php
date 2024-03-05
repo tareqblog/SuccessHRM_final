@@ -154,10 +154,10 @@
                             {{ $temporary_data->links() }}
                             <div class="text-end mb-5">
                                 <form
-                                    action="{{ route('import.candidate.data', ['temporary_data' => json_encode($temporary_data)]) }}"
+                                    action="{{ route('import.candidate.data') }}"
                                     method="POST">
                                     @csrf
-
+                                        <input type="hidden" name="temporary_data" value="{{json_encode($temporary_data)}}">
                                     <button type="submit" class="btn btn-success btn-sm">Proceed to candidate</button>
                                 </form>
                             </div>

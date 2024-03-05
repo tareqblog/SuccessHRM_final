@@ -22,135 +22,113 @@
                         @method('PUT')
                         <!-- Main time sheet fields -->
                         <div class="row">
-                            <div class="col-lg-6">
-                                <div class="row mb-4">
-                                    <label for="one" class="col-sm-3 col-form-label">Time Sheet Title</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="Time Sheet Title"
-                                            name="title" value="{{ old('title', $time_sheet->title) }}" required>
+                            <div class="col-md-6 col-lg-6 mb-2">
+                                <div class="row">
+                                    <label for="title" class="col-sm-3 col-md-4 col-form-label">Time Sheet Title</label>
+                                    <div class="col-sm-9 col-md-8">
+                                        <input type="text" class="form-control"  value="{{ old('title', $time_sheet->title) }}"
+                                            name="title" id="title" required>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                <div class="row mb-4">
-                                    <label for="one" class="col-sm-3 col-form-label">Printing</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="Printing Title"
-                                            name="print" value="{{ old('print', $time_sheet->print) }}">
+                            <div class="col-md-6 col-lg-6 mb-2">
+                                <div class="row">
+                                    <label for="print" class="col-sm-3 col-md-4 col-form-label">Printing</label>
+                                    <div class="col-sm-9 col-md-8">
+                                        <input type="text" class="form-control" value="{{ old('print', $time_sheet->print) }}" name="print" id="print">
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12">
-                                <div class="row mb-4">
-                                    <label for="one" class="col-sm-2 col-form-label">Remarks</label>
-                                    <div class="col-sm-10">
+                            <div class="col-12 mb-4">
+                                <div class="row">
+                                    <label for="one" class="col-sm-3 col-md-2 col-form-label">Remarks</label>
+                                    <div class="col-sm-9 col-md-10">
                                         <textarea name="remark" rows="4" class="form-control" placeholder="Remarks">{{ old('remark', $time_sheet->remark) }}</textarea>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Add other main time sheet fields as needed -->
                         </div>
-
-                        <!-- Days Setting -->
-                        <div class="row mt-3">
-                            <h5 class="mb-3">Days Setting</h5>
-                            <div class="form-group">
-                                <label for="package_day" class="col-sm-1 control-label">Day</label>
-                                <label for="package_day" class="col-sm-1 control-label">Time In</label>
-                                <label for="package_day" class="col-sm-1 control-label" style="margin-left: 130px;">Time Out</label>
-                                <label for="package_day" class="col-sm-1 control-label" style="margin-left: 120px;">Lunch
-                                    Hour</label>
-                                <label  for="package_day" class="col-sm-1 control-label">Work</label>
-                                <label  for="package_day" class="col-sm-1 control-label">Next Day</label>
-                                <label  for="package_day" class="col-sm-1 control-label">OT Rate</label>
-                                <label  for="package_day" class="col-sm-1 control-label" style="margin-left: 50px;">Minimum</label>
-                                <label  for="package_day"
-                                    class="col-sm-1 control-label" style="margin-left: 30px;">Allowance</label>
-                            </div>
-
+                        <div class="col-lg-12">
                             @php
                                 $entities = json_decode($time_sheet->entities);
                             @endphp
 
-                            @foreach ($entities as $entity)
-                                <div class="form-group">
-                                    <div class="row mt-3">
-                                        <label for="time_sheet_day"
-                                            class="col-sm-1 control-label">{{ $entity->day }}</label>
-                                            <input type="hidden" name="entities[{{ strtolower($entity->day) }}][day]" value="{{$entity->day}}">
-                                        <div class="col-sm-2">
-                                            <input type="time" class="form-control" name="entities[{{ strtolower($entity->day) }}][in_time]" value="{{$entity->in_time}}"
-                                                placeholder="Time In">
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <input type="time" class="form-control" name="entities[{{ strtolower($entity->day) }}][out_time]"
-                                                value="{{ $entity->out_time }}"
-                                                placeholder="Time Out">
-                                        </div>
-                                        <!-- Add other input fields for each day as needed -->
-                                        <div class="col-sm-1">
-                                            <select class="form-control" name="entities[{{ strtolower($entity->day) }}][lunch_time]">
-                                                <!-- Add appropriate options based on your requirements -->
-                                                <option value="30 minutes"
-                                                    {{ $entity->lunch_time == '30 minutes'? 'selected': '' }}>
-                                                    30 minutes</option>
-                                                <option value="45 minutes"
-                                                    {{ $entity->lunch_time == '45 minutes'? 'selected': '' }}>
-                                                    45 minutes</option>
-                                                <option value="1 hour"
-                                                    {{ $entity->lunch_time == '1 hour'? 'selected': '' }}>
-                                                    1 hour</option>
-                                                <option value="2 hour"
-                                                    {{ $entity->lunch_time == '2 hour'? 'selected': '' }}>
-                                                    2 hour</option>
-                                                <option value="No Lunch"
-                                                    {{ $entity->lunch_time == 'No Lunch'? 'selected': '' }}>
-                                                    No Lunch</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-1">
-                                            <label>
-                                                <input type="checkbox" name="entities[{{ strtolower($entity->day) }}][isWork]"
-                                                    {{ isset($entity->isWork) ? 'checked': '' }}>
-                                            </label>
-                                        </div>
-                                        <div class="col-sm-1">
-                                            <label>
-                                                <input type="checkbox" name="entities[{{ strtolower($entity->day) }}][ot_rate]"
-                                                    {{ isset($entity->isNextDay) ? 'checked': '' }}>
-                                            </label>
-                                        </div>
-                                        <div class="col-sm-1">
-                                            <select class="form-control" name="entities[{{ strtolower($entity->day) }}][minimum]">
-                                                <!-- Add appropriate options based on your requirements -->
-                                                <option value="No Rate"
-                                                    {{ isset($entity->ot_rate) == 'No Rate'? 'selected': '' }}>
-                                                    No Rate</option>
-                                                <option value="1.5"
-                                                    {{ isset($entity->ot_rate) == '1.5'? 'selected': '' }}>
-                                                    1.5</option>
-                                                <option value="2"
-                                                    {{ isset($entity->ot_rate) == '2'? 'selected': '' }}>
-                                                    2</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-1 ms-5">
-                                            <input type="text" class="form-control"
-                                                name="entities[{{ strtolower($entity->day) }}][minimum]"
+                            <h5 class="mb-5">Days Setting</h5>
+                            <div class="time-sheet-container" style="overflow: scroll">
+                                <table class="table time-sheet">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">Day</th>
+                                            <th class="text-center">Time In</th>
+                                            <th class="text-center">Time Out</th>
+                                            <th class="text-center" style="width: 120px">Lunch Hour</th>
+                                            <th class="text-center">Work</th>
+                                            <th class="text-center" style="width: 120px">Next Day</th>
+                                            <th class="text-center" style="width: 100px">OT Rate</th>
+                                            <th class="text-center">Minimum</th>
+                                            <th class="text-center">Allowance</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($entities as $entity)
+                                        <tr>
+                                            <td>{{ $entity->day }}
+                                                <input type="hidden" name="entities[{{ strtolower($entity->day) }}][day]" value="{{$entity->day}}">
+                                            </td>
+                                            <td><input type="time" class="form-control"  name="entities[{{ strtolower($entity->day) }}][in_time]" value="{{$entity->in_time}}"></td>
+                                            <td><input type="time" class="form-control"  name="entities[{{ strtolower($entity->day) }}][out_time]" value="{{ $entity->out_time }}"></td>
+                                            <td>
+                                                <select class="form-control" name="entities[{{ strtolower($entity->day) }}][lunch_time]">
+                                                    <!-- Add appropriate options based on your requirements -->
+                                                    <option value="30 minutes"
+                                                        {{ $entity->lunch_time == '30 minutes'? 'selected': '' }}>
+                                                        30 minutes</option>
+                                                    <option value="45 minutes"
+                                                        {{ $entity->lunch_time == '45 minutes'? 'selected': '' }}>
+                                                        45 minutes</option>
+                                                    <option value="1 hour"
+                                                        {{ $entity->lunch_time == '1 hour'? 'selected': '' }}>
+                                                        1 hour</option>
+                                                    <option value="2 hour"
+                                                        {{ $entity->lunch_time == '2 hour'? 'selected': '' }}>
+                                                        2 hour</option>
+                                                    <option value="No Lunch"
+                                                        {{ $entity->lunch_time == 'No Lunch'? 'selected': '' }}>
+                                                        No Lunch</option>
+                                                </select>
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="checkbox" name="entities[{{ strtolower($entity->day) }}][isWork]" {{ isset($entity->isWork) ? 'checked': '' }}>
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="checkbox" name="entities[{{ strtolower($entity->day) }}][next_day]" {{ isset($entity->next_day) ? 'checked': '' }}>
+                                            </td>
+                                            <td>
+                                                <select class="form-control" name="entities[{{ strtolower($entity->day) }}][ot_rate]">
+                                                    <option value="No Rate"
+                                                        {{ isset($entity->ot_rate) == 'No Rate'? 'selected': '' }}>
+                                                        No Rate</option>
+                                                    <option value="1.5"
+                                                        {{ isset($entity->ot_rate) == '1.5'? 'selected': '' }}>
+                                                        1.5</option>
+                                                    <option value="2"
+                                                        {{ isset($entity->ot_rate) == '2'? 'selected': '' }}>
+                                                        2</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="entities[{{ strtolower($entity->day) }}][minimum]"
                                                 value="{{$entity->minimum }}">
-                                        </div>
-                                        <div class="col-sm-1 ms-5">
-                                            <input type="text" class="form-control"
-                                                name="entities[{{ strtolower($entity->day) }}][allowance]"
-                                                value="{{ $entity->allowance }}">
-                                        </div>
-                                        <!-- Repeat these lines for other fields as needed -->
-
-                                    </div>
-                                </div>
-                            @endforeach
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" name="entities[{{ strtolower($entity->day) }}][allowance]" value="{{ $entity->allowance }}">
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-
                         <div class="row mt-5">
                             <div class="col-lg-12">
                                 <a href="{{ route('time-sheet.index') }}" class="btn btn-sm btn-secondary">Cancel</a>

@@ -13,17 +13,9 @@
     <title>Print Attendance</title>
      <style>
         .table th, td{
-            padding: 1px 0 1px 5px !important;
-        }
-
-        .print_table {
-            overflow-x: auto;
-            width: 100%;
-        }
-
-        .print_table table {
-            margin-right: 1px;
-            min-width: 1700px;
+            padding: 0 !important;
+            font-size: 10px;
+            text-align: center;
         }
     </style>
 </head>
@@ -33,13 +25,6 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card p-3">
-                <div class="card-header">
-                    <div class="d-flex bd-highlight">
-                        <div class="p-2 flex-grow-1 bd-highlight">
-                            <h6 class="card-title mb-0">Attendence Table</h6>
-                        </div>
-                    </div>
-                </div>
                 <div class="card-body">
                     <div class="print_table">
                         <table class="table table-bordered border-dark">
@@ -91,25 +76,25 @@
                                         ++$day;
                                     @endphp
                                     <tr>
-                                        <td width="80px">{{ $attendance->date }}</td>
-                                        <td width="80px">{{ $attendance->day }}</td>
-                                        <td width="80px">{{ $attendance->in_time }}</td>
-                                        <td width="80px">{{ $attendance->out_time }}</td>
-                                        <td width="100px">{{ $attendance->lunch_hour }}</td>
-                                        <td width="100px">{{ $attendance->total_hour_min }}</td>
-                                        <td width="100px">{{ $attendance->ot_hour_min }}</td>
-                                        <td width="80px">---</td>
-                                        <td width="200px">{{ $attendance->remark }}</td>
-                                        <td width="80px">{{ $attendance->ph }}</td>
-                                        <td width="200px">
+                                        <td style="width: 80px">{{ $attendance->date }}</td>
+                                        <td>{{ $attendance->day }}</td>
+                                        <td>{{ $attendance->in_time }}</td>
+                                        <td>{{ $attendance->out_time }}</td>
+                                        <td>{{ $attendance->lunch_hour }}</td>
+                                        <td>{{ $attendance->total_hour_min }}</td>
+                                        <td>{{ $attendance->ot_hour_min }}</td>
+                                        <td>---</td>
+                                        <td>{{ $attendance->remark }}</td>
+                                        <td>{{ $attendance->ph }}</td>
+                                        <td>
                                             @foreach ($leaveTypes as $type)
                                                 <span
                                                     style="display: {{ $type->id == $attendance->type_of_leave ? '' : 'none' }}">{{ $type->leavetype_code }}</span>
                                             @endforeach
                                         </td>
-                                        <td width="150px">{{ $attendance->leave_day }}</td>
-                                        <td width="200px">{{ $attendance->type_of_reimbursement }}</td>
-                                        <td width="150px">{{ $attendance->amount_of_reimbursement }}</td>
+                                        <td>{{ $attendance->leave_day }}</td>
+                                        <td>{{ $attendance->type_of_reimbursement }}</td>
+                                        <td>{{ $attendance->amount_of_reimbursement }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
