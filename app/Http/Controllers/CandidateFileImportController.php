@@ -519,7 +519,7 @@ class CandidateFileImportController extends Controller
             ];
             $data[] = $candidateDetails;
         }
-        
+
         return view('admin.candidate.search', compact('data', 'keyword', 'dateRange'));
     }
 

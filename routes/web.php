@@ -208,7 +208,7 @@ Route::prefix('ATS')->group(function () {
     Route::post('/search/leave',  [LeaveController::class, 'searchLeave'])->name('search.leave');
     Route::get('/search/cancle/{leave}',  [LeaveController::class, 'cancle'])->name('leave.cancle');
     Route::get('/attendence/print/{attendence}',  [AttendenceController::class, 'attendencePrint'])->name('attendence.print');
-    // Route::get('/attendence/print/p/{attendence}',  [AttendenceController::class, 'attendencePrint_p'])->name('attendence.print_p');
+    Route::get('/attendence/print/p/{attendence}',  [AttendenceController::class, 'attendencePrint_p'])->name('attendence.print_p');
     Route::get('/get/client/team/{client}',  [JobController::class, 'getClientLeader'])->name('get.client.leader');
     Route::get('/get/client/remarks/{client}',  [ClientController::class, 'getClientRemark'])->name('get.client.remark');
     Route::get('/get/consultant/{employee}',  [EmployeeController::class, 'getConsultant'])->name('get.consultants');
