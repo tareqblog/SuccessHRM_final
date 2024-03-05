@@ -10,6 +10,7 @@ use App\Models\Leave;
 use App\Models\LeaveType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
@@ -17,7 +18,6 @@ use Spatie\Permission\Models\Role;
 class LeaveController extends Controller
 {
     public $user;
-
 
     public function __construct()
     {
@@ -27,9 +27,6 @@ class LeaveController extends Controller
         });
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         if (is_null($this->user) || !$this->user->can('leave.index')) {
@@ -39,9 +36,6 @@ class LeaveController extends Controller
         return view('admin.leave.index', compact('datas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         if (is_null($this->user) || !$this->user->can('leave.create')) {
@@ -53,32 +47,32 @@ class LeaveController extends Controller
         return view('admin.leave.create', compact('employees', 'leaveType', 'roles'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(LeaveRequest $request)
     {
-        // return $request;
         if (is_null($this->user) || !$this->user->can('leave.store')) {
             abort(403, 'Unauthorized');
         }
 
-        $file_path = $request->file('leave_file_path');
+        DB::beginTransaction();
 
-        // Check if $file_path is not empty before proceeding
-        if ($file_path) {
-            $uploadedFilePath = FileHelper::uploadFile($file_path);
+        try {
+            $request['candidate_id'] = $request->input('leave_empl_type') == 0 ? $request->input('employees_id') : null;
+            $request['employees_id'] = $request->input('leave_empl_type') == 1 ? $request->input('employees_id') : null;
+            $leave = Leave::create($request->except('_token', 'leave_file_path'));
+            $file_path = $request->file('leave_file_path');
 
-            Leave::create($request->except('_token', 'leave_file_path', 'candidate_id', 'employees_id') + [
-                'leave_file_path' => $uploadedFilePath,
-                'candidate_id' => $request->input('leave_empl_type') == 0 ? $request->input('employees_id') : null,
-                'employees_id' => $request->input('leave_empl_type') != 0 ? $request->input('employees_id') : null,
-            ]);
+            if ($file_path) {
+                $leave_url = $request->input('leave_empl_type') == 0 ? 'leave/candidate/'. $leave->id :
+                ($request->input('leave_empl_type') == 1 ? 'leave/employe/'. $leave->id : null);
 
+                $uploadedFilePath = FileHelper::uploadFile($file_path, $leave_url);
+                $leave->update(['leave_file_path' => $uploadedFilePath]);
+            }
+            DB::commit();
             return redirect()->route('leave.index')->with('success', 'Created successfully.');
-        } else {
-            Leave::create($request->except('_token', 'leave_file_path'));
-            return redirect()->route('leave.index')->with('success', 'Created successfully.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -112,29 +106,29 @@ class LeaveController extends Controller
         if (is_null($this->user) || !$this->user->can('leave.update')) {
             abort(403, 'Unauthorized');
         }
-        if ($request->hasFile('leave_file_path')) {
-            Storage::delete("public/{$leave->leave_file_path}");
 
-            $uploadedFilePath = FileHelper::uploadFile($request->file('leave_file_path'));
+        $request['candidate_id'] = $request->input('leave_empl_type') == 0 ? $request->input('employees_id') : $leave->candidate_id;
+        $request['employees_id'] = $request->input('leave_empl_type') == 1 ? $request->input('employees_id') : $leave->employees_id;
 
-            $leave->update([
-                'leave_file_path' => $uploadedFilePath,
-                'leave_approveds_id' => $request->input('leave_approveds_id'),
-                'candidate_id' => $request->input('leave_empl_type') == 0 ? $request->input('employees_id') : null,
-                'employees_id' => $request->input('leave_empl_type') != 0 ? $request->input('employees_id') : null,
-                'leave_types_id' => $request->input('leave_types_id'),
-                'leave_duration' => $request->input('leave_duration'),
-                'leave_datefrom' => $request->input('leave_datefrom'),
-                'leave_dateto' => $request->input('leave_dateto'),
-                'leave_total_day' => $request->input('leave_total_day'),
-                'leave_reason' => $request->input('leave_reason'),
-                'leave_status' => $request->input('leave_status'),
-                'leave_empl_type' => $request->input('leave_empl_type'),
-            ]);
-        } else {
-            $leave->update($request->except('_token', 'leave_file_path'));
+        DB::beginTransaction();
+
+        try {
+            if ($request->hasFile('leave_file_path')) {
+                Storage::delete("public/{$leave->leave_file_path}");
+
+                $leave_url = $request->input('leave_empl_type') == 0 ? 'leave/candidate/' . $leave->id : ($request->input('leave_empl_type') == 1 ? 'leave/employe/' . $leave->id : null);
+
+                $request['leave_file_path'] = FileHelper::uploadFile($request->file('leave_file_path'), $leave_url);
+            }
+            // return $request;
+            $leave->update($request->except('_token'));
+
+            DB::commit();
+            return redirect()->route('leave.index')->with('success', 'Successfully updated.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', $e->getMessage());
         }
-        return redirect()->route('leave.index')->with('success', 'Successfully updated.');
     }
 
     /**

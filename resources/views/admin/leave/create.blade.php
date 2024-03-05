@@ -5,14 +5,15 @@
 @section('page-title')
     Leave Management
 @endsection
+@section('css')
+    <!-- quill css -->
+    <link href="{{ URL::asset('build/libs/quill/quill.core.css') }}" rel="stylesheet" type="text/css" />
+    @include('admin.include.select2')
+@endsection
 @section('body')
 
     <body>
-    @endsection
-    @section('css')
-        <!-- quill css -->
-        <link href="{{ URL::asset('build/libs/quill/quill.core.css') }}" rel="stylesheet" type="text/css" />
-    @endsection
+@endsection
     @section('content')
         <div class="row">
             <div class="col-lg-12">
@@ -35,7 +36,7 @@
                                     <div class="row mb-1 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Group</label>
                                         <div class="col-sm-9">
-                                            <select name="leave_empl_type" id="leave_empl_type" class="form-control">
+                                            <select name="leave_empl_type" id="leave_empl_type" class="form-control single-select-field">
                                                 <option value="">Select One</option>
                                                 <option value="0">Candidate</option>
                                                 <option value="1">Employee</option>
@@ -45,20 +46,15 @@
                                     <div class="row mb-1 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Employee Name</label>
                                         <div class="col-sm-9">
-                                            <select name="employees_id" id="employees_id" class="form-control">
+                                            <select name="employees_id" id="employees_id" class="form-control single-select-field">
                                                 <option value="">Select One</option>
-                                                {{-- @foreach ($employees as $employee)
-                                                    <option value="{{ $employee->id }}">
-                                                        {{ $employee->employee_name }}
-                                                    </option>
-                                                @endforeach --}}
                                             </select>
                                         </div>
                                     </div>
                                     <div class="row mb-1 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Type of Leave</label>
                                         <div class="col-sm-9">
-                                            <select name="leave_types_id" class="form-control">
+                                            <select name="leave_types_id" class="form-control single-select-field">
                                                 <option value="">Select One</option>
                                                 @foreach ($leaveType as $type)
                                                     <option value="{{ $type->id }}">
@@ -70,7 +66,7 @@
                                     <div class="row mb-1 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Leave Duration</label>
                                         <div class="col-sm-9">
-                                            <select name="leave_duration" class="form-control">
+                                            <select name="leave_duration" class="form-control single-select-field">
                                                 <option value="Full Day Leave" {{ old('leave_duration') }}>Full
                                                     Day Leave</option>
                                                 <option value="Half Day AM" {{ old('leave_duration') }}>Half
@@ -133,7 +129,9 @@
     @endsection
 
     @section('scripts')
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
+        @include('admin.include.select2js')
         <!-- ckeditor -->
         <script src="{{ URL::asset('build/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
 
@@ -249,12 +247,12 @@
             });
 
             $(document).ready(function(){
-            $(document).on('change', '#dateFrom', function(){
-                var value2=$('#dateFrom').val();
-                $('#dateTo').attr('min', value2);
-                $('#dateTo').prop("disabled", false);
-                $('.end').prop("disabled", false);
-            });
+                $(document).on('change', '#dateFrom', function(){
+                    var value2=$('#dateFrom').val();
+                    $('#dateTo').attr('min', value2);
+                    $('#dateTo').prop("disabled", false);
+                    $('.end').prop("disabled", false);
+                });
             });
         </script>
     @endsection

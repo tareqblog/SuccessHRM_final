@@ -5,23 +5,28 @@
 @section('page-title')
     Leave Management
 @endsection
+@section('css')
+    <!-- quill css -->
+    <link href="{{ URL::asset('build/libs/quill/quill.core.css') }}" rel="stylesheet" type="text/css" />
+        @include('admin.include.select2')
+@endsection
 @section('body')
 
     <body>
-    @endsection
-    @section('css')
-        <!-- quill css -->
-        <link href="{{ URL::asset('build/libs/quill/quill.core.css') }}" rel="stylesheet" type="text/css" />
     @endsection
     @section('content')
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Update Leave</h4>
-                        <div class="text-end">
-                            <a href="{{ route('leave.create') }}" class="btn btn-sm btn-success">Create New</a>
-                            <a href="{{ route('leave.index') }}" class="btn btn-sm btn-success">Search</a>
+                        <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">
+                                <h6 class="card-title mb-0">Update Leave</h6>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                <a href="{{ route('leave.create') }}" class="btn btn-sm btn-success">Create New</a>
+                                <a href="{{ route('leave.index') }}" class="btn btn-sm btn-success">Search</a>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body p-5">
@@ -33,9 +38,8 @@
                                     <div class="row mb-1 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Group</label>
                                         <div class="col-sm-9">
-                                            <select name="leave_empl_type" class="form-control" disabled>
-                                            <option value="0" {{ $leave->leave_empl_type == 0 ? 'selected' : '' }}>
-                                                    Candidate</option>
+                                            <select id="leave_empl_type" name="leave_empl_type" class="form-control single-select-field" disabled>
+                                            <option value="0" {{ $leave->leave_empl_type == 0 ? 'selected' : '' }}>Candidate</option>
                                                 <option value="1" {{ $leave->leave_empl_type == 1 ? 'selected' : '' }}>
                                                     Employee</option>
                                             </select>
@@ -44,18 +48,14 @@
                                     <div class="row mb-1 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Employee Name</label>
                                         <div class="col-sm-9">
-                                            <select name="employees_id" class="form-control" >
-                                                <option value="">Select One</option>
-                                                @foreach ($employees as $employee)
-                                                <option value="{{$employee->id}}" {{$leave->employees_id == $employee->id ? 'selected' : '' }}>{{$employee->employee_name}}</option>
-                                                @endforeach
+                                            <select name="employees_id" id="employees_id" class="form-control single-select-field">
                                             </select>
                                         </div>
                                     </div>
                                     <div class="row mb-1 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Type of Leave</label>
                                         <div class="col-sm-9">
-                                            <select name="leave_types_id" class="form-control">
+                                            <select name="leave_types_id" class="form-control single-select-field">
                                                 <option value="">Select One</option>
                                                 @foreach ($leaveType as $type)
                                                     <option value="{{ $type->id }}"
@@ -68,7 +68,7 @@
                                     <div class="row mb-1 col-lg-6">
                                         <label for="one" class="col-sm-3 col-form-label">Leave Duration</label>
                                         <div class="col-sm-9">
-                                            <select name="leave_duration" class="form-control">
+                                            <select name="leave_duration" class="form-control single-select-field">
                                                 <option value="Full Day Leave"
                                                     {{ old('leave_duration',$leave->leave_duration) == 'Full Day Leave' ? 'selected' : '' }}>Full
                                                     Day Leave</option>
@@ -141,6 +141,9 @@
     @endsection
 
     @section('scripts')
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
+        @include('admin.include.select2js')
         <!-- ckeditor -->
         <script src="{{ URL::asset('build/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
 
@@ -150,16 +153,98 @@
             function job_link() {
                 // Get the text field
                 var copyText = document.getElementById("job_link");
-
-                // Select the text field
                 copyText.select();
-                copyText.setSelectionRange(0, 99999); // For mobile devices
+                copyText.setSelectionRange(0, 99999);
 
-                // Copy the text inside the text field
                 navigator.clipboard.writeText(copyText.value);
-
-                // Alert the copied text
-                //   alert("Copied the text: " + copyText.value);
             }
+
+            $(document).ready(function() {
+                $('#leave_empl_type').trigger('change');
+                $('#leave_empl_type').change(function() {
+                    var selectedGroupType = $(this).val();
+
+                    // Check if a group type is selected
+                    if (selectedGroupType == 1) {
+                        if (selectedGroupType) {
+                            $.ajax({
+                                type: 'GET',
+                                url: '/ATS/leave/get/employee/' + selectedGroupType,
+                                success: function(response) {
+                                    updateEmployee(response);
+                                },
+                                error: function(error) {
+                                    console.error('Error fetching employee data:', error);
+                                    $('#employees_id').empty();
+                                    $('#employees_id').append(
+                                        '<option value="" disabled selected>No Employee Available</option>'
+                                    );
+                                }
+                            });
+                        } else {
+                            // If no group type is selected, clear the employees dropdown
+                            $('#employees_id').empty();
+                            $('#employees_id').append(
+                                '<option value="" disabled selected>Select a Group Type first</option>');
+                        }
+                    } else if (selectedGroupType == 0) {
+                        if (selectedGroupType) {
+                            $.ajax({
+                                type: 'GET',
+                                url: '/ATS/leave/get/candidate/' + selectedGroupType,
+                                success: function(response) {
+                                    updateCandidate(response);
+                                },
+                                error: function(error) {
+                                    console.error('Error fetching candidate data:', error);
+                                    $('#candidate_id').empty();
+                                    $('#candidate_id').append(
+                                        '<option value="" disabled selected>No Candidate Available</option>'
+                                    );
+                                }
+                            });
+                        } else {
+                           $('#candidate_id').empty();
+                            $('#candidate_id').append(
+                                '<option value="" disabled selected>Select a Group Type first</option>');
+                        }
+                    }
+                });
+
+                function updateEmployee(response) {
+                    let selected_employe_id = {{ $leave->employees_id ?? 0 }};
+                    $('#employees_id').empty();
+                    response.employees.forEach(function(employee) {
+                        $('#employees_id').append($('<option>', {
+                            value: employee.id,
+                            text: employee.employee_name,
+                            selected: employee.id == selected_employe_id
+                        }));
+                    });
+                }
+
+                function updateCandidate(response) {
+                let selected_candidate_id = {{ $leave->candidate_id ?? 0 }};
+                    $('#employees_id').empty();
+                    console.log(response);
+                    response.candidates.forEach(function(candidate) {
+                        $('#employees_id').append($('<option>', {
+                            value: candidate.id,
+                            text: candidate.candidate_name,
+                            selected: candidate.id == selected_candidate_id
+                        }));
+                    });
+                }
+                $('#leave_empl_type').trigger('change');
+            });
+
+            $(document).ready(function(){
+                $(document).on('change', '#dateFrom', function(){
+                    var value2=$('#dateFrom').val();
+                    $('#dateTo').attr('min', value2);
+                    $('#dateTo').prop("disabled", false);
+                    $('.end').prop("disabled", false);
+                });
+            });
         </script>
     @endsection

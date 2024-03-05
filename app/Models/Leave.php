@@ -20,10 +20,8 @@ class Leave extends Model
             $Leave->save();
         });
 
-        // Update field update_by with current user id each time article is updated.
         static::updating(function ($Leave) {
             $Leave->modify_by = Auth::user()->id;
-            // $Leave->save();
         });
     }
 
@@ -32,11 +30,11 @@ class Leave extends Model
         return $this->belongsTo(Employee::class, 'employees_id');
     }
 
-    
     public function candidate()
     {
-        return $this->belongsTo(candidate::class, 'employees_id');
+        return $this->belongsTo(candidate::class, 'candidate_id');
     }
+
     public function employee_type()
     {
         return $this->belongsTo(Role::class, 'leave_empl_type');

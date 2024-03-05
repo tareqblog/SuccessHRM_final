@@ -68,7 +68,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Employee Type</th>
-                                    <th>Employee</th>
+                                    <th>Name</th>
                                     <th>Type Of Leave</th>
                                     <th>Remark</th>
                                     <th>Leave Start Date</th>
@@ -83,20 +83,15 @@
                                 @foreach ($datas as $data)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
-                                        <td>@if ($data->leave_empl_type==1) Employee @else Candidate @endif</td>
-                                        @if ($data->leave_empl_type==1)
-                                        <td>{{ $data->employee?->employee_name }}</td>
-                                        @else
-                                        <td>{{ $data->candidate?->candidate_name }}</td>
-                                        @endif
+                                        <td>{{ $data->leave_empl_type == 1 ? 'Employee' : 'Candidate' }}</td>
+                                        <td>{{ $data->leave_empl_type == 1 ? $data->employee?->employee_name : $data->candidate?->candidate_name }}</td>
                                         <td>{{ $data->leaveType?->leavetype_code }}</td>
                                         <td>{{ $data->leave_reason }}</td>
                                         <td>{{ $data->leave_datefrom }}</td>
                                         <td>{{ $data->leave_dateto }}</td>
                                         <td>{{ $data->leave_total_day }}</td>
                                         <td>--</td>
-                                        {{-- <td>{{$data->leave_status}}</td> --}}
-                                        <td class="text-{{\App\Enums\Status::from($data->leave_status)->message()}}">{{\App\Enums\Status::from($data->leave_status)->title()}}</td>
+                                        <td class="text-{{$data->leave_status != null ? \App\Enums\Status::from($data->leave_status)->message() : ''}}">{{$data->leave_status != null ? \App\Enums\Status::from($data->leave_status)->title() : ''}}</td>
                                         <td style="display: flex;">
                                             @if (App\Helpers\FileHelper::usr()->can('leave.edit'))
                                             <a href="{{ route('leave.edit', $data->id) }}" class="btn btn-info btn-sm me-3"><i

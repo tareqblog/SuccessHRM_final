@@ -44,6 +44,10 @@
                     const remarksCount = response.length - 1;
 
                     $.each(response, function(index, attendance) {
+                        let publicPath = "{{ asset('storage/') }}";
+                        leave_attachment = publicPath +'/'+ attendance.leave_attachment;
+                        claim_attachment = publicPath +'/'+ attendance.claim_attachment;
+
                         let html = `
                             <div style="display:flex" id="single_attendance-${index}">
                                 <div style="flex:0 0 120px;position: sticky;left: 0;z-index: 20;">
@@ -145,7 +149,7 @@
                                     </div>
                                     <div class="leave_attachment-${index} pe-3">
                                         <label class="remove-label remove-label-${index}" onclick="removeFile('${index}')"><i class="fas fa-trash text-danger"></i></label>
-                                        <a href="${attendance.leave_attachment}" target="_blank" style="display: ${attendance.leave_attachment ? 'inline' : 'none'}"><i class="fas fa-eye"></i></a>
+                                        <a href="${leave_attachment}" target="_blank" style="display: ${attendance.leave_attachment ? 'inline' : 'none'}"><i class="fas fa-eye"></i></a>
                                     </div>
                                 </div>
                                 <div style="flex:0 0 280px;" class="d-flex">
@@ -155,7 +159,7 @@
                                     </div>
                                     <div class="claim_attachment-${index} pe-3">
                                         <label class="remove-label remove-claim-${index}" onclick="removeClaim('${index}')"><i class="fas fa-trash text-danger"></i></label>
-                                        ${attendance.claim_attachment ? `<a href="${attendance.claim_attachment}" target="_blank"><i class="fas fa-eye"></i></a>` : ''}
+                                        ${attendance.claim_attachment ? `<a href="${claim_attachment}" target="_blank"><i class="fas fa-eye"></i></a>` : ''}
                                     </div>
                                 </div>
                                 <div style="flex:0 0 280px;">
