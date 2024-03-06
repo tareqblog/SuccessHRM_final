@@ -3,13 +3,12 @@
     Attendence
 @endsection
 @section('css')
-
+    @include('admin.include.select2')
 @endsection
 @section('body')
-
     <body>
-    @endsection
-    @section('content')
+@endsection
+@section('content')
     <style>
         .remove-label, .remove-claim {
             display: none;
@@ -66,7 +65,7 @@
                                             <label for="eleven" class="col-sm-3 col-form-label">Candidate</label>
                                             <div class="col-sm-9">
                                                 <input type="hidden" id="candidateId" name="candidate_id">
-                                                <select id="candidateDropdown" class="form-control">
+                                                <select id="candidateDropdown" class="form-control single-select-field">
                                                     <option value="" selected disabled>Select One</option>
                                                     @foreach ($candidates as $candidate)
                                                         <option
@@ -79,7 +78,7 @@
                                         <div class="row col-lg-6  mb-1">
                                             <label for="eleven" class="col-sm-3 col-form-label">Company</label>
                                             <div class="col-sm-9">
-                                                <select name="company_id" id="companyDropdown" class="form-control">
+                                                <select name="company_id" id="companyDropdown" class="form-control single-select-field">
                                                     <option value="" selected disabled>Select One</option>
                                                     @foreach ($clients as $client)
                                                         <option  value="{{ $client->id }}"> {{ $client->client_name }} </option>
@@ -97,7 +96,6 @@
                                 </form>
                                 <div class="row">
                                     <div class="col-sm-12">
-
                                         <p style="color:red">
                                             Reminders:<br>
                                             1 Indicate actual working hours if you are on half day leave (example: 9am -
@@ -158,34 +156,30 @@
                                             <div class="row mt-5">
                                                 <div class="col-sm-9">
                                                     <div>
-                                                        <a href="#"
-                                                            class="btn btn-sm btn-secondary w-md">Cancel</a>
-                                                        <button type="submit"
-                                                            class="btn btn-sm btn-info w-md" disabled>Submit</button>
+                                                        <a href="#" class="btn btn-sm btn-secondary w-md">Cancel</a>
+                                                        <button type="submit" class="btn btn-sm btn-info w-md" disabled>Submit</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </form>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div><!-- end card-body -->
+            </div>
         </div>
         </div>
         </div>
     @endsection
 
     @section('scripts')
-
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
+        @include('admin.include.select2js')
         <script>
             $(document).ready(function() {
-
-                // Listen for changes in the candidate dropdown
-
                 $('#candidateDropdown').change(function() {
                     let selectedCandidateId = $(this).val();
                     $.ajax({
@@ -210,8 +204,6 @@
                     $('#companyDropdown').empty();
 
                     if (response.candidateId) {
-                        // $('#companyDropdown').append('<option value="' + response.company.id + '">' + response.company
-                        //     .name + '</option>');
                         $('#candidateId').val(response.candidateId);
                     } else {
                         $('#companyDropdown').append(
@@ -227,7 +219,6 @@
                 function submitForm() {
                     $('#attendenceForm').submit();
                 }
-
             });
         </script>
     @endsection

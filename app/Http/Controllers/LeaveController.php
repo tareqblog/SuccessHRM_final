@@ -98,9 +98,6 @@ class LeaveController extends Controller
         return view('admin.leave.edit', compact('leave', 'employees', 'leaveType', 'roles'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(LeaveRequest $request, Leave $leave)
     {
         if (is_null($this->user) || !$this->user->can('leave.update')) {
@@ -111,17 +108,15 @@ class LeaveController extends Controller
         $request['employees_id'] = $request->input('leave_empl_type') == 1 ? $request->input('employees_id') : $leave->employees_id;
 
         DB::beginTransaction();
-
         try {
+            $leave->update($request->except('_token'));
             if ($request->hasFile('leave_file_path')) {
-                Storage::delete("public/{$leave->leave_file_path}");
-
+                Storage::delete('public/'. $leave->leave_file_path);
                 $leave_url = $request->input('leave_empl_type') == 0 ? 'leave/candidate/' . $leave->id : ($request->input('leave_empl_type') == 1 ? 'leave/employe/' . $leave->id : null);
 
-                $request['leave_file_path'] = FileHelper::uploadFile($request->file('leave_file_path'), $leave_url);
+                $leave_file_path = FileHelper::uploadFile($request->file('leave_file_path'), $leave_url);
+                $leave->update(['leave_file_path' => $leave_file_path]);
             }
-            // return $request;
-            $leave->update($request->except('_token'));
 
             DB::commit();
             return redirect()->route('leave.index')->with('success', 'Successfully updated.');
@@ -131,9 +126,6 @@ class LeaveController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Leave $leave)
     {
         if (is_null($this->user) || !$this->user->can('leave.destroy')) {

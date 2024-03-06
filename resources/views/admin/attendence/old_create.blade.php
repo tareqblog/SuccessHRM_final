@@ -6,9 +6,7 @@
     Attendence
 @endsection
 @section('css')
-    <!-- choices css -->
-    <link href="{{ URL::asset('build/libs/choices.js/public/assets/styles/choices.min.css') }}" rel="stylesheet"
-        type="text/css" />
+    <link href="{{ URL::asset('build/libs/choices.js/public/assets/styles/choices.min.css') }}"  rel="stylesheet" type="text/css" />
 @endsection
 @section('body')
 

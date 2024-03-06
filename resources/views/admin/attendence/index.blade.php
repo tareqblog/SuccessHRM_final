@@ -75,7 +75,7 @@
                                                 class="btn btn-danger btn-sm me-2">Resubmit</a>
                                             <a href="{{ route('attendence.print', $data->id) }}"
                                                 class="btn btn-warning btn-sm me-2">Print</a>
-                                            <a disable href="#" class="btn btn-success btn-sm me-2">Download Attachments</a>
+                                            <a disable href="{{ route('attendence.download.attachments', $data->id) }}" class="btn btn-success btn-sm me-2">Download Attachments</a>
                                         </td>
                                     </tr>
                                 @endforeach

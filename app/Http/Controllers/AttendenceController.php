@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use setasign\Fpdi\Fpdi;
 
 class AttendenceController extends Controller
 {
@@ -478,5 +479,42 @@ class AttendenceController extends Controller
         $attendances = $attendence->attendences;
         $leaveTypes = LeaveType::where('leavetype_status', 1)->get();
         return view('admin.attendence.print', compact('attendances', 'parent', 'leaveTypes'));
+    }
+
+    public function attendence_download_attachments(AttendenceParent $attendance)
+    {
+        $attendances = Attendance::select('id', 'parent_id', 'leave_attachment', 'claim_attachment')
+        ->where('parent_id', $attendance->id)
+        ->where(function ($query) {
+            $query->whereNotNull('leave_attachment')
+            ->orWhereNotNull('claim_attachment');
+        })
+        ->get();
+
+        $files = [];
+        foreach ($attendances as $key => $attendance) {
+            if ($attendance->leave_attachment) $files[] = $attendance->leave_attachment;
+            if ($attendance->claim_attachment) $files[] = $attendance->claim_attachment;
+        }
+
+       $uniqueFiles = array_unique($files);
+        if (!empty($uniqueFiles)) {
+            $pdf = new Fpdi();
+            foreach ($uniqueFiles as $file) {
+                $file_path = public_path('storage/' . $file);
+
+                if (file_exists($file_path)) {
+                    $pageCount =  $pdf->setSourceFile($file_path);
+                    for ($i = 0; $i < $pageCount; $i++) {
+                        $pdf->AddPage();
+                        $tplId = $pdf->importPage($i + 1);
+                        $pdf->useTemplate($tplId);
+                    }
+                }
+            }
+            return $pdf->Output();
+        } else {
+            return redirect()->back()->with('error', 'No File Exists.');
+        }
     }
 }
